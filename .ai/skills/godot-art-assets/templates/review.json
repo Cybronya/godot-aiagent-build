@@ -1,0 +1,30 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ]
+  },
+  "asset": {
+    "relative_key": "characters/player/player.png",
+    "auto": {},
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

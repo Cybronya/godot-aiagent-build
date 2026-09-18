@@ -1,0 +1,36 @@
+{
+  "relative_key": "characters/player/player_walk_down_00.png",
+  "auto": {
+    "path": "assets/characters/player/player_walk_down_00.png",
+    "filename": "player_walk_down_00.png",
+    "extension": ".png",
+    "size_bytes": 0,
+    "modified_at": null,
+    "sha256": null,
+    "width": null,
+    "height": null,
+    "path_hints": [],
+    "filename_hints": {
+      "actions": [],
+      "directions": []
+    }
+  },
+  "human": {
+    "id": "character_player",
+    "type": "character",
+    "category": "player",
+    "tags": [
+      "player",
+      "walk"
+    ],
+    "status": "candidate",
+    "subtype": null,
+    "character": "player",
+    "action": "walk",
+    "direction": "down",
+    "frame": 0,
+    "description": null,
+    "source": null,
+    "notes": null
+  }
+}
