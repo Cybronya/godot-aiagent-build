@@ -9,6 +9,9 @@ __pycache__/
 # Freebuff local files
 .freebuff/
 
+# Editor local config
+.vscode/
+
 # System files
 Thumbs.db
 .DS_Store
