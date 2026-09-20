@@ -1,148 +1,173 @@
-# Skill Blueprint
+# SKILL_BLUEPRINT
 
-版本：1.0
+版本：2.0
 
-# 目的
+# Skill定义
 
-定义 AI Skill 的统一规范。
+Skill是AI Agent的一项专业能力模块。
 
-Skill 是 AI 的专业能力模块。
+Skill负责：
 
-# Skill 与其他模块关系
+-   专业知识
+-   决策规则
+-   工作方法
 
-Skill：
+Skill不负责：
 
-负责思考和专业能力。
+-   全局流程
+-   文件执行
+-   项目状态管理
 
-Tool：
+# Skill目录结构
 
-负责执行具体程序。
+标准结构：
 
-Workflow：
+skill-name/
 
-负责组织工作流程。
+├── SKILL.md
 
-Memory：
+├── references/
 
-负责长期知识。
+├── examples/
 
-Context：
+├── templates/
 
-负责当前状态。
+└── assets/
 
-# Skill 必须包含内容
+# SKILL.md要求
 
-## 1. Metadata
+每个Skill必须包含：
+
+## 1. Identity
+
+定义：
+
+-   Skill ID
+-   名称
+-   版本
+-   分类
+
+## 2. Registry Metadata
 
 必须包含：
 
--   名称
--   版本
--   描述
--   分类
--   能力列表
--   可处理任务
--   不可处理任务
--   状态
+-   category
+-   load_policy
+-   dependencies
+-   ownership
 
-## 2. Identity
+与：
 
-说明：
+skill_registry.yaml
 
-这个 Skill 是什么。
+保持一致。
 
-## 3. Purpose
-
-说明：
-
-为什么存在。
-
-## 4. Responsibility
+## 3. Responsibility
 
 必须说明：
 
 负责：
 
--   
+-   xxx
 
 不负责：
 
--   
+-   xxx
 
-避免 Skill 职责重叠。
+## 4. Trigger Conditions
 
-## 5. Trigger Conditions
+定义：
 
-说明：
+什么时候应该调用该Skill。
 
-什么情况下调用。
+## 5. Workflow
 
-## 6. Input Contract
+定义：
 
-说明：
+Skill内部工作流程。
 
-执行需要什么输入。
+标准：
 
-如果信息不足：
+理解任务
 
-必须询问。
+↓
 
-## 7. Workflow
+检查Context
 
-标准流程：
+↓
 
-1.  理解任务
-2.  查看 Context
-3.  查看 Memory
-4.  执行工作
-5.  验证结果
-6.  更新状态
+读取References
 
-## 8. Output Contract
+↓
 
-输出：
+执行规则
 
--   修改内容
--   修改文件
--   测试结果
--   遗留问题
+↓
 
-## 9. Permission Model
+验证结果
 
-声明：
+↓
 
-允许修改：
+更新状态
 
-禁止修改：
+## 6. References
 
-## 10. Memory Interaction
+用于存放：
 
-说明：
+-   规范文档
+-   知识说明
+-   技术资料
 
-哪些情况更新 Memory。
+## 7. Examples
 
-哪些情况只更新 Context。
+用于存放：
 
-## 11. Collaboration
+-   示例
+-   正确案例
 
-说明：
+## 8. Templates
 
-需要配合哪些 Skill。
+用于存放：
 
-## 12. Tool Usage
+-   文件模板
+-   代码模板
 
-说明：
+# Skill设计原则
 
-需要调用哪些 Tool。
+## 单一职责
 
-## 13. Failure Handling
+一个Skill只负责一个领域。
 
-说明：
+## 明确边界
 
-遇到：
+必须定义：
 
--   信息不足
--   文件错误
--   设计冲突
+负责什么
 
-如何处理。
+不负责什么
+
+## 同级隔离
+
+同级Skill默认互不干预。
+
+## 显式依赖
+
+依赖必须声明。
+
+禁止：
+
+隐藏依赖。
+
+# Skill注册流程
+
+创建Skill：
+
+1.  创建目录
+
+2.  编写SKILL.md
+
+3.  创建references/examples/templates
+
+4.  更新skill_registry.yaml
+
+5.  验证路径和依赖

@@ -1,45 +1,175 @@
-# AI 工作规则
+# AI_RULES
 
-版本：5.1
+版本：5.2
 
-## 沟通规则
 
-当需求不明确：
+# AI Agent 行为规则
 
-必须先向开发者提问。
 
-确认：
+## 1. 核心职责
 
--   游戏目标
--   功能范围
--   技术限制
+AI Agent负责：
 
-不要直接猜测开发方向。
+- 理解用户需求
+- 分析项目状态
+- 调用正确Skill
+- 遵循项目规范
+- 执行开发任务
 
-## 开发规则
 
-修改代码前：
+AI Agent不是：
 
-1.  检查项目状态
-2.  阅读 Context
-3.  理解现有架构
+- 随意修改项目结构的自动程序
+- 未经确认的架构决策者
 
-## Skill 规则
 
-优先使用已有 Skill。
 
-新增 Skill 时：
+# 2. 项目文件职责划分
 
-1.  创建 Skill 文件夹
-2.  遵循 Skill Blueprint
-3.  更新 Skill Index
 
-## 数据规则
+## AI_ENTRY.md
 
-长期信息：
+负责：
 
-存放 memory
+- Agent启动流程
+- 环境加载顺序
+- 系统入口协议
 
-当前工作：
 
-存放 context
+## AI_RULES.md
+
+负责：
+
+- Agent行为约束
+- 权限规则
+- 工作原则
+
+
+## SKILL_BLUEPRINT.md
+
+负责：
+
+- Skill设计规范
+- Skill结构标准
+
+
+## skill_registry.yaml
+
+负责：
+
+- Skill索引
+- Skill发现
+- Skill关系管理
+
+
+## SKILL.md
+
+负责：
+
+- 单个Skill能力定义
+
+
+## Workflow
+
+负责：
+
+- 任务流程编排
+
+
+## Tool
+
+负责：
+
+- 实际执行动作
+
+
+
+# 3. Skill发现规则
+
+
+Agent必须通过：
+
+.ai/registry/skill_registry.yaml
+
+
+发现Skill。
+
+
+禁止：
+
+- 假设Skill存在
+- 绕过Registry直接调用Skill
+
+
+Skill加载流程：
+
+Registry
+
+↓
+
+SKILL.md
+
+↓
+
+references/examples/templates
+
+
+
+# 4. Skill隔离规则
+
+
+同级Skill默认互相独立。
+
+
+Skill之间通过：
+
+- dependencies
+- ownership
+
+
+建立关系。
+
+
+禁止：
+
+- 修改其他Skill负责领域
+- 覆盖其他Skill规则
+- 创建隐式依赖
+
+
+
+# 5. 修改权限
+
+
+Agent可以：
+
+- 修改用户明确指定的文件
+- 创建必要开发文件
+- 提供修改建议
+
+
+Agent需要确认：
+
+- 修改核心架构
+- 删除重要文件
+- 修改Registry
+- 修改规则文件
+
+
+
+# 6. 质量要求
+
+
+所有开发结果需要：
+
+- 符合项目规范
+- 可维护
+- 可扩展
+- 可复用
+
+
+优先：
+
+稳定性 > 复杂度
+
+清晰性 > 技巧性

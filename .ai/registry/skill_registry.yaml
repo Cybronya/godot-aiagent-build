@@ -1,0 +1,175 @@
+# Skill Registry v2
+# Godot Agent Skill索引系统
+
+registry:
+
+  version: "2.0"
+
+  schema_version: "1.0"
+
+  description:
+    Skill索引注册表。
+    负责记录Skill位置、分类、依赖关系和能力范围。
+    不保存Skill具体内容。
+
+
+loading_rules:
+
+
+  skill_discovery:
+
+
+    source:
+
+      - skill_registry.yaml
+
+
+    rule:
+
+      >
+      Agent必须通过Registry发现Skill，
+      不允许假设Skill存在。
+
+
+
+  category_hierarchy:
+
+
+    - foundation
+
+    - architecture
+
+    - system
+
+    - feature
+
+    - optimization
+
+
+
+skill_rules:
+
+
+  isolation:
+
+
+    same_category_skills:
+
+      independent: true
+
+
+    description:
+
+      >
+      同级Skill默认互不干预。
+      Skill之间通过dependencies和ownership建立关系。
+
+
+
+skills:
+
+
+  - id:
+
+      godot-development-standard
+
+
+    name:
+
+      Godot Development Standard
+
+
+    version:
+
+      "1.0"
+
+
+    path:
+
+      .ai/skills/godot-development-standard/SKILL.md
+
+
+    category:
+
+      foundation
+
+
+    load_policy:
+
+      required
+
+
+    status:
+
+      active
+
+
+    dependencies:
+
+
+      required:
+
+        - none
+
+
+
+    ownership:
+
+
+      owns:
+
+
+        - project_structure
+
+        - naming_rules
+
+        - folder_rules
+
+        - development_standard
+
+
+
+    provides:
+
+
+      - project-standard
+
+      - naming-rules
+
+      - structure-validation
+
+      - compliance-check
+
+
+
+    trigger_conditions:
+
+
+      - 创建Godot项目
+
+      - 修改项目结构
+
+      - 创建新文件
+
+      - 项目规范检查
+
+
+
+metadata:
+
+
+  maintained_by:
+
+    Godot Agent
+
+
+  update_rule:
+
+    >
+    新增Skill必须创建Skill目录、SKILL.md并同步注册Registry。
+
+
+  naming_rule:
+
+    >
+    Skill id必须与skills目录名称一致。
