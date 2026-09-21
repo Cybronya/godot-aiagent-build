@@ -49,6 +49,15 @@ metadata:
       - conditional
       - optional
 
+operational_contract:
+  required:
+    - trigger_conditions
+    - input_contract
+    - workflow
+    - output_contract
+    - validation
+    - failure_handling
+
 dependencies:
   required:
     type: list
@@ -59,5 +68,6 @@ rules:
   - A Skill must have one stable identity.
   - A Skill must declare its category.
   - A Skill must declare its load policy.
+  - A Skill must satisfy the operational contract defined by the Skill Template.
   - A Skill must not silently redefine another Skill's ownership.
   - A Skill directory must contain SKILL.md.
