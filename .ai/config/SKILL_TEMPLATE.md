@@ -1,6 +1,9 @@
 # SKILL_TEMPLATE
 
-版本：2.0
+版本：2.1
+
+> 本模板是 Skill 的完整编写规范。
+> skill-schema.yaml 定义机器验证的最低结构契约；本模板定义完整的 Skill 编写与运行契约。
 
 # Skill Identity
 
@@ -20,13 +23,7 @@
 
 必须与 skill_registry.yaml 保持一致。
 
-可选：
-
--   foundation
--   architecture
--   system
--   feature
--   optimization
+必须来自 skill-types.yaml 定义的 Skill Category。
 
 # Registry Metadata
 
@@ -36,9 +33,18 @@
 
 填写：
 
--   required
--   optional
--   experimental
+- required
+- conditional
+- optional
+
+语义：
+
+- required：Agent 正常运行或 Framework 要求时必须加载。
+- conditional：当前任务匹配 Skill 的 Trigger 或 Responsibility 时加载。
+- optional：按需或被明确请求时加载。
+
+> experimental 不是 Load Policy。
+> 如果未来需要表达 Skill 的成熟度，应使用独立的生命周期/状态字段。
 
 ## Dependencies
 
@@ -76,6 +82,8 @@
 
 什么时候应该调用该 Skill。
 
+**Operational Contract：必填。**
+
 ------------------------------------------------------------------------
 
 # Input Contract
@@ -84,23 +92,22 @@
 
 Skill需要接收的信息。
 
+**Operational Contract：必填。**
+
 ------------------------------------------------------------------------
 
 # Workflow
 
 标准流程：
 
-1.  理解任务目标
+1. 理解任务目标
+2. 检查当前 Context
+3. 读取 References
+4. 执行 Skill 规则
+5. 验证结果
+6. 更新状态
 
-2.  检查当前 Context
-
-3.  读取 References
-
-4.  执行 Skill 规则
-
-5.  验证结果
-
-6.  更新状态
+**Operational Contract：必填。**
 
 ------------------------------------------------------------------------
 
@@ -110,11 +117,15 @@ Skill需要接收的信息。
 
 Skill完成后的输出格式。
 
+**Operational Contract：必填。**
+
 ------------------------------------------------------------------------
 
 # Validation
 
 定义验证规则。
+
+**Operational Contract：必填。**
 
 ## Validation Method
 
@@ -128,9 +139,9 @@ Skill完成后的输出格式。
 
 状态：
 
--   PASS
--   WARNING
--   FAIL
+- PASS
+- WARNING
+- FAIL
 
 ------------------------------------------------------------------------
 
@@ -138,9 +149,9 @@ Skill完成后的输出格式。
 
 存放：
 
--   技术规范
--   文档
--   设计资料
+- 技术规范
+- 文档
+- 设计资料
 
 目录：
 
@@ -152,8 +163,8 @@ references/
 
 存放：
 
--   示例
--   正确案例
+- 示例
+- 正确案例
 
 目录：
 
@@ -165,8 +176,8 @@ examples/
 
 存放：
 
--   文件模板
--   代码模板
+- 文件模板
+- 代码模板
 
 目录：
 
@@ -192,8 +203,8 @@ templates/
 
 Skill之间通过：
 
--   dependencies
--   ownership
+- dependencies
+- ownership
 
 建立关系。
 
@@ -213,8 +224,8 @@ Skill之间通过：
 
 允许读取：
 
--   长期项目规则
--   架构决定
+- 长期项目规则
+- 架构决定
 
 ## Write
 
@@ -228,9 +239,11 @@ Skill之间通过：
 
 定义：
 
--   错误识别
--   回退策略
--   用户确认节点
+- 错误识别
+- 回退策略
+- 用户确认节点
+
+**Operational Contract：必填。**
 
 ------------------------------------------------------------------------
 
@@ -240,14 +253,14 @@ Skill之间通过：
 
 允许执行：
 
--   创建文件
--   修改指定范围
+- 创建文件
+- 修改指定范围
 
 需要确认：
 
--   修改核心架构
--   删除重要资源
--   修改 Registry
+- 修改核心架构
+- 删除重要资源
+- 修改 Registry
 
 ------------------------------------------------------------------------
 
@@ -255,7 +268,7 @@ Skill之间通过：
 
 完成后输出：
 
-``` text
+```text
 Skill:
 
 任务:
