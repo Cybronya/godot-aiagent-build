@@ -18,7 +18,7 @@ skills:
       related: []
 
   - id: godot-development-standard
-    name: Godot 开发规范
+    name: Godot Development Standard
     category: foundation
     path: ../skills/foundation/godot-development-standard
     load_policy: required
