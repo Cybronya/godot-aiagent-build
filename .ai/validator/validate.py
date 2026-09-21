@@ -79,7 +79,7 @@ def main():
     template_path=config_dir/"SKILL_TEMPLATE.md"; cfg={k:load_yaml(v,r) for k,v in files.items()}; template=read_text(template_path,r)
 
     agent_fw=cfg["agent"].get("framework",{}); rules_fw=cfg["rules"].get("framework",{})
-    if agent_fw.get("version") != rules_fw.get("version"): r.fail(f"Framework version mismatch: agent.yaml={agent_fw.get("version")!r}, framework-rules.yaml={rules_fw.get("version")!r}")
+    if agent_fw.get("version") != rules_fw.get("version"): r.fail(f"Framework version mismatch: agent.yaml={agent_fw.get('version')!r}, framework-rules.yaml={rules_fw.get('version')!r}")
 
     for key,value in agent_fw.items():
         if key in {"id","version"}: continue
@@ -100,7 +100,7 @@ def main():
         relpath=Path(rel)
         if relpath.is_absolute() or ".ai" in relpath.parts or ".agent" in relpath.parts: r.fail(f"skill-registry.yaml: non-root-independent path for {sid!r}: {rel}"); continue
         records[sid]=parse_skill((config_dir/relpath).resolve(),r)
-        if records[sid].get("id") and records[sid]["id"] != sid: r.fail(f"Registry/Skill id mismatch: registry={sid!r}, canonical={records[sid]["id"]!r}")
+        if records[sid].get("id") and records[sid]["id"] != sid: r.fail(f"Registry/Skill id mismatch: registry={sid!r}, canonical={records[sid]['id']!r}")
 
     types=cfg["types"].get("types",{}); valid=set(types)
     for sid,rec in records.items():
@@ -113,7 +113,7 @@ def main():
         if cat in valid:
             allowed=set(types[cat].get("may_depend_on",[]))
             for dep in rec.get("required",[]):
-                if dep in records and records[dep].get("category") not in allowed: r.fail(f"{sid}: dependency {dep!r} category {records[dep].get("category")!r} violates {cat}.may_depend_on={sorted(allowed)}")
+                if dep in records and records[dep].get("category") not in allowed: r.fail(f"{sid}: dependency {dep!r} category {records[dep].get('category')!r} violates {cat}.may_depend_on={sorted(allowed)}")
 
     graph={sid:[d for d in rec.get("required",[]) if d in registry_ids] for sid,rec in records.items()}; visiting=set(); visited=set()
     def visit(node,stack):
@@ -137,7 +137,7 @@ def main():
         for no,line in enumerate(path.read_text(encoding="utf-8").splitlines(),1):
             if re.search(r"(?<![A-Za-z0-9_-])(?:\\.ai|\\.agent)(?:/|\\\\)",line): r.fail(f"{path}:{no}: framework-internal path hardcodes .ai/.agent")
 
-    print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get("required",[])) for x in records.values())}")
+    print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}")
     if r.failures: print("\nFAILURES"); [print(f"  - {x}") for x in r.failures]
     if r.warnings: print("\nWARNINGS"); [print(f"  - {x}") for x in r.warnings]
     return r.summary()
