@@ -1,0 +1,44 @@
+# Skill Registry
+# The authoritative catalog of Skills available to this Agent.
+
+registry:
+  id: godot-agent-skills
+  version: 1
+
+skills:
+
+  - id: godot-project-architecture
+    name: Godot 项目架构
+    category: architecture
+    path: .ai/skills/architecture/godot-project-architecture
+    load_policy: conditional
+    dependencies:
+      required:
+        - godot-development-standard
+      related:
+        - godot-gdscript
+        - godot-character-system
+        - godot-gameplay-system
+        - godot-ui-system
+        - godot-data-resource
+        - godot-audio-system
+        - godot-debug-testing
+        - godot-performance
+        - godot-build-release
+
+  - id: godot-development-standard
+    name: Godot 开发规范
+    category: foundation
+    path: .ai/skills/foundation/godot-development-standard
+    load_policy: required
+    dependencies:
+      required: []
+      related:
+        - godot-project-architecture
+
+registry_rules:
+  - Every registered Skill must have a valid SKILL.md.
+  - Skill id must equal its directory name.
+  - Category must exist in skill-types.yaml.
+  - Registry paths must resolve to the project Skill location.
+  - Do not register speculative Skills before their Skill files exist.

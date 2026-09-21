@@ -1,0 +1,51 @@
+# Skill Dependency Rules
+
+dependency:
+  version: 1
+
+relationship_types:
+
+  required:
+    meaning: >
+      The dependent Skill requires the referenced Skill's rules or capability
+      to operate correctly.
+    direction: "dependent -> dependency"
+
+  related:
+    meaning: >
+      The Skills may collaborate but neither automatically requires the other.
+    direction: bidirectional_possible
+
+resolution:
+  - Resolve required dependencies recursively.
+  - Detect circular required dependencies.
+  - Do not convert collaboration into dependency without justification.
+  - Category ordering is a default constraint, not an absolute substitute for declared dependencies.
+
+validation:
+  fail_when:
+    - required_dependency_missing
+    - required_dependency_not_registered
+    - circular_required_dependency
+    - dependency_category_violation_without_exception
+
+default_direction:
+
+  architecture:
+    dependencies:
+      - foundation
+
+  foundation:
+    dependencies:
+      - foundation
+
+  systems:
+    dependencies:
+      - architecture
+      - foundation
+
+  engineering:
+    dependencies:
+      - architecture
+      - foundation
+      - systems

@@ -1,0 +1,75 @@
+# Skill Collaboration Rules
+
+collaboration:
+  version: 1
+
+principle:
+  description: >
+    Multiple Skills may participate in one task while retaining separate ownership.
+
+ownership:
+  architecture:
+    decides:
+      - feature_placement
+      - module_boundaries
+      - ownership
+      - dependency_direction
+      - autoload_decisions
+      - architectural_refactoring
+
+  foundation:
+    decides:
+      - foundational_implementation_rules
+      - coding_mechanisms
+      - shared_data_mechanisms
+
+  systems:
+    decides:
+      - concrete_system_implementation
+
+  engineering:
+    decides:
+      - testing
+      - debugging
+      - performance
+      - build_and_release
+
+workflow:
+
+  architecture_first:
+    when:
+      - new_module
+      - new_system
+      - cross_module_feature
+      - autoload_change
+      - large_refactor
+    sequence:
+      - architecture
+      - foundation
+      - systems
+      - engineering
+
+  local_implementation:
+    when:
+      - small_feature
+      - local_bug_fix
+      - isolated_implementation
+    sequence:
+      - relevant_foundation
+      - relevant_system
+      - relevant_engineering
+
+handoff_rules:
+  - Architecture decisions must be available to downstream Skills before implementation.
+  - Specialist Skills must preserve accepted Architecture Decisions.
+  - Engineering Skills validate the result but do not silently redesign ownership.
+  - If implementation reveals an architectural conflict, return the issue to the Architecture Skill.
+  - No Skill may silently overwrite another Skill's durable decisions.
+
+output:
+  each_skill_should_report:
+    - decisions_made
+    - artifacts_changed
+    - dependencies_used
+    - unresolved_issues
+    - handoff_information

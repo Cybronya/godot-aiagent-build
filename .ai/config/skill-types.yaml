@@ -1,0 +1,57 @@
+# Skill Taxonomy
+
+taxonomy:
+  version: 1
+
+types:
+
+  architecture:
+    description: >
+      Upstream architectural decision capabilities.
+      Determines ownership, module boundaries, dependency direction,
+      feature placement, global state and architectural evolution.
+    layer: architecture
+    default_load_policy: conditional
+
+  foundation:
+    description: >
+      Foundational development capabilities used by many downstream Skills.
+    layer: foundation
+    default_load_policy: conditional
+
+  systems:
+    description: >
+      Concrete Godot game-system implementation capabilities.
+    layer: systems
+    default_load_policy: conditional
+
+  engineering:
+    description: >
+      Testing, debugging, performance and delivery capabilities.
+    layer: engineering
+    default_load_policy: conditional
+
+dependency_direction:
+  architecture:
+    may_depend_on:
+      - foundation
+  foundation:
+    may_depend_on:
+      - foundation
+  systems:
+    may_depend_on:
+      - architecture
+      - foundation
+      - systems
+  engineering:
+    may_depend_on:
+      - architecture
+      - foundation
+      - systems
+      - engineering
+
+rules:
+  - Categories describe capability roles, not physical ownership of project code.
+  - Category hierarchy must not be confused with runtime module hierarchy.
+  - A category may contain multiple Skills.
+  - Skills within the same category are not automatically dependencies.

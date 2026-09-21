@@ -1,0 +1,40 @@
+# Skill Loading Rules
+
+loading:
+  version: 1
+
+policies:
+
+  required:
+    description: Load for normal Agent operation or when the Framework requires it.
+    behavior:
+      - load_before_task_analysis: true
+      - may_be_unloaded: false
+
+  conditional:
+    description: Load when the current task matches the Skill's triggers or responsibilities.
+    behavior:
+      - load_before_task_execution: true
+      - load_only_when_relevant: true
+
+  optional:
+    description: Load only when explicitly requested or when a higher-level Skill requires it.
+    behavior:
+      - load_on_demand: true
+
+selection_order:
+  - task_intent
+  - required_skills
+  - architecture_skills
+  - foundation_skills
+  - system_skills
+  - engineering_skills
+  - dependency_closure
+
+rules:
+  - Do not load every Skill for every task by default.
+  - Load required dependencies before the dependent Skill.
+  - Prefer the smallest Skill set that fully covers the task.
+  - Architecture Skills should be considered before major structural changes.
+  - Specialist Skills should not be used to make decisions owned by Architecture Skills.
+  - Loading a Skill does not transfer ownership of another Skill's responsibilities.

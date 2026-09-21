@@ -1,143 +1,187 @@
 # AI_ENTRY
 
-版本：5.1 中文版
+版本：5.2
 
-# AI Agent 开发环境入口协议
+# AI Agent 项目入口协议
 
 ## 作用
 
-这是 AI Agent 进入项目时首先读取的入口文件。
+AI_ENTRY是Agent进入项目时首先读取的入口文件。
 
 负责：
 
--   初始化 AI 开发环境
--   加载 AI 规则
--   加载 Skill 规范
--   读取项目记忆
--   读取当前上下文
--   发现 Skill
--   调度 Workflow
+-   初始化AI环境
+-   加载规则
+-   发现Skill
+-   加载Skill
+-   调度Workflow
+-   管理Agent行为
 
-# Agent 启动流程
+------------------------------------------------------------------------
 
-每次进入项目时，必须按照以下顺序执行：
+# Agent启动流程
 
-## 第一步：读取 AI 规则
+## 1. 加载基础规则
 
 读取：
 
 .ai/config/AI_RULES.md
 
-了解：
+获取：
 
--   AI 工作原则
--   修改文件规则
--   交流规则
+-   AI行为规范
+-   修改权限
+-   工作原则
 
-## 第二步：读取 Skill 规范
+------------------------------------------------------------------------
+
+## 2. 加载Skill规范
 
 读取：
 
 .ai/config/SKILL_BLUEPRINT.md
 
-了解：
+获取：
 
--   Skill 的标准格式
--   Skill 的职责边界
--   Skill 的输入输出要求
+-   Skill结构规范
+-   Skill设计标准
+-   Skill输入输出规则
 
-## 第三步：读取长期记忆
+------------------------------------------------------------------------
 
-读取：
-
-.ai/memory/
-
-了解：
-
--   项目目标
--   长期设计决定
--   架构原则
-
-## 第四步：读取当前上下文
+## 3. 加载Skill Registry
 
 读取：
 
-.ai/context/
+.ai/registry/skill_registry.yaml
 
-了解：
+Registry负责：
 
--   当前任务
--   当前开发状态
--   最近工作
+-   Skill发现
+-   Skill路径查询
+-   Skill分类
+-   Skill依赖关系
+-   Skill状态管理
 
-## 第五步：扫描 Skill
+Agent必须通过Registry寻找Skill。
 
-扫描：
+------------------------------------------------------------------------
 
-.ai/skills/
+# Skill加载流程
 
-检查：
+当任务开始：
 
--   是否符合 Skill Blueprint
--   是否存在新增 Skill
+1.  分析任务需要的能力。
 
-## 第六步：更新 Skill 索引
+2.  查询：
 
-生成或更新：
+.ai/registry/skill_registry.yaml
 
-.ai/registry/SKILLS_INDEX.md
+3.  根据：
 
-## 第七步：执行任务
+-   category
+-   trigger_conditions
+-   dependencies
+-   ownership
 
-根据用户需求：
+选择Skill。
 
--   选择 Workflow
--   调用 Skill
--   必要时调用 Tool
+4.  加载：
 
-# Skill 使用规则
+.ai/skills/{skill-id}/SKILL.md
 
-使用 Skill 前必须理解：
+5.  根据Skill需求加载：
 
--   Skill 职责
--   输入要求
--   输出格式
--   修改权限
+-   references
+-   examples
+-   templates
 
-如果 Skill 信息不完整：
+------------------------------------------------------------------------
 
-不要直接使用。
+# Skill架构规则
 
-应该先完善 Skill。
+## 分类层级
 
-# Memory 与 Context 规则
+foundation
 
-长期知识：
+基础规则。
 
-.ai/memory/
+architecture
 
-例如：
+架构设计。
 
--   游戏方向
--   架构决定
--   核心设计原则
+system
 
-当前状态：
+游戏系统。
 
-.ai/context/
+feature
 
-例如：
+具体功能。
 
--   正在开发什么
--   修改到哪里
--   当前问题
+optimization
 
-临时信息不能写入 Memory。
+优化。
 
-# 多项目规则
+------------------------------------------------------------------------
 
-.ai 是通用 AI 开发环境。
+# Skill隔离规则
 
-可以复制到不同项目。
+同级Skill默认互不干预。
 
-不要在入口文件中保存具体项目内容。
+禁止：
+
+-   修改其他Skill负责领域
+-   覆盖其他Skill规则
+-   重复定义职责
+
+关系通过：
+
+-   dependencies
+-   ownership
+
+建立。
+
+------------------------------------------------------------------------
+
+# Registry规则
+
+Agent可以：
+
+-   读取Registry
+-   检查Registry
+
+Agent不能：
+
+-   自动修改Registry
+
+新增Skill必须经过确认。
+
+------------------------------------------------------------------------
+
+# Workflow规则
+
+Workflow负责：
+
+任务流程。
+
+Skill负责：
+
+专业能力。
+
+Tool负责：
+
+实际执行。
+
+------------------------------------------------------------------------
+
+# Memory与Context
+
+memory:
+
+长期项目知识。
+
+context:
+
+当前开发状态。
+
+临时信息禁止写入memory。

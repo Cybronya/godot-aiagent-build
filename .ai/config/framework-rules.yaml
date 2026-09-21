@@ -1,0 +1,37 @@
+# Framework Rules
+
+framework:
+  version: 1
+
+principles:
+  - Agent is the root conceptual owner.
+  - .config defines the Skill Framework.
+  - skills define Agent capabilities.
+  - Skill categories define capability roles.
+  - Skill dependencies must be explicit.
+  - Skill collaboration must preserve ownership boundaries.
+  - Project-specific knowledge belongs to project-managed memory, not Framework configuration.
+  - User decisions have highest priority.
+
+change_policy:
+  safe_changes:
+    - add_skill_registry_entry_for_existing_skill
+    - add_nonbreaking_skill_type
+    - update_skill_metadata
+    - update_loading_trigger
+
+  review_required:
+    - change_skill_schema
+    - rename_skill_category
+    - change_dependency_direction
+    - change_required_dependency
+    - remove_skill_type
+    - change_framework_version
+
+consistency_checks:
+  - all_registered_skills_exist
+  - all_skill_categories_exist
+  - all_required_dependencies_exist
+  - no_circular_required_dependencies
+  - skill_ids_match_directories
+  - registry_and_skill_metadata_are_consistent

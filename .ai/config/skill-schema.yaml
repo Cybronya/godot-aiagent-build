@@ -1,0 +1,63 @@
+# Skill Schema
+# Defines the contract that every Skill must satisfy.
+
+schema:
+  id: skill
+  version: 1
+
+required:
+  - id
+  - name
+  - version
+  - category
+  - description
+  - purpose
+  - responsibility
+  - load_policy
+
+identity:
+  id:
+    type: string
+    rule: "Must match the Skill directory name."
+  name:
+    type: string
+  version:
+    type: string
+  category:
+    type: string
+    rule: "Must exist in skill-types.yaml."
+
+structure:
+  required_file:
+    - SKILL.md
+  optional_directories:
+    - references
+    - templates
+    - examples
+
+metadata:
+  description:
+    type: string
+  purpose:
+    type: string
+  responsibility:
+    type: structured
+  load_policy:
+    type: enum
+    values:
+      - required
+      - conditional
+      - optional
+
+dependencies:
+  required:
+    type: list
+  related:
+    type: list
+
+rules:
+  - A Skill must have one stable identity.
+  - A Skill must declare its category.
+  - A Skill must declare its load policy.
+  - A Skill must not silently redefine another Skill's ownership.
+  - A Skill directory must contain SKILL.md.
