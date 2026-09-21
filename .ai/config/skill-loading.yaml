@@ -1,7 +1,12 @@
 # Skill Loading Rules
 
 loading:
-  version: 1
+  version: 2
+
+canonical_source:
+  rule: >
+    Load policy is read from the canonical Skill metadata in SKILL.md.
+    Registry is used to discover the Skill path before loading SKILL.md.
 
 policies:
 
@@ -33,6 +38,7 @@ selection_order:
 
 rules:
   - Do not load every Skill for every task by default.
+  - Resolve the Skill path from Registry, then read canonical metadata from SKILL.md.
   - Load required dependencies before the dependent Skill.
   - Prefer the smallest Skill set that fully covers the task.
   - Architecture Skills should be considered before major structural changes.
