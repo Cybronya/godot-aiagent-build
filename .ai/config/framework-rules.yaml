@@ -1,7 +1,7 @@
 # Framework Rules
 
 framework:
-  version: 1
+  version: 2
 
 principles:
   - Agent is the root conceptual owner.
