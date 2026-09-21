@@ -28,9 +28,7 @@ required
 
 ## Dependencies
 
-required:
-
-- none
+required: []
 
 ## Ownership
 
@@ -333,9 +331,7 @@ Godot Agent 的工程规范管理能力。
 
 ## Dependencies
 
-required:
-
-- none
+required: []
 
 ## Related Skills
 
@@ -484,4 +480,4 @@ Skill:
 
 本文件遵循 SKILL_TEMPLATE v2.1 与 skill-schema.yaml 的结构契约。
 
-版本号保持 1.0，与 skill_registry.yaml 注册信息一致；如需升级版本号，必须同步更新 Registry。
+版本号保持 1.0，与 skill_registry.yaml 注册信息一致；如需升级版本号，必须同步更新 Registry.
