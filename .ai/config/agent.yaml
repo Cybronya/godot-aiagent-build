@@ -15,4 +15,4 @@ framework:
   skill_loading: ./skill-loading.yaml
   skill_dependency: ./skill-dependency.yaml
   skill_collaboration: ./skill-collaboration.yaml
-  validator: ../validator/validate.py
+  validator: ../tools/validator/validate.py
