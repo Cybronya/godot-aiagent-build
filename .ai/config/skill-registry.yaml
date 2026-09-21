@@ -10,7 +10,7 @@ skills:
   - id: godot-project-architecture
     name: Godot 项目架构
     category: architecture
-    path: .ai/skills/architecture/godot-project-architecture
+    path: ../skills/architecture/godot-project-architecture
     load_policy: conditional
     dependencies:
       required:
@@ -29,7 +29,7 @@ skills:
   - id: godot-development-standard
     name: Godot 开发规范
     category: foundation
-    path: .ai/skills/foundation/godot-development-standard
+    path: ../skills/foundation/godot-development-standard
     load_policy: required
     dependencies:
       required: []
@@ -40,5 +40,5 @@ registry_rules:
   - Every registered Skill must have a valid SKILL.md.
   - Skill id must equal its directory name.
   - Category must exist in skill-types.yaml.
-  - Registry paths must resolve to the project Skill location.
+  - Registry paths must resolve relative to this registry file.
   - Do not register speculative Skills before their Skill files exist.
