@@ -9,9 +9,9 @@ framework:
   id: godot-agent-framework
   version: 1.0
 
-  skill_schema: .config/skill-schema.yaml
-  skill_types: .config/skill-types.yaml
-  skill_registry: .config/skill-registry.yaml
-  skill_loading: .config/skill-loading.yaml
-  skill_dependency: .config/skill-dependency.yaml
-  skill_collaboration: .config/skill-collaboration.yaml
+  skill_schema: ./skill-schema.yaml
+  skill_types: ./skill-types.yaml
+  skill_registry: ./skill-registry.yaml
+  skill_loading: ./skill-loading.yaml
+  skill_dependency: ./skill-dependency.yaml
+  skill_collaboration: ./skill-collaboration.yaml
