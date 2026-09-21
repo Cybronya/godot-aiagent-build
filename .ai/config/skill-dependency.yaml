@@ -1,7 +1,13 @@
 # Skill Dependency Rules
 
 dependency:
-  version: 1
+  version: 2
+
+canonical_source:
+  rule: >
+    Required and related dependency declarations are read from each Skill's
+    SKILL.md Registry Metadata section. Registry is used only to discover Skills.
+  registry_role: discovery_index
 
 relationship_types:
 
@@ -17,6 +23,7 @@ relationship_types:
     direction: bidirectional_possible
 
 resolution:
+  - Read the dependent Skill's canonical dependency metadata from SKILL.md.
   - Resolve required dependencies recursively.
   - Detect circular required dependencies.
   - Do not convert collaboration into dependency without justification.
