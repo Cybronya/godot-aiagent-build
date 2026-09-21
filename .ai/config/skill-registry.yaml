@@ -1,38 +1,23 @@
 # Skill Registry
-# The authoritative catalog of Skills available to this Agent.
+# Discovery index for Skills available to this Agent.
+# Canonical Skill metadata lives in each Skill's SKILL.md.
 
 registry:
   id: godot-agent-skills
-  version: 1
+  version: 2
 
 skills:
 
   - id: godot-project-architecture
-    name: Godot 项目架构
-    category: architecture
     path: ../skills/architecture/godot-project-architecture
-    load_policy: conditional
-    dependencies:
-      required:
-        - godot-development-standard
-      related: []
 
   - id: godot-development-standard
-    name: Godot Development Standard
-    category: foundation
     path: ../skills/foundation/godot-development-standard
-    load_policy: required
-    dependencies:
-      required: []
-      related:
-        - godot-project-architecture
 
 registry_rules:
   - Every registered Skill must have a valid SKILL.md.
-  - Skill id must equal its directory name.
-  - Category must exist in skill-types.yaml.
+  - Skill id must equal the canonical Skill id in SKILL.md.
   - Registry paths must resolve relative to this registry file.
+  - Registry is a discovery index, not a canonical metadata store.
   - Do not register speculative Skills before their Skill files exist.
-  - Registry required dependencies must exactly match the Skill's required dependencies.
-  - Registry related entries may only reference Skills that are registered.
-  - A Skill may declare related Skills that are not yet registered; these are planned collaboration targets and must not be added to the registry until their Skill files exist.
+  - Do not duplicate Skill name, version, category, load policy or dependencies in Registry.
