@@ -262,6 +262,25 @@ Use when:
 - Determining Feature placement
 - Searching architecture memory
 
+## Input Contract
+
+需要输入：
+
+- 当前任务目标与约束
+- 当前项目结构
+- 现有 Module、System、Feature 及其边界
+- Godot Development Standard
+- Architecture Memory 中的相关 Overview、Index、Decisions 与 Patterns
+- 已接受且可能受影响的 Architecture Decisions
+- 当前相关 Scene、Script、Resource 与 Autoload 信息
+
+如果关键架构信息不足：
+
+1. 明确缺失的信息。
+2. 优先从项目结构和 Architecture Memory 获取。
+3. 无法确认时不得把推测当作已接受架构事实。
+4. 涉及高风险架构变更时请求用户确认。
+
 ## Workflow
 
 1. Understand Task
@@ -278,6 +297,40 @@ Use when:
 12. Validate
 13. Preserve Durable Decisions
 14. Update Architecture Memory when required
+
+## Failure Handling
+
+### Information Insufficient
+
+- Identify missing architectural context.
+- Search available project architecture information and memory.
+- Do not invent durable architecture facts.
+- Request user clarification when the missing information changes ownership, boundaries, dependencies, or Autoload decisions.
+
+### Architecture Decision Conflict
+
+- Identify the conflicting accepted Decision.
+- Preserve the existing Decision history.
+- Propose a replacement or migration path.
+- Request confirmation when the accepted Decision must change.
+
+### Ownership Conflict
+
+- Do not silently take ownership from another Skill.
+- Identify the responsible Skill and required handoff.
+- Preserve the architectural boundary.
+
+### Dependency or Circularity Risk
+
+- Stop execution of the affected architectural change.
+- Re-evaluate dependency direction and ownership.
+- Propose a corrected dependency model before implementation.
+
+### High-Risk Refactor Failure
+
+- Do not continue destructive changes.
+- Preserve the last known valid architecture state where possible.
+- Report affected artifacts, unresolved issues, and rollback or migration steps.
 
 ## Output Contract
 
