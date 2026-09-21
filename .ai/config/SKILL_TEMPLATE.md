@@ -1,9 +1,10 @@
 # SKILL_TEMPLATE
 
-版本：2.1
+版本：2.2
 
 > 本模板是 Skill 的完整编写规范。
 > skill-schema.yaml 定义机器验证的最低结构契约；本模板定义完整的 Skill 编写与运行契约。
+> **SKILL.md 是 Skill Metadata 的唯一 Canonical Source；skill-registry.yaml 只负责发现和定位 Skill。**
 
 # Skill Identity
 
@@ -21,13 +22,16 @@
 
 ## Category
 
-必须与 skill_registry.yaml 保持一致。
+填写 Skill Category。
 
 必须来自 skill-types.yaml 定义的 Skill Category。
 
+> Category 的 Canonical Value 来自本 Skill 的 SKILL.md。
+> Registry 不重复维护 Category。
+
 # Registry Metadata
 
-用于同步 Registry。
+本章节属于 SKILL.md 的 Canonical Metadata。
 
 ## Load Policy
 
@@ -49,6 +53,17 @@
 ## Dependencies
 
 声明依赖 Skill。
+
+### Required
+
+列出执行该 Skill 前必须加载的依赖。
+
+### Related
+
+列出协作相关 Skill。Related 不产生自动依赖。
+
+> Dependencies 的 Canonical Value 只维护在这里。
+> Collaboration 章节不得重复维护依赖列表。
 
 ## Ownership
 
@@ -197,11 +212,12 @@ templates/
 
 ## Dependencies
 
-依赖的 Skill。
+> Canonical dependency list is defined in **Registry Metadata → Dependencies**.
+> 本章节只说明协作方式，不重复声明 required / related 列表。
 
 ## Related Skills
 
-相关 Skill。
+说明协作关系时引用 Registry Metadata 中的 Related 列表，不创建第二份关系数据。
 
 ## Communication Rules
 
