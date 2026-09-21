@@ -8,15 +8,15 @@
 - Category: `architecture`
 - Load Policy: `conditional`
 
-## Description
+# Description
 
 负责 Godot 项目的整体架构组织、模块边界、依赖关系、系统归属、Autoload 决策、功能放置和架构重构。
 
-## Purpose
+# Purpose
 
 帮助 Agent 判断一个 Feature、System、Module、Scene、Script 或 Resource 应该属于哪里，以及它们之间应该如何依赖和演化。
 
-## Responsibility
+# Responsibility
 
 ### Ownership
 
@@ -56,7 +56,7 @@
 - Build and release
 - General-purpose development logs
 
-## Dependencies
+# Dependencies
 
 ### Required
 
@@ -76,7 +76,7 @@
 - `godot-performance`
 - `godot-build-release`
 
-## Architectural Boundary
+# Architectural Boundary
 
 `godot-development-standard` answers:
 
@@ -90,7 +90,7 @@ Specialist Skills answer:
 
 > How should a specific system be implemented?
 
-## Skill Hierarchy
+# Skill Hierarchy
 
 This Skill belongs to the `architecture` Skill category and acts as an upstream decision layer.
 
@@ -108,7 +108,7 @@ Engineering / Validation Skills
 
 Architecture decides placement, ownership, boundaries and dependencies. Specialist Skills decide implementation.
 
-## Architecture Model
+# Architecture Model
 
 Distinguish:
 
@@ -124,7 +124,7 @@ A Module is an architectural concept, not necessarily a directory.
 
 Directories describe physical organization. Modules describe responsibility and boundaries.
 
-## Core Principles
+# Core Principles
 
 1. Ownership First
 2. Single Responsibility
@@ -158,7 +158,7 @@ Cross-module communication should use explicit boundaries:
 
 Core runtime state should normally have one write Owner.
 
-## Architecture Decision System
+# Architecture Decision System
 
 Architecture Decision (AD) is the persistent record of an important architectural choice.
 
@@ -195,7 +195,7 @@ When a new requirement conflicts with an accepted decision:
 5. Request confirmation when required.
 6. Preserve history.
 
-## Architecture Memory
+# Architecture Memory
 
 Architecture Memory is durable project architecture knowledge managed by this Skill. It is not another Skill and not a general development log.
 
@@ -243,7 +243,7 @@ When architecture changes:
 4. Add replacement decisions where required.
 5. Update pattern validation when evidence changes.
 
-## Trigger Conditions
+# Trigger Conditions
 
 Use when:
 
@@ -262,7 +262,7 @@ Use when:
 - Determining Feature placement
 - Searching architecture memory
 
-## Input Contract
+# Input Contract
 
 需要输入：
 
@@ -281,7 +281,7 @@ Use when:
 3. 无法确认时不得把推测当作已接受架构事实。
 4. 涉及高风险架构变更时请求用户确认。
 
-## Workflow
+# Workflow
 
 1. Understand Task
 2. Load Development Standards
@@ -298,7 +298,7 @@ Use when:
 13. Preserve Durable Decisions
 14. Update Architecture Memory when required
 
-## Failure Handling
+# Failure Handling
 
 ### Information Insufficient
 
@@ -332,7 +332,7 @@ Use when:
 - Preserve the last known valid architecture state where possible.
 - Report affected artifacts, unresolved issues, and rollback or migration steps.
 
-## Output Contract
+# Output Contract
 
 ```text
 Architecture Decision:
@@ -356,7 +356,7 @@ If no durable change is required:
 Memory Update: None
 ```
 
-## Validation
+# Validation
 
 ### Quick Check
 
@@ -383,7 +383,7 @@ For new Modules/Systems, cross-module Features, Autoload changes, large refactor
 
 Result: `PASS`, `WARNING`, or `FAIL`.
 
-## Refactor Risk
+# Refactor Risk
 
 Low:
 - docs
@@ -420,7 +420,7 @@ Validate
 Update Architecture Decisions
 ```
 
-## Permission Model
+# Permission Model
 
 Allowed:
 - Analyze/propose architecture
@@ -443,14 +443,14 @@ Prohibited:
 - Silently overwrite accepted Decisions
 - Redefine another Skill's specialist responsibilities
 
-## Skill Collaboration
+# Skill Collaboration
 
 This Skill has a required dependency on `godot-development-standard`.
 The related Skills listed in the canonical `Dependencies` section are collaboration targets, not required dependencies.
 
 Architecture decisions remain authoritative for placement, ownership, boundaries, dependency direction and Autoload decisions. Specialist Skills implement within those boundaries.
 
-## Memory Interaction
+# Memory Interaction
 
 Read:
 - confirmed module boundaries
@@ -468,21 +468,21 @@ Write:
 
 Do not write temporary solutions, routine logs, tests or unconfirmed assumptions.
 
-## References
+# References
 
 - `references/architecture-memory.md`
 - `references/memory-retrieval.md`
 - `references/decision-lifecycle.md`
 - `references/pattern-lifecycle.md`
 
-## Templates
+# Templates
 
 - `templates/architecture-overview-template.md`
 - `templates/architecture-index-template.md`
 - `templates/architecture-decision-template.md`
 - `templates/architecture-pattern-template.md`
 
-## Examples
+# Examples
 
 - `examples/architecture-memory-example.md`
 - `examples/architecture-change-example.md`
