@@ -3,7 +3,16 @@
 
 schema:
   id: skill
-  version: 1
+  version: 2
+
+canonical_source:
+  type: skill_file
+  description: >
+    SKILL.md is the canonical source for Skill identity, metadata,
+    ownership, dependencies and operational contracts.
+  rule: >
+    Registry entries are an index for discovery and path resolution.
+    Registry must not redefine canonical Skill metadata.
 
 required:
   - id
@@ -64,8 +73,26 @@ dependencies:
   related:
     type: list
 
+registry_contract:
+  registry_role: discovery_index
+  required_fields:
+    - id
+    - path
+  forbidden_canonical_fields:
+    - name
+    - version
+    - category
+    - load_policy
+    - dependencies
+    - related
+  rules:
+    - Registry id must match the canonical Skill id.
+    - Registry path must resolve to the canonical Skill directory.
+    - Registry must not become a second source of Skill metadata.
+
 rules:
   - A Skill must have one stable identity.
+  - SKILL.md is the canonical source of Skill metadata.
   - A Skill must declare its category.
   - A Skill must declare its load policy.
   - A Skill must satisfy the operational contract defined by the Skill Template.
