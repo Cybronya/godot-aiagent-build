@@ -488,6 +488,6 @@ Skill:
 
 # Notes
 
-本文件遵循 SKILL_TEMPLATE v2.1 与 skill-schema.yaml 的结构契约。
+本文件遵循 SKILL_TEMPLATE v2.2 与 skill-schema.yaml 的结构契约。
 
 版本号是本 SKILL.md 的 Canonical Metadata；Registry 只保存该 Skill 的发现路径。升级版本号时无需在 Registry 重复维护版本值。
