@@ -12,6 +12,8 @@ principles:
   - Skill collaboration must preserve ownership boundaries.
   - Project-specific knowledge belongs to project-managed memory, not Framework configuration.
   - User decisions have highest priority.
+  - SKILL.md is the canonical source of Skill metadata.
+  - Registry is a discovery index and must not become a second source of truth.
 
 path_resolution:
   rule: relative_paths
@@ -41,13 +43,16 @@ change_policy:
     - change_required_dependency
     - remove_skill_type
     - change_framework_version
+    - change_registry_contract
 
 consistency_checks:
   - all_registered_skills_exist
+  - registered_skill_ids_match_canonical_skill_ids
   - all_skill_categories_exist
   - all_required_dependencies_exist
   - no_circular_required_dependencies
   - skill_ids_match_directories
-  - registered_required_dependencies_match_skill_metadata
-  - registry_related_entries_are_registered_and_declared_by_skill
+  - skill_metadata_is_loaded_from_canonical_skill_file
+  - registry_contains_no_duplicate_canonical_metadata
+  - skill_related_entries_are_registered_or_declared_as_planned
   - framework_internal_paths_are_relative
