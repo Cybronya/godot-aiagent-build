@@ -20,7 +20,8 @@ foundation
 
 # Registry Metadata
 
-与 skill_registry.yaml 保持一致。
+本章节是本 Skill 的 Canonical Metadata。
+Registry 仅索引本 Skill，不重复维护这些字段。
 
 ## Load Policy
 
@@ -28,7 +29,13 @@ required
 
 ## Dependencies
 
-required: []
+### Required
+
+[]
+
+### Related
+
+- godot-project-architecture
 
 ## Ownership
 
@@ -331,12 +338,15 @@ Godot Agent 的工程规范管理能力。
 
 ## Dependencies
 
-required: []
+Canonical dependency data is defined in **Registry Metadata → Dependencies**.
+本章节不重复维护 dependency 数据。
 
 ## Related Skills
 
-以下 Skill 尚未注册，注册后建立正式关系：
+Canonical related-skill data is defined in **Registry Metadata → Dependencies → Related**。
+当前已注册的相关 Skill 通过 Registry 发现；尚未注册的目标可以在此处以说明性文字提及，但不得创建第二份关系数据。
 
+当前协作重点：
 - godot-project-architecture：项目整体架构设计
 - godot-scene-system：Scene 结构规范
 - godot-gdscript：Script 代码规范
@@ -480,4 +490,4 @@ Skill:
 
 本文件遵循 SKILL_TEMPLATE v2.1 与 skill-schema.yaml 的结构契约。
 
-版本号保持 1.0，与 skill_registry.yaml 注册信息一致；如需升级版本号，必须同步更新 Registry.
+版本号是本 SKILL.md 的 Canonical Metadata；Registry 只保存该 Skill 的发现路径。升级版本号时无需在 Registry 重复维护版本值。
