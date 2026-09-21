@@ -7,7 +7,7 @@ agent:
 
 framework:
   id: godot-agent-framework
-  version: 1.0
+  version: 2
 
   skill_schema: ./skill-schema.yaml
   skill_types: ./skill-types.yaml
@@ -15,3 +15,4 @@ framework:
   skill_loading: ./skill-loading.yaml
   skill_dependency: ./skill-dependency.yaml
   skill_collaboration: ./skill-collaboration.yaml
+  validator: ../validator/validate.py
