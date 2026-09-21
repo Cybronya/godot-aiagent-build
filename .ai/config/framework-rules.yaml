@@ -5,7 +5,7 @@ framework:
 
 principles:
   - Agent is the root conceptual owner.
-  - .config defines the Skill Framework.
+  - config defines the Skill Framework.
   - skills define Agent capabilities.
   - Skill categories define capability roles.
   - Skill dependencies must be explicit.
@@ -48,5 +48,6 @@ consistency_checks:
   - all_required_dependencies_exist
   - no_circular_required_dependencies
   - skill_ids_match_directories
-  - registry_and_skill_metadata_are_consistent
+  - registered_required_dependencies_match_skill_metadata
+  - registry_related_entries_are_registered_and_declared_by_skill
   - framework_internal_paths_are_relative
