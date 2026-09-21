@@ -38,19 +38,19 @@ def read_text(path: Path, r: Reporter) -> str:
     except Exception as exc: r.fail(f"Cannot read {path}: {exc}"); return ""
 
 def section(text: str, heading: str) -> str:
-    m=re.search(rf"^#{{1,6}}\\s+{re.escape(heading)}\\s*$([\\s\\S]*?)(?=^#{{1,6}}\\s+|\\Z)", text, re.M)
+    m=re.search(rf"^#{{1,6}}\s+{re.escape(heading)}\s*$([\s\S]*?)(?=^#{{1,6}}\s+|\Z)", text, re.M)
     return m.group(1) if m else ""
 
 def heading_exists(text: str, heading: str) -> bool:
-    return re.search(rf"^#{{1,6}}\\s+{re.escape(heading)}\\s*$", text, re.M) is not None
+    return re.search(rf"^#{{1,6}}\s+{re.escape(heading)}\s*$", text, re.M) is not None
 
 def metadata_value(text: str, label: str):
-    m=re.search(rf"^\\s*-\\s*{re.escape(label)}:\\s*`?([^\\n`]+?)`?\\s*$", text, re.M)
+    m=re.search(rf"^\s*-\s*{re.escape(label)}:\s*`?([^\n`]+?)`?\s*$", text, re.M)
     return m.group(1).strip() if m else None
 
 def bullets(text: str, heading: str):
     block=section(text, heading)
-    return [m.group(1).strip().strip(chr(96)) for m in re.finditer(r"^\\s*-\\s+(.+?)\\s*$", block, re.M) if m.group(1).strip().lower() not in {"none","[]"}]
+    return [m.group(1).strip().strip(chr(96)) for m in re.finditer(r"^\s*-\s+(.+?)\s*$", block, re.M) if m.group(1).strip().lower() not in {"none","[]"}]
 
 def parse_skill(skill_dir: Path, r: Reporter):
     path=skill_dir/"SKILL.md"; text=read_text(path,r)
@@ -92,7 +92,8 @@ def main():
     forbidden=set(cfg["schema"].get("registry_contract",{}).get("forbidden_canonical_fields",[]))
     for entry in entries:
         if not isinstance(entry,dict): r.fail("skill-registry.yaml: every entry must be a mapping"); continue
-        if set(entry)-{"id","path"}: r.fail(f"skill-registry.yaml: forbidden/non-index fields: {sorted(set(entry)-{"id","path"})}")
+        extra_fields=set(entry)-{"id","path"}
+        if extra_fields: r.fail(f"skill-registry.yaml: forbidden/non-index fields: {sorted(extra_fields)}")
         sid=entry.get("id"); rel=entry.get("path")
         if not sid or not rel: r.fail("skill-registry.yaml: every entry requires id and path"); continue
         if sid in registry_ids: r.fail(f"skill-registry.yaml: duplicate Skill id {sid!r}")
@@ -129,13 +130,13 @@ def main():
 
     for sid,rec in records.items():
         collab=section(rec.get("text",""),"Collaboration")
-        if re.search(r"^\\s*##\\s+Dependencies\\s*$",collab,re.M): r.fail(f"{sid}: Collaboration duplicates Dependencies; canonical data belongs in Registry Metadata")
-        if re.search(r"^\\s*##\\s+Related Skills\\s*$",collab,re.M): r.warn(f"{sid}: Collaboration contains Related Skills; keep canonical values in Registry Metadata")
+        if re.search(r"^\s*##\s+Dependencies\s*$",collab,re.M): r.fail(f"{sid}: Collaboration duplicates Dependencies; canonical data belongs in Registry Metadata")
+        if re.search(r"^\s*##\s+Related Skills\s*$",collab,re.M): r.warn(f"{sid}: Collaboration contains Related Skills; keep canonical values in Registry Metadata")
 
     for path in files.values():
         if not path.is_file(): continue
         for no,line in enumerate(path.read_text(encoding="utf-8").splitlines(),1):
-            if re.search(r"(?<![A-Za-z0-9_-])(?:\\.ai|\\.agent)(?:/|\\\\)",line): r.fail(f"{path}:{no}: framework-internal path hardcodes .ai/.agent")
+            if re.search(r"(?<![A-Za-z0-9_-])(?:\.ai|\.agent)(?:/|\\)",line): r.fail(f"{path}:{no}: framework-internal path hardcodes .ai/.agent")
 
     print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}")
     if r.failures: print("\nFAILURES"); [print(f"  - {x}") for x in r.failures]
