@@ -6,7 +6,6 @@
 - Skill Name: Godot 项目架构
 - Version: 1.3
 - Category: `architecture`
-- Load Policy: `conditional`
 
 # Registry Metadata
 
@@ -84,26 +83,6 @@ conditional
 - Performance optimization
 - Build and release
 - General-purpose development logs
-
-# Dependencies
-
-### Required
-
-- `godot-development-standard`
-
-### Related
-
-- `godot-scene-system`
-- `godot-gdscript`
-- `godot-character-system`
-- `godot-gameplay-system`
-- `godot-ui-system`
-- `godot-animation-visual`
-- `godot-data-resource`
-- `godot-audio-system`
-- `godot-debug-testing`
-- `godot-performance`
-- `godot-build-release`
 
 # Architectural Boundary
 
