@@ -39,6 +39,12 @@ required:
 - folder_rules
 - development_standard
 
+# Description
+
+负责 Godot 项目开发规范、文件结构、命名规则、Scene、Script 和 Resource 组织的一致性管理。
+
+------------------------------------------------------------------------
+
 # Purpose
 
 Godot 项目开发规范管理 Skill。
@@ -476,6 +482,6 @@ Skill:
 
 # Notes
 
-本文件已从 v1.0 结构迁移至 Blueprint v2.0 / SKILL_TEMPLATE v2.0 结构。
+本文件遵循 SKILL_TEMPLATE v2.1 与 skill-schema.yaml 的结构契约。
 
 版本号保持 1.0，与 skill_registry.yaml 注册信息一致；如需升级版本号，必须同步更新 Registry。
