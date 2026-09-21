@@ -13,6 +13,20 @@ principles:
   - Project-specific knowledge belongs to project-managed memory, not Framework configuration.
   - User decisions have highest priority.
 
+path_resolution:
+  rule: relative_paths
+  description: Framework internal paths must not depend on the Framework root directory name.
+
+  resolution_base:
+    config_file: Resolve paths relative to the directory containing the config file that declares the path.
+    skill_file: Resolve Skill-local paths relative to the directory containing the SKILL.md that declares the path.
+
+  rules:
+    - Do not hardcode .ai, .agent, or any Framework root directory name in Framework-internal paths.
+    - Config references must use paths relative to their declaring config file.
+    - Skill-local references must use paths relative to the Skill directory.
+    - Renaming the Framework root directory must not require updates to internal paths.
+
 change_policy:
   safe_changes:
     - add_skill_registry_entry_for_existing_skill
@@ -35,3 +49,4 @@ consistency_checks:
   - no_circular_required_dependencies
   - skill_ids_match_directories
   - registry_and_skill_metadata_are_consistent
+  - framework_internal_paths_are_relative
