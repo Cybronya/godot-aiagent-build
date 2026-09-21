@@ -15,16 +15,7 @@ skills:
     dependencies:
       required:
         - godot-development-standard
-      related:
-        - godot-gdscript
-        - godot-character-system
-        - godot-gameplay-system
-        - godot-ui-system
-        - godot-data-resource
-        - godot-audio-system
-        - godot-debug-testing
-        - godot-performance
-        - godot-build-release
+      related: []
 
   - id: godot-development-standard
     name: Godot 开发规范
@@ -42,3 +33,6 @@ registry_rules:
   - Category must exist in skill-types.yaml.
   - Registry paths must resolve relative to this registry file.
   - Do not register speculative Skills before their Skill files exist.
+  - Registry required dependencies must exactly match the Skill's required dependencies.
+  - Registry related entries may only reference Skills that are registered.
+  - A Skill may declare related Skills that are not yet registered; these are planned collaboration targets and must not be added to the registry until their Skill files exist.
