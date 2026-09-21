@@ -8,17 +8,36 @@
 - Category: `architecture`
 - Load Policy: `conditional`
 
-# Description
+# Registry Metadata
 
-负责 Godot 项目的整体架构组织、模块边界、依赖关系、系统归属、Autoload 决策、功能放置和架构重构。
+本章节是本 Skill 的 Canonical Metadata。
+Registry 仅索引本 Skill，不重复维护这些字段。
 
-# Purpose
+## Load Policy
 
-帮助 Agent 判断一个 Feature、System、Module、Scene、Script 或 Resource 应该属于哪里，以及它们之间应该如何依赖和演化。
+conditional
 
-# Responsibility
+## Dependencies
 
-### Ownership
+### Required
+
+- `godot-development-standard`
+
+### Related
+
+- `godot-scene-system`
+- `godot-gdscript`
+- `godot-character-system`
+- `godot-gameplay-system`
+- `godot-ui-system`
+- `godot-animation-visual`
+- `godot-data-resource`
+- `godot-audio-system`
+- `godot-debug-testing`
+- `godot-performance`
+- `godot-build-release`
+
+## Ownership
 
 - project_architecture
 - module_boundaries
@@ -29,6 +48,16 @@
 - architecture_refactoring
 - architecture_decisions
 - architecture_memory
+
+# Description
+
+负责 Godot 项目的整体架构组织、模块边界、依赖关系、系统归属、Autoload 决策、功能放置和架构重构。
+
+# Purpose
+
+帮助 Agent 判断一个 Feature、System、Module、Scene、Script 或 Resource 应该属于哪里，以及它们之间应该如何依赖和演化。
+
+# Responsibility
 
 ### Responsible For
 
@@ -445,8 +474,8 @@ Prohibited:
 
 # Skill Collaboration
 
-This Skill has a required dependency on `godot-development-standard`.
-The related Skills listed in the canonical `Dependencies` section are collaboration targets, not required dependencies.
+This Skill's canonical dependency data is defined in **Registry Metadata → Dependencies**.
+The Related list there contains collaboration targets and does not create automatic dependencies.
 
 Architecture decisions remain authoritative for placement, ownership, boundaries, dependency direction and Autoload decisions. Specialist Skills implement within those boundaries.
 
