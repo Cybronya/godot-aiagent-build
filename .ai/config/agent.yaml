@@ -9,6 +9,7 @@ framework:
   id: godot-agent-framework
   version: 2
 
+  framework_rules: ./framework-rules.yaml
   skill_schema: ./skill-schema.yaml
   skill_types: ./skill-types.yaml
   skill_registry: ./skill-registry.yaml
