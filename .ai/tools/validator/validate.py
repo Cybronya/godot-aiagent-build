@@ -173,6 +173,10 @@ def main():
         records[sid]=parse_skill((config_dir/relpath).resolve(),r)
         if records[sid].get("id") and records[sid]["id"] != sid: r.fail(f"Registry/Skill id mismatch: registry={sid!r}, canonical={records[sid]['id']!r}")
 
+    # Load the Skill taxonomy before scanning the physical Skill tree because
+    # category validation is part of the physical-tree contract.
+    types=cfg["types"].get("types",{}); valid=set(types)
+
     # Bidirectional Skill/Registry integrity: every physical Skill directory must
     # be registered, and every registry entry must resolve to a physical Skill.
     skills_root=config_dir.parent/"skills"
@@ -207,7 +211,6 @@ def main():
         if sid not in physical_skills:
             r.fail(f"Registered Skill is missing from physical Skills tree: {sid!r}")
 
-    types=cfg["types"].get("types",{}); valid=set(types)
     dependency_direction=cfg["dependency"].get("category_direction",{})
     if not dependency_direction:
         r.fail("skill-dependency.yaml: missing category_direction")
