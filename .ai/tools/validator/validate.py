@@ -63,8 +63,10 @@ def bullets(text: str, heading: str):
 
 def parse_skill(skill_dir: Path, r: Reporter):
     path=skill_dir/"SKILL.md"; text=read_text(path,r)
-    ident=section(text,"Skill Identity")
-    skill_id=heading_value(ident,"Skill ID"); name=heading_value(ident,"Skill Name"); version=heading_value(ident,"Version"); category=heading_value(ident,"Category")
+    # Identity fields are level-2 sibling headings under the level-1 Skill Identity block.
+    # Parse them from the full document because section() intentionally stops at
+    # the next heading of the same or higher level.
+    skill_id=heading_value(text,"Skill ID"); name=heading_value(text,"Skill Name"); version=heading_value(text,"Version"); category=heading_value(text,"Category")
     for value,label in [(skill_id,"Skill ID"),(name,"Skill Name"),(version,"Version"),(category,"Category")]:
         if not value: r.fail(f"{path}: missing {label}")
     if skill_id and skill_id != skill_dir.name: r.fail(f"{path}: Skill ID {skill_id!r} does not match directory {skill_dir.name!r}")
@@ -207,7 +209,8 @@ def main():
         related_ids=set(re.findall(r"\b[a-z][a-z0-9-]*\b", related_block))
         if canonical_required and canonical_required.issubset(dep_ids):
             r.fail(f"{sid}: Collaboration duplicates canonical Required dependencies; keep them in Registry Metadata")
-        if canonical_related and canonical_related == (related_ids & canonical_related):
+        exact_related_bullets={b.strip() for b in re.findall(r"^\s*-\s+(.+?)\s*$", related_block, re.M)}
+        if canonical_related & exact_related_bullets:
             r.fail(f"{sid}: Collaboration duplicates canonical Related Skills; keep them in Registry Metadata")
 
     for path in files.values():
