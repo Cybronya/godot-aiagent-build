@@ -101,6 +101,15 @@ conditional
 
 报告成功、失败、未完成项及其原因。
 
+# Failure Handling
+
+定义：
+
+- 识别本 Skill 执行中的错误、缺失输入或验证失败。
+- 在不越权的前提下采取可逆回退或停止操作。
+- 涉及职责边界、核心架构或破坏性变更时请求用户确认。
+
+
 # References
 
 - .ai/config/SKILL_TEMPLATE.md
