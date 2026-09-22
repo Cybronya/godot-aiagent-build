@@ -87,7 +87,7 @@ def main():
     legacy_rules=legacy_dir/"registry_rules.md"
     # Load the canonical Registry before comparing legacy entries against it.
     reg=cfg["registry"].get("registry",{})
-    entries=reg.get("skills",[])
+    entries=cfg["registry"].get("skills",[])
     if not isinstance(entries,list):
         r.fail("skill-registry.yaml: registry.skills must be a list")
         entries=[]
