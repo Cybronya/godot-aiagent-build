@@ -25,15 +25,20 @@ required:
   - load_policy
 
 identity:
+  markdown_format: "Each identity field uses a level-2 heading under Skill Identity, followed by body text."
   id:
     type: string
+    markdown_heading: "## Skill ID"
     rule: "Must match the Skill directory name."
   name:
     type: string
+    markdown_heading: "## Skill Name"
   version:
     type: string
+    markdown_heading: "## Version"
   category:
     type: string
+    markdown_heading: "## Category"
     rule: "Must exist in skill-types.yaml."
 
 structure:
@@ -53,6 +58,7 @@ metadata:
     type: structured
   load_policy:
     type: enum
+    markdown_heading: "## Load Policy"
     values:
       - required
       - conditional
