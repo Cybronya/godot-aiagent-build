@@ -47,6 +47,9 @@ skills:
   - id: godot-build-release
     path: ../skills/engineering/godot-build-release
 
+  - id: godot-art-assets
+    path: ../skills/engineering/godot-art-assets
+
 registry_rules:
   - Every registered Skill must have a valid SKILL.md.
   - Skill id must equal the canonical Skill id in SKILL.md.
