@@ -235,8 +235,9 @@ def main():
         if not isinstance(loading,dict):
             r.fail("skill-loading.yaml: loading must be a mapping")
             loading={}
-        if loading.get("version") != 2:
-            r.fail(f"skill-loading.yaml: expected loading.version=2, got {loading.get('version')!r}")
+        loading_version=loading.get("loading",{}).get("version") if isinstance(loading.get("loading"),dict) else None
+        if loading_version != 2:
+            r.fail(f"skill-loading.yaml: expected loading.version=2, got {loading_version!r}")
         canonical_source=loading.get("canonical_source",{})
         if not isinstance(canonical_source,dict) or not canonical_source.get("rule"):
             r.fail("skill-loading.yaml: canonical_source.rule is required")
@@ -297,8 +298,9 @@ def main():
         if not isinstance(collaboration,dict):
             r.fail("skill-collaboration.yaml: collaboration must be a mapping")
             collaboration={}
-        if collaboration.get("version") != 1:
-            r.fail(f"skill-collaboration.yaml: expected collaboration.version=1, got {collaboration.get('version')!r}")
+        collaboration_version=collaboration.get("collaboration",{}).get("version") if isinstance(collaboration.get("collaboration"),dict) else None
+        if collaboration_version != 1:
+            r.fail(f"skill-collaboration.yaml: expected collaboration.version=1, got {collaboration_version!r}")
         principle=collaboration.get("principle",{})
         if not isinstance(principle,dict) or not principle.get("description"):
             r.fail("skill-collaboration.yaml: principle.description is required")
