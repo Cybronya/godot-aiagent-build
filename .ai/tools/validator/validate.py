@@ -178,11 +178,24 @@ def main():
     skills_root=config_dir.parent/"skills"
     physical_skills={}
     if skills_root.is_dir():
-        for skill_dir in sorted(p for p in skills_root.rglob("*") if p.is_dir()):
-            if (skill_dir/"SKILL.md").is_file():
-                physical_skills[skill_dir.name]=skill_dir.resolve()
-            elif any(child.is_file() for child in skill_dir.iterdir()):
-                r.fail(f"Unrecognized Skill directory without SKILL.md: {skill_dir}")
+        # A Skill is exactly one directory below a declared category directory:
+        # .ai/skills/{category}/{skill-id}/SKILL.md
+        # Do not recursively treat Skill-local references/examples/templates as
+        # Skills; those are explicitly supported by the Skill Schema.
+        for category_dir in sorted(p for p in skills_root.iterdir() if p.is_dir()):
+            if category_dir.name not in valid:
+                # Unknown top-level directories are not valid Skill categories.
+                r.fail(f"Unknown Skill category directory: {category_dir}")
+                continue
+            for skill_dir in sorted(p for p in category_dir.iterdir() if p.is_dir()):
+                skill_file=skill_dir/"SKILL.md"
+                if skill_file.is_file():
+                    physical_skills[skill_dir.name]=skill_dir.resolve()
+                else:
+                    # Only immediate children of a category are Skill candidates.
+                    # Nested support directories inside a Skill are ignored here.
+                    if any(child.is_file() for child in skill_dir.iterdir()):
+                        r.fail(f"Unrecognized Skill directory without SKILL.md: {skill_dir}")
     else:
         r.fail(f"Missing Skills root: {skills_root}")
     for sid, physical_dir in physical_skills.items():
