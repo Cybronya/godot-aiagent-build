@@ -14,6 +14,7 @@ TOOLS_DIR = Path(__file__).resolve().parents[1]
 if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 from config.loader import load_config, normalize_behavior
+from config.schema import CONFIG_SCHEMAS, TYPE_NAMES
 
 class Reporter:
     def __init__(self): self.failures=[]; self.warnings=[]
@@ -29,6 +30,58 @@ class Reporter:
             return 0
         print("PASS: 0 error(s), 0 warning(s)")
         return 0
+
+def validate_schema_definitions(r: Reporter, expected_kinds: set[str]) -> None:
+    """Validate the validator's own declarative config-schema definitions."""
+    actual_kinds=set(CONFIG_SCHEMAS)
+    missing=expected_kinds-actual_kinds
+    extra=actual_kinds-expected_kinds
+    for kind in sorted(missing):
+        r.fail(f"Config schema self-validation: missing schema definition for {kind!r}")
+    for kind in sorted(extra):
+        r.fail(f"Config schema self-validation: unexpected schema definition {kind!r}")
+
+    for kind, schema in CONFIG_SCHEMAS.items():
+        if not isinstance(schema,dict):
+            r.fail(f"Config schema self-validation: {kind!r} must be a mapping")
+            continue
+        root=schema.get("root")
+        if not isinstance(root,str) or not root:
+            r.fail(f"Config schema self-validation: {kind}.root must be a non-empty string")
+            continue
+        required=schema.get("required",[])
+        if not isinstance(required,list) or not all(isinstance(x,str) and x for x in required):
+            r.fail(f"Config schema self-validation: {kind}.required must be a list of non-empty strings")
+            required=[]
+        if root not in required:
+            r.fail(f"Config schema self-validation: {kind}.root {root!r} must be listed in required")
+        types=schema.get("types",{})
+        nested=schema.get("nested",{})
+        if not isinstance(types,dict):
+            r.fail(f"Config schema self-validation: {kind}.types must be a mapping")
+            types={}
+        if not isinstance(nested,dict):
+            r.fail(f"Config schema self-validation: {kind}.nested must be a mapping")
+            nested={}
+        paths=set()
+        for path, type_name in list(types.items())+list(nested.items()):
+            if not isinstance(path,str) or not path:
+                r.fail(f"Config schema self-validation: {kind} contains an invalid empty/type path")
+                continue
+            if path in paths:
+                r.fail(f"Config schema self-validation: {kind} duplicates path {path!r}")
+            paths.add(path)
+            if type_name not in TYPE_NAMES:
+                r.fail(f"Config schema self-validation: {kind}.{path} uses unknown type {type_name!r}")
+            parts=path.split(".")
+            if any(not part for part in parts):
+                r.fail(f"Config schema self-validation: {kind} has malformed path {path!r}")
+            if len(parts)>1 and parts[0] not in required:
+                r.fail(f"Config schema self-validation: {kind}.{path} has undeclared top-level parent {parts[0]!r}")
+        if any(path in nested for path in types):
+            # Kept explicit above via duplicate-path detection; this branch makes
+            # the contract clear if the schema representation changes later.
+            pass
 
 def load_yaml(path: Path, r: Reporter) -> dict[str, Any]:
     if not path.is_file(): r.fail(f"Missing config file: {path}"); return {}
@@ -93,6 +146,7 @@ def main():
     p.add_argument("--config-dir",type=Path,default=Path(__file__).resolve().parents[2]/"config")
     args=p.parse_args(); config_dir=args.config_dir.resolve(); r=Reporter()
     print("Godot Agent Skill Framework Validator"); print(f"Config: {config_dir}")
+    validate_schema_definitions(r, set(files) if "files" in locals() else {"agent","rules","schema","types","registry","loading","dependency","collaboration"})
     files={k:config_dir/n for k,n in {
       "agent":"agent.yaml","rules":"framework-rules.yaml","schema":"skill-schema.yaml","types":"skill-types.yaml",
       "registry":"skill-registry.yaml","loading":"skill-loading.yaml","dependency":"skill-dependency.yaml","collaboration":"skill-collaboration.yaml"}.items()}
