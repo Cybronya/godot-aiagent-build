@@ -211,6 +211,111 @@ def main():
         if sid not in physical_skills:
             r.fail(f"Registered Skill is missing from physical Skills tree: {sid!r}")
 
+    # Validate the machine-readable Skill Loading contract against the canonical taxonomy
+    # and every loaded Skill's canonical load policy.
+    loading=cfg["loading"].get("loading",{})
+    if not isinstance(loading,dict):
+        r.fail("skill-loading.yaml: loading must be a mapping")
+        loading={}
+    if loading.get("version") != 2:
+        r.fail(f"skill-loading.yaml: expected loading.version=2, got {loading.get('version')!r}")
+    canonical_source=loading.get("canonical_source",{})
+    if not isinstance(canonical_source,dict) or not canonical_source.get("rule"):
+        r.fail("skill-loading.yaml: canonical_source.rule is required")
+    policies=loading.get("policies",{})
+    expected_policies={"required","conditional","optional"}
+    if not isinstance(policies,dict):
+        r.fail("skill-loading.yaml: policies must be a mapping")
+        policies={}
+    elif set(policies) != expected_policies:
+        r.fail(f"skill-loading.yaml: policies must define exactly {sorted(expected_policies)}, got {sorted(policies)}")
+    policy_contracts={
+        "required": {"load_before_task_analysis": True, "may_be_unloaded": False},
+        "conditional": {"load_before_task_execution": True, "load_only_when_relevant": True},
+        "optional": {"load_on_demand": True},
+    }
+    for policy,expected in policy_contracts.items():
+        block=policies.get(policy,{})
+        behavior=block.get("behavior",{}) if isinstance(block,dict) else {}
+        if not isinstance(behavior,dict):
+            r.fail(f"skill-loading.yaml: policies.{policy}.behavior must be a mapping")
+            continue
+        for key,value in expected.items():
+            if behavior.get(key) is not value:
+                r.fail(f"skill-loading.yaml: policies.{policy}.behavior.{key} must be {value!r}")
+    selection_order=loading.get("selection_order",[])
+    allowed_selection={"task_intent","required_skills","architecture_skills","foundation_skills","system_skills","engineering_skills","dependency_closure"}
+    if not isinstance(selection_order,list) or not selection_order:
+        r.fail("skill-loading.yaml: selection_order must be a non-empty list")
+    else:
+        unknown=set(selection_order)-allowed_selection
+        if unknown: r.fail(f"skill-loading.yaml: selection_order contains unknown stages: {sorted(unknown)}")
+        if len(selection_order) != len(set(selection_order)): r.fail("skill-loading.yaml: selection_order contains duplicate stages")
+        if selection_order[-1] != "dependency_closure": r.fail("skill-loading.yaml: dependency_closure must be the final selection stage")
+        if "task_intent" not in selection_order or "required_skills" not in selection_order:
+            r.fail("skill-loading.yaml: selection_order must include task_intent and required_skills")
+        for category,stage in {"architecture":"architecture_skills","foundation":"foundation_skills","systems":"system_skills","engineering":"engineering_skills"}.items():
+            if stage not in selection_order: r.fail(f"skill-loading.yaml: selection_order missing {stage!r} for category {category!r}")
+        category_positions={stage:selection_order.index(stage) for stage in selection_order if stage.endswith("_skills")}
+        expected_category_order=["architecture_skills","foundation_skills","system_skills","engineering_skills"]
+        if any(category_positions[a] >= category_positions[b] for a,b in zip(expected_category_order,expected_category_order[1:])):
+            r.fail("skill-loading.yaml: category selection stages must follow architecture -> foundation -> systems -> engineering")
+    loading_rules=loading.get("rules",[])
+    if not isinstance(loading_rules,list) or not all(isinstance(x,str) and x.strip() for x in loading_rules):
+        r.fail("skill-loading.yaml: rules must be a non-empty list of strings")
+    for sid,rec in records.items():
+        policy=rec.get("load_policy")
+        if policy not in expected_policies:
+            continue
+        if policy not in policies: r.fail(f"{sid}: load policy {policy!r} is not defined by skill-loading.yaml")
+
+    # Validate the machine-readable Skill Collaboration contract against the
+    # canonical taxonomy and the workflow categories used by the framework.
+    collaboration=cfg["collaboration"].get("collaboration",{})
+    if not isinstance(collaboration,dict):
+        r.fail("skill-collaboration.yaml: collaboration must be a mapping")
+        collaboration={}
+    if collaboration.get("version") != 1:
+        r.fail(f"skill-collaboration.yaml: expected collaboration.version=1, got {collaboration.get('version')!r}")
+    principle=collaboration.get("principle",{})
+    if not isinstance(principle,dict) or not principle.get("description"):
+        r.fail("skill-collaboration.yaml: principle.description is required")
+    ownership=collaboration.get("ownership",{})
+    if not isinstance(ownership,dict):
+        r.fail("skill-collaboration.yaml: ownership must be a mapping")
+        ownership={}
+    if set(ownership) != valid:
+        r.fail(f"skill-collaboration.yaml: ownership must define exactly the Skill categories {sorted(valid)}, got {sorted(ownership)}")
+    for category in valid:
+        block=ownership.get(category,{})
+        decides=block.get("decides",[]) if isinstance(block,dict) else []
+        if not isinstance(decides,list) or not decides or not all(isinstance(x,str) and x.strip() for x in decides):
+            r.fail(f"skill-collaboration.yaml: ownership.{category}.decides must be a non-empty list of strings")
+    workflow=collaboration.get("workflow",{})
+    if not isinstance(workflow,dict):
+        r.fail("skill-collaboration.yaml: workflow must be a mapping")
+        workflow={}
+    workflow_contracts={
+        "architecture_first": ["architecture","foundation","systems","engineering"],
+        "local_implementation": ["relevant_foundation","relevant_system","relevant_engineering"],
+    }
+    for name,expected_sequence in workflow_contracts.items():
+        block=workflow.get(name,{})
+        when=block.get("when",[]) if isinstance(block,dict) else []
+        sequence=block.get("sequence",[]) if isinstance(block,dict) else []
+        if not isinstance(when,list) or not when or not all(isinstance(x,str) and x.strip() for x in when):
+            r.fail(f"skill-collaboration.yaml: workflow.{name}.when must be a non-empty list of strings")
+        if sequence != expected_sequence:
+            r.fail(f"skill-collaboration.yaml: workflow.{name}.sequence must be {expected_sequence!r}")
+    handoff_rules=collaboration.get("handoff_rules",[])
+    if not isinstance(handoff_rules,list) or not handoff_rules or not all(isinstance(x,str) and x.strip() for x in handoff_rules):
+        r.fail("skill-collaboration.yaml: handoff_rules must be a non-empty list of strings")
+    output=collaboration.get("output",{})
+    report_fields=output.get("each_skill_should_report",[]) if isinstance(output,dict) else []
+    expected_report_fields={"decisions_made","artifacts_changed","dependencies_used","unresolved_issues","handoff_information"}
+    if set(report_fields) != expected_report_fields:
+        r.fail(f"skill-collaboration.yaml: output.each_skill_should_report must define exactly {sorted(expected_report_fields)}, got {sorted(report_fields) if isinstance(report_fields,list) else report_fields!r}")
+
     dependency_direction=cfg["dependency"].get("category_direction",{})
     if not dependency_direction:
         r.fail("skill-dependency.yaml: missing category_direction")
