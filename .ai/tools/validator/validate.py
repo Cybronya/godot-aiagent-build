@@ -313,8 +313,9 @@ def main():
     output=collaboration.get("output",{})
     report_fields=output.get("each_skill_should_report",[]) if isinstance(output,dict) else []
     expected_report_fields={"decisions_made","artifacts_changed","dependencies_used","unresolved_issues","handoff_information"}
-    if set(report_fields) != expected_report_fields:
-        r.fail(f"skill-collaboration.yaml: output.each_skill_should_report must define exactly {sorted(expected_report_fields)}, got {sorted(report_fields) if isinstance(report_fields,list) else report_fields!r}")
+    if not isinstance(report_fields,list) or set(report_fields) != expected_report_fields:
+        actual=sorted(report_fields) if isinstance(report_fields,list) else report_fields
+        r.fail(f"skill-collaboration.yaml: output.each_skill_should_report must define exactly {sorted(expected_report_fields)}, got {actual!r}")
 
     dependency_direction=cfg["dependency"].get("category_direction",{})
     if not dependency_direction:
