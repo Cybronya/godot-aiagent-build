@@ -213,7 +213,7 @@ def main():
 
     # Validate the machine-readable Skill Loading contract against the canonical taxonomy
     # and every loaded Skill's canonical load policy.
-    loading=cfg["loading"].get("loading",{})
+    loading=cfg["loading"]
     if not isinstance(loading,dict):
         r.fail("skill-loading.yaml: loading must be a mapping")
         loading={}
@@ -271,7 +271,7 @@ def main():
 
     # Validate the machine-readable Skill Collaboration contract against the
     # canonical taxonomy and the workflow categories used by the framework.
-    collaboration=cfg["collaboration"].get("collaboration",{})
+    collaboration=cfg["collaboration"]
     if not isinstance(collaboration,dict):
         r.fail("skill-collaboration.yaml: collaboration must be a mapping")
         collaboration={}
