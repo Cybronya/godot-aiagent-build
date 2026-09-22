@@ -174,6 +174,7 @@ def main():
         if records[sid].get("id") and records[sid]["id"] != sid: r.fail(f"Registry/Skill id mismatch: registry={sid!r}, canonical={records[sid]['id']!r}")
 
     types=cfg["types"].get("types",{}); valid=set(types)
+    dependency_direction=cfg["types"].get("dependency_direction",{})
     for sid,rec in records.items():
         cat=rec.get("category")
         if cat and cat not in valid: r.fail(f"{sid}: unknown category {cat!r}")
@@ -182,7 +183,7 @@ def main():
         for rel in rec.get("related",[]):
             if rel not in registry_ids: r.warn(f"{sid}: related Skill {rel!r} is not registered")
         if cat in valid:
-            allowed=set(types[cat].get("may_depend_on",[]))
+            allowed=set(dependency_direction.get(cat,{}).get("may_depend_on",[]))
             for dep in rec.get("required",[]):
                 if dep in records and records[dep].get("category") not in allowed: r.fail(f"{sid}: dependency {dep!r} category {records[dep].get('category')!r} violates {cat}.may_depend_on={sorted(allowed)}")
 
