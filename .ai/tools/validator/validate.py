@@ -91,7 +91,8 @@ def main():
     if not isinstance(entries,list):
         r.fail("skill-registry.yaml: registry.skills must be a list")
         entries=[]
-    legacy_entries=[]\n    if legacy_registry.is_file():
+    legacy_entries=[]
+    if legacy_registry.is_file():
         legacy_cfg=load_yaml(legacy_registry,r)
         legacy_root=legacy_cfg.get("registry",{})
         legacy_entries=legacy_root.get("skills",[]) if isinstance(legacy_root,dict) else []
