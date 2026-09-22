@@ -38,15 +38,19 @@ def read_text(path: Path, r: Reporter) -> str:
     except Exception as exc: r.fail(f"Cannot read {path}: {exc}"); return ""
 
 def section(text: str, heading: str) -> str:
-    m=re.search(rf"^#{{1,6}}\s+{re.escape(heading)}\s*$([\s\S]*?)(?=^#{{1,6}}\s+|\Z)", text, re.M)
-    return m.group(1) if m else ""
+    m=re.search(rf"^(#{{1,6}})\s+{re.escape(heading)}\s*$", text, re.M)
+    if not m: return ""
+    level=len(m.group(1))
+    end=re.search(rf"^#{{1,{level}}}\s+", text[m.end():], re.M)
+    return text[m.end():m.end()+end.start()] if end else text[m.end():]
 
 def heading_exists(text: str, heading: str) -> bool:
     return re.search(rf"^#{{1,6}}\s+{re.escape(heading)}\s*$", text, re.M) is not None
 
-def metadata_value(text: str, label: str):
-    m=re.search(rf"^\s*-\s*{re.escape(label)}:\s*`?([^\n`]+?)`?\s*$", text, re.M)
-    return m.group(1).strip() if m else None
+def heading_value(text: str, heading: str):
+    block=section(text, heading)
+    lines=[line.strip() for line in block.splitlines() if line.strip()]
+    return lines[0].strip("`") if lines else None
 
 def bullets(text: str, heading: str):
     block=section(text, heading)
@@ -55,7 +59,7 @@ def bullets(text: str, heading: str):
 def parse_skill(skill_dir: Path, r: Reporter):
     path=skill_dir/"SKILL.md"; text=read_text(path,r)
     ident=section(text,"Skill Identity")
-    skill_id=metadata_value(ident,"Skill ID"); name=metadata_value(ident,"Skill Name"); version=metadata_value(ident,"Version"); category=metadata_value(ident,"Category")
+    skill_id=heading_value(ident,"Skill ID"); name=heading_value(ident,"Skill Name"); version=heading_value(ident,"Version"); category=heading_value(ident,"Category")
     for value,label in [(skill_id,"Skill ID"),(name,"Skill Name"),(version,"Version"),(category,"Category")]:
         if not value: r.fail(f"{path}: missing {label}")
     if skill_id and skill_id != skill_dir.name: r.fail(f"{path}: Skill ID {skill_id!r} does not match directory {skill_dir.name!r}")
@@ -183,10 +187,14 @@ def main():
     for field,label in [("id","Skill ID"),("name","Skill Name"),("version","Version"),("category","Category"),("description","Description"),("purpose","Purpose"),("responsibility","Responsibility"),("load_policy","Load Policy")]:
         if field in set(cfg["schema"].get("required",[])) and label not in template: r.fail(f"SKILL_TEMPLATE.md: missing schema-required field {label!r}")
 
+    # Template-defined Collaboration subsections are explanatory and do not
+    # duplicate canonical dependency metadata merely by existing.
     for sid,rec in records.items():
         collab=section(rec.get("text",""),"Collaboration")
-        if re.search(r"^\s*##\s+Dependencies\s*$",collab,re.M): r.fail(f"{sid}: Collaboration duplicates Dependencies; canonical data belongs in Registry Metadata")
-        if re.search(r"^\s*##\s+Related Skills\s*$",collab,re.M): r.warn(f"{sid}: Collaboration contains Related Skills; keep canonical values in Registry Metadata")
+        dep_block=section(collab,"Dependencies")
+        related_block=section(collab,"Related Skills")
+        if re.search(r"^\s*-\s+",dep_block,re.M): r.fail(f"{sid}: Collaboration contains a dependency list; canonical dependencies belong in Registry Metadata")
+        if re.search(r"^\s*-\s+",related_block,re.M): r.fail(f"{sid}: Collaboration contains a Related Skills list; canonical related Skills belong in Registry Metadata")
 
     for path in files.values():
         if not path.is_file(): continue
