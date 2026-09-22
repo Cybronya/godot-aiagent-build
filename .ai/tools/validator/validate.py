@@ -48,7 +48,12 @@ def heading_exists(text: str, heading: str) -> bool:
     return re.search(rf"^#{{1,6}}\s+{re.escape(heading)}\s*$", text, re.M) is not None
 
 def heading_value(text: str, heading: str):
-    block=section(text, heading)
+    match=re.search(rf"^(#{1,6})\s+{re.escape(heading)}\s*$", text, re.M)
+    if not match:
+        return None
+    level=len(match.group(1))
+    end=re.search(rf"^#{{1,{level}}}\s+", text[match.end():], re.M)
+    block=text[match.end():match.end()+end.start()] if end else text[match.end():]
     lines=[line.strip() for line in block.splitlines() if line.strip()]
     return lines[0].strip("`") if lines else None
 
@@ -187,14 +192,23 @@ def main():
     for field,label in [("id","Skill ID"),("name","Skill Name"),("version","Version"),("category","Category"),("description","Description"),("purpose","Purpose"),("responsibility","Responsibility"),("load_policy","Load Policy")]:
         if field in set(cfg["schema"].get("required",[])) and label not in template: r.fail(f"SKILL_TEMPLATE.md: missing schema-required field {label!r}")
 
-    # Template-defined Collaboration subsections are explanatory and do not
-    # duplicate canonical dependency metadata merely by existing.
+    # Collaboration is optional and may explain relationships in prose.
+    # Only an exact duplicate of canonical dependency/related IDs is invalid;
+    # explanatory collaboration notes are allowed by the template contract.
     for sid,rec in records.items():
         collab=section(rec.get("text",""),"Collaboration")
+        if not collab:
+            continue
+        canonical_required=set(rec.get("required",[]))
+        canonical_related=set(rec.get("related",[]))
         dep_block=section(collab,"Dependencies")
         related_block=section(collab,"Related Skills")
-        if re.search(r"^\s*-\s+",dep_block,re.M): r.fail(f"{sid}: Collaboration contains a dependency list; canonical dependencies belong in Registry Metadata")
-        if re.search(r"^\s*-\s+",related_block,re.M): r.fail(f"{sid}: Collaboration contains a Related Skills list; canonical related Skills belong in Registry Metadata")
+        dep_ids=set(re.findall(r"\b[a-z][a-z0-9-]*\b", dep_block))
+        related_ids=set(re.findall(r"\b[a-z][a-z0-9-]*\b", related_block))
+        if canonical_required and canonical_required.issubset(dep_ids):
+            r.fail(f"{sid}: Collaboration duplicates canonical Required dependencies; keep them in Registry Metadata")
+        if canonical_related and canonical_related == (related_ids & canonical_related):
+            r.fail(f"{sid}: Collaboration duplicates canonical Related Skills; keep them in Registry Metadata")
 
     for path in files.values():
         if not path.is_file(): continue
