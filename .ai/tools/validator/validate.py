@@ -78,6 +78,57 @@ def main():
       "registry":"skill-registry.yaml","loading":"skill-loading.yaml","dependency":"skill-dependency.yaml","collaboration":"skill-collaboration.yaml"}.items()}
     template_path=config_dir/"SKILL_TEMPLATE.md"; cfg={k:load_yaml(v,r) for k,v in files.items()}; template=read_text(template_path,r)
 
+    # Legacy Registry migration check.
+    # .ai/registry/ is retained only as a migration source and must never become
+    # an active discovery source. Its entries are compared against the canonical
+    # .ai/config/skill-registry.yaml and the canonical Skill files.
+    legacy_dir=config_dir.parent/"registry"
+    legacy_registry=legacy_dir/"skill_registry.yaml"
+    legacy_rules=legacy_dir/"registry_rules.md"
+    legacy_entries=[]
+    if legacy_registry.is_file():
+        legacy_cfg=load_yaml(legacy_registry,r)
+        legacy_root=legacy_cfg.get("registry",{})
+        legacy_entries=legacy_root.get("skills",[]) if isinstance(legacy_root,dict) else []
+        if not isinstance(legacy_entries,list):
+            r.fail("Legacy Registry .ai/registry/skill_registry.yaml: registry.skills must be a list")
+            legacy_entries=[]
+        r.warn("Legacy Registry detected at .ai/registry/; it is migration-only and must not be used for Skill discovery.")
+        for entry in legacy_entries:
+            if not isinstance(entry,dict):
+                r.fail("Legacy Registry: every entry must be a mapping")
+                continue
+            sid=entry.get("id")
+            legacy_path=entry.get("path")
+            if not sid or not legacy_path:
+                r.fail("Legacy Registry: every entry requires id and path")
+                continue
+            if sid not in {e.get("id") for e in entries if isinstance(e,dict)}:
+                r.fail(f"Legacy Registry entry {sid!r} is missing from canonical skill-registry.yaml")
+            # Resolve old paths against the repository root, then compare with
+            # the canonical registry's resolved Skill directory.
+            old_rel=Path(str(legacy_path).replace("\\\\","/"))
+            if old_rel.parts[:1] == (".ai",):
+                old_target=(config_dir.parent.parent/old_rel).resolve()
+            else:
+                old_target=(config_dir/old_rel).resolve()
+            canonical_entry=next((e for e in entries if isinstance(e,dict) and e.get("id")==sid),None)
+            if canonical_entry:
+                canonical_target=(config_dir/Path(str(canonical_entry.get("path")))).resolve()
+                if old_target != canonical_target:
+                    r.fail(
+                        f"Legacy Registry path conflict for {sid!r}: "
+                        f"legacy={legacy_path!r}, canonical={canonical_entry.get('path')!r}"
+                    )
+            if old_target.name != "SKILL.md" and (old_target/"SKILL.md").is_file():
+                old_target=old_target/"SKILL.md"
+            if not old_target.exists():
+                r.fail(f"Legacy Registry stale path for {sid!r}: {legacy_path!r}")
+        if legacy_rules.is_file():
+            r.warn("Legacy Registry rules detected at .ai/registry/registry_rules.md; framework-rules.yaml and skill-schema.yaml are the active contracts.")
+    elif legacy_rules.is_file():
+        r.warn("Legacy Registry rules detected at .ai/registry/registry_rules.md without skill_registry.yaml.")
+
     agent_fw=cfg["agent"].get("framework",{}); rules_fw=cfg["rules"].get("framework",{})
     if agent_fw.get("version") != rules_fw.get("version"): r.fail(f"Framework version mismatch: agent.yaml={agent_fw.get('version')!r}, framework-rules.yaml={rules_fw.get('version')!r}")
 
@@ -138,7 +189,7 @@ def main():
         for no,line in enumerate(path.read_text(encoding="utf-8").splitlines(),1):
             if re.search(r"(?<![A-Za-z0-9_-])(?:\.ai|\.agent)(?:/|\\)",line): r.fail(f"{path}:{no}: framework-internal path hardcodes .ai/.agent")
 
-    print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}")
+    print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}"); print(f"  Legacy Registry entries checked: {len(legacy_entries)}")
     if r.failures: print("\nFAILURES"); [print(f"  - {x}") for x in r.failures]
     if r.warnings: print("\nWARNINGS"); [print(f"  - {x}") for x in r.warnings]
     return r.summary()
