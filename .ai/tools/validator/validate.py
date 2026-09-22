@@ -76,8 +76,17 @@ def validate_schema_definitions(r: Reporter, expected_kinds: set[str]) -> None:
             parts=path.split(".")
             if any(not part for part in parts):
                 r.fail(f"Config schema self-validation: {kind} has malformed path {path!r}")
-            if len(parts)>1 and parts[0] not in required:
-                r.fail(f"Config schema self-validation: {kind}.{path} has undeclared top-level parent {parts[0]!r}")
+            if len(parts)>1:
+                parent=parts[0]
+                declared_top_level=set(required)
+                declared_top_level.update(
+                    p for p in list(types)+list(nested) if isinstance(p,str) and "." not in p
+                )
+                if parent not in declared_top_level:
+                    r.fail(
+                        f"Config schema self-validation: {kind}.{path} "
+                        f"has undeclared top-level parent {parent!r}"
+                    )
         if any(path in nested for path in types):
             # Kept explicit above via duplicate-path detection; this branch makes
             # the contract clear if the schema representation changes later.
