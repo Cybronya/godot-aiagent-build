@@ -70,7 +70,7 @@ def parse_skill(skill_dir: Path, r: Reporter):
 
 def main():
     p=argparse.ArgumentParser(description="Validate the Godot Agent Skill Framework.")
-    p.add_argument("--config-dir",type=Path,default=Path(__file__).resolve().parents[1]/"config")
+    p.add_argument("--config-dir",type=Path,default=Path(__file__).resolve().parents[2]/"config")
     args=p.parse_args(); config_dir=args.config_dir.resolve(); r=Reporter()
     print("Godot Agent Skill Framework Validator"); print(f"Config: {config_dir}")
     files={k:config_dir/n for k,n in {
@@ -85,8 +85,7 @@ def main():
     legacy_dir=config_dir.parent/"registry"
     legacy_registry=legacy_dir/"skill_registry.yaml"
     legacy_rules=legacy_dir/"registry_rules.md"
-    legacy_entries=[]
-    if legacy_registry.is_file():
+    # Load the canonical Registry before comparing legacy entries against it.\n    reg=cfg["registry"].get("registry",{}); entries=reg.get("skills",[])\n    if not isinstance(entries,list): r.fail("skill-registry.yaml: registry.skills must be a list"); entries=[]\n    legacy_entries=[]\n    if legacy_registry.is_file():
         legacy_cfg=load_yaml(legacy_registry,r)
         legacy_root=legacy_cfg.get("registry",{})
         legacy_entries=legacy_root.get("skills",[]) if isinstance(legacy_root,dict) else []
@@ -137,8 +136,6 @@ def main():
         if not isinstance(value,str) or Path(value).is_absolute() or value.startswith((".ai/",".agent/")): r.fail(f"agent.yaml framework.{key} must be a root-independent relative path: {value!r}")
         elif not (config_dir/Path(value)).resolve().exists(): r.fail(f"agent.yaml framework.{key} points to missing path: {value}")
 
-    reg=cfg["registry"].get("registry",{}); entries=reg.get("skills",[])
-    if not isinstance(entries,list): r.fail("skill-registry.yaml: registry.skills must be a list"); entries=[]
     registry_ids=set(); records={}
     forbidden=set(cfg["schema"].get("registry_contract",{}).get("forbidden_canonical_fields",[]))
     for entry in entries:
