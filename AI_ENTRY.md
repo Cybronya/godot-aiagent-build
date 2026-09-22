@@ -1,187 +1,180 @@
 # AI_ENTRY
 
-版本：5.2
+文档版本：6.0
 
-# AI Agent 项目入口协议
+## 项目级 Agent 入口协议
 
-## 作用
+`AI_ENTRY.md` 是项目根目录的 Agent 入口协议与导航文件。
 
-AI_ENTRY是Agent进入项目时首先读取的入口文件。
+它负责告诉 Agent：
 
-负责：
+- Framework 从哪里进入
+- 配置系统如何解析
+- Skill 如何发现、加载和协作
+- Validator 何时执行
 
--   初始化AI环境
--   加载规则
--   发现Skill
--   加载Skill
--   调度Workflow
--   管理Agent行为
+> `AI_ENTRY.md` 本身不是机器可解析的 Framework 配置。  
+> 唯一的 Framework Machine Entry 是 `.ai/config/agent.yaml`。
 
-------------------------------------------------------------------------
+## 1. Framework Entry
 
-# Agent启动流程
+Agent 进入项目后：
 
-## 1. 加载基础规则
+1. 读取 `AI_ENTRY.md`
+2. 读取 `.ai/config/agent.yaml`
+3. 以 `.ai/config/agent.yaml` 为 Framework 的唯一机器入口
+4. 按其中定义的相对路径加载 Framework 配置
 
-读取：
+`agent.yaml` 当前定义：
 
-.ai/config/AI_RULES.md
+- `skill-schema.yaml`
+- `skill-types.yaml`
+- `skill-registry.yaml`
+- `skill-loading.yaml`
+- `skill-dependency.yaml`
+- `skill-collaboration.yaml`
+- `../tools/validator/validate.py`
 
-获取：
+## 2. Skill Discovery
 
--   AI行为规范
--   修改权限
--   工作原则
+Agent 不得假设 Skill 存在。
 
-------------------------------------------------------------------------
+必须通过：
 
-## 2. 加载Skill规范
+`.ai/config/skill-registry.yaml`
 
-读取：
+完成：
 
-.ai/config/SKILL_BLUEPRINT.md
+- Skill ID 查询
+- Skill 路径解析
+- 分类 / 类型识别
+- 状态与加载策略识别
+- 依赖信息解析
 
-获取：
+然后加载 Registry 指向的：
 
--   Skill结构规范
--   Skill设计标准
--   Skill输入输出规则
+`.ai/skills/{category}/{skill-id}/SKILL.md`
 
-------------------------------------------------------------------------
+Skill 的具体能力定义以对应的 `SKILL.md` 为准。
 
-## 3. 加载Skill Registry
+## 3. Skill Loading
 
-读取：
+任务开始后：
 
-.ai/registry/skill_registry.yaml
+1. 分析任务所需能力
+2. 查询 Registry
+3. 确认 Skill 是否存在且可用
+4. 加载对应 `SKILL.md`
+5. 根据 Skill 定义加载 references / examples / templates / context / memory
+6. 按 dependency 与 collaboration 规则组成执行计划
+7. 执行 Skill / Workflow
+8. 根据任务需要进行结果验证
 
-Registry负责：
+创建或修改 Skill 时，使用：
 
--   Skill发现
--   Skill路径查询
--   Skill分类
--   Skill依赖关系
--   Skill状态管理
+`.ai/config/SKILL_TEMPLATE.md`
 
-Agent必须通过Registry寻找Skill。
+作为 Skill 编写模板，并遵循：
 
-------------------------------------------------------------------------
+`.ai/config/skill-schema.yaml`
 
-# Skill加载流程
+定义的结构约束。
 
-当任务开始：
+## 4. Framework Responsibilities
 
-1.  分析任务需要的能力。
+| 目录 | 职责 |
+|---|---|
+| `.ai/config/` | Framework contract、Schema、Registry、加载与关系规则 |
+| `.ai/skills/` | Agent 专业能力 |
+| `.ai/tools/` | 可执行的基础设施与检查工具 |
+| `.ai/context/` | 当前任务 / 项目状态 |
+| `.ai/memory/` | 长期项目知识 |
 
-2.  查询：
+职责边界：
 
-.ai/registry/skill_registry.yaml
+- **Workflow** = 任务编排
+- **Skill** = 专业能力
+- **Tool** = 实际执行操作
 
-3.  根据：
+## 5. Dependency and Collaboration
 
--   category
--   trigger_conditions
--   dependencies
--   ownership
+**Dependency** 表示正确执行当前 Skill 所必需的能力。
 
-选择Skill。
+**Collaboration** 表示多个 Skill 可以共同完成任务，但不代表它们互为硬依赖。
 
-4.  加载：
+Skill 分类不等于运行时模块层级。
 
-.ai/skills/{skill-id}/SKILL.md
+同一分类下的 Skill 默认独立，Skill 之间的关系必须由 dependency / collaboration 配置明确声明。
 
-5.  根据Skill需求加载：
+## 6. Validator
 
--   references
--   examples
--   templates
+Validator 位于：
 
-------------------------------------------------------------------------
+`.ai/tools/validator/validate.py`
 
-# Skill架构规则
+Validator 不是 Skill。
 
-## 分类层级
+仅当用户明确要求检查或验证 Framework、Skill 配置、Registry、依赖关系或结构完整性时执行。
 
-foundation
+Validator 负责检查：
 
-基础规则。
+- Framework 配置引用
+- Schema
+- Skill 目录与 `SKILL.md`
+- Registry 覆盖与陈旧项
+- Skill ID / path / category
+- load policy
+- dependency existence / direction / cycles
+- collaboration consistency
+- template / schema alignment
+- legacy registry conflicts
 
-architecture
+当前 Validator **不负责 Git 检查**。
 
-架构设计。
+## 7. Legacy Registry
 
-system
+`.ai/registry/` 属于旧版 Skill Registry 结构。
 
-游戏系统。
+Agent 不应将其作为当前 Skill Discovery 的来源。
 
-feature
+当前唯一有效的 Skill Registry：
 
-具体功能。
+`.ai/config/skill-registry.yaml`
 
-optimization
+在完成迁移后，旧 Registry 可以删除。
 
-优化。
+## 8. Entry Flow
 
-------------------------------------------------------------------------
+```text
+USER TASK
+    ↓
+AI_ENTRY.md
+    ↓
+.ai/config/agent.yaml
+    ↓
+Framework Config
+    ↓
+Skill Registry
+    ↓
+SKILL.md
+    ↓
+Dependency / Collaboration
+    ↓
+Workflow / Skill / Tool
+    ↓
+Validation
+    ↓
+Result
+```
 
-# Skill隔离规则
+## 9. Core Rule
 
-同级Skill默认互不干预。
+Framework 的机器入口、Skill Registry 与 Skill 定义必须保持单一来源：
 
-禁止：
+- **Framework Entry** → `.ai/config/agent.yaml`
+- **Skill Registry** → `.ai/config/skill-registry.yaml`
+- **Skill Definition** → `.ai/skills/**/SKILL.md`
+- **Skill Template** → `.ai/config/SKILL_TEMPLATE.md`
+- **Validator** → `.ai/tools/validator/validate.py`
 
--   修改其他Skill负责领域
--   覆盖其他Skill规则
--   重复定义职责
-
-关系通过：
-
--   dependencies
--   ownership
-
-建立。
-
-------------------------------------------------------------------------
-
-# Registry规则
-
-Agent可以：
-
--   读取Registry
--   检查Registry
-
-Agent不能：
-
--   自动修改Registry
-
-新增Skill必须经过确认。
-
-------------------------------------------------------------------------
-
-# Workflow规则
-
-Workflow负责：
-
-任务流程。
-
-Skill负责：
-
-专业能力。
-
-Tool负责：
-
-实际执行。
-
-------------------------------------------------------------------------
-
-# Memory与Context
-
-memory:
-
-长期项目知识。
-
-context:
-
-当前开发状态。
-
-临时信息禁止写入memory。
+Agent 不应绕过上述入口自行推断 Skill、Registry 或 Framework 结构。
