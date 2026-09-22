@@ -7,7 +7,7 @@ Validator 只检查，不自动修改 Framework 文件。第一阶段只在用�
 ## 执行
 
 ```bash
-python .ai/validator/validate.py
+python .ai/tools/validator/validate.py
 ```
 
 或：
