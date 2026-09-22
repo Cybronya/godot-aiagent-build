@@ -85,7 +85,13 @@ def main():
     legacy_dir=config_dir.parent/"registry"
     legacy_registry=legacy_dir/"skill_registry.yaml"
     legacy_rules=legacy_dir/"registry_rules.md"
-    # Load the canonical Registry before comparing legacy entries against it.\n    reg=cfg["registry"].get("registry",{}); entries=reg.get("skills",[])\n    if not isinstance(entries,list): r.fail("skill-registry.yaml: registry.skills must be a list"); entries=[]\n    legacy_entries=[]\n    if legacy_registry.is_file():
+    # Load the canonical Registry before comparing legacy entries against it.
+    reg=cfg["registry"].get("registry",{})
+    entries=reg.get("skills",[])
+    if not isinstance(entries,list):
+        r.fail("skill-registry.yaml: registry.skills must be a list")
+        entries=[]
+    legacy_entries=[]\n    if legacy_registry.is_file():
         legacy_cfg=load_yaml(legacy_registry,r)
         legacy_root=legacy_cfg.get("registry",{})
         legacy_entries=legacy_root.get("skills",[]) if isinstance(legacy_root,dict) else []
