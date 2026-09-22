@@ -2,10 +2,21 @@
 
 ## Skill Identity
 
-- Skill ID: `godot-project-architecture`
-- Skill Name: Godot 项目架构
-- Version: 1.3
-- Category: `architecture`
+## Skill ID
+
+godot-project-architecture
+
+## Skill Name
+
+Godot 项目架构
+
+## Version
+
+1.3
+
+## Category
+
+architecture
 
 # Registry Metadata
 
