@@ -31,25 +31,6 @@ types:
     layer: engineering
     default_load_policy: conditional
 
-dependency_direction:
-  architecture:
-    may_depend_on:
-      - foundation
-  foundation:
-    may_depend_on:
-      - foundation
-  systems:
-    may_depend_on:
-      - architecture
-      - foundation
-      - systems
-  engineering:
-    may_depend_on:
-      - architecture
-      - foundation
-      - systems
-      - engineering
-
 rules:
   - Categories describe capability roles, not physical ownership of project code.
   - Category hierarchy must not be confused with runtime module hierarchy.
