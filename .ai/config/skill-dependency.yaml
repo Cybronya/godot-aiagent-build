@@ -36,23 +36,21 @@ validation:
     - circular_required_dependency
     - dependency_category_violation_without_exception
 
-default_direction:
-
+category_direction:
   architecture:
-    dependencies:
+    may_depend_on:
       - foundation
-
   foundation:
-    dependencies:
+    may_depend_on:
       - foundation
-
   systems:
-    dependencies:
-      - architecture
-      - foundation
-
-  engineering:
-    dependencies:
+    may_depend_on:
       - architecture
       - foundation
       - systems
+  engineering:
+    may_depend_on:
+      - architecture
+      - foundation
+      - systems
+      - engineering
