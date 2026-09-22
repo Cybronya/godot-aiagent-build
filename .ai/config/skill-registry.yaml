@@ -14,6 +14,39 @@ skills:
   - id: godot-development-standard
     path: ../skills/foundation/godot-development-standard
 
+  - id: godot-scene-system
+    path: ../skills/systems/godot-scene-system
+
+  - id: godot-gdscript
+    path: ../skills/foundation/godot-gdscript
+
+  - id: godot-character-system
+    path: ../skills/systems/godot-character-system
+
+  - id: godot-gameplay-system
+    path: ../skills/systems/godot-gameplay-system
+
+  - id: godot-ui-system
+    path: ../skills/systems/godot-ui-system
+
+  - id: godot-animation-visual
+    path: ../skills/systems/godot-animation-visual
+
+  - id: godot-data-resource
+    path: ../skills/systems/godot-data-resource
+
+  - id: godot-audio-system
+    path: ../skills/systems/godot-audio-system
+
+  - id: godot-debug-testing
+    path: ../skills/engineering/godot-debug-testing
+
+  - id: godot-performance
+    path: ../skills/engineering/godot-performance
+
+  - id: godot-build-release
+    path: ../skills/engineering/godot-build-release
+
 registry_rules:
   - Every registered Skill must have a valid SKILL.md.
   - Skill id must equal the canonical Skill id in SKILL.md.
