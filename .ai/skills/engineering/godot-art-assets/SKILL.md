@@ -1,67 +1,183 @@
----
-name: godot-art-assets
-version: 3.0
-description: Godot project art asset organization, metadata, scanning, review, validation, and safe organization skill.
----
+# Skill Identity
 
-# Godot Art Assets Skill v3
+## Skill ID
 
-## 1. Purpose
+godot-art-assets
 
-本 Skill 用于帮助 AI Agent 管理 Godot 项目中的艺术资源（Art Assets）。
+## Skill Name
 
-目标：
+Godot Art Assets
 
-1. 保持稳定、可预测的资源目录。
-2. 保持统一文件命名。
-3. 为资源建立稳定的语义 ID 和 metadata。
-4. 自动发现新增、修改、删除和重复资源。
-5. 不进行视觉识别；语义判断通过规则 + 人工确认完成。
-6. 在移动、重命名或删除资源前保护 Godot 引用。
-7. 让 Agent 能够安全地初始化、检查、整理和维护资源库。
+## Version
 
----
+4.0
 
-## 2. Project Layout
+## Category
 
-推荐：
+engineering
 
-```text
-MyGame/
-├── project.godot
-├── README.md
-├── assets/
-│   ├── characters/
-│   ├── environments/
-│   ├── tilesets/
-│   ├── backgrounds/
-│   ├── props/
-│   ├── items/
-│   ├── vfx/
-│   ├── ui/
-│   ├── portraits/
-│   └── fonts/
-├── scenes/
-├── scripts/
-└── .ai/
-    ├── skills/
-    │   └── godot-art-assets/
-    ├── tools/
-    │   └── godot-art-assets/
-    └── context/
-        ├── asset_manifest.json
-        └── asset_reviews/
-```
+# Registry Metadata
 
-如果标准目录不存在，优先运行：
+## Load Policy
 
-```bash
-python .ai/tools/godot-art-assets/scan_assets.py init
-```
+optional
 
----
+## Dependencies
 
-## 3. Tool Commands
+### Required
+
+- None
+
+### Related
+
+- None
+
+## Ownership
+
+负责 Godot 项目艺术资源的目录规范、命名规范、metadata、扫描、review、检查和安全整理流程。
+
+# Description
+
+本 Skill 用于帮助 Agent 管理 Godot 项目的艺术资源（Art Assets），建立稳定、可预测、可验证的资源组织与审核流程。
+
+# Purpose
+
+解决新增、修改、删除、重复和待确认艺术资源的发现、分类、命名、metadata 与安全整理问题，同时避免在不确定时进行不可逆的自动判断。
+
+# Responsibility
+
+## 负责
+
+- 标准艺术资源目录设计与检查
+- 文件命名与路径规则
+- 资源扫描与 manifest 状态比较
+- metadata 与稳定资源 ID 规则
+- review / pending 流程
+- 动画帧连续性和重复资源检查
+- 涉及 Godot 引用时的安全变更流程
+
+## 不负责
+
+- 图像分类、OCR、角色识别、场景识别或其他视觉语义判断
+- 在语义不确定时替用户做最终分类决定
+- 未检查 Godot 引用就批量移动、删除或重命名已有资源
+- 替代其他 Skill 的架构、代码、场景或系统职责
+
+# Trigger Conditions
+
+当用户要求初始化、扫描、检查、整理、分类、审核、同步或维护 Godot 艺术资源时加载。
+
+典型任务包括：
+
+- 初始化艺术资源目录
+- 扫描所有艺术资源
+- 检查资源规范
+- 查找新增、修改、删除或重复资源
+- 生成待确认资源列表
+- 更新资源 manifest
+- 检查角色动画帧
+- 检查资源命名问题
+
+# Input Contract
+
+输入应包含：
+
+- 当前 Godot 项目路径
+- 目标资源范围（如 assets/ 或指定子目录）
+- 用户要求执行的操作
+- 已有 manifest / review 数据（如存在）
+- 涉及移动、重命名、删除时的变更范围
+
+# Workflow
+
+1. 读取本 Skill。
+2. 检查项目与标准资源目录。
+3. 读取 references、manifest 和已有 review 状态。
+4. 执行 scan / check，收集路径、文件名、扩展名、大小、时间、hash、尺寸和路径/文件名 hints。
+5. 比较 manifest，识别 new / changed / deleted / unchanged。
+6. 对语义明确且规则稳定的资源执行安全组织；不确定资源进入 pending。
+7. 涉及已有 Godot 引用时，先检查场景、资源、脚本路径引用，再执行移动、重命名或删除。
+8. 变更后再次 scan / check。
+9. 更新 manifest、review 状态和任务完成状态。
+
+## Scanner Boundary
+
+Scanner 不是视觉系统。它只根据路径、文件名、扩展名、文件尺寸和 hash 生成事实与 hints，不判断图像内容。
+
+# Output Contract
+
+完成任务后输出：
+
+- 扫描或检查范围
+- 发现的 new / changed / deleted / unchanged
+- pending / review 项
+- 执行的资源变更
+- manifest / review 状态
+- 最终验证结果
+
+# Validation
+
+## Validation Method
+
+根据项目实际资源目录执行 scan / check，并在资源变更后重新扫描；涉及 Godot 引用时检查 .tscn、.tres、脚本路径和相关导入/引用。
+
+## Success Criteria
+
+- 标准目录存在或已明确记录例外
+- 命名和路径符合规则
+- 新增与变化资源已发现
+- 不确定资源进入 pending
+- manifest 状态一致
+- 移动、重命名、删除经过引用安全检查
+- 最终 scan / check 通过或明确报告剩余问题
+
+## Status Update
+
+- PASS：规则检查通过且没有未处理问题
+- WARNING：存在需要人工确认的 pending / review 项，但流程本身有效
+- FAIL：发现违反资源规则、manifest 不一致或存在未验证的高风险变更
+
+# References
+
+相关规范可放置于本 Skill 的 references/ 目录，包括：
+
+- folder_structure.md
+- naming.md
+- metadata.md
+- workflow.md
+- godot_safety.md
+- classification.md
+- animation.md
+- organization.md
+
+# Examples
+
+可在 examples/ 中放置资源扫描、review 和 manifest 示例。
+
+# Templates
+
+可在 templates/ 中放置资源 metadata、review 或 manifest 模板。
+
+# Collaboration
+
+## Dependencies
+
+Canonical dependency data is defined in Registry Metadata → Dependencies。本章节不重复维护 dependency 数据。
+
+## Related Skills
+
+当前没有自动 Related 依赖。需要协作时根据任务边界调用对应 Skill，不把协作关系自动升级为依赖。
+
+## Communication Rules
+
+- 资源管理 Skill 只负责艺术资源领域。
+- 资源语义不确定时必须进入 pending / review。
+- 涉及架构、代码、场景或系统修改时，将对应职责交给相应 Skill。
+- 不以“整理资源”为理由扩大变更范围。
+
+# Tool Usage
+
+如项目存在对应工具，可使用：
 
 ```bash
 python .ai/tools/godot-art-assets/scan_assets.py init
@@ -73,209 +189,77 @@ python .ai/tools/godot-art-assets/scan_assets.py check
 python .ai/tools/godot-art-assets/scan_assets.py organize
 ```
 
-### init
+工具调用必须遵守本 Skill 的权限与安全边界。
 
-创建缺失的标准 Art Asset 目录。
+# Memory Interaction
 
-默认不会删除已有目录。
+## Read
 
-### scan
+允许读取：
 
-扫描 `assets/`，收集：
+- 长期项目资源组织规则
+- 已确认的资源分类规则
+- 长期有效的 Godot 资源安全约束
 
-- relative path
-- filename
-- extension
-- size_bytes
-- modified_at
-- sha256
-- width
-- height
-- path_hints
-- filename_hints
+## Write
 
-并比较 manifest，发现：
+只保存长期有效的资源组织规则和人工确认结果，不保存临时扫描状态。
 
-- new
-- changed
-- deleted
-- unchanged
+# Failure Handling
 
-### review
+- 工具缺失或执行失败：停止依赖该工具的自动变更，并报告失败原因。
+- 资源语义不确定：保持原位置或进入 pending，不强行分类。
+- 检测到潜在 Godot 引用风险：停止移动、重命名或删除，先请求确认或执行引用检查。
+- manifest 与实际资源不一致：先报告差异，再按用户要求执行同步。
+- 批量操作出现部分失败：保留已知状态，停止继续扩大变更范围，并输出可恢复的状态。
 
-为需要人工确认的资源生成 `.review.json`。
-
-### apply
-
-读取人工确认结果并更新 manifest。
-
-### sync
-
-执行扫描 + 生成 review。
-
-### check
-
-检查：
-
-- 标准目录
-- 文件命名
-- 重复资源
-- manifest 状态
-- pending review
-- 动画帧连续性
-- 明显非法路径
-
-### organize
-
-仅整理高置信度、规则明确的资源。
-
-不确定资源必须进入 pending，而不是强行分类。
-
----
-
-## 4. Scanner Is Not Vision
-
-这是本 Skill 的硬规则。
-
-Scanner 不理解图片内容，不进行：
-
-- 图像分类
-- OCR
-- 角色识别
-- 场景识别
-- 风格识别
-- 自动视觉语义判断
-
-Scanner 可以根据：
-
-- 路径
-- 文件名
-- 扩展名
-- 文件尺寸
-- hash
-
-产生 `path_hints` / `filename_hints`。
-
-这些是 hints，不是最终语义。
-
----
-
-## 5. Semantic Confirmation
-
-最终语义字段由人确认：
-
-```json
-{
-  "id": "character_goblin",
-  "type": "character",
-  "category": "enemy",
-  "tags": ["goblin", "attack"],
-  "status": "candidate",
-  "character": "goblin",
-  "action": "attack",
-  "direction": null,
-  "frame": 0,
-  "description": "Goblin attack frame",
-  "source": null,
-  "notes": null
-}
-```
-
-最少要求：
-
-- id
-- type
-- category
-- status
-
----
-
-## 6. Stable IDs
-
-路径不是资源的稳定身份。
-
-例如：
-
-```text
-characters/enemies/goblin/goblin_attack_00.png
-```
-
-可以拥有：
-
-```text
-character_goblin
-```
-
-如果以后路径改变，ID 尽量保持不变。
-
-推荐：
-
-```text
-character_player
-character_goblin
-item_sword_iron
-prop_forest_tree_01
-vfx_fireball_hit
-ui_inventory_slot
-```
-
----
-
-## 7. Status
+# Permission Model
 
 允许：
 
-```text
-draft
-candidate
-approved
-deprecated
-archived
-```
+- 创建缺失的标准资源目录
+- 扫描资源
+- 生成 hints、review 和报告
+- 对规则明确且低风险的新资源进行组织
 
-不要把 `final`、`new`、`old` 当作长期状态。
+需要确认：
 
----
+- 删除未知资源
+- 覆盖已确认语义
+- 大规模移动已有 Godot 资源
+- 重命名已有引用资源
+- 修改核心项目资源组织规则
 
-## 8. Naming
+# Skill Completion Report
 
-统一使用：
-
-```text
-lowercase_snake_case
-```
-
-避免：
+完成后输出：
 
 ```text
-Final.png
-NewPlayer.png
-image1.png
-test.png
-player_final2.png
+Skill:
+
+任务:
+
+修改内容:
+
+验证结果:
+
+状态:
+
+后续建议:
 ```
 
-动画推荐：
+# Notes
+
+稳定资源 ID 不应依赖路径。例如：
 
 ```text
-[object]_[action]_[direction]_[frame].png
+characters/enemies/goblin/goblin_attack_00.png
+→ character_goblin
 ```
 
-例如：
+推荐命名使用 lowercase_snake_case；动画帧可采用 `[object]_[action]_[direction]_[frame].png`，帧号固定宽度并从 `00` 开始。
 
-```text
-player_walk_down_00.png
-player_walk_down_01.png
-player_walk_down_02.png
-```
-
-帧号固定宽度，从 `00` 开始。
-
----
-
-## 9. Classification
-
-标准顶层类型：
+标准资源类型可包括：
 
 ```text
 character
@@ -290,293 +274,4 @@ portrait
 font
 ```
 
-分类优先参考：
-
-1. 已确认 metadata
-2. 已知路径
-3. 文件名规则
-4. 人工 review
-
-不能仅凭文件名猜测就覆盖已确认 metadata。
-
----
-
-## 10. Folder Rules
-
-推荐：
-
-```text
-assets/characters/
-assets/environments/
-assets/tilesets/
-assets/backgrounds/
-assets/props/
-assets/items/
-assets/vfx/
-assets/ui/
-assets/portraits/
-assets/fonts/
-```
-
-可以进一步细分：
-
-```text
-assets/characters/player/
-assets/characters/enemies/goblin/
-assets/props/forest/
-assets/vfx/fireball/
-assets/ui/inventory/
-```
-
-但不要为了“看起来整齐”产生过度嵌套。
-
----
-
-## 11. Automatic Organization Rules
-
-Agent 可以自动执行：
-
-- 创建缺失标准目录
-- 扫描资源
-- 生成 hints
-- 更新 scanner facts
-- 生成 review
-- 对规则明确的新增资源进行组织
-
-Agent 不应自动执行：
-
-- 删除未知资源
-- 覆盖已确认语义
-- 猜测不确定资源类型
-- 大规模移动已有 Godot 资源而不检查引用
-- 任意重命名已经被场景、脚本或资源引用的文件
-
----
-
-## 12. Godot Safety
-
-在移动 / 重命名 / 删除已有资源之前：
-
-1. 查找 Godot 场景和资源引用。
-2. 检查 `.tscn`、`.tres`、`.godot` 相关导入/引用情况。
-3. 检查脚本中的路径字符串。
-4. 执行变更。
-5. 再次扫描。
-6. 运行项目或至少检查相关场景。
-
-优先采用“新增规范目录 + 明确迁移计划”，而不是盲目批量移动。
-
----
-
-## 13. New / Changed / Deleted
-
-新文件：
-
-```text
-path 不在 manifest
-```
-
-修改文件：
-
-```text
-path 相同
-sha256 不同
-```
-
-删除文件：
-
-```text
-manifest 有
-scan 不再发现
-```
-
-因此，即使：
-
-```text
-player.png
-```
-
-被替换成另一个内容完全不同的 `player.png`，也会被检测为 changed。
-
----
-
-## 14. Manifest
-
-Manifest 是项目级资产索引，不是图片本身。
-
-推荐结构：
-
-```json
-{
-  "schema_version": 3,
-  "project": "MyGame",
-  "assets": [],
-  "pending": []
-}
-```
-
-每个 asset 分为：
-
-```text
-auto
-human
-```
-
-`auto` 是 Scanner 管理的事实。
-
-`human` 是人工确认的语义。
-
-不要让 Agent 手工改写 Scanner facts。
-
----
-
-## 15. Review Workflow
-
-```text
-assets/
-   ↓
-scan
-   ↓
-new / changed / deleted
-   ↓
-pending
-   ↓
-review
-   ↓
-human edits asset.human
-   ↓
-apply
-   ↓
-asset_manifest.json
-   ↓
-check
-```
-
-如果语义不确定：
-
-```text
-不要猜
-↓
-pending
-↓
-等待人工确认
-```
-
----
-
-## 16. Agent Decision Policy
-
-处理 Art Asset 时：
-
-### Step 1
-读取本 Skill。
-
-### Step 2
-读取相关 reference：
-
-- folder_structure.md
-- naming.md
-- metadata.md
-- workflow.md
-- godot_safety.md
-- classification.md
-- animation.md
-- organization.md
-
-### Step 3
-读取 manifest。
-
-### Step 4
-运行 scan/check。
-
-### Step 5
-对于新增资源：
-
-- 能确定 → 按规则组织
-- 不能确定 → pending/review
-
-### Step 6
-涉及已有 Godot 引用时先执行安全检查。
-
-### Step 7
-变更后再次 scan/check。
-
----
-
-## 17. Do Not Guess
-
-如果一个文件：
-
-```text
-assets/mystery_01.png
-```
-
-无法可靠判断是：
-
-- prop
-- item
-- character
-- background
-
-不要把它强行放入某一类。
-
-应保持：
-
-```text
-pending
-```
-
-并等待人工确认。
-
----
-
-## 18. Recommended Agent Operations
-
-Agent 可以自然语言执行：
-
-```text
-初始化艺术资源目录
-扫描所有艺术资源
-检查资源规范
-找出新增资源
-找出重复资源
-整理明显符合规范的新资源
-生成待确认资源列表
-更新资源 manifest
-检查某个角色的动画帧
-检查命名问题
-```
-
----
-
-## 19. Definition of Done
-
-Art Asset 管理任务完成时：
-
-- 标准目录存在
-- 文件路径符合规则
-- 命名符合规则
-- 新资源已扫描
-- changed/deleted 已发现
-- 不确定资源进入 pending
-- manifest 可用
-- review 已应用的资源有稳定 ID
-- 移动/删除操作经过 Godot 安全检查
-- 最终重新 scan/check
-
----
-
-## 20. Future Extensions
-
-未来可以增加：
-
-- Godot EditorPlugin
-- `.import` / import settings 检查
-- SpriteFrames 自动检查
-- Atlas / sprite sheet metadata
-- 动画组一致性检查
-- 资源使用频率分析
-- 未引用资源报告
-- AI Agent 与 Godot Editor MCP/插件联动
-
-这些属于扩展，不应破坏当前的文件、manifest 和 review 规范。
+Manifest 推荐将 Scanner 管理的 auto facts 与人工确认的 human semantic fields 分开。
