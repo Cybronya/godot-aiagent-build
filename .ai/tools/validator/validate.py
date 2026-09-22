@@ -173,8 +173,33 @@ def main():
         records[sid]=parse_skill((config_dir/relpath).resolve(),r)
         if records[sid].get("id") and records[sid]["id"] != sid: r.fail(f"Registry/Skill id mismatch: registry={sid!r}, canonical={records[sid]['id']!r}")
 
+    # Bidirectional Skill/Registry integrity: every physical Skill directory must
+    # be registered, and every registry entry must resolve to a physical Skill.
+    skills_root=config_dir.parent/"skills"
+    physical_skills={}
+    if skills_root.is_dir():
+        for skill_dir in sorted(p for p in skills_root.rglob("*") if p.is_dir()):
+            if (skill_dir/"SKILL.md").is_file():
+                physical_skills[skill_dir.name]=skill_dir.resolve()
+            elif any(child.is_file() for child in skill_dir.iterdir()):
+                r.fail(f"Unrecognized Skill directory without SKILL.md: {skill_dir}")
+    else:
+        r.fail(f"Missing Skills root: {skills_root}")
+    for sid, physical_dir in physical_skills.items():
+        if sid not in registry_ids:
+            r.fail(f"Unregistered physical Skill directory: {physical_dir}")
+        elif records.get(sid, {}).get("dir") != physical_dir:
+            r.fail(f"Registry path mismatch for physical Skill {sid!r}: registry resolves to {records.get(sid, {}).get('dir')}, physical={physical_dir}")
+    for sid, rec in records.items():
+        if sid not in physical_skills:
+            r.fail(f"Registered Skill is missing from physical Skills tree: {sid!r}")
+
     types=cfg["types"].get("types",{}); valid=set(types)
-    dependency_direction=cfg["types"].get("dependency_direction",{})
+    dependency_direction=cfg["dependency"].get("category_direction",{})
+    if not dependency_direction:
+        r.fail("skill-dependency.yaml: missing category_direction")
+    elif set(dependency_direction) != valid:
+        r.fail("skill-dependency.yaml: category_direction must define exactly the categories from skill-types.yaml")
     for sid,rec in records.items():
         cat=rec.get("category")
         if cat and cat not in valid: r.fail(f"{sid}: unknown category {cat!r}")
