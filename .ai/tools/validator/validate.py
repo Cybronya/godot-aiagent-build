@@ -48,15 +48,19 @@ def heading_exists(text: str, heading: str) -> bool:
     return re.search(rf"^#{{1,6}}\s+{re.escape(heading)}\s*$", text, re.M) is not None
 
 def heading_value(text: str, heading: str):
-    match=re.search(rf"^(#{1,6})\s+{re.escape(heading)}\s*$", text, re.M)
+    # Canonical template fields are level-2 headings followed by one value line.
+    # Match the heading literally and read the first non-empty line after it.
+    pattern = r"^##[ \\t]+" + re.escape(heading) + r"[ \\t]*$"
+    match=re.search(pattern, text, re.M)
     if not match:
         return None
-    level=len(match.group(1))
-    end=re.search(rf"^#{{1,{level}}}\s+", text[match.end():], re.M)
-    block=text[match.end():match.end()+end.start()] if end else text[match.end():]
+    rest=text[match.end():]
+    next_heading=re.search(r"^##[ \\t]+", rest, re.M)
+    block=rest[:next_heading.start()] if next_heading else rest
     lines=[line.strip() for line in block.splitlines() if line.strip()]
-    return lines[0].strip("`") if lines else None
-
+    if not lines:
+        return None
+    return lines[0].strip("`").strip()
 def bullets(text: str, heading: str):
     block=section(text, heading)
     return [m.group(1).strip().strip(chr(96)) for m in re.finditer(r"^\s*-\s+(.+?)\s*$", block, re.M) if m.group(1).strip().lower() not in {"none","[]"}]
