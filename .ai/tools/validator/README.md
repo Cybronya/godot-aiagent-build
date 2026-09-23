@@ -10,10 +10,10 @@ Validator 只检查，不自动修改 Framework 文件。第一阶段只在用�
 python .ai/tools/validator/validate.py
 ```
 
-或：
+也可以显式指定配置目录：
 
 ```bash
-python .ai/validator/validate.py --config-dir .ai/config
+python .ai/tools/validator/validate.py --config-dir .ai/config
 ```
 
 依赖：Python 3 + PyYAML（`pip install pyyaml`）。
