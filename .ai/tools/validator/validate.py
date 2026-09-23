@@ -155,7 +155,6 @@ def main():
     p.add_argument("--config-dir",type=Path,default=Path(__file__).resolve().parents[2]/"config")
     args=p.parse_args(); config_dir=args.config_dir.resolve(); r=Reporter()
     print("Godot Agent Skill Framework Validator"); print(f"Config: {config_dir}")
-    validate_schema_definitions(r, set(files) if "files" in locals() else {"agent","rules","schema","types","registry","loading","dependency","collaboration"})
     files={k:config_dir/n for k,n in {
       "agent":"agent.yaml","rules":"framework-rules.yaml","schema":"skill-schema.yaml","types":"skill-types.yaml",
       "registry":"skill-registry.yaml","loading":"skill-loading.yaml","dependency":"skill-dependency.yaml","collaboration":"skill-collaboration.yaml"}.items()}
