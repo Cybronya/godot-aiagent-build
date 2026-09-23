@@ -47,8 +47,6 @@ Agent 不得假设 Skill 存在。
 
 - Skill ID 查询
 - Skill 路径解析
-- Skill ID 查询
-- Skill 路径解析
 
 Skill 的 category、load policy、dependencies 等 Canonical Metadata 必须从 Registry 指向的 `SKILL.md` 读取，不从 Registry 重复读取。
 
