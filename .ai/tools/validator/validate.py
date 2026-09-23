@@ -158,6 +158,7 @@ def main():
     files={k:config_dir/n for k,n in {
       "agent":"agent.yaml","rules":"framework-rules.yaml","schema":"skill-schema.yaml","types":"skill-types.yaml",
       "registry":"skill-registry.yaml","loading":"skill-loading.yaml","dependency":"skill-dependency.yaml","collaboration":"skill-collaboration.yaml"}.items()}
+    validate_schema_definitions(r, set(files))
     template_path=config_dir/"SKILL_TEMPLATE.md"
     cfg={}
     structurally_invalid=set()
