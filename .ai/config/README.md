@@ -25,7 +25,7 @@ defines how Skills work
   ↓
 defines what the Agent can do
 
-.ai/validator/
+.ai/tools/validator/
   ↓
 checks whether the Framework currently satisfies its contracts
 ```
