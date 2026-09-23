@@ -21,6 +21,7 @@ import hashlib
 import json
 import re
 import shutil
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -626,7 +627,8 @@ def main() -> None:
         scan(root)
         review(root)
     elif args.command == "check":
-        check(root)
+        if not check(root):
+            sys.exit(1)
     elif args.command == "organize":
         organize(root)
 
