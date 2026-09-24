@@ -34,11 +34,11 @@ func _verify_player() -> void:
 	var health: Health = player.get_node("Health")
 	_died_count = 0
 	health.died.connect(_on_died)
-	if health.get_current_health() != 5:
-		_failures.append("Player 初始生命值应为 5，实际 %d" % health.get_current_health())
+	if health.get_current_health() != 10:
+		_failures.append("Player 初始生命值应为 10（max_health 覆写），实际 %d" % health.get_current_health())
 	health.take_damage(2)
-	if health.get_current_health() != 3:
-		_failures.append("Player 受 2 点伤害后应为 3，实际 %d" % health.get_current_health())
+	if health.get_current_health() != 8:
+		_failures.append("Player 受 2 点伤害后应为 8，实际 %d" % health.get_current_health())
 	health.take_damage(9999)
 	if health.get_current_health() != 0 or not health.is_dead() or _died_count != 1:
 		_failures.append("Player 致命伤害后死亡状态/事件不正确")
