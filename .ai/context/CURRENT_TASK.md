@@ -2,20 +2,17 @@
 
 ## 目标
 
-执行《架构回收分析》Proposal：将两轮真实开发验证的实践反向沉淀为 Framework 规则（P1 Workflow / P2 Principles / AD 归宿统一 / P4 陈旧文档清理），不开发新的 Gameplay。
+调整 Player 最大生命值为 10（Player2 保持 8），按修订后 Framework 的普通任务路径执行。
 
 ## 当前状态
 
-已完成：四项修改全部落地，Validator PASS（0 errors / 0 warnings），入口链完整，diff 审查无越界。
+已完成：场景覆写 + 两处测试期望值同步；首次验证发现残留旧期望值（5→3），修复后重验通过。胶水再评估检查项首次实际触发（attack_trigger 条件未熟，不提升）。
 
 ## 修改文件
 
-- `.ai/workflows/feature-development.md`：扩充为含适用范围判定的完整生命周期流程
-- `.ai/config/framework-rules.yaml`：追加 Feature 一等单元、AD 单一归宿两条 principle
-- `.ai/memory/DECISIONS.md`：声明唯一物理归宿，格式对齐实际 AD 字段
-- `.ai/skills/architecture/godot-project-architecture/references/architecture-memory.md`：明确 template 仅为 information-model 指导
-- `AI_ENTRY.md`：删除失效的 Legacy Registry 章节，重新编号
+- `Features/player_movement/Player.tscn`：Health 实例覆写 max_health=10
+- `Tests/test_health_integration.gd`、`Tests/test_damage_interaction.gd`：期望值同步
 
 ## 下一步
 
-用一个新的真实开发任务验证 Framework 修改是否实际改变 Agent 行为。
+无阻塞事项。

@@ -25,6 +25,7 @@
 2. Architecture Memory（已接受的 Decisions、validated Patterns、既有约定）
 3. 已有 Features（扫描 Features/ 目录，读取各 Feature 的 README）
 4. 与任务相关的 Skills（按 skill-loading.yaml 的 selection_order 取最小集合）
+5. 待再评估的胶水：是否存在此前判定为「暂不 Feature 化」的场景级组合逻辑，其记录的提升条件是否已经成熟（见相关 AD）
 
 禁止跳过 Discovery 直接实现。
 
@@ -33,9 +34,26 @@
 依据 Discovery 简报与任务目标判断：
 
 - 是 → 进入第 3 节
-- 否 → 按普通任务流程执行（相关 Skill 工作流 + 验证），完成后按需更新 Context，不进入本 Workflow 后续步骤
+- 否 → 进入「普通任务最小路径」，完成后直接 Finish，不进入本 Workflow §3 之后的步骤
+
+### 普通任务最小路径（No 分支）
+
+普通任务不允许无验证收尾，最小步骤为：
+
+1. Implementation：按相关 Skill 的工作流实现
+2. Verification：至少覆盖被修改行为的项目级验证；修改涉及已有 Feature 时，必须附带该 Feature 的回归验证
+3. Context / Memory：按需更新，无新信息时明确跳过
+4. Finish：报告结果；不进入 Finalization
 
 ## 3. Reuse or Build（必须显式分支）
+
+复用对象不止 Feature。Discovery 简报必须核对三类既有资产：
+
+- **Feature / implementation reuse**：已有 Feature 的实现与公开接口
+- **Architecture Decision / constraint reuse**：已接受的 AD 直接作为约束应用，不重新论证
+- **Memory / engineering knowledge reuse**：Memory 与 Context 中已验证的工程经验（如测试陷阱、环境事项）
+
+Reuse or Build 分支判断本身只针对「是否需要新实现」；规则与经验的复用不改变分支结果，但直接决定实现方式。
 
 依据 Discovery 简报判断，不得凭空假设：
 
@@ -62,6 +80,7 @@
 - Feature 自身验证（随 Feature 交付、可重复执行）
 - 项目级集成验证（Feature 接入项目后的行为验证）
 - 两级验证全部通过，才允许进入 Finalization
+- 验证失败时：分析原因 → 修复 → 重新验证，直至结果稳定；失败与修复过程记入 Context
 
 ## 6. Finalization（固化检查）
 
@@ -78,5 +97,6 @@
 - 新的持久约束 → Architecture Memory
 - 任务状态 → Context
 - 复用结论、放置规则变化 → 同步受影响的 Skill references
+- 工程经验与踩坑记录（语言/工具陷阱等）→ Context，不进入 Architecture Memory
 
 Memory Update: None 也是合法结果。

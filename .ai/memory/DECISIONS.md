@@ -71,3 +71,31 @@ supersedes：
 ### 验证
 
 - Health 组件验证、Player/Player2 双角色集成验证、移动回归、主场景启动全部通过。
+
+---
+
+## AD-003: 场景级组合胶水在出现第二个消费者之前不提升为 Feature
+
+- 状态：accepted
+- 日期：2026-09-25
+- supersedes：null
+
+### 决定
+
+- 场景级组合/胶水逻辑（首个案例：Damage Interaction 的攻击触发器 `Scenes/attack_trigger.gd`）在出现真实的第二个消费者之前保持为游戏侧实现，不提升为 Feature。
+- 判定为「暂不 Feature 化」时，必须同时记录其提升条件（例如：出现多攻击者、多场景复用等真实复用需求）。
+- Feature Development Workflow 的 Discovery 阶段包含「待再评估的胶水」检查项，每次发现时对提升条件做再评估。
+
+### 原因
+
+- 本轮 Damage Interaction 任务实际采用并验证了这一判断：触发动作→伤害路由是游戏侧组合（谁打谁、用什么键是场景设计），受击/死亡规则已由 health Feature 封装；为一键交互新建攻击 Feature 属过度抽象。
+- 现在将该判断正式持久化为项目 Architecture Decision，使后续 Discovery 能基于记录再评估提升时机，而不是依赖会话记忆。
+
+### 影响
+
+- 场景级组合逻辑的「暂不提升」判定必须附带提升条件并持久化。
+- Discovery 检查项引用本决策；满足提升条件时按 Feature Development Workflow 的 Build 分支执行提升。
+
+### 验证
+
+- 伤害交互验证（真实 main.tscn）一次通过；全量回归（Health/移动/集成）与主场景启动全部通过，胶水方案未破坏任何既有能力。
