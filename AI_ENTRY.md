@@ -130,19 +130,7 @@ Validator 负责检查：
 
 当前 Validator **不负责 Git 检查**。
 
-## 7. Legacy Registry
-
-`.ai/registry/` 属于旧版 Skill Registry 结构。
-
-Agent 不应将其作为当前 Skill Discovery 的来源。
-
-当前唯一有效的 Skill Registry：
-
-`.ai/config/skill-registry.yaml`
-
-在完成迁移后，旧 Registry 可以删除。
-
-## 8. Entry Flow
+## 7. Entry Flow
 
 ```text
 USER TASK
@@ -166,7 +154,7 @@ Validation
 Result
 ```
 
-## 9. Core Rule
+## 8. Core Rule
 
 Framework 的机器入口、Skill Registry 与 Skill 定义必须保持单一来源：
 

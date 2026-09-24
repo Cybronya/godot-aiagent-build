@@ -30,6 +30,8 @@ Provides retrieval-oriented pointers to decisions, patterns and architecture are
 
 Record explicit choices that constrain future architecture.
 
+The project-declared physical home of Decisions is the single storage location. The Skill's architecture-decision-template is an information-model and creation guide for writing decisions; it is not a second storage format.
+
 ## Patterns
 
 Record validated recurring architecture structures.

@@ -5,6 +5,7 @@
 ```
 project/
 ├── Scenes/
+├── Features/
 ├── Scripts/
 ├── Assets/
 ├── Resources/
@@ -18,6 +19,7 @@ project/
 
 - 项目文件必须分类管理，禁止散落在根目录
 - 例外：`.ai/`、`addons/` 保持既有名称（.ai 为 AI 框架约定，addons/ 为 Godot 引擎生成）
+- 可复用 Feature 统一放在 `Features/<feature_name>/`，场景、脚本与测试自包含（见 `.ai/memory/DECISIONS.md` AD-001）
 - 艺术资源目录由 godot-art-assets Skill 管理，遵循其规范（`assets/` 下小写子目录），两套体系以 `.ai/tools/godot-art-assets/scan_assets.py` 的行为为准
 
 冲突处理：

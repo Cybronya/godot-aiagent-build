@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://buaq673iyr04d"]
+[gd_scene load_steps=3 format=3 uid="uid://buaq673iyr04d"]
+
+[ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Player2.tscn" id="2_player2"]
 
 [node name="main" type="Node2D" unique_id=421451322]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+
+[node name="Player2" parent="." instance=ExtResource("2_player2")]
+position = Vector2(220, 80)

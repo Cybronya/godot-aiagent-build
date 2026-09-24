@@ -14,6 +14,8 @@ principles:
   - User decisions have highest priority.
   - SKILL.md is the canonical source of Skill metadata.
   - Registry is a discovery index and must not become a second source of truth.
+  - Feature is a project-level reusable implementation unit; its physical conventions are defined by the project Architecture Decision, not by Framework configuration.
+  - Architecture Decisions must have one single, explicit project-level physical home; the home is recorded where the decisions live.
 
 path_resolution:
   rule: relative_paths
