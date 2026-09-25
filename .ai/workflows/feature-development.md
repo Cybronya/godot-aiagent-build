@@ -92,6 +92,43 @@ Reuse or Build 分支判断本身只针对「是否需要新实现」；规则�
 - [ ] 验证：存在可重复执行的验证
 - [ ] Architecture Decision：涉及架构决策的已记录（引用编号）
 
+### 6.1 Reusable Code Report（最终报告必须输出）
+
+Finalization 完成后，Agent 必须在最终报告中主动说明本次代码的可复用价值。该报告不是简单的文件清单，而是面向下一次 Agent 使用的「Lego 使用说明」。
+
+至少包含：
+
+1. **Reused Features**
+   - 本次实际复用了哪些既有 Feature
+   - 通过什么公开接口、参数或场景组合使用
+   - 为什么没有复制或重新实现其内部逻辑
+
+2. **New Reusable Features**
+   - 本次新增并固化了哪些可复用能力
+   - 每个 Feature 的单一职责
+   - 对外公开的接口、参数、信号或场景入口
+
+3. **Composition / Usage**
+   - 展示典型 Entity / Scene 如何组合这些 Feature
+   - 说明依赖关系与组合顺序
+   - 给出至少一个未来可迁移到其他 Entity / Scene 的使用方式
+
+4. **Reuse Boundaries**
+   - 明确哪些场景适合复用
+   - 明确哪些场景不应直接复用
+   - 如果存在相近但不同的能力，说明应扩展现有 Feature 还是创建新 Feature
+
+5. **Validation Status**
+   - 哪些 Feature 已通过自身验证
+   - 哪些组合已通过项目级集成验证
+   - 说明这些验证为何足以支持其作为稳定 Lego 被后续任务复用
+
+6. **Reuse Decision**
+   - 对本次新增代码给出明确结论：哪些部分已经达到「可作为项目标准积木复用」的程度
+   - 尚未达到稳定复用标准的代码不得描述为已固化 Feature，并说明后续需要什么验证
+
+最终报告中的复用说明必须基于实际代码、公开接口和已执行验证，不得仅根据文件命名或实现意图推断可复用性。
+
 ## 7. Memory / Context Update
 
 - 新的持久约束 → Architecture Memory
