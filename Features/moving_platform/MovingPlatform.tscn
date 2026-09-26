@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Features/moving_platform/moving_platform.gd" id="1_platform"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ride"]
+size = Vector2(160, 80)
+
+[node name="MovingPlatform" type="AnimatableBody2D"]
+sync_to_physics = true
+script = ExtResource("1_platform")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.45, 0.62, 0.8, 1)
+polygon = PackedVector2Array(-48, -20, 48, -20, 48, 20, -48, 20)
+
+[node name="RideZone" type="Area2D" parent="."]
+
+[node name="RideShape" type="CollisionShape2D" parent="RideZone"]
+shape = SubResource("RectangleShape2D_ride")
+
+[connection signal="body_entered" from="RideZone" to="." method="_on_ride_zone_body_entered"]
+[connection signal="body_exited" from="RideZone" to="." method="_on_ride_zone_body_exited"]

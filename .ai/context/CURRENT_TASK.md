@@ -2,32 +2,38 @@
 
 ## 目标
 
-MCP 工具链实战验证：新增「钥匙与宝箱」独立场景（三把钥匙任意顺序收集 → 宝箱打开 → 进入宝箱完成），必须真实使用项目 godot_mcp 插件的工具完成 Discovery/检查/Runtime 检查。
+MCP 第二轮独立实战：新增「平台密室」场景（往返渡船 + 钥匙 + 钥匙门 + 出口），验证 Agent 通过 MCP 自主完成 Discovery、能力识别、Runtime 观察与问题定位。
 
 ## 当前状态
 
 已完成并通过验证：
 
-- 新 Feature `Features/collect_pickup/`：接触拾取（收集广播 + 自移除 + 一次性幂等）；`collected(value, pickup_id)` 与 `ConditionGate.set_condition(value, id)` 签名完全一致，场景直连零 binds
-- `Scenes/ChestVault.tscn` + `chest_vault.gd`（胶水仅完成呈现/重开）：三把 CollectPickup 钥匙 → ConditionGate(All, 3) → Chest（openable_door 旋转 90° 参数化变体）→ CompleteZone；4 条 connection 直连，零胶水接线
+- 新 Feature `Features/moving_platform/`：AnimatableBody2D 三角波往返 + RideZone 渡载（位移搬运语义）；**非实体渡载**设计（本体不带碰撞，避免推挤对抗；需要实体化时场景级添加）
+- `Scenes/PlatformVault.tscn` + `platform_vault.gd`（胶水仅完成呈现/重开）：隔墙带 110px 缺口，渡船沿缺口轴往返（travel=(300,0), period=6）；Key(collect_pickup) → Gate(All,1) → KeyDoor(openable_door)；2 条 connection 直连
+- MCP 实录：headless editor + `--mcp-server` 拉起服务；doctor / get_project_info / list_project_scenes / validate_script×2（0 错误）/ run_project（scene_path + allow_window）/ get_runtime_info（/root/PlatformVault, fps 60, 40 节点）/ get_runtime_scene_tree（Ferry/Key/KeyDoor/ConditionGate 全确认）/ stop_project
 - 未修改 Framework / MCP / 既有 Feature
 
-MCP 实录（全部真实调用，curl → godot_mcp CLI API）：
+关键经验（供后续任务参考）：
 
-- 无编辑器时 9080 无监听；headless editor + `-- --mcp-server` 参数强制启动成功（持久化设置 auto_start=false 会覆盖 plugin.cfg 的 true）
-- doctor / catalog（155 工具）/ get_project_info / list_project_scenes / list_project_input_actions / get_scene_structure 均成功
-- run_project 需 arguments.allow_window=true（Vibe Coding 防护）；get_runtime_info/scene_tree 需 envelope 级 allow_open_world=true
-- get_runtime_info 实证：current_scene=/root/ChestVault，fps 145，37 节点；scene_tree 确认 3 把钥匙 + ConditionGate；stop_project 正常
-- get_runtime_node_properties 对 StaticBody 路径仍 404（已知边界，用 scene_tree 覆盖）
+- top-down 渡载与实心墙对抗不兼容：实体甲板扫过墙区会把等待的玩家挤飞；改为「非实体渡载 + 隔墙带缺口」几何自洽
+- 测试对比逻辑缺陷模式：循环内每帧重置基线导致只能测出单帧位移（~2px），阈值判断永远失败；基线必须设在循环外
+- 类型化函数形参不能接收 freed 对象（第二次确认）
+- 编辑器会话会自动重存打开过的场景（main.tscn 曾被重存并丢失 Player2 节点），进程清理后需 git diff 检查并 checkout 恢复
+- run_project 会写 MCPRuntimeProbe autoload 到 project.godot，Runtime 检查后需清理
 
-关键经验：
+验证结果：
 
-- MCP 参数两层：arguments（工具参数，含 allow_window）+ envelope（allow_open_world/limit 等 API 级控制）
-- 类型化函数形参不能接收 freed 对象（协程中断挂起）；需等待释放的判定用无类型形参 + is_instance_valid
-- run_project 会临时写入 MCPRuntimeProbe autoload 到 project.godot（引擎自动行为），提交前需剥离
+- moving_platform 自身验证（往返/渡载/下车）：PASS
+- Platform Vault 集成验证（平台位移/渡运/钥匙消失/门阻挡与解除/完成/重置）：PASS
+- 全量回归：22/22 PASS；五场景启动 0 错误；Validator PASS
 
-验证结果：20/20 测试 PASS；四场景启动 0 错误；Validator PASS。
+## 修改文件
+
+- `Features/moving_platform/`（新增 4 文件）
+- `Scenes/PlatformVault.tscn`、`Scenes/platform_vault.gd`（新增）
+- `Tests/test_platform_vault.gd`（新增）
+- `.ai/context/CURRENT_TASK.md`（本文件）
 
 ## 下一步
 
-无阻塞事项。
+无阻塞事项。成果未提交（等待用户指示）。

@@ -1,0 +1,116 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scenes/platform_vault.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://Features/moving_platform/MovingPlatform.tscn" id="3_platform"]
+[ext_resource type="PackedScene" path="res://Features/collect_pickup/CollectPickup.tscn" id="4_key"]
+[ext_resource type="PackedScene" path="res://Features/condition_gate/ConditionGate.tscn" id="5_gate"]
+[ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="6_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(900, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(24, 512)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_seg"]
+size = Vector2(24, 192)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_divider"]
+size = Vector2(24, 255)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(120, 120)
+
+[node name="PlatformVault" type="Node2D"]
+script = ExtResource("1_room")
+
+[node name="Player" parent="." instance=ExtResource("2_player") groups=["players"]]
+position = Vector2(-330, 0)
+
+[node name="Room" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/WallTop"]
+position = Vector2(0, -250)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallBottom" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/WallBottom"]
+position = Vector2(0, 250)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallLeft" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/WallLeft"]
+position = Vector2(-420, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRightUpper" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/WallRightUpper"]
+position = Vector2(420, -160)
+shape = SubResource("RectangleShape2D_wall_seg")
+
+[node name="WallRightLower" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/WallRightLower"]
+position = Vector2(420, 160)
+shape = SubResource("RectangleShape2D_wall_seg")
+
+[node name="DividerUpper" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/DividerUpper"]
+position = Vector2(0, -182)
+shape = SubResource("RectangleShape2D_divider")
+
+[node name="DividerLower" type="StaticBody2D" parent="Room"]
+
+[node name="Shape" type="CollisionShape2D" parent="Room/DividerLower"]
+position = Vector2(0, 182)
+shape = SubResource("RectangleShape2D_divider")
+
+[node name="DividerVisual" type="Polygon2D" parent="Room"]
+color = Color(0.4, 0.4, 0.45, 1)
+polygon = PackedVector2Array(-12, -310, 12, -310, 12, -55, -12, -55, -12, 55, 12, 55, 12, 310, -12, 310)
+
+[node name="Mechanism" type="Node2D" parent="."]
+
+[node name="Ferry" parent="Mechanism" instance=ExtResource("3_platform")]
+position = Vector2(-150, 0)
+travel = Vector2(300, 0)
+period = 6.0
+
+[node name="Key" parent="Mechanism" instance=ExtResource("4_key")]
+position = Vector2(240, 0)
+pickup_id = "ferry_key"
+
+[node name="ConditionGate" parent="Mechanism" instance=ExtResource("5_gate")]
+condition_count = 1
+
+[node name="KeyDoor" parent="Mechanism" instance=ExtResource("6_door")]
+position = Vector2(410, 0)
+
+[node name="CompleteZone" type="Area2D" parent="Mechanism"]
+position = Vector2(500, 0)
+
+[node name="ZoneShape" type="CollisionShape2D" parent="Mechanism/CompleteZone"]
+shape = SubResource("RectangleShape2D_zone")
+
+[node name="ZoneVisual" type="Polygon2D" parent="Mechanism/CompleteZone"]
+color = Color(0.45, 0.62, 0.8, 0.3)
+polygon = PackedVector2Array(-60, -60, 60, -60, 60, 60, -60, 60)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 760.0
+offset_bottom = 36.0
+text = "乘渡船穿过隔墙缺口，拾取钥匙打开门，进入出口（R 重开）"
+
+[connection signal="collected" from="Mechanism/Key" to="Mechanism/ConditionGate" method="set_condition"]
+[connection signal="fulfilled" from="Mechanism/ConditionGate" to="Mechanism/KeyDoor" method="set_open"]
