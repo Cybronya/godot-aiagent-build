@@ -7,13 +7,14 @@
 - `signal activated(triggered: bool)`：状态变化广播（true=已触发；reset 广播 false）
 - `is_triggered() -> bool`：查询当前状态
 - `reset()`：恢复未触发状态（供场景级重置流程调用）
-- `@export trigger_mode`：Latching（默认，触发后保持）/ Repeat（每次进入都触发）
+- `@export trigger_mode`：Latching（默认，触发后保持）/ Repeat（每次进入都触发）/ Toggle（每次进入翻转状态并广播新状态）
 - `@export target_group: String`：触发实体所在组（默认 `players`）
 
 ## 行为契约
 
 - Latching：首次进入触发，离开不回退，重进不重复触发
 - Repeat：每次进入范围都触发（需明确理由才使用）
+- Toggle：每次进入翻转激活状态并广播新状态（祭坛/按钮类可取消机关）
 - 组外实体进入不触发；状态只有组件自身与 `reset()` 能改变
 
 ## 复用方式

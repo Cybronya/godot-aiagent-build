@@ -72,7 +72,32 @@ func _initialize() -> void:
 	if not gate3.is_fulfilled() or _events.size() != baseline + 1:
 		_failures.append("三条件齐后应达成并广播一次")
 
-	# 6. 多实例独立
+	# 6. AtLeast 聚合：动态重评，条件数随上报值升降
+	var gate_al: Node = packed.instantiate()
+	gate_al.aggregation = 1
+	gate_al.condition_count = 2
+	root.add_child(gate_al)
+	gate_al.fulfilled.connect(_on_fulfilled)
+	var al_baseline := _events.size()
+	gate_al.set_condition(true, "p")
+	gate_al.set_condition(true, "q")
+	if not gate_al.is_fulfilled() or _events.size() != al_baseline + 1:
+		_failures.append("AtLeast 两真应达成并广播一次 true")
+	gate_al.set_condition(true, "r")
+	if not gate_al.is_fulfilled() or _events.size() != al_baseline + 1:
+		_failures.append("三真时应保持达成且不重复广播")
+	gate_al.set_condition(false, "p")
+	if not gate_al.is_fulfilled():
+		_failures.append("回落到两真时 AtLeast 应保持达成（阈值 2）")
+	gate_al.set_condition(false, "q")
+	if gate_al.is_fulfilled() or _events.size() != al_baseline + 2:
+		_failures.append("回落到一真时应回落未达成并广播一次 false")
+	gate_al.set_condition(true, "p")
+	if not gate_al.is_fulfilled() or _events.size() != al_baseline + 3:
+		_failures.append("恢复两真后应再次达成")
+	gate_al.queue_free()
+
+	# 7. 多实例独立
 	var gate_a: Node = packed.instantiate()
 	var gate_b: Node = packed.instantiate()
 	root.add_child(gate_a)
@@ -84,6 +109,7 @@ func _initialize() -> void:
 
 	gate_a.queue_free()
 	gate_b.queue_free()
+	gate_al.queue_free()
 	gate3.queue_free()
 	await process_frame
 	_report()

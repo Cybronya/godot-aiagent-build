@@ -12,24 +12,27 @@
 
 ## 聚合契约
 
-`fulfilled = 全部已上报条件为 true 且 条件数 ≥ condition_count`
+`@export aggregation` 决定聚合方式：
 
-- 任何已上报条件为 false 都会使聚合回落（set_condition 是绝对值上报）
+- **All（默认）**：`fulfilled = 全部已上报条件为 true 且 条件数 ≥ condition_count`，保持型（达成后保持，直到 reset）
+- **AtLeast**：`fulfilled = 当前值为 true 的条件数 ≥ condition_count`，动态重评（条件回落立即回落）
+
+- All 模式下任何已上报条件为 false 都会使聚合回落（set_condition 是绝对值上报）
 - 跨越阈值才广播；重复上报同值不产生多余信号
-- 与 trigger_switch 的 `activated(bool)`、openable_door 的 `set_open(bool)` 同签名，信号直连零胶水
+- 与 trigger_switch 的 `activated(bool)`、openable_door 的 `set_open(bool)` 同签名，信号直连零胶水；AtLeast 与 Toggle 源组合表达「至少 N 个激活」
 
 ## 复用方式
 
-1. 实例化 `ConditionGate.tscn`，配置 `condition_count`
-2. 场景层将各开关的 `activated` 直连 `set_condition` 并用 binds 绑定条件 id（如 `binds=["switch_a"]`）
+1. 实例化 `ConditionGate.tscn`，配置 `condition_count` 与 `aggregation`
+2. 两种已验证的接入方式：
+   - `activated(bool)` 类信号 + binds 绑定 id（如 `binds=["switch_a"]`，见 EscapeRoom）
+   - `collected(value, pickup_id)` 直连（签名一致无需 binds，见 ChestVault）
 3. 将 `fulfilled` 连接到目标（如 `OpenableDoor.set_open`）
-
-
 
 ## 边界
 
-- 保持型语义：达成后保持满足，直到 reset（与 Latching 开关一致）
-- 需要「条件失效立即失效」的动态重评：扩展本组件，不另建
+- All 为保持型语义：达成后保持满足，直到 reset（与 Latching 开关一致）
+- AtLeast 为动态重评语义：条件数低于阈值立即回落
 - 不解析条件来源、不管理输入时序（上报顺序无关结果）
 
 ## 结构

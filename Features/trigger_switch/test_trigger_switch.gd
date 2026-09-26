@@ -59,7 +59,27 @@ func _initialize() -> void:
 	if not await _wait_for_events(count_before + 2):
 		_failures.append("reset 后再次进入应重新触发（等待超时）")
 
-	# 3. Repeat 模式：每次进入范围都触发
+	# 3. Toggle 模式：每次进入翻转激活状态并广播新状态
+	var sw_t: Area2D = packed.instantiate()
+	sw_t.add_child(shape.duplicate())
+	sw_t.set("trigger_mode", 2)
+	sw_t.position = Vector2(1500, 0)
+	root.add_child(sw_t)
+	sw_t.activated.connect(_on_activated)
+	var toggle_baseline := _events.size()
+	intruder.global_position = Vector2(1500, 0)
+	await _wait_frames(10)
+	if _events.size() != toggle_baseline + 1 or _events[_events.size() - 1] != true or not sw_t.is_triggered():
+		_failures.append("Toggle 首次进入应激活并广播 true")
+	intruder.global_position = Vector2(1800, 0)
+	await _wait_frames(10)
+	intruder.global_position = Vector2(1500, 0)
+	await _wait_frames(10)
+	if _events.size() != toggle_baseline + 2 or _events[_events.size() - 1] != false or sw_t.is_triggered():
+		_failures.append("Toggle 再次进入应取消激活并广播 false")
+	sw_t.queue_free()
+
+	# 4. Repeat 模式：每次进入范围都触发
 	var sw2: Area2D = packed.instantiate()
 	sw2.add_child(shape.duplicate())
 	sw2.set("trigger_mode", 1)
@@ -76,7 +96,7 @@ func _initialize() -> void:
 	if _events.size() != repeat_baseline + 2:
 		_failures.append("Repeat 开关两次进入应触发 2 次，实际 %d 次" % (_events.size() - repeat_baseline))
 
-	# 4. 组外实体进入：不触发（使用全新 Latching 开关）
+	# 5. 组外实体进入：不触发（使用全新 Latching 开关）
 	var outsider := _make_player(false)
 	root.add_child(outsider)
 	var sw3: Area2D = packed.instantiate()

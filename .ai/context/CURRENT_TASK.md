@@ -2,40 +2,31 @@
 
 ## 目标
 
-新增独立 Escape Room 场景，验证 Reusable Features 脱离 SurvivalArena 的再组合能力；流程为 Discovery → Reuse → Composition → Identify Missing Capability → Minimal Build → Verification → Finalization。
+MCP 工具链实战验证：新增「钥匙与宝箱」独立场景（三把钥匙任意顺序收集 → 宝箱打开 → 进入宝箱完成），必须真实使用项目 godot_mcp 插件的工具完成 Discovery/检查/Runtime 检查。
 
 ## 当前状态
 
 已完成并通过验证：
 
-- 复用（零改动）：player_movement（Player 实例 + players 组）、trigger_switch（两个 Latching 实例 = 两个独立机关）、openable_door（出口门，竖直通道用默认朝向）、tscn connection 接线模式、restart reload 重置语义
-- 新 Feature `Features/condition_gate/`：N 条件 AND 聚合（此前只能 OR），纯逻辑 Node；契约 = `set_condition(value, id)`（value 在前，tscn connection binds 追加在信号参数后可直连）+ `fulfilled(bool)` 信号（幂等）+ `is_fulfilled()` + `reset()` + `@export condition_count`；聚合契约 = 全部已上报条件为 true 且数量 ≥ condition_count
-- `Scenes/EscapeRoom.tscn`：封闭房间（右墙 128px 缺口）+ SwitchA/SwitchB + ConditionGate(condition_count=2) + ExitDoor + EscapeZone；关系连接 3 条 [connection]（2 条 binds 直连 set_condition，1 条 fulfilled → set_open），零胶水接线
-- `Scenes/escape_room.gd`：仅一次性场景逻辑（逃脱成功反馈 + 结束状态重开轮询），机关关系不经过它
+- 新 Feature `Features/collect_pickup/`：接触拾取（收集广播 + 自移除 + 一次性幂等）；`collected(value, pickup_id)` 与 `ConditionGate.set_condition(value, id)` 签名完全一致，场景直连零 binds
+- `Scenes/ChestVault.tscn` + `chest_vault.gd`（胶水仅完成呈现/重开）：三把 CollectPickup 钥匙 → ConditionGate(All, 3) → Chest（openable_door 旋转 90° 参数化变体）→ CompleteZone；4 条 connection 直连，零胶水接线
+- 未修改 Framework / MCP / 既有 Feature
 
-关键实现事实（供后续任务参考）：
+MCP 实录（全部真实调用，curl → godot_mcp CLI API）：
 
-- 竖直通道的门保持组件默认朝向即可挡住缺口；旋转 90° 会把 24px 碰撞转成横向，只挡缺口中段（物理测试抓到的真实地图缺陷）
-- GDScript 调用不可绑定：tscn connection 的 binds 参数是「追加在信号参数之后」，要求目标方法参数顺序为 (信号参数..., 绑定参数...)，API 设计时按此排序
-- 多实例测试用 Feature 场景全新实例化，不用 duplicate()（会复制信号连接产生隐式联动）
-- 玩家通行验证必须 Input.action_press 真实驱动（PlayerController 每帧按输入覆盖 velocity）
-- 测试包装函数与被测组件同名会遮蔽并可能无限递归（set_condition 案例）
+- 无编辑器时 9080 无监听；headless editor + `-- --mcp-server` 参数强制启动成功（持久化设置 auto_start=false 会覆盖 plugin.cfg 的 true）
+- doctor / catalog（155 工具）/ get_project_info / list_project_scenes / list_project_input_actions / get_scene_structure 均成功
+- run_project 需 arguments.allow_window=true（Vibe Coding 防护）；get_runtime_info/scene_tree 需 envelope 级 allow_open_world=true
+- get_runtime_info 实证：current_scene=/root/ChestVault，fps 145，37 节点；scene_tree 确认 3 把钥匙 + ConditionGate；stop_project 正常
+- get_runtime_node_properties 对 StaticBody 路径仍 404（已知边界，用 scene_tree 覆盖）
 
-验证结果：
+关键经验：
 
-- condition_gate 自身验证（AND 聚合/数量约束/回落语义/幂等/reset/多实例）：PASS
-- Escape Room 集成验证（真实物理阻挡与穿出、AND 条件、状态保持、逃脱成功、重载复位、连接为场景数据）：PASS
-- 全量回归：17/17 PASS；主场景与 EscapeRoom 场景启动均无脚本错误；Framework Validator PASS（0 errors / 0 warnings）
+- MCP 参数两层：arguments（工具参数，含 allow_window）+ envelope（allow_open_world/limit 等 API 级控制）
+- 类型化函数形参不能接收 freed 对象（协程中断挂起）；需等待释放的判定用无类型形参 + is_instance_valid
+- run_project 会临时写入 MCPRuntimeProbe autoload 到 project.godot（引擎自动行为），提交前需剥离
 
-Framework 缺陷检查：未发现阻塞，未修改 Framework。
-
-## 修改文件
-
-- `Features/condition_gate/`（新增：脚本、场景、测试、README）
-- `Features/trigger_switch/README.md`、`Features/openable_door/README.md`（补充既有 Feature 文档）
-- `Scenes/EscapeRoom.tscn`、`Scenes/escape_room.gd`（新增）
-- `Tests/test_escape_room.gd`（新增）
-- `.ai/context/CURRENT_TASK.md`（本文件）
+验证结果：20/20 测试 PASS；四场景启动 0 错误；Validator PASS。
 
 ## 下一步
 
