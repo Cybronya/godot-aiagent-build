@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Features/chase_movement/chase_movement.gd" id="1_chase"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="2_health"]
+[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="3_contact"]
+[ext_resource type="PackedScene" path="res://Features/health_bar/HealthBar.tscn" id="4_bar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
+size = Vector2(48, 48)
+
+[node name="EliteEnemy" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_chase")
+speed = 50.0
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.62, 0.25, 0.85, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Health" parent="." instance=ExtResource("2_health")]
+max_health = 15
+
+[node name="ContactDamage" parent="." instance=ExtResource("3_contact")]
+damage = 2
+target_group = "players"
+
+[node name="ContactShape" type="CollisionShape2D" parent="ContactDamage"]
+shape = SubResource("RectangleShape2D_contact")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_bar")]
+position = Vector2(0, -30)
+health_path = NodePath("../Health")

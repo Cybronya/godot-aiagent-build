@@ -1,0 +1,146 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://Scenes/survival_arena.gd" id="1_arena"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" path="res://Scenes/EliteEnemy.tscn" id="7_elite"]
+[ext_resource type="PackedScene" path="res://Scenes/SpikeTrap.tscn" id="8_trap"]
+[ext_resource type="PackedScene" path="res://Features/trigger_switch/TriggerSwitch.tscn" id="9_switch"]
+[ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="10_door"]
+[ext_resource type="PackedScene" path="res://Features/heal_pickup/HealPickup.tscn" id="3_pickup"]
+[ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="4_player"]
+[ext_resource type="Script" path="res://Scenes/player_death.gd" id="5_death"]
+[ext_resource type="PackedScene" path="res://Features/health_bar/HealthBar.tscn" id="6_bar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fence"]
+size = Vector2(1200, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_divider"]
+size = Vector2(24, 228)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_side_wall"]
+size = Vector2(16, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_switch"]
+size = Vector2(48, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_reward"]
+size = Vector2(120, 60)
+
+[node name="SurvivalArena" type="Node2D"]
+script = ExtResource("1_arena")
+enemy_scene = ExtResource("2_enemy")
+elite_scene = ExtResource("7_elite")
+pickup_scene = ExtResource("3_pickup")
+
+[node name="Player" parent="." instance=ExtResource("4_player") groups=["players"]]
+
+[node name="PlayerDeath" type="Node" parent="Player"]
+script = ExtResource("5_death")
+
+[node name="HealthBar" parent="Player" instance=ExtResource("6_bar")]
+position = Vector2(0, -34)
+health_path = NodePath("../Health")
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Traps" type="Node2D" parent="."]
+
+[node name="SpikeTrap1" parent="Traps" instance=ExtResource("8_trap")]
+position = Vector2(-260, -160)
+
+[node name="SpikeTrap2" parent="Traps" instance=ExtResource("8_trap")]
+position = Vector2(280, 140)
+
+[node name="SpikeTrap3" parent="Traps" instance=ExtResource("8_trap")]
+position = Vector2(0, 280)
+
+[node name="Mechanism" type="Node2D" parent="."]
+
+[node name="BoundaryTop" type="StaticBody2D" parent="Mechanism"]
+
+[node name="Shape" type="CollisionShape2D" parent="Mechanism/BoundaryTop"]
+position = Vector2(0, -340)
+shape = SubResource("RectangleShape2D_fence")
+
+[node name="BoundaryBottom" type="StaticBody2D" parent="Mechanism"]
+
+[node name="Shape" type="CollisionShape2D" parent="Mechanism/BoundaryBottom"]
+position = Vector2(0, 340)
+shape = SubResource("RectangleShape2D_fence")
+
+[node name="Divider" type="StaticBody2D" parent="Mechanism"]
+
+[node name="Upper" type="CollisionShape2D" parent="Mechanism/Divider"]
+position = Vector2(480, -224)
+shape = SubResource("RectangleShape2D_divider")
+
+[node name="Lower" type="CollisionShape2D" parent="Mechanism/Divider"]
+position = Vector2(480, 224)
+shape = SubResource("RectangleShape2D_divider")
+
+[node name="Visual" type="Polygon2D" parent="Mechanism/Divider"]
+color = Color(0.4, 0.4, 0.45, 1)
+polygon = PackedVector2Array(468, -344, 492, -344, 492, -116, 468, -116, 468, 116, 492, 116, 492, 344, 468, 344)
+
+[node name="MainDoor" parent="Mechanism" instance=ExtResource("10_door")]
+position = Vector2(480, 0)
+
+[node name="SideDoor" parent="Mechanism" instance=ExtResource("10_door")]
+position = Vector2(680, -80)
+
+[node name="SideWallUpper" type="StaticBody2D" parent="Mechanism"]
+
+[node name="Shape" type="CollisionShape2D" parent="Mechanism/SideWallUpper"]
+position = Vector2(680, -214)
+shape = SubResource("RectangleShape2D_side_wall")
+
+[node name="SideWallLower" type="StaticBody2D" parent="Mechanism"]
+
+[node name="Shape" type="CollisionShape2D" parent="Mechanism/SideWallLower"]
+position = Vector2(680, 54)
+shape = SubResource("RectangleShape2D_side_wall")
+
+[node name="RewardSwitch" parent="Mechanism" instance=ExtResource("9_switch")]
+position = Vector2(260, 0)
+
+[node name="SwitchShape" type="CollisionShape2D" parent="Mechanism/RewardSwitch"]
+shape = SubResource("RectangleShape2D_switch")
+
+[node name="Reward" type="Area2D" parent="Mechanism"]
+position = Vector2(700, 0)
+
+[node name="RewardShape" type="CollisionShape2D" parent="Mechanism/Reward"]
+shape = SubResource("RectangleShape2D_reward")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HealthLabel" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 216.0
+offset_bottom = 36.0
+text = "HP: 10 / 10"
+
+[node name="TimerLabel" type="Label" parent="HUD"]
+offset_left = 240.0
+offset_top = 12.0
+offset_right = 480.0
+offset_bottom = 36.0
+text = "生存时间: 0.0 / 30 秒"
+
+[node name="StatusLabel" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -30.0
+offset_right = 160.0
+offset_bottom = 30.0
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="activated" from="Mechanism/RewardSwitch" to="Mechanism/MainDoor" method="set_open"]
+[connection signal="activated" from="Mechanism/RewardSwitch" to="Mechanism/SideDoor" method="set_open"]

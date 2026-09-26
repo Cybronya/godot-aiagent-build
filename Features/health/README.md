@@ -5,6 +5,7 @@
 ## 接口
 
 - `take_damage(amount: int)`：受到伤害；0/负数与死亡后重复伤害被忽略
+- `heal(amount: int)`：恢复生命值，上限钳制为 max_health；0/负数与死亡后恢复被忽略
 - `get_current_health() -> int`：查询当前生命值
 - `is_dead() -> bool`：查询死亡状态
 - `signal health_changed(current: int, amount: int)`：生命值变化（含伤害量）

@@ -99,3 +99,63 @@ supersedes：
 ### 验证
 
 - 伤害交互验证（真实 main.tscn）一次通过；全量回归（Health/移动/集成）与主场景启动全部通过，胶水方案未破坏任何既有能力。
+
+---
+
+## AD-004: 与 Health 交互的跨实体组件使用「目标组 + Health 子节点命名」组合契约
+
+- 状态：accepted
+- 日期：2026-09-26
+- supersedes：null
+
+### 决定
+
+- 新增 4 个组件 Feature：`chase_movement`（CharacterBody2D 根脚本，朝 `target_path` 移动）、`contact_damage`（Area2D，重叠节拍伤害）、`heal_pickup`（Area2D，接触恢复后自移除）、`health_bar`（Node2D 显示，纯只读）。
+- 与 Health 独立组件交互的组件不反向依赖实体类型：通过「目标组名（默认 `players`）+ 实体 Health 子节点统一命名 `Health`」的组合契约解耦；实体场景通过组合（groups 覆写、组件实例化）满足契约，不满足时组件静默跳过、不报错。
+- 显示类组件（health_bar）与行为组件同层组合；player_movement 等既有 Feature 不因显示需求引入依赖，玩家血条在场景层挂载。
+- 场景编排（生成、计时、胜负、重开）保持游戏侧胶水（`Scenes/survival_arena.gd`），沿用 AD-003：其提升条件记录为「出现第二个玩法场景复用同一编排需求」。
+
+### 原因
+
+- Survival Arena 需要追击、接触伤害、恢复、显示等与 Health 相关的跨实体能力；若各自依赖具体实体脚本将形成双向依赖并锁死复用面。
+- 组 + 约定命名是 Godot 场景组合的原生解耦方式：组件可在不依赖游戏侧场景的前提下完成自包含验证（contact_damage / heal_pickup 测试均以本地构建目标通过）。
+
+### 影响
+
+- 后续与 Health 交互的组件（毒圈、吸血、护盾等）沿用同一契约，不新建第二套目标解析机制。
+- 敌人类游戏实体 = Feature 组件的场景组合（见 `Scenes/Enemy.tscn`）；实体场景负责满足组合契约（加入组、Health 命名）。
+- Health 组件新增 `heal()` 接口（上限钳制），未改变既有伤害/死亡语义，回归验证通过。
+
+### 验证
+
+- 4 个新 Feature 自身验证 + health 扩展回归（5/5）；SurvivalArena 集成验证（真实场景全链路）；全量回归 9/9；主场景启动无错误；Framework Validator PASS（0 errors / 0 warnings）。
+
+---
+
+## AD-005: 布尔状态机关用「同签名 (bool) 契约 + 场景连接」组合；AND 聚合为独立逻辑 Feature
+
+- 状态：accepted
+- 日期：2026-09-27
+- supersedes：null
+
+### 决定
+
+- 状态机关类组件遵循统一布尔契约：触发源广播 `activated(triggered: bool)`，目标暴露 `set_open(bool)` / `set_condition(value, id)` 形式的方法，关系一律由场景 `[connection]` 数据表达，不写胶水脚本、不依赖节点名。
+- 多条件 AND 聚合沉淀为独立逻辑 Feature `condition_gate`（Node 根，纯状态，无场景依赖）；OR 关系不新建能力（多个信号连同一目标即天然 OR）。
+- 目标方法 API 的参数顺序遵循「信号参数在前、连接绑定（binds）在后」，使 tscn connection 可直连（如 `activated(bool)` 直连 `set_condition(value, id)` + `binds=["id"]`）。
+- 一次性玩法逻辑（胜利反馈、场景专属重开轮询）保持场景胶水，不 Feature 化（沿用 AD-003）。
+
+### 原因
+
+- Escape Room 验证任务发现能力缺口：既有机关能力只有「一对一/多对一的 OR 传递」，缺少「N 个条件共同满足」的 AND 聚合；该聚合是纯逻辑、与具体实体无关，具备独立复用价值（解谜门、成就系统、多钥开门）。
+- Manager 型胶水（如 EscapeRoomManager）会把关系硬编码进代码，丧失场景数据的可组合性；信号直连已验证可表达全部当前需求。
+
+### 影响
+
+- 后续布尔状态机关（按钮、拉杆、闸门、平台）优先套用「同签名契约 + 场景连接」；新交互类型先检查是否能用 condition_gate 或现有契约表达。
+- 需要动态重评（条件可失效失效）或 OR/NOT 等其它聚合时，扩展 condition_gate 而非新建第二套逻辑门。
+- 场景连接的 binds 参数顺序约定适用于所有未来被场景直连的目标 API。
+
+### 验证
+
+- condition_gate 自身验证（聚合/数量约束/回落/幂等/reset/多实例）通过；EscapeRoom 集成验证（真实物理阻挡与穿出、双条件、状态保持、重置）通过；全量回归 17/17；双场景启动无错误；Validator PASS。

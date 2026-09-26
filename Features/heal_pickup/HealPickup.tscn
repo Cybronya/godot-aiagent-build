@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Features/heal_pickup/heal_pickup.gd" id="1_pickup"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 16.0
+
+[node name="HealPickup" type="Area2D"]
+script = ExtResource("1_pickup")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.3, 0.85, 0.4, 1)
+polygon = PackedVector2Array(0, -10, 8, 0, 0, 10, -8, 0)
+
+[node name="PickupShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pickup")

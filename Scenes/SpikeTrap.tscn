@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="1_trap"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trap"]
+size = Vector2(96, 96)
+
+[node name="SpikeTrap" type="Node2D" groups=["traps"]]
+
+[node name="ContactDamage" parent="." instance=ExtResource("1_trap")]
+damage = 1
+tick_interval = 0.4
+target_group = "players"
+
+[node name="TrapShape" type="CollisionShape2D" parent="ContactDamage"]
+shape = SubResource("RectangleShape2D_trap")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.45, 0.45, 0.5, 1)
+polygon = PackedVector2Array(-48, -48, 48, -48, 48, 48, -48, 48)
