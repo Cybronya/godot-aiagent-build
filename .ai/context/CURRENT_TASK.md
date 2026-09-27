@@ -2,42 +2,41 @@
 
 ## 目标
 
-MCP 第三轮独立实战：新增「Boss Challenge」场景（三开关 → Boss 门 → 击败 Boss → 出口完成），验证多 Feature 组合复用与 Feature 边界判断（能力发现、组合、扩展、边界控制）。
+MCP 第四轮独立实战：新增「Timed Combat Arena」场景（波次生成 + 存活计数 + 阶段倒计时 + 终波开门），验证能力缺口识别与 Feature 边界判断（组合 / 扩展 / 新建三路决策）。
 
 ## 当前状态
 
 已完成并通过验证：
 
-- **零新增 Feature、零 Feature 扩展**：12 条需求全部由既有 11 个 Feature 组合覆盖
-- `Scenes/Boss.tscn`（实体场景）：纯组合 chase_movement（speed=55）+ Health（max=30）+ ContactDamage（damage=2, tick=0.4）+ HealthBar，差异全部用导出参数覆写，零新逻辑
-- `Scenes/BossChallenge.tscn`（游戏场景）：机关关系全部由 5 条 tscn [connection] 数据表达：
-  - SwitchA/B/C `activated(bool)` → ConditionGate `set_condition(value, id)` binds=[switch_a/b/c]（All 模式 AND 聚合，condition_count=3）
-  - ConditionGate `fulfilled(bool)` → BossDoor `set_open(bool)`
-  - **Boss Health `died()` → ExitDoor `set_open(bool)` binds=[true]**：无参死亡信号经 binds 常量注入直连目标方法，首次验证了「任意签名信号 + binds 常量」的数据连接形态，AD-005 契约的延伸实证
-- `Scenes/boss_challenge.gd`（胶水，遵循 AD-003）：完成/失败判定、Boss 血量 HUD、状态文案、Boss 死亡表现（process_mode 停摆整棵子树，AD-002 死亡表现由订阅方决定）、重开轮询
-- 玩家攻击复用既有胶水 `Scenes/attack_trigger.gd`：出现第二个真实消费者，按 AD-003 完成提升条件再评估，结论仍为「暂不 Feature 化」（详情见任务报告）
+- **零新增 Feature；一处既有胶水通用性扩展**：
+  - `Scenes/attack_trigger.gd`（胶水，非 Feature）：保留固定路径模式原语义，新增可选 `target_group` 动态目标模式（攻击时解析组内最近存活实体的 Health）。动机：本场景敌人为波次动态生成，固定单目标不适配；解析规则完全通用（组 + Health 命名约定，AD-004 契约），main.tscn / BossChallenge 两个既有消费者零改动回归通过
+- `Scenes/TimedCombatArena.tscn` + `Scenes/timed_combat_arena.gd`（胶水，遵循 AD-003）：
+  - 波次数据驱动（`waves: Array[Dictionary]`：enemy_scene/enemy_count/elite_scene/elite_count/duration），三波配置 = 普通×3 / 混编 2+1 / 混编 4+1，同一套机制覆盖多种敌人配置（需求 17）
+  - 死亡接线复用 Health.died 信号（`died→queue_free` + `died→计数`，survival_arena 先例模式）
+  - 提前清场同帧推进下一阶段（died 回调同步性）；终波清场后 `ExitDoor.set_open(true)`
+  - 超时失败（倒计时耗尽仍有存活）、出口完成、玩家死亡失败、R 重开
+- 计时/波次/计数的 Feature 提升条件（AD-003 记录）：出现第二个需要独立计时/波次编排的场景
 
 ## 关键经验（供后续任务参考）
 
-- 测试前置条件自污染：把「门关闭阻挡」断言放在触发开关之后执行，断言的不再是初始状态；验证初始状态必须放在任何状态变更之前
-- 慢速实体（55px/s）追击断言不要用绝对距离阈值（240 帧 ≈ 220px，阈值 200 必然边界失败），用「位移量」断言更稳健
-- 贴身节拍伤害会污染治疗/攻击断言：先脱离接触再治疗；攻击验证用「拉开距离再输出」的风筝时序模拟真实打法
-- tscn 直连无参信号（died）+ 目标方法（set_open）：信号无参时 binds 提供全部实参，连接本身不需要胶水脚本参与
+- 场景胶水的扩展判断：固定目标 → 动态目标组是「同一职责的目标解析策略扩展」，属于胶水自身通用性提升，不是 Feature 化时机
+- died 回调是同步的：最后一个敌人死亡会在同一调用栈内触发波次推进与新波生成，测试断言「清空后计数」必然观测到新波计数；中间态要用单个死亡验证
+- queue_free 的节点在帧末才真正出树：同帧统计场景子节点必须过滤 `is_queued_for_deletion()` 或先 `await process_frame`
+- 几何自检：两段对称墙的「长度 + 间距」必须显式留出门洞（412×2 @±206 = 无洞全遮挡；348×2 @±238 = 留 y∈[-64,64] 门洞）
 
 ## 修改文件
 
-- `Scenes/Boss.tscn`（新增）
-- `Scenes/BossChallenge.tscn`、`Scenes/boss_challenge.gd`（新增）
-- `Tests/test_boss_challenge.gd`(新增，含 A–N 十四阶段全链路验证)
+- `Scenes/attack_trigger.gd`（扩展：动态目标模式，向后兼容）
+- `Scenes/TimedCombatArena.tscn`、`Scenes/timed_combat_arena.gd`（新增）
+- `Tests/test_timed_combat_arena.gd`（新增，A–L 十二阶段）
 - `.ai/context/CURRENT_TASK.md`（本文件）
 
 ## 验证结果
 
-- BossChallenge 集成验证（真实场景全链路 14 阶段）：PASS
-- 全量 Feature 回归：11/11 PASS（零 Feature 改动，全部原样通过）
-- 既有场景测试：12/12 PASS（Escape Room / Survival Arena / ChestVault / ThreeAltarsPuzzle 等全部无回归）
-- 场景无头启动：main / SurvivalArena / EscapeRoom / PlatformVault / ChestVault / ThreeAltarsPuzzle / BossChallenge 全部 0 错误
+- TimedCombatArena 集成验证（真实场景 12 阶段全链路）：PASS
+- 全量回归：24/24 PASS（11 Feature + 13 场景测试；attack_trigger 既有消费者 test_damage_interaction / test_boss_challenge 均原样通过）
 - Framework Validator：PASS（0 errors / 0 warnings）
+- 场景无头启动：8 个场景（含新增）全部 0 错误
 
 ## 下一步
 
