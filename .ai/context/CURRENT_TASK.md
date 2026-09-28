@@ -2,42 +2,46 @@
 
 ## 目标
 
-MCP 第四轮独立实战：新增「Timed Combat Arena」场景（波次生成 + 存活计数 + 阶段倒计时 + 终波开门），验证能力缺口识别与 Feature 边界判断（组合 / 扩展 / 新建三路决策）。
+MCP 第五轮独立实战：架构能力测试——识别真实能力缺口，判断是否达到新 Feature 阈值，完整走 Feature 标准流程（脚本/场景/独立测试/README），并用多消费者场景验证复用价值。
 
 ## 当前状态
 
 已完成并通过验证：
 
-- **零新增 Feature；一处既有胶水通用性扩展**：
-  - `Scenes/attack_trigger.gd`（胶水，非 Feature）：保留固定路径模式原语义，新增可选 `target_group` 动态目标模式（攻击时解析组内最近存活实体的 Health）。动机：本场景敌人为波次动态生成，固定单目标不适配；解析规则完全通用（组 + Health 命名约定，AD-004 契约），main.tscn / BossChallenge 两个既有消费者零改动回归通过
-- `Scenes/TimedCombatArena.tscn` + `Scenes/timed_combat_arena.gd`（胶水，遵循 AD-003）：
-  - 波次数据驱动（`waves: Array[Dictionary]`：enemy_scene/enemy_count/elite_scene/elite_count/duration），三波配置 = 普通×3 / 混编 2+1 / 混编 4+1，同一套机制覆盖多种敌人配置（需求 17）
-  - 死亡接线复用 Health.died 信号（`died→queue_free` + `died→计数`，survival_arena 先例模式）
-  - 提前清场同帧推进下一阶段（died 回调同步性）；终波清场后 `ExitDoor.set_open(true)`
-  - 超时失败（倒计时耗尽仍有存活）、出口完成、玩家死亡失败、R 重开
-- 计时/波次/计数的 Feature 提升条件（AD-003 记录）：出现第二个需要独立计时/波次编排的场景
+- **新 Feature `Features/stun/`**（四件套：stun.gd + Stun.tscn + test_stun.gd + README.md）：
+  - 单一职责：使宿主 CharacterBody2D 物理行为暂停一段时长后自动恢复（眩晕/硬直）
+  - 双触发模式：`stun_on_hit=true` 受击自触发（被动）；`stun(duration)` 主动 API（陷阱/技能）
+  - 幂等广播（stunned(bool)）、治疗豁免、死亡保护（击杀不触发；恢复不越权复活物理）
+  - 关键实现经验：Health.take_damage 的 health_changed 在 _is_dead 置位前发出，受击触发必须 call_deferred 延迟落地，让 stun() 内死亡守卫成为唯一拒绝点（不改 health 信号顺序）
+- **三个独立消费者**（StunTraining.tscn）：
+  - 消费者A 敌人（EnemyInstance，被动 stun_on_hit=0.6s）：玩家命中打断追击
+  - 消费者B 玩家（stun_on_hit=false）：麻痹陷阱 paralyze_trap.gd 调用主动 API（1.0s）
+  - 消费者C 训练假人（独立配置 0.5s）：同 Feature 第三配置；died→ExitDoor 数据连接
+- **场景 = 组件 + 数据连接 + 12 行重开胶水**（stun_training.gd 仅 reload 轮询，玩法零编排）
+- 无 Framework 注册动作（framework-rules：Feature 物理惯例由项目 AD 定义 = 自包含目录 + README）
 
 ## 关键经验（供后续任务参考）
 
-- 场景胶水的扩展判断：固定目标 → 动态目标组是「同一职责的目标解析策略扩展」，属于胶水自身通用性提升，不是 Feature 化时机
-- died 回调是同步的：最后一个敌人死亡会在同一调用栈内触发波次推进与新波生成，测试断言「清空后计数」必然观测到新波计数；中间态要用单个死亡验证
-- queue_free 的节点在帧末才真正出树：同帧统计场景子节点必须过滤 `is_queued_for_deletion()` 或先 `await process_frame`
-- 几何自检：两段对称墙的「长度 + 间距」必须显式留出门洞（412×2 @±206 = 无洞全遮挡；348×2 @±238 = 留 y∈[-64,64] 门洞）
+- Health.health_changed 的 amount 在伤害与恢复时均为正值，受击判定需生命值快照对比
+- 击杀一击的 health_changed 早于 died：延迟一帧是消费侧的正确模式（修改 Health 信号顺序会破坏全部既有消费者）
+- 场景中出现「无人响应的 Area2D」= 悬空设计：删除或补语义，不要留着
+- 实体挤堵：验证门通行前先移开追击敌人
 
 ## 修改文件
 
-- `Scenes/attack_trigger.gd`（扩展：动态目标模式，向后兼容）
-- `Scenes/TimedCombatArena.tscn`、`Scenes/timed_combat_arena.gd`（新增）
-- `Tests/test_timed_combat_arena.gd`（新增，A–L 十二阶段）
+- `Features/stun/`（新增 6 文件：四件套 + 2 个伴生 .uid）
+- `Scenes/StunTraining.tscn`、`Scenes/stun_training.gd(+.uid)`、`Scenes/paralyze_trap.gd(+.uid)`（新增）
+- `Tests/test_stun_training.gd(+.uid)`（新增，A–G 七阶段）
 - `.ai/context/CURRENT_TASK.md`（本文件）
 
 ## 验证结果
 
-- TimedCombatArena 集成验证（真实场景 12 阶段全链路）：PASS
-- 全量回归：24/24 PASS（11 Feature + 13 场景测试；attack_trigger 既有消费者 test_damage_interaction / test_boss_challenge 均原样通过）
+- Stun Feature 独立测试：PASS（主动/幂等/无效输入/受击/治疗豁免/死亡保护/多实例）
+- StunTraining 集成验证（A–G 全链路）：PASS
+- 全量回归：26/26 PASS（Feature 12 + Scene 14，逐文件清单核对）
 - Framework Validator：PASS（0 errors / 0 warnings）
-- 场景无头启动：8 个场景（含新增）全部 0 错误
+- Headless：StunTraining / main / BossChallenge / TimedCombatArena 全部 0 错误
 
 ## 下一步
 
-无阻塞事项。成果未提交（等待用户指示）。
+无阻塞事项。成果未提交（按 Round 5 指令等待审计）。
