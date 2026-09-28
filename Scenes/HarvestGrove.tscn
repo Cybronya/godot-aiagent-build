@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Scenes/harvest_grove.gd" id="1_glue"]
+[ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://Features/collect_pickup/CollectPickup.tscn" id="3_gem"]
+[ext_resource type="PackedScene" path="res://Features/moving_platform/MovingPlatform.tscn" id="4_float"]
+[ext_resource type="PackedScene" path="res://Features/condition_gate/ConditionGate.tscn" id="5_gate"]
+[ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="6_chest"]
+[ext_resource type="PackedScene" path="res://Features/health_bar/HealthBar.tscn" id="8_bar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1200, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(24, 600)
+
+[node name="HarvestGrove" type="Node2D"]
+script = ExtResource("1_glue")
+
+[node name="Player" parent="." instance=ExtResource("2_player") groups=["players"]]
+position = Vector2(-420, 0)
+
+[node name="HealthBar" parent="Player" instance=ExtResource("8_bar")]
+position = Vector2(0, -34)
+health_path = NodePath("../Health")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="WallTop" type="StaticBody2D" parent="Walls"]
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallTop"]
+position = Vector2(0, -288)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallBottom" type="StaticBody2D" parent="Walls"]
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallBottom"]
+position = Vector2(0, 288)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallLeft" type="StaticBody2D" parent="Walls"]
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallLeft"]
+position = Vector2(-588, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRight" type="StaticBody2D" parent="Walls"]
+
+[node name="Shape" type="CollisionShape2D" parent="Walls/WallRight"]
+position = Vector2(588, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Resources" type="Node2D" parent="."]
+
+[node name="GemA" parent="Resources" instance=ExtResource("3_gem")]
+position = Vector2(150, -120)
+pickup_id = "gem_static"
+
+[node name="GemFloat" parent="Resources" instance=ExtResource("4_float")]
+position = Vector2(-100, 120)
+travel = Vector2(220, 0)
+period = 5.0
+
+[node name="GemB" parent="Resources/GemFloat" instance=ExtResource("3_gem")]
+pickup_id = "gem_moving"
+
+[node name="Mechanism" type="Node2D" parent="."]
+
+[node name="CollectGate" parent="Mechanism" instance=ExtResource("5_gate")]
+condition_count = 2
+
+[node name="Chest" parent="Mechanism" instance=ExtResource("6_chest")]
+position = Vector2(560, 0)
+rotation = 1.5708
+open_visual_color = Color(0.95, 0.78, 0.2, 0.45)
+closed_visual_color = Color(0.5, 0.35, 0.15, 1)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 900.0
+offset_bottom = 36.0
+text = "采集区：收集静止晶体与移动浮台上的晶体，开启宝箱完成采集（R 重开）"
+
+[connection signal="collected" from="Resources/GemA" to="Mechanism/CollectGate" method="set_condition"]
+[connection signal="collected" from="Resources/GemFloat/GemB" to="Mechanism/CollectGate" method="set_condition"]
+[connection signal="fulfilled" from="Mechanism/CollectGate" to="Mechanism/Chest" method="set_open"]
+[connection signal="fulfilled" from="Mechanism/CollectGate" to="." method="_on_collect_gate_fulfilled"]
