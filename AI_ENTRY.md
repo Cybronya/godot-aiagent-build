@@ -165,3 +165,13 @@ Framework 的机器入口、Skill Registry 与 Skill 定义必须保持单一来
 - **Validator** → `.ai/tools/validator/validate.py`
 
 Agent 不应绕过上述入口自行推断 Skill、Registry 或 Framework 结构。
+
+## 9. Before Starting Work
+nAgent 开始任何修改前，先阅读项目约定与上手指南：
+
+```text
+Before starting work:
+
+Read:
+AGENT_ONBOARDING.md
+```
