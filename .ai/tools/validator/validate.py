@@ -265,6 +265,12 @@ def main():
         # Do not recursively treat Skill-local references/examples/templates as
         # Skills; those are explicitly supported by the Skill Schema.
         for category_dir in sorted(p for p in skills_root.iterdir() if p.is_dir()):
+            # Read-only source snapshots (e.g. godot-official-docs_sources/)
+            # are raw documentation archives, not Skill categories. They are
+            # excluded from the physical Skill tree contract by convention:
+            # a leading underscore or a _sources suffix marks a non-Skill dir.
+            if category_dir.name.startswith("_") or category_dir.name.endswith("_sources"):
+                continue
             if category_dir.name not in valid:
                 # Unknown top-level directories are not valid Skill categories.
                 r.fail(f"Unknown Skill category directory: {category_dir}")

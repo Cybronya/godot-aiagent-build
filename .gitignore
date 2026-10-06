@@ -15,3 +15,7 @@ __pycache__/
 # System files
 Thumbs.db
 .DS_Store
+
+# godot-official-docs: local read-only official docs source snapshot (244MB)
+# The navigation layer (references/4.7/) IS tracked; only the raw Source is ignored.
+.ai/skills/godot-official-docs_sources/

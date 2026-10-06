@@ -20,6 +20,9 @@ skills:
   - id: godot-gdscript
     path: ../skills/foundation/godot-gdscript
 
+  - id: godot-official-docs
+    path: ../skills/foundation/godot-official-docs
+
   - id: godot-character-system
     path: ../skills/systems/godot-character-system
 
