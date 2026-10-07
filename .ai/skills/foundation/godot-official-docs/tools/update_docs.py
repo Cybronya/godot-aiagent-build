@@ -16,7 +16,7 @@ File classes inside references/<version>/:
         INDEX.md, routing/*.md, api/INDEX.md, api/categories.md,
         metadata/source-info.md
     Generated (safe to regenerate):
-        api/classes.md
+        api/classes.md, api/tutorials-index.md, api/members-index.md
 
 Modes
 -----
@@ -105,6 +105,125 @@ def generate_classes_index(version: str, api_dir: Path, src_classes: Path) -> in
     return len(entries)
 
 
+def _rst_title(rst: Path) -> str:
+    """Extract the top heading from an .rst file (title line above an
+    underline of ``=`` characters); fall back to the file stem."""
+    try:
+        with rst.open(encoding="utf-8", errors="replace") as fh:
+            prev = ""
+            for line in fh:
+                s = line.rstrip()
+                if s and set(s) <= {"="} and len(s) >= len(prev) and prev:
+                    return prev.strip()
+                prev = s
+    except OSError:
+        pass
+    return rst.stem
+
+
+def generate_tutorials_index(version: str, api_dir: Path, src_root: Path) -> int:
+    """Regenerate api/tutorials-index.md (Generated): per-directory .rst listing
+    with human-readable titles for semantic matching."""
+    base = SOURCE_REL.format(v=version)
+    scan_roots = ["getting_started", "tutorials", "engine_details"]
+    lines = [
+        "# Tutorials Index — 教程/引擎细节文件清单（Generated）",
+        "",
+        "由 update_docs.py 自动生成，请勿手工编辑。",
+        "",
+        "用途：topics.md 命中目录后，在此表内按标题语义定位具体文件，避免目录扫描。",
+        "",
+        "| Section | Title | File | Source Path |",
+        "|---|---|---|---|",
+    ]
+    count = 0
+    for root in scan_roots:
+        rst_files = sorted((src_root / root).rglob("*.rst"))
+        for rst in rst_files:
+            rel = rst.relative_to(src_root).as_posix()
+            title = _rst_title(rst)
+            lines.append(f"| {root} | {title} | {rst.stem} | {base}/{rel} |")
+            count += 1
+    (api_dir / "tutorials-index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"[update_docs] tutorials-index.md regenerated: {count} files")
+    return count
+
+
+def generate_members_index(version: str, api_dir: Path, src_classes: Path) -> int:
+    """Regenerate api/members-index.md (Generated): member -> defining class.
+
+    Parses each class .rst for classref directives (:ref:`name<class_X_method_y>`
+    etc.) and records which class defines which member. Enables reverse lookup:
+    "which class defines move_and_slide?" -> CharacterBody2D/3D, replacing
+    manual inheritance-chain climbing.
+    """
+    base = SOURCE_REL.format(v=version)
+    member_re = re.compile(
+        r":ref:`([A-Za-z0-9_@.]+)<class_([A-Za-z0-9@_]+)_(method|property|signal|enumeration|constant|theme_property)_"
+    )
+    lines = [
+        "# Members Index — 成员反查表（Generated）",
+        "",
+        "由 update_docs.py 自动生成，请勿手工编辑。",
+        "",
+        "用途：成员名 → 定义它的类。目标类文档中找不到某成员时，用本表反查定义类，",
+        "替代人工按继承链逐级上溯。",
+        "",
+        "| Member | Kind | Defining Class | Source Path |",
+        "|---|---|---|---|",
+    ]
+    count = 0
+    for rst in sorted(src_classes.glob("class_*.rst")):
+        cls = rst.stem.removeprefix("class_")
+        with rst.open(encoding="utf-8", errors="replace") as fh:
+            text = fh.read()
+        seen = set()
+        for m in member_re.finditer(text):
+            member, kind = m.group(1), m.group(2)
+            key = (member, kind)
+            if key in seen:
+                continue
+            seen.add(key)
+            lines.append(
+                f"| `{member}` | {kind} | `{cls}` | {base}/classes/class_{cls}.rst |"
+            )
+            count += 1
+    (api_dir / "members-index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"[update_docs] members-index.md regenerated: {count} members")
+    return count
+
+
+def generate_keyword_suggestions(version: str, api_dir: Path, src_classes: Path) -> int:
+    """Regenerate api/keywords-suggested.md (Generated): class-name keyword table.
+
+    Hand-authored routing/keywords.md covers ~45 common natural-language
+    queries; this generated table covers ALL 1078 classes so an Agent can
+    match any class-name-like keyword (astar, tilemap, particles, ...) to
+    its Source file without full-text searching the Source tree.
+    """
+    base = SOURCE_REL.format(v=version)
+    names = sorted(
+        rst.stem.removeprefix("class_")
+        for rst in src_classes.glob("class_*.rst")
+    )
+    lines = [
+        "# Keywords Suggested — 全量类名关键词表（Generated）",
+        "",
+        f"共 {len(names)} 条。由 update_docs.py 自动生成，请勿手工编辑。",
+        "",
+        "用途：hand-authored `routing/keywords.md` 未命中时，按问题中的类名关键词",
+        "在本表模糊匹配（子串），命中即获得精确 Source 路径。",
+        "",
+        "| Keyword | Source Path |",
+        "|---|---|",
+    ]
+    for n in names:
+        lines.append(f"| `{n}` | {base}/classes/class_{n}.rst |")
+    (api_dir / "keywords-suggested.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"[update_docs] keywords-suggested.md regenerated: {len(names)} entries")
+    return len(names)
+
+
 def verify_named_classes(api_dir: Path, src_classes: Path) -> list[str]:
     """Verify every class named in hand-authored indexes exists in Source."""
     named = set()
@@ -149,6 +268,9 @@ def build_from_sources(version: str) -> int:
 
     # 1. Regenerate the generated layer.
     generate_classes_index(version, api_dir, src_root / "classes")
+    generate_tutorials_index(version, api_dir, src_root)
+    generate_keyword_suggestions(version, api_dir, src_root / "classes")
+    generate_members_index(version, api_dir, src_root / "classes")
 
     # 2. Verify topics cited by routing exist in Source.
     missing_topics = verify_topics(version, src_root, ref_dir)

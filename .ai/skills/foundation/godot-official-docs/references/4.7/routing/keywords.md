@@ -36,6 +36,27 @@
 | 寻路 | pathfinding, navigate | `NavigationAgent2D/3D` | `class_navigationagent3d.rst` |
 | 多人 | multiplayer, rpc, sync | `MultiplayerAPI` / `MultiplayerPeer` | `class_multiplayerapi.rst` |
 | 计时 | timer, wait | `Timer` | `class_timer.rst` |
+| 网格寻路 / A* | astar, grid pathfinding, waypoint | `AStar2D` / `AStar3D` / `AStarGrid2D` | `class_astar2d.rst`、`class_astargrid2d.rst` |
+| 导航代理（2D） | navigation agent 2d, navmesh 2d | `NavigationAgent2D` / `NavigationRegion2D` | `class_navigationagent2d.rst` |
+| 空间查询 | intersect, point query, shape query | `PhysicsDirectSpaceState2D/3D` | `class_physicsdirectspacestate2d.rst` |
+| 物理 API / 服务端 | physics server, body create | `PhysicsServer2D` / `PhysicsServer3D` | `class_physicsserver2d.rst` |
+| 瓦片地图 | tilemap, tile, tileset | `TileMapLayer` / `TileSet` | `class_tilemaplayer.rst`、`class_tileset.rst` |
+| 粒子 | particles, effect, emission | `GPUParticles2D` / `GPUParticles3D` | `class_gpuparticles2d.rst` |
+| 线条绘制 | draw, draw_line, custom drawing | `CanvasItem`（`_draw`） | `class_canvasitem.rst` |
+| 视口 / 画布 | viewport, canvas layer | `Viewport` / `CanvasLayer` | `class_viewport.rst`、`class_canvaslayer.rst` |
+| 主题 / 皮肤 | theme, stylebox, skin ui | `Theme` / `StyleBox` | `class_theme.rst` |
+| 对话框 / 弹窗 | dialog, popup, confirmation | `AcceptDialog` / `ConfirmationDialog` | `class_acceptdialog.rst` |
+| 拖拽 / 剪贴板 | clipboard, drag and drop | `DisplayServer` | `class_displayserver.rst` |
+| 资源加载 / 保存 | load resource, save resource, import | `ResourceLoader` / `ResourceSaver` | `class_resourceloader.rst` |
+| 配置文件 | config, ini, settings | `ConfigFile` / `ProjectSettings` | `class_configfile.rst` |
+| 随机数 | random, seed, rng | `RandomNumberGenerator` | `class_randomnumbergenerator.rst` |
+| 数学工具 | clamp, lerp, angle, vector math | `@GlobalScope` / `Vector2` / `Vector3` | `class_@globalscope.rst` |
+| 时间 / 日期 | datetime, unix time | `Time` | `class_time.rst` |
+| 线程 | thread, mutex, semaphore | `Thread` / `Mutex` | `class_thread.rst` |
+| 信号 / 事件总线 | signal, emit, connect, event bus | `Signal` / `Node`（`signal` 相关） | `class_signal.rst` |
+| 子进程 / 命令行 | execute, os command | `OS` | `class_os.rst` |
+| 网页 / HTTP | http request, rest | `HTTPRequest` | `class_httprequest.rst` |
+| 存档 | save game, persistence | `FileAccess` / `ResourceSaver`（教程 `tutorials/io/`） | `class_fileaccess.rst` |
 | 版本迁移 | upgrade, breaking change | — | `../tutorials/migrating/upgrading_to_godot_4.7.rst`（前缀同上但去掉 `classes/`） |
 
 未命中 → 转 `topics.md`；仍未命中 = FAIL。

@@ -25,6 +25,7 @@
 | File I/O | `tutorials/io/` |
 | Math | `tutorials/math/` |
 | i18n | `tutorials/i18n/` |
+| Troubleshooting | `tutorials/troubleshooting.rst` |
 | Navigation | `tutorials/navigation/` |
 | Networking | `tutorials/networking/` |
 | Performance | `tutorials/performance/` |

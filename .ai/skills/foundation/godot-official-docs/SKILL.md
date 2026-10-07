@@ -20,6 +20,7 @@ Source:   .ai/skills/godot-official-docs_sources/4.7/  （只读 Source of Truth
 - 项目编码规范（→ godot-development-standard、godot-gdscript）
 - Feature implementation / 项目具体实现（→ 对应 Domain / systems Skill）
 - 项目目录设计
+- 社区/项目介绍类内容：Source 中的 `about/`、`community/` 明确**不纳入本 Skill 导航范围**，路由未命中时不要因此判定 FAIL，直接按文档缺失处理并说明
 
 职责边界：本 Skill 回答「**Godot 官方是什么**」；项目里「**应该怎么用**」由对应 Domain Skill 负责。
 
@@ -73,7 +74,7 @@ conditional
 
 Godot Official Documentation / Reference Knowledge Skill。
 
-本 Skill 是**导航层**，不是文档镜像：它把用户问题路由到只读 Source（`.ai/skills/godot-official-docs_sources/4.7/`）中的具体官方文档文件。references/ 仅保存索引与路由（< 1MB），不复制文档正文。
+本 Skill 是**导航层**，不是文档镜像：它把用户问题路由到只读 Source（`.ai/skills/godot-official-docs_sources/4.7/`）中的具体官方文档文件。references/ 保存索引与路由：Hand-authored 层（routing / api/INDEX / categories）保持极小；Generated 层（classes / tutorials-index / keywords-suggested / members-index 全量数据表）约 2.7 MB，由 update_docs.py 重建。不复制文档正文。
 
 ```text
 godot-official-docs（官方定义）
@@ -201,6 +202,9 @@ references/4.7/
 ├── api/INDEX.md              常用类 + 继承链导航规则（Hand-authored）
 ├── api/categories.md         按领域分类（Hand-authored）
 ├── api/classes.md            全量类清单（Generated，勿手改）
+├── api/tutorials-index.md    教程/引擎细节文件级索引，含标题（Generated，勿手改）
+├── api/keywords-suggested.md 全量类名关键词表（Generated，勿手改）
+├── api/members-index.md      成员 → 定义类反查表（Generated，勿手改）
 └── metadata/source-info.md   Source 元数据（version/branch/commit）
 ```
 

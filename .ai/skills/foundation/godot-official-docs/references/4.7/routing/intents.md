@@ -31,5 +31,13 @@
 | GDScript 语法 | `@GDScript` / `@GlobalScope` | `classes/class_@gdscript.rst`；教程 `tutorials/scripting/` |
 | 版本升级 / 破坏性变更 | — | `tutorials/migrating/upgrading_to_godot_4.7.rst` |
 | 第一次使用 Godot | — | `getting_started/introduction/`、`getting_started/first_2d_game/`、`getting_started/first_3d_game/` |
+| 血量 / 生命值 / 受伤 / 死亡 | `Health`（本项目 Feature；官方机制层） | 教程 `tutorials/scripting/`（信号）；`classes/class_area2d.rst`（伤害触发区） |
+| 眩晕 / 中断行动 / 控制效果 | 状态机 + Timer 模式 | `classes/class_timer.rst`；教程 `tutorials/physics/`（击退类） |
+| 拾取 / 收集 / 掉落 | Area2D 重叠检测 + Resource | `classes/class_area2d.rst`、`classes/class_resource.rst`；教程 `tutorials/io/` |
+| 门 / 开关 / 机关 | 信号驱动状态切换 | `classes/class_animatablebody2d.rst`；教程 `tutorials/physics/` |
+| 追击 / AI 行为 | NavigationAgent + CharacterBody | `classes/class_navigationagent2d.rst`、`classes/class_characterbody2d.rst`；教程 `tutorials/navigation/` |
+| 移动平台 | AnimatableBody2D + AnimationPlayer | `classes/class_animatablebody2d.rst`；教程 `tutorials/animation/` |
+| 血条 / HUD 显示 | Control + 自定义绘制 | `classes/class_range.rst`、`classes/class_progressbar.rst`；教程 `tutorials/ui/` |
+| 触发区域 / 绊线 | Area2D body_entered | `classes/class_area2d.rst`；教程 `tutorials/physics/` |
 
 路由顺序：本表 → `keywords.md` → `topics.md`。全部未命中 = FAIL，按 SKILL.md Failure Handling 处理。
