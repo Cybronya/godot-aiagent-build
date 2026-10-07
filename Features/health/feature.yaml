@@ -1,0 +1,43 @@
+# Machine-readable Feature metadata
+# Prototype for Agent feature discovery.
+
+id: health
+version: 1
+
+category: gameplay
+
+description: |
+  通用生命值组件，提供生命状态、伤害处理、治疗处理和死亡事件。
+
+provides:
+  - health_state
+  - damage_receiver
+  - heal_receiver
+  - death_event
+
+requires:
+  nodes:
+    - Node
+
+interfaces:
+  methods:
+    - take_damage(amount)
+    - heal(amount)
+    - get_current_health()
+    - is_dead()
+  signals:
+    - health_changed
+    - died
+
+compatible_with:
+  - player
+  - enemy
+  - destructible_object
+
+validation:
+  tests:
+    - test_health.gd
+
+notes:
+  - Death presentation is owned by consumers, not this feature.
+  - Feature owns health state and death state.
