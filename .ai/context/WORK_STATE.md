@@ -1,26 +1,42 @@
 # Work State
 
-当前工程状态。
+当前工程状态。（更新于 Round 8 之后 / commit `ae6e4d9`）
 
 ## Branch
 
-master（基线提交已建立：Framework 验证 + 可复用 Feature 开发成果固定）
+master（工作树干净，全部成果已入基线）
 
-## Modified Files
+## Project Stage
 
-- Features/health/*（新增：Health.tscn、health.gd、test_health.gd、README.md）
-- Scenes/attack_trigger.gd、main.tscn、project.godot、Tests/test_damage_interaction.gd（伤害交互：普通任务路径，已入基线后变更）
-- Features/player_movement/Player.tscn（组合 Health 组件）
-- Scenes/Player2.tscn（组合 Health 组件，max_health=8）
-- Tests/test_health_integration.gd（新增双角色集成验证）
-- Features/player_movement/*、Scenes/main.tscn、project.godot（此前任务：移动实现 + Feature 沉淀 + Player2）
-- .ai/memory/DECISIONS.md（AD-001、AD-002）、Framework 文件（上一阶段已完成的 Proposal 执行）
+Feature-based Agent Development —— MCP Round 8 已完成并沉淀（`docs: consolidate round 8 experiment record`）。
 
-## Test Status
+## Current Capabilities
 
-- Health 组件验证（test_health.gd）：PASS
-- Health 双角色集成验证（test_health_integration.gd）：PASS
-- 移动回归（player_movement / Player2）：PASS / PASS
-- 伤害交互验证（真实 main.tscn）：PASS
-- 主场景启动（--quit-after 120）：无错误
+### 可复用 Feature（Features/，12 个）
+
+- player_movement、health、health_bar、contact_damage、heal_pickup
+- collect_pickup、condition_gate、trigger_switch、openable_door
+- chase_movement、moving_platform、stun
+
+### 验证场景（Scenes/ + Tests/）
+
+- 场景组合实验：survival_arena、escape_room、boss_challenge、timed_combat_arena、interrupt_range、stun_training、siege_gate 等
+- 对应集成测试位于 Tests/（test_siege_gate.gd、test_timed_combat_arena.gd 等）
+
+## Round 8 结论（详见 CURRENT_TASK.md）
+
+多机制汇聚于同一实体：各 Feature 自有状态 + 公开行为接口，Scene Glue 只做事件连接与路由，不引入跨 Feature 仲裁器。
+
+## Framework
+
+- 入口：AI_ENTRY.md → .ai/config/agent.yaml → skill-registry.yaml
+- Validator：.ai/tools/validator/validate.py（仅按需执行）
+- 决策记录：.ai/memory/DECISIONS.md（AD-001 ~ AD-003）
+
+## Test Status（最近一次全量验证，Round 8 时点）
+
 - Framework Validator：PASS（0 errors / 0 warnings）
+- Siege Gate 场景验证：PASS
+- 既有 Feature 回归：PASS
+
+> 注意：本文件记录「最后一次验证时的快照」。如需最新逐项状态，以 git log 与 Tests/ 为准。

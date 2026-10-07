@@ -167,11 +167,13 @@ Framework 的机器入口、Skill Registry 与 Skill 定义必须保持单一来
 Agent 不应绕过上述入口自行推断 Skill、Registry 或 Framework 结构。
 
 ## 9. Before Starting Work
-nAgent 开始任何修改前，先阅读项目约定与上手指南：
+
+Agent 开始任何修改前，先阅读项目约定与上手指南：
 
 ```text
-Before starting work:
-
-Read:
-AGENT_ONBOARDING.md
+Read: AGENT_ONBOARDING.md
 ```
+
+> 与第 1 节的关系：第 1 节定义 Framework 的**机器入口链**（agent.yaml → Framework Config → Registry）；
+> 本节是**人类/Agent 上手前置阅读**。二者并行，不冲突：首次进入项目时先读本节，
+> 再按第 1 节链路加载 Framework 配置。
