@@ -14,9 +14,9 @@ var _events: Array[bool] = []
 
 
 func _initialize() -> void:
-	var packed: PackedScene = load("res://Features/trigger_switch/TriggerSwitch.tscn")
+	var packed: PackedScene = load("res://Features/trigger_switch/trigger_switch.tscn")
 	if packed == null:
-		_failures.append("加载 res://Features/trigger_switch/TriggerSwitch.tscn 失败")
+		_failures.append("加载 res://Features/trigger_switch/trigger_switch.tscn 失败")
 		_report()
 		return
 	var shape := CollisionShape2D.new()

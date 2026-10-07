@@ -110,7 +110,7 @@ func _initialize() -> void:
 	var sw_a: Area2D = arena2.get_node("Mechanism/RewardSwitch")
 	# 从 Feature 场景全新实例化第二对开关+门（多实例的真实用法；
 	# 不用 duplicate()：默认会连同信号连接一起复制，产生隐式联动）
-	var sw_b: Area2D = load("res://Features/trigger_switch/TriggerSwitch.tscn").instantiate()
+	var sw_b: Area2D = load("res://Features/trigger_switch/trigger_switch.tscn").instantiate()
 	sw_b.position = Vector2(-200, -200)
 	arena2.get_node("Mechanism").add_child(sw_b)
 	sw_b.activated.connect(arena2.get_node("Mechanism/SideDoor").set_open)

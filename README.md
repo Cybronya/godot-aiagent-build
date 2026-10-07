@@ -1,69 +1,45 @@
-# Godot Art Assets Skill v3
+# godot-aiagent-build
 
-这是一个面向 Godot 项目的 AI Agent Art Asset 管理 Skill。
+Godot AI Agent Development Framework —— 探索 AI Agent 如何理解、扩展、验证 Godot 项目的实验框架。
 
-v3 将完整的 Skill 规则体系与实际工具整合：
+> 本项目不是一个普通的 Godot 游戏。核心目标：让 Agent 具备类似专业 Godot 开发者的能力——理解已有架构、复用已有 Feature、安全修改、自动验证。
 
-- 规范目录初始化
-- 资源扫描
-- 新增 / 修改 / 删除检测
-- SHA-256 内容识别
-- 路径 / 文件名 hints
-- 人工语义确认
-- Manifest 管理
-- 规范检查
-- 安全整理
-- Godot 引用保护原则
+## Agent 入口
 
-## 核心原则
+**Agent 必须从以下入口进入，不得绕过：**
 
-Scanner 只收集客观事实，不进行视觉识别，也不把文件名猜测直接当成最终语义。
+1. `AI_ENTRY.md` —— 机器入口协议（Framework 加载链、Skill 发现规则）
+2. `AGENT_ONBOARDING.md` —— 上手指南（项目定位、核心概念、工作规则）
+3. `.ai/config/agent.yaml` —— Framework 唯一机器配置入口
 
-AI Agent 可以根据路径、文件名、规则和 manifest 自动工作；不确定的资源进入 pending / review。
+## 目录结构
 
-## 快速开始
+| 目录 | 职责 |
+|---|---|
+| `.ai/config/` | Framework contract、Schema、Skill Registry |
+| `.ai/skills/` | Agent 专业能力（含 godot-official-docs 官方文档导航层） |
+| `.ai/tools/` | 基础设施工具（validator、run_tests、art-assets scanner） |
+| `.ai/context/` | 当前任务 / 工程状态 |
+| `.ai/memory/` | 长期项目知识（决策记录、实验档案） |
+| `Features/` | 可复用游戏功能模块（组件 + 场景 + README + 测试） |
+| `Scenes/` | 场景组合实验 |
+| `Tests/` | 场景级集成测试 |
+| `addons/godot_mcp/` | Godot 编辑器 MCP 插件——Agent 与引擎交互的工具通道（第三方组件，按第三方依赖对待，不在本项目 Feature/Skill 体系内演化） |
 
-在 Godot 项目根目录解压本包，然后：
-
-```bash
-python .ai/tools/godot-art-assets/scan_assets.py init
-python .ai/tools/godot-art-assets/scan_assets.py sync
-python .ai/tools/godot-art-assets/scan_assets.py check
-```
-
-如果需要人工确认：
+## 常用命令
 
 ```bash
-python .ai/tools/godot-art-assets/scan_assets.py review
+# 统一测试入口（Features 组件测试 + Tests 集成测试）
+python .ai/tools/run_tests.py
+
+# Framework Validator（仅按需执行：检查 Registry/Skill 结构完整性）
+python .ai/tools/validator/validate.py
+
+# 官方文档导航层维护（离线重建 Generated 索引并校验引用）
+python .ai/skills/foundation/godot-official-docs/tools/update_docs.py --from-sources --version 4.7
 ```
 
-编辑 `.ai/context/asset_reviews/*.review.json` 中的 `asset.human`，然后：
+## 更多说明
 
-```bash
-python .ai/tools/godot-art-assets/scan_assets.py apply
-```
-
-## 依赖
-
-Python 3.9+。
-
-可选安装 Pillow 以读取 PNG/JPEG/WebP 等图片尺寸：
-
-```bash
-pip install pillow
-```
-
-没有 Pillow 时，尺寸字段可能为 `null`，其余扫描功能仍可使用。
-
-## 项目中的核心文件
-
-```text
-.ai/
-├── skills/godot-art-assets/       # Agent 规则
-├── tools/godot-art-assets/        # 执行工具
-└── context/
-    ├── asset_manifest.json        # 项目资产索引
-    └── asset_reviews/             # 人工确认表
-```
-
-`PACKAGE_STRUCTURE.md` 是本发行包的说明文档，正式项目中可以删除。
+- Art Asset 管理 skill 的使用说明：`.ai/tools/godot-art-assets/README.md`
+- 项目当前进度与实验记录：`.ai/context/WORK_STATE.md`、`.ai/memory/HISTORY.md`

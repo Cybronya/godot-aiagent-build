@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/boss_challenge.gd" id="1_challenge"]
 [ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://Features/trigger_switch/TriggerSwitch.tscn" id="3_switch"]
+[ext_resource type="PackedScene" path="res://Features/trigger_switch/trigger_switch.tscn" id="3_switch"]
 [ext_resource type="PackedScene" path="res://Features/condition_gate/ConditionGate.tscn" id="4_gate"]
 [ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="5_door"]
 [ext_resource type="PackedScene" path="res://Scenes/Boss.tscn" id="6_boss"]
