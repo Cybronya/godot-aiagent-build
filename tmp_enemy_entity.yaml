@@ -1,0 +1,31 @@
+scene:
+  id: enemy
+root:
+  scene: res://Features/chase_movement/ChaseMovement.tscn
+  name: Enemy
+  groups: [enemies]
+  properties:
+    speed: 70.0
+components:
+  - feature: contact_damage
+  - feature: health
+  - feature: health_bar
+nodes:
+  - type: Polygon2D
+    name: Visual
+    properties:
+      color: {type: color, value: [0.9, 0.3, 0.3, 1]}
+      polygon: [-14, -14, 14, -14, 14, 14, -14, 14]
+  - type: CollisionShape2D
+    name: Collision
+    shape:
+      type: rectangle
+      size: [28, 28]
+  - type: CollisionShape2D
+    name: ContactShape
+    parent: ContactDamage
+    shape:
+      type: rectangle
+      size: [36, 36]
+validation:
+  required_tests: [chase_movement, contact_damage, health, health_bar]

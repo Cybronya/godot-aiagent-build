@@ -159,3 +159,127 @@ supersedes：
 ### 验证
 
 - condition_gate 自身验证（聚合/数量约束/回落/幂等/reset/多实例）通过；EscapeRoom 集成验证（真实物理阻挡与穿出、双条件、状态保持、重置）通过；全量回归 17/17；双场景启动无错误；Validator PASS。
+
+---
+
+## AD-006: Feature 引入机器可读元数据 feature.yaml，作为发现与契约索引
+
+- 状态：accepted
+- 日期：2026-10-08
+- supersedes：null
+
+### 决定
+
+- 每个 Feature 目录增加 `feature.yaml`（格式由 `Features/FEATURE_SCHEMA.md` 定义），声明：身份（id/version/category）、summary、provides/requires 能力标签、interfaces（methods/signals/exports）、ownership（状态所有权）、composition（入口场景与组合方式）、validation（测试入口）。
+- 分工：`feature.yaml` 是机器可读的发现与契约索引；README.md 是人类可读复用说明；源码/场景是实现的 canonical 来源。接口签名必须与源码逐字一致；冲突时以 feature.yaml + 源码为准并回写修正另一方。
+- `ownership.state` 必须列全 Feature 拥有的状态域，落实 Round 8 结论（Feature 自己拥有状态，Scene Glue 不做仲裁）；状态域重叠须走 Architecture Decision，不得静默并存。
+- health 为首个原型实现；存量 Feature 逐步迁移，新 Feature 在 Finalization 时必须随目录交付 feature.yaml。
+
+### 原因
+
+- 此前 Agent 理解一个 Feature 必须依次阅读 README.md → gdscript → test，发现成本高且不可机读；Feature Registry 路线图（P0-1）要求 Agent 能快速匹配「需求 → 已有能力」。
+- 选择「每个 Feature 自带元数据」而非先建顶层聚合 Registry，是为了保持 canonical metadata 单一来源、避免 Registry 成为第二份元数据存储（与 skill-registry/skill-schema 的分工原则一致）；聚合索引留作后续加速层。
+
+### 影响
+
+- 新增 `Features/FEATURE_SCHEMA.md` 作为 feature.yaml 的唯一格式规范；新增 category 枚举（component/behavior/logic/interactive/world），新类别须先登记。
+- feature-development.md §6 Finalization 实际新增一项交付物（feature.yaml）；Discovery 的能力发现优先读 feature.yaml。
+- 后续可为 P0-1 第二步增加顶层聚合 Registry 与 Validator 一致性检查（预留，本次未实现）。
+
+### 验证
+
+- health/feature.yaml 的全部接口签名、导出属性、测试命令逐项对照 health.gd / test_health.gd 核实一致。
+- Framework Validator PASS（0 errors / 0 warnings）。
+
+---
+
+## AD-007: Feature 关系元数据与组合规划器（Composition Planner）
+
+- 状态：accepted
+- 日期：2026-10-08
+- supersedes：null
+
+### 决定
+
+- feature.yaml 增加 relations 节：works_with / commonly_used_with / conflicts（指向 Feature id）/ entity_roles（实体角色）；关系型前置 requires（能力标签）可写在 relations 或顶层。
+- 新增 Feature Graph（`.ai/context/feature_graph.json`，由 build_feature_index.py 随索引自动生成，节点=Feature、边=协作关系）与 Composition Planner（compose_features.py）：需求文本 → Discovery → 关系图增强 → 评分（provides×5 + relation×3 + entity_role×2）→ 冲突过滤 → Entity Blueprint（entity.id/role/features/reason/validation.required_tests）。
+- Entity Blueprint 是组合计划而非产物：实现仍按 AD-002 组件组合模式（实体场景只做组合），验证按 required_tests 回归。蓝图格式由 `.ai/context/composition_schema.yaml` 定义。
+- Validator 新增：relations 引用检查（Unknown Feature relation）、组合 requires 满足检查（Composition incomplete）、conflicts 共存检查。
+- 架构禁令：不建 Entity Manager / Gameplay Manager / Feature Controller；Entity 不拥有 Gameplay State，Scene 只负责组合。
+
+### 原因
+
+- Discovery 解决「找到能力」，但未回答「多个 Feature 如何组成实体」；组合知识此前只存在于 AD 与历史结论中，Agent 无法机读。
+- 关系图让「Siege Gate 式组合（Health+ContactDamage+ChaseMovement+Stun）」等已验证模式成为可计算数据，组合从临场发挥变为可审查的蓝图。
+
+### 影响
+
+- 新 Feature 交付时需按 FEATURE_SCHEMA 填写 relations；冲突必须指向 Feature id（如 player_movement conflicts chase_movement）。
+- 新增 feature-composition Skill（conditional，17 Skills）；feature_graph.json / feature_index.json 均为 Generated Data，feature.yaml 仍是唯一 Source of Truth。
+
+### 验证
+
+- test_composition.py 21 项断言全部 PASS（三用例组合、关系图边、缺前置/冲突/坏引用的 Validator 报告）。
+- 全链：build_feature_index PASS（12 节点 27 边）、test_feature_pipeline PASS、Validator PASS（0 errors / 0 warnings）。
+
+## AD-008: Scene Composer（场景自动组装层）
+
+- 状态：accepted
+- 日期：2026-10-09
+- supersedes：null
+
+### 决定
+
+- 新增 Scene Composer 工具链（`.ai/tools/scene_composer/`）：Entity/Scene Blueprint → 依赖解析 → 生成 Scenes/<RootName>.tscn → 结构校验 → 可选生成 Tests/test_<scene_id>.gd。
+- 每个 Feature 可选提供 template.yaml（Feature Scene Template）：声明入口场景、宿主根类型要求（root_type）、生成场景必需节点名（required_nodes）与待断言信号。格式规范见 FEATURE_SCHEMA §7 / `.ai/context/scene_schema.yaml`。
+- 索引（feature_index.json）随 relations 下发 relations.requires，供组合满足性检查（build_feature_index.normalize_relations）。
+- 场景生成硬约束：组件一律 instance=ExtResource 实例化（禁止复制 Feature 代码）；根节点不挂脚本（Scene 只负责组合，不拥有状态、不做仲裁）；requires 未满足时拒绝生成（Composition Error / Missing dependency）。
+- Validator 新增 check_scene_composition.py：Feature 完整性（Missing Feature）、依赖、根类型（Invalid Root Node Type）、组合约束。
+- 架构禁令沿用 AD-007：不建 Global/Entity/Feature Manager。
+
+### 原因
+
+- Composition 解决「组合哪些 Feature」，但实现仍靠手写场景，组合契约（组、命名、信号）易被遗漏；把蓝图落盘为标准 .tscn 并机器校验，实现「需求 → 能力发现 → 组合 → 场景 → 验证」完整闭环。
+
+### 影响
+
+- 新 Feature 需随目录交付 template.yaml 方可被 Scene Composer 组合；根类型要求写在 template 的 scene.root_type。
+- 新增 scene-composer Skill（conditional，18 Skills）；Scenes/ 与 Tests/ 下生成物由工具产出，人工场景不受自动覆盖语义保护。
+
+### 验证
+
+- test_scene_composer.py 31 项断言 PASS（三用例：Enemy.tscn 组合、缺前置拒绝且不写文件、EnemyBasic.tscn 全链 + Validator PASS）。
+- 端到端：compose_features → scene_composer --tests → check_scene_composition PASS；生成 Tests/test_enemy_basic.gd 经 Godot 无头运行 PASS（exit 0）。
+- 全链：test_feature_pipeline PASS、test_composition PASS、Validator PASS（18 Skills / 12 metadata，0 errors / 0 warnings）。
+
+## AD-009: Gameplay Loop Composer（需求到玩法循环层）
+
+- 状态：accepted
+- 日期：2026-10-10
+- supersedes：null
+
+### 决定
+
+- 新增 Gameplay Planner 工具链（`.ai/tools/gameplay_planner/`：planner.py + requirement_parser.py + blueprint_generator.py）：自然语言需求 → Gameplay Blueprint（gameplay.id / entities(features+scene 复用) / systems / loop.start-cycle-end / validation）+ Entity Relationship Graph（`.ai/context/entity_graph.json`，nodes/edges[relation]，如 Enemy -[attack]-> Player）。蓝图格式由 `.ai/context/gameplay_schema.yaml` 定义。
+- 新增 System Registry（`Systems/*/system.yaml`：id / provides / requires）描述跨实体流程（enemy_spawn、reward、door_control、platform_service）；System 只描述并校验能力契约，不实现为 Manager 类。
+- Entity 表达「role + features(+可选 scene 复用)」，实体场景实物仍由 Scene Composer（AD-008）生成；Gameplay 层不生成实体，也不拥有实体状态。
+- Validator 新增 check_gameplay.py：实体场景存在性（Missing Entity Scene）、Feature 满足性（Gameplay incomplete）、循环闭合（缺死亡/奖励时 Warning Gameplay loop incomplete）。
+- 流程：planner 蓝图落盘 → 每实体 scene_composer 生成场景 → check_gameplay 校验 → 循环测试（Godot 无头）。
+- 架构禁令沿 AD-007/008：禁止 God Object / GameManager / EntityManager / FeatureManager；Gameplay Logic 用独立 System 描述，Entity 只拥有自身状态。
+
+### 原因
+
+- Composition（AD-007）与 Scene Composer（AD-008）解决单实体生成，但未回答「多实体如何构成玩法循环」；实体关系（谁攻击谁）与跨实体流程（生成/奖励）此前无机读载体。
+
+### 影响
+
+- 新增 gameplay-planner Skill（conditional）；entity_graph.json 为 Generated Data。
+- Scene Builder 实例机制增强：root.scene 复用 Feature 场景时 root 属性/组覆写写在 [node] header 同行（Godot 不读 instance 行后单独的属性行）；节点允许 parent 指向组件节点（嵌套 shape）；Validator 校验 parent 路径必须指向场景内已声明节点。
+- run_tests.py 子进程输出按 utf-8 + errors=replace 解码（GBK 环境下 Godot 输出可致 UnicodeDecodeError 崩溃）。
+
+### 验证
+
+- test_gameplay_planner.py PASS（蓝图生成/实体图/check_gameplay 三类错误语义）；test_scene_composer.py PASS。
+- 端到端：planner "create enemy survival game" 落盘 survival_game.yaml（enemy/player 实体 + enemy_spawn/reward 系统 + 循环）→ enemy 场景 Blueprint 经 scene_composer 重建 Scenes/Enemy.tscn（与 HEAD 版结构等价：chase 根 + ContactShape + Visual + HealthBar，实例化根覆写组与 speed）→ check_gameplay PASS。
+- SurvivalArena 生存循环 Godot 集成测试 PASS（伤害链路/拾取恢复/死亡移除/重开/胜利路径）。
+- 全量 Godot 回归 30/30 PASS；Validator PASS。

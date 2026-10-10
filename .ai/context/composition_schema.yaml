@@ -1,0 +1,46 @@
+# Feature Composition Schema
+# 定义 Entity Blueprint 的格式（compose_features.py 的输出格式）。
+# Entity Blueprint 是组合计划，不是 Source of Truth——组合结果落盘为场景后，
+# 以场景 + feature.yaml（能力契约）为准。
+
+schema:
+  id: entity_blueprint
+  version: 1
+
+entity:
+  id: <snake_case 实体名，如 basic_enemy>
+  role: <entity_roles 之一（如 enemy/player/world_item）；来自组成 Feature 的 relations.entity_roles>
+
+features:
+  - <feature id 列表；每个 id 必须存在于 feature_index.json>
+
+reason:
+  <feature id>: <一句话：该 Feature 因何被选中（命中能力/关系）>
+
+validation:
+  required_tests:
+    - <组成 Feature id；每个 id 的 self_test 必须在组合后回归>
+
+rules:
+  - Entity 不拥有 Gameplay State；状态由组成 Feature 各自拥有（Round 8 结论）。
+  - Scene 只负责组合与实例化；关系用信号连接表达，不新建仲裁器。
+  - 组合内 Feature 的 relations.conflicts 条目不得与其他成员的能力标签同时出现。
+  - 关系型 requires（damage_receiver 等）必须由组合内其他成员或既有契约满足。
+
+example:
+  entity:
+    id: basic_enemy
+    role: enemy
+  features:
+    - health
+    - contact_damage
+    - chase_movement
+  reason:
+    health: "needed because entity has damage state"
+    contact_damage: "needed because entity damages target"
+    chase_movement: "needed because entity follows player"
+  validation:
+    required_tests:
+      - health
+      - contact_damage
+      - chase_movement

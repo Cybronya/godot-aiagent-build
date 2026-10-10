@@ -1,0 +1,57 @@
+# Feature Metadata: chase_movement
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: chase_movement
+version: 1
+category: behavior
+
+summary: 朝目标节点持续移动的 2D 追击组件（CharacterBody2D 根脚本），不读任何输入。
+
+provides:
+  - character_movement
+  - chase_behavior
+  - target_following
+
+requires: []
+
+interfaces:
+  methods: []   # 无公共方法，物理帧自动追击
+  signals: []
+  exports:
+    - name: speed
+      type: float
+      default: 80.0
+      description: 移动速度
+    - name: target_path
+      type: NodePath
+      default: ""
+      description: 目标节点路径（相对本节点，通常指向玩家实体）
+
+ownership:
+  state:
+    - 追击目标引用（_target，由 target_path 惰性解析）
+  rules:
+    - 与 player_movement 互为镜像：不读任何输入，只朝 target_path 指向的节点移动
+    - 目标缺失、未配置或已被释放时保持静止，不报错；目标被释放后按路径重新解析
+    - 必须作为 CharacterBody2D 实体的根脚本使用
+
+composition:
+  entry_scene: ChaseMovement.tscn
+  usage: 实例化 ChaseMovement.tscn 作为实体根（要求 CharacterBody2D），或以 chase_movement.gd 作根脚本；target_path 配置追击目标；与其他组件（如 Health.tscn）同层组合
+  related_features: [player_movement, health, contact_damage, stun]
+
+validation:
+  self_test: test_chase_movement.gd
+  command: godot --headless --path . -s res://Features/chase_movement/test_chase_movement.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with:
+    - health
+    - contact_damage
+    - stun
+  conflicts: []
+  entity_roles:
+    - enemy

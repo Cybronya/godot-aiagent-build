@@ -1,0 +1,19 @@
+# System Registry: reward
+
+id: reward
+version: 1
+summary: 循环结束结算：订阅实体死亡/收集事件，累计奖励信号；只聚合事件，不拥有实体状态。
+
+provides:
+  - reward_settlement
+
+requires:
+  - death_event      # 依赖宿主实体的 Health.died（或 collect_event）作为结算输入
+
+implements:
+  - 场景侧：结算节点订阅成员实体 Feature 信号（died / collected / fulfilled）
+  - 直连复用：与 ConditionGate/CollectPickup 的布尔契约一致（AD-005），无仲裁脚本
+  - 结算输出为信号/计数，状态归属场景重开流程，不建全局管理器
+
+validation:
+  gameplay_test: 检查实体死亡后结算信号触发、循环 end 语义闭合

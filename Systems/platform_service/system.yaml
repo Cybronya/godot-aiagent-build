@@ -1,0 +1,18 @@
+# System Registry: platform_service
+
+id: platform_service
+version: 1
+summary: 平台运输服务：MovingPlatform 按配置往返渡载可乘坐实体；时间驱动、无跨实体状态。
+
+provides:
+  - transport_service
+
+requires:
+  - platform_transport   # MovingPlatform 能力
+
+implements:
+  - 场景侧：实例化 MovingPlatform.tscn 并配置 travel/period/target_group
+  - 乘客关系由 RideZone 自动维护（Round 7 语义），System 不参与帧逻辑
+
+validation:
+  gameplay_test: 检查平台往返、乘客跟随与离开释放

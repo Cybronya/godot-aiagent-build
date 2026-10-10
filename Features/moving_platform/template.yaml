@@ -1,0 +1,17 @@
+# Feature Scene Template: moving_platform
+
+feature:
+  id: moving_platform
+
+scene:
+  source: MovingPlatform.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - MovingPlatform
+
+interfaces:
+  signals: []

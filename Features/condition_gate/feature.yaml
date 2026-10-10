@@ -1,0 +1,70 @@
+# Feature Metadata: condition_gate
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: condition_gate
+version: 1
+category: logic
+
+summary: 条件聚合门（AND/AtLeast）：把 N 个布尔输入聚合为单一 fulfilled 输出；纯逻辑、无场景依赖。
+
+provides:
+  - condition_aggregation
+  - and_logic
+  - boolean_output   # fulfilled(is_fulfilled: bool) 可直连 set_open(bool) 类目标
+
+requires: []
+
+interfaces:
+  methods:
+    - name: set_condition
+      signature: "set_condition(value: bool, id: String)"
+      description: 上报指定条件状态；未声明的 id 首次上报时自动纳入聚合
+    - name: is_fulfilled
+      signature: "is_fulfilled() -> bool"
+      description: 查询当前聚合结果
+    - name: reset
+      signature: "reset()"
+      description: 清空全部条件并重评（场景重开流程调用）
+  signals:
+    - name: fulfilled
+      signature: "fulfilled(is_fulfilled: bool)"
+      description: 聚合结果跨越阈值时广播（重复同值不广播，幂等）
+  exports:
+    - name: condition_count
+      type: int
+      default: 2
+      description: 需满足的条件数量
+    - name: aggregation
+      type: enum
+      default: Aggregation.All
+      description: All=全部条件为 true 且数量达标；AtLeast=当前 true 数量达标（动态重评，条件回落即回落）
+
+ownership:
+  state:
+    - 各条件状态表（_states）与聚合结果（_is_fulfilled）
+  rules:
+    - 纯逻辑组件：不知道输入来自开关、按钮还是脚本（同签名布尔契约，AD-005）
+    - 保持型 All 模式：条件达成后保持满足；AtLeast 模式动态重评
+    - 重复上报同值不产生多余信号（幂等）
+    - 需要 All 模式动态重评时应扩展本组件而非另建（AD-005）
+
+composition:
+  entry_scene: ConditionGate.tscn
+  usage: 实例化为场景节点；触发源 activated(bool) 直连 set_condition（binds=["条件id"]）；fulfilled 直连 OpenableDoor.set_open 或场景胶水
+  related_features: [trigger_switch, collect_pickup, openable_door]
+
+validation:
+  self_test: test_condition_gate.gd
+  command: godot --headless --path . -s res://Features/condition_gate/test_condition_gate.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - collect_pickup
+    - trigger_switch
+  commonly_used_with:
+    - openable_door
+  conflicts: []
+  entity_roles:
+    - logic

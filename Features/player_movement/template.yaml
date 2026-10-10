@@ -1,0 +1,18 @@
+# Feature Scene Template: player_movement
+
+feature:
+  id: player_movement
+
+scene:
+  source: Player.tscn
+  root_type: CharacterBody2D   # 输入驱动移动要求 CharacterBody2D 实体根
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - Player
+
+interfaces:
+  signals: []

@@ -1,0 +1,60 @@
+# Feature Metadata: moving_platform
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: moving_platform
+version: 1
+category: world
+
+summary: 移动平台（AnimatableBody2D）：在起点与起点+travel 间三角波往返；进入 RideZone 的目标组实体被渡载。
+
+provides:
+  - platform_transport
+  - ride_carrying
+  - moving_ground
+
+requires: []
+
+interfaces:
+  methods: []   # 无公共方法，位置由内部时间驱动
+  signals: []
+  exports:
+    - name: travel
+      type: Vector2
+      default: Vector2(200.0, 0.0)
+      description: 单程位移向量（起点 → 起点+travel）
+    - name: period
+      type: float
+      default: 4.0
+      description: 一个完整往返周期的秒数
+    - name: target_group
+      type: String
+      default: "players"
+      description: 可乘坐实体所在组名
+
+ownership:
+  state:
+    - 平台位置（时间驱动）与乘客名单（_riders）
+  rules:
+    - top-down 渡载语义：不依赖重力；乘客位移 = 平台帧位移直接应用，离开 RideZone 即下车
+    - 本体默认不带实体碰撞，纯渡载；按需添加 CollisionShape2D 获得推挤能力
+    - 场景重载后从起点重新开始，无需 reset
+    - RideZone 不承载 CollectPickup 等 Area2D 组件——类型语义不匹配，应改用父子变换组合（Round 7 Do Not Reuse 结论）
+
+composition:
+  entry_scene: MovingPlatform.tscn
+  usage: 实例化到场景中放置起点；travel/period 配置运动；RideZone 的 target_group 决定可乘坐者；移动资源用父子节点组合（父变换传播），不挂在本体 RideZone 下
+  related_features: [player_movement, collect_pickup]
+
+validation:
+  self_test: test_moving_platform.gd
+  command: godot --headless --path . -s res://Features/moving_platform/test_moving_platform.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with:
+    - player_movement
+  conflicts: []
+  entity_roles:
+    - level_geometry

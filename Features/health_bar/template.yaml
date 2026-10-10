@@ -1,0 +1,17 @@
+# Feature Scene Template: health_bar
+
+feature:
+  id: health_bar
+
+scene:
+  source: HealthBar.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - HealthBar
+
+interfaces:
+  signals: []

@@ -1,0 +1,13 @@
+{
+  "nodes": [
+    "Enemy",
+    "Player"
+  ],
+  "edges": [
+    {
+      "from": "Enemy",
+      "to": "Player",
+      "relation": "attack"
+    }
+  ]
+}

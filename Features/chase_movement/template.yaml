@@ -1,0 +1,18 @@
+# Feature Scene Template: chase_movement
+
+feature:
+  id: chase_movement
+
+scene:
+  source: ChaseMovement.tscn
+  root_type: CharacterBody2D   # 宿主实体根必须是 CharacterBody2D
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - ChaseMovement
+
+interfaces:
+  signals: []

@@ -1,0 +1,33 @@
+gameplay:
+  id: survival_game
+entities:
+  enemy:
+    role: enemy
+    features:
+    - chase_movement
+    - contact_damage
+    - health
+  player:
+    role: player
+    features:
+    - health
+    - player_movement
+    scene: res://Features/player_movement/Player.tscn
+systems:
+- enemy_spawn
+- reward
+loop:
+  start: player spawned
+  cycle: enemy spawn; enemy chase; damage player
+  end: enemy defeated; reward gained
+validation:
+  required_entities:
+  - enemy
+  - player
+  required_features:
+  - damage_source
+  required_tests:
+  - chase_movement
+  - contact_damage
+  - health
+  - player_movement

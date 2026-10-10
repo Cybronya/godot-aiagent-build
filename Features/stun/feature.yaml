@@ -1,0 +1,75 @@
+# Feature Metadata: stun
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: stun
+version: 1
+category: component
+
+summary: 眩晕/硬直组件：暂停宿主 CharacterBody2D 物理一段时长后自动恢复；受击触发与 API 触发可并存。
+
+provides:
+  - stun_state
+  - hit_reaction
+  - action_lock
+
+requires:
+  - health_state   # stun_on_hit 模式需要宿主 Health 组件（命名 "Health" 或 health_path 指定）
+
+interfaces:
+  methods:
+    - name: stun
+      signature: "stun(duration: float) -> bool"
+      description: 使宿主眩晕指定时长；返回是否实际生效
+    - name: is_stunned
+      signature: "is_stunned() -> bool"
+      description: 查询当前是否处于眩晕
+  signals:
+    - name: stunned
+      signature: "stunned(is_stunned: bool)"
+      description: 眩晕状态跨越时广播（重复同值不广播，幂等）
+  exports:
+    - name: stun_on_hit
+      type: bool
+      default: false
+      description: 订阅宿主 Health，受击（生命值下降）时触发眩晕
+    - name: stun_duration
+      type: float
+      default: 0.4
+      description: 默认眩晕时长
+    - name: health_path
+      type: NodePath
+      default: ""
+      description: 宿主 Health 组件路径；为空时按约定查找父节点下 "Health"
+
+ownership:
+  state:
+    - 眩晕状态、剩余时长（_remaining）
+  rules:
+    - 长盖短：时长内再次触发取较大值，不提前解除
+    - 重入不产生第二套状态（幂等广播）
+    - 死亡目标拒绝新 stun；死亡宿主恢复时不复活物理（死亡表现由死亡订阅方负责）
+    - 暂停范围 = 宿主根节点物理处理 + 速度清零；子组件（ContactDamage 等）不受影响
+
+composition:
+  entry_scene: Stun.tscn
+  usage: 实例化为 CharacterBody2D 实体的子节点；被动触发配置 stun_on_hit=true，主动触发调用 stun(duration)；与 Health / ContactDamage / ChaseMovement 同层组合（Siege Gate 模式）
+  related_features: [health, contact_damage, chase_movement]
+
+validation:
+  self_test: test_stun.gd
+  command: godot --headless --path . -s res://Features/stun/test_stun.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  # stun_on_hit 模式依赖宿主 Health（damage_receiver 能力）
+  requires: [damage_receiver]
+  works_with:
+    - contact_damage
+  commonly_used_with:
+    - health
+    - chase_movement
+  conflicts: []
+  entity_roles:
+    - enemy
+    - player

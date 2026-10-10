@@ -1,0 +1,18 @@
+# System Registry: door_control
+
+id: door_control
+version: 1
+summary: 机关→门控制流程：把触发源（switch/collect/gate）的布尔输出直连 door 的 set_open；纯信号路由。
+
+provides:
+  - door_flow
+
+requires:
+  - trigger_event    # 触发源能力（trigger_switch / condition_gate / collect_pickup）
+
+implements:
+  - 场景侧：activated/fulfilled(bool) 直连 OpenableDoor.set_open（AD-005 同签名契约）
+  - 多源汇入同一 set_open 即天然 OR；不写仲裁脚本
+
+validation:
+  gameplay_test: 检查触发后门开、门状态信号广播

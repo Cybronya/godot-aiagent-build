@@ -65,13 +65,15 @@ def run_test(godot: Path, test: Path) -> tuple[bool, str]:
     cmd = [str(godot), "--headless", "--path", str(PROJECT_ROOT), "-s", res_path]
     try:
         proc = subprocess.run(
-            cmd, capture_output=True, text=True,
+            cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
             timeout=TIMEOUT_PER_TEST, stdin=subprocess.DEVNULL,
         )
     except subprocess.TimeoutExpired:
         return False, f"TIMEOUT after {TIMEOUT_PER_TEST}s"
     ok = proc.returncode == 0
-    tail = "\n".join((proc.stdout + proc.stderr).strip().splitlines()[-5:])
+    stdout = proc.stdout or ""
+    stderr = proc.stderr or ""
+    tail = "\n".join((stdout + stderr).strip().splitlines()[-5:])
     return ok, f"exit={proc.returncode}" + (f"\n{tail}" if not ok else "")
 
 

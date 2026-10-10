@@ -1,0 +1,17 @@
+# Feature Scene Template: heal_pickup
+
+feature:
+  id: heal_pickup
+
+scene:
+  source: HealPickup.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - HealPickup
+
+interfaces:
+  signals: []

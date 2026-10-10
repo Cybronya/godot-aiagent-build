@@ -17,6 +17,18 @@ skills:
   - id: godot-scene-system
     path: ../skills/systems/godot-scene-system
 
+  - id: feature-discovery
+    path: ../skills/systems/feature-discovery
+
+  - id: feature-composition
+    path: ../skills/systems/feature-composition
+
+  - id: scene-composer
+    path: ../skills/systems/scene-composer
+
+  - id: gameplay-planner
+    path: ../skills/gameplay/gameplay-planner
+
   - id: godot-gdscript
     path: ../skills/foundation/godot-gdscript
 

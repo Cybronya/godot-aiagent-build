@@ -1,0 +1,19 @@
+# Feature Scene Template: stun
+
+feature:
+  id: stun
+
+scene:
+  source: Stun.tscn
+  root_type: CharacterBody2D   # stun 暂停宿主根物理，宿主必须是 CharacterBody2D
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - Stun
+
+interfaces:
+  signals:
+    - stunned

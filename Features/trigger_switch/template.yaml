@@ -1,0 +1,18 @@
+# Feature Scene Template: trigger_switch
+
+feature:
+  id: trigger_switch
+
+scene:
+  source: trigger_switch.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - TriggerSwitch
+
+interfaces:
+  signals:
+    - activated

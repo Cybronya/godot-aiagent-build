@@ -1,0 +1,90 @@
+# Scene Blueprint Schema
+# 定义 Scene Composer 的输入格式（scene_composer.py 读取）与生成约定。
+# Scene Blueprint 由 Entity Blueprint（composition_schema.yaml）推导而来：
+# Entity Blueprint 是「组合哪些 Feature」的计划；Scene Blueprint 是「如何实例化」的计划。
+# 场景落盘后以 .tscn + feature.yaml（能力契约）为准。
+
+schema:
+  id: scene_blueprint
+  version: 1
+
+# ---------- 输入格式（Scene Blueprint） ----------
+
+scene:
+  id: <snake_case 场景 id，如 enemy_basic；缺省时取 entity.id>
+
+root:
+  type: <Godot 节点类型，如 CharacterBody2D / Area2D / Node2D>
+  name: <PascalCase 根节点名，如 EnemyBasic；决定输出 Scenes/<name>.tscn>
+
+components:
+  - feature: <feature id，必须存在于 feature_index.json>
+
+nodes:
+  - type: <额外结构节点类型，如 CollisionShape2D>
+    name: <可选，缺省取 type>
+
+validation:
+  required_tests:
+    - <组成 Feature id；每个 id 的 self_test 必须在场景生成后回归>
+
+# ---------- Entity Blueprint 自动推导规则 ----------
+# scene_composer.py 也接受 Entity Blueprint（entity: / features:），按以下规则
+# 推导 Scene Blueprint：
+#   scene.id  = entity.id
+#   root.name = PascalCase(entity.id)   （basic_enemy -> BasicEnemy）
+#   components = features 逐项映射（经 Feature Scene Template）
+#   root.type 推导：任一成员 template 声明 scene.root_type 则取其交集要求
+#                   （如 CharacterBody2D）；否则 enemy/player 角色 -> CharacterBody2D，
+#                   其余 -> Node2D。
+
+# ---------- Feature Scene Template（Features/<id>/template.yaml） ----------
+#
+# 每个 Feature 用 template.yaml 描述「如何被实例化」（Source of Truth 仍是
+# feature.yaml 的 composition.entry_scene，template.yaml 与之保持一致）：
+#
+# feature:
+#   id: health
+#
+# scene:
+#   source: Health.tscn        # Feature 入口场景（相对 Feature 目录）
+#   root_type: CharacterBody2D # 可选：宿主实体根必须的节点类型
+#
+# attach:
+#   parent: root               # 实例化位置（v1 仅支持 root）
+#
+# validation:
+#   required_nodes:
+#     - Health                 # 生成的场景必须存在的节点名
+#
+# interfaces:
+#   signals:                   # 生成的测试将逐一 has_signal 断言
+#     - health_changed
+#     - died
+
+rules:
+  - Scene 只负责组合与实例化；不拥有 Gameplay State、不写仲裁脚本（Round 8 结论）。
+  - 组件一律通过 Feature Scene Template 以实例化（instance=ExtResource）加入，
+    禁止复制 Feature 代码进实体场景。
+  - 成员的 relations.requires 与顶层 requires 必须由组合满足，否则拒绝生成。
+  - 输出固定为 Scenes/<root.name>.tscn；配套测试为 Tests/test_<scene.id>.gd（由
+    test_generator 生成）。
+  - 禁止 Entity Manager / Gameplay Manager / Feature Manager / Global Singleton。
+
+example:
+  scene:
+    id: enemy_basic
+  root:
+    type: CharacterBody2D
+    name: EnemyBasic
+  components:
+    - feature: health
+    - feature: contact_damage
+    - feature: chase_movement
+  nodes:
+    - type: CollisionShape2D
+  validation:
+    required_tests:
+      - health
+      - contact_damage
+      - chase_movement

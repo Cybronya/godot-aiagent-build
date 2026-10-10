@@ -1,36 +1,28 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://Features/chase_movement/chase_movement.gd" id="1_chase"]
-[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="2_health"]
-[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="3_contact"]
-[ext_resource type="PackedScene" path="res://Features/health_bar/HealthBar.tscn" id="4_bar"]
+[ext_resource type="PackedScene" path="res://Features/chase_movement/ChaseMovement.tscn" id="1_root_scene"]
+[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="2_contact_damage"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="3_health"]
+[ext_resource type="PackedScene" path="res://Features/health_bar/HealthBar.tscn" id="4_health_bar"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_Collision_1"]
 size = Vector2(28, 28)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ContactShape_2"]
 size = Vector2(36, 36)
 
-[node name="Enemy" type="CharacterBody2D"]
-motion_mode = 1
-script = ExtResource("1_chase")
-speed = 70.0
+[node name="Enemy" instance=ExtResource("1_root_scene") groups = ["enemies"] speed = 70.0]
+
+[node name="ContactDamage" parent="." instance=ExtResource("2_contact_damage")]
+
+[node name="Health" parent="." instance=ExtResource("3_health")]
+
+[node name="HealthBar" parent="." instance=ExtResource("4_health_bar")]
 
 [node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.9, 0.3, 0.3, 1)
-polygon = PackedVector2Array(-14, -14, 14, -14, 14, 14, -14, 14)
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_body")
-
-[node name="Health" parent="." instance=ExtResource("2_health")]
-
-[node name="ContactDamage" parent="." instance=ExtResource("3_contact")]
-target_group = "players"
+shape = SubResource("RectangleShape2D_Collision_1")
 
 [node name="ContactShape" type="CollisionShape2D" parent="ContactDamage"]
-shape = SubResource("RectangleShape2D_contact")
-
-[node name="HealthBar" parent="." instance=ExtResource("4_bar")]
-position = Vector2(0, -22)
-health_path = NodePath("../Health")
+shape = SubResource("RectangleShape2D_ContactShape_2")

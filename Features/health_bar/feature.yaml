@@ -1,0 +1,67 @@
+# Feature Metadata: health_bar
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: health_bar
+version: 1
+category: component
+
+summary: 血条显示组件：绑定宿主 Health，按当前/最大生命值比例绘制双色血条；纯显示、只读。
+
+provides:
+  - health_display
+  - health_visualization
+
+requires:
+  - health_state   # 依赖 health_path 指向的 Health 组件；未绑定则不绘制
+
+interfaces:
+  methods:
+    - name: get_ratio
+      signature: "get_ratio() -> float"
+      description: 查询当前生命值比例（0.0 ~ 1.0）
+  signals: []   # 纯只读显示，不对外广播
+  exports:
+    - name: health_path
+      type: NodePath
+      default: ""
+      description: 绑定的 Health 组件路径
+    - name: bar_size
+      type: Vector2
+      default: Vector2(32.0, 4.0)
+      description: 血条尺寸（像素）
+    - name: back_color
+      type: Color
+      default: Color(0.6, 0.1, 0.1, 0.9)
+      description: 底色
+    - name: fill_color
+      type: Color
+      default: Color(0.25, 0.85, 0.3, 1.0)
+      description: 前景色
+
+ownership:
+  state: []   # 纯显示组件，不拥有任何游戏状态
+  rules:
+    - 不修改任何生命值状态，仅订阅 health_changed / died 信号刷新重绘
+    - 不依赖宿主节点类型，只要 health_path 指向一个 Health 组件即可复用
+
+composition:
+  entry_scene: HealthBar.tscn
+  usage: 实例化为实体子节点（Node2D），health_path 指向同实体的 Health；颜色/尺寸经导出属性覆写
+  related_features: [health]
+
+validation:
+  self_test: test_health_bar.gd
+  command: godot --headless --path . -s res://Features/health_bar/test_health_bar.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  # 显示依赖 health_state（只读订阅）
+  requires: [health_state]
+  works_with: []
+  commonly_used_with:
+    - health
+  conflicts: []
+  entity_roles:
+    - player
+    - enemy

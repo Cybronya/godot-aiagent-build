@@ -1,0 +1,20 @@
+# Feature Scene Template: health
+# 描述 health 如何被实例化进实体场景；入口场景以 feature.yaml composition.entry_scene 为准。
+
+feature:
+  id: health
+
+scene:
+  source: Health.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - Health
+
+interfaces:
+  signals:
+    - health_changed
+    - died

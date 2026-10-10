@@ -1,0 +1,109 @@
+# Gameplay Blueprint Schema
+# 定义 Gameplay Loop Composer 的中间格式（planner.py 输出、check_gameplay.py 校验）。
+# 层级关系：
+#   Gameplay Blueprint（本文件）     —— 游戏级：实体清单 + 跨实体系统 + 循环
+#     ↓ Entity Blueprint             —— 实体级：组合哪些 Feature（composition_schema.yaml）
+#       ↓ Scene Blueprint            —— 实例化计划（scene_schema.yaml）
+#         ↓ .tscn                    —— Scenes/ 落盘产物
+# 职责边界（架构约束）：Feature 管能力、Entity 管组合、Scene 管实例、
+# System 管跨实体流程。Gameplay Blueprint 是计划而非产物。
+
+schema:
+  id: gameplay_blueprint
+  version: 1
+
+# ---------- 输出格式 ----------
+
+gameplay:
+  id: <snake_case 游戏 id，如 survival_game>
+
+entities:
+  <entity_id>:                      # snake_case，如 player / enemy
+    role: <entity_roles 之一；可省略，由成员 Feature 投票推断>
+    features:
+      - <feature id，必须存在于 feature_index.json>
+    scene: <可选，复用既有场景（res:// 路径或 Scenes/ 相对路径）；缺省由 Scene Composer 生成>
+
+systems:
+  - <system id，必须存在于 Systems/*/system.yaml；描述跨实体流程的归属>
+
+loop:
+  start: <一行：循环如何开始>
+  cycle: <一行：循环主体（谁做什么）>
+  end: <一行：循环如何结束（含结算，如奖励）>
+
+validation:
+  required_entities:                # 缺省 = entities 全部 id
+    - <entity_id>
+  required_features:                # 跨实体能力需求（如 damage/death），映射到成员 Feature
+    - <capability 或 feature id>
+  required_tests:
+    - <feature id>                  # 成员 Feature 回归
+  gameplay_test: <可选，循环测试脚本路径；缺省由测试生成器产出>
+
+# ---------- Entity Relationship（entity_graph.json，自动生成） ----------
+# 由 planner.py 从蓝图生成 .ai/context/entity_graph.json：
+#   节点 = 实体 id 的 PascalCase（Player / Enemy）
+#   边   = 跨实体作用关系（谁对谁做什么），来源：systems 流程描述 + 关系表
+#
+# {
+#   "nodes": ["Player", "Enemy"],
+#   "edges": [
+#     {"from": "Enemy", "to": "Player", "relation": "attack"}
+#   ]
+# }
+#
+# v1 关系表（跨实体作用 → relation）：
+#   damage_source → damage_receiver 能力   => relation: attack
+#   heal_source   → heal_receiver 能力     => relation: heal
+#   collect_event → boolean_target 等      => relation: collect
+# 关系方向 = 能力提供者实体 → 能力消费实体（由成员 Feature 的 provides/requires 推导）。
+
+# ---------- System Registry（Systems/<system_id>/system.yaml） ----------
+#
+# System 是跨实体流程的归属单元（如生成波次、奖励结算），不是节点、不是单例。
+# 每个 System 用 system.yaml 声明：
+#
+# id: enemy_spawn
+# provides:
+#   - enemy_creation        # 能力标签（跨实体流程能力）
+# requires:
+#   - enemy_scene           # 需要的场景/蓝图资源（entity id 或 capability）
+# flow:
+#   start:  循环开始条件
+#   cycle:  循环主体
+#   end:    循环结束/结算
+# implements:
+#   - Scene 侧组合（生成器节点 + 信号连接），不改 Feature 内部
+#
+# 禁止：System 拥有 Entity/Feature 状态；System 实现为 Global Singleton /
+# GameManager / EntityManager。流程逻辑落在本蓝图所属场景的组合层。
+
+rules:
+  - Entity 只拥有自身状态；跨实体流程归 System（本 schema 唯一新增所有权层）。
+  - 实体成员 Feature 先 Discovery 后组合；组合合法性由 check_composition /
+    dependency_resolver 把关，本层不重复校验。
+  - loop.end 必须包含结算语义（死亡/奖励/通关），否则 Validator 报 loop incomplete。
+  - 生成的实体场景命名 <PascalCase(entity_id)>.tscn（如 EnemyBasic.tscn）；
+    与既有手工场景同名时必须显式指定 scene 字段复用或改名，禁止静默覆盖。
+  - 禁止 God Object / GameManager / EntityManager / FeatureManager。
+
+example:
+  gameplay:
+    id: survival_game
+  entities:
+    player:
+      features: [player_movement, health]
+    enemy:
+      features: [chase_movement, contact_damage, health]
+  systems:
+    - enemy_spawn
+    - reward
+  loop:
+    start: player spawned
+    cycle: enemy spawn; enemy chase; damage player
+    end: enemy defeated; reward gained
+  validation:
+    required_entities: [player, enemy]
+    required_features: [damage, death]
+    required_tests: [player_movement, health, chase_movement, contact_damage]

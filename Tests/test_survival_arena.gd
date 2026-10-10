@@ -99,12 +99,13 @@ func _initialize() -> void:
 		_failures.append("玩家死亡后不应继续移动，实际位移 %s" % (player.global_position - dead_pos))
 
 	# ---- 阶段 E2：敌人死亡后正确移除（died 信号接线；须在场景重载前验证） ----
-	# 只有经 _spawn_enemy 生成的敌人才带组与接线，直接调用生成器保证确定性
+	# 只有经 _spawn_enemy 生成的敌人才带组与接线，直接调用生成器保证确定性；
+	# 组内可能残留阶段 B 手动加入的敌人（无接线），取最后一个（本次生成的）。
 	arena._spawn_enemy()
 	var victim: CharacterBody2D = null
 	var spawned_enemies := get_nodes_in_group("enemies")
 	if not spawned_enemies.is_empty():
-		victim = spawned_enemies[0]
+		victim = spawned_enemies[spawned_enemies.size() - 1]
 	if victim == null:
 		_failures.append("生成的敌人应加入 enemies 组")
 	var victim_health: Health = victim.get_node("Health")

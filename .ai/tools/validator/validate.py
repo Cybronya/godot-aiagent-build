@@ -16,6 +16,22 @@ if str(TOOLS_DIR) not in sys.path:
 from config.loader import load_config, normalize_behavior
 from config.schema import CONFIG_SCHEMAS, TYPE_NAMES
 
+# Feature Metadata Validation (stage 3) + Feature Index Validation (stage 4).
+# check_features() returns failure/warning lists and never mutates the project.
+from validator.check_feature_metadata import check_features as check_feature_metadata_rules
+
+
+def report_feature_metadata(r: Reporter, prints: list) -> None:
+    """Run the Feature Metadata + Index checks and feed them into the shared Reporter."""
+    result = check_feature_metadata_rules()
+    if result["failures"]:
+        for failure in result["failures"]:
+            r.fail(failure)
+    if result["warnings"]:
+        for warning in result["warnings"]:
+            r.warn(warning)
+    prints.append(f"  Feature metadata checked: {result['checked']}")
+
 class Reporter:
     def __init__(self): self.failures=[]; self.warnings=[]
     def fail(self, message): self.failures.append(message)
@@ -463,7 +479,18 @@ def main():
         for no,line in enumerate(path.read_text(encoding="utf-8").splitlines(),1):
             if re.search(r"(?<![A-Za-z0-9_-])(?:\.ai|\.agent)(?:/|\\)",line): r.fail(f"{path}:{no}: framework-internal path hardcodes .ai/.agent")
 
+    # Framework Validation stages (after Skill Registry Validation):
+    #   1. Project Structure Validation  (Framework config files, Skill tree)
+    #   2. Skill Registry Validation     (entries above)
+    #   3. Feature Metadata Validation   (Features/*/feature.yaml contract)
+    #   4. Feature Index Validation      (feature_index.json sync)
+    # (Feature Tests remain project-side and are run separately.)
+    checks_prints: list = []
+    report_feature_metadata(r, checks_prints)
+
     print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}"); print(f"  Legacy Registry entries checked: {len(legacy_entries)}")
+    for line in checks_prints:
+        print(line)
     if r.failures: print("\nFAILURES"); [print(f"  - {x}") for x in r.failures]
     if r.warnings: print("\nWARNINGS"); [print(f"  - {x}") for x in r.warnings]
     return r.summary()

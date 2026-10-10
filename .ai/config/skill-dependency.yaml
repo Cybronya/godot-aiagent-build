@@ -48,6 +48,13 @@ category_direction:
       - architecture
       - foundation
       - systems
+
+  gameplay:
+    may_depend_on:
+      - architecture
+      - foundation
+      - systems
+      - gameplay
   engineering:
     may_depend_on:
       - architecture

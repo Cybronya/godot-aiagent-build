@@ -1,0 +1,71 @@
+# Feature Metadata: openable_door
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: openable_door
+version: 1
+category: logic
+
+summary: 状态门（StaticBody2D）：接收 set_open(bool) 切换阻挡/通行，视觉同步；纯被动、幂等。
+
+provides:
+  - door_state
+  - passage_control
+  - boolean_target   # set_open(bool) 是 activated(bool) 类信号的标准直连目标
+
+requires: []
+
+interfaces:
+  methods:
+    - name: set_open
+      signature: "set_open(value: bool)"
+      description: 设置门状态；重复设置同值无副作用（幂等）
+    - name: is_open
+      signature: "is_open() -> bool"
+      description: 查询当前门状态
+  signals:
+    - name: state_changed
+      signature: "state_changed(is_open: bool)"
+      description: 门状态变化时广播
+  exports:
+    - name: start_open
+      type: bool
+      default: false
+      description: 初始是否开启
+    - name: open_visual_color
+      type: Color
+      default: Color(0.4, 0.8, 0.5, 0.25)
+      description: 开启态视觉颜色
+    - name: closed_visual_color
+      type: Color
+      default: Color(0.55, 0.4, 0.25, 1.0)
+      description: 关闭态视觉颜色
+
+ownership:
+  state:
+    - 门开关状态（_is_open）
+  rules:
+    - 纯被动组件：不知道信号来自开关、按钮还是脚本；无节点名依赖（AD-005）
+    - set_open 幂等；多事件源汇入同一门状态即天然 OR（Round 8：Health.died → set_open 直连）
+    - collision 开关用 set_deferred，安全用于物理回调上下文
+
+composition:
+  entry_scene: OpenableDoor.tscn
+  usage: 实例化到场景中；任意 activated(bool)/fulfilled(bool) 信号直连 set_open；多信号连同一 set_open 即 OR
+  related_features: [trigger_switch, condition_gate, collect_pickup]
+
+validation:
+  self_test: test_openable_door.gd
+  command: godot --headless --path . -s res://Features/openable_door/test_openable_door.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - condition_gate
+    - trigger_switch
+  commonly_used_with:
+    - collect_pickup
+  conflicts: []
+  entity_roles:
+    - logic
+    - level_geometry

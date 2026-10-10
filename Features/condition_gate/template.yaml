@@ -1,0 +1,18 @@
+# Feature Scene Template: condition_gate
+
+feature:
+  id: condition_gate
+
+scene:
+  source: ConditionGate.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - ConditionGate
+
+interfaces:
+  signals:
+    - fulfilled

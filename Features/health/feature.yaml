@@ -1,13 +1,13 @@
-# Machine-readable Feature metadata
-# Prototype for Agent feature discovery.
+# Feature Metadata: health
+# 格式规范见 Features/FEATURE_SCHEMA.md（本文件是该规范的首个原型实现）。
+# 与 README.md 的分工：本文件是机器可读的发现与契约索引；README.md 是人类可读的复用说明。
+# 冲突时以本文件 + 源码为准，并回写修正另一方。
 
 id: health
 version: 1
+category: component
 
-category: gameplay
-
-description: |
-  通用生命值组件，提供生命状态、伤害处理、治疗处理和死亡事件。
+summary: 通用生命值组件：当前生命值、伤害处理、恢复处理、死亡状态与死亡事件。
 
 provides:
   - health_state
@@ -15,29 +15,63 @@ provides:
   - heal_receiver
   - death_event
 
-requires:
-  nodes:
-    - Node
+requires: []
 
 interfaces:
   methods:
-    - take_damage(amount)
-    - heal(amount)
-    - get_current_health()
-    - is_dead()
+    - name: take_damage
+      signature: "take_damage(amount: int) -> void"
+      description: 受到伤害；0/负数与死亡后重复伤害被忽略
+    - name: heal
+      signature: "heal(amount: int) -> void"
+      description: 恢复生命值，上限钳制为 max_health；0/负数与死亡后恢复被忽略
+    - name: get_current_health
+      signature: "get_current_health() -> int"
+      description: 查询当前生命值
+    - name: is_dead
+      signature: "is_dead() -> bool"
+      description: 查询死亡状态
   signals:
-    - health_changed
-    - died
+    - name: health_changed
+      signature: "health_changed(current: int, amount: int)"
+      description: 生命值变化（含伤害量）
+    - name: died
+      signature: "died"
+      description: 生命值归零时触发，恰好一次
+  exports:
+    - name: max_health
+      type: int
+      default: 5
+      description: 初始生命值，实例化时可覆写
 
-compatible_with:
-  - player
-  - enemy
-  - destructible_object
+ownership:
+  state:
+    - 当前生命值
+    - 死亡状态
+  rules:
+    - 死亡后的具体表现（消失、重生、结算等）由订阅 died 的游戏逻辑决定，本组件不实现
+    - 死亡后忽略一切后续伤害与恢复（死亡守卫）
+
+composition:
+  entry_scene: Health.tscn
+  usage: 将 Health.tscn 实例化为任意实体的子节点（不依赖父节点类型）；差异化配置通过覆写 max_health 表达
+  related_features: [health_bar, contact_damage, heal_pickup]
 
 validation:
-  tests:
-    - test_health.gd
+  self_test: test_health.gd
+  command: godot --headless --path . -s res://Features/health/test_health.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
 
-notes:
-  - Death presentation is owned by consumers, not this feature.
-  - Feature owns health state and death state.
+relations:
+  works_with: []
+  commonly_used_with:
+    - contact_damage
+    - stun
+    - heal_pickup
+    - health_bar
+  conflicts: []
+  entity_roles:
+    - player
+    - enemy
+    - destructible

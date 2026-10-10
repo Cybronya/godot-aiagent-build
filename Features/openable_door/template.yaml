@@ -1,0 +1,18 @@
+# Feature Scene Template: openable_door
+
+feature:
+  id: openable_door
+
+scene:
+  source: OpenableDoor.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - OpenableDoor
+
+interfaces:
+  signals:
+    - state_changed

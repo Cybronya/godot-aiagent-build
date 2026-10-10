@@ -1,0 +1,63 @@
+# Feature Metadata: collect_pickup
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: collect_pickup
+version: 1
+category: interactive
+
+summary: 接触拾取组件：目标组实体接触后广播 collected 并从场景移除自身；不负值、不与 Health 交互。
+
+provides:
+  - collect_event
+  - consumable_pickup
+  - condition_input   # collected 直连 ConditionGate 的兼容来源
+
+requires: []
+
+interfaces:
+  methods:
+    - name: is_collected
+      signature: "is_collected() -> bool"
+      description: 查询是否已被收集
+  signals:
+    - name: collected
+      signature: "collected(value: bool, pickup_id: String)"
+      description: 被目标组实体接触收集时广播；签名与 ConditionGate.set_condition(value, id) 绑定兼容（binds=[pickup_id] 直连）
+  exports:
+    - name: pickup_id
+      type: String
+      default: ""
+      description: 拾取物标识（作为 collected 事件的 id 上报）
+    - name: target_group
+      type: String
+      default: "players"
+      description: 目标所在组名
+
+ownership:
+  state:
+    - 收集状态（_collected，一次性：true 后不再响应）
+  rules:
+    - 不与 Health 交互、无数值结算——只表达「接触 → 收集事件 → 消失」（钥匙、金币、碎片）
+    - 收集事件接入条件聚合时直连 ConditionGate，无需胶水脚本
+
+composition:
+  entry_scene: CollectPickup.tscn
+  usage: 实例化到场景中；同节点下添加 CollisionShape2D；配置 pickup_id / target_group；需条件聚合时将 collected 直连 ConditionGate.set_condition（binds=[pickup_id]）
+  related_features: [condition_gate, heal_pickup, openable_door]
+
+validation:
+  self_test: test_collect_pickup.gd
+  command: godot --headless --path . -s res://Features/collect_pickup/test_collect_pickup.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - condition_gate
+  # collected 直连 ConditionGate（AND 聚合）
+  commonly_used_with:
+    - condition_gate
+  conflicts: []
+  entity_roles:
+    - world_item
+    - key_item

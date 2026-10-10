@@ -1,0 +1,454 @@
+{
+  "registry_version": 2,
+  "generated_at": "2026-10-08T18:32:59Z",
+  "features": [
+    {
+      "id": "chase_movement",
+      "version": "1",
+      "category": "behavior",
+      "provides": [
+        "character_movement",
+        "chase_behavior",
+        "target_following"
+      ],
+      "requires": [],
+      "interfaces": [
+        "speed",
+        "target_path"
+      ],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/chase_movement/test_chase_movement.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "health",
+          "contact_damage",
+          "stun"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "collect_pickup",
+      "version": "1",
+      "category": "interactive",
+      "provides": [
+        "collect_event",
+        "consumable_pickup",
+        "condition_input"
+      ],
+      "requires": [],
+      "interfaces": [
+        "is_collected",
+        "pickup_id",
+        "target_group",
+        "collected"
+      ],
+      "signals": [
+        "collected"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/collect_pickup/test_collect_pickup.gd"
+      },
+      "relations": {
+        "works_with": [
+          "condition_gate"
+        ],
+        "commonly_used_with": [
+          "condition_gate"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "world_item",
+          "key_item"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "condition_gate",
+      "version": "1",
+      "category": "logic",
+      "provides": [
+        "condition_aggregation",
+        "and_logic",
+        "boolean_output"
+      ],
+      "requires": [],
+      "interfaces": [
+        "set_condition",
+        "is_fulfilled",
+        "reset",
+        "condition_count",
+        "aggregation",
+        "fulfilled"
+      ],
+      "signals": [
+        "fulfilled"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/condition_gate/test_condition_gate.gd"
+      },
+      "relations": {
+        "works_with": [
+          "collect_pickup",
+          "trigger_switch"
+        ],
+        "commonly_used_with": [
+          "openable_door"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "logic"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "contact_damage",
+      "version": "1",
+      "category": "interactive",
+      "provides": [
+        "damage_source",
+        "contact_damage_dealing"
+      ],
+      "requires": [
+        "health_state"
+      ],
+      "interfaces": [
+        "damage",
+        "tick_interval",
+        "target_group"
+      ],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/contact_damage/test_contact_damage.gd"
+      },
+      "relations": {
+        "works_with": [
+          "stun"
+        ],
+        "commonly_used_with": [
+          "health"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy",
+          "trap"
+        ],
+        "requires": [
+          "damage_receiver"
+        ]
+      }
+    },
+    {
+      "id": "heal_pickup",
+      "version": "1",
+      "category": "interactive",
+      "provides": [
+        "heal_source",
+        "consumable_pickup"
+      ],
+      "requires": [
+        "health_state"
+      ],
+      "interfaces": [
+        "heal_amount",
+        "target_group"
+      ],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/heal_pickup/test_heal_pickup.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "health"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "world_item"
+        ],
+        "requires": [
+          "heal_receiver"
+        ]
+      }
+    },
+    {
+      "id": "health",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "health_state",
+        "damage_receiver",
+        "heal_receiver",
+        "death_event"
+      ],
+      "requires": [],
+      "interfaces": [
+        "take_damage",
+        "heal",
+        "get_current_health",
+        "is_dead",
+        "max_health",
+        "health_changed",
+        "died"
+      ],
+      "signals": [
+        "health_changed",
+        "died"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/health/test_health.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "contact_damage",
+          "stun",
+          "heal_pickup",
+          "health_bar"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "player",
+          "enemy",
+          "destructible"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "health_bar",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "health_display",
+        "health_visualization"
+      ],
+      "requires": [
+        "health_state"
+      ],
+      "interfaces": [
+        "get_ratio",
+        "health_path",
+        "bar_size",
+        "back_color",
+        "fill_color"
+      ],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/health_bar/test_health_bar.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "health"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "player",
+          "enemy"
+        ],
+        "requires": [
+          "health_state"
+        ]
+      }
+    },
+    {
+      "id": "moving_platform",
+      "version": "1",
+      "category": "world",
+      "provides": [
+        "platform_transport",
+        "ride_carrying",
+        "moving_ground"
+      ],
+      "requires": [],
+      "interfaces": [
+        "travel",
+        "period",
+        "target_group"
+      ],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/moving_platform/test_moving_platform.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "player_movement"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "level_geometry"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "openable_door",
+      "version": "1",
+      "category": "logic",
+      "provides": [
+        "door_state",
+        "passage_control",
+        "boolean_target"
+      ],
+      "requires": [],
+      "interfaces": [
+        "set_open",
+        "is_open",
+        "start_open",
+        "open_visual_color",
+        "closed_visual_color",
+        "state_changed"
+      ],
+      "signals": [
+        "state_changed"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/openable_door/test_openable_door.gd"
+      },
+      "relations": {
+        "works_with": [
+          "condition_gate",
+          "trigger_switch"
+        ],
+        "commonly_used_with": [
+          "collect_pickup"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "logic",
+          "level_geometry"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "player_movement",
+      "version": "1",
+      "category": "behavior",
+      "provides": [
+        "character_movement",
+        "input_driven_movement",
+        "player_control"
+      ],
+      "requires": [],
+      "interfaces": [
+        "speed",
+        "action_left",
+        "action_right",
+        "action_up",
+        "action_down"
+      ],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/player_movement/test_player_movement.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "health",
+          "health_bar"
+        ],
+        "conflicts": [
+          "chase_movement"
+        ],
+        "entity_roles": [
+          "player"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "stun",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "stun_state",
+        "hit_reaction",
+        "action_lock"
+      ],
+      "requires": [
+        "health_state"
+      ],
+      "interfaces": [
+        "stun",
+        "is_stunned",
+        "stun_on_hit",
+        "stun_duration",
+        "health_path",
+        "stunned"
+      ],
+      "signals": [
+        "stunned"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/stun/test_stun.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage"
+        ],
+        "commonly_used_with": [
+          "health",
+          "chase_movement"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy",
+          "player"
+        ],
+        "requires": [
+          "damage_receiver"
+        ]
+      }
+    },
+    {
+      "id": "trigger_switch",
+      "version": "1",
+      "category": "interactive",
+      "provides": [
+        "trigger_event",
+        "boolean_source",
+        "toggle_source"
+      ],
+      "requires": [],
+      "interfaces": [
+        "is_triggered",
+        "reset",
+        "trigger_mode",
+        "target_group",
+        "activated"
+      ],
+      "signals": [
+        "activated"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/trigger_switch/test_trigger_switch.gd"
+      },
+      "relations": {
+        "works_with": [
+          "condition_gate"
+        ],
+        "commonly_used_with": [
+          "openable_door"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "logic",
+          "trap"
+        ],
+        "requires": []
+      }
+    }
+  ]
+}

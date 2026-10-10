@@ -1,0 +1,18 @@
+# Feature Scene Template: collect_pickup
+
+feature:
+  id: collect_pickup
+
+scene:
+  source: CollectPickup.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - CollectPickup
+
+interfaces:
+  signals:
+    - collected

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/chase_movement/ChaseMovement.tscn" id="1_chase_movement"]
+[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="1_contact_damage"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="1_health"]
+
+[node name="EnemyBasic" type="CharacterBody2D"]
+
+[node name="ChaseMovement" parent="." instance=ExtResource("1_chase_movement")]
+
+[node name="ContactDamage" parent="." instance=ExtResource("1_contact_damage")]
+
+[node name="Health" parent="." instance=ExtResource("1_health")]

@@ -1,0 +1,17 @@
+# Feature Scene Template: contact_damage
+
+feature:
+  id: contact_damage
+
+scene:
+  source: ContactDamage.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - ContactDamage
+
+interfaces:
+  signals: []

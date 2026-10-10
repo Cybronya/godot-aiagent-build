@@ -1,0 +1,68 @@
+# Feature Metadata: player_movement
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: player_movement
+version: 1
+category: behavior
+
+summary: 方向键驱动的 2D 角色移动（CharacterBody2D），输入动作名与速度可配置。
+
+provides:
+  - character_movement
+  - input_driven_movement
+  - player_control
+
+requires: []
+
+interfaces:
+  methods: []   # 无公共方法，纯物理帧驱动
+  signals: []
+  exports:
+    - name: speed
+      type: float
+      default: 220.0
+      description: 移动速度
+    - name: action_left
+      type: String
+      default: "move_left"
+      description: 向左输入动作名
+    - name: action_right
+      type: String
+      default: "move_right"
+      description: 向右输入动作名
+    - name: action_up
+      type: String
+      default: "move_up"
+      description: 向上输入动作名
+    - name: action_down
+      type: String
+      default: "move_down"
+      description: 向下输入动作名
+
+ownership:
+  state:
+    - 移动速度（velocity，由输入向量与 speed 推导，不跨帧累积）
+  rules:
+    - 只负责「输入 → 速度 → 移动」职责链；外观与碰撞形状由场景结构承担
+    - 输入动作名通过导出属性自定义，多个角色可复用同一逻辑
+
+composition:
+  entry_scene: Player.tscn
+  usage: 实例化 Player.tscn 或以 player_controller.gd 作为 CharacterBody2D 根脚本；项目需预定义 move_* 输入动作，动作名可经导出属性覆写（如 Player2 的 p2_*）
+  related_features: [chase_movement, health, health_bar]
+
+validation:
+  self_test: test_player_movement.gd
+  command: godot --headless --path . -s res://Features/player_movement/test_player_movement.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with:
+    - health
+    - health_bar
+  conflicts:
+    - chase_movement   # 同一 CharacterBody2D 根不能同时被输入驱动与追击驱动
+  entity_roles:
+    - player

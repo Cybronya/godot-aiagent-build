@@ -25,6 +25,14 @@ types:
     layer: systems
     default_load_policy: conditional
 
+  gameplay:
+    description: >
+      Gameplay-level planning and composition capabilities: turning game
+      requirements into Gameplay Blueprints (entities, systems, loop) above
+      single-entity composition. Decides cross-entity flow ownership.
+    layer: systems
+    default_load_policy: conditional
+
   engineering:
     description: >
       Testing, debugging, performance and delivery capabilities.

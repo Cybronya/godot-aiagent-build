@@ -1,0 +1,153 @@
+{
+  "nodes": [
+    "chase_movement",
+    "collect_pickup",
+    "condition_gate",
+    "contact_damage",
+    "heal_pickup",
+    "health",
+    "health_bar",
+    "moving_platform",
+    "openable_door",
+    "player_movement",
+    "stun",
+    "trigger_switch"
+  ],
+  "edges": [
+    {
+      "from": "chase_movement",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "chase_movement",
+      "to": "contact_damage",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "chase_movement",
+      "to": "stun",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "collect_pickup",
+      "to": "condition_gate",
+      "type": "works_with"
+    },
+    {
+      "from": "collect_pickup",
+      "to": "condition_gate",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "condition_gate",
+      "to": "collect_pickup",
+      "type": "works_with"
+    },
+    {
+      "from": "condition_gate",
+      "to": "trigger_switch",
+      "type": "works_with"
+    },
+    {
+      "from": "condition_gate",
+      "to": "openable_door",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "contact_damage",
+      "to": "stun",
+      "type": "works_with"
+    },
+    {
+      "from": "contact_damage",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "heal_pickup",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "health",
+      "to": "contact_damage",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "health",
+      "to": "stun",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "health",
+      "to": "heal_pickup",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "health",
+      "to": "health_bar",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "health_bar",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "moving_platform",
+      "to": "player_movement",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "openable_door",
+      "to": "condition_gate",
+      "type": "works_with"
+    },
+    {
+      "from": "openable_door",
+      "to": "trigger_switch",
+      "type": "works_with"
+    },
+    {
+      "from": "openable_door",
+      "to": "collect_pickup",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "player_movement",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "player_movement",
+      "to": "health_bar",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "stun",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "stun",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "stun",
+      "to": "chase_movement",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "trigger_switch",
+      "to": "condition_gate",
+      "type": "works_with"
+    },
+    {
+      "from": "trigger_switch",
+      "to": "openable_door",
+      "type": "commonly_used_with"
+    }
+  ]
+}

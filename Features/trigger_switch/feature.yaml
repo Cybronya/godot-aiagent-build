@@ -1,0 +1,67 @@
+# Feature Metadata: trigger_switch
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: trigger_switch
+version: 1
+category: interactive
+
+summary: 触发开关：目标组实体进入触发范围后改变自身状态并广播 activated(bool)；Latching/Repeat/Toggle 三模式。
+
+provides:
+  - trigger_event
+  - boolean_source   # activated(bool) 可直连 set_open/set_condition 类目标
+  - toggle_source
+
+requires: []
+
+interfaces:
+  methods:
+    - name: is_triggered
+      signature: "is_triggered() -> bool"
+      description: 查询当前触发状态
+    - name: reset
+      signature: "reset()"
+      description: 恢复未触发状态并广播 false（场景重开流程调用）
+  signals:
+    - name: activated
+      signature: "activated(triggered: bool)"
+      description: 状态变化时广播；同签名布尔契约（AD-005），可直连 OpenableDoor.set_open / ConditionGate.set_condition（binds 追加）
+  exports:
+    - name: trigger_mode
+      type: enum
+      default: Mode.Latching
+      description: Latching=一次性保持；Repeat=每次进入重复广播；Toggle=每次进入翻转
+    - name: target_group
+      type: String
+      default: "players"
+      description: 目标所在组名
+
+ownership:
+  state:
+    - 触发状态（_triggered）
+  rules:
+    - 职责单一：只感知触发并维护自身状态，不知道也不关心谁在监听
+    - 关系连接由使用场景完成（订阅 activated 驱动门/平台/事件），无节点名依赖
+    - 不自行动重置；reset() 由场景级重置流程调用
+    - 不做几何/计数判定（Round 7 结论：完成语义由 ConditionGate 表达）
+
+composition:
+  entry_scene: trigger_switch.tscn
+  usage: 实例化到场景中；同节点下添加 CollisionShape2D；activated 直连目标（如 OpenableDoor.set_open）；重开场景时调用 reset()
+  related_features: [openable_door, condition_gate]
+
+validation:
+  self_test: test_trigger_switch.gd
+  command: godot --headless --path . -s res://Features/trigger_switch/test_trigger_switch.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - condition_gate
+  commonly_used_with:
+    - openable_door
+  conflicts: []
+  entity_roles:
+    - logic
+    - trap

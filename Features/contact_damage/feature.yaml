@@ -1,0 +1,63 @@
+# Feature Metadata: contact_damage
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: contact_damage
+version: 1
+category: interactive
+
+summary: 接触伤害组件：对与宿主重叠、属于目标组的实体按节拍造成伤害；伤害规则复用 health。
+
+provides:
+  - damage_source
+  - contact_damage_dealing
+
+requires:
+  - health_state   # 目标须有 Health 组件（组 + 命名契约，缺失时静默跳过）
+
+interfaces:
+  methods: []   # 无公共方法，重叠检测 + 节拍结算自动进行
+  signals: []
+  exports:
+    - name: damage
+      type: int
+      default: 1
+      description: 每次结算的伤害量
+    - name: tick_interval
+      type: float
+      default: 0.5
+      description: 结算间隔秒数
+    - name: target_group
+      type: String
+      default: "players"
+      description: 目标所在组名
+
+ownership:
+  state:
+    - 结算节拍（_cooldown，仅内部计时）
+  rules:
+    - 不实现生命值逻辑：受击、死亡保护均由 Health 兜底（死亡目标不再受击）
+    - 目标须满足组合契约（加入 target_group + Health 子节点命名 "Health"）；不满足则静默跳过
+    - 不处理击退、无敌帧等表现；一次性命中类交互不复用本组件
+
+composition:
+  entry_scene: ContactDamage.tscn
+  usage: 实例化为实体（Area2D 亦可作实体根）的子节点或根；同节点下添加 CollisionShape2D 定义接触范围；配置 damage / tick_interval / target_group
+  related_features: [health, chase_movement, stun]
+
+validation:
+  self_test: test_contact_damage.gd
+  command: godot --headless --path . -s res://Features/contact_damage/test_contact_damage.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  # requires 语义：需要目标侧存在提供 damage_receiver 能力的 Feature（即 health）
+  requires: [damage_receiver]
+  works_with:
+    - stun
+  commonly_used_with:
+    - health
+  conflicts: []
+  entity_roles:
+    - enemy
+    - trap

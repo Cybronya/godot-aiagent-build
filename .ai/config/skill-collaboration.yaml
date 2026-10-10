@@ -27,6 +27,13 @@ ownership:
     decides:
       - concrete_system_implementation
 
+  gameplay:
+    decides:
+      - gameplay_blueprint
+      - entity_roster_and_relations
+      - cross_entity_flow_ownership
+      - gameplay_loop_completeness
+
   engineering:
     decides:
       - testing

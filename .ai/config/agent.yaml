@@ -16,4 +16,6 @@ framework:
   skill_loading: ./skill-loading.yaml
   skill_dependency: ./skill-dependency.yaml
   skill_collaboration: ./skill-collaboration.yaml
+  feature_metadata_validator: ../tools/validator/check_feature_metadata.py
+  feature_index_generator: ../tools/feature_registry/build_feature_index.py
   validator: ../tools/validator/validate.py

@@ -1,0 +1,20 @@
+# System Registry: enemy_spawn
+# System 是跨实体流程的归属单元（非节点、非单例）；格式见 .ai/context/gameplay_schema.yaml。
+
+id: enemy_spawn
+version: 1
+summary: 按节拍在生成点实例化 enemy 实体进入场景；波次/数量为场景配置，不拥有实体状态。
+
+provides:
+  - enemy_creation
+
+requires:
+  - enemy_scene      # 需要 enemy 实体场景（Scenes/ 内蓝图生成物或复用场景）
+
+implements:
+  - 场景侧：生成器节点（Timer + Marker2D 组合）在 cycle 节拍实例化 enemy 场景
+  - 信号连接：生成完成回调由场景组合层承担；不修改 enemy Feature 内部
+  - 不拥有实体状态：实例化后的 enemy 归场景树，行为归其 Feature 组件
+
+validation:
+  gameplay_test: 检查循环内 enemy 实例数随节拍增长、enemy 场景可实例化

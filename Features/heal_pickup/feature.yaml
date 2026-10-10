@@ -1,0 +1,56 @@
+# Feature Metadata: heal_pickup
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: heal_pickup
+version: 1
+category: interactive
+
+summary: 治疗拾取物：目标组实体接触时恢复其 Health，随后从场景移除自身；满血或死亡目标不消费。
+
+provides:
+  - heal_source
+  - consumable_pickup
+
+requires:
+  - health_state   # 目标须有 Health 组件（组 + 命名契约，缺失时静默跳过）
+
+interfaces:
+  methods: []   # 无公共方法，接触自动触发
+  signals: []   # 不广播信号；结算即 heal + 自移除
+  exports:
+    - name: heal_amount
+      type: int
+      default: 2
+      description: 恢复的生命值数量
+    - name: target_group
+      type: String
+      default: "players"
+      description: 目标所在组名
+
+ownership:
+  state: []   # 无状态组件：结算即自移除（queue_free）
+  rules:
+    - 恢复规则完全复用 Health.heal()（上限钳制不超过 max_health）
+    - 满血或死亡目标不消费拾取物，拾取物保持在场
+    - 需要场景在同节点下提供 CollisionShape2D 定义拾取范围
+
+composition:
+  entry_scene: HealPickup.tscn
+  usage: 实例化到场景中；同节点下添加 CollisionShape2D；配置 heal_amount / target_group
+  related_features: [health, contact_damage, collect_pickup]
+
+validation:
+  self_test: test_heal_pickup.gd
+  command: godot --headless --path . -s res://Features/heal_pickup/test_heal_pickup.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  # 目标消费方是 damage_receiver/heal_receiver（health）
+  requires: [heal_receiver]
+  works_with: []
+  commonly_used_with:
+    - health
+  conflicts: []
+  entity_roles:
+    - world_item
