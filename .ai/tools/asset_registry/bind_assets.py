@@ -88,18 +88,95 @@ NODE_MAPPING = {
 }
 
 # 实体角色 -> 必填资源角色（视觉/动画槽位）
-REQUIRED_ROLES_BY_ENTITY_ROLE = {
-    "enemy": ["idle", "move", "attack", "hurt"],
-    "player": ["idle", "run", "attack", "hurt"],
-    "world_item": ["idle"],
-    "trap": ["idle"],
-    "level": ["environment_tileset"],
-}
+# Phase 1.8.1：单一事实来源迁移到 .ai/context/entity_asset_slots.yaml；
+# 本常量改为启动时从配置读出（legacy 内存结构不变，行为一致）。配置缺失时
+# 退回 SLOTS_FILE_PATH 默认值指向项目下；结构错误抛 RuntimeError 带路径。
+SLOTS_PATH = Path(os.environ.get("ENTITY_ASSET_SLOTS",
+                                 str(Path(__file__).resolve().parents[3] / ".ai" / "context" / "entity_asset_slots.yaml")))
 
-# 可选资源角色（有则绑定，无则不算缺失）
-OPTIONAL_ROLES = ["hurt_sfx"]
 
-FORMAT_CONFIDENCE = {"high": 3, "medium": 2, "low": 1}
+def load_entity_slots(path: Path = SLOTS_PATH) -> dict:
+    """读取实体槽位配置，返回 {role: {"required": [...], "optional": [...]}}。
+
+    输出同时包含配置级 default_required 偷绑到 "*default*" 键上，供
+    entity_required_roles 等 legacy 调用方使用。
+    校验 schema.id / schema.version（Phase 1.8.1 一致性补丁）与各节结构；
+    未知版本明确报错，不得静默接受。
+    """
+    if not path.is_file():
+        print("FAIL: entity asset slots config not found: %s" % path, file=sys.stderr)
+        raise SystemExit(2)
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as exc:   # Phase 1.8.1 收尾：解析错误带路径与原因
+        raise RuntimeError("entity asset slots config is not valid YAML: %s (%s)"
+                           % (path, str(exc).splitlines()[0][:120])) from exc
+    if not isinstance(data, dict):
+        raise RuntimeError("entity asset slots config must be a mapping: %s" % path)
+    schema = data.get("schema") or {}
+    if not isinstance(schema, dict) or schema.get("id") != "entity_asset_slots":
+        raise RuntimeError("entity asset slots config missing schema.id == entity_asset_slots: %s" % path)
+    # Phase 1.8.1 一致性补丁：schema.version 必须显式存在且受支持。
+    _SUPPORTED_VERSION = 1
+    version = schema.get("version")
+    if version is None:
+        raise RuntimeError("entity asset slots config missing schema.version: %s" % path)
+    try:
+        version_ok = int(version) == _SUPPORTED_VERSION
+    except (TypeError, ValueError):
+        version_ok = False
+    if not version_ok:
+        raise RuntimeError("entity asset slots config unsupported schema.version %r (supported: %d): %s"
+                           % (version, _SUPPORTED_VERSION, path))
+    roles = data.get("roles")
+    if not isinstance(roles, dict):
+        raise RuntimeError("entity asset slots config missing 'roles:' mapping: %s" % path)
+    parsed = {}
+    for role, block in roles.items():
+        if not isinstance(block, dict):
+            raise RuntimeError("entity asset slots roles.%s must be a mapping" % role)
+        required = block.get("required")
+        optional = block.get("optional") or []
+        if not isinstance(required, list) or not required \
+                or not all(isinstance(r, str) and r.strip() for r in required):
+            raise RuntimeError("entity asset slots roles.%s.required must be a non-empty list of strings" % role)
+        if not isinstance(optional, list) or not all(isinstance(r, str) and r.strip() for r in optional):
+            raise RuntimeError("entity asset slots roles.%s.optional must be a list of strings" % role)
+        parsed[str(role)] = {"required": [str(r) for r in required],
+                             "optional": [str(r) for r in optional]}
+    default = data.get("default_required")
+    if default is None:
+        default = ["idle"]
+    if not isinstance(default, list) or not default \
+            or not all(isinstance(r, str) and r.strip() for r in default):
+        raise RuntimeError("entity asset slots config default_required must be a non-empty list of strings")
+    parsed["*default*"] = {"required": [str(r) for r in default], "optional": []}
+    _slots_optional = data.get("optional")
+    if _slots_optional is None:
+        _slots_optional = []
+    if not isinstance(_slots_optional, list) or not all(isinstance(r, str) and r.strip() for r in _slots_optional):
+        raise RuntimeError("entity asset slots config optional must be a list of strings")
+    parsed["*global_optional*"] = {"required": [], "optional": [str(r) for r in _slots_optional]}
+    return parsed
+
+
+# 完整槽位配置表（含 "*default*"/"*global_optional*" 哨兵键）。
+# Phase 1.8.1 一致性补丁：私有名 _ENTITY_SLOTS_TABLE；德国旧名
+# REQUIRED_ROLES_BY_ENTITY_ROLE 保留为兼容别名（历史上曾有外部读取风险，
+# audit 确认当前无引用，但重命名由别名层吸收，不做行为改动）。
+_ENTITY_SLOTS_TABLE = load_entity_slots()
+REQUIRED_ROLES_BY_ENTITY_ROLE = _ENTITY_SLOTS_TABLE   # 兼容别名（勿新增依赖）
+
+# 可选资源角色（有则绑定，无则不算缺失）。Phase 1.8.1：从槽位配置读出。
+OPTIONAL_ROLES = list(_ENTITY_SLOTS_TABLE.get("*global_optional*", {}).get("optional") or [])
+
+
+def entity_required_roles(entity_role: str) -> list:
+    """实体角色 -> 默认必填槽位（未知角色退配置 default_required，legacy [idle]）。"""
+    block = _ENTITY_SLOTS_TABLE.get(entity_role) \
+        or _ENTITY_SLOTS_TABLE.get("*default*")
+    return list(block["required"])
+
 
 
 def _pascal(name: str) -> str:
@@ -391,8 +468,7 @@ def bind_entity(entity_id: str, entity_role: str, features: list, index: dict,
 
     subject = str(declared.get("subject") or "").strip().lower()
     explicit_roles = bool(declared.get("required"))
-    required_roles = [str(r) for r in (declared.get("required") or [])] or list(
-        REQUIRED_ROLES_BY_ENTITY_ROLE.get(entity_role, ["idle"]))
+    required_roles = [str(r) for r in (declared.get("required") or [])] or entity_required_roles(entity_role)
     optional_roles = [str(r) for r in (declared.get("optional") or [])]
     if not optional_roles and not explicit_roles:
         # 蓝图显式声明了 required 时，角色集合完全由蓝图决定；否则用实体角色的默认槽位。

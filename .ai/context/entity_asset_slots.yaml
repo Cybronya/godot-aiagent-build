@@ -1,0 +1,48 @@
+# Entity Asset Slots Schema
+# 定义实体角色（entity role）-> 默认资源槽位（required/optional asset roles）。
+#
+# 定位（Phase 1.8.1）：
+#   - 数据化声明「enemy 需要 idle/move/attack/hurt」这类知识，此前硬编码在
+#     bind_assets.py 的 REQUIRED_ROLES_BY_ENTITY_ROLE 常量中；本文件是
+#     该事实的单一来源（Single Source of Truth），bind_assets.py 启动时读取。
+#   - Source of Truth = 本文件；bind_assets.py 内不再重复声明。修改槽位
+#     语义请改这里，不要改代码。
+#   - feature_discovery.py 也读取本文件：角色 -> 槽位 -> 按 query_assets
+#     检索候选（复用现有 Asset Registry，不建第二套）。
+#
+# 兼容性约束（迁移时逐条保留，禁止借机改变绑定行为）：
+#   - bind_assets 未知角色默认槽位 [idle]（legacy fallback）保留在代码侧。
+#   - 槽位值即资源 role（idle/move/attack/hurt/...），与 asset_schema.yaml
+#     的 role 字段、bind_assets 的 ROLE_EQUIVALENTS 消费方式一致。
+#
+# 格式：
+#   schema: {id, version}
+#   optional:            全局可选角色列表（legacy OPTIONAL_ROLES）
+#   default_required:    未知角色的兜底槽位；省略时视为 [idle]
+#   roles:
+#     <entity_role>:     # 与 feature_index.json relations.entity_roles 与
+#                        # bind_assets 的键一致
+#       required:  [<资源 role，顺序即绑定输出顺序>]
+#       optional:  [<该角色专属可选；空列表/省略 = 无>]
+
+schema:
+  id: entity_asset_slots
+  version: 1
+
+# legacy：REQUIRED_ROLES_BY_ENTITY_ROLE 之外的 OPTIONAL_ROLES 常量
+optional: [hurt_sfx]
+
+# legacy：bind_assets.py 的 .get(role, ["idle"]) 兜底
+default_required: [idle]
+
+roles:
+  enemy:
+    required: [idle, move, attack, hurt]
+  player:
+    required: [idle, run, attack, hurt]
+  world_item:
+    required: [idle]
+  trap:
+    required: [idle]
+  level:
+    required: [environment_tileset]

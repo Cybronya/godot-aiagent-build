@@ -57,6 +57,10 @@ asset_manifest:
 feature_registry:
   schema: composition_schema.yaml
   index: feature_index.json                            # Generated Data
+  discovery:
+    cli: feature_registry/feature_discovery.py         # 发现：需求 -> features + 槽位 + 资产候选
+    slots_config: entity_asset_slots.yaml              # 实体角色 -> 资源槽位（单一事实源）
+    schema_version: 1                                  # 与 feature_discovery.SCHEMA_VERSION 一致
   version: 1
 
 gameplay_blueprint:
