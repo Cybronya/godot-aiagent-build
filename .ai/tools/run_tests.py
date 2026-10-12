@@ -147,16 +147,16 @@ def main() -> int:
     )
 
     failures: list[str] = []
+    unavailable: list[str] = []
     completed = 0
 
     suites: list[tuple[str, list[Path], object]] = []
     if godot_tests and godot:
         suites.append(("Godot", godot_tests, lambda test: run_godot_test(godot, test)))
     elif godot_unavailable:
-        failures.extend(
-            f"{test.relative_to(PROJECT_ROOT).as_posix()} (Godot unavailable)"
-            for test in godot_tests
-        )
+        unavailable = [
+            test.relative_to(PROJECT_ROOT).as_posix() for test in godot_tests
+        ]
     if python_tests:
         suites.append(("Python", python_tests, run_python_test))
 
@@ -177,16 +177,24 @@ def main() -> int:
         if stop:
             break
 
-    passed = completed - sum(1 for failure in failures if not failure.endswith("(Godot unavailable)"))
-    failed_count = len(failures)
+    passed = completed - len(failures)
     print(
-        f"[run_tests] completed={completed}/{total} "
-        f"passed={max(0, passed)} failed={failed_count}"
-    )
+        "[run_tests] completed={completed}/{total} "
+        "passed={passed} failed={fail} unavailable={unavail}".format(
+            completed=completed, total=total,
+            passed=passed if passed >= 0 else '-',
+            fail=len(failures), unavail=len(unavailable)))
+    if unavailable:
+        print("[run_tests] unavailable tests (not executed):")
+        for rel in unavailable:
+            print(f"  - {rel} (Godot unavailable)")
     if failures:
         print("[run_tests] failed tests:")
         for failure in failures:
             print(f"  - {failure}")
+        return 1
+    if unavailable:
+        print("[run_tests] INCOMPLETE: some suites unavailable (see list above)")
         return 1
     print("[run_tests] ALL PASS")
     return 0
