@@ -1,52 +1,56 @@
 #!/usr/bin/env python3
-"""Unified test runner for the project.
+"""Unified test runner for Godot gameplay tests and Python toolchain tests.
 
-Discovers SceneTree test scripts (Features/*/test_*.gd + Tests/test_*.gd)
-and runs each one headless:
-
-    godot --headless --path . -s res://<path>
-
-Test contract (established by existing tests): print PASS and exit 0 on
-success; print FAIL and exit non-zero on failure.
+By default discovers and runs:
+  - Godot SceneTree tests: Features/*/test_*.gd and Tests/test_*.gd
+  - Python regression suites: .ai/tools/**/tests/test_*.py
 
 Usage:
-    python .ai/tools/run_tests.py                 # run all tests
-    python .ai/tools/run_tests.py Tests           # only Tests/
-    python .ai/tools/run_tests.py --stop-on-fail  # halt on first failure
+    python .ai/tools/run_tests.py
+    python .ai/tools/run_tests.py --godot-only
+    python .ai/tools/run_tests.py --python-only
+    python .ai/tools/run_tests.py Tests
+    python .ai/tools/run_tests.py --stop-on-fail
 
-Exit codes: 0 all passed; 1 any failure; 2 godot binary not found.
+A positional filter matches a test's repository-relative path.
+Exit codes: 0 all selected tests passed; 1 test failure or incomplete run;
+2 Godot binary missing when Godot tests are explicitly requested only.
 """
 
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
-# Candidate godot executables, relative to the parent of the project dir
-# (layout: F:/Godot_v4.7-stable/{Godot*.exe, game/}).
+# Candidate executables for the common Windows project layout. PATH lookup
+# also supports Linux/macOS and installations outside the project directory.
 GODOT_CANDIDATES = [
     PROJECT_ROOT.parent / "Godot_v4.7-stable_win64_console.exe",
     PROJECT_ROOT.parent / "Godot_v4.7-stable_win64.exe",
 ]
+GODOT_TIMEOUT_PER_TEST = 120
+PYTHON_TIMEOUT_PER_TEST = 300
 
-TIMEOUT_PER_TEST = 120
 
-
-def find_godot() -> Path:
+def find_godot() -> str:
     for p in GODOT_CANDIDATES:
         if p.is_file():
-            return p
+            return str(p)
+    for name in ("godot", "godot4"):
+        found = shutil.which(name)
+        if found:
+            return found
     raise FileNotFoundError(
-        "godot executable not found; looked at: "
-        + ", ".join(str(p) for p in GODOT_CANDIDATES)
+        "godot executable not found; checked project-parent candidates and PATH"
     )
 
 
-def discover_tests(filter_dir: str | None = None) -> list[Path]:
+def discover_godot_tests(filter_dir: str | None = None) -> list[Path]:
     tests: list[Path] = []
     for pattern_dir in ("Features", "Tests"):
         base = PROJECT_ROOT / pattern_dir
@@ -54,63 +58,135 @@ def discover_tests(filter_dir: str | None = None) -> list[Path]:
             continue
         tests.extend(sorted(base.glob("*/test_*.gd")))
         tests.extend(sorted(base.glob("test_*.gd")))
-    if filter_dir:
-        needle = filter_dir.replace("\\", "/").strip("/").lower()
-        tests = [t for t in tests if needle in t.relative_to(PROJECT_ROOT).as_posix().lower()]
-    return tests
+    return filter_tests(tests, filter_dir)
 
 
-def run_test(godot: Path, test: Path) -> tuple[bool, str]:
+def discover_python_tests(filter_dir: str | None = None) -> list[Path]:
+    base = PROJECT_ROOT / ".ai" / "tools"
+    if not base.is_dir():
+        return []
+    tests = sorted(base.glob("**/tests/test_*.py"))
+    return filter_tests(tests, filter_dir)
+
+
+def filter_tests(tests: list[Path], filter_dir: str | None) -> list[Path]:
+    if not filter_dir:
+        return tests
+    needle = filter_dir.replace("\\", "/").strip("/").lower()
+    return [
+        test for test in tests
+        if needle in test.relative_to(PROJECT_ROOT).as_posix().lower()
+    ]
+
+
+def run_godot_test(godot: str, test: Path) -> tuple[bool, str]:
     res_path = "res://" + test.relative_to(PROJECT_ROOT).as_posix()
-    cmd = [str(godot), "--headless", "--path", str(PROJECT_ROOT), "-s", res_path]
+    cmd = [godot, "--headless", "--path", str(PROJECT_ROOT), "-s", res_path]
     try:
         proc = subprocess.run(
             cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
-            timeout=TIMEOUT_PER_TEST, stdin=subprocess.DEVNULL,
+            timeout=GODOT_TIMEOUT_PER_TEST, stdin=subprocess.DEVNULL,
         )
     except subprocess.TimeoutExpired:
-        return False, f"TIMEOUT after {TIMEOUT_PER_TEST}s"
+        return False, f"TIMEOUT after {GODOT_TIMEOUT_PER_TEST}s"
     ok = proc.returncode == 0
-    stdout = proc.stdout or ""
-    stderr = proc.stderr or ""
-    tail = "\n".join((stdout + stderr).strip().splitlines()[-5:])
-    return ok, f"exit={proc.returncode}" + (f"\n{tail}" if not ok else "")
+    tail = "\\n".join(((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()[-5:])
+    return ok, f"exit={proc.returncode}" + (f"\\n{tail}" if not ok else "")
+
+
+def run_python_test(test: Path) -> tuple[bool, str]:
+    cmd = [sys.executable, str(test)]
+    try:
+        proc = subprocess.run(
+            cmd, cwd=str(PROJECT_ROOT), capture_output=True, text=True,
+            encoding="utf-8", errors="replace", timeout=PYTHON_TIMEOUT_PER_TEST,
+            stdin=subprocess.DEVNULL,
+        )
+    except subprocess.TimeoutExpired:
+        return False, f"TIMEOUT after {PYTHON_TIMEOUT_PER_TEST}s"
+    ok = proc.returncode == 0
+    output = ((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()
+    tail = "\\n".join(output[-8:])
+    return ok, f"exit={proc.returncode}" + (f"\\n{tail}" if not ok else "")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("filter_dir", nargs="?", help="only run tests whose path contains this")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--godot-only", action="store_true", help="run only Godot SceneTree tests")
+    mode.add_argument("--python-only", action="store_true", help="run only Python toolchain tests")
     parser.add_argument("--stop-on-fail", action="store_true")
     args = parser.parse_args()
 
-    try:
-        godot = find_godot()
-    except FileNotFoundError as exc:
-        print(f"[run_tests] FAIL: {exc}", file=sys.stderr)
-        return 2
+    run_godot = not args.python_only
+    run_python = not args.godot_only
+    godot_tests = discover_godot_tests(args.filter_dir) if run_godot else []
+    python_tests = discover_python_tests(args.filter_dir) if run_python else []
 
-    tests = discover_tests(args.filter_dir)
-    if not tests:
-        print("[run_tests] no test scripts found")
+    if not godot_tests and not python_tests:
+        print("[run_tests] no selected test scripts found")
         return 1
 
-    print(f"[run_tests] {len(tests)} tests, godot={godot.name}")
-    failures: list[str] = []
-    for i, test in enumerate(tests, 1):
-        rel = test.relative_to(PROJECT_ROOT).as_posix()
-        ok, detail = run_test(godot, test)
-        mark = "PASS" if ok else "FAIL"
-        print(f"[{i}/{len(tests)}] {mark} {rel}" + (f"  ({detail})" if not ok else ""))
-        if not ok:
-            failures.append(rel)
-            if args.stop_on_fail:
-                break
+    godot: str | None = None
+    godot_unavailable = False
+    if godot_tests:
+        try:
+            godot = find_godot()
+        except FileNotFoundError as exc:
+            godot_unavailable = True
+            print(f"[run_tests] FAIL: {exc}", file=sys.stderr)
+            if args.godot_only:
+                return 2
 
-    print(f"[run_tests] total={len(tests)} passed={len(tests) - len(failures)} failed={len(failures)}")
+    total = len(godot_tests) + len(python_tests)
+    print(
+        f"[run_tests] {total} tests "
+        f"(Godot={len(godot_tests)}, Python={len(python_tests)})"
+        + (f", godot={Path(godot).name}" if godot else "")
+    )
+
+    failures: list[str] = []
+    completed = 0
+
+    suites: list[tuple[str, list[Path], object]] = []
+    if godot_tests and godot:
+        suites.append(("Godot", godot_tests, lambda test: run_godot_test(godot, test)))
+    elif godot_unavailable:
+        failures.extend(
+            f"{test.relative_to(PROJECT_ROOT).as_posix()} (Godot unavailable)"
+            for test in godot_tests
+        )
+    if python_tests:
+        suites.append(("Python", python_tests, run_python_test))
+
+    stop = False
+    for suite_name, tests, runner in suites:
+        print(f"[run_tests] --- {suite_name} suite ({len(tests)} tests) ---")
+        for test in tests:
+            completed += 1
+            rel = test.relative_to(PROJECT_ROOT).as_posix()
+            ok, detail = runner(test)  # type: ignore[operator]
+            mark = "PASS" if ok else "FAIL"
+            print(f"[{completed}/{total}] {mark} {rel}" + (f"  ({detail})" if not ok else ""))
+            if not ok:
+                failures.append(rel)
+                if args.stop_on_fail:
+                    stop = True
+                    break
+        if stop:
+            break
+
+    passed = completed - sum(1 for failure in failures if not failure.endswith("(Godot unavailable)"))
+    failed_count = len(failures)
+    print(
+        f"[run_tests] completed={completed}/{total} "
+        f"passed={max(0, passed)} failed={failed_count}"
+    )
     if failures:
         print("[run_tests] failed tests:")
-        for f in failures:
-            print(f"  - {f}")
+        for failure in failures:
+            print(f"  - {failure}")
         return 1
     print("[run_tests] ALL PASS")
     return 0
