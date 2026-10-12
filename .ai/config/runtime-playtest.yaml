@@ -1,0 +1,88 @@
+# Runtime Playtest Contract
+# Phase 1.6 —— Runtime Playtest & Self-Repair 的运行契约。
+# 消费者：run_scene.py / run_project.py / check_runtime.py / self_repair.py。
+
+runtime_playtest:
+
+  # 单次 Runtime Playtest 的墙钟超时（秒）。超时强杀并判定 TIMEOUT。
+  timeout: 30
+
+  # Self-Repair 的最大尝试次数（每次尝试 = 一次修复 + 一次静态验证 + 一次 Runtime 重跑）。
+  max_repair_attempts: 3
+
+  # 解析出 error 事件即判定 FAIL。
+  fail_on_error: true
+
+  # warning 默认不判定失败（Godot 的泄漏/清理噪音常见）。
+  fail_on_warning: false
+
+  # 保留原始 stdout / stderr。
+  capture_output: true
+
+  # 保存原始日志到 log_dir（相对项目根）。
+  save_logs: true
+
+  # Godot 正常结束方式：--quit-after <frames>，避免依赖场景自行 quit。
+  run_frames: 60
+
+  # 留空时按项目相邻目录 / PATH / GODOT_BIN 自动查找。
+  godot_binary: ""
+
+  # 原始运行日志目录（相对项目根）。
+  log_dir: .ai/memory/runtime-logs
+
+  # Self-Repair 尝试记录目录（相对项目根）。
+  history_dir: .ai/memory/runtime-repairs
+
+# ---------- Self-Repair 安全边界（第十一部分） ----------
+# 这些是硬约束，不由运行时开关覆盖；self_repair.py 强制执行。
+
+repair_safety:
+
+  # 允许修改的目标范围：错误发生的 Script / 错误发生的 Scene / 相关 Feature。
+  allowed_targets:
+    - script_that_reported_the_error
+    - scene_under_playtest
+    - feature_that_owns_the_script
+
+  # 每次尝试只允许修改一个文件，且只允许「单点字面量替换」这一种修改形式。
+  max_files_per_attempt: 1
+  allowed_change_kinds:
+    - replace_single_literal
+
+  # 默认禁止的修改（必须由用户显式介入）。
+  forbidden_changes:
+    - delete_feature
+    - delete_scene
+    - modify_project_settings
+    - modify_ai_framework
+    - modify_skill_registry
+    - modify_validator
+    - modify_unrelated_feature
+    - modify_addons
+
+  # 禁止修改的路径前缀（相对项目根）。
+  forbidden_path_prefixes:
+    - .ai/
+    - .git/
+    - addons/
+    - .godot/
+
+  # 修复必须可回退：应用前备份原文件；无效修复自动回滚。
+  require_revert: true
+
+# ---------- Validator 集成（第十三部分） ----------
+# Validator 只验证，不修复；Self-Repair 不写进 Validator。
+
+validator_integration:
+
+  stages:
+    - project_validation
+    - feature_validation
+    - scene_validation
+    - gameplay_validation
+    - runtime_playtest
+
+  validator_responsibility: static_correctness
+  runtime_playtest_responsibility: runtime_correctness
+  repair_owner: self_repair

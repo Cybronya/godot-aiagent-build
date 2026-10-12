@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="1_health"]
+[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="2_contact_damage"]
+[ext_resource type="PackedScene" path="res://Features/chase_movement/ChaseMovement.tscn" id="3_chase_movement"]
+[ext_resource type="SpriteFrames" path="res://Assets/characters/enemy/slime/slime_frames.tres" id="4_asset_SlimeAnim"]
+[ext_resource type="AudioStreamWAV" path="res://Assets/audio/slime/hurt.wav" id="5_asset_SlimeHurtSfx"]
+
+[node name="SlimeEnemy" type="CharacterBody2D"]
+[node name="Health" parent="." instance=ExtResource("1_health")]
+
+[node name="ContactDamage" parent="." instance=ExtResource("2_contact_damage")]
+
+[node name="ChaseMovement" parent="." instance=ExtResource("3_chase_movement")]
+
+[node name="SlimeAnim" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("4_asset_SlimeAnim")
+animation = &"idle"
+
+[node name="SlimeHurtSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_asset_SlimeHurtSfx")

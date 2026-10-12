@@ -1,0 +1,65 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "ui/icons/health_icon.png",
+    "auto": {
+      "path": "assets/ui/icons/health_icon.png",
+      "filename": "health_icon.png",
+      "extension": ".png",
+      "size_bytes": 82,
+      "modified_at": "2026-10-10T19:26:42.396062+00:00",
+      "sha256": "8dc3f958b75d179c25792fd3aa370b40b5af4b3bb02d4118821cd46bbcbb9e8d",
+      "width": 16,
+      "height": 16,
+      "path_hints": [
+        "ui"
+      ],
+      "filename_hints": {
+        "actions": [],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

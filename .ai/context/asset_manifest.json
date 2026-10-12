@@ -1,7 +1,422 @@
 {
   "schema_version": 3,
-  "project": null,
-  "generated_at": null,
-  "assets": [],
-  "pending": []
+  "project": "game",
+  "generated_at": "2026-10-11T15:14:57.561886+00:00",
+  "assets": [
+    {
+      "relative_key": "characters/enemy/slime/attack/slime_attack_00.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/attack/slime_attack_00.png",
+        "filename": "slime_attack_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.387104+00:00",
+        "sha256": "f4c9d5098006f067b74a23dba39bf2fe3ce981acf81c31a8e76206e6d3e40ccb",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [
+            "attack"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/attack/slime_attack_01.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/attack/slime_attack_01.png",
+        "filename": "slime_attack_01.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.388099+00:00",
+        "sha256": "f4c9d5098006f067b74a23dba39bf2fe3ce981acf81c31a8e76206e6d3e40ccb",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [
+            "attack"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/death/slime_death_00.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/death/slime_death_00.png",
+        "filename": "slime_death_00.png",
+        "extension": ".png",
+        "size_bytes": 102,
+        "modified_at": "2026-10-10T19:26:42.392071+00:00",
+        "sha256": "4c8315d53a9c867f0309b64fe19a767016feb711a38356f08f3234f5fe067424",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [
+            "death"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/hurt/slime_hurt_00.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/hurt/slime_hurt_00.png",
+        "filename": "slime_hurt_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.389108+00:00",
+        "sha256": "be7f469b3fc44839442b15dd17a3929a3a8db3ab32dba6121419a013bb279a9f",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [
+            "hurt"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/idle/slime_idle_00.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/idle/slime_idle_00.png",
+        "filename": "slime_idle_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.379086+00:00",
+        "sha256": "4d5ad39e8ff6eae460ad0d4047b75c8b1e8d1181e5e13d2c661512c53039d880",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [
+            "idle"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/idle/slime_idle_01.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/idle/slime_idle_01.png",
+        "filename": "slime_idle_01.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.381102+00:00",
+        "sha256": "4d5ad39e8ff6eae460ad0d4047b75c8b1e8d1181e5e13d2c661512c53039d880",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [
+            "idle"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/move/slime_move_00.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/move/slime_move_00.png",
+        "filename": "slime_move_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.382075+00:00",
+        "sha256": "9cc4da3649bab6d9ff9d6c3693036c73614f6d79c981d6312e1167a92869d2ae",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/move/slime_move_01.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/move/slime_move_01.png",
+        "filename": "slime_move_01.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.383104+00:00",
+        "sha256": "9cc4da3649bab6d9ff9d6c3693036c73614f6d79c981d6312e1167a92869d2ae",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/enemy/slime/move/slime_move_02.png",
+      "auto": {
+        "path": "assets/characters/enemy/slime/move/slime_move_02.png",
+        "filename": "slime_move_02.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.385101+00:00",
+        "sha256": "9cc4da3649bab6d9ff9d6c3693036c73614f6d79c981d6312e1167a92869d2ae",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "enemy"
+        ],
+        "filename_hints": {
+          "actions": [],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/player/attack/player_attack_00.png",
+      "auto": {
+        "path": "assets/characters/player/attack/player_attack_00.png",
+        "filename": "player_attack_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.375014+00:00",
+        "sha256": "f4c9d5098006f067b74a23dba39bf2fe3ce981acf81c31a8e76206e6d3e40ccb",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "player"
+        ],
+        "filename_hints": {
+          "actions": [
+            "attack"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/player/hurt/player_hurt_00.png",
+      "auto": {
+        "path": "assets/characters/player/hurt/player_hurt_00.png",
+        "filename": "player_hurt_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.376006+00:00",
+        "sha256": "be7f469b3fc44839442b15dd17a3929a3a8db3ab32dba6121419a013bb279a9f",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "player"
+        ],
+        "filename_hints": {
+          "actions": [
+            "hurt"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/player/idle/player_idle_00.png",
+      "auto": {
+        "path": "assets/characters/player/idle/player_idle_00.png",
+        "filename": "player_idle_00.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.370025+00:00",
+        "sha256": "4d5ad39e8ff6eae460ad0d4047b75c8b1e8d1181e5e13d2c661512c53039d880",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "player"
+        ],
+        "filename_hints": {
+          "actions": [
+            "idle"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/player/idle/player_idle_01.png",
+      "auto": {
+        "path": "assets/characters/player/idle/player_idle_01.png",
+        "filename": "player_idle_01.png",
+        "extension": ".png",
+        "size_bytes": 103,
+        "modified_at": "2026-10-10T19:26:42.371021+00:00",
+        "sha256": "4d5ad39e8ff6eae460ad0d4047b75c8b1e8d1181e5e13d2c661512c53039d880",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "player"
+        ],
+        "filename_hints": {
+          "actions": [
+            "idle"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/player/run/player_run_00.png",
+      "auto": {
+        "path": "assets/characters/player/run/player_run_00.png",
+        "filename": "player_run_00.png",
+        "extension": ".png",
+        "size_bytes": 104,
+        "modified_at": "2026-10-10T19:26:42.372011+00:00",
+        "sha256": "ca3dc2faa3bd130b35528d16943e489a93b799e0bdf62483fda9ed5644523eb3",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "player"
+        ],
+        "filename_hints": {
+          "actions": [
+            "run"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "characters/player/run/player_run_01.png",
+      "auto": {
+        "path": "assets/characters/player/run/player_run_01.png",
+        "filename": "player_run_01.png",
+        "extension": ".png",
+        "size_bytes": 104,
+        "modified_at": "2026-10-10T19:26:42.374011+00:00",
+        "sha256": "ca3dc2faa3bd130b35528d16943e489a93b799e0bdf62483fda9ed5644523eb3",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "character",
+          "player"
+        ],
+        "filename_hints": {
+          "actions": [
+            "run"
+          ],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "environment/tiles/ground.png",
+      "auto": {
+        "path": "assets/environment/tiles/ground.png",
+        "filename": "ground.png",
+        "extension": ".png",
+        "size_bytes": 104,
+        "modified_at": "2026-10-10T19:26:42.394063+00:00",
+        "sha256": "7bc1165b1953a4a3956e07f435d6fc21e837e11388da30b04396f0d3aab1d8f9",
+        "width": 32,
+        "height": 32,
+        "path_hints": [
+          "environment"
+        ],
+        "filename_hints": {
+          "actions": [],
+          "directions": []
+        }
+      },
+      "human": {}
+    },
+    {
+      "relative_key": "ui/icons/health_icon.png",
+      "auto": {
+        "path": "assets/ui/icons/health_icon.png",
+        "filename": "health_icon.png",
+        "extension": ".png",
+        "size_bytes": 82,
+        "modified_at": "2026-10-10T19:26:42.396062+00:00",
+        "sha256": "8dc3f958b75d179c25792fd3aa370b40b5af4b3bb02d4118821cd46bbcbb9e8d",
+        "width": 16,
+        "height": 16,
+        "path_hints": [
+          "ui"
+        ],
+        "filename_hints": {
+          "actions": [],
+          "directions": []
+        }
+      },
+      "human": {}
+    }
+  ],
+  "pending": [
+    "characters/enemy/slime/attack/slime_attack_00.png",
+    "characters/enemy/slime/attack/slime_attack_01.png",
+    "characters/enemy/slime/death/slime_death_00.png",
+    "characters/enemy/slime/hurt/slime_hurt_00.png",
+    "characters/enemy/slime/idle/slime_idle_00.png",
+    "characters/enemy/slime/idle/slime_idle_01.png",
+    "characters/enemy/slime/move/slime_move_00.png",
+    "characters/enemy/slime/move/slime_move_01.png",
+    "characters/enemy/slime/move/slime_move_02.png",
+    "characters/player/attack/player_attack_00.png",
+    "characters/player/hurt/player_hurt_00.png",
+    "characters/player/idle/player_idle_00.png",
+    "characters/player/idle/player_idle_01.png",
+    "characters/player/run/player_run_00.png",
+    "characters/player/run/player_run_01.png",
+    "environment/tiles/ground.png",
+    "ui/icons/health_icon.png"
+  ]
 }

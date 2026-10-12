@@ -16,6 +16,20 @@ __pycache__/
 Thumbs.db
 .DS_Store
 
+# Runtime playtest raw logs (generated per run)
+.ai/memory/runtime-logs/
+
+# Runtime Self-Repair history (generated per repair round)
+.ai/memory/runtime-repairs/
+
+# Asset Bindings: Generated Data — 由 bind_assets / asset_repair / asset_nodes
+# 随时重建，禁止手工维护。
+.ai/context/asset_bindings/
+
+# Asset Index: Generated Cache — 由 build_asset_index.py 随时重建，Source of Truth
+# 是资源文件 + asset_manifest.yaml。--check 可验证：missing/stale/synchronized。
+.ai/context/asset_index.json
+
 # godot-official-docs: local read-only official docs source snapshot (244MB)
 # The navigation layer (references/4.7/) IS tracked; only the raw Source is ignored.
 .ai/skills/godot-official-docs_sources/

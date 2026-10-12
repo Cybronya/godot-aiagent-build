@@ -177,3 +177,54 @@ Read: AGENT_ONBOARDING.md
 > 与第 1 节的关系：第 1 节定义 Framework 的**机器入口链**（agent.yaml → Framework Config → Registry）；
 > 本节是**人类/Agent 上手前置阅读**。二者并行，不冲突：首次进入项目时先读本节，
 > 再按第 1 节链路加载 Framework 配置。
+
+## 10. Runtime Failure Routing
+
+运行时（真实启动 Godot 后）出现错误、卡死、崩溃，或交付物尚未真实运行过：
+
+```text
+Runtime failure
+    ↓
+runtime-playtest Skill
+```
+
+路由规则：
+
+- Runtime 问题只走 `runtime-playtest` Skill（通过 Registry 发现，不假设路径）；
+  详细流程、工具链与安全边界全部定义在
+  `.ai/skills/quality/runtime-playtest/SKILL.md`。
+- 运行契约：`.ai/config/runtime-playtest.yaml`；结果契约：
+  `.ai/context/runtime_result_schema.yaml`；修复计划契约：
+  `.ai/context/repair_plan_schema.yaml`。
+- 职责边界：Validator 只做静态验证（Project / Feature / Scene / Gameplay）；
+  Runtime Playtest 负责运行期正确性；Self-Repair 负责修改。
+  禁止把 Self-Repair 写进 Validator，禁止把 Runtime 逻辑写进 Feature / Scene。
+
+## 11. Asset / Resource Routing
+
+任务涉及图片、Sprite、SpriteFrames、Animation、Tileset、Audio、Texture、Font、
+Shader、Godot Resource，或「使用项目现有的美术 / 音频资源」时：
+
+```text
+Asset / Resource task
+    ↓
+asset-discovery Skill
+```
+
+路由规则：
+
+- 资源发现、筛选、推荐与绑定只走 `asset-discovery` Skill（通过 Registry 发现，
+  不假设路径）；完整流程、工具链与安全边界定义在
+  `.ai/skills/systems/asset-discovery/SKILL.md`。
+- 契约：`.ai/context/asset_schema.yaml`（Asset Metadata）、
+  `.ai/context/asset_binding_schema.yaml`（Entity → Asset 绑定）、
+  `.ai/context/asset_manifest_schema.yaml`（人工确认层）。
+- 契约总目录：所有协议入口（schema 文档 / CLI / validator / 版本）集中在
+  `.ai/context/CONTRACT_INDEX.yaml`；需要找规则时**先读它**，不要扫描
+  `.ai/tools` 或 `.ai/context` 目录。
+- 生成物与缓存：`.ai/context/asset_index.json`、`.ai/context/asset_bindings/`
+  属 Generated Data，Agent 不得手工维护，也不写入 `.ai/memory/DECISIONS.md`。
+- 职责边界：Asset Discovery 负责「发现 / 绑定 / 报告缺失」；Scene Composer 负责把
+  绑定实例化为资源节点（AnimatedSprite2D / Sprite2D / AudioStreamPlayer）；
+  Validator 只 CHECK / REPORT。禁止视觉识别，禁止 AssetManager / ResourceManager
+  之类的全局 Manager。

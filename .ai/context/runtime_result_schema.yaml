@@ -1,0 +1,119 @@
+# Runtime Result Schema
+# Runtime Playtest 的结果契约：由 Runtime Runner（run_scene.py / run_project.py）产出，
+# 由 diagnose_runtime.py、check_runtime.py、self_repair.py 消费。
+# 落盘格式：JSON（一个 runtime_result 对象），见 .ai/config/runtime-playtest.yaml。
+#
+# 定位：Runtime Result 记录「观测事实」（退出码、耗时、原始输出、解析后的事件），
+# 不记录「原因判断」。错误分类（classification）与 likely_cause 属于
+# Runtime Diagnosis 的输出，不写入本 schema。
+
+schema:
+  id: runtime_result
+  version: 1
+
+runtime_result:
+
+  status: PASS | FAIL | TIMEOUT | CRASH
+
+  exit_code: <int 或 null；null = 未正常结束（超时被杀 / 场景不存在未启动）>
+
+  duration: <float，秒>
+
+  scene: <res:// 场景路径；空串 = 运行项目主场景>
+
+  stdout: "<Godot 原始 stdout（capture_output: false 时为空串）>"
+
+  stderr: "<Godot 原始 stderr（capture_output: false 时为空串）>"
+
+  errors: <解析后的 error 事件列表，见 parsed_event>
+
+  warnings: <解析后的 warning 事件列表，见 parsed_event>
+
+  crash: <bool>
+
+  timeout: <bool>
+
+# ---------- 运行时事件（capture_output.py 产出） ----------
+
+parsed_event:
+
+  type: runtime_error | script_error | warning
+
+  severity: error | warning
+
+  message: <Godot 打印的消息主体（已剥离内联 file:line 前缀）>
+
+  detail: <消息的续行，如 "Please call wait_to_finish() on it to ensure correct cleanup.">
+
+  script: <res:// 脚本路径；空串 = 引擎内部错误，无法定位到项目脚本>
+
+  line: <int；0 = 未知>
+
+  function: <函数名；空串 = 未知>
+
+  source: stderr | stdout | runner
+
+  patterns: <命中的已知模式名列表，见 capture_output.PATTERNS>
+
+  repeat: <同一错误在本次运行中出现的次数（去重合并后）>
+
+# `errors` / `warnings` 中的条目允许出现 `classification` 字段：
+# 那是 Runtime Diagnosis 回写的结果，不是 Runtime Runner 的产出。
+
+# ---------- status 语义（必须与观测事实自洽） ----------
+
+status_semantics:
+
+  PASS:
+    无解析错误；exit_code == 0；未超时。
+
+  FAIL:
+    解析出 error 事件（fail_on_error 为 true），或仅因 warning 判定失败
+    （fail_on_warning 为 true）。
+
+  TIMEOUT:
+    超过 runtime_playtest.timeout 被强制终止；即使被杀的瞬间输出里
+    带有泄漏/清理类 ERROR 噪音，仍判定为 TIMEOUT。
+
+  CRASH:
+    进程以非 0 退出码结束，且输出中没有可解析的 error 事件
+    （例如 Godot 直接 abort / 场景参数错误导致静默退出）。
+
+# ---------- 规则 ----------
+
+rules:
+  - Runtime Result 只描述事实；禁止把推测的原因写进本文件。
+  - 超时优先级最高：TIMEOUT 优先于 FAIL / CRASH。
+  - FAIL 优先于 CRASH：能解析出具体错误时，以错误为准，而不是退出码。
+  - 场景不存在时 Runtime Runner 不启动 Godot，直接产出带
+    classification 为 scene_load_error 的 FAIL 结果（exit_code 为 null）。
+  - stdout / stderr 必须保留原始输出，禁止只保留匹配到的行。
+  - category/创建时间等附加字段不是契约字段；status 之外的字段缺失属于 schema 违规。
+
+# ---------- 示例 ----------
+
+example:
+  status: FAIL
+  exit_code: 0
+  duration: 0.42
+  scene: res://Scenes/EnemyBasic.tscn
+  stdout: "Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org\n"
+  stderr: |
+    ERROR: "Node not found: 'Helth' (relative to '/root/EnemyBasic')."
+       at: get_node (scene/main/node.cpp:1975)
+       GDScript backtrace (most recent call first):
+           [0] _ready (res://Scenes/enemy_basic.gd:6)
+  errors:
+    - type: runtime_error
+      severity: error
+      message: 'Node not found: "Helth" (relative to "/root/EnemyBasic").'
+      detail: ""
+      script: res://Scenes/enemy_basic.gd
+      line: 6
+      function: get_node
+      source: stderr
+      patterns: [node_not_found]
+      repeat: 1
+  warnings: []
+  crash: false
+  timeout: false

@@ -1,0 +1,68 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "characters/player/attack/player_attack_00.png",
+    "auto": {
+      "path": "assets/characters/player/attack/player_attack_00.png",
+      "filename": "player_attack_00.png",
+      "extension": ".png",
+      "size_bytes": 103,
+      "modified_at": "2026-10-10T19:26:42.375014+00:00",
+      "sha256": "f4c9d5098006f067b74a23dba39bf2fe3ce981acf81c31a8e76206e6d3e40ccb",
+      "width": 32,
+      "height": 32,
+      "path_hints": [
+        "character",
+        "player"
+      ],
+      "filename_hints": {
+        "actions": [
+          "attack"
+        ],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

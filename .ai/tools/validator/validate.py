@@ -20,6 +20,14 @@ from config.schema import CONFIG_SCHEMAS, TYPE_NAMES
 # check_features() returns failure/warning lists and never mutates the project.
 from validator.check_feature_metadata import check_features as check_feature_metadata_rules
 
+# Asset Validation (stage 5). Optional layer: with no asset root it reports 0 checked.
+# check_assets() is read-only by contract (Validator never mutates the project).
+from validator.check_assets import check_assets as check_assets_rules
+
+# Binding Schema Validation (stage 6, Phase 1.7.9). Reports schema_version health of
+# .ai/context/asset_bindings/*.yaml; never migrates or rewrites files.
+from asset_registry.check_binding_schema import check_bindings as check_binding_schema_rules
+
 
 def report_feature_metadata(r: Reporter, prints: list) -> None:
     """Run the Feature Metadata + Index checks and feed them into the shared Reporter."""
@@ -31,6 +39,41 @@ def report_feature_metadata(r: Reporter, prints: list) -> None:
         for warning in result["warnings"]:
             r.warn(warning)
     prints.append(f"  Feature metadata checked: {result['checked']}")
+
+
+def report_assets(r: Reporter, prints: list) -> None:
+    """Run the Asset Validation stage and feed it into the shared Reporter."""
+    try:
+        result = check_assets_rules()
+    except Exception as exc:                     # 资源层可选：导入/环境问题不应阻断 Framework 校验
+        r.warn(f"Asset validation skipped: {exc}")
+        prints.append("  Asset validation: skipped")
+        return
+    for failure in result.get("failures") or []:
+        r.fail(failure)
+    for warning in result.get("warnings") or []:
+        r.warn(warning)
+    if result.get("checked"):
+        prints.append(f"  Assets checked: {result['checked']}")
+    else:
+        prints.append(f"  Asset validation: {result.get('note') or 'not applicable'}")
+
+def report_binding_schemas(r: Reporter, prints: list) -> None:
+    """Run the Binding Schema Validation stage and feed it into the shared Reporter."""
+    try:
+        result = check_binding_schema_rules(str(TOOLS_DIR / ".." / "context" / "asset_bindings"))
+    except Exception as exc:                     # 绑定层可选：环境问题不应阻断 Framework 校验
+        r.warn(f"Binding schema validation skipped: {exc}")
+        prints.append("  Binding schema validation: skipped")
+        return
+    if not result.get("checked"):
+        prints.append("  Binding schema validation: %s" % (result.get("note") or "no bindings"))
+        return
+    for violation in result.get("violations") or []:
+        r.fail("Binding schema: %s (%s: %s)" % (
+            violation["file"], violation["kind"], violation.get("detail") or ""))
+    prints.append("  Binding schema entries: %d" % result["checked"])
+
 
 class Reporter:
     def __init__(self): self.failures=[]; self.warnings=[]
@@ -484,9 +527,13 @@ def main():
     #   2. Skill Registry Validation     (entries above)
     #   3. Feature Metadata Validation   (Features/*/feature.yaml contract)
     #   4. Feature Index Validation      (feature_index.json sync)
+    #   5. Asset Validation              (asset_index.json / bindings / scene refs)
+    #   6. Binding Schema Validation     (asset_bindings/*.yaml schema_version; Phase 1.7.9)
     # (Feature Tests remain project-side and are run separately.)
     checks_prints: list = []
     report_feature_metadata(r, checks_prints)
+    report_assets(r, checks_prints)
+    report_binding_schemas(r, checks_prints)
 
     print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}"); print(f"  Legacy Registry entries checked: {len(legacy_entries)}")
     for line in checks_prints:

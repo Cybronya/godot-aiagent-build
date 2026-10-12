@@ -36,9 +36,13 @@
 
 ## P1
 
-### 4. Runtime Debug Agent —— 让 Agent 能自修
+### 4. Runtime Debug Agent —— 让 Agent 能自修（已完成，Phase 1.6 / AD-010）
 
-- 运行期错误捕获 → 定位 → 修复 → 回归验证的闭环（Headless 跑场景/测试已是现成验证基座）。
+- [x] 运行期错误捕获 → 定位 → 修复 → 回归验证的闭环（Headless 跑场景/测试已是现成验证基座）。
+  实现：`.ai/tools/runtime/`（Runner / Parser / Diagnosis / Repair Plan / Self Repair）+
+  Validator 第 5 阶段 `check_runtime.py` + runtime-playtest Skill + repair history。
+- 后续可扩展方向：更多确定性修复策略（资源路径、信号契约）、跨场景批量 Playtest、
+  修复模式回流为 Feature 模板约束。
 
 ### 5. Asset Intelligence —— 让 Agent 能处理资源
 

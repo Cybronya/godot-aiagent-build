@@ -1,0 +1,61 @@
+# Asset Query Response Schema
+# query_assets.py --json 模式的机器可读返回契约（确定性打分，无 LLM）。
+# 消费者：AI Agent（Gameplay Planner → Asset Discovery → Asset Query）、未来工具链。
+#
+# 用法（Agent API）:
+#   python .ai/tools/asset_registry/query_assets.py --json --query "player attack animation"
+#   python .ai/tools/asset_registry/query_assets.py --json --query "enemy attack" \
+#           --type animation --limit 10
+#
+# 向后兼容：位置参数 CLI（query_assets.py "player"）行为不变；--json 在两种写法下
+# 都可触发（--json "query..." 或 --json --query "..."）。
+# 人审后加入 asset_manifest.yaml 的条目会以 confirmed=true、更高分返回。
+
+version: 1
+
+response:
+  query:                string          # 归一后的查询文本（位置参数或 --query）
+  count:                integer         # results 条数（== len(results)，便于 Agent 校验）
+  results:              array
+  # 以下为 results 元素类型说明（results: array of items）：
+  id:                   string          # asset id（asset_index.json 中唯一）
+  path:                 string          # res:// 路径（animation 组可为目录，带尾部 /）
+  type:                 string          # texture|sprite|spritesheet|animation|sprite_frames|
+                                        # tileset|audio|font|shader|material|resource|scene|unknown
+  category:             string          # character|enemy|player|environment|ui|effect|
+                                        # item|weapon|background|audio|unknown ...
+  tags:                 array(string)   # 确定性 tags（路径/文件名/类型/人工确认层合并）
+  score:                float           # 确定性打分（越大越相关；-id 稳定排序）
+  # 以下字段出现于 --explain / 含义命中时，可选：
+  role:                 string          # 可选：动态/用途角色（idle/move/attack/hurt/...）
+  subject:              string          # 可选：主体（slime/player/...）
+  confirmed:            bool            # 可选：人工确认层已确认
+  reasons:              array(string)   # 可选：--explain 打分明细
+
+# ---------- 语义与约束 ----------
+rules:
+  - count 恒等于 len(results)（结果为空时 0，退出码 1）。
+  - score 是启发式匹配分（token/phrase/加成），不是概率；不保证 0~1 区间。
+  - 排序完全确定：score 降序，同分按 id 升序；同输入必同输出（无 LLM）。
+  - limit 过滤在排序之后截断；limit=0 表示不限制。
+  - 过滤语义：--type（可重复，OR）、--category（精确）、--role/--subject（精确）、
+    --confirmed-only。
+  - 索引缺失/为空：退出码 2，stdout 给出重建命令（无 JSON payload）。
+  - 无命中：退出码 1，仍输出 query/count/results （count=0、results 空列表）。
+
+example:
+  query: "player attack animation"
+  count: 2
+  results:
+    - id: player_attack_animation
+      path: "res://Assets/characters/player/attack/"
+      type: animation
+      category: player
+      tags: [animation, attack, characters, player, png, texture]
+      score: 23.5
+    - id: player_frames
+      path: res://Assets/characters/player/player_frames.tres
+      type: sprite_frames
+      category: player
+      tags: [player, sprite_frames, tres]
+      score: 12.0

@@ -10,6 +10,9 @@
     3. Node Structure —— 根节点类型必须等于 Blueprint root.type；
        不符报「Invalid Root Node Type」。
     4. 组合约束 —— Scene 不得给根节点挂脚本（Scene 只负责组合）。
+    5. 节点父路径 —— 显式 parent 必须指向场景内已声明的节点。
+    6. 节点重名 —— 同一父节点下不得重名（Godot 硬约束；Asset Binding 加入的
+       资源节点与组件实例共用命名空间）。
 """
 
 import re
@@ -134,5 +137,16 @@ def validate_scene(blueprint: dict, scene_path: str, index: list, templates: dic
                 "Composition Error: node %s parent path %r references a node not declared in this scene"
                 % (name or "<root>", parent)
             )
+
+    # 6. 同一父节点下不得重名（Asset 资源节点与组件实例共用命名空间）
+    seen: dict = {}
+    for name, parent in scene["all_nodes"]:
+        if not name:
+            continue
+        key = (parent or ".", name)
+        if key in seen:
+            failures.append("Composition Error: duplicate node name %r under parent %r"
+                            % (name, parent or "."))
+        seen[key] = True
 
     return {"ok": not failures, "failures": failures, "warnings": warnings}

@@ -13,6 +13,10 @@
     - 额外节点：[node name="<Name>" type="<Type>" parent="."]
       * node.shape: {type: rectangle|circle, size|radius} 生成 sub_resource
         并挂 shape 属性（ContactDamage/拾取范围等需要 CollisionShape2D）。
+    - 资源节点：blueprint.resource_nodes（由 Asset Binding 经 asset_nodes.py 产出）
+      * 形如 [node name="SlimeIdleAnim" type="AnimatedSprite2D" parent="."]
+        sprite_frames = ExtResource("...")
+      * 只连接资源（sprite_frames / texture / stream），不写脚本、不建状态。
     - 根节点不写脚本：Scene 只负责组合（架构约束）——根行为由组件承担，
       或复用既有场景时由其自身脚本承担。
 """
@@ -133,6 +137,25 @@ def build_tscn(blueprint: dict, templates: dict, features_dir: str) -> str:
         if "_sub_id" in node:
             lines.append('shape = SubResource("%s")' % node["_sub_id"])
         body.extend(lines)
+        body.append("")
+
+    # 资源节点（Asset Binding -> AnimatedSprite2D / Sprite2D / AudioStreamPlayer）
+    # 只做实例化与资源连接，不添加任何行为/状态（Scene 只负责组合）。
+    for node in blueprint.get("resource_nodes") or []:
+        res_id = "%d_asset_%s" % (next_res, node["name"])
+        next_res += 1
+        ext_resources.append((res_id, node["path"], str(node.get("ext_type") or "Resource")))
+        parent = str(node.get("parent") or "").strip() or "."
+        body.append('[node name="%s" type="%s" parent="%s"]'
+                    % (node["name"], node["type"], parent))
+        body.append('%s = ExtResource("%s")' % (node["property"], res_id))
+        for key in ("hframes", "vframes"):
+            if node.get(key):
+                body.append("%s = %d" % (key, int(node[key])))
+        # 主 animation 只作为默认展示（如 AnimatedSprite2D 的 "idle"）；
+        # 具体播放哪一段属于 Gameplay，Scene 不写行为。
+        if node.get("animation"):
+            body.append('animation = &"%s"' % str(node["animation"]).replace('"', ""))
         body.append("")
 
     # 头部（load_steps = 1 + ext_resource 数 + sub_resource 数）

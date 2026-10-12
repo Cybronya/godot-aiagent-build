@@ -1,0 +1,150 @@
+# Asset Binding Schema
+# 定义 Feature -> Entity -> Asset 的绑定格式（bind_assets.py 输出、validator/check_assets.py 校验、
+# Scene Composer 消费）。
+# 层级关系：
+#   Entity Blueprint（composition_schema.yaml / gameplay_schema.yaml 里的实体）
+#     ↓ asset_bindings.yaml        —— 本文件：角色 -> 资源 的解析结果
+#       ↓ .tscn                    —— Scene Composer 实例化资源节点
+# 职责边界：Feature 管能力、Entity 管组合、Scene 管实例、Asset 管表现。
+# Feature 不硬编码 Asset 路径——绑定发生在 Entity/Scene 层。
+
+schema:
+  id: asset_binding
+  version: 2
+
+# ---------- Multi-direction Binding（Phase 1.7-H） ----------
+# role 可携带方向后缀：idle_down / move_left / run_up_right（8 方向均可，无默认要求）。
+# 三种模式全部支持：4-direction、8-direction、directionless（无方向后缀即后者）。
+# 优先级（显式 > 方向专属 > 泛动画 > 纹理退化；fallback 必须写进 note，禁止静默）：
+#   explicit binding > direction-specific asset > generic animation > generic texture
+# 方向逻辑不进 Feature：Feature 不知道 move_left.png，读到它的是 Asset Binding。
+# Scene Composer 也可通过 assets.directions 显式声明期望方向集合：
+#   assets:
+#     directions: [up, down, left, right]
+#     required: [idle, move]
+#   （意味着 idle_up / idle_down / ... 都成为解析目标；泛动画可 fallback。
+#    泛动画也不存在时 Validator 报 ERROR，存在时只 WARNING。）
+directions:
+  four: [up, down, left, right]
+  eight: [up, down, left, right, up_left, up_right, down_left, down_right]
+  none: []
+
+# ---------- 输出格式 ----------
+
+binding:
+  source: <entity_blueprint | gameplay_blueprint>
+  gameplay: <可选，gameplay id>
+  entity: <entity_id>              # 单实体格式
+  role: <entity_roles>
+  subject: <可选，资源主体（如 slime）>
+  features: [<成员 feature id>]
+  required_declared: <bool>        # 角色需求是蓝图显式声明(true)还是按实体角色推断(false)
+  bindings:
+    - feature: <成员 feature id；由能力标签推断，可为空>
+      role: <资源角色，如 idle/move/attack/hurt/hurt_sfx>
+      asset: <asset id（.ai/context/asset_index.json）>
+      path: <res:// 资源路径；animation 组为目录或首帧>
+      type: <texture|sprite|spritesheet|animation|sprite_frames|audio|...>
+      node:                        # Scene Composer 依此实例化资源节点（可为空 = 不可实例化）
+        name: <场景内唯一节点名；多个角色指向同一资源时共用一个节点（如 SlimeAnim）>
+        type: <AnimatedSprite2D|Sprite2D|AudioStreamPlayer>
+        property: <sprite_frames|texture|stream>
+        path: <res:// 资源路径>
+        roles: [<该节点承载的角色；多角色共享时列出全部>]
+        animation: <可选，仅 AnimatedSprite2D；默认展示的动画名（如 idle）>
+        merged_from: <可选，共享节点的角色绑定来源>
+        hframes: <可选，仅 spritesheet>
+        vframes: <可选，仅 spritesheet>
+      compatibility: <COMPATIBLE|WARNING|INCOMPATIBLE|UNKNOWN>   # 与 check_compatibility.py 同源
+      resolved_from: <index|binding>
+      confidence: <high|medium|low>
+      note: <可选，降级/歧义说明>
+      runners_up: [<次优候选 asset id>]
+  missing:                         # 必填角色找不到资源（Validator 报 ERROR/WARNING）
+    - role: <role>
+      kind: required
+      reason: <一行原因>
+  optional_missing:                # 可选角色（如 *_sfx）找不到资源，仅提示
+    - role: <role>
+      kind: optional
+      reason: <一行原因>
+
+# ---------- 显式绑定覆盖（--binding FILE） ----------
+# bindings:
+#   - role: move
+#     asset: slime_move
+# 显式绑定优先于索引推断；引用不存在的 asset 会被记入 missing，不会静默忽略。
+
+# ---------- 节点命名与合并 ----------
+# 后缀: Anim(AnimatedSprite2D) / Sprite(Sprite2D) / Sfx(AudioStreamPlayer)
+#   单角色槽位: PascalCase(subject) + PascalCase(role) + 后缀
+#       例: subject=slime, role=hurt_sfx -> SlimeHurtSfx
+#   多角色共享同一资源（一个 SpriteFrames 提供 idle/move/attack/hurt）:
+#       合并为一个节点 PascalCase(subject) + 后缀，如 SlimeAnim（roles 记录全部角色），
+#       并写 animation = &"<第一个角色>" 作为默认展示。
+#       具体播放哪一段由 Gameplay 决定（Scene 只连接资源，不写行为）。
+
+# ---------- rules ----------
+rules:
+  - Binding 只描述「用哪个资源」，不产生 Gameplay State，也不修改资源文件。
+  - 一个 role 一个 asset；但多个 role 可指向同一资源，此时只生成一个场景节点。
+  - 解析必须确定性（路径/文件名/类型/role/tag），禁止视觉识别与 LLM 猜测。
+  - 找不到资源必须进入 missing，禁止编造 asset id 或路径。
+  - compatibility 由 `check_compatibility.py` 判定（单一事实来源）：
+    COMPATIBLE 正常；WARNING / UNKNOWN 只告警；INCOMPATIBLE 由 Validator 报 ERROR。
+  - 一个 role 只解析出一个 asset；其余候选记入 runners_up 供人工调换。
+  - asset 的 Source of Truth 是资源文件 + .ai/context/asset_manifest.yaml；本文件是计划产物。
+
+directional_example:
+  # 4-direction 实体（既支持显式逐条绑定，也支持由 bind_assets.py 推断 fallback）:
+  entity: player
+  bindings:
+    - role: idle_down
+      asset: player_idle_down      # direction-specific 优先
+    - role: idle_up
+      asset: player_idle           # 泛动画 fallback（note 必须标注）
+    - role: move_left
+      asset: player_run_left
+    - role: move_right
+      asset: player_run
+
+example:
+  binding:
+    source: gameplay_blueprint
+    gameplay: survival_game
+    entities:
+      - entity: slime_enemy
+        role: enemy
+        subject: slime
+        features: [chase_movement, contact_damage, health]
+        bindings:
+          - feature: ""
+            role: idle
+            asset: slime_frames
+            path: res://Assets/characters/enemy/slime/slime_frames.tres
+            type: sprite_frames
+            node:
+              name: SlimeAnim
+              type: AnimatedSprite2D
+              property: sprite_frames
+              path: res://Assets/characters/enemy/slime/slime_frames.tres
+              roles: [idle, move, attack, hurt]
+              animation: idle
+            compatibility: COMPATIBLE
+            resolved_from: index
+            confidence: high
+          - feature: contact_damage
+            role: hurt_sfx
+            asset: slime_hurt
+            path: res://Assets/audio/slime/hurt.ogg
+            type: audio
+            node:
+              name: SlimeHurtSfx
+              type: AudioStreamPlayer
+              property: stream
+              path: res://Assets/audio/slime/hurt.ogg
+            compatibility: COMPATIBLE
+            resolved_from: index
+            confidence: high
+        missing: []
+        optional_missing: []

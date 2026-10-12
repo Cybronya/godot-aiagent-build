@@ -29,6 +29,9 @@ skills:
   - id: gameplay-planner
     path: ../skills/gameplay/gameplay-planner
 
+  - id: asset-discovery
+    path: ../skills/systems/asset-discovery
+
   - id: godot-gdscript
     path: ../skills/foundation/godot-gdscript
 
@@ -64,6 +67,9 @@ skills:
 
   - id: godot-art-assets
     path: ../skills/engineering/godot-art-assets
+
+  - id: runtime-playtest
+    path: ../skills/quality/runtime-playtest
 
 registry_rules:
   - Every registered Skill must have a valid SKILL.md.

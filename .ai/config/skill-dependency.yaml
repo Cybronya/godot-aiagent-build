@@ -61,3 +61,11 @@ category_direction:
       - foundation
       - systems
       - engineering
+  quality:
+    may_depend_on:
+      - architecture
+      - foundation
+      - systems
+      - gameplay
+      - engineering
+      - quality

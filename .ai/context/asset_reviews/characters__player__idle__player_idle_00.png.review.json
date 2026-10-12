@@ -1,0 +1,68 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "characters/player/idle/player_idle_00.png",
+    "auto": {
+      "path": "assets/characters/player/idle/player_idle_00.png",
+      "filename": "player_idle_00.png",
+      "extension": ".png",
+      "size_bytes": 103,
+      "modified_at": "2026-10-10T19:26:42.370025+00:00",
+      "sha256": "4d5ad39e8ff6eae460ad0d4047b75c8b1e8d1181e5e13d2c661512c53039d880",
+      "width": 32,
+      "height": 32,
+      "path_hints": [
+        "character",
+        "player"
+      ],
+      "filename_hints": {
+        "actions": [
+          "idle"
+        ],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

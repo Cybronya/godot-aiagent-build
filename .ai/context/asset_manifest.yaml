@@ -1,0 +1,44 @@
+# Asset Manifest（人工确认层）
+# 契约：.ai/context/asset_manifest_schema.yaml
+#
+# 说明：本项目当前的 Assets/ 是 Phase 1.7 的**确定性占位美术**（32x32 纯色帧 /
+# 正弦音效），由 .ai/tools/asset_registry/tests/fixture_project.py 生成，
+# 用于验证 Asset Registry -> Binding -> Scene 全链路。分类语义经人工确认，
+# 像素内容不是最终美术。
+
+assets:
+
+  - id: slime_frames
+    path: res://Assets/characters/enemy/slime/slime_frames.tres
+    category: enemy
+    type: sprite_frames
+    subject: slime
+    tags: [slime, sprite_frames, enemy]
+    confirmed: true
+    status: approved
+    notes: "史莱姆 4 个动画（idle/move/attack/hurt）；占位帧，分类经确认"
+
+  - id: player_frames
+    path: res://Assets/characters/player/player_frames.tres
+    category: player
+    type: sprite_frames
+    subject: player
+    tags: [player, sprite_frames]
+    confirmed: true
+    status: approved
+    notes: "玩家 4 个动画（idle/run/attack/hurt）；占位帧，分类经确认"
+
+  - id: slime_hurt_sfx
+    path: res://Assets/audio/slime/hurt.wav
+    category: audio
+    type: audio
+    subject: slime
+    role: hurt
+    tags: [slime, hurt, sfx]
+    confirmed: true
+    status: approved
+    notes: "史莱姆受击音效（占位正弦波）"
+
+pending:
+  - res://Assets/environment/tilesets/ground_tileset.tres
+  - res://Assets/ui/icons/health_icon.png

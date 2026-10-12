@@ -5,6 +5,17 @@
 
 ## 当前状态
 
+Phase 1.6（Runtime Playtest & Self-Repair）已完成并沉淀（AD-010）：静态 Validator 之后新增 Runtime
+Correctness 层（`.ai/tools/runtime/`：Runtime Runner → runtime_result → Runtime Diagnosis →
+Repair Plan → Self Repair → 复验），Validator 增加第 5 阶段 `check_runtime.py`（只判定，不修复）；
+自动修复刻意狭窄（仅 node_not_found + 唯一可定位字面量），且修复无效/引入新错误必须回滚；
+运行契约与安全边界集中在 `.ai/config/runtime-playtest.yaml`；新增 runtime-playtest Skill
+（category: quality，第 20 个 Skill）；AI_ENTRY.md 只增加「Runtime failure → runtime-playtest Skill」路由。
+验证：test_runtime_playtest.py PASS（Test1 正常场景 / Test2 node_not_found / Test3 script_error /
+Test4 TIMEOUT + 分类与解析事实 + Validator 第 5 阶段）、test_self_repair.py PASS（Test5 单次自修
+FAIL→PASS + 多轮尝试 + 回滚 + 不可修复不动项目 + 安全边界）、Godot 全量回归 PASS、
+Validator PASS（20 Skills / 6 categories，0 errors / 0 warnings）。
+
 Round 9（Phase 1.5 Gameplay Loop Composer）已完成并沉淀（AD-009）。Feature 能力链已完成四级：
 
 4. **Gameplay Loop Composer**（AD-009）：需求文本 → gameplay_planner（requirement_parser /
@@ -43,6 +54,8 @@ P0-1 Feature Registry（Metadata Pipeline + Composition Planner）与
 P0-3 Scene Composer 与 P1 前置的 Gameplay Loop Composer 均已完成；下一任务候选：P0-2
 Game Design Skill、提交成果（Phase 1.5 全链成果待 commit），
 或直接串联「自然语言 → Gameplay Blueprint → 全部实体场景 → 验证」的多实体生成演示。
+
+P1-4 Runtime Debug Agent 已由 Phase 1.6（AD-010）覆盖（运行期错误捕获 → 定位 → 修复 → 复验闭环）。
 
 ## AD 候选（挂起，观察中）
 

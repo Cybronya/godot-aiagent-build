@@ -1,0 +1,68 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "characters/player/run/player_run_00.png",
+    "auto": {
+      "path": "assets/characters/player/run/player_run_00.png",
+      "filename": "player_run_00.png",
+      "extension": ".png",
+      "size_bytes": 104,
+      "modified_at": "2026-10-10T19:26:42.372011+00:00",
+      "sha256": "ca3dc2faa3bd130b35528d16943e489a93b799e0bdf62483fda9ed5644523eb3",
+      "width": 32,
+      "height": 32,
+      "path_hints": [
+        "character",
+        "player"
+      ],
+      "filename_hints": {
+        "actions": [
+          "run"
+        ],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

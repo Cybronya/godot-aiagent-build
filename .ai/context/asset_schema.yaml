@@ -1,0 +1,116 @@
+# Asset Metadata Schema
+# Phase 1.7 —— Asset / Resource Intelligence 的统一资源元数据契约。
+#
+# 定位：
+#   - 本 schema 描述「一条 Asset Metadata」，由 scan_assets.py 产出、build_asset_index.py 落盘。
+#   - asset_index.json 是 Generated Cache（可随时重建），不是 Source of Truth；
+#     Source of Truth = 磁盘上的资源文件 + 人工确认层（.ai/context/asset_manifest.json）。
+#   - 禁止把视觉识别结果当分类依据：分类只来自路径 / 文件名 / 扩展名 / Godot 资源类型 /
+#     既有 metadata / 人工 tags（见 rules）。
+
+schema:
+  id: asset
+  version: 1
+
+# ---------- Asset Metadata ----------
+
+asset:
+
+  id: <稳定 id；规则见 id_rules>
+
+  path: <res:// 路径；animation 组指向目录（以 / 结尾）>
+
+  type: texture | sprite | spritesheet | animation | sprite_frames | tileset |
+        audio | font | shader | material | resource | scene | unknown
+
+  format: <扩展名小写，如 png / webp / svg / wav / ogg / tres / tscn / gdshader>
+
+  category: character | enemy | player | environment | ui | effect | item | weapon |
+            background | audio | unknown
+
+  tags: [<小写 token；来源：路径段 / 文件名 / 类型 / 格式 / 主题 / 动作 / 方向>]
+
+  subject: <资源所属主体（player / slime / bat / ...）；无法判断为空串>
+
+  role: <动作或用途槽位（idle / move / run / attack / hurt / death / sfx / ...）；无则空串>
+
+  dimensions: {width: <int|null>, height: <int|null>}
+
+  frame_count: <int|null>
+
+  fps: <float|null>
+
+  duration: <float|null，音频秒数>
+
+  animations: [<SpriteFrames / Animation 内的动画名>]
+
+  frames: [<animation 组的帧文件 res:// 路径>]
+
+  dependencies: [<res:// 依赖资源（ext_resource）>]
+
+  used_by: [<引用该资源的 res:// 场景/资源>]
+
+  compatible_features: [<feature id；由主体 + 角色确定性推导>]
+
+  compatible_entities: [<entity role，如 enemy / player>]
+
+  compatible_scenes: [<res:// 场景>]
+
+  confirmed: <bool；true = 人工确认（manifest human 层），false = Agent 推断>
+
+  source: scanner | manifest
+
+  import_sidecar: {<解析 .import 得到的事实：hframes / vframes / loop / detect_3d 等>}
+
+# ---------- id_rules ----------
+
+id_rules:
+  - 单一资源文件：<subject>_<role>[_<direction>][_f<frame>]；subject 缺失时退回文件 stem。
+  - animation 组（同一动作目录聚合）：<subject>_<role>[_<direction>]。
+  - 同一 base id 冲突时，冲突组内统一追加 _<type> 后缀（顺序无关，保证可重建）。
+  - id 必须唯一；重复即索引构建错误。
+
+# ---------- 分类规则（确定性，无视觉识别） ----------
+
+rules:
+  - 分类依据仅限：文件路径、文件名、目录结构、扩展名、Godot 资源内声明的类型、
+    .import 旁车事实、人工 tags。禁止依据像素内容判断「这看起来像敌人」。
+  - category 由路径语义决定：enemies/monster/boss -> enemy；player -> player；
+    ui -> ui；audio/sfx -> audio；tilesets -> tileset 类资源统一归 environment；
+    其余取路径类型别名（characters -> character）。
+  - subject 取主体名词 token（player/slime/bat/...），不取动作词。
+  - role 取动作/用途 token（ACTION_TOKENS 与 ROLE_ALIASES）。
+  - spritesheet 判定：文件名含 sheet/spritesheet，或 .import 旁车声明 hframes/vframes > 1。
+  - animation 组判定：目录名或帧文件共同动作 token 属于 ACTION_TOKENS，且目录内 ≥1 张图片帧。
+  - compatible_features = 主体角色（enemy/player/...）∩ Feature metadata 的
+    relations.entity_roles，再按 role 的能力提示过滤（如 move -> *_movement 类能力）。
+  - compatible_entities 使用 entity_roles 词表（Entity 是组合期概念，索引层只给角色级兼容性）。
+  - fps / duration / dimensions 只从可解析的文件头或 .import 侧车读取；读不到写 null，
+    禁止推测。
+
+# ---------- 示例 ----------
+
+example:
+  id: slime_idle
+  path: res://assets/characters/enemy/slime/idle/
+  type: animation
+  format: png
+  category: enemy
+  tags: [enemy, slime, idle, animation, png, character]
+  subject: slime
+  role: idle
+  dimensions: {width: 4, height: 4}
+  frame_count: 2
+  fps: null
+  duration: null
+  animations: []
+  frames:
+    - res://assets/characters/enemy/slime/idle/slime_idle_00.png
+    - res://assets/characters/enemy/slime/idle/slime_idle_01.png
+  dependencies: []
+  used_by: [res://Scenes/SlimeEnemy.tscn]
+  compatible_features: [health, contact_damage, chase_movement]
+  compatible_entities: [enemy]
+  compatible_scenes: [res://Scenes/SlimeEnemy.tscn]
+  confirmed: false
+  source: scanner

@@ -1,0 +1,68 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "characters/enemy/slime/hurt/slime_hurt_00.png",
+    "auto": {
+      "path": "assets/characters/enemy/slime/hurt/slime_hurt_00.png",
+      "filename": "slime_hurt_00.png",
+      "extension": ".png",
+      "size_bytes": 103,
+      "modified_at": "2026-10-10T19:26:42.389108+00:00",
+      "sha256": "be7f469b3fc44839442b15dd17a3929a3a8db3ab32dba6121419a013bb279a9f",
+      "width": 32,
+      "height": 32,
+      "path_hints": [
+        "character",
+        "enemy"
+      ],
+      "filename_hints": {
+        "actions": [
+          "hurt"
+        ],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

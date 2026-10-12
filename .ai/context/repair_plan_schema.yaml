@@ -1,0 +1,122 @@
+# Repair Plan Schema
+# Self-Repair 的修复计划契约：由 repair_plan.py 产出，self_repair.py 执行。
+# 一个 plan 对应一次修复尝试（attempt）。
+#
+# 定位：Repair Plan 描述「准备怎么改」，不描述「已经改了什么」
+# （执行结果记录在 .ai/memory/runtime-repairs/repair-00N.yaml）。
+#
+# 安全约束（硬约束，由 .ai/config/runtime-playtest.yaml 的 repair_safety 节声明）：
+#   - 只允许修改：报错脚本 / 被验证场景 / 相关 Feature 内的文件
+#   - 每次尝试一个文件，且只允许 replace_single_literal 一种修改形式
+#   - 禁止删除 Feature / 删除 Scene / 修改 Project Settings / 修改 AI Framework /
+#     修改 Skill Registry / 修改 Validator / 修改无关 Feature / 修改 addons
+#   - 无法确定时不产出可执行计划：repairable: false + reason 必填
+
+schema:
+  id: repair_plan
+  version: 1
+
+repair:
+
+  # 第几次修复尝试（从 1 开始，上限 runtime_playtest.max_repair_attempts）
+  attempt: <int>
+
+  error:
+
+    # 来自 Runtime Diagnosis 的 classification
+    classification: <scene_load_error | script_error | node_not_found | resource_missing |
+                     signal_error | null_instance | invalid_property | invalid_method |
+                     parser_error | timeout | crash | unknown_runtime_error>
+
+    message: <Runtime 原始消息>
+
+    file: <res:// 出错文件；空串 = 无可用位置>
+
+    line: <int；0 = 未知>
+
+    scene: <res:// 被验证场景>
+
+    confidence: <high | medium | low>
+
+  target:
+
+    file: "<res:// 允许修改的目标文件；repairable: false 时为空串>"
+
+    scope: <script | scene | "">
+
+    feature: <相关 Feature id；无则空串>
+
+  reason: "<为什么这样修；repairable: false 时必须说明为什么不能自动修>"
+
+  changes:
+    - <人类可读的修改条目；必须与 target.file 一致>
+
+  validation:
+    - run feature tests
+    - run scene validation
+    - run runtime playtest
+
+  risk: <low | medium | high | unknown>
+
+  repairable: <bool>
+
+# ---------- 执行结果（repair history 条目，写入 .ai/memory/runtime-repairs/） ----------
+
+repair_history_entry:
+
+  attempt: <int>
+
+  timestamp: <ISO8601>
+
+  scene: <res:// 场景>
+
+  error: <触发修复的错误（classification + message + file + line）>
+
+  diagnosis: <Runtime Diagnosis 摘要（primary_classification / confidence）>
+
+  repair: <repair plan 摘要 + repairable>
+
+  changed_files: <被修改的文件列表；回滚后为空>
+
+  validation_result: <静态验证结果（steps + ok）>
+
+  runtime_result: <修复后的 runtime_result 摘要（status / errors）>
+
+  status: <repaired | reverted | not_repairable | failed>
+
+  reverted: <bool>
+
+# ---------- 规则 ----------
+
+rules:
+  - Plan 只描述修改意图；修改必须由 repair_engine 以单点字面量替换执行。
+  - 一个 plan 只能有一个 target.file（max_files_per_attempt = 1）。
+  - repairable: false 时必须给出 reason，禁止用「猜测」替代。
+  - 修复后必须重新验证（静态验证 + Runtime Playtest），失败则回滚。
+  - 修复历史只记录本次尝试的事实；长期架构经验才允许进入 .ai/memory/DECISIONS.md。
+
+# ---------- 示例 ----------
+
+example:
+  repair:
+    attempt: 1
+    error:
+      classification: node_not_found
+      message: 'Node not found: "Helth" (relative to "/root/BrokenNodePath").'
+      file: res://Scenes/broken_node_path.gd
+      line: 6
+      scene: res://Scenes/BrokenNodePath.tscn
+      confidence: high
+    target:
+      file: res://Scenes/broken_node_path.gd
+      scope: script
+      feature: ""
+    reason: hardcoded node path 'Helth' does not resolve; closest declared node is 'Health'
+    changes:
+      - replace node path literal "Helth" with "Health" in res://Scenes/broken_node_path.gd
+    validation:
+      - run feature tests
+      - run scene validation
+      - run runtime playtest
+    risk: low
+    repairable: true

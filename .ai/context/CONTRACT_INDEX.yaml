@@ -1,0 +1,110 @@
+# Contract Index —— 所有 AI 协议入口的单一目录。
+# 作用：Agent 不再扫描 .ai/tools / .ai/context 找规则；读本文件即知每个契约的
+# schema 文档、生产/消费工具与当前版本。
+# 维护规则：任何新增/升级契约的 Phase 必须同步更新本索引（只记录事实，不写流程；
+# 流程在 SKILL.md 与 README.md）。只 CHECK/REPORT 的 validator 不在本索引之外的
+# 任何地方重复声明版本。
+# 通用规则：schema 文档是 Source of Truth（人工维护）；工具产物（asset_index.json、
+# asset_bindings/*.yaml）是 Generated Data，可按各契约的 producer 重建。
+
+version: 1
+
+# 路径基准（Agent 解析规则）：
+#   *  schema / files / generated_cache / output_dir / index /
+#      repair_plan_schema / runtime_result_schema → 相对 .ai/context/
+#   *  cli / entrypoint / validator / producer / consumer / stages /
+#      runner / asset_repair / index_builder          → 相对 .ai/tools/
+#   *  navigation 内相对 .ai/context/（含 ../ 跨层引用）
+
+# ---------- Asset ----------
+
+asset_scan:
+  schema: asset_schema.yaml
+  cli: asset_registry/scan_assets.py
+  index_builder: asset_registry/build_asset_index.py   # Generated Cache 重建入口
+  generated_cache: asset_index.json                    # 不手工维护；--check 判同步
+  version: 1
+
+asset_query:
+  schema: asset_query_schema.yaml
+  cli: asset_registry/query_assets.py                  # 位置参数 = 旧 CLI；--json --query = Agent API
+  version: 1
+
+asset_compatibility:
+  cli: asset_registry/check_compatibility.py           # COMPATIBLE/WARNING/INCOMPATIBLE/UNKNOWN
+  version: 1
+
+asset_binding:
+  schema: asset_binding_schema.yaml
+  schema_version: 2                                    # 与 asset_binding_schema.yaml version 一致
+  producer:                                            # 生成 asset_bindings/*.yaml 的三条链路
+    cli: asset_registry/bind_assets.py
+    scene_composer: scene_composer/asset_nodes.py      # --bind-assets 消费端入口
+    runtime_repair: runtime/asset_repair.py            # Asset Self-Repair 重建入口
+  validator: asset_registry/check_binding_schema.py    # schema_version 健康；不自动迁移
+  output_dir: asset_bindings                           # 产物均为 Generated Data
+  version: 2
+
+asset_manifest:
+  schema: asset_manifest_schema.yaml
+  files:
+    - asset_manifest.yaml                              # 人工确认层（Source of Truth 语义覆盖）
+    - asset_manifest.json                              # godot-art-assets 既有确认产物（合并读取）
+  version: 1
+
+# ---------- Planning / Composition ----------
+
+feature_registry:
+  schema: composition_schema.yaml
+  index: feature_index.json                            # Generated Data
+  version: 1
+
+gameplay_blueprint:
+  schema: gameplay_schema.yaml
+  version: 1
+
+scene_composition:
+  schema: scene_schema.yaml
+  cli: scene_composer/scene_composer.py                # <blueprint.yaml> --bind-assets --tests
+  consumer:
+    asset_nodes: scene_composer/asset_nodes.py         # Asset Binding -> 场景资源节点
+  version: 1
+
+# ---------- Validation ----------
+
+validator:
+  entrypoint: validator/validate.py                    # 完整链：Project→Feature→Asset→BindingSchema→Scene→...
+  stages:
+    - validator/check_assets.py                        # Asset Validation（路径/类型/绑定/同步）
+    - asset_registry/check_binding_schema.py           # Binding Schema Validation
+    - validator/check_scene_composition.py             # Scene Validation
+    - validator/check_gameplay.py                      # Gameplay Validation
+    - validator/check_runtime.py                       # Runtime Validation
+  contract: 只 CHECK/REPORT；修复归 runtime/self_repair.py，修改资源属人工权限
+  version: 1
+
+# ---------- Runtime ----------
+
+runtime_playtest:
+  contract_config: ../config/runtime-playtest.yaml     # 默认超时/max_repair_attempts/安全边界
+  runner: runtime/run_scene.py
+  runtime_result_schema: runtime_result_schema.yaml
+  version: 1
+
+runtime_diagnosis:
+  cli: runtime/diagnose_runtime.py
+  repair_plan_schema: repair_plan_schema.yaml
+  version: 1
+
+runtime_self_repair:
+  cli: runtime/self_repair.py
+  asset_repair: runtime/asset_repair.py                # domain=asset 分支（max_repair_attempts 约束内）
+  history_dir: ../memory/runtime-repairs               # Generated Data；独立于 DECISIONS.md
+  version: 1
+
+# ---------- 导航 ----------
+
+navigation:
+  entry: ../../AI_ENTRY.md                             # 任务路由（Asset/Resource → asset-discovery Skill）
+  skill: ../skills/systems/asset-discovery/SKILL.md    # Asset Discovery 流程
+  asset_registry_readme: ../tools/asset_registry/README.md

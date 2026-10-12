@@ -39,6 +39,14 @@ types:
     layer: engineering
     default_load_policy: conditional
 
+  quality:
+    description: >
+      Runtime correctness capabilities: running the Godot project/scene, observing
+      runtime output, diagnosing failures, planning and applying minimal repairs,
+      and re-verifying. Complements static Validator results instead of replacing them.
+    layer: engineering
+    default_load_policy: conditional
+
 rules:
   - Categories describe capability roles, not physical ownership of project code.
   - Category hierarchy must not be confused with runtime module hierarchy.

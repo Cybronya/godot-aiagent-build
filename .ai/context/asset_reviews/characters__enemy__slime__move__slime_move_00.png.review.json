@@ -1,0 +1,66 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "characters/enemy/slime/move/slime_move_00.png",
+    "auto": {
+      "path": "assets/characters/enemy/slime/move/slime_move_00.png",
+      "filename": "slime_move_00.png",
+      "extension": ".png",
+      "size_bytes": 103,
+      "modified_at": "2026-10-10T19:26:42.382075+00:00",
+      "sha256": "9cc4da3649bab6d9ff9d6c3693036c73614f6d79c981d6312e1167a92869d2ae",
+      "width": 32,
+      "height": 32,
+      "path_hints": [
+        "character",
+        "enemy"
+      ],
+      "filename_hints": {
+        "actions": [],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

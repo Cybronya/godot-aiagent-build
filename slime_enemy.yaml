@@ -1,0 +1,41 @@
+# Entity Blueprint: 史莱姆敌人（Phase 1.7 Asset / Resource Intelligence 验收）
+#
+# 需求：创建一个可以移动、受到伤害、会追踪玩家的史莱姆敌人，
+#       并使用项目中的史莱姆动画资源。
+#
+# 契约：
+#   .ai/context/composition_schema.yaml  —— 实体组合（features）
+#   .ai/context/asset_binding_schema.yaml —— 资源角色（assets）
+#
+# 流程：
+#   python .ai/tools/asset_registry/build_asset_index.py        # 索引资源
+#   python .ai/tools/validator/check_composition ...            # 组合合法性（既有）
+#   python .ai/tools/scene_composer/scene_composer.py slime_enemy.yaml --bind-assets --tests
+#   python .ai/tools/validator/check_scene_composition.py slime_enemy.yaml
+#   python .ai/tools/validator/check_assets.py
+
+entity:
+  id: slime_enemy
+  role: enemy
+
+features:
+  - health
+  - contact_damage
+  - chase_movement
+
+# 资源角色（Feature 不硬编码资源路径；由 Entity 层绑定）
+assets:
+  subject: slime
+  required:
+    - idle
+    - move
+    - attack
+    - hurt
+  optional:
+    - hurt_sfx
+
+validation:
+  required_tests:
+    - health
+    - contact_damage
+    - chase_movement

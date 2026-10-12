@@ -283,3 +283,38 @@ supersedes：
 - 端到端：planner "create enemy survival game" 落盘 survival_game.yaml（enemy/player 实体 + enemy_spawn/reward 系统 + 循环）→ enemy 场景 Blueprint 经 scene_composer 重建 Scenes/Enemy.tscn（与 HEAD 版结构等价：chase 根 + ContactShape + Visual + HealthBar，实例化根覆写组与 speed）→ check_gameplay PASS。
 - SurvivalArena 生存循环 Godot 集成测试 PASS（伤害链路/拾取恢复/死亡移除/重开/胜利路径）。
 - 全量 Godot 回归 30/30 PASS；Validator PASS。
+## AD-010: Runtime Playtest & Self-Repair（运行期正确性分层）
+
+- 状态：accepted
+- 日期：2026-10-11
+- supersedes：null
+
+### 决定
+
+- 新增 Runtime Correctness 层（`.ai/tools/runtime/`），与静态 Validator 明确分工：Validator = static correctness（结构 / 契约 / 组合 / 循环闭合）；Runtime Playtest = runtime correctness（真实启动 Godot 运行 Scene）。Runtime Playtest 不替代 Validator，Self-Repair 不写进 Validator。
+- 分层职责固定为：Runtime Runner（运行与观测）→ Runtime Result（事实契约）→ Diagnosis（分类定位）→ Repair Plan（安全边界内的修改计划）→ Self Repair（最小修改 + 回滚）→ 复验。禁止 RuntimeManager / God Object；Runtime 逻辑不进入 Feature / Scene。
+- runtime_result 只记录事实（status / exit_code / duration / scene / stdout / stderr / errors / warnings / crash / timeout）；错误 classification 与 likely_cause 属于 Diagnosis 的输出，不写进 result schema。
+- 运行契约（timeout / max_repair_attempts / fail_on_error / fail_on_warning / run_frames / log_dir / repair_safety）集中在 `.ai/config/runtime-playtest.yaml`，不散落在工具里。
+- 自动修复刻意保持狭窄：只支持「node_not_found + 唯一可定位的硬编码节点路径字面量 → 按名称相似度选唯一候选 → 替换为正确相对节点路径」。其它分类输出 repairable: false + reason，禁止编造原因与试探性修改。
+- 修复安全边界是硬约束：只允许修改报错脚本 / 被验证场景 / 相关 Feature 内文件；每次尝试一个文件、一处字面量替换；禁止修改 `.ai/**`、`addons/**`、`project.godot`，禁止删除 Feature / Scene；修复无效或引入新错误必须回滚（禁止无限修改项目）。
+- 运行期错误的记忆分层：普通错误写入 `.ai/memory/runtime-repairs/`（过程记录），只有具长期架构价值的经验才允许进入 DECISIONS.md。
+- Framework 新增 Skill Category `quality`（framework-rules 的 safe change：add_nonbreaking_skill_type），runtime-playtest Skill 以 conditional 注册；skill-types / skill-collaboration / skill-dependency 同步。
+
+### 原因
+
+- Validator 只能证明静态结构正确：无法证明 `_ready()` 里 `get_node("Helth")` 不炸、脚本能编译、资源能加载、场景不会卡死。Phase 1.5 结束时「生成 → 静态验证」链路已闭合，但交付物从未真实运行过。
+- ROADMAP P1-4（Runtime Debug Agent）要求「运行期错误捕获 → 定位 → 修复 → 回归验证」的闭环，无头运行基座已具备（Godot headless + run_tests.py）。
+
+### 影响
+
+- 新增 Validator 第 5 阶段 `.ai/tools/validator/check_runtime.py`：只判定 runtime_result（schema / 契约 / 可分类性 / 可定位性），修复归 self_repair。Validator 流程扩展为 Project / Feature / Scene / Gameplay / Runtime 五段，Validator 本身仍只做验证。
+- 新增第 20 个 Skill（runtime-playtest，conditional，category: quality）+ `.ai/skills/quality/runtime-playtest/SKILL.md`。
+- 运行日志与修复历史写入 `.ai/memory/`（`runtime-logs/` 已 gitignore；`runtime-repairs/` 作为过程记忆保留）。
+- AI_ENTRY.md 只增加路由（Runtime failure → runtime-playtest Skill），详细流程放在 SKILL.md。
+- 运行期测试使用临时项目副本（fixtures 复制到 temp 后运行），保证修复类测试可重复且不污染真实项目。
+
+### 验证
+
+- test_runtime_playtest.py PASS（Test1 正常场景 PASS/exit_code 0；Test2 node_not_found；Test3 script_error；Test4 TIMEOUT；附加 scene_load_error / resource_missing / parser_error、解析事实与 Validator 第 5 阶段）。
+- test_self_repair.py PASS（Test5 单次自修 FAIL → Diagnosis → Repair → Validator → Runtime PASS；多轮尝试；回滚；不可修复时不动项目；dry-run；历史编号递增；安全边界与计划 schema）。
+- Godot 全量回归 PASS；Python 层既有测试（feature pipeline / composition / scene composer / gameplay planner）PASS；Validator PASS（20 Skills / 6 categories / 0 errors / 0 warnings）。

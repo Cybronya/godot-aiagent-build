@@ -1,0 +1,65 @@
+{
+  "_instructions": {
+    "description": "只编辑 asset.human；asset.auto 由 Scanner 管理。",
+    "required_human_fields": [
+      "id",
+      "type",
+      "category",
+      "status"
+    ],
+    "allowed_status": [
+      "approved",
+      "archived",
+      "candidate",
+      "deprecated",
+      "draft"
+    ],
+    "allowed_type": [
+      "background",
+      "character",
+      "environment",
+      "font",
+      "item",
+      "portrait",
+      "prop",
+      "tileset",
+      "ui",
+      "vfx"
+    ]
+  },
+  "asset": {
+    "relative_key": "environment/tiles/ground.png",
+    "auto": {
+      "path": "assets/environment/tiles/ground.png",
+      "filename": "ground.png",
+      "extension": ".png",
+      "size_bytes": 104,
+      "modified_at": "2026-10-10T19:26:42.394063+00:00",
+      "sha256": "7bc1165b1953a4a3956e07f435d6fc21e837e11388da30b04396f0d3aab1d8f9",
+      "width": 32,
+      "height": 32,
+      "path_hints": [
+        "environment"
+      ],
+      "filename_hints": {
+        "actions": [],
+        "directions": []
+      }
+    },
+    "human": {
+      "id": null,
+      "type": null,
+      "category": null,
+      "tags": [],
+      "status": "candidate",
+      "subtype": null,
+      "character": null,
+      "action": null,
+      "direction": null,
+      "frame": null,
+      "description": null,
+      "source": null,
+      "notes": null
+    }
+  }
+}

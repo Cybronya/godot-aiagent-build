@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=3]
+
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/idle/slime_idle_00.png" id="1_idle"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/idle/slime_idle_01.png" id="2_idle"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/move/slime_move_00.png" id="3_move"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/move/slime_move_01.png" id="4_move"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/move/slime_move_02.png" id="5_move"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/attack/slime_attack_00.png" id="6_attack"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/attack/slime_attack_01.png" id="7_attack"]
+[ext_resource type="Texture2D" path="res://Assets/characters/enemy/slime/hurt/slime_hurt_00.png" id="8_hurt"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_idle")}, {
+"duration": 1.0,
+"texture": ExtResource("2_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_move")}, {
+"duration": 1.0,
+"texture": ExtResource("4_move")}, {
+"duration": 1.0,
+"texture": ExtResource("5_move")
+}],
+"loop": true,
+"name": &"move",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_attack")}, {
+"duration": 1.0,
+"texture": ExtResource("7_attack")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_hurt")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 6.0
+}]

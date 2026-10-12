@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/multiple_node_paths.gd" id="1_script"]
+
+[node name="MultipleNodePaths" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Health" type="Node2D" parent="."]
+
+[node name="Mana" type="Node2D" parent="."]

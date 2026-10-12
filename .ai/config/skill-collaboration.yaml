@@ -41,6 +41,14 @@ ownership:
       - performance
       - build_and_release
 
+  quality:
+    decides:
+      - runtime_correctness
+      - runtime_playtest_execution
+      - runtime_failure_diagnosis
+      - repair_plan_and_repair_safety
+      - runtime_result_contract
+
 workflow:
 
   architecture_first:

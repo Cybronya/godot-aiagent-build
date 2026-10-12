@@ -1,0 +1,53 @@
+# Asset Manifest Schema（人工确认层）
+# 文件: .ai/context/asset_manifest.yaml
+#
+# 定位（重要）：
+#   Source of Truth = 磁盘上的资源文件本身。
+#   asset_index.json = Generated Cache（禁止手工维护）。
+#   asset_manifest.yaml = 人工/受控确认层，只覆盖 scanner 推断不出来的语义，
+#     并把 Agent 推断与人工确认明确区分（confirmed）。
+#
+# 兼容：scanner 同时读取既有 `.ai/context/asset_manifest.json`
+#   （godot-art-assets 的 relative_key/auto/human 产物），两者合并，yaml 优先。
+
+schema:
+  id: asset_manifest
+  version: 1
+
+assets:
+
+  - id: <覆盖 scanner 生成的 asset id；留空则沿用推断 id>
+    path: <res:// 路径（文件或 animation 目录）>       # 必填，用于匹配合并
+    category: <character|enemy|player|environment|ui|effect|item|weapon|background|audio>
+    type: <可选，覆盖推断 type（texture|sprite|spritesheet|animation|sprite_frames|tileset|audio|font|shader|material|resource|scene）>
+    subject: <可选，资源主体，如 slime / player>
+    role: <可选，资源角色，如 idle / move / attack / hurt（walk->move、hit->hurt 归一）>
+    tags:
+      - <附加 tag；与 scanner 推断 tags 合并（去重）>
+    confirmed: <true = 人工已确认该条目；false/省略 = 仍属 Agent 推断>
+    status: <可选：candidate|approved|deprecated>
+    notes: <可选，一行说明>
+
+pending:
+  - <可选：待人工确认的 res:// 路径清单>
+
+# ---------- rules ----------
+rules:
+  - manifest 只覆盖语义（id/category/subject/role/tags/confirmed），不改变资源文件。
+  - 未经确认的条目由 scanner 推断，读方必须能通过 confirmed 区分来源。
+  - 禁止把扫描结果批量写入 manifest；只有人工确认过的条目才落盘。
+  - 禁止在 manifest 里登记不存在的路径（check_assets.py 会报 WARNING）。
+  - 普通扫描结果不写入 .ai/memory/DECISIONS.md。
+
+example:
+  assets:
+    - id: slime_hurt_sfx
+      path: res://Assets/audio/slime/hurt.wav
+      category: audio
+      type: audio
+      subject: slime
+      role: hurt
+      tags: [slime, hurt, sfx]
+      confirmed: true
+      status: approved
+      notes: "史莱姆受击音效，人工确认可用"
