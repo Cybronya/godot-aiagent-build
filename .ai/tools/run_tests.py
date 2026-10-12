@@ -90,8 +90,8 @@ def run_godot_test(godot: str, test: Path) -> tuple[bool, str]:
     except subprocess.TimeoutExpired:
         return False, f"TIMEOUT after {GODOT_TIMEOUT_PER_TEST}s"
     ok = proc.returncode == 0
-    tail = "\\n".join(((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()[-5:])
-    return ok, f"exit={proc.returncode}" + (f"\\n{tail}" if not ok else "")
+    tail = "\n".join(((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()[-5:])
+    return ok, f"exit={proc.returncode}" + (f"\n{tail}" if not ok else "")
 
 
 def run_python_test(test: Path) -> tuple[bool, str]:
@@ -106,8 +106,8 @@ def run_python_test(test: Path) -> tuple[bool, str]:
         return False, f"TIMEOUT after {PYTHON_TIMEOUT_PER_TEST}s"
     ok = proc.returncode == 0
     output = ((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()
-    tail = "\\n".join(output[-8:])
-    return ok, f"exit={proc.returncode}" + (f"\\n{tail}" if not ok else "")
+    tail = "\n".join(output[-8:])
+    return ok, f"exit={proc.returncode}" + (f"\n{tail}" if not ok else "")
 
 
 def main() -> int:
