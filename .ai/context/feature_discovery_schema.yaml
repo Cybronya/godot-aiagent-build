@@ -1,0 +1,211 @@
+# Feature Discovery Schema
+# query_assets.py --json 之后的第二条机器可读契约：feature_discovery.py --json 的
+# 输出契约（Phase 1.8.2 Step 1 正式化；此前契约仅存在于 docstring 与 CONTRACT_INDEX）。
+#
+# 生成器: .ai/tools/feature_registry/feature_discovery.py（SCHEMA_VERSION）
+# 下游消费者: .ai/tools/feature_registry/discovery_to_binding.py（Reader，Phase 1.8.2 Step 2）。
+# 槽位来源: .ai/context/entity_asset_slots.yaml（与 bind_assets 共用单一事实源）。
+# 资产候选: 直接复用 query_assets.query 的条目结构（无第二套评分）。
+#
+# ============================================================
+# Contract Freeze（Phase 1.8.2 Step 2.8） —— 冷冻原则（所有后续阶段必须遵守）
+# ============================================================
+#
+# 数据链（既定事实，不描述未来能力）：
+#   Discovery（feature_discovery.py --json）
+#     ↓  本契约的 payload（下方 root 共 11 键）
+#   Candidate Discovery（asset_candidates = 每槽位的建议候选，确定性排序）
+#     ↓  人工/Agent 显式选择（--select SLOT=CANDIDATE_ID；绝不默认 top1）
+#   Adapter（discovery_to_binding.py；--input + --select）
+#     ↓  {bindings: [{role, asset}]}（显式绑定覆盖文件）
+#   Binding（bind_assets.py --binding FILE；resolved_from/compatibility/confidence
+#          由 bind_assets 运行时计算，本契约不产出这些字段）
+#
+# 六条冻结原则：
+#   1. Candidate != Binding —— asset_candidates 的条目是「建议候选」，不是绑定结果；
+#   2. Discovery 不执行最终资产绑定（只回答「哪些 asset 可能满足这个 slot」）；
+#   3. Adapter 绝不自动选择 top1 candidate（无选择即报错，不存在隐式补选）；
+#   4. 显式选择优先于下游推断（bind_assets 显式链 > 索引推断；resolved_from 区分）；
+#   5. 部分选择合法 —— Adapter exit 0 **不代表** 所有 required slots 都已人工确认；
+#      未选槽位由 bind_assets 继续推断；两种来源以 resolved_from=binding /
+#      resolved_from=index 区分（语义见 asset_binding_schema.yaml v2）；
+#   6. confidence=high != human-confirmed —— 它仅表示「走了显式解析链」，
+#      不得解释为用户/人工确认（assets 的确认层是 confirmed 字段 + asset_manifest）。
+#
+# Adapter 消费规则（与 discovery_to_binding.py 实测行为一致）：
+#   - 输入 = 本契约 payload（--input 文件或 stdin）+ --select SLOT=CANDIDATE_ID；
+#   - schema_version 仅支持当前版本；bool/string/float/更高版本均 exit 2；
+#   - selection 必须 explicit；candidate role 必须等于槽位名；
+#   - unknown slot / candidate id 不存在 / 跨槽引用 / 同槽冲突选择 → exit 1 或 2（拒绝）；
+#   - 同槽重复相同选择幂等（exit 0）；
+#   - I/O 失败（读入/写出/stdin）→ exit 2 可诊断错误，无裸 traceback；
+#     --out 走原子写（同目录临时文件 + os.replace），失败不留 partial 文件。
+
+version: 1
+
+# ---------- 根对象 ----------
+
+# JSON 根对象 = 以下 11 个键固定存在（包括失败情形；见 "输出情形约定"）。
+
+root:
+  schema_version:                int           # 契约版本，当前恒 1
+  query:                         string        # 归一后的查询文本（" ".join(args) 或
+                                               # --role 兜底；无输入时不存在本次输出）
+  role:                          string        # 解析后的实体角色：已知角色词（enemy/player/
+                                               # trap/world_item/level/...）| "*default*"
+                                               # （未识别角色，见 unknown_role 诊断）|
+                                               # 仅 error-path 为 ""
+
+  features:                      array[string] # 推荐 Feature id 列表（确定性排序）
+                                               # 空 = 无 Feature 匹配（语义见 rules）
+
+  feature_capabilities:          map[string, array[string]]
+                                               # feature id -> provides 能力标签
+                                               # 键集合 ⊆ features；features 为空时为 {}
+                                               # （error-path const {}）
+
+  requirements:                  map           # 结构/逻辑需求声明（scene/collision/stats 等）
+                                               # ⚠ 当前恒为 {} —— 结构需求尚未数据化。
+                                               # 任何非空值的出现视为 schema 违规；
+                                               # 不得把它当作可检索资产或绑定依据。
+
+  asset_slots:                   array[string] # 必填资源槽位（资源 role 词）；
+                                               # merit 来自 entity_asset_slots.yaml roles.<role>.required
+                                               # error-path 为 []；已知/兜底角色时非空
+
+  optional_slots:                array[string] # 可选槽位（entity-specific optional；
+                                               # 全局可选角色经 optional_slots 语义由
+                                               # entity_asset_slots.yaml 定义）；可为 []
+
+  asset_candidates:              map[slot, array[candidate]]
+                                               # ⚠ 候选 ≠ 绑定。
+                                               # 键 = asset_slots ∪ optional_slots 的每一个槽位
+                                               #   （含"无候选"的空数组键 — 不得省略空键）；
+                                               # error-path 为 {}（键集不存在）；
+                                               # 空 array = 该槽位当前索引下无候选
+                                               #   （此时 required 槽位会同时进 missing）。
+
+  missing:                       array[missing_item]
+                                               # 仅必填槽位无候选时出现条目；空 = 所有必填
+                                               # 槽位均有候选（或处于 error-path）。
+
+  diagnostics:                   array[diagnostic]
+                                               # 附加诊断；成功完全匹配时可为 []。
+
+# ---------- 嵌套结构 ----------
+
+# 候选条目（= query_assets.query 的单条结果，结构不改写）：
+# 依据 .ai/tools/asset_registry/query_assets.py L130-139。
+candidate:
+  id:              string          # 资产 id（asset_index.json 唯一）
+  path:            string          # res:// 路径（动画组可带尾部 /）
+  type:            string          # texture|sprite|spritesheet|animation|sprite_frames|
+                                   # tileset|audio|font|shader|material|resource|scene|unknown
+  category:        string          # character|enemy|player|environment|ui|...|unknown
+  role:            string          # 资源 role；可能为 ""（如共享 SpriteFrames）
+  subject:         string          # 资源主体；可能为 ""
+  tags:            array[string]   # 小写 token，非空顺序无关
+  confirmed:       bool            # 人工确认层标记
+  score:           float           # 确定性分（query_assets 打分；round 2 位小数）
+# 注：query_assets 的 reasons（打分明细）仅在 query_assets --explain 下存在；
+# Discovery 调用未开启 explain，本契约的候选不含该字段。
+
+missing_item:
+  slot:            string          # 缺失的必填槽位名
+  kind:            "required"      # 当前恒为 "required"（可选槽位缺失不进本列表）
+  reason:          string          # 单行原因（"no asset candidate for role 'x'" /
+                                   #  "asset index unavailable"）
+
+diagnostic:
+  reason:          reason_enum     # 见下
+  message:         string          # 单行人/机可读说明
+
+# ---------- diagnostics.reason 枚举 ----------
+# 与 feature_discovery.py 逐一对应（grep 确证 8 个）：
+
+reason_enum:
+  - unknown_role            # 查询未命中任何已知实体角色词（角色退 *default*）
+  - input_not_parsed        # 查询文本提取不出有效 Feature 词
+  - seeded_by_role          # 无显式 Feature 命中，但按角色 seed 出了最小 Feature 集
+  - no_feature_match        # 连 seed 也没有命中（features 为空）
+  - index_missing           # asset_index.json 缺失/为空（asset_candidates 全空）
+  - no_asset_match          # 索引可用但所有槽位均无候选
+  - feature_index_missing   # feature_index.json 缺失（error-path，role="")
+  - config_error            # entity_asset_slots.yaml 缺失/损坏/版本不支持
+                            # （error-path，role=""）
+
+# ---------- 输出情形约定 ----------
+
+#- 成功（部分候选缺失也算成功）：
+#    exit 0；role 非 ""；asset_slots 非空（error-path 除外）、asset_candidates 键=槽位集
+#- 无 Feature/资产匹配（输入已解析）：
+#    exit 1；features 可为 [] 且/或候选全空；diagnostics 含 no_feature_match /
+#    no_asset_match；missing 只在「索引存在且必填槽位无候选」时非空
+#- 输入错误（无 query 且无 --role）：
+#    argparse error；不输出 JSON payload（exit 2，stderr 提示）
+#- 配置/索引损坏（config_error / feature_index_missing）：
+#    exit 2；角色=""；asset_slots=[]；asset_candidates={}；missing=[]；
+#    stdout（--json 下）仍为一个可被 json.loads 解析的完整 11 键 JSON；
+#    诊断置于 diagnostics，不允许混入其他文本
+
+# ---------- 空值语义汇总 ----------
+# 键为「字段 · 处于何状态」；统一用引号包裹避免 YAML 符号歧义。
+
+empty_semantics:
+  "role=''":            仅 error-path（config_error / feature_index_missing）
+  "features=[]":       无 Feature 命中（exit 1 条件之一）
+  "feature_capabilities={}":  与 features=[] 一致
+  "requirements={}":    恒定状态 —— 结构需求未数据化（非“无需求”）
+  "asset_slots=[]":     仅 error-path
+  "optional_slots=[]":  该角色无可选槽位（常态）
+  "asset_candidates={}":    仅 error-path；非 error 时键 = 槽位全集
+  "asset_candidates[k]=[]": 槽位 k 无候选（required → 同步进 missing）
+  "missing=[]":         必填槽位全部有候选
+  "diagnostics=[]":     完全成功匹配
+
+# ---------- 版本兼容 ----------
+
+compatibility:
+  - schema_version 递增 = 输出字段变更（新增字段向后兼容；删除/改名/类型变更 = 破坏性，
+    必须 bump 大版本并同步更新本文件与工具 SCHEMA_VERSION）。
+  - diagnostics.reason 枚举扩展 = 追加枚举 + bump minor（当前无 minor 位：
+    version 1 内允许追加新 reason 值，消费方必须容忍未知 reason）。
+  - error-path 键集在任何版本都不变（11 键恒存）。
+  - requirements 字段在结构需求数据化前始终为 {}；若未来引入，
+    只能扩展为新的子契约并在本文件声明新版本，不得复用 version 1。
+
+# ---------- 示例 ----------
+
+example:
+  schema_version: 1
+  query: "slime enemy attacks"
+  role: enemy
+  features: [chase_movement, contact_damage, health]
+  feature_capabilities:
+    chase_movement: [character_movement]
+    contact_damage: [damage_source]
+    health: [health_state, damage_receiver, death_event]
+  requirements: {}
+  asset_slots: [idle, move, attack, hurt]
+  optional_slots: []
+  asset_candidates:
+    idle:
+      - id: slime_idle
+        path: "res://Assets/characters/enemy/slime/idle/"
+        type: animation
+        category: enemy
+        role: idle
+        subject: slime
+        tags: [animation, characters, enemy, idle, png, slime, texture]
+        confirmed: false
+        score: 7.5
+    move: []
+    attack: []
+    hurt: []
+  missing:
+    - slot: move
+      kind: required
+      reason: "no asset candidate for role 'move'"
+  diagnostics:
+    - reason: seeded_by_role
+      message: "no explicit feature terms matched; using role seeds ['character_movement', 'damage_source', 'health_state']"

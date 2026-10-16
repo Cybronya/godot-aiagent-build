@@ -49,7 +49,14 @@ conditional
 
 - 扫描并索引项目资源（`.ai/tools/asset_registry/scan_assets.py` /
   `build_asset_index.py`）
-- 按关键词 / tag / 路径 / 类型检索候选（`query_assets.py`）
+- 涉及实体/槽位的资源任务时做整体发现：requirements → features + 槽位 + 每槽候选
+  （`.ai/tools/feature_registry/feature_discovery.py`，契约见
+  `.ai/context/feature_discovery_schema.yaml`）
+- 按关键词 / tag / 路径 / 类型检索候选（`query_assets.py`）——
+  适用于单一资源搜索或无槽位编排的查询，不因此废弃
+- 把显式选择的候选转换为显式绑定输入（
+  `.ai/tools/feature_registry/discovery_to_binding.py` → `{bindings:[{role,asset}]}`，
+  可直接交给 `bind_assets.py --binding`）
 - 判定 Feature / Entity 与资源的搭配等级（`check_compatibility.py`）
 - 把实体的资源角色解析为具体资源（`bind_assets.py` → `.ai/context/asset_binding_schema.yaml`）
 - 把绑定交给 Scene Composer 实例化为资源节点（AnimatedSprite2D / Sprite2D /
@@ -64,6 +71,12 @@ conditional
 
     Requirement → Asset Query → Candidate Assets → Compatibility → Asset Binding
                                               → Entity → Scene Composer
+
+涉及实体 / 多槽位资源任务时走已冻结的 Discovery 链
+（Contract Freeze：`.ai/context/feature_discovery_schema.yaml` 头部六原则）：
+
+    Requirement → Feature Discovery → Candidate Evaluation → Explicit Selection
+                → Discovery-to-Binding → Asset Binding → Ready for Scene Composer
 
 Asset Registry 是 Query / Index，不是 Runtime Manager。
 
@@ -109,13 +122,15 @@ Requirement / Entity Blueprint
         ↓
 Scan + Index（scan_assets.py → build_asset_index.py → .ai/context/asset_index.json）
         ↓
-Asset Query（query_assets.py；keyword / tag / path / type，无 LLM）
+选择路径：涉及实体/功能多槽位编排？
+        ├─ 是（实体动画/音频槽位/候选缺失诊断）→ Feature Discovery 链（见下）
+        └─ 否（单一资源查找/简单搜索）→ Asset Query（query_assets.py）
         ↓
-Candidate Assets（打分排序 + reasons）
+Candidate Assets（打分排序，score 与 reasons 仅辅助判断）
         ↓
 Compatibility Check（check_compatibility.py：COMPATIBLE / WARNING / INCOMPATIBLE / UNKNOWN）
         ↓
-Asset Selection（bind_assets.py 解析角色 → asset）
+Asset Selection（bind_assets.py 解析角色 → asset；或 Discovery 链的显式选择）
         ↓
 Asset Binding（.ai/context/asset_bindings/<id>.yaml）
         ↓
@@ -133,11 +148,72 @@ Asset Validation（validator/check_assets.py：路径 / 类型 / 绑定 / 缺失
    或直接 `scene_composer.py <blueprint.yaml> --bind-assets`。
 5. 校验 → `python .ai/tools/validator/check_assets.py`。
 
+## Feature Discovery 链（实体/多槽位任务的正式路径）
+
+当需求涉及实体角色、多个资源槽位（idle/move/attack/hurt/...）或需要从 Asset Index
+发现候选并留诊断（missing / diagnostics）时，**优先执行 Feature Discovery，
+而不是直接手工调用 `query_assets` 做最终选择**：
+
+```text
+Resource / Asset Requirement
+        ↓
+Feature Discovery（feature_discovery.py <query> [--role <role>] --json）
+        → asset_candidates（每槽候选）+ asset_slots + optional_slots
+        + missing + diagnostics（契约：feature_discovery_schema.yaml）
+        ↓
+Candidate Evaluation（Agent 逐槽评估候选；候选 ≠ 绑定）
+        ↓
+Explicit Selection（Agent 显式决策：--select SLOT=CANDIDATE_ID，每槽一个）
+        ↓
+Discovery-to-Binding（discovery_to_binding.py --input <discovery.json>
+                     --select … --out <binding_input.yaml>）
+        → {bindings:[{role, asset}]}（可直接作为 bind_assets --binding 覆盖文件）
+        ↓
+Asset Binding（bind_assets.py --entity <blueprint> --binding <binding_input.yaml>）
+        ↓
+Ready for Scene Composer（场景实例化归 scene-composer Skill，后续阶段）
+```
+
+调用职责：
+
+- `feature_discovery.py` 负责：发现 features、槽位、每槽候选、缺失与诊断；
+  输出 fields 依 feature_discovery_schema.yaml（schema_version=1，共 11 根键）。
+- `discovery_to_binding.py` 只负责：`Discovery Payload + Explicit Selection → Binding Payload`。
+  不负责候选排序、自动选择、人工确认或场景创建。
+- `query_assets.py` 不废弃，继续用于：单一 Asset 查询、简单资源搜索、
+  不涉及 Feature 槽位编排的任务；Discovery 不适用于此类简单查询。
+
+Candidate Selection 规则（禁止自动 top1）：
+
+- 禁止「最高分 / 第一个候选 → 自动绑定」；score 与 reasons 只是辅助信息，
+  `score ≠ final selection`；多个候选都合理时必须由 Agent 做显式决策。
+- 选择必须逐槽显式提供：`--select idle=slime_idle --select walk=slime_move ...
+ （candidate role 必须等于槽位名；实体角色不得当作槽位角色）。
+- adapter 会拒绝：unknown slot / 不存在的 candidate id / 跨槽引用 /
+  同槽冲突选择（exit 1 或 2）；同槽重复相同选择幂等（exit 0）。
+- 必填槽位无候选（payload missing 或候选空数组）不得硬编造 asset，
+  交给 bind_assets 的 missing 清单与 Validator 处理。
+
+Partial Selection 语义（已冻结，Phase 1.8.2 Step 2.8）：
+
+- 单选/部分选择合法，Adapter 可 exit 0。
+- 但 **exit 0 ≠ 所有 required slots 已人工确认**。
+- Adapter 输出含 `unselected_required_slot` warning（--json 在 stdout warnings 字段，
+  非 --json 在 stderr）——未选槽位会被 `bind_assets` 继续按索引推断。
+- 最终绑定产物必须区分来源：`resolved_from=binding`（显式选择路径）与
+  `resolved_from=index`（下游自动推断）。
+- `confidence=high` 只表示「走了显式解析链」，**不等于 human confirmed**；
+  人工确认层仍由 `confirmed` 字段 + `asset_manifest.yaml` 表达，本 Skill 不改动该体系。
+
 # Output Contract
 
 - Asset Metadata / Asset Scan Result（textures / animations / audio / ... 计数）。
 - `.ai/context/asset_index.json`（Generated Cache，禁止手工维护）。
 - Asset Query 结果（id / path / type / tags / score / reasons）。
+- Feature Discovery payload（11 根键，含 asset_candidates / missing / diagnostics；
+  契约：`.ai/context/feature_discovery_schema.yaml`）。
+- Discovery-to-Binding 输出（`{bindings:[{role,asset}]}`，仅显式选择结果，
+  无 compatibility / resolved_from / confidence 等运行时字段）。
 - Compatibility 等级（COMPATIBLE / WARNING / INCOMPATIBLE / UNKNOWN + 理由）。
 - `.ai/context/asset_bindings/<entity>.yaml`（按 asset_binding_schema.yaml）。
 - missing / optional_missing 清单（禁止编造资源）。
@@ -147,6 +223,8 @@ Asset Validation（validator/check_assets.py：路径 / 类型 / 绑定 / 缺失
 必须：
 
 - 分类只依据客观事实（路径 / 文件名 / 扩展名 / Godot 资源类型 / .import / 人工确认）。
+- 涉及实体/多槽位资源任务时优先走 Feature Discovery 链（见 Workflow）后再显式
+  选择，禁止把 query_assets 的 top1 直接当成最终绑定。
 - 资源缺失必须显式列出，禁止编造 asset id 或 res:// 路径。
 - Asset Binding 是计划层（Entity → Asset）；Feature 不得硬编码资源路径。
 - 兼容性等级复用 `check_compatibility.py`（单一事实来源）：WARNING / UNKNOWN 只告警，
@@ -155,6 +233,8 @@ Asset Validation（validator/check_assets.py：路径 / 类型 / 绑定 / 缺失
 
 禁止：
 
+- 自动取 top1 / 第一个候选直接绑定（score ≠ final selection；必须显式 --select）。
+- 把 adapter 输出的 resolved_from 推断条目或 confidence=high 当作人工确认。
 - 引入视觉识别 / LLM 猜测作为分类依据。
 - 引入 AssetManager / ResourceManager / 全局单例。
 - 让 Agent 手工维护 asset_index.json（它是生成物）。
@@ -187,6 +267,8 @@ Asset Validation（validator/check_assets.py：路径 / 类型 / 绑定 / 缺失
 # References
 
 - .ai/context/asset_schema.yaml —— Asset Metadata 契约
+- .ai/context/feature_discovery_schema.yaml —— Feature Discovery 输出契约
+  （含 Phase 1.8.2 Contract Freeze 六原则；总目录 CONTRACT_INDEX.yaml）
 - .ai/context/asset_binding_schema.yaml —— Feature/Entity → Asset 绑定契约
 - .ai/context/asset_manifest_schema.yaml —— 人工确认层契约
 - .ai/tools/asset_registry/README.md —— 工具与流程说明
