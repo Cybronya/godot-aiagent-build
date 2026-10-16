@@ -19,10 +19,19 @@ root:
 
 components:
   - feature: <feature id，必须存在于 feature_index.json>
+    instance:                                 # 可选（Phase 1.8.14）：组件实例计划（能力契约证据）
+      node_type: <Godot 节点类型>             # 必需；必须在 component_instance_resolver 词表内
+      children: [<节点类型>]                  # 可选：实例自带的子节点类型
+      resources: [<节点类型>]                 # 可选：实例自带的资源节点类型（当前仅携带）
+      parent: <父节点名>                      # 可选：声明式挂载点（当前不驱动生成）
 
 nodes:
   - type: <额外结构节点类型，如 CollisionShape2D>
     name: <可选，缺省取 type>
+
+capabilities:                                 # 可选（Phase 1.8.11）：本次组合需要的能力
+  required: [<capability 名>]                 # = 成员 Feature 声明 ∪ 本键声明（并集，保序去重）；
+                                              # 只承载与传递，是否支持由 Compatibility Gate 判定
 
 validation:
   required_tests:
@@ -57,6 +66,11 @@ validation:
 #   required_nodes:
 #     - Health                 # 生成的场景必须存在的节点名
 #
+# instance:                    # 可选（Phase 1.8.14）：组件实例计划（Scene Intent 证据）
+#   node_type: Area2D          # 组件入口场景自带的节点类型
+#   children:                  # 可选：实例自带的子节点类型
+#     - CollisionShape2D
+#
 # interfaces:
 #   signals:                   # 生成的测试将逐一 has_signal 断言
 #     - health_changed
@@ -64,8 +78,13 @@ validation:
 
 rules:
   - Scene 只负责组合与实例化；不拥有 Gameplay State、不写仲裁脚本（Round 8 结论）。
+  - 能力需求由 Feature 侧产生（feature.yaml → capabilities.required）；Scene Blueprint 的
+    capabilities.required 是可选中转键（只承载、去重、传递），不得在此声明「能力是否被支持」。
   - 组件一律通过 Feature Scene Template 以实例化（instance=ExtResource）加入，
     禁止复制 Feature 代码进实体场景。
+  - 组件实例计划（components[].instance / template.yaml instance:）是**声明式证据**，
+    不是生成指令：它只供能力契约核对（Phase 1.8.14），不改变 .tscn 生成结果；
+    禁止按 component id / 名字推断实例。
   - 成员的 relations.requires 与顶层 requires 必须由组合满足，否则拒绝生成。
   - 输出固定为 Scenes/<root.name>.tscn；配套测试为 Tests/test_<scene.id>.gd（由
     test_generator 生成）。
@@ -80,6 +99,9 @@ example:
   components:
     - feature: health
     - feature: contact_damage
+      instance:                  # 可选（Phase 1.8.14）：组件实例计划（能力契约证据）
+        node_type: Area2D
+        children: [CollisionShape2D]
     - feature: chase_movement
   nodes:
     - type: CollisionShape2D

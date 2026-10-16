@@ -1,0 +1,1024 @@
+# Scene Composer Contract
+# Phase 1.8.3 建立「Binding → Scene Composer → Scene Intent」边界契约；
+# Phase 1.8.5 把 Scene Intent 升级为一等契约概念（schema.version 1 → 2）。
+#
+# 定位：
+#   本文件定义 Scene Composer 的**输入边界**（Binding）与**正式输出计划层**（Scene Intent）。
+#   它不重新定义上游字段（Binding 字段唯一来源是 asset_binding_schema.yaml），
+#   也不定义 .tscn 文本格式（由 scene_schema.yaml + scene_builder 决定）。
+#
+# 生成器/消费者: .ai/tools/scene_composer/（CLI: scene_composer.py）
+# 上游输入契约:  .ai/context/asset_binding_schema.yaml（schema.id=asset_binding，version 2）
+# 蓝图格式契约:  .ai/context/scene_schema.yaml（schema.id=scene_blueprint，version 1）
+# 组合契约:      .ai/context/composition_schema.yaml（schema.id=entity_blueprint，version 1）
+# 总目录:        .ai/context/CONTRACT_INDEX.yaml（scene_composition 条目）
+#
+# Phase 1.8.5 变更摘要（相对 version 1）：
+#   1. Scene Intent 提升为一等契约段（scene_intent:）；原 output: 段被其取代，
+#      同一份定义原地升级，**未产生第二份 Scene Intent 定义**。
+#   2. 新增 identity: 三方区分（Binding = 资源事实 / Scene Intent = 实例化计划 /
+#      .tscn = Godot 实例）。
+#   3. 新增 internal_to_document: 当前实现内部键 ↔ Scene Intent 字段的权威映射，
+#      逐条标注 CURRENT / PLANNED（以实现为准，不以文档为准）。
+#   4. 新增 provenance: 只读携带规则 + 正例/反例（禁止计算 / 升级 / 覆盖）。
+#   5. 新增 persistence: 落盘设计结论（memory_only）及其理由与升级条件。
+#   6. **订正 version 1 的字段状态误标**：metadata 段与 components[].node/scene
+#      当时标为 CURRENT，实际当前实现只产出 features 列表与 compose() 信封字段，
+#      现更正为 PLANNED（见 internal_to_document）。
+#   7. known_gaps 更新：persistence 已决策；新增 document_not_materialized。
+#
+# Phase 1.8.6 落地补充（发现的不一致已按实现补齐，仍为同一事实源）：
+#   Scene Intent 文档需要身份/版本标记（对标 Binding 文档的 schema_version），
+#   version 2 的 structure 未列该键 → 已在 structure 与 internal_to_document
+#   中补上 document / schema_version（常量），无其它结构变更。
+#
+# Phase 1.8.10 落地补充（能力声明层，仍为同一事实源、version 仍为 2）：
+#   Scene Intent 新增 capabilities.required（CURRENT，默认 []，向后兼容旧 Intent）；
+#   能力词汇迁入唯一事实源 capability_registry.py；Compatibility Gate 优先判定能力声明。
+#   **未修改 / 未删除任何已有字段**；新增 known gap capability_declaration_source_undefined。
+#
+# Phase 1.8.9 落地补充（新增生成前闸门，仍为同一事实源、version 仍为 2）：
+#   新增顶层 compatibility_gate 段（CURRENT）与 scene_intent.consumers.compatibility_gate。
+#   闸门**不改变**生成 / 校验结果（PASS 路径逐字节等效）；**未新增 / 未改名任何
+#   Scene Intent 字段**；新增 known gap resource_asset_type_not_in_intent。
+#
+# Phase 1.8.8 落地补充（消费边界全覆盖，仍为同一事实源、version 仍为 2）：
+#   scene_validator / test_generator / check_scene_composition 一并迁到 Scene Intent
+#   （消费者记录已更新；验证规则**未改**，仅字段来源换位）；边界实现统一到
+#   scene_intent.intent_document()；旧 gap scene_validator_consumes_internal_blueprint
+#   已关闭；新增已知缺陷记录 root_script_check_never_matches。**未新增 / 未改名
+#   任何 Scene Intent 字段**。
+#
+# Phase 1.8.7 落地补充（消费边界收口，仍为同一事实源、version 仍为 2）：
+#   Scene Builder 的输入边界从「规整内部 dict」改为 **Scene Intent**：
+#   新增 scene_intent.consumers（CURRENT 事实记录）与 known_gaps
+#   scene_validator_consumes_internal_blueprint。**未新增 / 未改名任何 Scene
+#   Intent 字段**：components[].node|scene 与 resources[].ext_type 仍是构建期
+#   派生量，不进本文档。
+#
+# 状态标记（本契约全文使用，禁止省略）：
+#   CURRENT —— 当前实现（HEAD）已具备的行为，可直接依赖。
+#   PLANNED —— 契约已冻结字段与语义，但实现属后续阶段；本契约不授权实现。
+#
+# ============================================================
+# Contract Freeze —— 六条冻结原则（Phase 1.8.3，Phase 1.8.5 未修改）
+# ============================================================
+#
+#   1. Scene Composer 消费 Binding —— 输入是 Binding 文档（asset_binding_schema.yaml v2），
+#      不是索引、不是候选列表、不是 query 结果。
+#   2. Scene Composer 不发现资源 —— 禁止扫描目录、禁止调用 query_assets、禁止建立
+#      第二套 Asset Resolution。
+#   3. Binding 是权威 —— Scene Composer 只读 Binding；不得覆盖、不得重算、不得改选。
+#   4. resolved_from=index 仍是合法输入 —— 索引推断来源（resolved_from=index）与显式
+#      选择来源（resolved_from=binding）在 Scene 层**具有同等合法性**；Scene 不因来源
+#      不同而拒绝、降级或重解析。
+#   5. 场景生成不得提升 confidence —— Scene Composer 不得把 medium/low 写成 high，
+#      不得把 resolved_from=index 表述为显式选择，不得把 confidence=high 解释为人工确认。
+#   6. Scene Composer 输出是**计划**（Scene Intent），不是运行时场景 —— 实例化 .tscn 与
+#      真实运行属后续阶段，且 Scene Intent 不持有运行时状态。
+#
+# MUST NOT（架构禁令，违反即为契约破坏）：
+#   - 搜索资源（scan / index / query_assets / os.walk 资源目录）
+#   - 选择资源（top1、打分排序、候选补选）
+#   - 覆盖 Binding（改写 asset / role / path / compatibility / resolved_from / confidence）
+#   - 推断缺失资源（missing 只能降级为 warning，禁止编造 asset id 或 res:// 路径）
+#   - 让根节点拥有行为脚本（Scene 只负责组合；根行为归组件）
+#   - 创建 Global Manager / Entity Manager / Feature Manager / 全局单例
+
+schema:
+  id: scene_composer
+  version: 2
+
+# ============================================================
+# Identity —— 三方不可混淆（Phase 1.8.5）
+# ============================================================
+
+identity:
+  binding_document:
+    is: 资源事实
+    answers: 用哪个资源（asset / path / role），来源与兼容性如何
+    authority: asset_binding_schema.yaml（唯一字段定义来源）
+  scene_intent:
+    is: 节点实例化计划
+    answers: 有哪些节点、层级如何、挂什么资源、属性与组是什么
+    authority: 本文件 scene_intent 段（唯一字段定义来源）
+  tscn:
+    is: Godot 最终实例
+    answers: 磁盘上的 .tscn 文本（ext_resource / sub_resource / node 块）
+    authority: scene_schema.yaml + scene_builder（文本格式）
+  rule: >-
+    三者不可混淆：Scene Intent 不重新选择资源；.tscn 不重新解释 Binding；
+    Binding 不描述节点层级。任何跨层解释都是契约破坏。
+
+# ============================================================
+# Input Contract —— Binding → Scene Composer
+# ============================================================
+
+input:
+  document: binding_document
+  # 字段定义唯一来源（本契约只声明「被消费的子集」，不复制字段定义）：
+  schema_ref: asset_binding_schema.yaml
+  schema_version: 2
+  forms:                                              # CURRENT
+    - single_entity   | binding.{entity, role, bindings[]}
+    - multi_entity    | binding.entities[].{entity, role, bindings[]}
+  entity_selection:                                   # CURRENT
+    # 多实体文档按 Scene Intent 请求的实体 id 选择条目；找不到时退回首个条目。
+    # 请求实体 id 依次取：entity.id > scene.id > root.name > id。
+    requested_from: [entity.id, scene.id, root.name, id]
+    fallback: first_entry
+
+  # 被消费字段（CURRENT：生成资源节点所必需）
+  consumed:
+    - binding.bindings[].role
+    - binding.bindings[].asset
+    - binding.bindings[].node.name
+    - binding.bindings[].node.type
+    - binding.bindings[].node.property
+    - binding.bindings[].node.path
+    - binding.bindings[].node.roles
+    - binding.bindings[].node.animation
+    - binding.bindings[].node.hframes
+    - binding.bindings[].node.vframes
+
+  # 只读携带、绝不解释的字段（权威完全属于 Binding）
+  provenance_only:
+    fields: [resolved_from, compatibility, confidence, runners_up, note]
+    current: not_read                                  # CURRENT：不读取、不参与生成
+    planned: carried_verbatim_into_scene_intent        # PLANNED：见 scene_intent.provenance
+    rules:
+      - 禁止重算 compatibility（判定权威是 check_compatibility.py）
+      - 禁止升级/降写 confidence
+      - 禁止把 resolved_from=index 表述为显式选择
+
+  degrade_to_warning:                                  # CURRENT
+    # Binding 报告的缺口只降级为警告，不阻断 Scene Intent 生成，也不补选资源。
+    - binding.bindings[].missing
+    - binding.bindings[].optional_missing
+
+  node_types:                                          # CURRENT
+    supported: [AnimatedSprite2D, Sprite2D, AudioStreamPlayer,
+                AudioStreamPlayer2D, TextureRect, Sprite3D, TileMapLayer]
+    unsupported_behavior: warning                      # 不猜测替代节点类型
+
+# ============================================================
+# Scene Intent —— Scene Composer 的正式输出计划层（一等契约概念）
+# ============================================================
+
+scene_intent:
+  document: scene_intent
+  version: 1
+  plan_only: true                                      # 冻结原则 6
+  not_a_runtime_object: true
+
+  single_source_of_truth:
+    binding_fields: asset_binding_schema.yaml          # Binding 字段定义唯一来源（本契约不复制）
+    blueprint_fields: scene_schema.yaml                # Scene / Entity Blueprint 字段唯一来源
+    intent_fields: scene_composer_schema.yaml#scene_intent  # Scene Intent 字段唯一来源（即本节）
+    no_second_source: true                             # 禁止在别处再写一份 Scene Intent 定义
+
+  # ---------- 消费边界（Phase 1.8.7 建立；Phase 1.8.8 全覆盖） ----------
+  consumers:
+    # 边界实现唯一来源：scene_composer/scene_intent.py（intent_document / intent_components /
+    # intent_root / intent_from_blueprint）。所有消费者共用它，禁止各自再写一份。
+    scene_builder:                                     # CURRENT（Phase 1.8.7）
+      module: scene_composer/scene_builder.py
+      input: scene_intent                              # 唯一合法输入（SceneIntent 对象或本文档 mapping）
+      legacy_input: rejected                           # 旧规整内部 dict（scene_id / root_name /
+                                                       # extra_nodes / resource_nodes）→ ValueError，
+                                                       # 无隐藏转换、无兼容适配器，禁止旁路
+      derives:
+        - components[].node / components[].scene        # PLANNED 字段：构建时由 Feature Scene Template 派生
+        - resources[].ext_type                          # 由 resources[].path 经既有资源映射
+                                                        # （asset_nodes.resource_ext_type）派生；
+                                                        # 不进本文档，也不成为契约字段
+      mutates_intent: false                             # shape 等构建期私有标记只写本地拷贝
+      output_equivalence: >
+        迁移不改生成结果：同一 (Blueprint, Binding) 在 Phase 1.8.6 与 1.8.7 产出的 .tscn
+        逐字节相同（ext_resource 顺序 / 节点顺序与名 / 属性 / load_steps 均不变）。
+    scene_validator:                                    # CURRENT（Phase 1.8.8）
+      module: scene_composer/scene_validator.py
+      input: scene_intent
+      legacy_input: rejected
+      reads:                                            # 仅这两个字段；nodes / resources /
+        - "components[].component"                      # validation 不参与校验
+        - "root.type"
+      field_mapping:
+        features: "components[].component"
+        root_type: "root.type"
+      rules_changed: false                              # 本阶段未改任何验证规则（仅来源换位）
+      behavior_equivalence: >
+        同一批构造场景（pass / 缺节点 / 根类型错 / 坏 parent / 重名）在迁移前后失败列表
+        逐字相同（已由测试与基线对比锁定）。
+    test_generator:                                     # CURRENT（Phase 1.8.8）
+      module: test_generator/generate_scene_test.py
+      input: scene_intent
+      legacy_input: rejected
+      reads:
+        - "scene.id"
+        - "root.name"
+        - "components[].component"
+      raw_blueprint_entry: >
+        intent_from_blueprint(raw)（CLI 入口）：原始 Blueprint → Scene Intent，再生成测试。
+    check_scene_composition:                            # CURRENT（Phase 1.8.8）
+      module: validator/check_scene_composition.py
+      input: raw_blueprint                              # CLI / 模块入口仍是原始 Blueprint
+      transition: intent_from_blueprint -> validate_scene(scene_intent)
+      note: 资源不参与校验，故该入口构造的 Scene Intent 的 resources[] 为空。
+    compatibility_gate:                                 # CURRENT（Phase 1.8.9）
+      module: scene_composer/compatibility_gate.py
+      input: scene_intent
+      legacy_input: rejected
+      runs_before: scene_builder                        # 生成前闸门；BLOCKED 即零产物
+      spec: compatibility_gate（本文件顶层同名段）
+    rule: >-
+      Scene 层的「计划 → 实例化 → 校验 / 回归」链路上，Scene Builder / scene_validator /
+      test_generator / compatibility_gate 均只消费 Scene Intent；只有 Blueprint → Intent 的
+      **生产者**入口（compose / intent_from_blueprint）才接触规整内部形态。
+
+  # ---------- 落盘决策（Phase 1.8.5） ----------
+  persistence:
+    current: memory_only                               # CURRENT：仅作为内存对象存在，不落盘
+    reason: >
+      Scene Intent 是 (Blueprint, Binding) 的确定性纯函数产物，两者都已持久化；
+      它当前没有任何消费者（Scene Builder 与 Validator 都在同一进程内直接使用内存对象）。
+      落盘会引入第三个 Generated Data 层，需要同步校验器 + .gitignore 例外，
+      并让陈旧计划有伪装成「Binding 派生事实」的机会。收益为零时不应落盘。
+    rejected_alternatives:
+      - option: .ai/context/scene_intents/
+        why_not_now: >
+          与 asset_bindings/ 同型（.ai/context 下的 Generated Data）需要三件套：
+          .gitignore 例外 + 同步/新鲜度校验器 + 明确的人工审阅用途。
+          三者目前都不存在，且无消费者 → 现在落盘只增加维护面。
+        when_it_becomes_right: >
+          出现真实消费者时（人类审阅计划差异 / runtime 诊断需要引用计划 /
+          测试生成器需要读取计划），按 asset_bindings 的先例一次性补齐三件套后启用。
+      - option: .tmp/ 或仓库根临时文件
+        why_not_now: >
+          项目**没有** .tmp/ 约定与忽略规则；反例已存在：仓库根的
+          tmp_enemy_entity.yaml 是被 git 跟踪的临时文件（临时产物进了版本历史）。
+          引入 .tmp/ 会新增第二套临时约定，与现有「Generated Data 统一放
+          .ai/context/ 或 .ai/memory/ 并由 .gitignore 显式忽略」的惯例冲突。
+    upgrade_condition: >
+      当且仅当出现上述真实消费者时，改为持久化；目标位置优先 .ai/context/scene_intents/，
+      且必须同时交付 .gitignore 例外与 check_scene_intent.py 型同步校验器。
+    write_authority: none                              # CURRENT：本阶段不授予任何写盘权限
+    # 由此推论：Scene Composer Skill 的 Permission Model **无需**增加写入许可。
+
+  # ---------- 当前内部键 ↔ Scene Intent 字段（权威映射，以实现为准） ----------
+  internal_to_document:
+    source:                                            # CURRENT 事实
+      - .ai/tools/scene_composer/template_loader.py::normalize_scene_blueprint
+      - .ai/tools/scene_composer/scene_composer.py::compose（信封 + resource_nodes）
+    mapping:
+      - {document: "document",                 internal: "（常量：scene_intent）",        status: CURRENT}
+      - {document: "schema_version",           internal: "（常量：scene_intent.version）", status: CURRENT}
+      - {document: "scene.id",                 internal: "scene_id",                  status: CURRENT}
+      - {document: "root.name",                internal: "root_name",                 status: CURRENT}
+      - {document: "root.type",                internal: "root_type",                 status: CURRENT}
+      - {document: "root.scene",               internal: "root_extra.scene",          status: CURRENT}
+      - {document: "root.properties",          internal: "root_extra.properties",     status: CURRENT}
+      - {document: "root.groups",              internal: "root_extra.groups",         status: CURRENT}
+      - {document: "components[].component",   internal: "features[]",                status: CURRENT}
+      - {document: "components[].instance",     internal: "component_instances[<feature id>]（Blueprint.components[].instance 或 template.yaml instance:）", status: CURRENT}
+      - {document: "capabilities.required",     internal: "（无内部键；声明通道注入，默认 []）", status: CURRENT}
+      - {document: "components[].node",        internal: "（build 时由 template 派生）", status: PLANNED}
+      - {document: "components[].scene",       internal: "（build 时由 template 派生）", status: PLANNED}
+      - {document: "nodes[]",                  internal: "extra_nodes[]",             status: CURRENT}
+      - {document: "resources[]",              internal: "resource_nodes[]",          status: CURRENT}
+      - {document: "validation.required_tests", internal: "required_tests",           status: CURRENT}
+      - {document: "metadata",                 internal: "compose() 信封（asset_nodes.bindings_path 等）", status: PLANNED}
+      - {document: "resources[].provenance",   internal: "—（当前被丢弃）",            status: PLANNED}
+      - {document: "capability provider",       internal: "—（本阶段只声明能力，不实现 provider）", status: PLANNED}
+      - {document: "scripts[]",                internal: "—",                         status: PLANNED}
+      - {document: "animations[]",             internal: "—",                         status: PLANNED}
+    note: >-
+      PLANNED 行是「文档已冻结、实现尚未产出」，不是「可以自由发挥」；
+      实现阶段必须按本映射落地，不得改名或改变语义。
+
+  # ---------- 文档结构 ----------
+  structure:
+    document: "scene_intent"                           # CURRENT；文档身份标记
+    schema_version: 1                                  # CURRENT；与本节 version 一致
+    scene:
+      id: <snake_case 场景 id>                         # CURRENT
+    root:
+      name: <PascalCase 根节点名>                      # CURRENT；决定输出文件名
+      type: <Godot 节点类型（CharacterBody2D / Area2D / Node2D ...）>  # CURRENT
+      scene: <res:// PackedScene>                      # CURRENT 可选：复用既有场景作根（实例化）
+      properties: <属性覆写 map>                       # CURRENT 可选：值按 GDScript 字面量输出
+      groups: [<节点组名>]                             # CURRENT 可选
+    components:                                        # CURRENT（当前形态为 features 列表）
+      - component: <feature id，必须存在于 feature_index.json>
+        node: <实例节点名>                             # PLANNED（派生形态见 internal_to_document）
+        scene: <res:// PackedScene>                    # PLANNED（派生形态见 internal_to_document）
+        instance:                                      # CURRENT 可选（Phase 1.8.14）：组件实例计划声明
+          node_type: <Godot 节点类型>                  # 必需；必须在 component_instance_materialization 词表内
+          children: [<节点类型>]                       # 可选；实例自带的子节点类型
+          resources: [<节点类型>]                      # 可选；实例自带的资源节点类型（当前仅携带，不作证据）
+          parent: <父节点名 / 路径>                    # 可选；声明式挂载点（当前不驱动生成）
+    capabilities:                                      # CURRENT（Phase 1.8.10；能力声明）
+      required: [<capability 名>]                      # 默认 []（旧 Intent 仍合法）；结果必须是
+                                                       # capability_registry 中的 supported
+                                                       # 能力，否则 Gate BLOCKED（预留 / 未登记）
+    nodes:                                             # CURRENT；额外结构节点
+      - name: <场景内节点名>
+        type: <Godot 节点类型，如 CollisionShape2D>
+        parent: <父节点路径；缺省 ".">                 # 可选；必须是场景内已声明节点
+        shape:                                         # 可选；仅 rectangle / circle
+          type: <rectangle|circle>
+          size: [<w>, <h>]                             # rectangle
+          radius: <r>                                  # circle
+    resources:                                         # CURRENT；Binding → 资源节点（只连接，不写行为）
+      - name: <场景内唯一节点名>
+        type: <AnimatedSprite2D|Sprite2D|AudioStreamPlayer|...>
+        property: <sprite_frames|texture|stream|...>
+        path: <res:// 资源路径>
+        role: <资源 role>
+        roles: [<该节点承载的全部 role>]
+        asset: <asset id>
+        animation: <可选；AnimatedSprite2D 默认展示动画名；不表达播放行为>
+        hframes: <可选；仅 spritesheet>
+        vframes: <可选；仅 spritesheet>
+        provenance:                                    # PLANNED；见本节 provenance
+          resolved_from: <index|binding>
+          compatibility: <COMPATIBLE|WARNING|INCOMPATIBLE|UNKNOWN>
+          confidence: <high|medium|low>
+          runners_up: [<asset id>]
+          note: <降级/歧义说明>
+    scripts:                                           # PLANNED（当前实现不附加任何脚本）
+      - node: <非根节点名>
+        script: <res:// *.gd>
+    animations:                                        # PLANNED（当前实现无 AnimationPlayer）
+      - player: <AnimationPlayer 节点名>
+        library: <res:// *.tres AnimationLibrary>
+        clips: [<animation name>]
+    validation:                                        # CURRENT
+      required_tests: [<feature id；各自 self_test 需回归>]
+    metadata:                                          # PLANNED（见 internal_to_document）
+      entity: <entity id>
+      role: <entity role>
+      source: <entity_blueprint|gameplay_blueprint>
+      binding_document: <只读 Binding 文档路径>
+      binding_schema_version: 2
+      plan_only: true
+
+  # ---------- Provenance —— 只读携带，绝不计算（Phase 1.8.5 冻结） ----------
+  provenance:
+    status: PLANNED                                    # 字段形态已冻结；携带行为待实现阶段落地
+    fields: [resolved_from, compatibility, confidence, runners_up, note]
+    field_authority: asset_binding_schema.yaml#binding.bindings  # 定义来源仍是 Binding 契约
+    rules:
+      may:
+        - 原样携带（verbatim carry）
+      must_not:
+        - 计算（不得重算 compatibility / confidence / resolved_from）
+        - 升级（不得把 index → binding、medium/low → high、UNKNOWN → COMPATIBLE）
+        - 覆盖（不得改写或删除 Binding 给出的值）
+        - 发明（Binding 未给的字段必须缺席，不得补默认值冒充事实）
+    degradation_allowed: true                          # 允许「整块缺席」（未实现期间即如此）
+    correct_example:
+      resources:
+        - role: idle
+          asset: slime_frames
+          provenance:
+            resolved_from: binding
+            confidence: high
+    incorrect_example:
+      # 错误 1：Scene 层发明来源
+      provenance:
+        confidence: verified
+      # 错误 2：index 被升级为 binding
+      provenance:
+        resolved_from: binding
+      # 错误 3：缺省补值冒充事实
+      provenance:
+        compatibility: COMPATIBLE
+
+  # ---------- Scene Intent 专属规则 ----------
+  rules:
+    allowed:
+      - node hierarchy（节点层级与 parent 归位）
+      - component placement（组件实例化位置）
+      - resource connection plan（资源连接计划：property ← ext_resource）
+      - node properties（属性覆写）
+      - groups（节点组）
+      - shape definition（rectangle / circle 子资源）
+      - ext_resource planning（ext_resource 规划与 id 分配）
+    forbidden:
+      - 搜索 asset（scan / index / query_assets）
+      - 修改 asset path
+      - 修改 role
+      - 修改 compatibility
+      - 修改 resolved_from
+      - 修改 confidence
+      - 自动 top1（候选排序 / 补选）
+    inheritance:
+      - 上述禁令与 Contract Freeze 六原则同源；任何一项被违反即为契约破坏。
+
+# ============================================================
+# Compatibility Gate —— Scene Intent → Scene Builder 之间的生成前闸门（Phase 1.8.9）
+# ============================================================
+
+compatibility_gate:
+  status: CURRENT                                      # 实现已落地（骨架 + 能力表）
+  phase: 1.8.9
+  version: 1
+  module: scene_composer/compatibility_gate.py
+  entrypoint: check_scene_compatibility(scene_intent)  # 唯一入口（非散乱 dict 的报告对象）
+  input: scene_intent                                  # 经 scene_intent.intent_document() 强制
+  legacy_input: rejected                               # 原始 Blueprint / 旧规整内部 dict → ValueError
+  ordering: Compatibility Gate runs before Scene Builder.
+  runs_after: [scene_intent, dependency_resolve]
+  runs_before: [scene_builder]
+  status_vocabulary: [PASS, BLOCKED]
+  blocked_behavior: >-
+    BLOCKED 即停止生成：compose() 返回 ok=false 且 failures 以 “Compatibility Gate: ” 为前缀，
+    不写出任何 .tscn（禁止半成品文件）；报告仍随信封返回（compatibility 键）以便诊断。
+  pass_behavior: >-
+    PASS 放行且不改变任何已有行为：.tscn / .gd 产物与 Phase 1.8.8 逐字节相同，校验与
+    测试生成不受影响；报告只作为**附加**信封字段（result["compatibility"]）。
+  report:
+    type: CompatibilityReport
+    fields: [status, errors, warnings, checked_components, checked_resources]
+    serialization: to_dict()                           # 普通 mapping，便于 JSON / 断言
+  reads:                                               # 有意最小集
+    - root（name 必需；type / scene 至少其一）
+    - "components[].component"                          # 能力判定
+    - "resources[].type"                                # 资源**节点**类型白名单
+    - scripts / animations                             # 仅判定「是否出现」；PLANNED 段出现即 BLOCKED
+  does_not_read:                                       # 归 Builder / Validator，闸门不重复其逻辑
+    - "nodes[]"
+    - validation
+  capabilities:
+    # 词汇的事实源：scene_composer/capability_registry.py（本契约为其文档；两者必须同步）
+    registry: scene_composer/capability_registry.py
+    registry_version: 1
+    components_supported: [Node, Sprite, AnimatedSprite, Audio, Collision]
+    resources_supported: [Texture2D, SpriteFrames, AudioStreamWAV]
+    reserved: [Script, Animation, AnimationController, AI, RuntimeBehaviour]  # 预留→当前 unsupported
+    resource_node_types_supported:                     # 与 input.node_types.supported 同源
+      [AnimatedSprite2D, Sprite2D, AudioStreamPlayer, AudioStreamPlayer2D,
+       TextureRect, Sprite3D, TileMapLayer]
+    declaration:
+      document_field: capabilities.required            # CURRENT：Intent 自己声明需要什么能力
+      default: []                                      # 缺省 / 旧 Intent → 无声明
+      consumes: compatibility_gate                     # “Compatibility Gate consumes capability metadata.”
+      judging: >-
+        supported → 记录进 checked_capabilities 并放行；reserved / unknown →
+        BLOCKED（错误文案 “Unsupported capability: <name>”），错误排在其它检查之前。
+      producer: scene_composer/feature_capabilities.py  # Phase 1.8.11：Feature 声明读取入口（只读，禁止推断）
+      producer_input: Features/<id>/feature.yaml         # capabilities.required（Source of Truth）
+      merge: >-
+        required = 成员 Feature 声明 ∪ Blueprint 自带声明 ∪ 显式注入（并集：保序去重）；
+        任何一方不得削弱另一方（显式声明不能隐藏成员 Feature 的需求）。
+  component_rule: >-
+    components[].component 当前是 Feature id（不是能力类别名）：命中能力类别名 → 记录类别；
+    命中 unsupported → BLOCKED；其余必须是 Feature Registry（feature_index.json）已知 id，
+    未知即 BLOCKED（例如 EnemyAI / Script）。索引不可用时降级（warning，不阻断）。
+  not_in_scope: [Script implementation, Animation implementation, godot runtime validation,
+                 既有 validator 缺陷修复]
+  rule: >-
+    闸门只回答「这份计划的能力是否被支持」，不回答「计划是否正确」——结构 / 依赖 / 根类型
+    仍属 scene_validator；节点层级与资源连接仍属 scene_builder。
+
+# ============================================================
+# Feature Capability Declaration Flow（Phase 1.8.11 —— Capability Producer）
+# ============================================================
+
+capability_declaration_flow:                           # CURRENT
+  summary: >-
+    Feature declares required capabilities. Binding transports declaration.
+    Scene Intent materializes declaration. Compatibility Gate validates availability.
+  steps:
+    - "Feature declares required capabilities（Features/<id>/feature.yaml → capabilities.required，默认 []）"
+    - "Binding transports declaration（成员 Feature 的声明随组合写入 Scene Blueprint.capabilities）"
+    - "Scene Intent materializes declaration（SceneIntentBuilder → capabilities.required）"
+    - "Compatibility Gate validates availability（supported → 放行；reserved / unknown → BLOCKED 零产物）"
+  modules:
+    reader: scene_composer/feature_capabilities.py     # 只读 Feature definition；不判断支持性
+    transport: scene_composer/template_loader.py       # normalize_scene_blueprint：汇总 + 去重（只传递）
+    materialize: scene_composer/scene_intent.py        # SceneIntentBuilder：声明规范化 + 并集
+    validate: scene_composer/compatibility_gate.py     # 只吃 Scene Intent（未修改）
+  legacy_features: >-
+    无 capabilities 声明的 Feature 继续合法：required 保持 []，与 Phase 1.8.10 行为一致
+    （六个 validator fixture 结果逐项相同）。
+  no_inference: >-
+    禁止按 Feature id / category / provides 标签推断能力（如 EnemyAttack → Script）。
+    Feature 没声明 = 没需求；能力词表只能显式声明。
+  boundary: >-
+    Feature Reader 不读 Blueprint / Scene Intent / 能力词表；Gate 不 import Feature Registry、
+    不反向推断；Binding（规整层）只传递，不判断能力是否被支持。
+  test: scene_composer/tests/test_feature_capability_pipeline.py   # Case 1-6 + 职责隔离
+
+# ============================================================
+# Capability Contract Validation（Phase 1.8.13 —— fulfillment 层）
+# ============================================================
+
+capability_contract_validation:                        # CURRENT
+  purpose: >-
+    把 Scene Intent 的 capabilities.required 从「声明需求」升级为「可验证契约」：
+    Gate 只回答「该能力是否被支持（availability）」，本层回答「当前生成计划是否满足该能力
+    要求（fulfillment）」—— Required Capability + Scene Plan Evidence → PASS / BLOCKED。
+  module: scene_composer/capability_contract_validator.py
+  contract_source: scene_composer/capability_contracts.py   # capability → requirement 唯一事实源
+  input:
+    - scene_intent                     # 必需；原始 Blueprint / 旧规整 dict → ValueError
+    - scene_plan                       # 可选证据；缺省由 evidence adapter 从 Scene Intent 构造
+  evidence:                            # Scene Plan 只读投影（不解析 .tscn）
+    reads: ["instances[]（components[].instance 经 component_instance_resolver）",
+            root, "nodes[]", "components[]", "resources[]（仅当该契约的 evidence 需要）"]
+    does_not_read: [validation, scripts, animations]
+    priority: ["components[].instance", "nodes[]", root]      # Phase 1.8.14
+    note: >-
+      实例计划是声明式证据，优先级最高但不排他：它说明不了的仍由 nodes[] / root 提供
+      （含物理体节点的等价表达）；组件入口场景内部真实子树仍不可见
+      （见 known_gaps.capability_plan_evidence_component_subtrees_invisible）。
+  ordering: intent -> compatibility_gate -> capability_contract_validation -> scene_builder
+  consumes: capabilities.required
+  report:
+    type: CapabilityContractReport
+    fields: [status, errors, checked_capabilities]
+    serialization: to_dict()
+  blocked_behavior: >-
+    compose() 返回 ok=false，failures 前缀为 "Capability Contract: "（与 Gate 的
+    "Compatibility Gate: " 区分），**不写出任何 .tscn**（零产物）；dry-run 同样先过本层。
+  messages:
+    failed: "Capability contract failed: <capability> requires <requirement>"
+    not_implemented: "Capability contract not implemented: <capability>"
+    unknown: "Unknown capability contract: <capability>"
+    unknown_instance_type: "Unknown component instance type: <type>"   # Phase 1.8.14
+    invalid_instance: "Invalid component instance: <component>"        # Phase 1.8.14
+  instance_evidence: >-
+    instances[] 由 component_instance_resolver 提供（components[].instance）。声明无法识别时
+    先行拦截：status=BLOCKED、checked_capabilities=[]（不在坏证据上放行任何能力）。
+  scope: [Node, Collision, Sprite, AnimatedSprite, Audio]
+  not_in_scope: [Script, Animation, AnimationController, AI, RuntimeBehaviour]   # 预留：契约已登记但未实现
+  rules:
+    - 契约表不判定支持性（能力词表唯一事实源仍是 capability_registry.py）；两者一致性由测试锁定。
+    - 无契约不得猜测通过（未登记 → "Unknown capability contract"）；证据不足不得降级放行。
+    - 证据充足的能力只登记进 checked_capabilities（不得跳过任何声明）。
+  test: scene_composer/tests/test_capability_contract_validator.py
+
+# ============================================================
+# Component Instance Materialization（Phase 1.8.14 —— 实例计划 = 证据供给）
+# ============================================================
+
+component_instance_materialization:                    # CURRENT
+  summary: >
+    Component declarations materialize into an instance plan, and component instances provide
+    evidence for capability contracts（Component Instance → Evidence → Contract）。
+  purpose: >-
+    Phase 1.8.13 的契约证据只能看到 root / nodes[] / components[]；组件自带的节点结构不可见
+    （components[].node / .scene 仍为 PLANNED）。本层让组件把自带节点结构显式声明进 Scene Intent
+    （components[].instance），使能力契约有可核对的实例证据，而不必只靠物理体节点的等价推断。
+  module: scene_composer/component_instance_resolver.py
+  entrypoints:
+    resolve_component_instances: [scene_intent]        # -> 实例计划列表（成功条目）
+    resolve_component_instance_report: [scene_intent]  # -> {instances, errors}
+  input: scene_intent                                  # 原始 Blueprint / 旧规整 dict → ValueError
+  transport:                                           # Feature → Blueprint → Intent（只传递）
+    feature: Features/<id>/template.yaml#instance       # 可选作者元数据；缺失 / 非 mapping / 空 → 未声明
+    blueprint: components[].instance                    # 显式声明；优先于模板；非法形态不被静默丢弃
+    normalizer: scene_composer/template_loader.py       # normalize_scene_blueprint（汇总 + 传递）
+    materialize: scene_composer/scene_intent.py         # components[].instance（只投影，不补默认值）
+  instance:
+    fields: [id, node_type, children, resources, parent]
+    id: 可选（Phase 1.8.17）；声明方给出的**节点身份**（节点名或节点全路径），供归属层做唯一映射；
+        未声明 → 旧 Intent 合法，归属层 fallback 到唯一 ext_resource 候选
+    node_type: 必需，且必须被 INSTANCE_NODE_TYPES 识别
+    children / resources: 可选，节点类型名列表
+  ownership_link: scene_composer/component_instance_ownership.py   # Phase 1.8.17：声明 → 产物实例节点
+  evidence:
+    consumed_by: scene_composer/capability_contract_validator.py
+    verified_by: scene_composer/artifact_evidence_validator.py   # Phase 1.8.15：生成物核对
+    priority: ["components[].instance", "nodes[]", root]
+    semantics: >-
+      实例计划是**声明式证据**：优先级最高但不排他（未覆盖部分仍由 nodes[] / root 提供，
+      含物理体节点的等价表达）；instance.resources 已携带但当前无契约消费。
+      声明内容必须能被生成物确认（Phase 1.8.15：artifact_evidence_validation），
+      否则组合在写盘后被 Artifact Evidence 层阻断。
+  not_a_generation_instruction: >-
+    实例计划不驱动生成：scene_builder 不读取它，声明前后 .tscn 输出逐字节相同
+    （本阶段约束：不改变 Builder 输出 / .tscn 格式）。
+  vocabulary:
+    source: scene_composer/component_instance_resolver.py#INSTANCE_NODE_TYPES
+    kind: static_allowlist                               # 显式列举 = 可审计；不从引擎 / Registry 推断
+    excludes: [AnimationPlayer, AnimationTree]           # Animation Layer 未实现（见 known gaps）
+  messages:
+    unknown_type: "Unknown component instance type: <type>"   # 未识别 / 缺失 / 未知 children
+    invalid: "Invalid component instance: <component>"        # 非 mapping / 非法 parent 等
+  rules:
+    - 禁止按 component id / 名字 / 目录猜测实例（不推断、不补默认值、不静默丢弃）。
+    - 未识别的实例声明 → Capability Contract BLOCKED（checked_capabilities 为空），不降级放行。
+    - 词表覆盖 capability_contracts 的全部契约 node_types（一致性由测试锁定）。
+  scope: [Node, Collision, Sprite, AnimatedSprite, Audio]      # 契约层当前可实现的能力
+  not_in_scope: [Script, Animation, godot runtime validation, .tscn parsing]
+  test: scene_composer/tests/test_component_instance_materialization.py
+
+# ============================================================
+# Component Instance Ownership（Phase 1.8.17 —— 哪个实例）
+# ============================================================
+
+component_instance_ownership:                          # CURRENT
+  purpose: >-
+    建立「组件声明 → 产物实例节点」的**唯一映射**（owners[]），让 Artifact Evidence 按归属限定
+    证据池。此前归属靠 ext_resource 路径段（Features/<id>/）推断，无法处理同一 Feature 多实例、
+    同名组件、嵌套组件、多层 External Artifact 引用。
+  module: scene_composer/component_instance_ownership.py
+  entrypoint: resolve_component_ownership(scene_intent, artifact_evidence)
+  input:
+    - scene_intent                       # 必需；原始 Blueprint / 旧规整 dict → ValueError
+    - artifact_evidence                  # 必需：宿主产物的静态解析结果（含 scene_path / ext_resources）
+  output: >-
+    {status: PASS|BLOCKED, owners: [{component, artifact_path, node_path, confidence}], errors: []}
+    confidence —— declared（由声明 id 选定）/ resolved（唯一 ext_resource 候选或宿主自有证据）
+  ownership_source:                                    # 只允许这三条来源（按优先级）
+    1: "components[].instance.id（声明的节点身份：节点名或节点全路径）"
+    2: "ext_resource path（res://Features/<component>/<Scene>.tscn 的 Features/<id>/ 段落）"
+    3: "节点 instance=ExtResource(<ref>) 与 ext_resource 表 id ↔ path 的关联"
+  resolution_order:
+    declared_id: 唯一命中（节点名或节点全路径）→ confidence declared
+    ext_resource_fallback: 无 id 且候选唯一 → confidence resolved
+    host_only: 产物里没有该组件的实例节点 → artifact_path = 宿主产物、node_path = ""（不借用其它产物）
+  ambiguity_behavior: >-
+    无法唯一确定即 BLOCKED，禁止猜测；不按节点名字匹配、不按 damage / sprite / health 等关键词推断、
+    不读 Feature Registry / Capability / Binding 反推。id 命中 0 个或 ≥2 个、无 id 但候选 ≥2 个 → unresolved。
+  blocked_behavior: >-
+    归属失败发生在 Artifact Evidence 之前：整条链 BLOCKED，错误文案
+    "Component ownership unresolved: <component>"；生成物已写盘并保留（不删除、不自动修复）。
+  evidence_scoping: >-
+    artifact_evidence_validator 用 owners[] 为每条声明选定证据池：owner 产物（及其可达闭包，见
+    external_artifact_evidence.references）→ 宿主。归属之外的产物不参与该声明的核对（禁止借用）。
+  report: "ArtifactEvidenceReport.checked_ownership（第 5 键）"
+  rules:
+    - 只做映射：不判断能力、不判断产物是否兑现、不读文件、不写文件。
+    - 一条声明至多一个 owner；成功与错误互斥（either owner or error）。
+    - ownership 是声明驱动：同样输入必须得到同样 owners（确定性、幂等）。
+  not_in_scope: [Script, Animation, runtime 节点身份, .tscn 语义级解析, 非 Features 场景解析]
+  test: scene_composer/tests/test_component_instance_ownership.py
+
+# ============================================================
+# Artifact Evidence Verification（Phase 1.8.15 —— 声明 = 计划 = 生成物）
+# ============================================================
+
+artifact_evidence_validation:                          # CURRENT
+  purpose: >-
+    核验「声明 = 计划 = 生成物」：Scene Intent 的 components[].instance 声明的结构必须能在
+    **生成后的 .tscn 文本**里找到（节点类型 / 挂载关系）。上一层 capability_contract_validation
+    验证的是「计划是否自洽」；本层验证「计划是否真的落到了产物里」。
+  module: scene_composer/artifact_evidence_validator.py
+  entrypoint: verify_artifact_evidence(scene_intent, scene_path, project_root=None)
+  input:
+    - scene_intent                     # 必需；原始 Blueprint / 旧规整 dict → ValueError
+    - scene_path                       # 生成物路径（写盘**之后**；只读，不写、不删、不修）
+    - project_root                     # 可选（1.8.16）：解析 res:// 的项目根；缺省由 scene_path 向上找 project.godot
+  ordering: intent -> compatibility_gate -> capability_contract_validation -> scene_builder -> artifact_evidence_validation
+  evidence:
+    source: ["components[].instance", "ExtResource → res://Features/**/*.tscn（1.8.16）",
+             "component_instance_ownership.owners（1.8.17 归属）"]
+    target: .tscn nodes                # 生成物 / 组件入口场景：节点类型 / 挂载关系
+    priority: ["声明（components[].instance）", "该声明的 owner 产物（含可达闭包）", 宿主节点]
+    ownership_scoped: >-
+      1.8.17 起每条声明的证据池由 owners[] 限定（见 component_instance_ownership）：owner 产物 →
+      宿主；归属之外的产物**不参与**该声明核对（无 owner / host-only → 仅宿主）。
+    combined_evidence: >-
+      Complete Artifact Evidence = Host Artifact + External Component Artifact（见
+      external_artifact_evidence）。跨产物组合（声明节点在组件入口场景、子节点由宿主提供，
+      或反之）只核对**存在性**；同一产物内仍严格核对逐层挂载关系。
+    rules:
+      - 声明 node_type 必须在合并证据（宿主或外部组件场景）中作为节点类型出现（否则 BLOCKED）
+      - 声明 children 必须在同一产物内位于该声明节点之下（含逐层后代），或存在于另一份产物中
+      - 声明 parent（可选）必须与确认节点的挂载点一致（根相对路径 / 根名）
+      - 不比较属性值 / sub_resource / script / animation；不做类型替换（Sprite2D ≠ AnimatedSprite2D）
+  static_only: true                    # 只做静态文本解析（节点名 / 类型 / parent / ExtResource 引用）
+  no_runtime: true                     # 不启动 Godot、不 import Godot、不加载 PackedScene
+  parser_scope:
+    reads: ["[node ...] 头行：name / type / parent / instance=ExtResource(...)"]
+    does_not_read: [属性值, sub_resource, 被引用的外部场景（Feature 入口场景内部结构）]
+  pass_behavior: >-
+    无 components[].instance → 不核验（旧行为：PASS、checked_instances 为空，产物逐字节不变）；
+    声明全部命中 → 记录进 checked_instances 并放行。
+  blocked_behavior: >-
+    验证发生在**文件写入之后**：compose() 返回 ok=false、failures 前缀 "Artifact Evidence: "，
+    生成物**保留**（禁止删除、禁止自动修复）并把 scene_path 一并返回供诊断
+    （CLI 额外打印 "Artifact kept for diagnosis: <path>"）。
+  isolation: >-
+    前置层结论互不影响：compatibility / capability_contract / artifact_evidence 各自出报告，
+    只有 artifact 失败时才会出现 Artifact Evidence 前缀的失败项。
+  report:
+    type: ArtifactEvidenceReport
+    fields: [status, errors, checked_instances, checked_external_artifacts,
+             checked_ownership]        # 1.8.16 追加第 4 键；1.8.17 追加第 5 键
+    serialization: to_dict()
+    backward_compatible: true          # 1.8.15 的三键语义不变，旧消费者继续可用
+  messages:
+    mismatch: "Artifact evidence mismatch: <node type> missing"
+    unavailable: "Artifact evidence unavailable: <path>"
+    external_unavailable: "External artifact unavailable: <res:// path>"        # 1.8.16
+    external_recursion: "External artifact recursion detected: <res:// path>"  # 1.8.16
+    ownership_unresolved: "Component ownership unresolved: <component>"        # 1.8.17
+  rules:
+    - 生成物是唯一证据来源：不读 Blueprint / Feature 数据 / Registry，不反推生成规则。
+    - 归属先于证据（1.8.17）：先解析 owners[]，归属失败即 BLOCKED，不再进入结构核对。
+    - 不猜测通过、不降级放行、不自动修复；核验失败只报告（并保留产物）。
+    - 声明若要被核验，必须描述产物里也会存在的结构（宿主节点、根类型，或 ExtResource 指向的
+      组件入口场景；见 known_gaps.artifact_parser_scope_limited）。
+    - 外部产物不可读 / 成环 → 整条链 BLOCKED（证据链不完整即不放行），不论该声明能否本地满足。
+  not_in_scope: [Godot runtime validation, .tscn 语义级解析, Script, Animation]
+  test: [scene_composer/tests/test_artifact_evidence_validator.py,
+         scene_composer/tests/test_external_artifact_evidence.py]
+
+# ============================================================
+# External Artifact Evidence（Phase 1.8.16 —— ExtResource 指向的组件场景）
+# ============================================================
+
+external_artifact_evidence:                            # CURRENT
+  purpose: >-
+    把生成物核验从「只看宿主 .tscn」扩展到「宿主 + ExtResource 指向的组件场景」：
+    Host Artifact + External Component Artifact = Complete Artifact Evidence。
+  module: scene_composer/external_artifact_resolver.py
+  entrypoints:
+    resolve_external_artifact: "[scene_path, resource_path, project_root?, visited?]"  # 单文件
+    resolve_external_artifacts: "[scene_path, project_root?]"      # 宿主可达的全部（递归）
+  recursive_static_parse: true                          # 递归解析（嵌套引用含在内），纯静态文本
+  no_runtime: true                                      # 不启动 Godot、不 import Godot、不加载 PackedScene
+  ext_resource_resolution:
+    accepted: ["res://Features/<id>/<scene>.tscn", "ext_resource type=PackedScene"]
+    rejected: 其他 PackedScene（如根场景复用）与资源类 ext_resource（SpriteFrames / AudioStreamWAV / Script）
+    root: 宿主 .tscn 向上找含 project.godot 的目录；找不到 → 工具所在项目根
+    missing: "External artifact unavailable: <res:// path>"      # 不猜测、不拼路径
+    out_of_scope: 非 res://Features/ 的 PackedScene 不解析、也不报错（记入 known gaps）
+  cycle_guard:
+    rule: 以「已访问文件绝对路径」判定；宿主 .tscn 本身也在集合内
+    message: "External artifact recursion detected: <res:// path>"
+  references_graph:                                    # 1.8.16 返回 / 1.8.17 消费
+    rule: "resolve_external_artifacts 额外返回 {res:// 路径: [其直接引用的 res:// 路径]}"
+    consumer: component_instance_ownership（可达闭包 → artifact_evidence_validator 的证据池）
+    purpose: 归属产物自身引用的嵌套组件场景仍属该实例证据（A → B → C 不丢证据）
+  parse_scope:
+    reads: [节点 name / type / parent, ext_resource 表（type / path / id）]
+    does_not_read: [sub_resource 内容, script, animation, 资源文件内容]
+  evidence_priority: >-
+    声明核对顺序：组件实例声明 → 同 Feature 外部组件场景 → 宿主节点 → 其余外部产物。
+    Capability Contract 层（Builder 之前）仍只吃计划，**不读产物**；本条优先级只属于 artifact 层。
+  blocked_behavior: >-
+    外部产物不可读 / 成环 → 整条链 BLOCKED（证据链不完整即不放行）；compose() 返回 ok=false、
+    failures 前缀 "Artifact Evidence: "，生成物保留供诊断。
+  report: 同 artifact_evidence_validation 的 ArtifactEvidenceReport（checked_external_artifacts 记录已解析的 res:// 路径）
+  rules:
+    - 只读生成物与组件入口场景文本；不读 Blueprint / Feature 数据 / Registry。
+    - 不猜测（缺文件、越界路径、未知形态 → 报 unavailable，不是「忽略」）。
+    - 不修改 .tscn、不自动修复、不删除产物。
+  not_in_scope: [Godot runtime validation, 资源文件内容解析, 非 Features 场景解析, Script, Animation]
+  test: scene_composer/tests/test_external_artifact_evidence.py
+
+# ============================================================
+# Derivation —— Entity Blueprint (+ Binding) → Scene Intent
+# ============================================================
+
+derivation:                                            # CURRENT
+  - "已是 Scene Intent / Scene Blueprint 形态（含 root: 或 components:）的输入原样规整，不重新推导。"
+  - Entity Blueprint（entity:/features:）推导：
+      scene.id  = entity.id（缺省 blueprint.id，再缺省 basic_entity）
+      root.name = PascalCase(scene.id)
+      root.type = 成员 template.scene.root_type 的「最强」要求（CharacterBody2D 优先），
+                  无声明时按实体角色缺省（enemy/player → CharacterBody2D，其余 → Node2D）
+      components = features 逐项映射（经 Feature Scene Template）
+      validation.required_tests = 蓝图声明，缺省取成员 features
+  - 根类型不满足成员要求 → 生成前拒绝（Composition Error），不得降级放行。
+
+# ============================================================
+# Rules
+# ============================================================
+
+rules:
+  - Binding 是权威输入：Scene Composer 只读，不得覆盖、重算或改选（冻结原则 3）。
+  - 资源节点只「实例化 + 连接资源」，不写脚本、不建状态（Scene 只负责组合）。
+  - 组件一律通过 Feature Scene Template 实例化（instance=ExtResource）；禁止复制
+    Feature 代码进实体场景。
+  - 组件实例计划（components[].instance）是**声明式证据**，不是生成指令：只供能力契约
+    核对（Phase 1.8.14），不改变 .tscn 生成结果；禁止按 component id / 名字推断实例。
+  - 根节点不挂脚本（AD-002 / AD-008）。
+  - 资源 role 到节点的合并/命名由 Binding 决定（多 role 共享同一资源时共用一个节点）；
+    Scene Composer 不重新合并、不重新命名。
+  - 缺失资源（binding.missing / optional_missing）只降级为 warning，禁止编造 asset id
+    或 res:// 路径，禁止自动补选候选。
+  - 一个 Scene Intent 对应一个实体场景；跨实体流程归 Gameplay 层，不由本契约表达。
+  - 输出必须可重复：同一 (Blueprint, Binding) 输入产出同一 Scene Intent。
+  - Scene Intent 是计划：不得写入运行时状态、不得引用未声明节点、不得表达播放行为。
+  - Scene Intent 的字段状态以 internal_to_document 为准；PLANNED 字段不得被下游当作已实现。
+
+# ============================================================
+# Known Gaps（已记录，本阶段不修复；实现阶段处理）
+# ============================================================
+
+known_gaps:
+  - id: capability_declaration_source_undefined
+    status: resolved_by_1.8.11                         # Phase 1.8.10 记录；1.8.11 建立生产者后关闭
+    detail: >-
+      Phase 1.8.10 时 capabilities.required 没有任何生产者（只在显式注入时写入，默认 []）；
+      Phase 1.8.11 建立 Feature → Binding → Scene Intent 声明链：成员 Feature 的
+      feature.yaml → capabilities.required 经 feature_capabilities（只读）与
+      normalize_scene_blueprint（汇总去重）进入 Scene Intent。
+    impact: 能力声明的真实链路由 Feature 驱动；未声明的存量 Feature → required=[]（行为同 1.8.10）。
+    target_behavior: >-
+      由 Feature 或 Blueprint 契约声明能力并自动汇入 Intent（禁止在 Scene 层猜测）。
+    resolution_phase: Phase 1.8.11（Producer 已落地）
+    remaining: >-
+      项目现有 Feature 尚未声明任何能力（因此真实链路 required 仍为 []）；
+      “哪些 Feature／组合应该声明哪些能力”属内容决策，非本阶段机制问题。
+  - id: capability_plan_evidence_component_subtrees_invisible
+    status: partially_addressed_in_1_8_14              # Phase 1.8.13 记录；1.8.14 提供声明式证据
+    detail: >-
+      Capability Contract 的证据只来自 Scene Intent 可见的计划数据（root / nodes[] /
+      components[] / resources[]）。组件实例自带的子树（Feature 内部节点）不在其中：
+      components[].node / .scene 契约状态为 PLANNED，Builder 之前无法断言某个组件实例
+      内部是否含 CollisionShape2D。因此「Collision」契约额外接受物理体节点（含实体根
+      类型）作为等价表达（capability_contracts.COLLISION_NODE_TYPES）。
+    impact: >-
+      依赖 Feature 内部节点的能力声明只能靠实体级结构节点或物理体根证明；纯 Node2D 根 +
+      组件自带碰撞的场景会被判为 BLOCKED（预期行为，但诊断只能指向契约而非组件）。
+    target_behavior: >-
+      在 Scene Intent 中物化组件实例节点（components[].node / .scene），让证据直接来自
+      计划本体，届时可收紧 Collision 契约的等价表达。
+    resolution: >-
+      Phase 1.8.14 落地 components[].instance（声明式实例计划 = 优先证据），碰撞能力可由
+      组件声明自身提供证明；但组件入口场景的真实子树仍未核验（见 component_instance_evidence_scope）。
+    resolution_phase: 后续阶段（与 components[].node 契约字段物化一并决策）
+  - id: component_instance_evidence_scope
+    status: open                                       # Phase 1.8.14 记录（本阶段不修复）
+    detail: >-
+      实例证据是**声明**而非核验：resolver 只检查声明的 node_type / children / resources
+      是否在静态词表（INSTANCE_NODE_TYPES）内，不解析 .tscn、不核验组件入口场景的真实
+      节点结构；instance.resources 已携带但当前无契约消费；词表更新需要人工添加。
+    impact: >-
+      声明与真实场景不一致时（声明含 CollisionShape2D 但场景没有），能力契约仍会 PASS——
+      契约验证的是「计划是否满足能力要求」，不是「Feature 场景是否真的长这样」。
+      存量 Feature 均未声明 instance（本阶段不改 Feature 数据），真实链路仍靠物理体根等
+      价表达；Feature → Intent 传递路径由临时 features_dir 的测试覆盖。
+    target_behavior: >-
+      把声明与真实结构的核验收敛到同一处（可能归 runtime 诊断或新增场景内省层）。
+    resolution_phase: 后续阶段（与 .tscn / 运行时核验一并决策）
+  - id: component_instance_runtime_identity_missing
+    status: open                                       # Phase 1.8.17 记录（本阶段不修复）
+    detail: >-
+      归属（component_instance_ownership）仍是**静态文本**判定：instance.id 只是字符串身份（节点名 /
+      节点全路径），靠名字与 ext_resource 表匹配；不读节点属性、不加载 PackedScene、不解析
+      运行时节点（NodePath / owner / 实例 id 均不可见），也不存在「组件 id ↔ 实例节点」的引擎级标识。
+    impact: >-
+      节点改名 / 同名节点 / 动态生成节点即失去归属可判定性（只能用全路径 id 回避）；一条声明
+      至多一个 owner，多实例必须靠作者显式 id 区分；Component Instance Plan 同时是 ARTIFACT 层
+      证据，但没有任何运行时对象可与其对齐。
+    target_behavior: >-
+      引入稳定的实例身份（如显式 id 属性 → 运行时节点元数据），并在 runtime 诊断层比对
+      owner（artifact_path / node_path）与实际节点，而不是仅靠文本匹配。
+    resolution_phase: 后续阶段（与 runtime validation / Godot API integration 一并决策）
+  - id: artifact_parser_scope_limited
+    status: partially_addressed_in_1_8_16              # Phase 1.8.15 记录；1.8.16 扩展外部证据
+    detail: >-
+      生成物核验只做静态文本解析：节点头行的 name / type / parent / ExtResource 引用。
+      不读属性值、不读 sub_resource。因此组件在生成物里通常是
+      `instance=ExtResource("res://Features/<id>/<Entry>.tscn")` 的实例节点，其真实根类型
+      与子树只存在于入口场景文件里。
+    impact: >-
+      声明必须描述「产物里也会存在的结构」：宿主 blueprint 的 nodes[] / 根类型，或（1.8.16 起）
+      ExtResource 指向的 res://Features/** 组件入口场景；三者都不含的结构会阻断组合。
+      既有 Feature 均未声明 instance，故真实链路不受影响（.tscn / .gd 逐字节不变）。
+    target_behavior: >-
+      把静态解析扩展到任意 PackedScene（含 Features 之外的引用），或改由 runtime 诊断核验。
+    resolution_phase: >-
+      Phase 1.8.16 部分解决：组件入口场景已纳入证据（external_artifact_evidence）；
+      剩余范围限制见 external_artifact_parser_scope_limited。
+  - id: external_artifact_parser_scope_limited
+    status: partially_addressed_in_1_8_17              # Phase 1.8.16 记录；1.8.17 落地实例归属映射
+    detail: >-
+      外部证据只解析 res://Features/**/*.tscn 的 PackedScene 引用（递归）。不解析：非 Features
+      路径的 PackedScene（根场景复用等）、资源文件内容、sub_resource、script、animation。
+      Phase 1.8.16 时归属只能靠 ext_resource 路径里的 Features/<id>/ 段落推断，同名 / 重名实例或
+      间接嵌套得不到精细归属。
+    impact: >-
+      声明无法确认时的诊断粒度止于「哪份产物 / 哪个未命中」；Feature 场景若引用 Features 之外的
+      场景，其内部结构仍不可见（声明描述该结构会 BLOCKED）。
+    target_behavior: >-
+      与 .tscn 语义级解析 / runtime 诊断一并决策：必要时扩展到任意 PackedScene 或引入节点归属映射。
+    resolution: >-
+      Phase 1.8.17 已落地实例归属映射（component_instance_ownership：instance.id → ext_resource →
+      实例节点，按归属限定证据池）；剩余限制是非 Features 场景不解析，及归属仍是静态文本判定
+      （见 component_instance_runtime_identity_missing）。
+    resolution_phase: 后续阶段（本阶段只如实记录，不扩展范围）
+  - id: resource_asset_type_not_in_intent
+    status: open                                       # Phase 1.8.9 记录（本阶段不修）
+    detail: >-
+      assets 级资源类型（SpriteFrames / Texture2D / AudioStreamWAV）自 Phase 1.8.7 起不进入
+      Scene Intent（ext_type 由 Builder 从 path 派生），因此 compatibility_gate 的 resources
+      判定只能针对**节点类型**；能力表中的 resources_supported 目前是声明而非逐项核对。
+    impact: 资源能力闸门在 assets 层暂时无强制力。
+    resolution_phase: 后续阶段（决定 ext_type 是否回到 Scene Intent，或闸门是否接受 Binding 作为第二上下文）
+  - id: entity_blueprint_nodes_dropped
+    status: open                                       # Phase 1.8.5 复核：仍存在（本阶段禁止改实现）
+    detail: >-
+      Entity Blueprint 形式的 nodes: 块在推导 Scene Intent 时被静默丢弃
+      （无 error / 无 warning），即「文档化路径会吞掉结构节点声明」。
+    evidence: >-
+      template_loader.derive_scene_blueprint 在 Entity Blueprint 分支重建的 dict
+      只含 scene / root / components / validation，不携带 nodes；实测同一 nodes:
+      块经 Scene Blueprint 形式生成 CircleShape2D，经 Entity Blueprint 形式则静默消失。
+    impact: 经 Entity Blueprint 调用时，CollisionShape2D 等额外节点无法表达。
+    target_behavior: >
+      Entity Blueprint 的 nodes: 必须进入 Scene Intent nodes[]；若决定不支持，
+      必须显式报错（禁止静默丢弃）。二者择一，不得维持现状。
+    resolution_phase: Scene Intent 实现阶段（本阶段只冻结目标行为）
+  - id: compatibility_not_gated_at_scene_layer
+    status: open
+    detail: compatibility=INCOMPATIBLE 的绑定仍会被实例化为资源节点；
+            闸门只在 validator/check_assets.py（事后 CHECK）。
+    resolution_phase: 后续阶段（在 Scene Intent 生成前加闸门或明确保持事后校验）
+  - id: scene_intent_persistence_undefined
+    status: decided_in_1_8_5                           # 见 scene_intent.persistence
+    decision: memory_only（不落盘）；升级条件已在契约中声明
+    resolution_phase: 出现真实消费者时再评审
+  - id: scene_intent_document_not_materialized
+    status: resolved_in_1_8_6                           # 已物化（本条目保留仅作历史记录）
+    resolution: >-
+      Phase 1.8.6 落地：SceneIntentBuilder / SceneIntent 已按 internal_to_document 产出
+      文档形态（含 document / schema_version），下游可（且现在必须）直接消费文档形态。
+    detail: >-
+      Scene Intent 目前不是一等对象：它以 normalize_scene_blueprint 的内部键形态
+      （scene_id / root_type / root_name / features / extra_nodes / required_tests /
+      root_extra）存在，文档字段名与内部键不一致，且 metadata / components 结构化形态
+      尚未产出。
+    impact: 下游无法直接消费文档形态；字段名差异只能靠 internal_to_document 手工对齐。
+    resolution_phase: Scene Intent 实现阶段（按 internal_to_document 落地文档形态）
+  - id: scene_validator_consumes_internal_blueprint
+    status: resolved_in_1_8_8
+    detail: >-
+      生成后校验（scene_validator）/ 测试生成（test_generator）/ check_scene_composition
+      已全部收 Scene Intent（见 scene_intent.consumers）；旧规整内部 dict 传入即 ValueError。
+    resolution: >-
+      Phase 1.8.8 完成：字段来源换位（features → components[].component，root_type → root.type），
+      验证规则未改；边界实现统一在 scene_intent.intent_document()。
+    residual: >-
+      compose() 仍是 Blueprint → Intent 的生产者，内部形态在生产者内部存在（合法，不在消费边界内）。
+  - id: root_script_check_never_matches
+    status: open
+    detail: >-
+      scene_validator 的第 4 项检查（根节点不得挂脚本）使用正则
+      '^\[node name="([^"]*)"[^\]]*\nscript\s*='；`[^\]]*` 无法跨过 header 的 `]`，
+      因此该正则永不可能匹配任何合法 [node ...] 行 —— 该项检查事实上是死代码。
+    evidence: >-
+      构造场景 `[node name="SlimeEnemy" type="CharacterBody2D"]\nscript = ExtResource("9_gd")`
+      仍得到 ok=True（Phase 1.8.8 基线 d_root_script）；正则单测直接验证 findall() == []。
+    impact: 违反「根节点不挂脚本」的场景目前不会被拦截（架构约束形同虚设）。
+    fix_boundary: >-
+      修复会改变验证结果（合法场景可能由 PASS 变 FAIL），因此**不属于**纯边界迁移阶段；
+      需单独授权并同步更新基线/测试。
+    resolution_phase: 后续阶段（单独修复 + 同步契约与测试）
+  - id: bind_assets_auto_inference_entry
+    status: open
+    detail: >-
+      scene_composer --bind-assets 可在 Scene 侧触发 Asset Registry 的索引推断
+      （等价 top1 scoring），与「禁止自动 top1」的原则存在张力
+      （同一解析器，非第二套 Asset Resolution）。
+    resolution_phase: 需要设计决策（保留 / 收口 / 强制显式告警）
+
+# ============================================================
+# Example（Entity Blueprint + Binding → Scene Intent）
+# ============================================================
+
+example:
+  scene:
+    id: slime_enemy
+  root:
+    name: SlimeEnemy
+    type: CharacterBody2D
+    groups: [enemies]
+    properties:
+      motion_mode: 1
+  components:
+    - component: health
+    - component: contact_damage
+      instance:                            # 可选（Phase 1.8.14）：组件实例计划（能力契约证据）
+        node_type: Area2D
+        children: [CollisionShape2D]
+    - component: chase_movement
+  resources:
+    - name: SlimeAnim
+      type: AnimatedSprite2D
+      property: sprite_frames
+      path: res://Assets/characters/enemy/slime/slime_frames.tres
+      role: idle
+      roles: [idle, move, attack, hurt]
+      asset: slime_frames
+      animation: idle
+    - name: SlimeHurtSfx
+      type: AudioStreamPlayer
+      property: stream
+      path: res://Assets/audio/slime/hurt.wav
+      role: hurt_sfx
+      roles: [hurt_sfx]
+      asset: slime_hurt_sfx
+  validation:
+    required_tests: [health, contact_damage, chase_movement]
+  # 说明：resources[].provenance 与 scripts / animations 为 PLANNED，本示例不含；
+  #       metadata 为 PLANNED，同样不含。

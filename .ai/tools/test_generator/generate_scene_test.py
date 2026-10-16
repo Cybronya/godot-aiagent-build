@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 """Scene Test Generator
 
-根据 Scene Blueprint 自动生成 Tests/test_<scene_id>.gd：
+根据 **Scene Intent** 自动生成 Tests/test_<scene_id>.gd：
 
     1. Scene Load   —— load("res://Scenes/<RootName>.tscn") 非空断言
-    2. Feature Exists —— Blueprint 每个 Feature 的 required_nodes 节点存在
+    2. Feature Exists —— Scene Intent components 的 required_nodes 节点存在
     3. Signal Exists —— 各 Feature template 声明的 signals 逐一 has_signal 断言
+
+输入边界（Phase 1.8.8）：`generate_test_file()` / `build_test_source()` 的唯一合法
+输入是 Scene Intent（`SceneIntent` 对象或契约文档 mapping）；旧规整内部 dict
+（scene_id / root_name / features / extra_nodes）被拒绝。
+原始 Blueprint 由 `intent_from_blueprint()` 先构造为 Scene Intent（CLI 入口用）。
 
 生成物遵循项目测试契约（SceneTree 脚本）：全部通过 print PASS 并退出 0；
 任一失败 printerr FAIL 并退出 1。可被 .ai/tools/run_tests.py 自动发现运行。
@@ -24,20 +29,28 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import yaml
 
 try:
+    from scene_intent import (
+        intent_components,
+        intent_document,
+        intent_from_blueprint,
+        intent_root,
+    )
     from template_loader import (
         PROJECT_ROOT,
-        derive_scene_blueprint,
         load_templates,
-        normalize_scene_blueprint,
         template_node_name,
         template_signals,
     )
 except ImportError:   # 从 scene_composer 包内导入时（目录名不可作包名，作回退处理）
+    from scene_composer.scene_intent import (
+        intent_components,
+        intent_document,
+        intent_from_blueprint,
+        intent_root,
+    )
     from scene_composer.template_loader import (
         PROJECT_ROOT,
-        derive_scene_blueprint,
         load_templates,
-        normalize_scene_blueprint,
         template_node_name,
         template_signals,
     )
@@ -86,15 +99,22 @@ def _gd_str(value: str) -> str:
     return value.replace('"', '\\"')
 
 
-def build_test_source(blueprint: dict, templates: dict, scene_path: str) -> str:
-    """生成测试脚本文本（blueprint 为规整后的 Scene Blueprint）。"""
-    parts = [_HEADER % {"scene_id": _gd_str(blueprint["scene_id"]),
+def _scene_id(document: dict) -> str:
+    scene = document.get("scene")
+    return str(scene.get("id") or "") if isinstance(scene, dict) else ""
+
+
+def build_test_source(scene_intent, templates: dict, scene_path: str) -> str:
+    """生成测试脚本文本（scene_intent = SceneIntent 对象或契约文档 mapping）。"""
+    document = intent_document(scene_intent, "generate_scene_test.build_test_source")
+    root_name = str(intent_root(document).get("name") or "")
+    parts = [_HEADER % {"scene_id": _gd_str(_scene_id(document)),
                         "scene_path": _gd_str(scene_path)}]
 
     # 2. Feature Exists
     parts.append("\t# Feature Exists\n")
     node_names = []
-    for fid in blueprint["features"]:
+    for fid in intent_components(document):
         template = templates.get(fid) or {}
         node_name = template_node_name(fid, template)
         node_names.append((fid, node_name, template))
@@ -120,25 +140,25 @@ def build_test_source(blueprint: dict, templates: dict, scene_path: str) -> str:
                 % (fid, signal_name, node_name, signal_name)
             )
     parts.append("\n")
-    parts.append(_FOOTER % {"root_name": _gd_str(blueprint["root_name"])})
+    parts.append(_FOOTER % {"root_name": _gd_str(root_name)})
     return "".join(parts)
 
 
-def generate_test_file(blueprint: dict, out_dir: str = TESTS_DIR,
+def generate_test_file(scene_intent, out_dir: str = TESTS_DIR,
                        features_dir: str = None) -> str:
-    """规整 blueprint 并写出 Tests/test_<scene_id>.gd，返回路径。"""
-    if "scene_id" not in blueprint:   # 传入的是原始 blueprint
-        normalized, errors = normalize_scene_blueprint(derive_scene_blueprint(blueprint))
-        if errors:
-            raise SystemExit("FAIL: invalid blueprint: %s" % "; ".join(errors))
-        blueprint = normalized
+    """由 Scene Intent 写出 Tests/test_<scene_id>.gd，返回路径。
+
+    唯一合法输入是 Scene Intent（SceneIntent 对象或契约文档 mapping）；
+    原始 Blueprint / 旧规整内部 dict 请先经 `intent_from_blueprint()` 构造。
+    """
+    document = intent_document(scene_intent, "generate_scene_test.generate_test_file")
     features_dir = features_dir or os.path.join(PROJECT_ROOT, "Features")
-    templates = load_templates(blueprint["features"], features_dir)
-    scene_path = "Scenes/%s.tscn" % blueprint["root_name"]
-    source = build_test_source(blueprint, templates, scene_path)
+    templates = load_templates(intent_components(document), features_dir)
+    scene_path = "Scenes/%s.tscn" % str(intent_root(document).get("name") or "")
+    source = build_test_source(document, templates, scene_path)
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
-    out_path = os.path.join(out_dir, "test_%s.gd" % blueprint["scene_id"])
+    out_path = os.path.join(out_dir, "test_%s.gd" % _scene_id(document))
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(source)
     return out_path
@@ -154,7 +174,11 @@ def main(argv=None) -> int:
         print("FAIL: Blueprint not found: %s" % args.blueprint)
         return 2
     blueprint_raw = yaml.safe_load(open(args.blueprint, encoding="utf-8")) or {}
-    out_path = generate_test_file(blueprint_raw, out_dir=args.out)
+    intent, errors = intent_from_blueprint(blueprint_raw)
+    if errors or intent is None:
+        print("FAIL: invalid blueprint: %s" % "; ".join(errors or ["unknown error"]))
+        return 2
+    out_path = generate_test_file(intent, out_dir=args.out)
     print("Test generated: %s" % os.path.relpath(out_path, PROJECT_ROOT).replace("\\", "/"))
     return 0
 

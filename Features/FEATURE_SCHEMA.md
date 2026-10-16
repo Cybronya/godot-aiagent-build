@@ -34,6 +34,8 @@ summary: 一句话职责描述
 provides:               # 能力标签（kebab/snake_case），供需求→能力匹配
   - health_state
 requires: []            # 依赖的其它 Feature 的 provides 标签或 feature id
+capabilities:           # 可选：本 Feature 需要的 Scene 能力（Phase 1.8.11，默认 []）
+  required: []          # 能力名必须已在 capability_registry.py 登记（禁止推断）
 interfaces:             # 公共接口（methods / signals / exports，可按需省略空类别）
   methods: []
   signals: []
@@ -73,6 +75,54 @@ validation:             # 测试入口
 - `requires` 引用其它 Feature 的能力标签或 id；引用不存在的标签视为 schema 错误。
 - 需求匹配方向：Agent 拿到需求关键词 → 对照各 Feature 的 provides/summary → 得出
   Reuse 清单；无法覆盖的部分即 Build 缺口（对接 feature-development.md §3）。
+
+### capabilities（能力声明；可选字段，Phase 1.8.11）
+
+有些 Feature 组合在生成实体场景时需要声明「这份计划需要哪些 Scene 能力」
+（Node / Sprite / AnimatedSprite / Audio / Collision）。声明源头是本文件的
+`capabilities.required`；链路：
+
+```text
+Features/<id>/feature.yaml  capabilities.required   Feature 声明（Source of Truth）
+      ↓  feature_capabilities.py                   只读取，不判断
+Scene Blueprint.capabilities.required              规整时汇总 + 去重（只传递）
+      ↓  SceneIntentBuilder
+Scene Intent.capabilities.required                 物化（默认 []）
+      ↓  compatibility_gate                        能力可用性唯一判定者
+PASS / BLOCKED（Unsupported capability: <name>，BLOCKED 即零 .tscn 产物）
+```
+
+规则：
+
+- 字段名固定为 `capabilities.required`，默认 `[]`；未声明的存量 Feature 继续合法。
+- **禁止自动推断**：不得按 Feature id / category / provides 标签猜测能力
+  （不得因为名为 EnemyAttack 就补 `Script`）。没有声明就是没有需求。
+- 能力名必须已在 `.ai/tools/scene_composer/capability_registry.py` 登记；
+  预留 / 未知能力由 Compatibility Gate 判定为 BLOCKED（本文件不判断支持性）。
+- 本字段是**需求**，不是能力地图：Binding / Scene 层不得裁剪，也不得替 Feature 声明。
+- 与 Blueprint / CLI 显式声明取并集（需求只能叠加，不得互相削弱）。
+
+#### Existing Feature capability adoption status（Phase 1.8.12）
+
+Feature authors should explicitly declare required capabilities.
+（能力声明是 Feature 作者的责任：新增 / 修改 Feature 时必须显式声明，不依赖推断。）
+
+存量 Feature 已按「自身场景 + 自身 metadata」的证据完成迁移：
+
+| Feature | 迁移前 | 迁移后 | 依据 |
+|---|---|---|---|
+| health, stun, condition_gate, health_bar, chase_movement | `[]` | `[Node]` | 组件以节点实例化进宿主场景 |
+| contact_damage | `[]` | `[Node, Collision]` | `composition.usage` 要求宿主提供 CollisionShape2D |
+| collect_pickup, heal_pickup | `[]` | `[Node, Collision]` | 自身场景含 PickupShape (CollisionShape2D) |
+| moving_platform | `[]` | `[Node, Collision]` | 自身场景含 RideShape (CollisionShape2D) |
+| openable_door, player_movement | `[]` | `[Node, Collision]` | 自身场景含 Collision (CollisionShape2D) |
+| trigger_switch | `[]` | `[Node, Collision]` | 自身场景含 TriggerShape (CollisionShape2D) |
+
+判定规则（由 `test_feature_capability_adoption.py` 审计强制）：
+
+- 只声明已登记能力（`capability_registry.py`）；禁止根据 Feature 名 / category 推断。
+- `Collision` 有且仅有在「自身场景含 CollisionShape2D」或「metadata 明确要求宿主提供」时声明。
+- 无明确需求时保持 `[]`（不强行填充）。
 
 ## 5. 状态所有权（Round 8 原则）
 

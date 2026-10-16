@@ -14,6 +14,11 @@ provides:
 
 requires: []
 
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node
+    - Collision    # 自身场景含 Collision (CollisionShape2D)
+
 interfaces:
   methods: []   # 无公共方法，纯物理帧驱动
   signals: []

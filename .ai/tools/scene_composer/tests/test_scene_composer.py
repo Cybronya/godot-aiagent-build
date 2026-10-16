@@ -87,7 +87,8 @@ def run() -> int:
             ok("test1: contains Health node", "Health" in nodes, str(nodes))
             ok("test1: contains ContactDamage node", "ContactDamage" in nodes, str(nodes))
         # 测试生成器可运行且内容含两类断言
-        test_path = generate_scene_test.generate_test_file(bp1, out_dir=out1)
+        # Phase 1.8.8：生成器只吃 Scene Intent（用 compose 的正式产物）
+        test_path = generate_scene_test.generate_test_file(result["scene_intent"], out_dir=out1)
         source = io.open(test_path, encoding="utf-8").read()
         ok("test1: generated test asserts scene load", "load(\"res://Scenes/Enemy.tscn\")" in source)
         ok("test1: generated test asserts feature nodes",
@@ -147,7 +148,7 @@ def run() -> int:
         v = check_scene_composition.check_scene_composition(bp3, scene_path)
         ok("test3: validator PASS", v["failures"] == [], str(v["failures"]))
         # 测试生成：含信号断言（health: health_changed/died）
-        test_path = generate_scene_test.generate_test_file(bp3, out_dir=out3)
+        test_path = generate_scene_test.generate_test_file(result["scene_intent"], out_dir=out3)
         source = io.open(test_path, encoding="utf-8").read()
         ok("test3: generated test asserts signals",
            "Missing signal: Health.health_changed" in source and "Missing signal: Health.died" in source)

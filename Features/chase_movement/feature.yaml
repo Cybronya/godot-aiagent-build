@@ -14,6 +14,10 @@ provides:
 
 requires: []
 
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node
+
 interfaces:
   methods: []   # 无公共方法，物理帧自动追击
   signals: []

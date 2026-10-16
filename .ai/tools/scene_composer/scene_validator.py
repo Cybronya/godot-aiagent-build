@@ -3,21 +3,27 @@
 
 对生成的 .tscn 做结构校验（只读解析文本，不启动 Godot）：
 
-    1. Feature 完整性 —— Blueprint 每个 Feature 的 required_nodes 必须以
-       实例节点存在；缺失报「Missing Feature: <node>」。
-    2. Feature Dependency —— 成员 requires 是否由组合满足
-       （复用 dependency_resolver）。
-    3. Node Structure —— 根节点类型必须等于 Blueprint root.type；
+    1. Feature 完整性 —— Scene Intent 的每个组件（components[].component）其
+       Feature Scene Template 的 required_nodes 必须以实例节点存在；缺失报
+       「Missing Feature: <node>」。
+    2. Feature Dependency —— 成员 requires 是否由组合满足（复用 dependency_resolver）。
+    3. Node Structure —— 根节点类型必须等于 Scene Intent root.type；
        不符报「Invalid Root Node Type」。
     4. 组合约束 —— Scene 不得给根节点挂脚本（Scene 只负责组合）。
     5. 节点父路径 —— 显式 parent 必须指向场景内已声明的节点。
     6. 节点重名 —— 同一父节点下不得重名（Godot 硬约束；Asset Binding 加入的
        资源节点与组件实例共用命名空间）。
+
+输入边界（Phase 1.8.8）：唯一合法输入是 Scene Intent（`SceneIntent` 对象或契约文档
+mapping）；旧规整内部 dict 被拒绝（无隐藏转换、无兼容适配器）。
+原始 Blueprint → Scene Intent 的转换只发生在 CLI 入口（check_scene_composition /
+test_generator 的 intent_from_blueprint）。
 """
 
 import re
 
 from dependency_resolver import resolve
+from scene_intent import intent_components, intent_document, intent_root
 from template_loader import template_node_name, template_root_requirements
 
 _ROOT_NODE_RE = re.compile(r'^\[node name="([^"]*)" type="([^"]*)"\]$', re.M)
@@ -28,6 +34,8 @@ def _root_instance_name(text: str) -> str:
     """根实例化（无 parent= 的 instance 节点）名称。"""
     match = _ROOT_INSTANCE_RE.search(text)
     return match.group(1) if match else ""
+
+
 _INSTANCE_RE = re.compile(r'^\[node name="([^"]*)" parent="[^"]*" instance=ExtResource', re.M)
 _NODE_PATH_RE = re.compile(r'^\[node name="([^"]*)"(?: type="[^"]*")?(?: parent="([^"]*)")?', re.M)
 _SCRIPT_RE = re.compile(r'^\[node name="([^"]*)"[^\]]*\nscript\s*=', re.M)
@@ -59,12 +67,16 @@ def parse_scene(scene_path: str) -> dict:
     }
 
 
-def validate_scene(blueprint: dict, scene_path: str, index: list, templates: dict,
+def validate_scene(scene_intent, scene_path: str, index: list, templates: dict,
                    features_dir: str) -> dict:
     """校验生成的场景；返回 {ok, failures, warnings}。
 
-    blueprint 为 normalize_scene_blueprint 的输出。
+    scene_intent —— SceneIntent 对象或其契约文档 mapping（Scene 层唯一合法输入）。
+    templates    —— {feature_id: Feature Scene Template}，与 intent components 同源。
     """
+    document = intent_document(scene_intent, "scene_validator.validate_scene")
+    features = intent_components(document)
+
     failures, warnings = [], []
     try:
         scene = parse_scene(scene_path)
@@ -73,24 +85,25 @@ def validate_scene(blueprint: dict, scene_path: str, index: list, templates: dic
 
     # 1. Feature 完整性
     present = set(scene["node_names"])
-    for fid in blueprint["features"]:
+    for fid in features:
         template = templates.get(fid) or {}
         node_name = template_node_name(fid, template)
         if node_name not in present:
             failures.append("Missing Feature: %s (node %s)" % (fid, node_name))
 
     # 2. Feature Dependency
-    dep = resolve(blueprint["features"], index, features_dir)
+    dep = resolve(features, index, features_dir)
     failures.extend(dep["errors"])
     failures.extend(dep["missing"])
     for fid in dep["unknown"]:
         failures.append("Unknown Feature in scene composition: %s" % fid)
 
     # 3. Root type
-    if blueprint["root_type"] and scene["root_type"] != blueprint["root_type"]:
+    expected_root_type = str(intent_root(document).get("type") or "")
+    if expected_root_type and scene["root_type"] != expected_root_type:
         failures.append(
             "Invalid Root Node Type: expected %s, got %s"
-            % (blueprint["root_type"], scene["root_type"] or "<none>")
+            % (expected_root_type, scene["root_type"] or "<none>")
         )
 
     # 4. Scene 只负责组合：根节点不挂脚本
@@ -108,7 +121,8 @@ def validate_scene(blueprint: dict, scene_path: str, index: list, templates: dic
         )
 
     # 5. 节点父路径有效性：普通节点的 parent 若显式且非 "."，必须指向场景内已声明的节点
-    known_paths = {".", scene["root_name"], ""} | {name for name, _parent in scene["all_nodes"] if name and name != scene["root_name"]}
+    known_paths = {".", scene["root_name"], ""} | {name for name, _parent in scene["all_nodes"]
+                                                    if name and name != scene["root_name"]}
     for name, parent in scene["all_nodes"]:
         if not parent or parent == ".":
             continue

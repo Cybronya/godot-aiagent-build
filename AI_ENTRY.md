@@ -228,3 +228,44 @@ asset-discovery Skill
   绑定实例化为资源节点（AnimatedSprite2D / Sprite2D / AudioStreamPlayer）；
   Validator 只 CHECK / REPORT。禁止视觉识别，禁止 AssetManager / ResourceManager
   之类的全局 Manager。
+- 资源节点实例化与场景组装属于场景层，路由见第 12 节。
+
+## 12. Scene Composition Routing
+
+任务涉及创建 / 组装 Godot 场景时（例如 create scene、compose entity scene、
+generate Godot scene、build playable scene、convert binding to scene）：
+
+```text
+Entity / Asset Requirement
+    ↓
+asset-discovery Skill（发现 + 显式选择 → 产出 Asset Binding）
+    ↓
+Asset Binding Document（.ai/context/asset_bindings/<id>.yaml）
+    ↓
+scene-composer Skill（消费 Binding → Scene Intent / 场景生成）
+```
+
+路由规则：
+
+- 场景组装只走 `scene-composer` Skill（通过 Registry 发现，不假设路径）；
+  完整流程、工具链与安全边界定义在
+  `.ai/skills/systems/scene-composer/SKILL.md`。
+- 资源侧前置：Binding 尚不存在时先走第 11 节的 `asset-discovery` Skill；
+  **Scene Composer 的输入来源是 Asset Binding Document**
+  （`.ai/context/asset_binding_schema.yaml`），不是索引、不是候选列表、
+  不是 query 结果。
+- 契约：`.ai/context/scene_composer_schema.yaml`（Binding → Scene Intent 边界契约，
+  Phase 1.8.3 Contract Freeze 六原则）；蓝图格式
+  `.ai/context/scene_schema.yaml`。
+- 契约总目录：`.ai/context/CONTRACT_INDEX.yaml`（`scene_composition` 条目）；
+  需要找规则时**先读它**，不要扫描 `.ai/tools` 或 `.ai/context` 目录。
+- Scene Composer **不负责**：搜索资源、选择资源、替换 Binding、自动取 top1、
+  推断或编造缺失资源。
+- 职责边界：Asset Discovery 负责「发现 / 绑定 / 报告缺失」；Scene Composer 负责
+  「消费 Binding，实例化资源节点与场景树」；Validator 只 CHECK / REPORT。
+  禁止在场景层重建第二套 Asset Resolution，禁止 AssetManager / ResourceManager
+  之类的全局 Manager，禁止给根节点挂脚本。
+
+> 本节只声明路由，**不引入新的入口体系**：Framework 机器入口仍为
+> `.ai/config/agent.yaml`，Skill 发现仍为 `.ai/config/skill-registry.yaml`，
+> Skill 定义仍为 `.ai/skills/**/SKILL.md`。

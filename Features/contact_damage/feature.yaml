@@ -14,6 +14,11 @@ provides:
 requires:
   - health_state   # 目标须有 Health 组件（组 + 命名契约，缺失时静默跳过）
 
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node
+    - Collision    # composition.usage 要求宿主提供 CollisionShape2D
+
 interfaces:
   methods: []   # 无公共方法，重叠检测 + 节拍结算自动进行
   signals: []

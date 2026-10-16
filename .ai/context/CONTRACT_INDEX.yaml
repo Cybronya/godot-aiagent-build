@@ -10,10 +10,10 @@
 version: 1
 
 # 路径基准（Agent 解析规则）：
-#   *  schema / files / generated_cache / output_dir / index /
+#   *  schema / files / generated_cache / output_dir / index / boundary_contract /
 #      repair_plan_schema / runtime_result_schema → 相对 .ai/context/
-#   *  cli / entrypoint / validator / producer / consumer / stages /
-#      runner / asset_repair / index_builder          → 相对 .ai/tools/
+#   *  cli / entrypoint / validator / producer / consumer / stages / contract_test /
+#      runtime_test / runner / asset_repair / index_builder → 相对 .ai/tools/
 #   *  navigation 内相对 .ai/context/（含 ../ 跨层引用）
 
 # ---------- Asset ----------
@@ -60,7 +60,28 @@ feature_registry:
   discovery:
     cli: feature_registry/feature_discovery.py         # 发现：需求 -> features + 槽位 + 资产候选
     slots_config: entity_asset_slots.yaml              # 实体角色 -> 资源槽位（单一事实源）
+    schema: feature_discovery_schema.yaml              # Discovery JSON 输出契约（Step 2.8 frozen）
     schema_version: 1                                  # 与 feature_discovery.SCHEMA_VERSION 一致
+  capability_declaration:                              # Capability Producer（Phase 1.8.11）
+    source: Features/<id>/feature.yaml                 # capabilities.required = Source of Truth（默认 []）
+    reader: scene_composer/feature_capabilities.py     # 统一读取入口：只读、不判断、禁止推断
+    transports_to: scene_intent.capabilities.required  # 经 Binding/Blueprint（template_loader 汇总）→ Intent
+    validated_by: scene_composer/compatibility_gate.py # 能力可用性判定（Gate 只吃 Scene Intent）
+    pipeline_test: scene_composer/tests/test_feature_capability_pipeline.py
+    adoption:                                          # Phase 1.8.12：存量 Feature 数据迁移
+      status: adopted                                  # 12 个 Feature 均已声明（Node / Collision）
+      test: scene_composer/tests/test_feature_capability_adoption.py
+      audit: 声明必须与 Feature 自身场景/契约一致（Node 恒有；Collision 需场景证据）
+      baseline: 迁移后 .tscn / .gd 与迁移前逐字节相同
+  discovery_to_binding:                                # Adapter（Phase 1.8.2 Step 2）
+    cli: feature_registry/discovery_to_binding.py      # Discovery payload + --select -> --binding 输入
+    input: feature_discovery_schema.yaml               # 只读 Discovery JSON（schema_version=1）
+    output_kind: explicit_binding_override             # {bindings:[{role,asset}]}，可直接传
+                                                       # bind_assets --binding FILE
+    selection: --select SLOT=CANDIDATE_ID (repeatable) # 必须 explicit；绝不默认 top1
+    exit_codes: {0: 转换成功（含部分成功+警告）, 1: 输入有效但无法明确绑定,
+                 2: I/O 失败或结构错误}
+    principles: feature_discovery_schema.yaml 头部 Contract Freeze 六原则
   version: 1
 
 gameplay_blueprint:
@@ -68,10 +89,152 @@ gameplay_blueprint:
   version: 1
 
 scene_composition:
-  schema: scene_schema.yaml
+  schema: scene_schema.yaml                            # Scene Blueprint / template.yaml 格式（不变）
+  boundary_contract: scene_composer_schema.yaml        # Phase 1.8.3 建立；1.8.5 升级 Scene Intent 为一等概念；
+                                                       # 1.8.7 收口消费边界（Scene Builder 只吃 Scene Intent）
+  boundary_contract_version: 2                         # 与 scene_composer_schema.yaml schema.version 一致
+  input: asset_binding_schema.yaml                     # 只读输入：Asset Binding 文档（schema_version=2）
+  output: scene_intent                                 # 计划产物（plan_only）；本条目不授权 .tscn 生成
+  output_contract:                                     # Scene Intent 定义位置（单一事实源，禁止第二份）
+    schema: scene_composer_schema.yaml                 # 定义在 boundary_contract 的 scene_intent 段
+    section: scene_intent
+    version: 1                                         # 与 scene_intent.version 一致
+    plan_only: true
+    persistence: memory_only                           # 不落盘（Phase 1.8.5 决策）
+    producer: scene_composer/scene_intent.py           # SceneIntentBuilder（Phase 1.8.6 物化）
+    runtime_test: scene_composer/tests/test_scene_intent_runtime.py
+    contract_test: scene_composer/tests/test_scene_intent_contract.py
+    builder_input_test: scene_composer/tests/test_scene_builder_intent_input.py  # Phase 1.8.7
+    validator_input_test: scene_composer/tests/test_scene_validator_intent_input.py  # Phase 1.8.8
+    compatibility_gate_test: scene_composer/tests/test_scene_compatibility_gate.py   # Phase 1.8.9
+    capability_test: scene_composer/tests/test_scene_intent_capability.py            # Phase 1.8.10
+    capabilities: scene_intent.capabilities.required  # 能力声明字段（CURRENT，默认 []）
+    capability_registry: scene_composer/capability_registry.py  # 能力词汇唯一事实源（v1）
+    capability_producer: scene_composer/feature_capabilities.py  # Phase 1.8.11：Feature 声明读取入口
+    capability_flow: scene_composer_schema.yaml#capability_declaration_flow  # 契约段（唯一事实源）
+    capability_pipeline_test: scene_composer/tests/test_feature_capability_pipeline.py  # Phase 1.8.11
+    capability_contract_test: scene_composer/tests/test_capability_contract_validator.py  # Phase 1.8.13
+    component_instance: scene_composer/component_instance_resolver.py  # Phase 1.8.14：组件实例计划（证据供给）
+    component_instance_test: scene_composer/tests/test_component_instance_materialization.py  # Phase 1.8.14
+    artifact_evidence: scene_composer/artifact_evidence_validator.py   # Phase 1.8.15：生成物核验（声明 = 计划 = 生成物）
+    artifact_evidence_test: scene_composer/tests/test_artifact_evidence_validator.py  # Phase 1.8.15
+    external_artifact: scene_composer/external_artifact_resolver.py    # Phase 1.8.16：ExtResource → 组件场景（递归静态解析）
+    external_artifact_test: scene_composer/tests/test_external_artifact_evidence.py   # Phase 1.8.16
+    instance_ownership: scene_composer/component_instance_ownership.py # Phase 1.8.17：声明 → 产物实例节点（归属）
+    instance_ownership_test: scene_composer/tests/test_component_instance_ownership.py  # Phase 1.8.17
+    boundary_helpers: scene_composer/scene_intent.py   # intent_document / intent_components /
+                                                       # intent_root / intent_from_blueprint（唯一实现）
+  compatibility_gate:                                  # Phase 1.8.9：生成前闸门（Scene Intent → Gate → Builder）
+    spec: scene_composer_schema.yaml#compatibility_gate  # 契约段（唯一事实源）
+    module: scene_composer/compatibility_gate.py
+    entrypoint: check_scene_compatibility(scene_intent)
+    input: scene_intent
+    legacy_input: rejected                             # 原始 Blueprint / 旧规整 dict → ValueError
+    consumes: ["capabilities.required", "components[].component", "resources[].type"]
+    capability_registry: scene_composer/capability_registry.py  # 能力词汇唯一事实源（Phase 1.8.10）
+    runs_before: scene_builder
+    status_vocabulary: [PASS, BLOCKED]
+    blocked_behavior: zero_output                      # BLOCKED 时不得产生任何 .tscn
   cli: scene_composer/scene_composer.py                # <blueprint.yaml> --bind-assets --tests
   consumer:
-    asset_nodes: scene_composer/asset_nodes.py         # Asset Binding -> 场景资源节点
+    asset_nodes:
+      module: scene_composer/asset_nodes.py            # Asset Binding -> 场景资源节点
+    scene_builder:                                     # Phase 1.8.7：Scene Intent 是唯一输入
+      module: scene_composer/scene_builder.py
+      input: scene_intent
+      legacy_input: rejected                           # 规整内部 dict 传入即 ValueError
+    scene_validator:                                   # Phase 1.8.8
+      module: scene_composer/scene_validator.py
+      input: scene_intent
+      legacy_input: rejected
+      rules_changed: false                             # 仅字段来源换位（features / root_type）
+    test_generator:                                    # Phase 1.8.8
+      module: test_generator/generate_scene_test.py
+      input: scene_intent
+      legacy_input: rejected
+      raw_blueprint_entry: intent_from_blueprint       # 仅 CLI 入口做 Blueprint → Intent
+    check_scene_composition:                           # Phase 1.8.8（CLI 入口仍是原始 Blueprint）
+      module: validator/check_scene_composition.py
+      transition: intent_from_blueprint -> validate_scene(scene_intent)
+    compatibility_gate:                                # Phase 1.8.9
+      module: scene_composer/compatibility_gate.py
+      input: scene_intent
+      legacy_input: rejected
+      runs_before: scene_builder
+    capability_contract:                               # Phase 1.8.13（fulfillment 层）
+      spec: scene_composer_schema.yaml#capability_contract_validation
+      module: scene_composer/capability_contract_validator.py
+      contracts: scene_composer/capability_contracts.py  # capability → requirement（唯一事实源）
+      entrypoint: validate_capability_contract(scene_intent, scene_plan=None)
+      input: scene_intent
+      evidence: scene_plan                             # Intent 投影；不解析 .tscn
+      evidence_priority: ["components[].instance", "nodes[]", root]   # Phase 1.8.14
+      consumes: capabilities.required
+      runs_after: compatibility_gate
+      runs_before: scene_builder
+      blocked_behavior: zero_output
+    component_instance:                                # Phase 1.8.14（证据供给层）
+      spec: scene_composer_schema.yaml#component_instance_materialization
+      module: scene_composer/component_instance_resolver.py
+      entrypoints: [resolve_component_instances(scene_intent),
+                    resolve_component_instance_report(scene_intent)]
+      input: scene_intent
+      transport: template_loader.normalize_scene_blueprint   # Feature template.yaml instance: /
+                                                           # Blueprint components[].instance → Intent
+      consumes: ["components[].instance"]               # 声明式证据；不驱动生成
+      generator_impact: none                           # Builder 不读它，.tscn 输出不变
+      no_inference: true                               # 静态词表；未识别 → BLOCKED
+      consumed_by: scene_composer/capability_contract_validator.py
+      verified_by: scene_composer/artifact_evidence_validator.py   # Phase 1.8.15：生成物核对
+      ownership: scene_composer/component_instance_ownership.py    # Phase 1.8.17：instance.id → 实例节点
+      test: scene_composer/tests/test_component_instance_materialization.py
+    artifact_evidence:                                 # Phase 1.8.15（生成后核验层）
+      spec: scene_composer_schema.yaml#artifact_evidence_validation
+      module: scene_composer/artifact_evidence_validator.py
+      entrypoint: verify_artifact_evidence(scene_intent, scene_path, project_root=None)
+      input: [scene_intent, scene_path]                # 生成物路径：写盘之后
+      evidence: .tscn                                  # 静态文本：name / type / parent / ExtResource
+      static_only: true                                # 不启动 Godot、不加载 PackedScene
+      consumes: ["components[].instance"]              # 声明必须能在产物里找到
+      evidence_priority: ["components[].instance", "owner artifact (+ reachable closure)", host_nodes]
+                                                       # Phase 1.8.17：证据池按归属限定
+      ownership: scene_composer/component_instance_ownership.py    # 归属先于结构核对
+      runs_after: scene_builder                        # 与 scene_validator 同阶段（写盘后）
+      keeps_artifact_on_failure: true                  # 不删除、不自动修复（供诊断）
+      blocked_behavior: report_only                    # ok=false + failures 前缀 "Artifact Evidence: "
+      report_fields: [status, errors, checked_instances, checked_external_artifacts,
+                      checked_ownership]               # 第 4 键 1.8.16 / 第 5 键 1.8.17 追加
+      test: scene_composer/tests/test_artifact_evidence_validator.py
+    external_artifact:                                 # Phase 1.8.16（外部证据供给）
+      spec: scene_composer_schema.yaml#external_artifact_evidence
+      module: scene_composer/external_artifact_resolver.py
+      entrypoints: [resolve_external_artifact(scene_path, resource_path),
+                    resolve_external_artifacts(scene_path)]
+      input: [scene_path, resource_path]               # res://Features/<id>/<scene>.tscn
+      recursive_static_parse: true                     # 嵌套引用递归；纯静态文本
+      no_runtime: true                                 # 不启动 Godot、不加载 PackedScene
+      resolves: res://Features/**/*.tscn               # 仅 PackedScene + Features 路径
+      cycle_guard: true                                # 已访问文件集合 → recursion detected
+      consumes: ext_resource_table                       # type / path / id（资源类引用不解析）
+      references_graph: true                           # {res://: [直接引用]}（1.8.16 返回；1.8.17 归属闭包消费）
+      consumed_by: scene_composer/artifact_evidence_validator.py
+      generator_impact: none                           # 只读 .tscn，不改 Builder / 产物
+      test: scene_composer/tests/test_external_artifact_evidence.py
+    component_instance_ownership:                      # Phase 1.8.17（归属层）
+      spec: scene_composer_schema.yaml#component_instance_ownership
+      module: scene_composer/component_instance_ownership.py
+      entrypoint: resolve_component_ownership(scene_intent, artifact_evidence)
+      input: [scene_intent, artifact_evidence]          # 宿主产物静态解析结果（含 scene_path）
+      ownership_source: ["components[].instance.id", "ext_resource path", "node instance=ExtResource()"]
+      output: "{status: PASS|BLOCKED, owners: [{component, artifact_path, node_path, confidence}], errors}"
+      confidence: [declared, resolved]
+      ambiguity_behavior: blocked                      # 不猜测：id 0/≥2 命中、无 id 多候选 → BLOCKED
+      blocked_message: "Component ownership unresolved: <component>"
+      runs_before: artifact_evidence_validation        # 归属失败即停，不再进入结构核对
+      generator_impact: none                           # 只读映射，不改 Builder / 产物
+      consumed_by: scene_composer/artifact_evidence_validator.py
+      no_inference: true                               # 不按名字 / 关键词 / Registry 推断
+      test: scene_composer/tests/test_component_instance_ownership.py
   version: 1
 
 # ---------- Validation ----------

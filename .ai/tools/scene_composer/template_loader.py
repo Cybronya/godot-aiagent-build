@@ -6,11 +6,21 @@ Entity Blueprint -> Scene Blueprint 的推导。
 
 template.yaml 格式见 .ai/context/scene_schema.yaml 的
 「Feature Scene Template」节。
+
+Phase 1.8.11：规整 Scene Blueprint 时汇总**能力声明**（capability transport）：
+Blueprint 自带的 capabilities.required + 成员 Feature 的声明（Features/<id>/feature.yaml）
+→ normalized["capabilities"]。本层只传递与去重，**不判断能力是否被支持**（归 compatibility_gate）。
+
+Phase 1.8.14：同样汇总**组件实例计划**（component instance transport）：
+Blueprint.components[].instance 或成员 Feature template.yaml 的 instance: 块 → normalized["component_instances"]。
+本层只传递（不做词表校验，归 component_instance_resolver）；未声明 → 不产出（旧行为不变）。
 """
 
 import os
 
 import yaml
+
+import feature_capabilities
 
 # 目录定位：本文件位于 <root>/.ai/tools/scene_composer/ 下
 _TOOL_DOTAI = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # .ai
@@ -105,21 +115,48 @@ def derive_scene_blueprint(entity_blueprint: dict) -> dict:
     else:
         root_type = ROLE_DEFAULT_ROOT.get(role, "Node2D")
 
-    return {
+    derived = {
         "scene": {"id": scene_id},
         "root": {"type": root_type, "name": _pascal_case(scene_id)},
         "components": [{"feature": fid} for fid in features],
         "validation": entity_blueprint.get("validation")
         or {"required_tests": list(features)},
     }
+    # 能力声明是「中转键」：Entity Blueprint 上显式写出时不得被推导静默丢弃
+    # （成员 Feature 的声明由 normalize_scene_blueprint 汇总，不在此处读取）。
+    if entity_blueprint.get("capabilities") is not None:
+        derived["capabilities"] = entity_blueprint["capabilities"]
+    return derived
 
 
-def normalize_scene_blueprint(bp: dict) -> tuple:
+def feature_instance_plan(feature_id: str, features_dir: str = FEATURES_DIR) -> dict:
+    """Feature Scene Template 的可选 `instance:` 块（Phase 1.8.14 实例计划声明）。
+
+    只读一层声明，不做词表校验（归 component_instance_resolver）；
+    缺失 / 不可解析 / 非 mapping → {}（旧 Feature 零声明，继续合法）。
+    """
+    path = os.path.join(features_dir, str(feature_id), "template.yaml")
+    if not os.path.isfile(path):
+        return {}
+    try:
+        data = yaml.safe_load(open(path, encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    instance = data.get("instance")
+    return dict(instance) if isinstance(instance, dict) else {}
+
+
+def normalize_scene_blueprint(bp: dict, features_dir: str = FEATURES_DIR) -> tuple:
     """规整 Scene Blueprint，返回 (normalized, errors)。
 
     normalized 字段：
         scene_id / root_type / root_name / features(list) /
-        extra_nodes(list of {type,name}) / required_tests(list)
+        extra_nodes(list of {type,name}) / required_tests(list) / capabilities（能力声明）/
+        component_instances（组件实例计划声明，Phase 1.8.14）
+
+    features_dir —— 读取成员 Feature 能力声明 / 实例计划的基准目录（默认项目 Features/）。
     """
     errors = []
     if not isinstance(bp, dict):
@@ -183,6 +220,37 @@ def normalize_scene_blueprint(bp: dict) -> tuple:
     if not required_tests:
         required_tests = list(features)
 
+    # 能力声明（Phase 1.8.11）：成员 Feature 的声明（Features/<id>/feature.yaml）与本键
+    # 自带的声明取并集（保序去重）——只承载与传递，不判断能力是否被支持（归 compatibility_gate）。
+    required = []
+    for name in feature_capabilities.capabilities_for_features(features, features_dir):
+        if name not in required:
+            required.append(name)
+    declared = bp.get("capabilities")
+    if declared is not None:
+        for name in feature_capabilities.normalize_required(declared):
+            if name not in required:
+                required.append(name)
+
+    # 组件实例计划（Phase 1.8.14）：Blueprint 显式声明优先，其次成员 Feature template.yaml
+    # 的 instance: 块；两者都无 → 不产出（旧行为：components[] 只有 component 键）。
+    # Blueprint 显式声明（任何非 None 值都算「已声明」——非法形态由 resolver 报错，
+    # 不在此处静默丢弃）；template.yaml 是可选作者元数据，非 mapping / 空 → 视为未声明。
+    component_instances = {}
+    explicit_instances = {}
+    for entry in components or []:
+        if isinstance(entry, dict):
+            feature_id = str(entry.get("feature") or "").strip()
+            instance = entry.get("instance")
+            if feature_id and instance is not None:
+                explicit_instances[feature_id] = instance
+    for feature_id in features:
+        instance = explicit_instances.get(feature_id)
+        if instance is None:
+            instance = feature_instance_plan(feature_id, features_dir) or None
+        if instance is not None:
+            component_instances[feature_id] = instance
+
     normalized = {
         "scene_id": scene_id,
         "root_type": root_type,
@@ -191,5 +259,7 @@ def normalize_scene_blueprint(bp: dict) -> tuple:
         "extra_nodes": extra_nodes,
         "required_tests": required_tests,
         "root_extra": root_extra,
+        "capabilities": {"required": required},
+        "component_instances": component_instances,
     }
     return normalized, errors

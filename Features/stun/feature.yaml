@@ -15,6 +15,10 @@ provides:
 requires:
   - health_state   # stun_on_hit 模式需要宿主 Health 组件（命名 "Health" 或 health_path 指定）
 
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node
+
 interfaces:
   methods:
     - name: stun
