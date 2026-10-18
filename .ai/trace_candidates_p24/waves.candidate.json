@@ -1,0 +1,202 @@
+{
+  "document": "orchestration_trace_baseline",
+  "baseline_schema_version": 1,
+  "baseline_version": 1,
+  "trace_schema_version": 1,
+  "scenario_id": "waves",
+  "scenario_description": "waves：按配置进入波次 → 清一波才起下一波 → 清场解锁出口 → 玩家到出口结算 Victory",
+  "coverage": [
+    "orchestration_started（waves 模式）",
+    "第一波按配置生成；首波未清空时第二波不生成（探针度量断言，trace 契约当前不含波次事件——已知限制）",
+    "全部波次清空后出口才解锁、玩家进入出口区才结算（探针度量断言）",
+    "level_victory（exit_reached_after_unlock）且为最后一个事件"
+  ],
+  "approved_behavior_version": "phase-1.22-orchestration-trace-contract-v1",
+  "source": {
+    "scenario_id": "waves",
+    "description": "waves：按配置进入波次 → 清一波才起下一波 → 清场解锁出口 → 玩家到出口结算 Victory",
+    "coverage": [
+      "orchestration_started（waves 模式）",
+      "第一波按配置生成；首波未清空时第二波不生成（探针度量断言，trace 契约当前不含波次事件——已知限制）",
+      "全部波次清空后出口才解锁、玩家进入出口区才结算（探针度量断言）",
+      "level_victory（exit_reached_after_unlock）且为最后一个事件"
+    ],
+    "godot_version": "4.7.stable.official.5b4e0cb0f",
+    "probe": "level_orchestration_probe.py",
+    "level_config": "res://Levels/trace_baseline_waves.json",
+    "arena_scene": "res://Scenes/TimedCombatArena.tscn",
+    "generation_chain": [
+      "blueprint_generator.write_entity_blueprints",
+      "asset_registry/bind_assets.py",
+      "scene_composer/scene_composer.py (per entity)",
+      "scene_composer/plan_generator.py",
+      "scene_composer/scene_composer.py --compose-plan",
+      "gameplay_planner/level_planner.py",
+      "validator/check_level.py --plan",
+      "level probe (real Godot headless)"
+    ],
+    "probe_metrics": {
+      "config_errors": 0.0,
+      "waves": 2.0,
+      "wave1_count": 1.0,
+      "wave2_count": 2.0,
+      "spawned_wave1": 1.0,
+      "index_after_wave1": 1.0,
+      "alive_after_wave1": 2.0,
+      "door_open_with_survivor": 0.0,
+      "door_open_after_all": 1.0,
+      "state_after_exit": 1.0,
+      "finish_events": 1.0,
+      "entity_scene_match": 1.0,
+      "declared_scenes": 1.0,
+      "focus_hits": 3.0
+    },
+    "trace_event_count": 7,
+    "probe_script_removed": true,
+    "captured_by": "trace_baseline_capture.py (sandboxed real Godot headless E2E)",
+    "trace_run_id": "run-791975"
+  },
+  "approval": {
+    "status": "candidate",
+    "candidate_generated_at": "2026-10-18T17:47:59",
+    "candidate_note": "Phase 1.25 waves 基线候选：新增波次语义事件（wave_started/wave_cleared/exit_unlocked），真实 Godot 沙箱捕获",
+    "proposed_approver": "",
+    "candidate_fingerprint": "7ba152f09163cb6041a3ca0363ef9cd0dad81324f4a82cfce3bad2a53e31d075"
+  },
+  "comparison_policy": {
+    "version": 1,
+    "ignored_event_fields": [
+      "run_id",
+      "timestamp_ms"
+    ],
+    "data": {
+      "mode": "strict",
+      "ignored_fields": [],
+      "numeric_tolerance": 1e-09
+    }
+  },
+  "expected_final_state": {
+    "final_state": "victory",
+    "boss_death_confirmed": false,
+    "stage_history": [],
+    "terminal_event": "level_victory",
+    "event_count": 7
+  },
+  "events": [
+    {
+      "data": {
+        "mode": "waves",
+        "stage_count": 0
+      },
+      "entity_id": null,
+      "event_type": "orchestration_started",
+      "instance_name": null,
+      "reason": "waves",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 0,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 0
+    },
+    {
+      "data": {
+        "enemies": 1,
+        "total": 2,
+        "wave": 0
+      },
+      "entity_id": null,
+      "event_type": "wave_started",
+      "instance_name": null,
+      "reason": "wave_begin",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 1,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 1
+    },
+    {
+      "data": {
+        "wave": 0
+      },
+      "entity_id": null,
+      "event_type": "wave_cleared",
+      "instance_name": null,
+      "reason": "wave_cleared",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 2,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 124
+    },
+    {
+      "data": {
+        "enemies": 2,
+        "total": 2,
+        "wave": 1
+      },
+      "entity_id": null,
+      "event_type": "wave_started",
+      "instance_name": null,
+      "reason": "wave_begin",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 3,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 125
+    },
+    {
+      "data": {
+        "wave": 1
+      },
+      "entity_id": null,
+      "event_type": "wave_cleared",
+      "instance_name": null,
+      "reason": "wave_cleared",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 4,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 159
+    },
+    {
+      "data": {
+        "wave": 1
+      },
+      "entity_id": null,
+      "event_type": "exit_unlocked",
+      "instance_name": null,
+      "reason": "all_waves_cleared",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 5,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 159
+    },
+    {
+      "data": {},
+      "entity_id": null,
+      "event_type": "level_victory",
+      "instance_name": null,
+      "reason": "exit_reached_after_unlock",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 6,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 538
+    }
+  ]
+}

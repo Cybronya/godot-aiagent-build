@@ -4,7 +4,8 @@ extends SceneTree
 ## 覆盖：初始阶段与敌人生成、两套敌人配置共用同一机制（普通/精英混编）、
 ## 敌人死亡计数与退出战斗、提前清场立即进入下一阶段、倒计时推进、
 ## 超时失败、下一阶段重新生成（不同配置）、最终阶段清场打开出口、
-## 出口完成、玩家死亡失败、R 重开恢复初始状态、机制在新实例中复现。
+## 出口完成、玩家死亡失败、R 重开恢复初始状态、机制在新实例中复现、
+## 真实攻击输入路径驱动死亡（空格攻击 → AttackTrigger → Health.died → 计数/退出战斗）。
 ##
 ## 用法：godot --headless --path . -s res://Tests/test_timed_combat_arena.gd
 ## 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1。
@@ -13,6 +14,8 @@ const FRAME_BUDGET := 240
 
 var _failures: PackedStringArray = []
 var _finish_events: Array = []
+# GDScript lambda / 局部变量按值捕获，死亡计数必须用成员变量
+var _enemy_died_events := 0
 
 
 func _initialize() -> void:
@@ -244,7 +247,81 @@ func _initialize() -> void:
 	if fresh_wave2 != 3 or not has_elite:
 		_failures.append("新实例第二波应再次生成 2 普通 + 1 精英，实际 %d 个，精英 %s" % [fresh_wave2, has_elite])
 
+	# ---- M. 真实攻击输入路径（Phase 1.12）：空格攻击 → AttackTrigger → Health.died → 计数/退出战斗 ----
+	# 死亡语义不变（仍由 Health 拥有），这里验证的是游戏侧攻击接线真实可用：
+	# 场景把 AttackTrigger 的目标组配成 enemies，玩家在真实物理帧里按攻击键即可击杀敌人。
+	var fresh_player: CharacterBody2D = fresh.get_node("Player")
+	var fresh_health: Health = fresh_player.get_node("Health")
+	var attack: Node = fresh_player.get_node("AttackTrigger")
+	if String(attack.get("target_group")) != "enemies":
+		_failures.append("AttackTrigger 目标组应为 enemies（场景配置），实际 %s" % attack.get("target_group"))
+	var attack_action: String = String(attack.get("attack_action"))
+	var wave2_alive: Array[Node] = []
+	for child in fresh.get_node("Entities").get_children():
+		if child.is_in_group("enemies") and is_instance_valid(child) and not child.is_queued_for_deletion():
+			wave2_alive.append(child)
+	var attack_victim: CharacterBody2D = null
+	for enemy in wave2_alive:
+		var enemy_health: Health = enemy.get_node("Health")
+		if enemy_health.max_health == 5:
+			attack_victim = enemy
+			break
+	if attack_victim == null:
+		_failures.append("第二波应包含可被攻击链击杀的普通敌人（max_health=5）")
+		_report()
+		return
+	# 只把受击目标放在玩家最近处，其余敌人移远：攻击必命中该目标，且不产生接触伤害
+	var attack_victim_health: Health = attack_victim.get_node("Health")
+	attack_victim.global_position = fresh_player.global_position + Vector2(140, 0)
+	var far := 600.0
+	for enemy in wave2_alive:
+		if enemy != attack_victim:
+			enemy.global_position = fresh_player.global_position - Vector2(far, 0)
+			far += 100.0
+	await physics_frame
+	# 死亡会驱动 queue_free，实体随即出树（previously freed）：只通过 died 信号镜像状态，
+	# 之后不再触碰可能已被释放的 Health 节点。
+	attack_victim_health.died.connect(_on_enemy_died)
+	var attack_hp_before: int = attack_victim_health.get_current_health()
+	var attacks := 0
+	while _enemy_died_events == 0 and attacks < attack_hp_before:
+		await _press_attack(attack_action)
+		attacks += 1
+	if _enemy_died_events == 0:
+		_failures.append("真实攻击路径应击杀敌人：%d 次攻击后仍未死亡" % attacks)
+	elif _enemy_died_events != 1:
+		_failures.append("生命值归零应恰好发出一次 died，实际 %d 次" % _enemy_died_events)
+	if fresh_health.get_current_health() != 10:
+		_failures.append("保持距离攻击时玩家不应受接触伤害，实际生命值 %d"% fresh_health.get_current_health())
+	if fresh.alive_count != fresh_wave2 - 1:
+		_failures.append("攻击击杀后存活数应为 %d，实际 %d" % [fresh_wave2 - 1, fresh.alive_count])
+	if not fresh.get_node("HUD/AliveLabel").text.contains(str(fresh_wave2 - 1)):
+		_failures.append("攻击击杀后存活标签应同步，实际 %s" % fresh.get_node("HUD/AliveLabel").text)
+	if fresh.wave_index != 1:
+		_failures.append("仍有敌人存活时不应推进阶段，实际 index %d" % fresh.wave_index)
+	var attack_victim_removed := false
+	for _i: int in FRAME_BUDGET:
+		if not is_instance_valid(attack_victim) or attack_victim.is_queued_for_deletion():
+			attack_victim_removed = true
+			break
+		await physics_frame
+	if not attack_victim_removed:
+		_failures.append("被攻击击杀的敌人应按既有规则退出战斗（等待超时）")
+
 	_report()
+
+
+## 真实攻击输入路径：按下攻击动作，让 AttackTrigger 在真实物理帧里解析目标并结算伤害。
+func _on_enemy_died() -> void:
+	_enemy_died_events += 1
+
+
+func _press_attack(action: String) -> void:
+	Input.action_press(action)
+	await physics_frame
+	await physics_frame
+	Input.action_release(action)
+	await physics_frame
 
 
 func _wait_frames(count: int) -> void:

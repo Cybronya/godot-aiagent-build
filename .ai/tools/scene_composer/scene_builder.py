@@ -14,6 +14,8 @@ Scene Intent 的转换只发生在 CLI 入口（scene_intent.intent_from_bluepri
       * Intent root.groups：加入节点组（玩家/敌人分组契约）
     - 组件：  [node name="<NodeName>" parent="." instance=ExtResource("<id>")]
               每个组件经 Feature Scene Template 解析到 Feature 入口场景。
+              入口场景与 root.scene 相同的组件（实体根即该组件，Phase 1.11）不再作为
+              子节点实例化；组件仍是组合成员（能力/依赖/回归测试照旧）。
     - 额外节点：Intent nodes[]（[node name="<Name>" type="<Type>" parent="."]）
       * node.shape: {type: rectangle|circle, size|radius} 生成 sub_resource
         并挂 shape 属性（ContactDamage/拾取范围等需要 CollisionShape2D）。
@@ -135,10 +137,15 @@ def build_tscn(scene_intent, templates: dict, features_dir: str) -> str:
             body.append("")
 
     # 组件实例（Feature Scene Template -> PackedScene instance）
+    # 根实例组件（Phase 1.11）：入口场景与 root.scene 相同的组件**不**作为子节点实例化 ——
+    # 它的场景就是实体根本身（重复实例化会得到第二个同名行为组件，产生双重移动）。
+    # 判定依据是 Intent 的 root.scene 与模板派生出的入口场景路径（构建期派生，不得命名猜测）。
     next_res = 2 if is_root_instance else 1
     for fid in features:
         template = templates.get(fid) or {}
         res_path = template_scene_path(fid, template, features_dir)
+        if root_scene and res_path == root_scene:
+            continue
         res_id = "%d_%s" % (next_res, fid)
         next_res += 1
         ext_resources.append((res_id, res_path, "PackedScene"))

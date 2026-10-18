@@ -8,6 +8,8 @@
             -> 失败：Composition Error / Missing dependency: damage_receiver
     Test 3: health + contact_damage + chase_movement
             -> 生成 EnemyBasic.tscn 且 Validator PASS
+            （Phase 1.11：实体根 = chase_movement 入口场景实例；组件自带的碰撞结构被推导进
+              nodes[]，实体根不再是一个裸类型节点 + 追击子节点）
 
 用法:
     python .ai/tools/scene_composer/tests/test_scene_composer.py
@@ -132,18 +134,30 @@ def run() -> int:
         scene_path = os.path.join(out3, "EnemyBasic.tscn")
         ok("test3: EnemyBasic.tscn generated", os.path.isfile(scene_path))
         if os.path.isfile(scene_path):
-            # 根类型推导：chase_movement 要求 CharacterBody2D
+            # Phase 1.11：实体根 = chase_movement 的入口场景实例（脚本必须驱动实体根）
             text = io.open(scene_path, encoding="utf-8").read()
-            ok("test3: root is CharacterBody2D", '[node name="EnemyBasic" type="CharacterBody2D"]' in text)
+            ok("test3: root is the chase Feature entry scene instance",
+               '[node name="EnemyBasic" instance=ExtResource("1_root_scene")]' in text
+               and 'path="res://Features/chase_movement/ChaseMovement.tscn" id="1_root_scene"' in text,
+               text.split("\n")[1] if text else "")
             ok("test3: root has no script (Scene 只负责组合)",
-               '[node name="EnemyBasic" type="CharacterBody2D"]\nscript' not in text)
+               '[node name="EnemyBasic" instance=ExtResource("1_root_scene")]\nscript' not in text)
             nodes = parse_tscn_nodes(scene_path)
-            ok("test3: contains Health/ContactDamage/ChaseMovement",
-               all(n in nodes for n in ("Health", "ContactDamage", "ChaseMovement")), str(nodes))
-            # .tscn 头部 load_steps 与 ext_resource 数一致
+            ok("test3: contains Health/ContactDamage",
+               all(n in nodes for n in ("Health", "ContactDamage")), str(nodes))
+            ok("test3: the root instance component is not duplicated as a child node",
+               "ChaseMovement" not in nodes, str(nodes))
+            # 组件自带的碰撞结构（Phase 1.11）：没有形状就没有真实重叠 → 接触伤害不可能结算
+            ok("test3: contact damage carries a collision shape under ContactDamage",
+               'name="ContactShape" type="CollisionShape2D" parent="ContactDamage"' in text)
+            ok("test3: the entity root carries a body collision shape",
+               'name="Collision" type="CollisionShape2D" parent="."' in text)
+            # .tscn 头部 load_steps 与 ext_resource + sub_resource 数一致
             ext_count = text.count("[ext_resource ")
+            sub_count = text.count("[sub_resource ")
             declared = int(text.split("load_steps=")[1].split(" ")[0])
-            ok("test3: load_steps consistent", declared == ext_count + 1, "declared=%d ext=%d" % (declared, ext_count))
+            ok("test3: load_steps consistent", declared == 1 + ext_count + sub_count,
+               "declared=%d ext=%d sub=%d" % (declared, ext_count, sub_count))
         # Validator PASS（结构 + 依赖 + 根类型）
         v = check_scene_composition.check_scene_composition(bp3, scene_path)
         ok("test3: validator PASS", v["failures"] == [], str(v["failures"]))

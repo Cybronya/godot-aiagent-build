@@ -5,46 +5,31 @@
 
 ## 当前状态
 
-Phase 1.6（Runtime Playtest & Self-Repair）已完成并沉淀（AD-010）：静态 Validator 之后新增 Runtime
-Correctness 层（`.ai/tools/runtime/`：Runtime Runner → runtime_result → Runtime Diagnosis →
-Repair Plan → Self Repair → 复验），Validator 增加第 5 阶段 `check_runtime.py`（只判定，不修复）；
-自动修复刻意狭窄（仅 node_not_found + 唯一可定位字面量），且修复无效/引入新错误必须回滚；
-运行契约与安全边界集中在 `.ai/config/runtime-playtest.yaml`；新增 runtime-playtest Skill
-（category: quality，第 20 个 Skill）；AI_ENTRY.md 只增加「Runtime failure → runtime-playtest Skill」路由。
-验证：test_runtime_playtest.py PASS（Test1 正常场景 / Test2 node_not_found / Test3 script_error /
-Test4 TIMEOUT + 分类与解析事实 + Validator 第 5 阶段）、test_self_repair.py PASS（Test5 单次自修
-FAIL→PASS + 多轮尝试 + 回滚 + 不可修复不动项目 + 安全边界）、Godot 全量回归 PASS、
-Validator PASS（20 Skills / 6 categories，0 errors / 0 warnings）。
+Phase 1.25（Semantic Orchestration Traces & Event-Level Regression Coverage）**已完成并实测**（未 commit）。
 
-Round 9（Phase 1.5 Gameplay Loop Composer）已完成并沉淀（AD-009）。Feature 能力链已完成四级：
-
-4. **Gameplay Loop Composer**（AD-009）：需求文本 → gameplay_planner（requirement_parser /
-   blueprint_generator）→ Gameplay Blueprint（survival_game.yaml：entity/scene 复用/systems/
-   loop）+ Entity Relationship Graph（entity_graph.json，Enemy-[attack]->Player）+ System Registry
-   （Systems/*/system.yaml，跨实体流程契约）+ check_gameplay.py（实体场景/能力满足/循环闭合）
-   + gameplay-planner Skill。
-
-Round 8 已完成并沉淀（commit `ae6e4d9`）。Feature 能力链已完成三级：
-
-1. **Metadata Pipeline**（AD-006）：12 个 feature.yaml → 索引生成器
-   （build_feature_index.py → feature_index.json v2）→ Discovery Tool →
-   Metadata Validator（已集成 validate.py 执行链）。
-2. **Composition Planner**（AD-007）：feature.yaml relations 节 + Feature Graph
-   （feature_graph.json，12 节点 27 边）+ compose_features.py（Discovery → 关系图 →
-   评分 → Entity Blueprint）+ check_composition 组合检查 + feature-composition Skill。
-3. **Scene Composer**（AD-008）：Feature Scene Template（12 个 template.yaml）+
-   scene_composer 工具链（composer/builder/resolver/validator）+
-   check_scene_composition.py + test_generator（生成 Tests/test_<id>.gd）+
-   scene-composer Skill（18 Skills）。
-
-验证：test_feature_pipeline PASS + test_composition.py PASS（21 项）+
-test_scene_composer.py PASS（31 项：三用例场景生成/缺前置拒绝/全链校验）+
-test_gameplay_planner.py PASS；端到端：planner "create enemy survival game" →
-survival_game.yaml → scene_composer 重建 Scenes/Enemy.tscn（实例化根覆写，后续 SurvivalArena
-循环 Godot 生存循环测试 PASS）→ check_gameplay PASS；Godot 全量回归 30/30 PASS；
-Validator PASS（0 errors / 0 warnings，19 Skills / 12 Feature metadata）。
-职责定位：Discovery/Composition 输出仅为 recommendation/blueprint，Reuse/Build
-决策归 feature-development.md §3，实现归 feature-development.md + 相关 Skill。
+1. **waves 语义事件（v1 加性扩展，schema_version 仍为 1）**：LevelOrchestrator 在真实
+   转换边界新增三种事件——`wave_started`（_start_wave，data: wave/total/enemies）、
+   `wave_cleared`（_advance_wave，_traced_cleared_wave 幂等守卫）、`exit_unlocked`
+   （exit_door.set_open(true) 边界）。真实捕获 trace 从 2 事件升至 7 事件语义链：
+   started→wave0→clear→wave1→clear→exit_unlocked→victory。
+2. **回放规则**：波次事件仅限 waves 模式（wave_event_outside_waves_mode）；索引递增
+   与清空约束（wave_start_before_clear / wave_start_out_of_order / wave_clear_mismatch）；
+   exit_unlocked 至多一次且须在全部波次清空后（duplicate_exit_unlock /
+   exit_unlocked_before_final_clear）；waves 胜利前须清完全部波次
+   （victory_before_all_waves_cleared）；data.total 首现后固定（wave_total_mismatch）。
+   **向后兼容**：旧 trace（无波次事件）回放行为不变——四条既有基线全部验证仍可回放。
+3. **holdout 审计结论**：开始与计时是同一原子转换（orchestration_started reason=holdout），
+   完成已有 level_victory(survive_duration)——按「不虚构不存在的状态」原则不新增事件，
+   holdout 基线保持 v1。boss 基线零重录。
+4. **基线**：waves 经 candidate→review→apply 显式重批为 **v2**（7 事件）；boss/holdout
+   不变。批准记录含指纹与来源。
+5. **测试**：回放器 R44–R57（14 项新规则，58/58）；比较器 U57–U63（分层语义：回放非法
+   突变 = INVALID_TRACE、回放合法语义变化 = REGRESSION，均 exit 1；64/64）；e2e 独立
+   **171/171 PASS**（T5a–T5d 四模式逐事件比较，含 waves v2）；全量单命令 79 项中
+   78 PASS（e2e 超时覆盖提至 1800s 后通过；唯一失败 = 环境守卫杀 cross_layer 清理阶段，
+   其断言全过）；Godot 八个编排专项全部 exit 0（行为兼容）；unified 36、cross_layer 66、
+   composite 17、level_planner 134；
+   validate.py 0 error / 17 warning（基线不变）。
 
 ## 下一阶段方向
 
@@ -56,6 +41,17 @@ Game Design Skill、提交成果（Phase 1.5 全链成果待 commit），
 或直接串联「自然语言 → Gameplay Blueprint → 全部实体场景 → 验证」的多实体生成演示。
 
 P1-4 Runtime Debug Agent 已由 Phase 1.6（AD-010）覆盖（运行期错误捕获 → 定位 → 修复 → 复验闭环）。
+
+Phase 1.21 之后的建议（按价值排序）：
+
+1. **阶段条件扩展**：在 `clear_enemies` / `defeat_boss` 之外增加可校验的条件（如 Boss 血量阈值、
+   限时生存阶段），仍由 `LevelConfig` 声明、`LevelOrchestrator` 执行，不引入通用状态机框架。
+2. **Boss 生成链路产物化**：让组合器/生成器输出可直接挂 `LevelHost` 的宿主（或在计划中
+   声明宿主适配器入口），避免调用方手工挂载适配节点。
+3. **交叉校验前移到 producer**：`build_boss_level` 接受 `plan` 后直接拒绝宿主根/实例不一致，
+   不必等到 `check_level --plan`；同时把 `on_start` Boss 的“不参与宿主实例校验”写成显式策略。
+4. **Holdout 生成器**（可选）：当前只手工编写 holdout 配置；若确有需求再扩 `generator_scope`，
+   不为了对称性虚构能力。
 
 ## AD 候选（挂起，观察中）
 

@@ -1,0 +1,65 @@
+{
+  "schema": {
+    "id": "level_orchestration",
+    "version": 2
+  },
+  "level": {
+    "id": "timed_combat_arena",
+    "arena_scene": "res://Scenes/TimedCombatArena.tscn"
+  },
+  "mode": "waves",
+  "entities": {
+    "elite_enemy": {
+      "scene": "res://Scenes/EliteEnemy.tscn"
+    },
+    "enemy": {
+      "scene": "res://Scenes/Enemy.tscn"
+    }
+  },
+  "waves": [
+    {
+      "id": "wave_1",
+      "duration": 30.0,
+      "entries": [
+        {
+          "entity": "enemy",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "wave_2",
+      "duration": 30.0,
+      "entries": [
+        {
+          "entity": "enemy",
+          "count": 2
+        },
+        {
+          "entity": "elite_enemy",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "wave_3",
+      "duration": 35.0,
+      "entries": [
+        {
+          "entity": "enemy",
+          "count": 4
+        },
+        {
+          "entity": "elite_enemy",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "exit": {
+    "unlock_when": "all_waves_cleared"
+  },
+  "victory": {
+    "condition": "exit_reached_after_unlock"
+  }
+}

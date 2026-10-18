@@ -38,10 +38,70 @@ asset_binding:
   schema: asset_binding_schema.yaml
   schema_version: 2                                    # 与 asset_binding_schema.yaml version 一致
   producer:                                            # 生成 asset_bindings/*.yaml 的三条链路
-    cli: asset_registry/bind_assets.py
+    cli: asset_registry/bind_assets.py                 # 显式绑定覆盖输入支持可选 entity 作用域（Phase 1.15，I1）：
+                                                       #   {role, asset}          角色级（历史格式，作用于全部实体）
+                                                       #   {entity, role, asset}  实体作用域（只路由到该实体）
+                                                       #   未知实体 → binding_scope_errors（exit 1，可定位）；
+                                                       #   类型门禁拒绝 audio↔visual 错配且不回退推断。
+                                                       #   权威实现：bind_assets.parse_explicit_bindings
     scene_composer: scene_composer/asset_nodes.py      # --bind-assets 消费端入口
     runtime_repair: runtime/asset_repair.py            # Asset Self-Repair 重建入口
-  validator: asset_registry/check_binding_schema.py    # schema_version 健康；不自动迁移
+  scope_rule_test: asset_registry/tests/test_binding_scope.py    # I1-A…I1-G + S6（身份解析）
+  cross_layer_test: validator/tests/test_cross_layer_contract.py # C9（作用域边界）
+  e2e_adoption:                                        # Phase 1.16：实体作用域接入主生成链路
+    flow: "feature_discovery(payload.role) + gameplay 蓝图实体清单
+          → discovery_to_binding --resolve-entity-from（解析唯一实体 id，打上 {entity,role,asset}）
+          → bind_assets --gameplay --binding（作用域路由）→ scene_composer --bindings（落盘 .tscn）
+          → 真实 Godot headless（G8/G9/G10a）"
+    zero_or_ambiguous_role: "exit 1 + no_entity_with_role / ambiguous_entity_role（不猜测归属）"
+    legacy_path: "缺省（无 --entity/--resolve-entity-from）仍产出 {role, asset}（e2e C3b/I2）"
+    test: e2e/tests/test_end_to_end_generation.py      # C2a/C3/C3b/C6/D6/D7/D8/I1/I1b/I2（场景 1–6）
+  dual_entity_adoption:                                # Phase 1.17：双实体显式绑定闭环 + 多实体组合
+    player_flow: "player discovery（role=player）→ --resolve-entity-from（player probe 蓝图唯一
+          player 实体）→ bind_assets（player_* 全部 resolved_from=binding）
+          → scene_composer 生成 E2eProbePlayer.tscn"
+    no_cross_leak: "enemy 场景无 characters/player 资源、player 场景无 characters/enemy 资源
+          （静态 L8）+ 运行时子树资源归属断言（L13/L14，真实 Godot）"
+    composition:
+      implementation: scene_composer/composite.py      # 最小实现：Godot 原生 instancing
+      rule: "宿主 .tscn 只声明 ext_resource + [node ... instance=ExtResource]；
+             绝不复制/拼接实体场景内部文本；输入场景字节不变；实例名 = 实体场景根名（冲突自动消歧）"
+      e2e: "L9/L10（组合与无拼接）+ L11（真实 Godot headless status=PASS）+
+            L12–L15（实例存在/命名唯一/运行时资源归属/探针清理）"
+  composition_plan:                                    # Phase 1.18：正式组合入口 + 运行时交互契约
+    schema: scene_composer_schema.yaml#composition_plan
+    implementation: scene_composer/composite.py        # compose_from_plan（唯一实现）
+    formal_entry: scene_composer/scene_composer.py --compose-plan <plan.yaml>
+                                                       # [--dry-run]；失败绝不留产物
+    generator: scene_composer/plan_generator.py         # Phase 1.19：蓝图为源、自动生成计划
+    generation:
+      input: "gameplay blueprint + 已生成实体场景（override > entities.<id>.scene >\n			Scenes/<Pascal(entity_id)>.tscn 约定）"
+      targets: "只接受 --target SRC:DST 或 --relations <entity_graph.json> --relation NAME；\n			绝不按 role 推断；source 必顶 Feature 声明 target_path（feature_index interfaces）"
+      instance_name: "Pascal(entity_id)；同名派生冲突 = 拒绝（不静默消歧）"
+      validation: "复用 compose_from_plan（临时目录真实试组合后删除）→ 不新增独立 plan Validator 层"
+      write: "全部校验通过后才原子写入（.tmp + os.replace）；失败无产物"
+      cli: "plan_generator.py <blueprint> --host NAME --out PLAN.yaml [--entity-scene E=P]\n			[--target S:T] [--relations G --relation N] [--dry-run] [--json]"
+      unit_test: scene_composer/tests/test_plan_generator.py   # Q1–Q12（24 项）
+      e2e: e2e/tests/test_end_to_end_generation.py             # M1–M6（计划的真实消费见 L9/L10/L16/L17）
+    targets: "宿主在追击方实例节点写 target_path = NodePath('../<目标实例名>')；
+             与 chase_movement 相对解析契约一致；目标未知 = 拒绝生成（exit 1）"
+    input_claim: ">1 个实例场景引用 player_controller.gd = 拒绝（输入动作争用禁止）"
+    identity_rule: "实体身份（蓝图 entity id）≠ 宿主实例名 ≠ 运行时 target 引用（NodePath）"
+    unit_test: scene_composer/tests/test_composite.py  # P1–P7
+    runtime_test: e2e L16–L17                          # 真实 Godot：target_path 解析 + 真实接近
+  validator: asset_registry/check_binding_schema.py    # schema_version + 记录健康度（Phase 1.17）；
+                                                       # 记录级 role/asset/entity 检查、--gameplay 实体
+                                                       # 存在性（未知实体=ERROR）、binding_scope_errors
+                                                       # 契约字段；无 --gameplay = note（信息不足）；
+                                                       # 业务规则唯一权威仍是 bind_assets，不自动迁移
+  schema_check_test: asset_registry/tests/test_binding_schema_checks.py  # S1–S9
+  unified_layer:                                       # Phase 1.18：接入统一 Validator
+    layer: binding                                     # LAYERS = scene/gameplay/level/binding/runtime
+    implementation: validator/unified.py#run_binding_layer   # 复用 check_bindings（唯一实现，零规则复制）
+    cli: validate.py --bindings-dir <dir> [--gameplay-blueprint <yaml>]
+                                                       # 无蓝图 = info 诊断 BINDING_INFO_INSUFFICIENT_INPUT
+                                                       #（如实展示，不计入 error/warning 基线）
+    layer_test: validator/tests/test_unified_validator.py    # C10-e
   output_dir: asset_bindings                           # 产物均为 Generated Data
   version: 2
 
@@ -87,6 +147,102 @@ feature_registry:
 gameplay_blueprint:
   schema: gameplay_schema.yaml
   version: 1
+  cli: gameplay_planner/planner.py                     # "<requirement>" [--id] [--out] [--emit-entities]
+  entity_blueprints:                                   # Phase 1.9：Gameplay Blueprint -> 每实体 Entity Blueprint
+    emitter: gameplay_planner/blueprint_generator.py    # entity_blueprints / write_entity_blueprints（唯一实现）
+    cli_flag: --emit-entities <dir>                     # 写出 <entity_id>.yaml（planning 层，不生成场景）
+    output_schema: scene_schema.yaml                    # 产物是 Entity Blueprint（Scene Composer 的合法输入）
+    skips:                                              # 不产出的实体（不臆造事实）
+      - 已声明 scene: 的复用实体（重生成会覆盖既有场景）
+      - 无 features 的实体（check_gameplay 已报 Gameplay entity <id> has no features）
+    consumer: scene_composer/scene_composer.py          # 逐实体生成场景
+    boundary: scene_composer 不接受 Gameplay Blueprint（报 has no components）
+    test: e2e/tests/test_end_to_end_generation.py       # A 段（+ G3/G4 闭环；
+                                                       #  Phase 1.11 起含结构语义 G6b–G6d、
+                                                       #  玩法断言 G10f–G10h、受控负向 G12）
+
+level_orchestration:                                   # Phase 1.13 建立；Phase 1.20 增加 boss 模式；
+                                                       # Phase 1.22 增加结构化诊断事件（只观测）
+  schema: level_schema.yaml                            # 字段/合法值/默认值/校验规则（Source of Truth）
+  version: 2                                           # v2 增加 mode/holdout/boss；v1 遗留 waves 配置仍有效
+  cli: gameplay_planner/level_planner.py               # <gameplay.yaml> --out Levels/<id>.json
+                                                       # [--waves N] [--wave-size N] [--wave "entity:count"]...
+                                                       # boss：--mode boss --boss <entity> --plan <composition_plan.yaml>
+                                                       # 多阶段：--stage clear:<entity>:<count> --stage boss [--stage complete]
+  producer: gameplay_planner/level_planner.py          # build_level / build_boss_level / write_level（唯一实现）
+  validation_impl: gameplay_planner/level_planner.py#validate_level   # producer 与 validator 共用
+  validator: validator/check_level.py                  # 独立 CLI；validate.py --level 可编排同一实现（Phase 1.15）
+  generated_data: Levels/<level_id>.json               # Generated Data（可按 producer 重建）
+  format: json                                         # Godot 无 YAML 解析；运行时 FileAccess + JSON.parse_string
+  runtime_impl: Orchestration/level_orchestrator.gd    # LevelOrchestrator：波次/生成/计数/出口/Boss/胜利（场景无关）
+  config_impl: Orchestration/level_config.gd           # LevelConfig：解析 + 校验 + 归一化（镜像同一规则集）
+  host_adapter: Orchestration/level_host.gd            # LevelHost：生成/组合宿主的通用适配（注入节点引用 + boss 绑定）
+  modes:                                               # 同一实现服务三种编排语义
+    waves:                                             # 顺序波次（Phase 1.13 语义，默认）
+      adapter: Scenes/timed_combat_arena.gd            # 场景适配层：节点引用 + HUD 表现
+      level: Levels/timed_combat_arena.json            # 发布配置（version 2, mode: waves）
+    holdout:                                           # 生存坚守（持续生成调度 + 生存胜利）
+      adapter: Scenes/survival_arena.gd                # 场景适配层：拾取物/陷阱/HUD/冻结
+      level: Levels/survival_arena.json                # 发布配置（version 2, mode: holdout）
+    boss:                                              # 单一显式 Boss（Phase 1.20）
+      adapter: Scenes/boss_challenge.gd                # 场景适配层：HUD/表现/Boss 停摆（胜负归编排器）
+      level: Levels/boss_challenge.json                # 发布配置（version 2, mode: boss）
+      instance_source:
+        - existing (boss.instance 显式点名)
+        - on_start (从 entities[boss.entity].scene 生成)
+      host_adapter: Orchestration/level_host.gd        # 无专属脚本的组合宿主由 LevelHost 接线
+      multi_stage:                                     # Phase 1.21：可选 stages 显式阶段链
+        stages: [clear_enemies, defeat_boss, "complete_level (optional terminal)"]
+        order: stages 数组顺序（不按目录/节点遍历/名称匹配）
+        events: stage_started / stage_completed / stages_completed（各恰好一次）
+        instance_source: existing（跨契约校验）/ on_start（Boss 在 defeat_boss 阶段生成）
+  legacy_path: Scenes/timed_combat_arena.gd#waves      # 手写 waves 仍兼容（level_config_path 留空时）
+  legacy_holdout_path: Scenes/survival_arena.gd        # 遗留导出（survival_duration/spawn_interval/...）仍兼容
+  resolver: "复用声明 scene: 优先，其次 Scenes/<Pascal>.tscn 生成约定"   # 只做存在性解析，不选资源不编造
+  defaults:
+    wave_duration: 30.0
+    exit_unlock_when: all_waves_cleared
+    victory_condition: exit_reached_after_unlock       # waves 默认；holdout 为 survive_duration
+  supported_values:
+    exit.unlock_when: [all_waves_cleared, never]       # 仅 waves
+    exit.unlock_when_boss: [boss_defeated, never]      # 仅 boss
+    victory.condition: [exit_reached_after_unlock, all_waves_cleared]   # 仅 waves
+    victory.condition_holdout: [survive_duration]      # 仅 holdout
+    victory.condition_boss: [boss_defeated, exit_reached_after_unlock]  # 仅 boss
+  known_limits:                                        # 如实记录（不宣称为已支持）
+    - holdout 无出口概念；顺序波次仅 waves 模式支持
+    - boss 模式与 waves/holdout 互斥；多阶段 Boss 只在 stages 内组合，不复用 waves/holdout 块
+    - stages 的 on_start Boss 不与 composition_plan 做实例交叉校验（运行时生成，无宿主实例）
+    - 拾取物 / 陷阱 / 奖励机关由场景适配层管理，不纳入关卡编排配置
+    - generator 产出 waves / boss 配置；holdout 配置为手工编写
+  runtime_test: Tests/test_level_orchestration.gd       # L7–L15：配置驱动的生成/波次/出口/胜负（真实 Godot）
+  generic_test: Tests/test_generic_level_orchestration.gd   # Phase 1.14：G1–G13 通用编排（真实 Godot）
+  boss_test: Tests/test_boss_orchestration.gd          # B1–B5 Boss 生命周期 / 失败路径 / 接入；
+                                                       #   B6 多阶段：清理→激活→击败→完成 / 提前死亡 / 幂等 / 非法配置
+  unit_test: gameplay_planner/tests/test_level_planner.py   # L1–L9 校验（含 holdout/boss/版本兼容）；
+                                                       #   L10 多阶段契约 + 生成；L11 交叉校验 + CLI
+  cross_layer_test: validator/tests/test_cross_layer_contract.py  # Phase 1.15：C1–C8 同一正反例在
+                                                       #   Python validate_level 与 Godot LevelConfig 两层判定一致；
+                                                       #   C10 boss；C11 多阶段阶段链正反例
+  pipeline_test: e2e/tests/test_end_to_end_generation.py    # K 段（生成物 + 生成配置 + 运行时）；
+                                                       #   N 段（Phase 1.20 Boss）；P 段（Phase 1.21 多阶段）
+  probe: e2e/level_orchestration_probe.py              # 生成配置的运行时消费探针（机读 LEVEL: 行）
+  boss_probe: e2e/boss_level_probe.py                  # boss 生成链路探针（机读 BOSS: 行）
+  stage_probe: e2e/multi_stage_boss_probe.py           # 多阶段生成链路探针（机读 STAGE: 行）；
+                                                       # Phase 1.22 导入真实 trace → Tests/e2e_multi_stage_boss_trace.json
+  diagnostics:                                         # Phase 1.22：结构化诊断事件（只观测生产状态机）
+    schema: orchestration_trace_schema.yaml            # 事件契约 / reason 代码 / 回放规则（Source of Truth）
+    schema_version: 1
+    recorder: Orchestration/orchestration_trace.gd     # OrchestrationTrace：内存事件 + 严格序号 + JSON 导出
+    producer: Orchestration/level_orchestrator.gd      # start/stage/boss/terminal/duplicate/invalid 真实边界写入
+    export: Orchestration/level_orchestrator.gd#export_trace_json   # 显式路径；失败返回 false
+    toggle: trace_enabled = false                      # 关闭后零事件且游戏行为不变
+    runtime_test: Tests/test_orchestration_trace.gd    # T1–T8：契约/幂等/失败/关闭/导出/卸载/waves+holdout
+    replay_impl: validator/trace_replay.py             # 只读回放器 + CLI（--json；不驱动游戏）
+    replay_test: validator/tests/test_orchestration_trace.py   # R1–R43 人工序列契约用例
+    e2e: e2e/tests/test_end_to_end_generation.py       # P14–P18：真实 trace → 独立回放 → 状态一致 /
+                                                       #   确定性 / 去终结事件后为 playing / 临时 trace 清理
+    boundary: "回放器不写入游戏；事件不是胜负/阶段转换的触发源（权威 = LevelOrchestrator）"
 
 scene_composition:
   schema: scene_schema.yaml                            # Scene Blueprint / template.yaml 格式（不变）
@@ -122,6 +278,11 @@ scene_composition:
     external_artifact_test: scene_composer/tests/test_external_artifact_evidence.py   # Phase 1.8.16
     instance_ownership: scene_composer/component_instance_ownership.py # Phase 1.8.17：声明 → 产物实例节点（归属）
     instance_ownership_test: scene_composer/tests/test_component_instance_ownership.py  # Phase 1.8.17
+    entity_root_instance: scene_composer/template_loader.py#attach.root_instance  # Phase 1.11：
+                                                       # 成员入口场景即实体根（推导 root.scene）
+    entity_root_instance_test: scene_composer/tests/test_entity_root_instance.py   # Phase 1.11
+    attach_nodes: scene_composer/template_loader.py#attach.nodes  # Phase 1.11：组件自带结构节点
+                                                       # （碰撞形状）→ Scene Intent nodes[]
     boundary_helpers: scene_composer/scene_intent.py   # intent_document / intent_components /
                                                        # intent_root / intent_from_blueprint（唯一实现）
   compatibility_gate:                                  # Phase 1.8.9：生成前闸门（Scene Intent → Gate → Builder）
@@ -143,11 +304,13 @@ scene_composition:
       module: scene_composer/scene_builder.py
       input: scene_intent
       legacy_input: rejected                           # 规整内部 dict 传入即 ValueError
+      root_instance_rule: 入口场景 == root.scene 的组件不作为子节点实例化  # Phase 1.11
     scene_validator:                                   # Phase 1.8.8
       module: scene_composer/scene_validator.py
       input: scene_intent
       legacy_input: rejected
       rules_changed: false                             # 仅字段来源换位（features / root_type）
+      root_instance_rule: 计划声明根实例时改判根实例，静态解析被引用场景根类型（缺根实例 / 重复子节点为失败）  # Phase 1.11
     test_generator:                                    # Phase 1.8.8
       module: test_generator/generate_scene_test.py
       input: scene_intent
@@ -240,15 +403,30 @@ scene_composition:
 # ---------- Validation ----------
 
 validator:
-  entrypoint: validator/validate.py                    # 完整链：Project→Feature→Asset→BindingSchema→Scene→...
-  stages:
+  entrypoint: validator/validate.py                    # 实际执行链：Framework→SkillRegistry→Project→Feature→Asset→BindingSchema
+                                                       # + Layer Checks（Phase 1.15：按 flag 编排下列各层，缺省不执行）
+  integrated_stages:                                   # validate.py 内真正调用的阶段
     - validator/check_assets.py                        # Asset Validation（路径/类型/绑定/同步）
     - asset_registry/check_binding_schema.py           # Binding Schema Validation
+  layer_checks:                                        # Phase 1.15：validate.py 以编排器方式调用既有检查器
+    orchestrator: validator/unified.py                 # run_layers / 结构化诊断 {layer,code,severity,location,path,reason,hint}
+                                                       # 稳定错误代码；Runtime 层 Godot 缺失 → unavailable（INCOMPLETE，非零退出）
+    flags:                                             # 各层显式 opt-in（缺省不执行，行为兼容）
+      - "--scene-blueprint <yaml>"                     # → check_scene_composition（场景缺省按 root.name 推导）
+      - "--gameplay-blueprint <yaml>"                  # → check_gameplay
+      - "--level <json>"                               # → check_level（level_planner.validate_level）
+      - "--level-plan <yaml>"                          # 与对应 --level 位置配对；启用 LevelConfig ↔ composition_plan 交叉校验
+      - "--runtime-scene <res://...>"                  # → check_runtime + run_scene（真实 Godot headless，耗时）
+      - "--runtime-result <json>"                      # → check_runtime（只判定既有结果，不启动 Godot）
+    test: validator/tests/test_unified_validator.py    # C10：汇总/稳定代码/不可用语义
+  standalone_stages:                                   # 独立 CLI（仍可单独运行；Layer Checks 编排同一实现）
     - validator/check_scene_composition.py             # Scene Validation
     - validator/check_gameplay.py                      # Gameplay Validation
+    - validator/check_level.py                         # Level Orchestration Validation（Phase 1.13）；
+                                                       #   --plan 启用交叉校验（Phase 1.21）
     - validator/check_runtime.py                       # Runtime Validation
   contract: 只 CHECK/REPORT；修复归 runtime/self_repair.py，修改资源属人工权限
-  version: 1
+  version: 2                                           # Phase 1.15：+Layer Checks 编排与统一诊断
 
 # ---------- Runtime ----------
 
@@ -257,6 +435,36 @@ runtime_playtest:
   runner: runtime/run_scene.py
   runtime_result_schema: runtime_result_schema.yaml
   version: 1
+
+orchestration_trace:                                   # Phase 1.22：诊断事件与只读回放（定义见 level_orchestration.diagnostics）
+  schema: orchestration_trace_schema.yaml
+  schema_version: 1
+  replay_cli: validator/trace_replay.py
+  exit_codes: {0: valid, 1: contract_violation, 2: input_error}
+  golden_baselines:                                    # Phase 1.23：黄金 Trace 基线与回归判定
+    baseline_dir: .ai/tools/validator/baselines        # <scenario_id>.json（版本控制内，逐事件 = 真实 Godot trace）
+    baseline_schema_version: 1                         # 与 trace schema_version 显式互检（不匹配 = 拒绝）
+    scenarios: [multi_stage_boss, single_stage_boss, waves, holdout]
+                                                       # waves = v2（Phase 1.25 波次语义事件：
+                                                       # wave_started/wave_cleared/exit_unlocked，
+                                                       # 7 事件链）；holdout 保持 v1（开始与计时是
+                                                       # 同一原子转换，完成已有 survive_duration
+                                                       # victory——不虚构不存在的状态）；schema v1
+                                                       # 加性扩展，旧基线零重录
+                                                       # 覆盖：Boss 单/多阶段 + waves（清波→出口→Victory）
+                                                       # + holdout（持续生成→survive_duration Victory）；
+                                                       # 全部来自真实 Godot 沙箱捕获 + 显式批准（Phase 1.24）
+    comparator: validator/trace_baselines.py           # 只读比较器 + CLI（先回放后比较；不排序、不只比数量）
+    comparator_cli: "python .ai/tools/validator/trace_baselines.py <trace.json> --scenario <id> [--json]"
+    exit_codes: {0: PASS, 1: REGRESSION/INCOMPLETE/INVALID_TRACE, 2: BASELINE_MISSING/INVALID_BASELINE}
+    dynamic_fields: {ignored_event_fields: [run_id, timestamp_ms]}   # 显式策略；data 默认 strict
+    approval_flow: e2e/approve_trace_baselines.py      # candidate → review → apply --i-approve（测试绝不写基线）；
+                                                       # Phase 1.24：review/apply 都从候选**文件内容**重算指纹并与
+                                                       # 记录指纹比对（篡改/替换候选 = 拒绝，exit 1，基线不动）；
+                                                       # apply 原子写入（同目录 tmp + os.replace，不留半写入文件）
+    candidates: "候选只来自真实 Godot 捕获（e2e/trace_baseline_capture.py，沙箱内完整生成链路）"
+    e2e: e2e/tests/test_end_to_end_generation.py       # T 段 T1–T14（真实捕获 + 逐事件比较 + 差异注入）
+    unit_test: validator/tests/test_trace_baselines.py # U1–U48（比较器/策略/批准流程/异常输入）
 
 runtime_diagnosis:
   cli: runtime/diagnose_runtime.py

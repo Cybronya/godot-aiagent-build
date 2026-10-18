@@ -187,9 +187,17 @@ def discover(query_text: str, role: str = "", top_n: int = 3,
             score, _reasons = discovery.match_feature(record, terms)
             # 角色强匹配加分：entity_roles 命中该角色时纳入
             role_hit = resolved_role in ((record.get("relations") or {}).get("entity_roles") or [])
-            if score > 0 or (role_hit and (set(record.get("provides") or []) & terms)):
-                features.append(record["id"])
-                feature_capabilities[record["id"]] = list(record.get("provides") or [])
+            if not (score > 0 or (role_hit and (set(record.get("provides") or []) & terms))):
+                continue
+            # 反混淆（与 compose_features.plan 同一规则）：非 player 角色的需求里出现
+            # "player" 通常只说明「以玩家为目标」，不是「玩家组件入组合」；仅提供玩家
+            # 专属能力的 Feature 不得进入非玩家角色（否则敌方实体会被实例化
+            # input_driven_movement）。种子路径（4b）已遵守同一规则，此处对齐。
+            provides = set(record.get("provides") or [])
+            if resolved_role != "player" and provides & {"player_control", "input_driven_movement"}:
+                continue
+            features.append(record["id"])
+            feature_capabilities[record["id"]] = list(record.get("provides") or [])
         features.sort()
     else:
         diagnostics.append({

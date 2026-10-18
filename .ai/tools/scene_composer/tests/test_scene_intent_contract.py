@@ -183,6 +183,15 @@ def run() -> int:
     ok("nodes-dropped gap carries target_behavior",
        any(g.get("id") == "entity_blueprint_nodes_dropped" and g.get("target_behavior")
            for g in gaps))
+    # Phase 1.11：该 gap 的 target_behavior 已实现 → 契约状态必须改为已关闭
+    # （实现落地后仍标 open 视为文档/实现不一致）。
+    ok("nodes-dropped gap marked closed_in_1_11",
+       any(g.get("id") == "entity_blueprint_nodes_dropped"
+           and g.get("status") == "closed_in_1_11" for g in gaps),
+       repr([g.get("status") for g in gaps if g.get("id") == "entity_blueprint_nodes_dropped"]))
+    ok("the closed gap records its closure evidence",
+       any(g.get("id") == "entity_blueprint_nodes_dropped" and g.get("closed_by")
+           for g in gaps))
 
     # ---- 10. Persistence 决策 ----
     print("=== 10. Persistence decision ===")

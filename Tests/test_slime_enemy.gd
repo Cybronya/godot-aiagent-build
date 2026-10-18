@@ -21,8 +21,8 @@ func _initialize() -> void:
 		_failures.append("Missing Feature node: Health")
 	if entity.get_node_or_null("ContactDamage") == null:
 		_failures.append("Missing Feature node: ContactDamage")
-	if entity.get_node_or_null("ChaseMovement") == null:
-		_failures.append("Missing Feature node: ChaseMovement")
+	if not (entity is CharacterBody2D):
+		_failures.append("Missing Feature root: chase_movement (entity root must be CharacterBody2D)")
 
 	# Signal Exists
 	var health_node = entity.get_node_or_null("Health")

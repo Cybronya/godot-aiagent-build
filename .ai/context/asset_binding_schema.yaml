@@ -74,6 +74,26 @@ binding:
 #   - role: move
 #     asset: slime_move
 # 显式绑定优先于索引推断；引用不存在的 asset 会被记入 missing，不会静默忽略。
+#
+# entity 作用域（Phase 1.15，I1 —— 可选字段，向后兼容；Phase 1.16 起接入 e2e 主生成链路：
+#   discovery_to_binding --resolve-entity-from <gameplay.yaml> 由 payload.role + 蓝图实体
+#   清单解析唯一实体 id 并打上作用域，零/多匹配 → exit 1 可诊断，不猜测归属）：
+#   - entity: slime_enemy        # 可选；绑定只作用于该 entity id
+#     role: move
+#     asset: slime_move
+#   规则（bind_assets.py 解析端为唯一权威实现）：
+#   - {role, asset}              —— 角色级（历史格式）：作用于文档内全部实体；
+#                                   多实体文档中按既有明确规则处理：应用到全部实体并
+#                                   逐条计算 compatibility（主体冲突 → INCOMPATIBLE →
+#                                   Validator ERROR），条目 note 标注作用域来源。
+#   - {entity, role, asset}      —— 实体作用域：只路由到该实体；
+#                                   作用域指向不存在实体 → binding_scope_errors
+#                                   （含文件/条目位置/目标实体/原因，CLI exit 1）。
+#   - 解析优先级：实体作用域 > 角色级 > 索引推断。
+#   - 类型门禁：sfx 角色要求 audio 资源、其余角色要求可实例化视觉资源；
+#     类型不匹配记入 missing（可定位原因），且不回退到索引推断（不静默降级）。
+#   - 结构非法条目（缺 role/asset、重复绑定、非 mapping）一律进 binding_scope_errors，
+#     不静默跳过。
 
 # ---------- 节点命名与合并 ----------
 # 后缀: Anim(AnimatedSprite2D) / Sprite(Sprite2D) / Sfx(AudioStreamPlayer)
@@ -148,3 +168,14 @@ example:
             confidence: high
         missing: []
         optional_missing: []
+
+# ---------- 静态健康检查（asset_registry/check_binding_schema.py，Phase 1.17） ----------
+# 在既有 schema_version 检查（缺失/非整数/不支持版本 = ERROR）之上新增记录级检查：
+#   1. 每条绑定记录必须有非空 str 的 role 与 asset（输出文档与显式输入文档同规则）
+#   2. 可选 entity 字段若出现必须是非空 str（entity-scoped 记录）
+#   3. --gameplay <blueprint> 给出时：entity-scoped 记录的 entity 必须在蓝图实体清单里
+#      （未知实体 = ERROR，与 bind_assets 的 binding_scope_errors 语义一致）
+#   4. 未给 --gameplay：记入 note（信息不足），绝不推断绑定有效或无效
+#   5. binding.binding_scope_errors[] 条目必须携带 entity/role/location/reason
+#      （与 bind_assets 的诊断契约一致）
+# 业务规则（优先级/推断/作用域路由）的唯一权威仍是 bind_assets；本工具只做静态检查。

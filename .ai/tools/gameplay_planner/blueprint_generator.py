@@ -180,3 +180,55 @@ def blueprint_to_yaml_text(bp: dict) -> str:
     """把 Blueprint 转成可落盘的 YAML 文本（够用子集，不引入额外依赖时用 yaml.dump）。"""
     import yaml
     return yaml.safe_dump(bp, allow_unicode=True, sort_keys=False)
+
+
+# ---------- 每实体 Entity Blueprint 产出（Phase 1.9 闭环缺口修复） ----------
+# 契约：.ai/context/scene_schema.yaml（Entity Blueprint -> Scene Blueprint 推导规则）
+# 与 .ai/context/composition_schema.yaml。
+#
+# 定位：Gameplay Blueprint 的 entities 是「组合计划」，Scene Composer 只接受
+# Entity Blueprint / Scene Blueprint。缺这一层转换时，「Gameplay Blueprint -> 每实体
+# 场景 -> check_gameplay」这条已写进文档的链路无法真正串起来（composer 会把
+# Gameplay Blueprint 误判成空实体蓝图并报 no components）。本层是纯计划层转换：
+# 不生成场景、不选资源、不写第二套管线（场景仍由 scene_composer 唯一生成）。
+
+
+def entity_blueprints(blueprint: dict) -> dict:
+    """Gameplay Blueprint -> {entity_id: Entity Blueprint}（Scene Composer 的合法输入）。
+
+    只产出「需要生成场景」的实体，其余沿用既有事实来源，不臆造：
+        - 已声明 scene:（复用既有场景）的实体不产出 —— 场景已存在，重生成会覆盖它；
+        - 无 features 的实体不产出（check_gameplay 已报 Gameplay entity <id> has no features）。
+    Entity Blueprint 随后由 Scene Composer 按 scene_schema.yaml 的推导规则展开
+    （scene.id = entity.id，root.name = PascalCase(entity.id)）。
+    """
+    result = {}
+    for entity_id, entry in (blueprint.get("entities") or {}).items():
+        if not isinstance(entry, dict):
+            continue
+        if str(entry.get("scene") or "").strip():
+            continue
+        features = [str(f) for f in (entry.get("features") or []) if str(f).strip()]
+        if not features:
+            continue
+        result[str(entity_id)] = {
+            "entity": {"id": str(entity_id),
+                       "role": str(entry.get("role") or "entity")},
+            "features": features,
+            "validation": {"required_tests": list(features)},
+        }
+    return result
+
+
+def write_entity_blueprints(blueprint: dict, out_dir: str) -> list:
+    """把每实体 Entity Blueprint 写到 out_dir/<entity_id>.yaml，返回路径列表（排序稳定）。"""
+    blueprints = entity_blueprints(blueprint)
+    if out_dir and not os.path.isdir(out_dir):
+        os.makedirs(out_dir)
+    written = []
+    for entity_id in sorted(blueprints):
+        path = os.path.join(out_dir, "%s.yaml" % entity_id)
+        with io.open(path, "w", encoding="utf-8", newline="\n") as f:
+            f.write(blueprint_to_yaml_text(blueprints[entity_id]))
+        written.append(path)
+    return written

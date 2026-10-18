@@ -1,0 +1,38 @@
+{
+  "schema": {
+    "id": "level_orchestration",
+    "version": 2
+  },
+  "level": {
+    "id": "survival_arena",
+    "arena_scene": "res://Scenes/SurvivalArena.tscn"
+  },
+  "mode": "holdout",
+  "entities": {
+    "enemy": {
+      "scene": "res://Scenes/Enemy.tscn"
+    },
+    "elite_enemy": {
+      "scene": "res://Scenes/EliteEnemy.tscn"
+    }
+  },
+  "holdout": {
+    "survival_duration": 30.0,
+    "max_alive": 12,
+    "spawns": [
+      {
+        "entity": "enemy",
+        "interval": 1.2
+      },
+      {
+        "entity": "elite_enemy",
+        "delay": 10.0,
+        "interval": 8.0,
+        "max_alive": 2
+      }
+    ]
+  },
+  "victory": {
+    "condition": "survive_duration"
+  }
+}

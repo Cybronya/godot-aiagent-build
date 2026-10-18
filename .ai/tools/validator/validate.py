@@ -212,6 +212,26 @@ def parse_skill(skill_dir: Path, r: Reporter):
 def main():
     p=argparse.ArgumentParser(description="Validate the Godot Agent Skill Framework.")
     p.add_argument("--config-dir",type=Path,default=Path(__file__).resolve().parents[2]/"config")
+    # Phase 1.15：Layer Checks（编排既有检查器，统一汇总；缺省不执行，保持原有行为）
+    p.add_argument("--scene-blueprint", action="append", default=[],
+                   help="Scene/Entity blueprint for the Scene layer (repeatable)")
+    p.add_argument("--gameplay-blueprint", action="append", default=[],
+                   help="Gameplay blueprint for the Gameplay layer (repeatable)")
+    p.add_argument("--level", action="append", default=[],
+                   help="Level orchestration config for the Level layer (repeatable)")
+    p.add_argument("--level-plan", action="append", default=[],
+                   help="composition_plan for the corresponding --level (Phase 1.21; "
+                        "repeatable, positional pairing); enables identity cross-check")
+    p.add_argument("--bindings-dir", action="append", default=[],
+                   help="asset binding directory for the Binding layer (Phase 1.18;"
+                        " repeatable); pair with --gameplay-blueprint to also validate"
+                        " entity-scoped bindings against declared entities")
+    p.add_argument("--runtime-scene", action="append", default=[],
+                   help="res:// scene for a real Godot headless runtime playtest (slow; repeatable)")
+    p.add_argument("--runtime-result", action="append", default=[],
+                   help="existing runtime_result JSON judged without running Godot (repeatable)")
+    p.add_argument("--project-root", default=str(TOOLS_DIR.parent.parent),
+                   help="Godot project root for layer checks (default: repository root)")
     args=p.parse_args(); config_dir=args.config_dir.resolve(); r=Reporter()
     print("Godot Agent Skill Framework Validator"); print(f"Config: {config_dir}")
     files={k:config_dir/n for k,n in {
@@ -535,11 +555,59 @@ def main():
     report_assets(r, checks_prints)
     report_binding_schemas(r, checks_prints)
 
+    # Phase 1.15：Layer Checks —— Scene / Gameplay / Level / Runtime 编排既有检查器。
+    # 各层独立执行（局部失败不阻断其他层）；Runtime 层 Godot 不可用时如实标记
+    # unavailable（INCOMPLETE，非零退出），绝不伪装成 PASS。缺省不执行（行为兼容）。
+    unified = None
+    unavailable: list = []
+    layer_requested = any([args.scene_blueprint, args.gameplay_blueprint,
+                           args.level, args.runtime_scene, args.runtime_result,
+                           args.bindings_dir])
+    if layer_requested:
+        from validator.unified import run_layers, format_layer_report
+        # binding 层复用第一个 gameplay blueprint 做实体存在性检查（可选增强；
+        # 无 blueprint 时 checker 如实报「信息不足」info note）。
+        unified = run_layers(args.project_root,
+                             scene_blueprints=args.scene_blueprint,
+                             gameplay_blueprints=args.gameplay_blueprint,
+                             level_configs=args.level,
+                             level_plans=args.level_plan,
+                             runtime_scenes=args.runtime_scene,
+                             runtime_results=args.runtime_result,
+                             bindings_dirs=args.bindings_dir,
+                             binding_gameplay=(args.gameplay_blueprint[0]
+                                               if args.gameplay_blueprint else ""))
+        for diag in unified["diagnostics"]:
+            message = "[%s] %s %s%s :: %s" % (
+                diag["layer"], diag["code"],
+                "[%s] " % diag["location"] if diag.get("location") else "",
+                ("path=%s " % diag["path"]) if diag.get("path") else "",
+                diag["reason"])
+            if diag["severity"] == "error":
+                r.fail(message)
+            elif diag["severity"] == "warning":
+                r.warn(message)
+            else:
+                # info（如 binding 层「信息不足」note）：如实展示，不计入
+                # warning/error 基线（绝不虚构校验成功，也绝不夸大为告警）。
+                checks_prints.append("  %s" % message)
+        unavailable = unified["unavailable"]
+        checks_prints.append("  Layer checks: %s" % (", ".join(unified["layers_run"]) or "none"))
+
     print("\nChecks"); print(f"  Registry entries: {len(entries)}"); print(f"  Canonical Skills loaded: {len(records)}"); print(f"  Categories defined: {len(valid)}"); print(f"  Required dependency edges: {sum(len(x.get('required',[])) for x in records.values())}"); print(f"  Legacy Registry entries checked: {len(legacy_entries)}")
     for line in checks_prints:
         print(line)
+    if unified is not None:
+        from validator.unified import format_layer_report
+        print("\nLayer Checks")
+        for line in format_layer_report(unified):
+            print(line)
     if r.failures: print("\nFAILURES"); [print(f"  - {x}") for x in r.failures]
     if r.warnings: print("\nWARNINGS"); [print(f"  - {x}") for x in r.warnings]
-    return r.summary()
+    exit_code = r.summary()
+    if unavailable:
+        print("\nINCOMPLETE: requested layer check(s) unavailable (see above); not treated as PASS")
+        exit_code = 1
+    return exit_code
 
 if __name__=="__main__": raise SystemExit(main())

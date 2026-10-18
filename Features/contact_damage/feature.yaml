@@ -46,7 +46,7 @@ ownership:
 
 composition:
   entry_scene: ContactDamage.tscn
-  usage: 实例化为实体（Area2D 亦可作实体根）的子节点或根；同节点下添加 CollisionShape2D 定义接触范围；配置 damage / tick_interval / target_group
+  usage: 实例化为实体（Area2D 亦可作实体根）的子节点或根；同节点下需要 CollisionShape2D 定义接触范围（template.yaml 已声明默认 36x36 接触形状，实体蓝图可用同名节点覆盖）；配置 damage / tick_interval / target_group
   related_features: [health, chase_movement, stun]
 
 validation:

@@ -12,15 +12,19 @@
     Gameplay Blueprint（gameplay_schema.yaml 格式）
         ↓
     Entity Relationship Graph（entity_graph.json）
+        ↓
+    每实体 Entity Blueprint（--emit-entities；scene_schema.yaml 格式）
 
 用法:
     python planner.py "create enemy survival game" [--id my_game] [--out <path>]
-    python planner.py "..." --emit-blueprint <path>   # 同时落盘 Blueprint YAML
+    python planner.py "..." --emit-entities <dir>    # 每实体 Entity Blueprint 落盘
 
-输出: Gameplay Blueprint（YAML 文本）+ entity_graph.json（自动更新）。
+输出: Gameplay Blueprint（YAML 文本）+ entity_graph.json（自动更新）
+      + 可选的每实体 Entity Blueprint（--emit-entities）。
 
 流程衔接：
-    Gameplay Blueprint -> 每实体 scene_composer 生成场景（scene-composer Skill）
+    Gameplay Blueprint -> 每实体 Entity Blueprint（--emit-entities，本文件）
+                       -> 每实体 scene_composer 生成场景（scene-composer Skill）
                        -> check_gameplay.py 校验（实体场景/能力/循环闭合）
                        -> 循环测试（Godot 无头）
 
@@ -41,6 +45,7 @@ from blueprint_generator import (                         # noqa: E402
     blueprint_to_yaml_text,
     build_entity_graph,
     generate_blueprint,
+    write_entity_blueprints,
     write_entity_graph,
 )
 
@@ -87,6 +92,9 @@ def main(argv=None) -> int:
     parser.add_argument("--id", dest="game_id", default="", help="Explicit gameplay id")
     parser.add_argument("--out", default="", help="Write blueprint YAML to this path")
     parser.add_argument("--graph-out", default=ENTITY_GRAPH_PATH, help="entity_graph.json output path")
+    parser.add_argument("--emit-entities", default="",
+                        help="Write one Entity Blueprint per entity needing a scene "
+                             "to this directory (entities without a reused scene)")
     parser.add_argument("--no-graph", action="store_true", help="Do not write entity_graph.json")
     args = parser.parse_args(argv)
 
@@ -114,6 +122,13 @@ def main(argv=None) -> int:
             f.write(blueprint_to_yaml_text(bp))
         print()
         print("Blueprint written: %s" % args.out)
+
+    if args.emit_entities:
+        written = write_entity_blueprints(bp, args.emit_entities)
+        print()
+        print("Entity Blueprints written: %d" % len(written))
+        for path in written:
+            print("  - %s" % path)
     return 0
 
 

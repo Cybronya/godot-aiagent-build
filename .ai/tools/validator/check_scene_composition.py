@@ -56,8 +56,9 @@ def check_scene_composition(blueprint_raw: dict, scene_path: str,
     """场景组合合法性检查。返回 {failures, warnings, checked(=1)}。
 
     blueprint_raw —— 原始 Blueprint（Scene / Entity）；本函数内部构造 Scene Intent。
+    推导（Entity Blueprint → Scene Blueprint）与校验读同一份 features_dir 模板。
     """
-    intent, errors = intent_from_blueprint(blueprint_raw)
+    intent, errors = intent_from_blueprint(blueprint_raw, features_dir=features_dir)
     if errors or intent is None:
         return {"failures": list(errors or ["invalid blueprint"]), "warnings": [], "checked": 0}
 

@@ -1,0 +1,209 @@
+# Orchestration Trace Schema（Phase 1.22）
+#
+# 关卡编排诊断事件流的契约（Source of Truth）。事件由生产状态机在真实状态变更边界
+# 写入；回放器只按本契约重建**诊断状态**，不驱动游戏逻辑。
+#
+# 生产者：Orchestration/level_orchestrator.gd（在 LevelOrchestrator 的真实边界写入）
+# 记录器：Orchestration/orchestration_trace.gd（OrchestrationTrace，内存 + JSON 导出）
+# 导出  ：LevelOrchestrator.export_trace_json(path)（显式路径；写失败只返回 false）
+#    真实 E2E 导出位置：Tests/e2e_multi_stage_boss_trace.json（探针写入，测试读取后清理）
+# 回放  ：.ai/tools/validator/trace_replay.py（只读 + CLI；见本文件“回放规则”）
+#
+# 边界（必须保持）：
+#   - 诊断事件**不是**胜利 / 失败 / 阶段转换的权威触发源；真实状态机仍是唯一权威。
+#   - 记录器不得反向调用编排器改变状态；写失败 / 溢出不得影响编排结果。
+#   - 场景卸载后该运行不再产生事件；trace 关闭（trace_enabled = false）时零事件、
+#     游戏行为完全不变。
+#   - 不记录 Godot 对象引用 / 指针 / Callable；事件必须是可 JSON 序列化的纯数据。
+#   - 本阶段只做内存记录 + 显式导出，不做持久化存储、跨进程恢复或完整录像。
+
+schema:
+  id: orchestration_trace
+  version: 1
+
+document:                              # 导出文档（JSON）
+  document: orchestration_trace        # 固定标识；回放器拒绝其它值
+  schema_version: 1                    # 未知版本被拒绝（CLI exit 2 / 回放 ok=false）
+  run_id: <string>                     # 单次运行标识（编排器生成，事件内一致）
+  config_path: <string>                # 触发本次运行的关卡配置路径（可为空）
+  event_count: <int>                   # 必须等于 events 长度；不等 = truncated_trace
+  dropped_events: <int>                # 记录器溢出丢弃数；>0 = trace_incomplete
+  events: [<event>, ...]
+
+event:
+  schema_version: 1
+  run_id: <string>                     # 与文档一致
+  sequence: <int>                      # 从 0 起严格 +1（无重复 / 倒退 / 缺口）
+  event_type: <见“事件类型”>
+  timestamp_ms: <int>                  # 相对本次编排启动的单调毫秒；允许相同、不得倒退
+  stage_id: <string|null>              # 阶段事件必填；阶段外为 null；终结事件携带最近活动阶段
+  stage_index: <int|null>              # 同上；从 0 起
+  source: <orchestrator|boss_lifecycle>   # 稳定来源代码
+  reason: <稳定代码>                    # 见“reason 代码”；禁止依赖自然语言日志
+  entity_id: <string|null>             # 配置声明的实体 id（适用时）
+  instance_name: <string|null>         # 宿主实例名（Boss 死亡确认时）
+  data: {<事件特有字段>}                 # 纯数据；未知键由回放器忽略
+
+事件类型（生产触发点 → 语义）:
+  orchestration_started:               # LevelOrchestrator.start() 接线成功后恰好一次
+    data: {mode: waves|holdout|boss, stage_count: <int>}   # boss 模式胜利要求 boss 死亡
+  stage_started:                       # _start_stage(index)：阶段真正进入活动状态
+    reason: "<stage_type>; data: {stage_type, stage_count}"
+  stage_completed:                     # _complete_stage()：阶段确实满足完成条件
+    reason: "<stage_type>; data: {stage_type}"
+  stage_transitioned:                  # _complete_stage() 推进后记录实际前后身份
+    reason: "stage_completed | stages_exhausted"
+    data: {from_stage_id, from_stage_index, to_stage_id, to_stage_index}
+    # 顶层 stage_id/stage_index = 目标阶段；阶段链耗尽时 to_* 与顶层阶段字段均为 null
+  boss_death_confirmed:                # _mark_boss_defeated()：配置指定的 Boss 被真实死亡机制确认
+    reason: "health_died; entity_id: <boss.entity>; instance_name: <实例名>"
+    data: {boss_defeated_events: <int>}    # 恒为 1（重复 died 不重复确认）
+  level_victory:                       # _finish(true) 与生产终结状态一致；只出现一次
+    reason: "boss_defeated | all_waves_cleared | survive_duration | exit_reached_after_unlock | forced"
+  level_failed:                        # fail_setup() / _finish(false) 与生产终结状态一致
+    reason: "player_died | wave_timeout | setup_failed | forced"
+    data: "{field, message}（仅 setup_failed）"
+  duplicate_event_ignored:             # 已结算的重复通知被忽略（可观测但不重复结算）
+    reason: "boss_death | enemy_death | stage_completion | player_death | already_finished | exit_after_finish"
+  invalid_transition_rejected:         # 非法转换被拒绝；不改状态、不制造假胜利
+    reason: "stage_index_out_of_range | stage_start_while_not_playing | not_boss_mode |
+            victory_blocked | exit_locked"
+
+reason 代码语义:
+  boss_death: 重复 Health.died / 重复回调（Boss 已结算）
+  enemy_death: 实例已带结算标记的重复死亡通知
+  stage_completion: 终结后到达的迟到完成通知
+  player_death: 已终结后的重复玩家死亡通知
+  already_finished: 已终结后再次 finish / fail_setup
+  exit_after_finish: 终结后玩家再次进入出口区
+  victory_blocked: Boss 存活或阶段链未完成时禁止出口胜利
+  exit_locked: 出口门未开时的胜利尝试
+  setup_failed: 运行期绑定 / 实例解析失败（data.field 可定位）
+
+约束:
+  - sequence 在同一 run_id 内严格递增；相同 timestamp_ms 由 sequence 决定先后。
+  - timestamp_ms 是运行时相对时间，不是跨机器同步的墙钟时间。
+  - 阶段事件必须携带正确的 stage_id / stage_index；阶段外事件为 null。
+  - RECORDER_MAX_EVENTS = 4096：超过后事件计入 dropped_events，回放器判 trace_incomplete。
+  - 事件记录不得阻塞 / 失败编排：导出失败只返回 false。
+
+回放规则（.ai/tools/validator/trace_replay.py）:
+  - 只读：不调用 Godot、不加载场景、不调用 finish_level / Boss 死亡 / 场景切换。
+  - “回放成功” = 事件流符合契约并可确定性重建状态，不代表重新执行了游戏。
+  - 校验：文档 schema / 事件字段与类型 / run_id 一致 / 序号 +1 / 时间戳非递减 /
+    首个事件为 orchestration_started / 阶段索引顺序（前一阶段完成后才能开始下一阶段）/
+    转移的 from = 最后完成阶段且 to 与随后的 stage_started 一致 / boss 模式胜利前必须有
+    boss_death_confirmed / 阶段数完成后才可胜利 / 终结互斥且终结后只允许 duplicate_event_ignored /
+    未知事件类型与未知 schema 版本一律拒绝（不静默忽略）。
+  - 输出：final_state（empty|playing|victory|failed）、当前/最终阶段身份、started/completed
+    阶段、transitions、boss_death_confirmed、victory/failed/terminated、ignored/rejected 列表、
+    errors（首条不合法事件的 sequence + 稳定 reason）、event_summary、events_processed、
+    sequence_gaps。同一输入每次输出完全一致。
+  - 退出码：0 = 合法可回放；1 = 违反契约；2 = 输入错误（缺文件 / 非法 JSON / 未知版本）。
+
+不支持（本阶段明确不做）:
+  - 多血条形态切换 / Boss 技能编排 / 存档 / 完整游戏录像。
+  - 事件持久化存储、跨进程恢复、实时流式订阅（内存 trace 由调用方显式导出）。
+  - 通过回放修改任何运行时状态（回放器不写入游戏）。
+
+# ============================================================
+# Golden Trace Baselines（Phase 1.23 —— 黄金基线与回归判定）
+# ============================================================
+# ============================================================
+# Waves 语义事件（Phase 1.25 —— v1 加性扩展，向后兼容）
+
+golden_baseline:                                       # document: orchestration_trace_baseline
+  baseline_schema_version: 1
+  trace_schema_version: 1                              # 必须与事件 schema_version 一致；不匹配 = 拒绝比较
+  location: .ai/tools/validator/baselines/<scenario_id>.json   # 版本控制内；只能由批准流程写入
+  scenarios:                                           # Phase 1.24 起四种编排模式各有基线
+    multi_stage_boss: 清理→Boss 阶段→Boss 死亡确认→Victory（2 事件级 + 阶段链）
+    single_stage_boss: Boss 死亡确认→Victory
+    waves: orchestration_started(waves) → level_victory(exit_reached_after_unlock)；
+           波次推进/出口解锁语义由探针度量断言（trace 契约 v1 不含波次事件——已知限制）
+    holdout: orchestration_started(holdout) → level_victory(survive_duration)；
+             持续生成/期满前不结算由探针度量断言（同上限制）
+  fields:
+    scenario_id: <场景标识（multi_stage_boss / single_stage_boss）>
+    scenario_description: <覆盖范围的人类可读描述>
+    coverage: <逐条列出场景断言的事件语义>
+    approved_behavior_version: <被批准时的编排行为契约版本>
+    approval: {status: approved, approver, approved_at, note, candidate_fingerprint,
+               candidate_generated_at, previous_baseline_version}
+    expected_final_state: {final_state, boss_death_confirmed, stage_history,
+                           terminal_event, event_count}
+    comparison_policy:                                 # 显式比较策略（未知字段/非法值拒绝）
+      ignored_event_fields: [run_id, timestamp_ms]     # 仅允许这两个动态字段
+      data: {mode: strict, ignored_fields: [], numeric_tolerance: 1e-9}
+    events: <真实 Godot trace 事件（逐事件保序；自身满足事件契约）>
+  comparison:
+    order: 先 trace 格式校验与回放（trace_replay），后逐事件基线比较
+    strict_fields: [event_type, stage_id, stage_index, reason, entity_id,
+                    instance_name, source]
+    dynamic_fields: [run_id, timestamp_ms]             # 只有这两个可被策略豁免；data 默认 strict
+    no_reorder: 不排序事件；换位如实报告 EVENT_ORDER_CHANGED
+    categories: [EVENT_MISSING, EVENT_EXTRA, EVENT_ORDER_CHANGED, EVENT_TYPE_CHANGED,
+                 STAGE_ID_CHANGED, STAGE_INDEX_CHANGED, REASON_CHANGED, IDENTITY_CHANGED,
+                 FIELD_CHANGED, DATA_FIELD_CHANGED, BOSS_DEATH_COUNT_CHANGED,
+                 TERMINAL_EVENT_CHANGED, TERMINAL_EVENT_EXTRA, FINAL_STATE_CHANGED,
+                 TRACE_INVALID, TRACE_INCOMPLETE, TRACE_SCHEMA_MISMATCH, BASELINE_INVALID]
+    exit_codes: {PASS: 0, REGRESSION: 1, INCOMPLETE: 1, INVALID_TRACE: 1,
+                 BASELINE_MISSING: 2, INVALID_BASELINE: 2}
+  approval_flow:
+    tool: e2e/approve_trace_baselines.py               # candidate / review / apply --i-approve
+    candidate_source: 只来自真实 Godot 沙箱捕获（e2e/trace_baseline_capture.py）
+    rules:
+      - 正常 E2E 只读基线；比较失败绝不覆写基线
+      - 候选必须先通过 schema 校验 + 回放；apply 再校验一次
+      - apply 打印「现有基线 → 候选」逐事件差异并 version+1；无 --i-approve 拒绝写入
+      - 测试 / 比较器永远不会写基线（T13 断言 bytes+mtime 不变）
+      - Phase 1.24：review 与 apply 都从候选文件**内容**重算指纹（normalized_fingerprint：
+        trace schema 版本 + 全部事件，仅归一化 run_id/timestamp_ms）并与记录指纹比对；
+        不一致 = 拒绝（exit 1，正式基线不动，不留半写入文件——apply 原子写入）
+
+
+# ============================================================
+
+wave_events:                                           # 仅 waves 模式产生；schema_version 仍为 1
+  compatibility: >-
+    加性扩展：旧 trace（不含新事件）在 v1 规则下回放行为不变；旧黄金基线
+    （boss 单/多阶段、holdout v1、waves v1）无需重录即继续可回放与比较。
+    含波次事件的 trace 受新规则约束（见下）。未静默改变任何旧事件语义。
+  event_types:
+    wave_started:
+      produced_by: LevelOrchestrator._start_wave（真实波次开始边界，跟随 wave_started 信号）
+      data: {wave: <int 波次索引>, total: <int 总波数>, enemies: <int 本波配置敌人数>}
+      order: 首个必须在 orchestration_started 之后且 wave==0；后续必须先有前一波的
+        wave_cleared（wave_start_before_clear / wave_start_out_of_order 拒绝）
+      repeat: 不允许（索引递增约束天然禁止重复）
+    wave_cleared:
+      produced_by: LevelOrchestrator._advance_wave（真实清空→推进/结算转换边界；
+        _traced_cleared_wave 幂等守卫保证同一波次只记录一次）
+      data: {wave: <int>}
+      order: 必须匹配当前已开始、未清空的波次（wave_clear_mismatch 拒绝）
+      repeat: 同一波次不允许重复
+    exit_unlocked:
+      produced_by: LevelOrchestrator._advance_wave（真实 exit_door.set_open(true) 边界）
+      data: {wave: <int 最后一波索引>}
+      order: 至多一次（duplicate_exit_unlock 拒绝）；必须在全部波次 wave_cleared 之后
+        （exit_unlocked_before_final_clear 拒绝）；必须先于 level_victory
+        （exit_reached_after_unlock 路径）
+      mode: waves 专属（victory = all_waves_cleared 的配置不产生此事件）
+  replay_rules:
+    mode_scope: 波次事件只允许 mode == "waves"（wave_event_outside_waves_mode 拒绝）；
+      不得携带 stage_id/stage_index/entity_id/instance_name（invalid_wave_event 拒绝）
+    total_consistency: data.total 首次出现后固定（wave_total_mismatch 拒绝）
+    victory_rule: mode == waves 且 total 已知时，level_victory 前必须清完全部波次
+      （victory_before_all_waves_cleared 拒绝）；旧 trace（无波次事件、total 未知）
+      不受此规则约束（向后兼容）
+  golden_baseline_impact:
+    waves: v2（Phase 1.25 重批：7 事件语义链 started→wave0→clear→wave1→clear→
+      exit_unlocked→victory，真实 Godot 沙箱捕获 + 显式批准）
+    holdout: 保持 v1（审计结论：holdout 的开始与计时是同一原子转换 orchestration_started
+      （reason=holdout），完成已有 level_victory(survive_duration)——按「不虚构不存在的
+      状态」原则不新增事件；持续生成语义由探针度量断言）
+    boss 单/多阶段: 不变（不产生波次事件，零重录）
+  coverage_statement: >-
+    事件级保护范围：波次开始/推进顺序、清空转换、出口解锁时机与次数、终结语义。
+    探针断言（非 trace 事件）：波次敌人生成数量、首波未清不生成第二波的生成层行为、
+    holdout 持续生成调度与 max_alive。未覆盖：spawn 级粒度事件（评估为噪声大于价值）。

@@ -71,6 +71,7 @@ from template_loader import (
     INDEX_PATH,
     PROJECT_ROOT,
     derive_scene_blueprint,
+    display_path,
     load_templates,
     normalize_scene_blueprint,
 )
@@ -108,7 +109,8 @@ def compose(blueprint_raw: dict, out_dir: str = SCENES_DIR, dry_run: bool = Fals
     见 feature_capabilities）∪ Blueprint 自带声明 ∪ 本参数（并集，任何一方不得削弱另一方）。
     """
     # 1. Entity Blueprint -> Scene Blueprint -> 规整
-    scene_blueprint = derive_scene_blueprint(blueprint_raw)
+    # features_dir 必须同源：推导（根实例 / 模板结构节点）读的是同一份 Feature 模板。
+    scene_blueprint = derive_scene_blueprint(blueprint_raw, features_dir)
     blueprint, errors = normalize_scene_blueprint(scene_blueprint, features_dir)
     if errors:
         return {"ok": False, "failures": errors, "warnings": [], "blueprint": blueprint,
@@ -208,9 +210,62 @@ def compose(blueprint_raw: dict, out_dir: str = SCENES_DIR, dry_run: bool = Fals
     return result
 
 
+def run_compose_plan(plan_path: str, out_dir: str = SCENES_DIR,
+                     dry_run: bool = False) -> int:
+    """正式多实体组合入口（Phase 1.18）：composition_plan -> 宿主 .tscn。
+
+    composite.py 是唯一实现（不重写组合规则）；本入口只做正式管线的
+    调用、输出目录管理与诊断报告（与单实体 compose() 同风格）。
+    失败（含 dry-run 校验失败）绝不写出成功假象：composite 只在全部校验
+    通过后落盘，dry-run 根本不调用写盘。
+    """
+    import composite as composite_module
+    import yaml
+    plan_file = os.path.join(PROJECT_ROOT, plan_path) \
+        if not os.path.isabs(plan_path) and not os.path.isfile(plan_path) else plan_path
+    if not os.path.isfile(plan_file):
+        print("FAIL: composition plan not found: %s" % plan_path)
+        return 2
+    plan = yaml.safe_load(open(plan_file, encoding="utf-8")) or {}
+    if dry_run:
+        # dry-run = 只校验：用同一实现跑校验（写到临时目录再删除，保证校验与
+        # 正式路径逐字一致；写盘失败本身也是可诊断信号）。
+        import tempfile
+        import shutil
+        probe_dir = tempfile.mkdtemp(prefix="compose_plan_dry_")
+        try:
+            result = composite_module.compose_from_plan(plan, out_dir=probe_dir)
+        finally:
+            shutil.rmtree(probe_dir, ignore_errors=True)
+    else:
+        result = composite_module.compose_from_plan(plan, out_dir=out_dir)
+
+    print("Scene Composer (composition plan)")
+    print()
+    if result["ok"]:
+        print("  host: %s" % os.path.basename(str(result["scene_path"])))
+        for instance in result["instances"]:
+            print("  instance: %-18s <- %s%s"
+                  % (instance["instance_name"], instance["scene"],
+                     "  (entity: %s)" % instance["entity"] if instance["entity"] else ""))
+        for target in result.get("targets") or []:
+            print("  target: %s -> %s" % (target["source"], target["target"]))
+        print("Validation: PASS")
+        if dry_run:
+            print("Dry run: plan is valid, no scene written")
+        else:
+            print("Artifact: %s" % display_path(result["scene_path"], PROJECT_ROOT))
+        return 0
+    print("FAILURES")
+    for failure in result["failures"]:
+        print("  - " + failure)
+    return 1
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Compose an Entity Blueprint into a Godot Scene.")
-    parser.add_argument("blueprint", help="Blueprint yaml path (Scene or Entity Blueprint)")
+    parser.add_argument("blueprint", nargs="?", default="",
+                        help="Blueprint yaml path (Scene or Entity Blueprint)")
     parser.add_argument("--out", default=SCENES_DIR, help="Output directory for the .tscn")
     parser.add_argument("--tests", action="store_true", help="Also generate Tests/test_<scene_id>.gd")
     parser.add_argument("--dry-run", action="store_true", help="Derive + resolve only, write nothing")
@@ -218,7 +273,17 @@ def main(argv=None) -> int:
                         help="Resolve Asset Bindings via the Asset Registry and add resource nodes")
     parser.add_argument("--bindings", default="", help="Existing Asset Binding document (yaml)")
     parser.add_argument("--bindings-out", default="", help="Where --bind-assets writes the binding document")
+    parser.add_argument("--compose-plan", dest="compose_plan", default="",
+                        help="Composition plan yaml: build a multi-entity host scene"
+                             " (Phase 1.18; replaces <blueprint>)")
     args = parser.parse_args(argv)
+
+    if args.compose_plan:
+        return run_compose_plan(args.compose_plan, out_dir=args.out,
+                                dry_run=args.dry_run)
+    if not args.blueprint:
+        parser.error("a blueprint path or --compose-plan is required")
+        return 2
 
     blueprint_raw = load_blueprint(args.blueprint)
     result = compose(blueprint_raw, out_dir=args.out, dry_run=args.dry_run,
@@ -245,7 +310,7 @@ def main(argv=None) -> int:
         if result.get("scene_path"):
             print()
             print("Artifact kept for diagnosis: %s"
-                  % os.path.relpath(result["scene_path"], PROJECT_ROOT).replace("\\", "/"))
+                  % display_path(result["scene_path"], PROJECT_ROOT))
         return 1
 
     if args.dry_run:
@@ -254,14 +319,14 @@ def main(argv=None) -> int:
         return 0
 
     print()
-    print("Generated: %s" % os.path.relpath(result["scene_path"], PROJECT_ROOT).replace("\\", "/"))
+    print("Generated: %s" % display_path(result["scene_path"], PROJECT_ROOT))
     asset_info = result.get("asset_nodes") or {}
     if asset_info:
         print("Asset nodes: %d" % int(asset_info.get("node_count") or 0))
         if asset_info.get("bindings_path"):
             label = "resolved" if asset_info.get("resolved") else "read"
             print("Asset bindings (%s): %s" % (
-                label, os.path.relpath(asset_info["bindings_path"], PROJECT_ROOT).replace("\\", "/")))
+                label, display_path(asset_info["bindings_path"], PROJECT_ROOT)))
     if result["warnings"]:
         print("Warnings:")
         for warning in result["warnings"]:
@@ -272,7 +337,7 @@ def main(argv=None) -> int:
         sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "test_generator"))
         import generate_scene_test
         test_path = generate_scene_test.generate_test_file(result["scene_intent"])
-        print("Test generated: %s" % os.path.relpath(test_path, PROJECT_ROOT).replace("\\", "/"))
+        print("Test generated: %s" % display_path(test_path, PROJECT_ROOT))
     return 0
 
 

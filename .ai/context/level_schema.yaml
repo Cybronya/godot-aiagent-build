@@ -1,0 +1,289 @@
+# Level Orchestration Schema
+# 定义「关卡编排」文档的格式：一个关卡生成什么（实体 / 数量 / 波次或生成调度）以及胜负规则是什么。
+#
+# 层级关系：
+#   Gameplay Blueprint（gameplay_schema.yaml）  —— 游戏级：实体清单 + 跨实体系统 + 循环
+#     ↓ Level Orchestration（本文件）           —— 关卡级：生成配置 + 波次/调度 + 出口 + 胜利条件
+#       ↓ 运行时（Orchestration/level_orchestrator.gd）—— 真实生成 / 计数 / 调度 / 开门 / 胜负
+#         ↑ 场景适配层（Scenes/timed_combat_arena.gd / Scenes/survival_arena.gd）注入节点引用
+#
+# 职责边界（架构约束）：
+#   - 本文件是**声明式数据契约**：只描述「应该生成什么」与「胜利条件是什么」。
+#   - 运行时状态（已生成多少 / 还剩多少 / 当前波次 / 出口是否已开）**不得写回**本配置。
+#   - 运行时行为（实例化敌人、处理死亡、开出口、进入 Completed）归通用编排层
+#     （Phase 1.14：Orchestration/level_orchestrator.gd，场景无关实现）；
+#     场景专属的节点引用与表现归各场景适配层（AD-003：跨实体流程由场景侧组合承担）。
+#
+# 落盘格式：JSON。Godot 运行时用 FileAccess + JSON.parse_string 读取（Godot 无 YAML 解析）；
+#   项目已有 JSON 产物先例：feature_index.json / entity_graph.json / asset_index.json。
+# 位置约定：Levels/<level_id>.json
+#
+#   producer: gameplay_planner/level_planner.py      # Gameplay Blueprint -> waves / boss 关卡配置（唯一实现）
+#   consumer: Orchestration/level_orchestrator.gd    # LevelOrchestrator.apply_config（运行时消费）
+#   adapter:  Orchestration/level_host.gd            # 通用宿主适配器（生成宿主的 LevelConfig -> 编排器接线）
+#   validator: validator/check_level.py              # 独立 CLI；--plan 启用 LevelConfig ↔ composition_plan 交叉校验
+#              validator/validate.py --level --level-plan  # 统一入口（Level 层可选交叉校验）
+#   runtime_test: Tests/test_level_orchestration.gd  # Phase 1.13：L7–L15 配置驱动行为（真实 Godot）
+#   generic_test: Tests/test_generic_level_orchestration.gd  # Phase 1.14：G1–G13 通用编排（真实 Godot）
+#   boss_test: Tests/test_boss_orchestration.gd      # Phase 1.20/1.21：Boss 生命周期 + B6 多阶段（真实 Godot）
+#   pipeline_test: e2e/tests/test_end_to_end_generation.py  # K / N / P 段：生成物 + 生成配置 + Boss 闭环
+#   diagnostics_schema: orchestration_trace_schema.yaml  # Phase 1.22：运行时诊断事件契约（只观测生产状态机）
+#   diagnostics_test: Tests/test_orchestration_trace.gd  # T1–T8：事件契约 / 幂等 / 导出 / 卸载 / waves+holdout
+#   trace_replay: validator/trace_replay.py              # 只读回放（真实导出 trace → 状态重建；不驱动游戏）
+
+schema:
+  id: level_orchestration
+  version: 2
+  # 兼容：version 1（Phase 1.13）按 waves 模式继续有效；version 2 增加 mode/holdout。
+  # version 1 配置携带 mode=holdout 或 holdout 块一律拒绝（不静默解释）。
+
+# ---------- 编排模式 ----------
+
+mode: <waves | holdout | boss>   # 选填，默认 waves（version 1 无此字段，等价 waves）
+#   waves   —— 顺序波次：按 waves[] 顺序生成，清空一波推进下一波；出口与胜利由 exit/victory 决定
+#              （TimedCombatArena 使用；Phase 1.13 语义完整保留）。
+#   holdout —— 生存坚守：按 holdout.spawns 持续生成，生存到 holdout.survival_duration 即胜利；
+#              无出口概念（SurvivalArena 使用；waves / exit 块在 holdout 下非法）。
+#   boss    —— Boss 战斗（Phase 1.20）：只有一个明确声明的 Boss 实体，Boss 死亡是唯一的
+#              战斗完成信号；无顺序波次 / 无持续生成。Boss 实例有两种**显式**来源：
+#              boss.spawn = existing（宿主场景已存在该实例，配置用 boss.instance 点名）或
+#              boss.spawn = on_start（编排器从 entities[boss.entity].scene 实例化）。
+#              绝不按 role / 节点名 / 字符串搜索推断 Boss 身份。
+#              Phase 1.21 可选 stages：先清理普通敌人，再激活 Boss；见下方「多阶段 Boss」。
+
+# ---------- 输出格式 ----------
+
+level:
+  id: <snake_case 关卡 id，必填；与文件名一致>
+  arena_scene: <选填，res:// 竞技场/宿主场景路径；声明本关卡由哪个场景消费>
+                                # boss 模式推荐必填：生成链路的组合宿主场景路径，
+                                # 通用适配器 Orchestration/level_host.gd 由调用方按此加载/校验。
+
+entities:
+  <entity_id>:                    # 与 Gameplay Blueprint 的实体 id 一致（enemy / elite_enemy / ...）
+    scene: <必填，res:// 实体场景路径；必须是真实存在的实体场景（生成物或复用场景）>
+
+# ---- waves 模式（mode = waves，默认）----
+
+waves:                            # 必填，非空；数组顺序即运行时顺序（顺序波次）
+  - id: <必填，同一关卡内唯一>
+    duration: <选填，本波倒计时秒数（默认 30.0，必须 > 0）>
+    entries:                      # 必填，非空
+      - entity: <必填，entities 中的 entity_id>
+        count: <必填，>= 1 的整数>
+
+exit:
+  unlock_when: <all_waves_cleared | never>          # 选填，默认 all_waves_cleared
+
+victory:
+  condition: <exit_reached_after_unlock | all_waves_cleared>   # 选填，默认 exit_reached_after_unlock
+
+# ---- holdout 模式（mode = holdout）----
+# waves / exit 块在 holdout 模式下非法（显式提供即失败，不静默忽略）。
+
+holdout:
+  survival_duration: <必填，> 0 的数；生存到此时长即胜利>
+  max_alive: <选填，>= 1 的整数；全部生成调度的同时存活总上限>
+  spawns:                        # 必填，非空；持续生成调度（不是顺序波次）
+    - entity: <必填，entities 中的 entity_id>
+      interval: <必填，> 0 的数；生成间隔秒数>
+      delay: <选填，>= 0 的数；延迟启动（默认 0）。delay > 0：延迟到达时立即生成第一波、
+              随后每 interval 一个（精英延迟生成语义）；delay = 0：首个也在 interval 后
+              （普通敌人生成节奏，与 Phase 1.13 survival_arena 一致）>
+      max_alive: <选填，>= 1 的整数；该实体类型的同时存活上限>
+      # count 在 holdout 下非法（waves 专属语义；显式提供即失败并提示改用 max_alive）
+
+victory:
+  condition: <survive_duration>   # holdout 模式唯一合法值（缺省即该值）
+
+# ---- boss 模式（mode = boss）----
+# waves / holdout 块在 boss 模式下非法（显式提供即失败，不静默忽略）。
+
+boss:
+  entity: <必填，entities 中的 entity_id；Boss 身份的唯一声明来源>
+  instance: <选填，相对于宿主场景根的节点路径，如 "Entities/Boss"；
+             spawn = existing 时必填，用于点名**已存在的** Boss 实例>
+  spawn: <existing | on_start>   # 选填；instance 存在时默认 existing，否则默认 on_start
+                                 # existing  = 适配层按 boss.instance 解析真实运行实例并绑定
+                                 # on_start  = 编排器从 entities[boss.entity].scene 实例化
+
+exit:
+  unlock_when: <boss_defeated | never>       # 选填，默认 boss_defeated
+
+victory:
+  condition: <boss_defeated | exit_reached_after_unlock>  # 选填，默认 boss_defeated
+
+# ---- 多阶段 Boss（mode = boss；Phase 1.21）----
+# stages 是**可选**显式阶段链；省略 = Phase 1.20 单阶段 boss（兼容，不变）。
+# 阶段顺序只由数组顺序决定，绝不按目录顺序 / 节点遍历 / 名称匹配推断。
+
+stages:                           # 选填；提供时至少 2 个阶段，id 唯一
+  - id: clear_1                   # 必填，同一关卡内唯一
+    type: clear_enemies           # 必填；引用真实实体/条目，不允许引用 Boss 本体
+    entries:                      # 必填，非空
+      - entity: <entities 中的 entity_id>
+        count: <必填，>= 1 的整数>
+  - id: boss                      # 必填；必须且只能有一个 defeat_boss
+    type: defeat_boss
+    entity: <必填；必须等于 boss.entity>
+  # 可选终结阶段（只能作为最后一个阶段）：
+  - id: complete
+    type: complete_level          # 进入即完成；要求 victory=boss_defeated + exit=never
+
+# 顺序规则：clear_enemies 至少一个；defeat_boss 必须是最后一个阶段（或紧跟
+# complete_level 之前）；complete_level 只能最后出现且最多一次。
+# 阶段转换：clear_enemies 的 alive_count 归零 → 激活下一阶段；defeat_boss 阶段内
+# Boss 死亡 → 完成该阶段（末阶段完成即按 exit/victory 终结）。
+# 提前击杀：清理阶段内 Boss 死亡只记录一次 boss_defeated，不跳过清理阶段；进入
+# defeat_boss 阶段时若 Boss 已死，立即完成该阶段且不重复结算。
+# 幂等：阶段开始/完成信号、Boss 死亡结算、关卡完成各恰好一次；重复 died / 重复帧
+# 不会重复推进。
+
+# ---------- LevelConfig ↔ composition_plan 交叉校验（Phase 1.21） ----------
+# 可选输入：validator/check_level.py --plan <composition_plan.yaml>，或
+# validator/validate.py --level <json> --level-plan <yaml>。
+# 校验内容：
+#   1) level.arena_scene 的根节点名 == plan.host.name；
+#   2) 宿主根级 instance 节点集合 == plan.instances[].instance_name 集合；
+#   3) plan 内 instance_name / entity 不重复，scene 真实存在；
+#   4) boss.instance == plan 中 boss.entity 的 instance_name（spawn=existing）；
+#   5) stages[].entries[].entity 与 stages[].entity 必须存在于 plan 实例集合。
+# 缺少 plan 时：单独 LevelConfig 校验行为不变，并在报告中标记
+# cross_check_skipped / INCOMPLETE（不伪装成已交叉校验）。
+
+# ---------- 合法值 ----------
+
+values:
+  exit.unlock_when:                # 仅 waves 模式
+    all_waves_cleared: 全部波次清空后打开出口（运行时顺序波次下即「最后一个必需敌人死亡」）
+    never: 出口永不打开（用于无需逃脱的关卡；此时胜利条件不得依赖出口）
+  victory.condition:
+    exit_reached_after_unlock: 出口打开后玩家进入出口区 → Completed（waves 默认）
+    all_waves_cleared: 全部波次清空即胜利（不需要玩家走到出口；仅 waves）
+    survive_duration: 生存到 holdout.survival_duration → 胜利（仅 holdout）
+    boss_defeated: Boss 死亡即胜利（仅 boss 模式；Boss 存活时不得提前胜利）
+  exit.unlock_when:                # boss 模式
+    boss_defeated: Boss 死亡后打开出口（Boss 存活时出口保持关闭）
+    never: 出口永不打开（Boss 死亡即胜利的关卡无需出口；胜利不得依赖出口）
+
+# ---------- 校验规则（producer 与 validator 共用同一实现） ----------
+#
+# 规则权威（Phase 1.15）：本文件是关卡契约的**唯一权威**；同一规则集有两个镜像实现，
+#   - Python（设计期）：gameplay_planner/level_planner.py::validate_level（producer 与
+#     validator/check_level.py 共用）
+#   - GDScript（运行期）：Orchestration/level_config.gd（LevelConfig）
+# 两层判定的一致性由 validator/tests/test_cross_layer_contract.py（C1–C8，共享正反例 +
+# 真实 Godot 探针）自动化验证；改任何规则必须同改两处 + 本文件。
+# 资源绑定作用域规则（I1）的权威实现是 asset_registry/bind_assets.py::parse_explicit_bindings。
+
+rules:
+  - 缺字段 / 非法值一律失败；未知顶层字段不改变行为（运行时只读已知字段）。
+  - schema.version 接受 1（遗留 waves）与 2；其余一律失败。
+  - mode 缺省为 waves；只接受 waves / holdout / boss（拼错即失败，不静默回退）。
+  - version 1 配置使用 mode=holdout 或携带 holdout 块 → 失败（升级到 version 2）。
+  - waves 模式：waves 必须非空；每波 id 必填且唯一；entries 必须非空且长度 >= 1。
+  - count 必须为 >= 1 的整数（拒绝 0、负数、小数、字符串、布尔值）。
+  - duration 必须为 > 0 的数值（缺省 30.0）。
+  - entity 必须存在于 entities；entities[].scene 必须真实存在
+    （设计期检查磁盘路径，运行期检查 ResourceLoader.exists）。
+  - exit.unlock_when 与 victory.condition 只接受本文件列出的值：拼写错误即失败，
+    绝不静默回退到默认值。
+  - 交叉规则（waves）：exit.unlock_when = never 且 victory.condition = exit_reached_after_unlock
+    判定为「胜利不可达」错误。
+  - holdout 模式：waves / exit 不得出现；holdout.survival_duration > 0；
+    spawns 非空，每项 entity 已声明、interval > 0、delay >= 0、max_alive >= 1；
+    spawns 项携带 count 一律失败（请用 max_alive）；
+    victory.condition 只接受 survive_duration。
+  - boss 模式：waves / holdout 不得出现；boss 必填；boss.entity 必须是 entities 中已声明、
+    且场景真实存在的实体；boss.instance 必须是相对节点路径（不以 / 开头、不含 .. 段）；
+    spawn 只接受 existing / on_start，existing 必须提供 instance；
+    exit.unlock_when 只接受 boss_defeated / never；
+    victory.condition 只接受 boss_defeated / exit_reached_after_unlock；
+    unlock_when = never 且 victory = exit_reached_after_unlock 判定为胜利不可达。
+  - version 1 配置使用 boss 模式或携带 boss 块 → 失败（升级到 version 2）。
+  - waves / holdout 模式携带 boss 块或 stages 块 → 失败（boss 只属于 boss 模式）。
+  - 多阶段 Boss：stages 非空且 >= 2；id 唯一；type 只接受 clear_enemies / defeat_boss /
+    complete_level；至少一个 clear_enemies；恰好一个 defeat_boss 且必须最后（或紧跟
+    complete_level 之前）；complete_level 只能最后且最多一次；
+    clear_enemies.entries 非空、entity 已声明且不能是 boss.entity、count >= 1；
+    defeat_boss.entity 必须等于 boss.entity；
+    complete_level 要求 exit.unlock_when = never 且 victory.condition = boss_defeated。
+  - 每条错误信息必须能定位到具体字段（如 waves[1].entries[0].count、holdout.spawns[0].interval），
+    运行时错误另带配置文件路径与失败阶段（config_load / config_validate），
+    以便 Agent 依据错误自动修正配置。
+  - 校验只判不修：producer 不因校验失败而写出半成品文件。
+
+# ---------- 生成器边界（Phase 1.14 如实记录） ----------
+
+generator_scope:
+  produces:
+    - "waves 模式关卡配置（version 2，显式 mode: waves）"
+    - "boss 模式关卡配置（version 2，显式 mode: boss；需真实 composition_plan + 已存在的组合宿主场景，arena_scene 由宿主名派生或显式传入）"
+    - "多阶段 Boss（--stage clear:entity:count --stage boss [--stage complete]；阶段顺序 = 参数顺序；不手写固定计划）"
+  does_not_produce: [holdout 模式配置]   # 手工编写；不把尚未支持的能力伪装成已支持
+
+# ---------- 真实可运行示例 ----------
+
+example:
+  schema: {id: level_orchestration, version: 2}
+  level:
+    id: timed_combat_arena
+    arena_scene: res://Scenes/TimedCombatArena.tscn
+  mode: waves
+  entities:
+    enemy: {scene: res://Scenes/Enemy.tscn}
+    elite_enemy: {scene: res://Scenes/EliteEnemy.tscn}
+  waves:
+    - id: wave_1
+      duration: 30.0
+      entries:
+        - {entity: enemy, count: 3}
+    - id: wave_2
+      duration: 30.0
+      entries:
+        - {entity: enemy, count: 2}
+        - {entity: elite_enemy, count: 1}
+    - id: wave_3
+      duration: 35.0
+      entries:
+        - {entity: enemy, count: 4}
+        - {entity: elite_enemy, count: 1}
+  exit:
+    unlock_when: all_waves_cleared
+  victory:
+    condition: exit_reached_after_unlock
+
+example_boss:                      # Levels/boss_challenge.json 的等价形态（已存在实例）
+  schema: {id: level_orchestration, version: 2}
+  level:
+    id: boss_challenge
+    arena_scene: res://Scenes/BossChallenge.tscn
+  mode: boss
+  entities:
+    boss: {scene: res://Scenes/Boss.tscn}
+  boss:
+    entity: boss
+    instance: Entities/Boss
+    spawn: existing
+  exit:
+    unlock_when: boss_defeated
+  victory:
+    condition: exit_reached_after_unlock
+
+example_holdout:                   # Levels/survival_arena.json 的等价形态
+  schema: {id: level_orchestration, version: 2}
+  level:
+    id: survival_arena
+    arena_scene: res://Scenes/SurvivalArena.tscn
+  mode: holdout
+  entities:
+    enemy: {scene: res://Scenes/Enemy.tscn}
+    elite_enemy: {scene: res://Scenes/EliteEnemy.tscn}
+  holdout:
+    survival_duration: 30.0
+    max_alive: 12
+    spawns:
+      - {entity: enemy, interval: 1.2}
+      - {entity: elite_enemy, delay: 10.0, interval: 8.0, max_alive: 2}
+  victory:
+    condition: survive_duration

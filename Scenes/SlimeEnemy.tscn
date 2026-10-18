@@ -1,17 +1,28 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="1_health"]
-[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="2_contact_damage"]
-[ext_resource type="PackedScene" path="res://Features/chase_movement/ChaseMovement.tscn" id="3_chase_movement"]
+[ext_resource type="PackedScene" path="res://Features/chase_movement/ChaseMovement.tscn" id="1_root_scene"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="2_health"]
+[ext_resource type="PackedScene" path="res://Features/contact_damage/ContactDamage.tscn" id="3_contact_damage"]
 [ext_resource type="SpriteFrames" path="res://Assets/characters/enemy/slime/slime_frames.tres" id="4_asset_SlimeAnim"]
 [ext_resource type="AudioStreamWAV" path="res://Assets/audio/slime/hurt.wav" id="5_asset_SlimeHurtSfx"]
 
-[node name="SlimeEnemy" type="CharacterBody2D"]
-[node name="Health" parent="." instance=ExtResource("1_health")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ContactShape_1"]
+size = Vector2(36, 36)
 
-[node name="ContactDamage" parent="." instance=ExtResource("2_contact_damage")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_Collision_2"]
+size = Vector2(28, 28)
 
-[node name="ChaseMovement" parent="." instance=ExtResource("3_chase_movement")]
+[node name="SlimeEnemy" instance=ExtResource("1_root_scene")]
+
+[node name="Health" parent="." instance=ExtResource("2_health")]
+
+[node name="ContactDamage" parent="." instance=ExtResource("3_contact_damage")]
+
+[node name="ContactShape" type="CollisionShape2D" parent="ContactDamage"]
+shape = SubResource("RectangleShape2D_ContactShape_1")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_Collision_2")
 
 [node name="SlimeAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("4_asset_SlimeAnim")

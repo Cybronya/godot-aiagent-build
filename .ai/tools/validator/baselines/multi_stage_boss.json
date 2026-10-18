@@ -1,0 +1,278 @@
+{
+  "document": "orchestration_trace_baseline",
+  "baseline_schema_version": 1,
+  "baseline_version": 1,
+  "trace_schema_version": 1,
+  "scenario_id": "multi_stage_boss",
+  "scenario_description": "多阶段 Boss：清理普通敌人 → Boss 阶段开始 → Boss 死亡确认 → Victory",
+  "coverage": [
+    "orchestration_started（boss 模式，2 个阶段）",
+    "stage_started/stage_completed 两次（clear_1 → boss）",
+    "stage_transitioned（stage_completed → stages_exhausted）",
+    "boss_death_confirmed 恰好一次（重复 died 被忽略）",
+    "level_victory（boss_defeated）且为最后一个事件"
+  ],
+  "approved_behavior_version": "phase-1.22-orchestration-trace-contract-v1",
+  "source": {
+    "scenario_id": "multi_stage_boss",
+    "description": "多阶段 Boss：清理普通敌人 → Boss 阶段开始 → Boss 死亡确认 → Victory",
+    "coverage": [
+      "orchestration_started（boss 模式，2 个阶段）",
+      "stage_started/stage_completed 两次（clear_1 → boss）",
+      "stage_transitioned（stage_completed → stages_exhausted）",
+      "boss_death_confirmed 恰好一次（重复 died 被忽略）",
+      "level_victory（boss_defeated）且为最后一个事件"
+    ],
+    "godot_version": "4.7.stable.official.5b4e0cb0f",
+    "probe": "multi_stage_boss_probe.py",
+    "level_config": "res://Levels/trace_baseline_multi_stage_boss.json",
+    "arena_scene": "res://Scenes/TraceBaselineStageHost.tscn",
+    "generation_chain": [
+      "blueprint_generator.write_entity_blueprints",
+      "asset_registry/bind_assets.py",
+      "scene_composer/scene_composer.py (per entity)",
+      "scene_composer/plan_generator.py",
+      "scene_composer/scene_composer.py --compose-plan",
+      "gameplay_planner/level_planner.py",
+      "validator/check_level.py --plan",
+      "multi_stage probe (real Godot headless)"
+    ],
+    "probe_metrics": {
+      "config_errors": 0.0,
+      "stage_count": 2.0,
+      "stage0": 0.0,
+      "alive_after_start": 2.0,
+      "stage_after_one": 0.0,
+      "stage_after_clear": 1.0,
+      "stage_started": 2.0,
+      "stage_completed": 1.0,
+      "finish_before_boss": 0.0,
+      "boss_events": 1.0,
+      "state_after_boss": 1.0,
+      "finish_after_boss": 1.0,
+      "duplicate_events": 1.0,
+      "duplicate_finish": 1.0,
+      "stages_done": 1.0,
+      "history_len": 2.0,
+      "player_state": 2.0,
+      "player_finish_false": 1.0,
+      "player_stage": 0.0
+    },
+    "trace_event_count": 11,
+    "probe_script_removed": true,
+    "captured_by": "trace_baseline_capture.py (sandboxed real Godot headless E2E)",
+    "trace_run_id": "run-602775"
+  },
+  "approval": {
+    "status": "approved",
+    "approver": "Codebuff (Phase 1.23)",
+    "approved_at": "2026-10-17",
+    "note": "首个真实多阶段 Boss 黄金基线：清理→Boss 阶段→Boss 死亡确认→Victory，已逐事件审查并确认重复运行指纹一致",
+    "candidate_fingerprint": "cb4ff72b5d173e270d4d65b97448ddcb2968604310f9fcf80a6db0189d001fcb",
+    "candidate_generated_at": "2026-10-17T22:17:11",
+    "previous_baseline_version": null
+  },
+  "comparison_policy": {
+    "version": 1,
+    "ignored_event_fields": [
+      "run_id",
+      "timestamp_ms"
+    ],
+    "data": {
+      "mode": "strict",
+      "ignored_fields": [],
+      "numeric_tolerance": 1e-09
+    }
+  },
+  "expected_final_state": {
+    "final_state": "victory",
+    "boss_death_confirmed": true,
+    "stage_history": [
+      "clear_1@0",
+      "boss@1"
+    ],
+    "terminal_event": "duplicate_event_ignored",
+    "event_count": 11
+  },
+  "events": [
+    {
+      "data": {
+        "mode": "boss",
+        "stage_count": 2
+      },
+      "entity_id": null,
+      "event_type": "orchestration_started",
+      "instance_name": null,
+      "reason": "boss",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 0,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 0
+    },
+    {
+      "data": {
+        "stage_count": 2,
+        "stage_type": "clear_enemies"
+      },
+      "entity_id": null,
+      "event_type": "stage_started",
+      "instance_name": null,
+      "reason": "clear_enemies",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 1,
+      "source": "orchestrator",
+      "stage_id": "clear_1",
+      "stage_index": 0,
+      "timestamp_ms": 0
+    },
+    {
+      "data": {
+        "stage_type": "clear_enemies"
+      },
+      "entity_id": null,
+      "event_type": "stage_completed",
+      "instance_name": null,
+      "reason": "clear_enemies",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 2,
+      "source": "orchestrator",
+      "stage_id": "clear_1",
+      "stage_index": 0,
+      "timestamp_ms": 6
+    },
+    {
+      "data": {
+        "from_stage_id": "clear_1",
+        "from_stage_index": 0,
+        "to_stage_id": "boss",
+        "to_stage_index": 1
+      },
+      "entity_id": null,
+      "event_type": "stage_transitioned",
+      "instance_name": null,
+      "reason": "stage_completed",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 3,
+      "source": "orchestrator",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 6
+    },
+    {
+      "data": {
+        "stage_count": 2,
+        "stage_type": "defeat_boss"
+      },
+      "entity_id": null,
+      "event_type": "stage_started",
+      "instance_name": null,
+      "reason": "defeat_boss",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 4,
+      "source": "orchestrator",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 6
+    },
+    {
+      "data": {
+        "boss_defeated_events": 1
+      },
+      "entity_id": "stage_boss",
+      "event_type": "boss_death_confirmed",
+      "instance_name": "StageBoss",
+      "reason": "health_died",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 5,
+      "source": "boss_lifecycle",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 12
+    },
+    {
+      "data": {
+        "stage_type": "defeat_boss"
+      },
+      "entity_id": null,
+      "event_type": "stage_completed",
+      "instance_name": null,
+      "reason": "defeat_boss",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 6,
+      "source": "orchestrator",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 12
+    },
+    {
+      "data": {
+        "from_stage_id": "boss",
+        "from_stage_index": 1,
+        "to_stage_id": null,
+        "to_stage_index": null
+      },
+      "entity_id": null,
+      "event_type": "stage_transitioned",
+      "instance_name": null,
+      "reason": "stages_exhausted",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 7,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 12
+    },
+    {
+      "data": {},
+      "entity_id": null,
+      "event_type": "level_victory",
+      "instance_name": null,
+      "reason": "boss_defeated",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 8,
+      "source": "orchestrator",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 12
+    },
+    {
+      "data": {},
+      "entity_id": null,
+      "event_type": "duplicate_event_ignored",
+      "instance_name": null,
+      "reason": "boss_death",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 9,
+      "source": "orchestrator",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 19
+    },
+    {
+      "data": {},
+      "entity_id": null,
+      "event_type": "duplicate_event_ignored",
+      "instance_name": null,
+      "reason": "boss_death",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 10,
+      "source": "orchestrator",
+      "stage_id": "boss",
+      "stage_index": 1,
+      "timestamp_ms": 19
+    }
+  ]
+}

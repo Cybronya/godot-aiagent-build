@@ -9,6 +9,20 @@ scene:
 
 attach:
   parent: root
+  # Phase 1.11：本 Feature 的入口场景即宿主实体的**根场景**。
+  # 语义：本组件以根实例（instance=ExtResource）加入实体，而不是作为子节点实例化 ——
+  # chase_movement.gd 必须作为实体根脚本运行，move_and_slide() 移动的是实体本身。
+  root_instance: true
+  # 本组件在宿主场景中需要的结构节点（挂在本组件节点下；本组件为根实例时即实体根之下）。
+  # 实体根是 CharacterBody2D：没有碰撞形状就没有真实碰撞语义，因此声明默认体积形状
+  # （与既有手工场景 Scenes/Enemy.tscn 的 Collision 28x28 一致）。
+  # 实体蓝图作者可在自己的 nodes: 里用同名节点覆盖本默认值。
+  nodes:
+    - type: CollisionShape2D
+      name: Collision
+      shape:
+        type: rectangle
+        size: [28, 28]
 
 validation:
   required_nodes:

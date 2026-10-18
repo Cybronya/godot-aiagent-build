@@ -122,7 +122,10 @@ func _initialize() -> void:
 		_failures.append("结束状态后精英应停止追踪，实际位移 %s" % (elite2.global_position - frozen_pos))
 
 	# ---- G. 生成时序：elite_spawn_delay 到点后自动生成精英，且不破坏胜利路径 ----
+	# Phase 1.14：发布场景改由 Levels/survival_arena.json 驱动（配置优先）；
+	# 本阶段显式清空 level_config_path 走遗留导出通道，验证导出参数仍能驱动生成时序。
 	var fast: Node2D = packed.instantiate()
+	fast.level_config_path = ""
 	fast.survival_duration = 2.0
 	fast.elite_spawn_delay = 0.5
 	root.add_child(fast)

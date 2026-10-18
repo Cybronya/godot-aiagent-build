@@ -53,6 +53,9 @@ Scenes/<RootName>.tscn、运行结构校验，并可选生成场景回归测试�
 产出 Scene Intent 计划（边界契约：`.ai/context/scene_composer_schema.yaml`）。
 工具：`.ai/tools/scene_composer/scene_composer.py`、
 `.ai/tools/scene_composer/asset_nodes.py`（Asset Binding → 资源节点）、
+`.ai/tools/scene_composer/composite.py`（多实体宿主组合，Phase 1.17/1.18）、
+`.ai/tools/scene_composer/plan_generator.py`（Gameplay Blueprint → composition_plan
+自动生成，Phase 1.19）、
 `.ai/tools/validator/check_scene_composition.py`、
 `.ai/tools/test_generator/generate_scene_test.py`。
 
@@ -220,6 +223,10 @@ Test Generation（generate_scene_test；只消费 Scene Intent → Tests/test_<s
 3. 运行 `python .ai/tools/scene_composer/scene_composer.py <blueprint.yaml>
    --bindings .ai/context/asset_bindings/<id>.yaml --tests`
    （或 `--bind-assets` 由 Asset Registry 现解析；两者都以 Binding 为准）。
+3b. 多实体宿主：先由 `python .ai/tools/scene_composer/plan_generator.py <gameplay_blueprint.yaml>
+   --host <HostName> --out <plan.yaml>` 自动生成 composition_plan（实体→场景映射可追溯；
+   目标关系只来自显式声明 —— `--target` 或点名的 `--relation`），
+   再运行 `python .ai/tools/scene_composer/scene_composer.py --compose-plan <plan.yaml>`。
 4. 生成失败（依赖缺失/未知 Feature）→ 回到组合层解决，不得在场景层补胶水。
 5. Validation PASS 后运行 `python .ai/tools/run_tests.py Tests/test_<scene_id>` 回归。
 
@@ -291,10 +298,22 @@ capabilities:            # 本 Feature 需要的 Scene 能力（默认 []；词�
 - 命名依据只能是 Feature 自身场景 / metadata 的证据；禁止按 Feature 名或 category 推断。
 - 存量 Feature 的迁移结果见 `Features/FEATURE_SCHEMA.md`（Phase 1.8.12 adoption status）。
 
+实体根与组件结构（Phase 1.11）：
+
+- Feature Scene Template 声明 `attach.root_instance: true` 时，该 Feature 的入口场景**就是**
+  实体根（实例化为根，不再作为子节点）——否则根脚本型组件（如 chase_movement）只会移动
+  自己，实体根不动、接触范围不跟实体走。
+- Template 的 `attach.nodes` 声明本组件在宿主场景中需要的结构节点（如碰撞形状），推导时
+  写入 Scene Blueprint 的 `nodes[]`；作者在 Entity Blueprint 里声明的同名节点优先。
+- 验证强度：静态校验（check_scene_composition）只能保证「计划 == 生成物」；实体根是否真的
+  在移动、接触伤害是否真的结算，必须用 `.ai/tools/e2e/behavior_probe.py` 在真实 Godot 里
+  断言（禁止把静态通过当作玩法通过）。
+
 禁止：
 
 - 复制 Feature 代码进实体场景（只允许 instance=ExtResource 组合）。
-- 给根节点挂脚本——Scene 只负责组合，不拥有状态、不做仲裁。
+- 给**宿主场景**的根节点挂脚本——Scene 只负责组合，不拥有状态、不做仲裁；
+  根上的脚本只能来自被实例化的组件场景（root.scene），不能是 Scene Glue 写的。
 - 创建 Global Manager / Entity Manager / Feature Manager / Global Singleton。
 
 ## MUST NOT（Binding 边界，Phase 1.8.4）
@@ -308,7 +327,7 @@ Scene Composer MUST NOT:
   resolved_from / confidence）
 - infer missing assets（missing 只降级为警告，禁止编造 asset id 或 res:// 路径）
 - create global manager（禁止任何全局 / 实体 / Feature 管理器）
-- attach script to root（根节点禁止挂脚本）
+- attach script to root（宿主场景不得给根写脚本；根行为只能来自被实例化的组件场景）
 
 # Validation
 

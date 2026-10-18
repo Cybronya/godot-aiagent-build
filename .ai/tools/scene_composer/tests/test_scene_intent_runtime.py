@@ -8,7 +8,8 @@
     Case 3  缺失资源只降级为警告（不编造资源节点）
     Case 4  生成行为零变化（Phase 1.8.7：builder 唯一输入 = Scene Intent；
             composer 产物与 builder 直接产物逐字相同 + 不落盘）
-    Case 5  known gap 表征：Entity Blueprint 的 nodes: 仍被丢弃（契约 entity_blueprint_nodes_dropped）
+    Case 5  known gap 已关闭（Phase 1.11）：Entity Blueprint 的 nodes: 不再被丢弃
+            （契约 entity_blueprint_nodes_dropped 的 target_behavior 已实现）
     Case 6  文档形态稳定（PLANNED 段不得出现）
 
 本测试只读项目、只写临时目录；不生成 .tscn 到仓库、不启动 Godot。
@@ -292,8 +293,8 @@ def run() -> int:
         ok("case4: no scene file written by the intent layer",
            [f for f in os.listdir(tmp) if f.endswith(".tscn")] == [])
 
-        # ---------------- Case 5: known gap 表征 ----------------
-        print("=== Case 5: known gap (entity blueprint nodes:) ===")
+        # ---------------- Case 5: known gap 已关闭（Phase 1.11） ----------------
+        print("=== Case 5: entity blueprint nodes are materialized (gap closed in 1.11) ===")
         entity_bp = {
             "entity": {"id": "probe_entity", "role": "enemy"},
             "features": ["health", "contact_damage", "chase_movement"],
@@ -301,11 +302,16 @@ def run() -> int:
                        "shape": {"type": "circle", "radius": 8}}],
         }
         entity_intent = scene_intent.build_scene_intent(normalized(entity_bp)).to_dict()
-        # 契约 known_gaps.entity_blueprint_nodes_dropped（status: open）：
-        # 当前行为是「静默丢弃」。本断言表征现状；实现阶段修掉该 gap 时，
-        # 必须同步更新契约状态与本测试（不得为通过而弱化断言）。
-        ok("case5: entity blueprint nodes: dropped (documented gap)",
-           entity_intent["nodes"] == [], str(entity_intent["nodes"]))
+        # 契约 known_gaps.entity_blueprint_nodes_dropped 的 target_behavior 已实现：
+        # Entity Blueprint 的 nodes 进入 Scene Intent nodes[]（不再静默丢弃），
+        # 并追加成员模板声明的结构节点（碰撞形状）。
+        node_keys = [(node.get("parent", "."), node.get("name"), node.get("type"))
+                     for node in entity_intent["nodes"]]
+        ok("case5: the author's entity blueprint node is kept (no silent drop)",
+           (".", "EntityShape", "CollisionShape2D") in node_keys, str(node_keys))
+        ok("case5: member template structural nodes are derived into nodes[]",
+           ("ContactDamage", "ContactShape", "CollisionShape2D") in node_keys
+           and (".", "Collision", "CollisionShape2D") in node_keys, str(node_keys))
         ok("case5: components still mapped for entity blueprint",
            len(entity_intent["components"]) == 3, str(entity_intent["components"]))
 

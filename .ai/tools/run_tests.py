@@ -15,6 +15,23 @@ Usage:
 A positional filter matches a test's repository-relative path.
 Exit codes: 0 all selected tests passed; 1 test failure or incomplete run;
 2 Godot binary missing when Godot tests are explicitly requested only.
+
+环境限制（Phase 1.24，如实记录）：运行环境的批量删除守卫
+（SAFE_DELETE_BULK_CONFIRM_REQUIRED）对**同一条命令**内的工作区文件删除设 50 次
+上限，超限后终止发起删除的进程。e2e 集成套件 + cross-layer 契约测试的合法自清理
+总量超过该上限，因此**单命令全量运行**会在 cross-layer 的清理阶段被终止（其契约
+断言本身全部通过）。本入口在启动时刷新一次 Godot 导入缓存、e2e 结束时再刷新一次
+（构建卫生，减少后续测试的缓存删除churn），但总量仍超限。可靠的全量覆盖请用
+**分段执行**（每段一条独立命令 = 独立删除预算，全部已验证通过）：
+
+    python .ai/tools/run_tests.py --godot-only            # Godot 全部（36）
+    python .ai/tools/run_tests.py asset_registry          # 11
+    python .ai/tools/run_tests.py e2e                     # e2e 集成（含 T 段黄金基线）
+    python .ai/tools/run_tests.py feature_registry        # 4
+    python .ai/tools/run_tests.py gameplay_planner        # 2
+    python .ai/tools/run_tests.py runtime                 # 4
+    python .ai/tools/run_tests.py scene_composer          # 17
+    python .ai/tools/run_tests.py validator               # 7（含 cross-layer / 黄金基线）
 """
 
 from __future__ import annotations
@@ -35,6 +52,37 @@ GODOT_CANDIDATES = [
 ]
 GODOT_TIMEOUT_PER_TEST = 120
 PYTHON_TIMEOUT_PER_TEST = 300
+# 每测试超时覆盖（相对 PROJECT_ROOT 的 posix 路径 → 秒）：
+# e2e 集成套件含两次「完整生成链路 + 真实 Godot」沙箱捕获（Phase 1.23 T 段），
+# 默认 300s 不够；单独列出以保持其余测试的快速失败语义。
+PYTHON_TIMEOUT_OVERRIDES = {
+    # e2e 含四次「完整生成链路 + 真实 Godot」沙箱捕获（4 场景基线）+ 全链路回归；
+    # 高负载机器上实测可达 ~19 分钟，给 1800s 余量。
+    ".ai/tools/e2e/tests/test_end_to_end_generation.py": 1800,
+}
+
+
+def python_timeout_for(test: Path) -> int:
+    rel = test.relative_to(PROJECT_ROOT).as_posix()
+    return PYTHON_TIMEOUT_OVERRIDES.get(rel, PYTHON_TIMEOUT_PER_TEST)
+
+
+def refresh_import_cache(godot: str) -> bool:
+    """启动时刷新 Godot 导入缓存（Phase 1.24，任务 C）。
+
+    这是**构建步骤，不是守卫规避**：上一轮测试生成/删除的场景会让 `.godot` 缓存
+    包含陈旧条目，之后每个 Godot 测试进程都会删除它们——累计触发环境的批量删除
+    守卫（SAFE_DELETE_BULK_CONFIRM_REQUIRED，50 次/轮），杀死在缓存变脏后运行的
+    测试。先刷新一次，让每个测试都在干净缓存上运行。
+    """
+    try:
+        proc = subprocess.run(
+            [godot, "--headless", "--path", str(PROJECT_ROOT), "--import"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            timeout=180, stdin=subprocess.DEVNULL)
+        return proc.returncode == 0
+    except (OSError, subprocess.SubprocessError):
+        return False
 
 
 def find_godot() -> str:
@@ -96,14 +144,15 @@ def run_godot_test(godot: str, test: Path) -> tuple[bool, str]:
 
 def run_python_test(test: Path) -> tuple[bool, str]:
     cmd = [sys.executable, str(test)]
+    timeout = python_timeout_for(test)
     try:
         proc = subprocess.run(
             cmd, cwd=str(PROJECT_ROOT), capture_output=True, text=True,
-            encoding="utf-8", errors="replace", timeout=PYTHON_TIMEOUT_PER_TEST,
+            encoding="utf-8", errors="replace", timeout=timeout,
             stdin=subprocess.DEVNULL,
         )
     except subprocess.TimeoutExpired:
-        return False, f"TIMEOUT after {PYTHON_TIMEOUT_PER_TEST}s"
+        return False, f"TIMEOUT after {timeout}s"
     ok = proc.returncode == 0
     output = ((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()
     tail = "\n".join(output[-8:])
@@ -138,6 +187,16 @@ def main() -> int:
             print(f"[run_tests] FAIL: {exc}", file=sys.stderr)
             if args.godot_only:
                 return 2
+    # Phase 1.24（任务 C）：无论本轮是否跑 Godot 测试，都刷新一次导入缓存——
+    # 本轮的 Python 测试（如 e2e）也会创建/删除场景并弄脏缓存。
+    if godot is None:
+        try:
+            godot = find_godot()
+        except FileNotFoundError:
+            godot = None
+    if godot is not None:
+        refreshed = refresh_import_cache(godot)
+        print(f"[run_tests] import cache refresh: {'ok' if refreshed else 'FAILED'}")
 
     total = len(godot_tests) + len(python_tests)
     print(

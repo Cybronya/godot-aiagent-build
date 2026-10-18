@@ -28,6 +28,7 @@ size = Vector2(120, 60)
 
 [node name="SurvivalArena" type="Node2D"]
 script = ExtResource("1_arena")
+level_config_path = "res://Levels/survival_arena.json"
 enemy_scene = ExtResource("2_enemy")
 elite_scene = ExtResource("7_elite")
 pickup_scene = ExtResource("3_pickup")

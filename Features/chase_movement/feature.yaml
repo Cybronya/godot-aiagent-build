@@ -41,7 +41,7 @@ ownership:
 
 composition:
   entry_scene: ChaseMovement.tscn
-  usage: 实例化 ChaseMovement.tscn 作为实体根（要求 CharacterBody2D），或以 chase_movement.gd 作根脚本；target_path 配置追击目标；与其他组件（如 Health.tscn）同层组合
+  usage: "实例化 ChaseMovement.tscn 作为实体根（要求 CharacterBody2D），或以 chase_movement.gd 作根脚本；Entity Blueprint 推导时按 template.yaml 的 attach.root_instance 作为**实体根实例**加入（不再作为子节点，否则位移只会发生在子节点上）；target_path 配置追击目标；与其他组件（如 Health.tscn）同层组合"
   related_features: [player_movement, health, contact_damage, stun]
 
 validation:

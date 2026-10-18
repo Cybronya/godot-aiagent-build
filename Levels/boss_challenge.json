@@ -1,0 +1,27 @@
+{
+  "schema": {
+    "id": "level_orchestration",
+    "version": 2
+  },
+  "level": {
+    "id": "boss_challenge",
+    "arena_scene": "res://Scenes/BossChallenge.tscn"
+  },
+  "mode": "boss",
+  "entities": {
+    "boss": {
+      "scene": "res://Scenes/Boss.tscn"
+    }
+  },
+  "boss": {
+    "entity": "boss",
+    "instance": "Entities/Boss",
+    "spawn": "existing"
+  },
+  "exit": {
+    "unlock_when": "boss_defeated"
+  },
+  "victory": {
+    "condition": "exit_reached_after_unlock"
+  }
+}

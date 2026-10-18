@@ -327,7 +327,7 @@ def run() -> int:
            and open(repo_chain["scene_path"], "rb").read() == repo_scene,
            str(repo_chain.get("failures")))
         ok("case6: committed scene sha256 unchanged",
-           hashlib.sha256(repo_scene).hexdigest().startswith("ddd33c1db5359c3d"),
+           hashlib.sha256(repo_scene).hexdigest().startswith("f87bc2b0c9613ac5"),
            hashlib.sha256(repo_scene).hexdigest())
 
         # ---------------- 附件：真实 feature 链的完整证据 ----------------

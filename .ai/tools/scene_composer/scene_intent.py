@@ -383,7 +383,8 @@ def intent_from_blueprint(blueprint_raw, resource_nodes=None, capabilities=None,
                                  normalize_scene_blueprint)
 
     blueprint, errors = normalize_scene_blueprint(
-        derive_scene_blueprint(blueprint_raw or {}), features_dir or FEATURES_DIR)
+        derive_scene_blueprint(blueprint_raw or {}, features_dir or FEATURES_DIR),
+        features_dir or FEATURES_DIR)
     if errors:
         return None, list(errors)
     blueprint["resource_nodes"] = list(resource_nodes or [])

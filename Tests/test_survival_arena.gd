@@ -143,7 +143,11 @@ func _initialize() -> void:
 		_failures.append("重开后计时应归零，实际 %s" % fresh_timer.text)
 
 	# ---- 阶段 F：胜利路径（加速实例，不等待真实 30 秒） ----
+	# Phase 1.14：发布场景现由 Levels/survival_arena.json 驱动（配置优先于导出）；
+	# 本阶段显式清空 level_config_path 走遗留导出通道，验证「生存到时限即胜利」不变。
+	# 配置驱动的胜利路径由 Tests/test_generic_level_orchestration.gd（G3/G4）覆盖。
 	var fast: Node2D = packed.instantiate()
+	fast.level_config_path = ""
 	fast.survival_duration = 0.5
 	root.add_child(fast)
 	fast.arena_finished.connect(func(won: bool) -> void: _winner = 1 if won else 0)

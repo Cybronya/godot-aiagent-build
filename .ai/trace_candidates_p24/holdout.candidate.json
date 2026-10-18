@@ -1,0 +1,109 @@
+{
+  "document": "orchestration_trace_baseline",
+  "baseline_schema_version": 1,
+  "baseline_version": 1,
+  "trace_schema_version": 1,
+  "scenario_id": "holdout",
+  "scenario_description": "holdout：持续生成 → 存活期满前不结算 → survive_duration 到点恰好一次 Victory",
+  "coverage": [
+    "orchestration_started（holdout 模式）",
+    "持续生成按配置调度（探针度量 alive_seen > 0）",
+    "存活期满前不结算（探针断言 finish_events 为空）",
+    "level_victory（survive_duration）恰好一次且为最后一个事件"
+  ],
+  "approved_behavior_version": "phase-1.22-orchestration-trace-contract-v1",
+  "source": {
+    "scenario_id": "holdout",
+    "description": "holdout：持续生成 → 存活期满前不结算 → survive_duration 到点恰好一次 Victory",
+    "coverage": [
+      "orchestration_started（holdout 模式）",
+      "持续生成按配置调度（探针度量 alive_seen > 0）",
+      "存活期满前不结算（探针断言 finish_events 为空）",
+      "level_victory（survive_duration）恰好一次且为最后一个事件"
+    ],
+    "godot_version": "4.7.stable.official.5b4e0cb0f",
+    "probe": "holdout_trace_probe.py",
+    "level_config": "res://Levels/trace_baseline_holdout.json",
+    "arena_scene": "res://Scenes/SurvivalArena.tscn",
+    "generation_chain": [
+      "blueprint_generator.write_entity_blueprints",
+      "asset_registry/bind_assets.py",
+      "scene_composer/scene_composer.py (per entity)",
+      "scene_composer/plan_generator.py",
+      "scene_composer/scene_composer.py --compose-plan",
+      "gameplay_planner/level_planner.py",
+      "validator/check_level.py --plan",
+      "holdout probe (real Godot headless)"
+    ],
+    "probe_metrics": {
+      "alive_seen": 3,
+      "finish_events": 1,
+      "finish_success": 1,
+      "status": "PASS",
+      "trace_events": 0
+    },
+    "trace_event_count": 2,
+    "probe_script_removed": true,
+    "captured_by": "trace_baseline_capture.py (sandboxed real Godot headless E2E)",
+    "trace_run_id": "run-1134031"
+  },
+  "approval": {
+    "status": "candidate",
+    "candidate_generated_at": "2026-10-18T02:34:34",
+    "candidate_note": "Phase 1.24 holdout 黄金基线候选：真实 Godot 沙箱捕获",
+    "proposed_approver": "",
+    "candidate_fingerprint": "0b9ebaf2cc314fd4f13d0c20da4c96cbe5d8cb029cd4a54775a525ce9df4da11"
+  },
+  "comparison_policy": {
+    "version": 1,
+    "ignored_event_fields": [
+      "run_id",
+      "timestamp_ms"
+    ],
+    "data": {
+      "mode": "strict",
+      "ignored_fields": [],
+      "numeric_tolerance": 1e-09
+    }
+  },
+  "expected_final_state": {
+    "final_state": "victory",
+    "boss_death_confirmed": false,
+    "stage_history": [],
+    "terminal_event": "level_victory",
+    "event_count": 2
+  },
+  "events": [
+    {
+      "data": {
+        "mode": "holdout",
+        "stage_count": 0
+      },
+      "entity_id": null,
+      "event_type": "orchestration_started",
+      "instance_name": null,
+      "reason": "holdout",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 0,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 0
+    },
+    {
+      "data": {},
+      "entity_id": null,
+      "event_type": "level_victory",
+      "instance_name": null,
+      "reason": "survive_duration",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 1,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 1868
+    }
+  ]
+}

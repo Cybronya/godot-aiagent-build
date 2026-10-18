@@ -87,12 +87,22 @@ func _check_scene_binding() -> void:
 	elif sfx.stream == null:
 		_failures.append("Asset node %s has no stream" % SFX_NODE)
 
-	# 3. 资源节点与 Feature 组件共存，且 Scene 不给根挂脚本
-	if entity.get_script() != null:
-		_failures.append("Root node must not own a script (scene composes only)")
-	for feature_node in ["Health", "ContactDamage", "ChaseMovement"]:
-		if entity.get_node_or_null(feature_node) == null:
-			_failures.append("Missing Feature node: %s" % feature_node)
+	# 3. 资源节点与 Feature 组件共存；根行为来自**组件实例**（Phase 1.11）：
+	#    chase_movement 在模板里声明 attach.root_instance，因此实体根就是它的入口场景实例，
+	#    根上出现脚本属于「组件自身脚本」，不是 Scene Glue 给根挂的脚本
+	#    （宿主场景文本不得给根写脚本，由 scene_validator 静态强制）。
+	if entity.get_node_or_null("Health") == null:
+		_failures.append("Missing Feature node: Health")
+	if entity.get_node_or_null("ContactDamage") == null:
+		_failures.append("Missing Feature node: ContactDamage")
+	if not (entity is ChaseMovement):
+		_failures.append("Entity root must be the chase_movement component instance"
+			+ " (root script drives the entity; a chase child would move only itself)")
+	# 接触伤害需要真实碰撞：接触范围（ContactDamage 下）+ 实体体积（根下）
+	if entity.get_node_or_null("ContactDamage/ContactShape") == null:
+		_failures.append("ContactDamage must carry a CollisionShape2D (no shape = no overlap)")
+	if entity.get_node_or_null("Collision") == null:
+		_failures.append("Entity root must carry a body CollisionShape2D")
 
 	entity.free()
 

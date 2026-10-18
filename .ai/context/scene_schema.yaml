@@ -46,6 +46,16 @@ validation:
 #   root.type 推导：任一成员 template 声明 scene.root_type 则取其交集要求
 #                   （如 CharacterBody2D）；否则 enemy/player 角色 -> CharacterBody2D，
 #                   其余 -> Node2D。
+#   root.scene 推导（Phase 1.11）：恰有一个成员声明 attach.root_instance: true 时，
+#                   实体根**就是**该 Feature 的入口场景（实例化为根），该组件不再作为
+#                   子节点实例化。多个成员同时声明 → 拒绝生成并报 Root instance conflict
+#                   （不静默二选一）。理由：根脚本型组件（如 chase_movement）作为子节点时
+#                   只移动自己，实体根不动；场景会「看起来对、实际不动/不结算伤害」。
+#   nodes 推导（Phase 1.11）：作者声明的 nodes 原样保留，并追加成员 template 声明的
+#                   结构节点（attach.nodes，如 CollisionShape2D 碰撞形状）；同一
+#                   (parent, name) 由作者声明优先，绝不产出重名节点。
+#   显式 Scene Blueprint（作者自己写 root: / components:）**不走推导**：
+#                   实例化计划由作者负责，场景层不重新解释它。
 
 # ---------- Feature Scene Template（Features/<id>/template.yaml） ----------
 #
@@ -61,6 +71,12 @@ validation:
 #
 # attach:
 #   parent: root               # 实例化位置（v1 仅支持 root）
+#   root_instance: true        # 可选（Phase 1.11）：本 Feature 的入口场景即宿主实体根
+#                              #   （实例化为根，而不是子节点）；Entity Blueprint 推导用
+#   nodes:                     # 可选（Phase 1.11）：本组件在宿主场景中需要的结构节点
+#     - type: CollisionShape2D #   （挂在本组件节点下；组件为根实例时即实体根之下）
+#       name: ContactShape
+#       shape: {type: rectangle, size: [36, 36]}
 #
 # validation:
 #   required_nodes:
@@ -85,10 +101,17 @@ rules:
   - 组件实例计划（components[].instance / template.yaml instance:）是**声明式证据**，
     不是生成指令：它只供能力契约核对（Phase 1.8.14），不改变 .tscn 生成结果；
     禁止按 component id / 名字推断实例。
+  - 实体根可以是某个成员的入口场景实例（root.scene，来自 template.yaml 的
+    attach.root_instance）：此时不得再把该组件作为子节点实例化（否则得到第二个行为
+    组件、且实体根仍不承担运动职责）；
+    template.yaml 的 attach.nodes 是**生成指令**（与 instance 声明不同）：实体根 / 组件下
+    需要的碰撞形状等结构节点会被写入 Scene Blueprint 的 nodes[]。
   - 成员的 relations.requires 与顶层 requires 必须由组合满足，否则拒绝生成。
   - 输出固定为 Scenes/<root.name>.tscn；配套测试为 Tests/test_<scene.id>.gd（由
     test_generator 生成）。
   - 禁止 Entity Manager / Gameplay Manager / Feature Manager / Global Singleton。
+  - 静态校验通过 ≠ 玩法通过：实体根的移动 / 接触伤害必须在真实 Godot 里由行为探针
+    验证（.ai/tools/e2e/behavior_probe.py）；回归见 .ai/tools/e2e/tests/test_end_to_end_generation.py。
 
 example:
   scene:
@@ -110,3 +133,14 @@ example:
       - health
       - contact_damage
       - chase_movement
+
+example_entity:                # Entity Blueprint 形式（Phase 1.11 的推荐写法）
+  entity:
+    id: enemy_basic
+    role: enemy
+  features: [health, contact_damage, chase_movement]
+  validation:
+    required_tests: [health, contact_damage, chase_movement]
+  # 推导结果（无需手写）：root.scene = res://Features/chase_movement/ChaseMovement.tscn，
+  # nodes = [ContactShape(ContactDamage), Collision(根)]（来自成员模板），
+  # 生成的 .tscn 根为 ChaseMovement 实例 → 追击脚本驱动实体本身。

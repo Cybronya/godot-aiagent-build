@@ -1,9 +1,7 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://Scenes/timed_combat_arena.gd" id="1_arena"]
 [ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://Scenes/Enemy.tscn" id="3_enemy"]
-[ext_resource type="PackedScene" path="res://Scenes/EliteEnemy.tscn" id="4_elite"]
 [ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="5_door"]
 [ext_resource type="Script" path="res://Scenes/attack_trigger.gd" id="6_attack"]
 
@@ -24,29 +22,13 @@ size = Vector2(24, 348)
 
 [node name="TimedCombatArena" type="Node2D"]
 script = ExtResource("1_arena")
-waves = [{
-"duration": 30.0,
-"enemy_count": 3,
-"enemy_scene": ExtResource("3_enemy"),
-"elite_count": 0
-}, {
-"duration": 30.0,
-"enemy_count": 2,
-"enemy_scene": ExtResource("3_enemy"),
-"elite_count": 1,
-"elite_scene": ExtResource("4_elite")
-}, {
-"duration": 35.0,
-"enemy_count": 4,
-"enemy_scene": ExtResource("3_enemy"),
-"elite_count": 1,
-"elite_scene": ExtResource("4_elite")
-}]
+level_config_path = "res://Levels/timed_combat_arena.json"
 
 [node name="Player" parent="." instance=ExtResource("2_player") groups=["players"]]
 
 [node name="AttackTrigger" type="Node" parent="Player"]
 script = ExtResource("6_attack")
+target_group = "enemies"
 
 [node name="Entities" type="Node2D" parent="."]
 

@@ -18,6 +18,12 @@
 CLI:
     python discovery_to_binding.py --input discovery.json \\
         --select idle=slime_idle --select move=slime_move [--json] [-o out.yaml]
+    # 可选 --entity <entity_id>：把实体作用域写进每个条目（Phase 1.15，I1）——
+    # 输出条目变为 {entity, role, asset}，bind_assets 解析端按 entity 路由，
+    # 不再把角色级绑定应用到其他实体；缺省保持历史 {role, asset} 格式。
+    # Phase 1.16：--resolve-entity-from <gameplay.yaml> 由 payload.role + 蓝图实体
+    # 清单解析唯一实体 id 并打上作用域（零/多匹配 → exit 1 可诊断，不猜测归属；
+    # --entity 显式给出时优先）。e2e 主生成链路使用本模式接入实体作用域。
     # 或 --input-file discovery.json 省略时从 stdin 读 JSON。
 
 退出码（与 feature_discovery 语义分层一致）:
@@ -247,17 +253,58 @@ def select_candidates(payload: dict,
     return bindings, warnings, errors
 
 
-def convert(payload: dict, selections: dict[str, str]) -> tuple[dict, list, list]:
+def load_gameplay_blueprint(path) -> dict:
+    """读取 Gameplay Blueprint（实体身份解析用；结构错误 → AdapterError / exit 2）。"""
+    data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    if not isinstance(data, dict):
+        raise AdapterError("gameplay blueprint must be a YAML mapping: %s" % path,
+                           "blueprint_not_mapping")
+    return data
+
+
+def resolve_entity_identity(payload_role, gameplay_blueprint: dict) -> str:
+    """由 discovery 的实体角色 + Gameplay Blueprint 解析唯一实体 id（Phase 1.16）。
+
+    恰好一个 role 匹配的实体 → 返回该 id（身份来源可追溯：discovery payload.role +
+    gameplay 蓝图实体清单）；零个或多个匹配 → SelectionError（实体归属不可猜测，
+    调用方必须显式提供 --entity 或消歧蓝图）。
+    """
+    entities = (gameplay_blueprint or {}).get("entities") or {}
+    role = str(payload_role or "")
+    matches = sorted(
+        entity_id for entity_id, entry in entities.items()
+        if isinstance(entry, dict) and str(entry.get("role") or "") == role
+    )
+    if len(matches) == 1:
+        return matches[0]
+    if not matches:
+        raise SelectionError(
+            "discovery role %r matches no entity in the gameplay blueprint; "
+            "refusing to guess the entity identity" % (role or "<empty>"),
+            "no_entity_with_role")
+    raise SelectionError(
+        "discovery role %r is ambiguous: entities [%s] share it; entity identity "
+        "cannot be guessed (pass --entity explicitly or disambiguate the blueprint)"
+        % (role, ", ".join(matches)),
+        "ambiguous_entity_role")
+
+
+def convert(payload: dict, selections: dict[str, str],
+            entity_scope: str = "") -> tuple[dict, list, list]:
     """纯转换入口（供 CLI 与测试复用）。
 
     返回 (binding_input, warnings, errors)。
     binding_input 是 bind_assets.py --binding FILE 可直接读取的 YAML dict：
-        {bindings: [{role, asset}]}
+        {bindings: [{role, asset}]}                        —— 缺省（历史格式）
+        {bindings: [{entity, role, asset}]}                —— entity_scope 非空时
+                                                              （Phase 1.15，I1 实体作用域）
     只含显式绑定覆盖节所需字段，绝不伪造 compatibility / resolved_from /
     confidence 等 bind_assets 运行时字段。
     """
     check_schema_version(payload)
     check_root_structure(payload)
+    if entity_scope is not None:
+        entity_scope = str(entity_scope or "").strip()
     fatal_like, unknown = classify_diagnostics(payload)
     if fatal_like:
         raise SelectionError(
@@ -290,6 +337,11 @@ def convert(payload: dict, selections: dict[str, str]) -> tuple[dict, list, list
         raise SelectionError(
             "selection errors: %s" % errors,
             "selection_errors", payload.get("diagnostics") or [])
+    if entity_scope:
+        # Phase 1.15（I1）：--entity 把实体作用域写进每个绑定条目（bind_assets 解析端
+        # 按 entity 路由）；缺省保持历史 {role, asset} 格式不变。
+        return {"bindings": [{"entity": entity_scope, "role": binding["role"],
+                              "asset": binding["asset"]} for binding in bindings]}, warnings, errors
     return {"bindings": bindings}, warnings, errors
 
 
@@ -365,6 +417,17 @@ def main(argv=None) -> int:
                         metavar="SLOT=ASSET_ID",
                         help="Explicit slot->candidate choice (repeatable). "
                              "No implicit top1 selection is ever performed.")
+    parser.add_argument("--entity", default="",
+                        help="Optional entity scope stamped onto every emitted binding "
+                             "({entity, role, asset}; Phase 1.15 I1). Without it the "
+                             "legacy role-level format {role, asset} is emitted unchanged.")
+    parser.add_argument("--resolve-entity-from", default="",
+                        metavar="GAMEPLAY_YAML",
+                        help="Resolve the entity identity from a Gameplay Blueprint by "
+                             "matching payload.role against its entities (Phase 1.16). "
+                             "Exactly one match stamps the entity; zero or multiple "
+                             "matches fail with a diagnosable error (no guessing). "
+                             "--entity takes precedence when both are given.")
     parser.add_argument("-o", "--out", default="",
                         help="Write the explicit binding YAML to this path")
     parser.add_argument("--json", action="store_true",
@@ -403,8 +466,40 @@ def main(argv=None) -> int:
               file=sys.stderr)
         return 2
 
+    # Phase 1.16：实体身份解析（--entity 显式优先；否则按 payload.role + Gameplay
+    # Blueprint 解析唯一实体，零/多匹配 → 可诊断失败，绝不猜测归属）。
+    entity_scope = str(args.entity or "").strip()
+    if args.resolve_entity_from:
+        if entity_scope:
+            print("WARNING: --entity takes precedence over --resolve-entity-from; "
+                  "using explicit entity %r" % entity_scope, file=sys.stderr)
+        else:
+            blueprint_path = Path(args.resolve_entity_from)
+            if not blueprint_path.is_file():
+                print("FAIL: gameplay blueprint not found: %s" % blueprint_path,
+                      file=sys.stderr)
+                return 2
+            try:
+                blueprint = load_gameplay_blueprint(blueprint_path)
+            except AdapterError as exc:
+                print("FAIL: %s (reason=%s)" % (exc, exc.reason), file=sys.stderr)
+                return 2
+            try:
+                entity_scope = resolve_entity_identity(payload.get("role"), blueprint)
+            except SelectionError as exc:
+                if args.json:
+                    print(json.dumps({
+                        "schema_version": SCHEMA_VERSION, "converted": None,
+                        "reason": exc.reason, "entity_scope": None,
+                        "diagnostics": exc.diagnostics, "warnings": [],
+                        "errors": [str(exc)],
+                    }, ensure_ascii=False, indent=2))
+                print("FAIL: %s (reason=%s)" % (exc, exc.reason), file=sys.stderr)
+                return 1
+
     try:
-        binding_input, warnings, _errors = convert(payload, selections)
+        binding_input, warnings, _errors = convert(payload, selections,
+                                                   entity_scope=entity_scope)
     except SelectionError as exc:
         if args.json:
             print(json.dumps({
@@ -430,6 +525,7 @@ def main(argv=None) -> int:
         print(json.dumps({
             "schema_version": SCHEMA_VERSION,
             "converted": binding_input,
+            "entity_scope": entity_scope or None,
             "warnings": warnings,
             "errors": [],
         }, ensure_ascii=False, indent=2))

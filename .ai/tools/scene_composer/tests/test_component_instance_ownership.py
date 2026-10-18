@@ -461,7 +461,7 @@ def run() -> int:
         committed_scene = open(os.path.join(PROJECT_ROOT, "Scenes", "SlimeEnemy.tscn"),
                                "rb").read()
         ok("extra: the committed scene sha256 is unchanged",
-           hashlib.sha256(committed_scene).hexdigest().startswith("ddd33c1db5359c3d"),
+           hashlib.sha256(committed_scene).hexdigest().startswith("f87bc2b0c9613ac5"),
            hashlib.sha256(committed_scene).hexdigest())
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

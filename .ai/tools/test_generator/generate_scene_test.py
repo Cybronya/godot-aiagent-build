@@ -37,8 +37,11 @@ try:
     )
     from template_loader import (
         PROJECT_ROOT,
+        display_path,
         load_templates,
         template_node_name,
+        template_root_instance,
+        template_root_type,
         template_signals,
     )
 except ImportError:   # 从 scene_composer 包内导入时（目录名不可作包名，作回退处理）
@@ -50,8 +53,11 @@ except ImportError:   # 从 scene_composer 包内导入时（目录名不可作�
     )
     from scene_composer.template_loader import (
         PROJECT_ROOT,
+        display_path,
         load_templates,
         template_node_name,
+        template_root_instance,
+        template_root_type,
         template_signals,
     )
 
@@ -117,7 +123,17 @@ def build_test_source(scene_intent, templates: dict, scene_path: str) -> str:
     for fid in intent_components(document):
         template = templates.get(fid) or {}
         node_name = template_node_name(fid, template)
+        root_type = template_root_type(fid, template)
         node_names.append((fid, node_name, template))
+        # Phase 1.11：实体根即该组件的入口场景实例 —— 它的存在性证据是**根节点类型**
+        # （子节点里没有同名节点，按子节点名断言会得到假失败）。
+        if template_root_instance(fid, template) and root_type:
+            parts.append(
+                '\tif not (entity is %s):\n'
+                '\t\t_failures.append("Missing Feature root: %s (entity root must be %s)")\n'
+                % (root_type, fid, root_type)
+            )
+            continue
         parts.append(
             '\tif entity.get_node_or_null("%s") == null:\n'
             '\t\t_failures.append("Missing Feature node: %s")\n'
@@ -179,7 +195,7 @@ def main(argv=None) -> int:
         print("FAIL: invalid blueprint: %s" % "; ".join(errors or ["unknown error"]))
         return 2
     out_path = generate_test_file(intent, out_dir=args.out)
-    print("Test generated: %s" % os.path.relpath(out_path, PROJECT_ROOT).replace("\\", "/"))
+    print("Test generated: %s" % display_path(out_path, PROJECT_ROOT))
     return 0
 
 

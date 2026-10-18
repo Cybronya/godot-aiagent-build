@@ -1,20 +1,28 @@
 extends Node2D
-## Timed Combat Arena 游戏侧编排：波次生成、存活计数、阶段倒计时、胜负与重开。
+## Timed Combat Arena 场景适配层（Phase 1.14）：场景专属节点引用与 HUD 表现。
 ##
-## 场景级组合胶水（遵循 AD-003，不 Feature 化）：只做波次/计数/计时编排，
-## 移动/生命/追击/接触伤害/血条/出口门分别复用 Features/ 下已验证组件，
-## 本脚本不实现任何这类行为。计时与波次的 Feature 提升条件（AD-003）：
-## 出现第二个需要独立计时/波次编排的场景。
+## 编排机制已通用化：波次调度 / 敌人生成与登记 / 存活计数 / 出口解锁 / 胜利判定全部由
+## `Orchestration/level_orchestrator.gd`（LevelOrchestrator）+ `Orchestration/level_config.gd`
+## （LevelConfig）承担；本脚本只做三件事：
+##   1. 解析本场景的节点引用（Player / Entities / Mechanism/ExitDoor / ExitZone / HUD）；
+##   2. 把引用与生成坐标策略注入通用编排器，转发其信号到 HUD 与 arena_finished；
+##   3. 保留 Phase 1.13 起对外的同一套公开 API（state / waves / wave_index / alive_count /
+##      current_duration / get_config_errors / get_exit_unlock_when / get_victory_condition），
+##      既有测试与 e2e 探针无需改动。
 ##
-## 波次数据（waves，由场景配置）：每波一个 Dictionary：
-##   enemy_scene: PackedScene   普通敌人场景
-##   enemy_count: int           普通敌人生成数量
-##   elite_scene: PackedScene   可选，精英敌人场景
-##   elite_count: int           可选，精英敌人生成数量
-##   duration: float            本阶段倒计时（秒）
-## 不同波次可配置不同敌人组合，同一套生成/接线/计数/计时机制覆盖全部波次。
+## 关卡编排数据（Phase 1.13 起）：level_config_path 非空时，「生成哪些实体/几波/波次顺序/
+## 出口何时开/胜利条件」全部由 `.ai/context/level_schema.yaml` 描述的配置驱动
+## （Levels/<level_id>.json）。配置无效时拒绝开始（state=Failed + 状态栏给出可定位的错误），
+## 绝不静默回退到场景内数据。运行时状态只存在于编排器，不写回配置。
+##
+## 波次数据两种来源（同一套生成/接线/计数/计时机制覆盖全部波次）：
+##   1. 配置驱动（推荐）：level_config_path -> waves[i] = {duration, entries:[{scene,count}]}；
+##   2. 场景内手写（兼容）：waves[i] = {duration, enemy_scene, enemy_count, elite_scene, elite_count}。
+## 不同波次可配置不同敌人组合。
 
 @export var waves: Array[Dictionary] = []
+## res://Levels/<id>.json；非空时按关卡编排配置驱动，留空时使用场景内手写 waves
+@export var level_config_path := ""
 @export var player_path := NodePath("Player")
 @export var exit_door_path := NodePath("Mechanism/ExitDoor")
 @export var exit_zone_path := NodePath("Mechanism/ExitZone")
@@ -23,142 +31,132 @@ signal arena_finished(success: bool)
 
 enum State { Playing, Completed, Failed }
 
-var state := State.Playing
-var wave_index := 0
-var alive_count := 0
-var _elapsed := 0.0
+var _orchestrator: LevelOrchestrator
+var _player: CharacterBody2D
+var _entities: Node2D
+var _exit_door: StaticBody2D
+var _exit_zone: Area2D
+var _wave_label: Label
+var _alive_label: Label
+var _timer_label: Label
+var _status_label: Label
 
-@onready var _player: CharacterBody2D = get_node(player_path)
-@onready var _entities: Node2D = $Entities
-@onready var _exit_door: StaticBody2D = get_node(exit_door_path)
-@onready var _exit_zone: Area2D = get_node(exit_zone_path)
-@onready var _wave_label: Label = $HUD/WaveLabel
-@onready var _alive_label: Label = $HUD/AliveLabel
-@onready var _timer_label: Label = $HUD/TimerLabel
-@onready var _status_label: Label = $HUD/StatusLabel
+## 以下只读属性转发到通用编排器（保持 Phase 1.13 公开 API；写入只在进入树前通过 waves）
+var state: int:
+	get:
+		return _orchestrator.state if _orchestrator != null else State.Playing
+var wave_index: int:
+	get:
+		return _orchestrator.wave_index if _orchestrator != null else 0
+var alive_count: int:
+	get:
+		return _orchestrator.alive_count if _orchestrator != null else 0
 
 
 func _ready() -> void:
-	var player_health: Health = _player.get_node("Health")
-	player_health.health_changed.connect(_on_player_health_changed)
-	player_health.died.connect(_on_player_died)
-	_exit_zone.body_entered.connect(_on_exit_zone_body_entered)
-	_start_wave(0)
+	_player = get_node(player_path)
+	_entities = $Entities
+	_exit_door = get_node(exit_door_path)
+	_exit_zone = get_node(exit_zone_path)
+	_wave_label = $HUD/WaveLabel
+	_alive_label = $HUD/AliveLabel
+	_timer_label = $HUD/TimerLabel
+	_status_label = $HUD/StatusLabel
+
+	_orchestrator = LevelOrchestrator.new()
+	add_child(_orchestrator)
+	_orchestrator.player = _player
+	_orchestrator.entities = _entities
+	_orchestrator.exit_door = _exit_door
+	_orchestrator.exit_zone = _exit_zone
+	_orchestrator.spawn_offset = _enemy_spawn_offset
+	_orchestrator.finished.connect(_on_orchestrator_finished)
+	_orchestrator.wave_started.connect(_on_wave_started)
+	_orchestrator.alive_changed.connect(_on_alive_changed)
+	_orchestrator.tick.connect(_on_tick)
+	_orchestrator.exit_unlocked.connect(_on_exit_unlocked)
+
+	var config: LevelConfig
+	if not level_config_path.is_empty():
+		config = LevelConfig.from_file(level_config_path)
+	else:
+		config = LevelConfig.make_waves(waves)
+	# 配置无效：拒绝开始（不生成任何敌人、不静默回退到场景内手写数据）
+	if not _orchestrator.apply_config(config):
+		waves = _orchestrator.waves
+		_update_status_label()
+		return
+	# 与编排器共享同一 waves 数组引用：进入树后对 duration 的修改仍然生效
+	waves = _orchestrator.waves
+	_orchestrator.start()
 	_update_status_label()
 
 
-func _process(delta: float) -> void:
-	if state != State.Playing:
-		if Input.is_action_just_pressed("restart"):
-			get_tree().reload_current_scene()
-		return
-	_elapsed += delta
-	_update_timer_label()
-	# 倒计时耗尽且仍有敌人存活 → 超时失败；提前清场会在死亡回调中立即推进阶段，
-	# 计时器随 _start_wave 重置，因此走到这里必然仍有敌人存活（需求 10/11）
-	if _elapsed >= current_duration():
-		_finish(false)
-
-
 func current_duration() -> float:
-	if wave_index < 0 or wave_index >= waves.size():
-		return 0.0
-	return float(waves[wave_index].get("duration", 30.0))
+	return _orchestrator.current_duration() if _orchestrator != null else 0.0
 
 
-func _start_wave(index: int) -> void:
-	wave_index = index
-	_elapsed = 0.0
-	_spawn_wave(waves[index])
-	_update_wave_label()
-	_update_timer_label()
+## 配置校验错误（空 = 无错误）；供测试与诊断读取
+func get_config_errors() -> PackedStringArray:
+	return _orchestrator.get_config_errors() if _orchestrator != null else PackedStringArray()
 
 
-func _spawn_wave(wave: Dictionary) -> void:
-	var enemy_scene: PackedScene = wave.get("enemy_scene")
-	var enemy_count: int = wave.get("enemy_count", 0)
-	for _i: int in enemy_count:
-		_spawn_enemy(enemy_scene)
-	var elite_scene: PackedScene = wave.get("elite_scene")
-	var elite_count: int = wave.get("elite_count", 0)
-	for _i: int in elite_count:
-		_spawn_enemy(elite_scene)
+func get_exit_unlock_when() -> String:
+	return _orchestrator.get_exit_unlock_when() if _orchestrator != null else ""
 
 
-func _spawn_enemy(scene: PackedScene) -> void:
-	var enemy: CharacterBody2D = scene.instantiate()
-	enemy.position = _spawn_offset()
-	enemy.target_path = NodePath("../../" + _player.name)
-	enemy.add_to_group("enemies")
-	var enemy_health: Health = enemy.get_node("Health")
-	# 死亡接线：退出战斗（移除）与存活计数都复用 Health.died 信号，同一机制覆盖所有敌人配置
-	enemy_health.died.connect(enemy.queue_free)
-	enemy_health.died.connect(_on_enemy_died)
-	_entities.add_child(enemy)
-	alive_count += 1
-	_update_alive_label()
+func get_victory_condition() -> String:
+	return _orchestrator.get_victory_condition() if _orchestrator != null else ""
 
 
-func _spawn_offset() -> Vector2:
+## 结构化诊断（G13）：在编排器诊断上补本消费场景路径，使失败可定位到
+## 「关卡配置 + 错误字段 + 相关场景引用 + 失败编排阶段」。
+## 诊断事件 trace 导出（Phase 1.22/1.24）：转发到内部编排器；与 LevelHost 的
+## 诊断 API 对齐。编排器不存在（配置未应用）时返回 false，绝不影响游戏行为。
+func export_trace_json(path: String) -> bool:
+	return _orchestrator.export_trace_json(path) if _orchestrator != null else false
+
+
+func get_diagnostics() -> Dictionary:
+	var diagnostics: Dictionary = _orchestrator.get_diagnostics() if _orchestrator != null else {}
+	diagnostics["consumer_scene"] = scene_file_path
+	return diagnostics
+
+
+## 敌人生成坐标（相对于 Entities 容器）：环绕竞技场原点的随机环，与 Phase 1.13 一致
+func _enemy_spawn_offset() -> Vector2:
 	var angle := randf() * TAU
 	return Vector2.from_angle(angle) * randf_range(200.0, 280.0)
 
 
-func _on_enemy_died() -> void:
-	alive_count -= 1
-	_update_alive_label()
-	if alive_count <= 0:
-		_advance_wave()
+# ---------- 编排器信号 → HUD / 对外信号 ----------
 
 
-## 提前击败全部敌人立即进入下一阶段（需求 11）；最后一阶段清场后打开出口（需求 13）
-func _advance_wave() -> void:
-	var next := wave_index + 1
-	if next >= waves.size():
-		_exit_door.set_open(true)
-		_update_status_label()
-	else:
-		_start_wave(next)
+func _on_wave_started(index: int, total: int) -> void:
+	_wave_label.text = "阶段 %d / %d" % [index + 1, total]
 
 
-func _on_exit_zone_body_entered(body: Node2D) -> void:
-	if state != State.Playing or not body.is_in_group("players"):
-		return
-	# 出口区位于出口门后，门未开时物理上不可达；此处再做门状态校验兜底
-	if not _exit_door.is_open():
-		return
-	_finish(true)
+func _on_alive_changed(count: int) -> void:
+	_alive_label.text = "存活敌人: %d" % count
 
 
-func _on_player_died() -> void:
-	_finish(false)
+func _on_tick(elapsed: float, duration: float) -> void:
+	_timer_label.text = "倒计时: %.1f / %.0f 秒" % [elapsed, duration]
 
 
-func _finish(success: bool) -> void:
-	if state != State.Playing:
-		return
-	state = State.Completed if success else State.Failed
+func _on_exit_unlocked() -> void:
+	_update_status_label()
+
+
+func _on_orchestrator_finished(success: bool) -> void:
 	_update_status_label()
 	arena_finished.emit(success)
 
 
-func _on_player_health_changed(_current: int, _amount: int) -> void:
-	pass
-
-
-func _update_wave_label() -> void:
-	_wave_label.text = "阶段 %d / %d" % [wave_index + 1, waves.size()]
-
-
-func _update_alive_label() -> void:
-	_alive_label.text = "存活敌人: %d" % alive_count
-
-
-func _update_timer_label() -> void:
-	_timer_label.text = "倒计时: %.1f / %.0f 秒" % [_elapsed, current_duration()]
-
-
 func _update_status_label() -> void:
+	if not get_config_errors().is_empty():
+		_status_label.text = "关卡配置无效：%s" % get_config_errors()[0]
+		return
 	match state:
 		State.Playing:
 			_status_label.text = "在倒计时内击败全部敌人，坚持到最终阶段打开出口（空格攻击，R 重开）"

@@ -8,6 +8,17 @@ scene:
 
 attach:
   parent: root
+  # 本组件在宿主场景中需要的结构节点（挂在本组件节点下）。
+  # ContactDamage 是 Area2D：没有 CollisionShape2D 就永远不会与任何实体重叠，
+  # 接触伤害因此不可能触发。这里声明默认接触范围（与既有手工场景
+  # Scenes/Enemy.tscn 的 ContactShape 36x36 一致）；实体蓝图作者可在自己的 nodes:
+  # 里用同名节点覆盖本默认值（例如更大的接触范围）。
+  nodes:
+    - type: CollisionShape2D
+      name: ContactShape
+      shape:
+        type: rectangle
+        size: [36, 36]
 
 validation:
   required_nodes:

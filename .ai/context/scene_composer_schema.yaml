@@ -27,6 +27,19 @@
 #      现更正为 PLANNED（见 internal_to_document）。
 #   7. known_gaps 更新：persistence 已决策；新增 document_not_materialized。
 #
+# Phase 1.11 落地补充（实体根实例与组件结构节点，仍为同一事实源、version 仍为 2）：
+#   1. Feature Scene Template 新增两个**生成指令**型声明（定义在 scene_schema.yaml）：
+#      attach.root_instance（本 Feature 的入口场景即宿主实体根）与 attach.nodes
+#      （本组件在宿主场景中需要的结构节点，如碰撞形状）。
+#   2. 生效位置只在 Entity Blueprint -> Scene Blueprint 推导
+#      （template_loader.derive_scene_blueprint）：root.scene 推导自 root_instance 成员；
+#      nodes[] = 作者声明 + 成员模板声明（作者优先）。显式 Scene Blueprint 不被推导改写。
+#   3. scene_builder 不再为「入口场景 == root.scene」的组件实例化子节点；
+#      scene_validator 在计划声明了根实例组件时改判根实例（静态解析被引用场景的根节点
+#      类型；缺根实例或重复子节点均为失败）；test_generator 对根实例组件断言根节点类型。
+#      **未新增 / 未改名任何 Scene Intent 字段**。
+#   4. 契约 known_gaps.entity_blueprint_nodes_dropped 关闭（target_behavior 已实现）。
+#
 # Phase 1.8.6 落地补充（发现的不一致已按实现补齐，仍为同一事实源）：
 #   Scene Intent 文档需要身份/版本标记（对标 Binding 文档的 schema_version），
 #   version 2 的 structure 未列该键 → 已在 structure 与 internal_to_document
@@ -845,7 +858,11 @@ known_gaps:
     resolution: >-
       Phase 1.8.14 落地 components[].instance（声明式实例计划 = 优先证据），碰撞能力可由
       组件声明自身提供证明；但组件入口场景的真实子树仍未核验（见 component_instance_evidence_scope）。
-    resolution_phase: 后续阶段（与 components[].node 契约字段物化一并决策）
+      Phase 1.11 进一步把成员模板声明的结构节点（attach.nodes）物化进 Scene Intent
+      nodes[]：宿主侧碰撞形状（如 ContactDamage 下的 ContactShape / 实体根下的 Collision）
+      现在是 Plan 可见证据，Collision 契约不再只能靠「物理体根」间接证明；
+      组件入口场景**内部**自带、且未被模板声明的子树仍不在证据范围内。
+    resolution_phase: Phase 1.11（部分解决：模板声明的结构节点已物化）
   - id: component_instance_evidence_scope
     status: open                                       # Phase 1.8.14 记录（本阶段不修复）
     detail: >-
@@ -916,19 +933,27 @@ known_gaps:
     impact: 资源能力闸门在 assets 层暂时无强制力。
     resolution_phase: 后续阶段（决定 ext_type 是否回到 Scene Intent，或闸门是否接受 Binding 作为第二上下文）
   - id: entity_blueprint_nodes_dropped
-    status: open                                       # Phase 1.8.5 复核：仍存在（本阶段禁止改实现）
+    status: closed_in_1_11                             # target_behavior 已实现（Phase 1.11）
+    closed_by: >-
+      template_loader.derive_scene_blueprint（Entity Blueprint 分支）现在同时产出
+      root.scene（成员 Feature 的 attach.root_instance）与 nodes[]：作者声明的
+      nodes 原样保留，成员模板声明的结构节点（attach.nodes，如 CollisionShape2D）
+      追加进来（同 (parent, name) 由作者声明优先）。回归见
+      scene_composer/tests/test_scene_intent_runtime.py case5 与
+      scene_composer/tests/test_entity_root_instance.py。
     detail: >-
-      Entity Blueprint 形式的 nodes: 块在推导 Scene Intent 时被静默丢弃
+      （历史）Entity Blueprint 形式的 nodes: 块在推导 Scene Intent 时被静默丢弃
       （无 error / 无 warning），即「文档化路径会吞掉结构节点声明」。
     evidence: >-
-      template_loader.derive_scene_blueprint 在 Entity Blueprint 分支重建的 dict
-      只含 scene / root / components / validation，不携带 nodes；实测同一 nodes:
-      块经 Scene Blueprint 形式生成 CircleShape2D，经 Entity Blueprint 形式则静默消失。
-    impact: 经 Entity Blueprint 调用时，CollisionShape2D 等额外节点无法表达。
+      实测：同一 nodes: 块经 Scene Blueprint 形式生成 CircleShape2D，经 Entity
+      Blueprint 形式则静默消失（Phase 1.8.5 复核记录）。
+    impact: >-
+      （已消除）经 Entity Blueprint 调用时，CollisionShape2D 等结构节点无法表达；
+      这直接导致生成的敌人没有碰撞形状 —— 实体根不动、接触伤害不可能结算。
     target_behavior: >
       Entity Blueprint 的 nodes: 必须进入 Scene Intent nodes[]；若决定不支持，
       必须显式报错（禁止静默丢弃）。二者择一，不得维持现状。
-    resolution_phase: Scene Intent 实现阶段（本阶段只冻结目标行为）
+    resolution_phase: Phase 1.11（Generated Entity Gameplay Integration）
   - id: compatibility_not_gated_at_scene_layer
     status: open
     detail: compatibility=INCOMPATIBLE 的绑定仍会被实例化为资源节点；
@@ -1022,3 +1047,52 @@ example:
     required_tests: [health, contact_damage, chase_movement]
   # 说明：resources[].provenance 与 scripts / animations 为 PLANNED，本示例不含；
   #       metadata 为 PLANNED，同样不含。
+
+# ============================================================
+# Composition Plan（Phase 1.18 —— 多实体宿主组合的正式声明）
+# ============================================================
+
+composition_plan:                                      # CURRENT
+  document: composition_plan                           # 文档身份（scene_composer --compose-plan 消费）
+  version: 1
+  producer: 用户 / 上层 Agent；或由 scene_composer/plan_generator.py 自动生成（Phase 1.19）
+  implementation: scene_composer/composite.py          # 唯一实现（compose_from_plan）
+  entry: scene_composer/scene_composer.py --compose-plan <plan.yaml> [--dry-run] [--out DIR]
+  generator: scene_composer/plan_generator.py          # 蓝图为源、自动生成计划（Phase 1.19）
+  generator_rules:
+    entity_to_scene: "override（--entity-scene）> 蓝图 entities.<id>.scene（declared）>\n      Scenes/<Pascal(entity_id)>.tscn（convention）；不存在 = 拒绝并给出预期路径"
+    instance_name: "Pascal(entity_id)；两个实体派生同名 = 拒绝（不静默消歧）"
+    targets_source: "只接受 --target SRC:DST 或 --relations <entity_graph.json> --relation NAME；\n      绝不按 role 推断；未声明关系则计划不含 targets"
+    target_capability: "source 实体必顶 Feature 声明 target_path（feature_index interfaces），\n      否则拒绝 —— 不产生无意义的 target_path"
+    validation: "复用 compose_from_plan（临时目录真实试组合后删除）；不新增独立 plan Validator 层"
+    write: "全部校验通过后原子写入（同目录 .tmp + os.replace）；失败无产物"
+    identity: "计划 instances[].entity 保留蓝图 entity id，不得用实例名代替"
+  boundary: >-
+    只做「已生成实体场景 -> 宿主场景」的原生 instancing 组合与目标引用声明；
+    不重新解析实体场景内部结构、不修改输入场景、不处理实例间物理/AI 交互
+    （由关卡编排层或后续阶段承担）。输入场景必须已经过 Scene Composer 生成并验证。
+  fields:
+    host.name: <必填，合法 Godot 节点名；宿主根名 = 输出 .tscn 名>
+    instances:                                         # 必填，>= 2 条
+      - entity: <可选；gameplay 蓝图实体身份（诊断/追溯用，与实例名是不同概念）>
+        scene: <必填；res:// 实体场景路径（必须存在于项目内）>
+        instance_name: <可选；宿主内实例名（缺省 = 场景根名；冲突即拒绝）>
+    targets:                                           # 可选；运行时目标引用声明
+      - source: <追击方实例名>
+        target: <目标实例名>
+  rules:
+    native_instancing: 宿主 .tscn 只声明 ext_resource + [node ... instance=ExtResource]；
+      绝不复制/拼接实体场景内部文本（输入场景字节不变）
+    target_contract: target 写成追击方实例节点上的 target_path = NodePath("../<目标实例名>")；
+      与 chase_movement 的既有相对解析契约一致（路径相对追击脚本节点 = 实体根）；
+      目标实例不存在 → 拒绝生成（exit 1，无产物）；绝不遍历场景猜测目标
+    input_claim: 多于一个实例场景引用 player_controller.gd（读输入）→ 拒绝生成
+      （多个玩家实例会争用同一输入动作）
+    failure: 任何失败绝不留下成功假象 —— composite 只在全部校验通过后落盘
+  identity_vs_instance_vs_target: >-
+    实体身份（gameplay 蓝图 entity id，贯穿 discovery/绑定/诊断）≠ 宿主实例名
+    （host 内节点名，由计划显式声明）≠ 运行时目标引用（NodePath，相对追击脚本节点）。
+    三者字段分离，不得混用同一字段。
+  tests:
+    unit: scene_composer/tests/test_composite.py       # P1–P7（plan 校验/负向/争用/正式入口）
+    e2e: e2e/tests/test_end_to_end_generation.py       # L9–L10b（正式入口）+ L16–L17（真实 Godot 交互）
