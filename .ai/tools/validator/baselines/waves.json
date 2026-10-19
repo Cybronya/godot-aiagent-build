@@ -6,20 +6,22 @@
   "scenario_id": "waves",
   "scenario_description": "waves：按配置进入波次 → 清一波才起下一波 → 清场解锁出口 → 玩家到出口结算 Victory",
   "coverage": [
-    "orchestration_started（waves 模式）",
-    "第一波按配置生成；首波未清空时第二波不生成（探针度量断言，trace 契约当前不含波次事件——已知限制）",
-    "全部波次清空后出口才解锁、玩家进入出口区才结算（探针度量断言）",
-    "level_victory（exit_reached_after_unlock）且为最后一个事件"
+    "orchestration_started（waves 模式）——事件级保护",
+    "wave_started(0) → wave_cleared(0) → wave_started(1) → wave_cleared(1)：波次进入 / 清空语义由 trace 事件承载（事件级保护，v2 起生效）",
+    "exit_unlocked(all_waves_cleared) 出现在最后一个 wave_cleared 之后（事件级保护：顺序由回放器与逐事件比较校验）",
+    "level_victory（exit_reached_after_unlock）且为最后一个事件（事件级保护）",
+    "探针度量断言（不是 trace 事件）：首波未清空时第二波不生成、出口仅在全波次清空后开启、玩家进入出口区才结算"
   ],
   "approved_behavior_version": "phase-1.22-orchestration-trace-contract-v1",
   "source": {
     "scenario_id": "waves",
     "description": "waves：按配置进入波次 → 清一波才起下一波 → 清场解锁出口 → 玩家到出口结算 Victory",
     "coverage": [
-      "orchestration_started（waves 模式）",
-      "第一波按配置生成；首波未清空时第二波不生成（探针度量断言，trace 契约当前不含波次事件——已知限制）",
-      "全部波次清空后出口才解锁、玩家进入出口区才结算（探针度量断言）",
-      "level_victory（exit_reached_after_unlock）且为最后一个事件"
+      "orchestration_started（waves 模式）——事件级保护",
+      "wave_started(0) → wave_cleared(0) → wave_started(1) → wave_cleared(1)：波次进入 / 清空语义由 trace 事件承载（事件级保护，v2 起生效）",
+      "exit_unlocked(all_waves_cleared) 出现在最后一个 wave_cleared 之后（事件级保护：顺序由回放器与逐事件比较校验）",
+      "level_victory（exit_reached_after_unlock）且为最后一个事件（事件级保护）",
+      "探针度量断言（不是 trace 事件）：首波未清空时第二波不生成、出口仅在全波次清空后开启、玩家进入出口区才结算"
     ],
     "godot_version": "4.7.stable.official.5b4e0cb0f",
     "probe": "level_orchestration_probe.py",
@@ -63,7 +65,9 @@
     "note": "waves 黄金基线 v2：新增波次语义事件后的真实 Godot 捕获；逐事件审查确认 7 事件语义链（started→wave0→clear→wave1→clear→exit_unlocked→victory）与回放规则一致",
     "candidate_fingerprint": "7ba152f09163cb6041a3ca0363ef9cd0dad81324f4a82cfce3bad2a53e31d075",
     "candidate_generated_at": "2026-10-18T17:47:59",
-    "previous_baseline_version": 1
+    "previous_baseline_version": 1,
+    "coverage_revised_at": "2026-10-18",
+    "coverage_revision_note": "Phase 1.26 只修正过时的覆盖声明（旧文案声称 trace 不含波次事件，与 v2 实际事件链矛盾）；事件内容与指纹未变——基线未重录、未重新批准"
   },
   "comparison_policy": {
     "version": 1,

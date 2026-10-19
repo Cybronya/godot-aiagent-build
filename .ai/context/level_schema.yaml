@@ -166,6 +166,12 @@ values:
     boss_defeated: Boss 死亡后打开出口（Boss 存活时出口保持关闭）
     never: 出口永不打开（Boss 死亡即胜利的关卡无需出口；胜利不得依赖出口）
 
+# 运行期守卫（Phase 1.26，Orchestration/level_orchestrator.gd）：
+#   waves 模式下进入出口区要求「所有波次已清空」（_waves_all_cleared），该判定只读
+#   编排状态，不依赖是否注入 exit_door——门是物理阻挡，不是唯一守卫。全部波次清空时
+#   解锁边界（exit_unlocked 信号 + trace 事件）与门是否存在无关，因此没有门的宿主也
+#   不会产生「无 exit_unlocked 的出口胜利」。证据：Tests/test_waves_exit_gate.gd（G1–G7）。
+
 # ---------- 校验规则（producer 与 validator 共用同一实现） ----------
 #
 # 规则权威（Phase 1.15）：本文件是关卡契约的**唯一权威**；同一规则集有两个镜像实现，

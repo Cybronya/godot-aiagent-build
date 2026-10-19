@@ -152,12 +152,17 @@ SCENARIOS = {
     "waves": {
         "description": "waves：按配置进入波次 → 清一波才起下一波 → 清场解锁出口 → "
                        "玩家到出口结算 Victory",
+        # Phase 1.26：覆盖声明必须与真实事件链一致——波次语义自 Phase 1.25 起已是
+        # trace 事件（事件级保护）；探针度量断言单独列出，不冒充事件覆盖。
         "coverage": [
-            "orchestration_started（waves 模式）",
-            "第一波按配置生成；首波未清空时第二波不生成（探针度量断言，trace 契约"
-            "当前不含波次事件——已知限制）",
-            "全部波次清空后出口才解锁、玩家进入出口区才结算（探针度量断言）",
-            "level_victory（exit_reached_after_unlock）且为最后一个事件",
+            "orchestration_started（waves 模式）——事件级保护",
+            "wave_started(0) → wave_cleared(0) → wave_started(1) → wave_cleared(1)："
+            "波次进入 / 清空语义由 trace 事件承载（事件级保护）",
+            "exit_unlocked(all_waves_cleared) 出现在最后一个 wave_cleared 之后"
+            "（事件级保护：顺序由回放器与逐事件比较校验）",
+            "level_victory（exit_reached_after_unlock）且为最后一个事件（事件级保护）",
+            "探针度量断言（不是 trace 事件）：首波未清空时第二波不生成、出口仅在"
+            "全波次清空后开启、玩家进入出口区才结算",
         ],
         "gameplay": {
             "gameplay": {"id": "trace_baseline_waves_game"},
@@ -186,11 +191,18 @@ SCENARIOS = {
     "holdout": {
         "description": "holdout：持续生成 → 存活期满前不结算 → survive_duration 到点"
                        "恰好一次 Victory",
+        # Phase 1.27：生成调度激活已是 trace 事件（事件级保护）；探针断言与
+        # 非基线路径（提前失败 / 终结后重复）单独声明，不冒充事件覆盖。
         "coverage": [
-            "orchestration_started（holdout 模式）",
-            "持续生成按配置调度（探针度量 alive_seen > 0）",
-            "存活期满前不结算（探针断言 finish_events 为空）",
-            "level_victory（survive_duration）恰好一次且为最后一个事件",
+            "orchestration_started（holdout 模式）——事件级保护",
+            "spawn_schedule_started：每条生成调度首次真正产出敌人时记录一次；"
+            "delay 未到点的调度不产生事件（事件级保护）",
+            "存活期满前不结算（探针断言 finish_events 为空；trace 级由 "
+            "Tests/test_holdout_trace.gd 的 H5 验证）",
+            "level_victory（survive_duration）恰好一次且为最后一个事件（事件级保护）",
+            "探针度量断言（不是 trace 事件）：持续生成按配置调度（alive_seen > 0）",
+            "不在本基线内、由 Tests/test_holdout_trace.gd 验证：提前失败"
+            "level_failed(player_died)（H3）与终结后重复 duplicate_event_ignored（H4）",
         ],
         "gameplay": {
             "gameplay": {"id": "trace_baseline_holdout_game"},

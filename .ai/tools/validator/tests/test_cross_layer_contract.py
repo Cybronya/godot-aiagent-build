@@ -36,10 +36,8 @@ from __future__ import annotations
 
 import json
 import re
-import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 TEST_DIR = Path(__file__).resolve().parent
@@ -56,10 +54,10 @@ if str(TOOLS_DIR / "runtime") not in sys.path:
 
 from level_planner import validate_level                               # noqa: E402
 from runtime_result import find_godot_binary                           # noqa: E402
+from testsupport.run_workspace import OwnershipError, RunWorkspace     # noqa: E402
 
 _failures: list[str] = []
-_temp_dirs: list[Path] = []
-PROBE_REL = "Tests/e2e_level_contract_probe.gd"
+_workspace: RunWorkspace | None = None
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -279,18 +277,25 @@ def _python_verdict(config: dict) -> tuple[bool, str, str]:
 
 
 def run() -> int:
+    global _workspace
     godot = find_godot_binary(PROJECT_ROOT)
     if godot is None:
         skip("C1-C8: cross-layer Godot probe", "godot executable not found; "
              "Python-side verdicts are still exercised below")
-    work = Path(tempfile.mkdtemp(prefix="cross_layer_"))
-    _temp_dirs.append(work)
+    # Phase 1.32（F4）：所有夹具与探针放进本次运行专属目录，并逐个登记所有权。
+    workspace = RunWorkspace.create()
+    _workspace = workspace
+    for stale in workspace.stale_entries():
+        print("STALE (not removed): token=%s state=%s files=%d last=%s"
+              % (stale["token"], stale["state"], stale["file_count"], stale["last_event"]))
     fixture_res_paths: list[str] = []
     defaults_res_paths: list[str] = []
     expected: dict[str, dict] = {}
     for name, config, expect_valid, expect_field, check_defaults in FIXTURES:
-        res_path = "res://Levels/E2eContract__%s.json" % name
-        _write(PROJECT_ROOT / "Levels" / ("E2eContract__%s.json" % name), config)
+        fixture = workspace.path_for("fixtures/%s.json" % name)
+        _write(fixture, config)
+        workspace.record(fixture)
+        res_path = workspace.res_path("fixtures/%s.json" % name)
         fixture_res_paths.append(res_path)
         if check_defaults:
             defaults_res_paths.append(res_path)
@@ -300,17 +305,18 @@ def run() -> int:
                               "expect_field": expect_field,
                               "name": name}
 
-    probe_path = PROJECT_ROOT / PROBE_REL
+    probe_path = workspace.path_for("probe.gd")
     probe_path.write_text(PROBE_TEMPLATE % (
         ", ".join('"%s"' % p for p in fixture_res_paths),
         ", ".join('"%s"' % p for p in defaults_res_paths)), encoding="utf-8")
+    workspace.record(probe_path)
     godot_lines: list[str] = []
     probe_ran = False
     try:
         if godot is not None:
             proc = subprocess.run(
                 [str(godot), "--headless", "--path", str(PROJECT_ROOT), "-s",
-                 "res://" + PROBE_REL.replace("\\", "/")],
+                 workspace.res_path("probe.gd")],
                 capture_output=True, text=True, encoding="utf-8", errors="replace",
                 cwd=str(PROJECT_ROOT), stdin=subprocess.DEVNULL, timeout=180)
             godot_lines = [line for line in ((proc.stdout or "") + (proc.stderr or "")).splitlines()
@@ -323,10 +329,11 @@ def run() -> int:
             # Godot 缺失：仍完成 Python 侧判定（不伪装两层一致，也不算失败）
             pass
     finally:
+        # Godot 可能在脚本旁生成 .uid（派生文件）；只登记、随后按所有权清理。
         try:
-            probe_path.unlink()
-        except OSError:
-            _failures.append("cleanup: cannot remove %s" % probe_path)
+            workspace.record_if_exists(workspace.path_for("probe.gd.uid"))
+        except OwnershipError as exc:
+            _failures.append("cleanup: cannot account for probe.gd.uid (%s)" % exc)
 
     godot_by_path: dict[str, dict] = {}
     for line in godot_lines:
@@ -341,7 +348,7 @@ def run() -> int:
         label = exp["name"]
         accepted, first_failure, field = _python_verdict(
             next(c for n, c, *_ in FIXTURES
-                 if "E2eContract__%s.json" % n in res_path))
+                 if res_path.endswith("/%s.json" % n)))
         godot = godot_by_path.get(res_path, {})
         if not probe_ran:
             continue
@@ -397,29 +404,13 @@ def run() -> int:
            "binding" not in code_only.lower(),
            "found 'binding' in code of %s" % source)
 
-    # ---- 残留断言（先清理再断言；finally 仅兜底）----
-    for fixture in (PROJECT_ROOT / "Levels").glob("E2eContract__*.json"):
-        try:
-            fixture.unlink()
-        except OSError as exc:
-            _failures.append("cleanup: cannot remove %s (%s)" % (fixture, exc))
-    # Windows 下 Godot 退出后可能短暂持有脚本句柄：重试删除而非立即判失败
-    removed = False
-    for _attempt in range(5):
-        try:
-            probe_path.unlink()
-            removed = True
-            break
-        except OSError:
-            import time
-            time.sleep(0.2)
-    if not removed and not probe_path.exists():
-        removed = True                              # 已被并发清理
-    if not removed:
-        _failures.append("cleanup: cannot remove %s" % probe_path)
-    residue = [p.name for p in (PROJECT_ROOT / "Levels").glob("E2eContract__*.json")]
-    ok("cleanup: contract fixtures removed from Levels/", not residue, repr(residue))
-    ok("cleanup: probe script removed", not probe_path.exists(), str(probe_path))
+    # ---- 所有权清理（删前重新验证），再断言无残留 ----
+    report = workspace.cleanup()
+    ok("cleanup: run workspace removed (ownership verified)",
+       report.run_root_removed and not workspace.run_root.exists(),
+       repr(report.failures()))
+    ok("cleanup: no unaccounted / conflicting test artifacts",
+       not report.failures(), repr(report.failures()))
 
     print()
     if _failures:
@@ -437,19 +428,14 @@ def _write(path: Path, data: dict) -> None:
 
 
 def cleanup() -> None:
-    for fixture in (PROJECT_ROOT / "Levels").glob("E2eContract__*.json"):
-        try:
-            fixture.unlink()
-        except OSError:
-            pass
-    probe = PROJECT_ROOT / PROBE_REL
-    if probe.exists():
-        try:
-            probe.unlink()
-        except OSError:
-            pass
-    for temp in _temp_dirs:
-        shutil.rmtree(temp, ignore_errors=True)
+    """异常路径的兜底清理：只清本运行的所有权账本，绝不按前缀/glob 删除。"""
+    global _workspace
+    if _workspace is None:
+        return
+    workspace, _workspace = _workspace, None
+    report = workspace.cleanup()
+    for failure in report.failures():
+        print("CLEANUP: " + failure)
 
 
 if __name__ == "__main__":

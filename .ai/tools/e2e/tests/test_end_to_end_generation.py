@@ -78,6 +78,7 @@ TOOLS = _DOTAI / "tools"
 sys.path.insert(0, str(TOOLS / "scene_composer"))
 sys.path.insert(0, str(TOOLS / "e2e"))                    # behavior_probe（本目录）
 sys.path.insert(0, str(TOOLS / "validator"))              # trace_replay（Phase 1.22）
+sys.path.insert(0, str(TOOLS / "testsupport"))            # run_lock（Phase 1.34）
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -233,6 +234,144 @@ _STAGE_BAD_LEVEL = PROJECT_ROOT / "Levels" / "E2eStageBossLevelBad.json"
 # Phase 1.22：真实运行导出的诊断 trace（由 multi_stage_boss_probe 写入，测试读取后清理）
 _STAGE_TRACE = PROJECT_ROOT / "Tests" / "e2e_multi_stage_boss_trace.json"
 
+# ==================== Phase 1.33（F4-B）：产物所有权 ====================
+# 这些产物**不能**迁入 .ai/tmp/runs/<token>/，阻碍是可验证的生产约定：
+#   - 实体场景由 check_gameplay.py:91-93 与 level_planner.py:153 按约定解析为
+#     Scenes/<PascalEntity>.tscn；迁出 Scenes/ 需要修改生产解析逻辑（未授权）；
+#   - 宿主/关卡配置被计划文件（--entity-scene 映射）、探针模板与断言按 res:// 固定路径引用。
+# 因此本测试采用「显式声明清单 + 启动期内容签名 + 本次运行缺席证明」：
+#   1) 启动时逐个检查声明产物：签名匹配 = 上一次同套件运行的残留 ⇒ 报告后删除；
+#      签名不匹配 = 无法证明归属 ⇒ **拒绝删除并使本次运行失败**（fail-closed）。
+#   2) 快照「扫描后不存在」的路径 = 本运行的创建前提。
+#   3) 结束时只删：在清单内 + 扫描后缺席 + 签名仍匹配 的路径（含 .uid 派生物）。
+_E2E_PROBE_SCRIPTS = (
+    PROJECT_ROOT / "Tests" / "e2e_behavior_probe.gd",
+    PROJECT_ROOT / "Tests" / "e2e_death_victory_probe.gd",
+    PROJECT_ROOT / "Tests" / "e2e_level_orchestration_probe.gd",
+    PROJECT_ROOT / "Tests" / "e2e_boss_level_probe.gd",
+    PROJECT_ROOT / "Tests" / "e2e_multi_stage_boss_probe.gd",
+    PROJECT_ROOT / "Tests" / "e2e_holdout_trace_probe.gd",
+)
+_E2E_LEVEL_CONFIGS = (
+    PROJECT_ROOT / "Levels" / "E2eProbeLevel.json",
+    PROJECT_ROOT / "Levels" / "E2eProbeLevelBroken.json",
+)
+_E2E_TRACES = (
+    PROJECT_ROOT / "Tests" / "e2e_boss_level_trace.json",
+    PROJECT_ROOT / "Tests" / "e2e_multi_stage_boss_trace.json",
+    PROJECT_ROOT / "Tests" / "e2e_holdout_trace.json",
+)
+_E2E_BASE_ARTIFACTS = (
+    _PROBE_SCENE, _PROBE_TEST, _NOCASE_SCENE, _MUTANT_SCENE, _IMMORTAL_SCENE,
+    _PROBE_PLAYER_SCENE, _PROBE_DUAL_SCENE, _PROBE_BAD_HOST, _DUAL_PROBE_SCRIPT,
+    _BOSS_SCENE, _BOSS_HOST_SCENE, _BOSS_LEVEL, _BOSS_BAD_LEVEL,
+    _STAGE_GRUNT_SCENE, _STAGE_BOSS_SCENE, _STAGE_HOST_SCENE,
+    _STAGE_LEVEL, _STAGE_BAD_LEVEL, _STAGE_TRACE,
+) + _E2E_PROBE_SCRIPTS + _E2E_LEVEL_CONFIGS + _E2E_TRACES
+
+_stale_removed: list[str] = []
+_stale_refused: list[str] = []
+
+
+def _rel(path: Path) -> str:
+    try:
+        return path.relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        return str(path)
+
+
+def _declared_targets() -> list[Path]:
+    """声明清单（含 .uid 派生物）；只在清单内的路径才可能被本测试删除。"""
+    targets: list[Path] = []
+    for base in _E2E_BASE_ARTIFACTS:
+        targets.append(base)
+        targets.append(Path(str(base) + ".uid"))
+    return targets
+
+
+def _ownership_reason(path: Path) -> str:
+    """内容签名检查：空串 = 该文件确为本测试套件的产物，否则返回拒绝理由。"""
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError as exc:
+        return "unreadable (%s)" % exc
+    suffix = path.suffix.lower()
+    if suffix == ".uid":
+        return "" if text.strip().startswith("uid://") else "not a Godot uid file"
+    if suffix == ".tscn":
+        return "" if "[gd_scene" in text else "not a Godot scene document"
+    if suffix == ".gd":
+        return "" if "extends SceneTree" in text and "e2e" in text.lower() \
+            else "not an e2e SceneTree script"
+    if suffix == ".json":
+        try:
+            document = json.loads(text)
+        except ValueError:
+            return "not JSON"
+        if not isinstance(document, dict):
+            return "not a JSON object"
+        schema = document.get("schema")
+        if isinstance(schema, dict) and schema.get("id") == "level_orchestration":
+            return ""
+        if "events" in document or "run_id" in document:
+            return ""
+        return "not a level config or trace document"
+    return "unsupported artifact type"
+
+
+def _ownership_scan_start() -> set[Path]:
+    """启动期所有权扫描：签名验证后删除残留；无法证明归属则拒绝删除并失败。
+
+    返回「扫描后不存在」的路径集合 = 本次运行的创建前提。
+    """
+    absent: set[Path] = set()
+    for target in _declared_targets():
+        if not target.exists():
+            absent.add(target)
+            continue
+        reason = _ownership_reason(target)
+        if reason:
+            _stale_refused.append("%s (%s)" % (_rel(target), reason))
+            continue
+        try:
+            target.unlink()
+            _stale_removed.append(_rel(target))
+        except OSError as exc:
+            _stale_refused.append("%s (cannot remove stale artifact: %s)" % (_rel(target), exc))
+    for entry in _stale_removed:
+        print("STALE (removed, signature verified): %s" % entry)
+    for entry in _stale_refused:
+        print("FOREIGN (refusing to delete): %s" % entry)
+        _failures.append("ownership: refusing to delete an unverifiable leftover: %s" % entry)
+    return absent
+
+
+def _ownership_cleanup(absent: set[Path]) -> tuple[int, int]:
+    """结束清理：只删清单内 + 扫描后缺席 + 签名仍匹配 的路径。"""
+    removed = 0
+    refused = 0
+    for target in _declared_targets():
+        if not target.exists():
+            continue
+        if target not in absent:
+            refused += 1
+            _failures.append("ownership: %s existed before this run; refusing to delete"
+                             % _rel(target))
+            continue
+        reason = _ownership_reason(target)
+        if reason:
+            refused += 1
+            _failures.append("ownership: refusing to delete %s (%s)"
+                             % (_rel(target), reason))
+            continue
+        try:
+            target.unlink()
+            removed += 1
+        except OSError as exc:
+            refused += 1
+            _failures.append("cleanup: cannot remove %s (%s)" % (_rel(target), exc))
+    return removed, refused
+
 _BOSS_GAMEPLAY = {
     "gameplay": {"id": "e2e_boss_game"},
     "entities": {
@@ -386,6 +525,20 @@ func _process(_delta: float) -> bool:
 
 
 def main() -> int:
+    # Phase 1.34（任务 A / L-9）：e2e 产物是共享目录中的固定名文件（生产解析约定，
+    # 无法按运行拆分），因此 e2e 只能安全**串行**。互斥锁覆盖共享产物的完整生命周期
+    # （创建 → 使用 → 签名清理）：持有者存活 ⇒ 明确拒绝；可证死亡 ⇒ 记录回收后重建；
+    # 锁内容非法 ⇒ fail-closed + 人工恢复说明。锁在 finally 中释放（正常 / 失败 /
+    # 启动异常均覆盖）；进程异常退出时锁残留，由下一次运行的回收逻辑处理。
+    import run_lock
+    _lock_path = PROJECT_ROOT / ".ai" / "tmp" / "runs" / "e2e.lock"
+    _lock = run_lock.acquire(_lock_path, scope="e2e")
+    if _lock["status"] == "refused":
+        print("FAIL: %s" % _lock["message"])
+        print("FAIL: e2e refuses to run concurrently (shared fixed-name artifacts)")
+        return 2
+    if _lock["status"] == "reclaimed":
+        print("NOTE: %s" % _lock["message"])
     work = Path(tempfile.mkdtemp(prefix="e2e_gen_"))
     probe_written = False
     probe_test_written = False
@@ -397,21 +550,14 @@ def main() -> int:
     probe_player_written = False
     dual_written = False
     godot = None
+    _stale_removed.clear()
+    _stale_refused.clear()
+    absent_after_scan: set[Path] = set()
     try:
-        # 防御性清理（Phase 1.23）：上一进程被外部终止（超时 / 中断）时 finally 不会
-        # 执行，可能留下**本测试自己的**探针产物，破坏 G4/L9 等断言的「从干净状态
-        # 开始」前提。这里只清理本测试声明的产物清单（与 Z1 同一清单），不触碰
-        # 任何其他文件；Z1 仍断言本次运行结束后的真实清理。
-        for stale in (_PROBE_SCENE, _PROBE_TEST, _NOCASE_SCENE, _MUTANT_SCENE,
-                      _IMMORTAL_SCENE, _PROBE_PLAYER_SCENE, _PROBE_DUAL_SCENE,
-                      _PROBE_BAD_HOST, _DUAL_PROBE_SCRIPT,
-                      PROJECT_ROOT / "Tests" / "e2e_boss_level_trace.json",
-                      PROJECT_ROOT / "Tests" / "e2e_multi_stage_boss_trace.json"):
-            try:
-                stale.unlink(missing_ok=True)
-                Path(str(stale) + ".uid").unlink(missing_ok=True)
-            except OSError:
-                pass
+        # 启动期所有权扫描（Phase 1.33，取代 Phase 1.23 的无条件删除）：只有内容签名
+        # 与本套件产物一致的残留才会被删除；无法证明归属的文件一律拒绝删除并失败，
+        # 以此保证 G4/L9 等断言的「从干净状态开始」前提同时不越权删除用户数据。
+        absent_after_scan = _ownership_scan_start()
         # ==================== A. 自然语言 -> Gameplay Blueprint -> 每实体蓝图 ====================
         print("--- A. natural language -> gameplay blueprint -> entity blueprints ---")
         gameplay = work / "gameplay.yaml"
@@ -1940,98 +2086,22 @@ def main() -> int:
            and all(b.get("compatibility") == "INCOMPATIBLE" for b in legacy_leaked),
            repr([(b["role"], b.get("compatibility")) for b in legacy_leaked]))
     finally:
-        if probe_written:
-            try:
-                _PROBE_SCENE.unlink()
-            except OSError as exc:                              # pragma: no cover - 清理失败要报告
-                _failures.append("cleanup: cannot remove %s (%s)" % (_PROBE_SCENE, exc))
-        if probe_test_written:
-            try:
-                _PROBE_TEST.unlink()
-                Path(str(_PROBE_TEST) + ".uid").unlink(missing_ok=True)
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (_PROBE_TEST, exc))
-        if nocase_written:
-            try:
-                _NOCASE_SCENE.unlink()
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (_NOCASE_SCENE, exc))
-        if mutant_written:
-            try:
-                _MUTANT_SCENE.unlink()
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (_MUTANT_SCENE, exc))
-        if immortal_written:
-            try:
-                _IMMORTAL_SCENE.unlink()
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (_IMMORTAL_SCENE, exc))
-        if probe_player_written:
-            try:
-                _PROBE_PLAYER_SCENE.unlink()
-                Path(str(_PROBE_PLAYER_SCENE) + ".uid").unlink(missing_ok=True)
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (_PROBE_PLAYER_SCENE, exc))
-        if dual_written:
-            try:
-                _PROBE_DUAL_SCENE.unlink()
-                Path(str(_PROBE_DUAL_SCENE) + ".uid").unlink(missing_ok=True)
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (_PROBE_DUAL_SCENE, exc))
-        try:
-            _PROBE_BAD_HOST.unlink(missing_ok=True)
-            Path(str(_PROBE_BAD_HOST) + ".uid").unlink(missing_ok=True)
-        except OSError as exc:                                  # pragma: no cover
-            _failures.append("cleanup: cannot remove %s (%s)" % (_PROBE_BAD_HOST, exc))
-        if level_written:
-            try:
-                (PROJECT_ROOT / "Levels" / "E2eProbeLevel.json").unlink()
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove the generated level config (%s)" % exc)
-        if broken_level_written:
-            try:
-                (PROJECT_ROOT / "Levels" / "E2eProbeLevelBroken.json").unlink()
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove the broken level config (%s)" % exc)
-        for artifact in (_BOSS_SCENE, _BOSS_HOST_SCENE, _BOSS_LEVEL, _BOSS_BAD_LEVEL,
-                         _STAGE_GRUNT_SCENE, _STAGE_BOSS_SCENE, _STAGE_HOST_SCENE,
-                         _STAGE_LEVEL, _STAGE_BAD_LEVEL, _STAGE_TRACE):
-            try:
-                if artifact.exists():
-                    artifact.unlink()
-                Path(str(artifact) + ".uid").unlink(missing_ok=True)
-            except OSError as exc:                              # pragma: no cover
-                _failures.append("cleanup: cannot remove %s (%s)" % (artifact, exc))
-        probe_script = PROJECT_ROOT / "Tests" / "e2e_behavior_probe.gd"
-        death_script = PROJECT_ROOT / "Tests" / "e2e_death_victory_probe.gd"
-        level_script = PROJECT_ROOT / "Tests" / "e2e_level_orchestration_probe.gd"
-        boss_script = PROJECT_ROOT / "Tests" / "e2e_boss_level_probe.gd"
-        stage_script = PROJECT_ROOT / "Tests" / "e2e_multi_stage_boss_probe.gd"
-        level_configs = [PROJECT_ROOT / "Levels" / "E2eProbeLevel.json",
-                         PROJECT_ROOT / "Levels" / "E2eProbeLevelBroken.json",
-                         _BOSS_LEVEL, _BOSS_BAD_LEVEL, _STAGE_LEVEL, _STAGE_BAD_LEVEL,
-                         _STAGE_TRACE]
+        # ---- 所有权清理（Phase 1.33）：只删清单内 + 本运行缺席证明 + 签名匹配的路径 ----
+        removed_count, refused_count = _ownership_cleanup(absent_after_scan)
+        print("[ownership] stale_removed=%d stale_refused=%d removed=%d refused=%d"
+              % (len(_stale_removed), len(_stale_refused), removed_count, refused_count))
+        ok("O1: every artifact deleted this run was created this run and signature-verified",
+           refused_count == 0, repr((refused_count, _stale_refused)))
+        ok("O2: no artifact created by this run is left behind",
+           not any(target.exists() for target in _declared_targets()
+                   if target in absent_after_scan),
+           repr([_rel(target) for target in _declared_targets()
+                 if target in absent_after_scan and target.exists()]))
+        # Z1 覆盖面由「逐个手写」改为「声明清单全部」（Phase 1.33）：清单含全部场景/
+        # 关卡/探针/trace 及其 .uid 派生物，是旧断言集合的超集。
+        leftovers = [_rel(target) for target in _declared_targets() if target.exists()]
         ok("Z1: probe artifacts removed from the project (no leftovers)",
-           not _PROBE_SCENE.exists() and not _PROBE_TEST.exists()
-           and not _NOCASE_SCENE.exists() and not _MUTANT_SCENE.exists()
-           and not _IMMORTAL_SCENE.exists()
-           and not _PROBE_PLAYER_SCENE.exists() and not _PROBE_DUAL_SCENE.exists()
-           and not _PROBE_BAD_HOST.exists()
-           and not _DUAL_PROBE_SCRIPT.exists()
-           and not (PROJECT_ROOT / "Tests" / "e2e_boss_level_trace.json").exists()
-           and not probe_script.exists() and not death_script.exists()
-           and not boss_script.exists() and not stage_script.exists()
-           and not _BOSS_SCENE.exists() and not _BOSS_HOST_SCENE.exists()
-           and not _STAGE_GRUNT_SCENE.exists() and not _STAGE_BOSS_SCENE.exists()
-           and not _STAGE_HOST_SCENE.exists()
-           and not level_script.exists()
-           and not any(path.exists() for path in level_configs),
-           repr([str(p) for p in (_PROBE_SCENE, _PROBE_TEST, _NOCASE_SCENE, _MUTANT_SCENE,
-                                  _IMMORTAL_SCENE, _PROBE_PLAYER_SCENE, _PROBE_DUAL_SCENE,
-                                  _DUAL_PROBE_SCRIPT, probe_script, death_script, level_script,
-                                  boss_script, stage_script, _BOSS_SCENE, _BOSS_HOST_SCENE,
-                                  _STAGE_GRUNT_SCENE, _STAGE_BOSS_SCENE, _STAGE_HOST_SCENE)
-                 + tuple(level_configs) if p.exists()]))
+           not leftovers, repr(leftovers))
         # Phase 1.24（任务 C）：本测试创建/删除了多个生成场景，会弄脏 Godot 导入
         # 缓存；刷新一次，让同一轮里随后运行的测试（如 cross-layer 的 Godot 探针）
         # 不必删除陈旧缓存条目——那是批量删除守卫误伤的来源。构建卫生，非守卫规避。
@@ -2044,6 +2114,13 @@ def main() -> int:
             except (OSError, subprocess.SubprocessError):
                 pass
         shutil.rmtree(work, ignore_errors=True)
+
+    # Phase 1.34：释放串行锁（正常完成 / 测试失败 / 启动异常都经 finally 到达这里；
+    # 进程异常退出时锁残留 → 下一次运行按持有者 pid 存活状态回收）。释放失败会
+    # 作为断言失败呈现（锁身份与本运行不一致 = fail-closed，不碰他人的锁）。
+    _released = run_lock.release(_lock_path, _lock.get("holder") or {})
+    if _released["status"] != "released":
+        _failures.append("lock: %s" % _released["message"])
 
     print()
     if _skips:

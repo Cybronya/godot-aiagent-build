@@ -13,25 +13,51 @@ Usage:
     python .ai/tools/run_tests.py --stop-on-fail
 
 A positional filter matches a test's repository-relative path.
-Exit codes: 0 all selected tests passed; 1 test failure or incomplete run;
+
+结果分类（Phase 1.26，报告真实状态而不把中断/
+超时当成通过；Phase 1.29 补上「报告了 SKIP」）：
+  PASS        实际执行且退出码 0，且**没有报告任何跳过（SKIP）的检查**
+  FAIL        实际执行且退出码非 0，且输出里有失败报告（断言失败 / 契约不符 / 崩溃）
+  INCOMPLETE  未执行、执行中断、超时、进程未给出任何报告即退出，或测试自报
+              `SKIP: …`（依赖不可用 ⇒ 并非全部断言执行过）——无法确定结果
+
+Phase 1.29 为何把 SKIP 归为 INCOMPLETE：本入口的 PASS 承诺是「实际执行过」；
+测试自报 SKIP（例：godot executable not found ⇒ T 段黄金基线捕获/比较整段未跑）时
+退出码仍为 0，若不单独识别，未执行的检查段会被汇总成 passed。与
+validator/README 的「检查缺失永远不会被伪装成通过」保持一致。
+
+Exit codes: 0 全部 PASS；1 存在 FAIL 或 INCOMPLETE（含 Godot 不可用）；
 2 Godot binary missing when Godot tests are explicitly requested only.
 
-环境限制（Phase 1.24，如实记录）：运行环境的批量删除守卫
-（SAFE_DELETE_BULK_CONFIRM_REQUIRED）对**同一条命令**内的工作区文件删除设 50 次
-上限，超限后终止发起删除的进程。e2e 集成套件 + cross-layer 契约测试的合法自清理
-总量超过该上限，因此**单命令全量运行**会在 cross-layer 的清理阶段被终止（其契约
-断言本身全部通过）。本入口在启动时刷新一次 Godot 导入缓存、e2e 结束时再刷新一次
-（构建卫生，减少后续测试的缓存删除churn），但总量仍超限。可靠的全量覆盖请用
-**分段执行**（每段一条独立命令 = 独立删除预算，全部已验证通过）：
+环境观测（Phase 1.24 记录，**Phase 1.30 复核并更正**）：某些宿主运行时（WorkBuddy，
+2026-10-17）对**同一条命令**内的工作区文件删除设 50 次上限，超限即终止发起删除的
+进程（SAFE_DELETE_BULK_CONFIRM_REQUIRED）。该守卫**不在本仓库代码中**（仓库里只有
+文档提到它）。当时 e2e 沙箱清理 + cross-layer 清理的合法删除总量超限，使单命令全量
+在清理阶段被终止——契约断言本身已全部通过。
 
-    python .ai/tools/run_tests.py --godot-only            # Godot 全部（36）
+Phase 1.30 实测（Freebuff，2026-10-19）：该守卫**不存在**——单命令内 2000 次工作区
+`unlink()` 不被终止，且 `python .ai/tools/run_tests.py` 单命令完成 **81/81 PASS（exit 0）**。
+因此「单命令全量必被终止」是**宿主环境条件观测，不是本项目的固定限制**，不应作为
+全量结果 INCOMPLETE 的默认解释。本入口在启动时刷新一次 Godot 导入缓存、e2e 结束时
+再刷新一次（构建卫生，减少缓存删除 churn）。
+
+被外部终止的进程仍以非 0 退出码、但没有失败报告结束 → 本入口将其归为
+INCOMPLETE（不是 PASS），总入口返回 1。分段执行同样适用该分类：某段出现
+INCOMPLETE 就不能宣称该段通过。在会触发删除守卫的宿主上，请用**分段执行**
+（每段一条独立命令 = 独立删除预算）：
+
+    python .ai/tools/run_tests.py --godot-only            # Godot 全部（38）
     python .ai/tools/run_tests.py asset_registry          # 11
-    python .ai/tools/run_tests.py e2e                     # e2e 集成（含 T 段黄金基线）
+    python .ai/tools/run_tests.py e2e                     # 1（e2e 集成；内部 171 项断言，含 T 段黄金基线）
     python .ai/tools/run_tests.py feature_registry        # 4
     python .ai/tools/run_tests.py gameplay_planner        # 2
     python .ai/tools/run_tests.py runtime                 # 4
     python .ai/tools/run_tests.py scene_composer          # 17
-    python .ai/tools/run_tests.py validator               # 7（含 cross-layer / 黄金基线）
+    python .ai/tools/run_tests.py validator               # 9（含 cross-layer / 黄金基线 / 入口证据完整性 /                                                           #    运行工作区所有权 W1–W19）
+
+过滤按**路径子串**匹配（含文件名），段之间可能重叠（如 scene_composer 下名为
+`*_validator*.py` 的文件同时落入 validator 段），因此各段计数之和不等于 Python 总数
+（当前 44；全量 = Godot 38 + Python 44 = 82）。
 """
 
 from __future__ import annotations
@@ -43,6 +69,14 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+
+STATUS_PASS = "PASS"
+STATUS_FAIL = "FAIL"
+STATUS_INCOMPLETE = "INCOMPLETE"
+# 测试自身报告失败时会写出的标记（用于区分「断言失败」与「未报告就死掉」）
+FAILURE_MARKERS = ("FAIL", "FAILED", "Traceback", "SCRIPT ERROR")
+# 测试自报跳过的标记（Phase 1.29）：出现即说明有检查没有执行，不能算作无条件 PASS。
+SKIP_MARKERS = ("SKIP:",)
 
 # Candidate executables for the common Windows project layout. PATH lookup
 # also supports Linux/macOS and installations outside the project directory.
@@ -127,36 +161,80 @@ def filter_tests(tests: list[Path], filter_dir: str | None) -> list[Path]:
     ]
 
 
-def run_godot_test(godot: str, test: Path) -> tuple[bool, str]:
+def skipped_checks(output: str) -> int:
+    """测试自报的跳过条数（`SKIP:` 行数）；用于诊断与证据追溯。"""
+    return sum(1 for marker in SKIP_MARKERS for _ in range(output.count(marker)))
+
+
+def classify(returncode: int, output: str, timeout_label: str) -> str:
+    """把一次执行归类为 PASS / FAIL / INCOMPLETE（只依据可观察证据）。
+
+    Phase 1.29：PASS 要求退出码为 0 **且**没有自报 SKIP——测试报告了跳过的检查，就说明
+    有断言没有执行（例：Godot 缺失时 T 段黄金基线捕获/比较整段跳过），不能汇总成 passed。
+    非 0 退出仍以失败报告优先判 FAIL（断言失败不能被降级成「只是没跑全」）。
+    """
+    if timeout_label:
+        return STATUS_INCOMPLETE
+    if returncode == 0:
+        return STATUS_INCOMPLETE if skipped_checks(output) else STATUS_PASS
+    # 非 0 退出但完全没有失败报告 = 无法确定是断言失败还是被外部终止
+    #（例如环境的批量删除守卫杀死进程）——记为 INCOMPLETE，两神都使总入口非 0。
+    if not any(marker in output for marker in FAILURE_MARKERS):
+        return STATUS_INCOMPLETE
+    return STATUS_FAIL
+
+
+def _detail_for(status: str, returncode: int, output: str, timeout_label: str) -> str:
+    """非 PASS 结果的诊断行：带上退出码 / 超时与自报跳过条数（证据可追溯）。"""
+    detail = timeout_label or f"exit={returncode}"
+    skipped = skipped_checks(output)
+    if status == STATUS_INCOMPLETE and skipped:
+        detail += f"; reported {skipped} skipped check(s) (dependency unavailable?)"
+    return detail
+
+
+
+def run_godot_test(godot: str, test: Path) -> tuple[str, str]:
     res_path = "res://" + test.relative_to(PROJECT_ROOT).as_posix()
     cmd = [godot, "--headless", "--path", str(PROJECT_ROOT), "-s", res_path]
+    timeout_label = ""
     try:
         proc = subprocess.run(
             cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
             timeout=GODOT_TIMEOUT_PER_TEST, stdin=subprocess.DEVNULL,
         )
+        returncode, output = proc.returncode, (proc.stdout or "") + (proc.stderr or "")
     except subprocess.TimeoutExpired:
-        return False, f"TIMEOUT after {GODOT_TIMEOUT_PER_TEST}s"
-    ok = proc.returncode == 0
-    tail = "\n".join(((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()[-5:])
-    return ok, f"exit={proc.returncode}" + (f"\n{tail}" if not ok else "")
+        returncode, output = 1, ""
+        timeout_label = f"TIMEOUT after {GODOT_TIMEOUT_PER_TEST}s"
+    status = classify(returncode, output, timeout_label)
+    tail = "\n".join(output.strip().splitlines()[-5:])
+    if status == STATUS_PASS:
+        return status, f"exit={returncode}"
+    detail = _detail_for(status, returncode, output, timeout_label)
+    return status, detail + (f"\n{tail}" if tail else "")
 
 
-def run_python_test(test: Path) -> tuple[bool, str]:
+def run_python_test(test: Path) -> tuple[str, str]:
     cmd = [sys.executable, str(test)]
     timeout = python_timeout_for(test)
+    timeout_label = ""
     try:
         proc = subprocess.run(
             cmd, cwd=str(PROJECT_ROOT), capture_output=True, text=True,
             encoding="utf-8", errors="replace", timeout=timeout,
             stdin=subprocess.DEVNULL,
         )
+        returncode, output = proc.returncode, (proc.stdout or "") + (proc.stderr or "")
     except subprocess.TimeoutExpired:
-        return False, f"TIMEOUT after {timeout}s"
-    ok = proc.returncode == 0
-    output = ((proc.stdout or "") + (proc.stderr or "")).strip().splitlines()
-    tail = "\n".join(output[-8:])
-    return ok, f"exit={proc.returncode}" + (f"\n{tail}" if not ok else "")
+        returncode, output = 1, ""
+        timeout_label = f"TIMEOUT after {timeout}s"
+    status = classify(returncode, output, timeout_label)
+    if status == STATUS_PASS:
+        return status, f"exit={returncode}"
+    tail = "\n".join(output.strip().splitlines()[-8:])
+    detail = _detail_for(status, returncode, output, timeout_label)
+    return status, detail + (f"\n{tail}" if tail else "")
 
 
 def main() -> int:
@@ -206,8 +284,10 @@ def main() -> int:
     )
 
     failures: list[str] = []
+    incomplete: list[str] = []
     unavailable: list[str] = []
     completed = 0
+    passed = 0
 
     suites: list[tuple[str, list[Path], object]] = []
     if godot_tests and godot:
@@ -225,35 +305,44 @@ def main() -> int:
         for test in tests:
             completed += 1
             rel = test.relative_to(PROJECT_ROOT).as_posix()
-            ok, detail = runner(test)  # type: ignore[operator]
-            mark = "PASS" if ok else "FAIL"
-            print(f"[{completed}/{total}] {mark} {rel}" + (f"  ({detail})" if not ok else ""))
-            if not ok:
+            status, detail = runner(test)  # type: ignore[operator]
+            if status == STATUS_PASS:
+                passed += 1
+            print(f"[{completed}/{total}] {status} {rel}"
+                  + (f"  ({detail})" if status != STATUS_PASS else ""))
+            if status == STATUS_FAIL:
                 failures.append(rel)
-                if args.stop_on_fail:
-                    stop = True
-                    break
+            elif status == STATUS_INCOMPLETE:
+                incomplete.append(rel)
+            if status != STATUS_PASS and args.stop_on_fail:
+                stop = True
+                break
         if stop:
             break
 
-    passed = completed - len(failures)
+    not_executed = total - completed
     print(
         "[run_tests] completed={completed}/{total} "
-        "passed={passed} failed={fail} unavailable={unavail}".format(
-            completed=completed, total=total,
-            passed=passed if passed >= 0 else '-',
-            fail=len(failures), unavail=len(unavailable)))
+        "passed={passed} failed={fail} incomplete={incomplete} "
+        "unavailable={unavail} not_executed={missing}".format(
+            completed=completed, total=total, passed=passed,
+            fail=len(failures), incomplete=len(incomplete),
+            unavail=len(unavailable), missing=not_executed))
     if unavailable:
         print("[run_tests] unavailable tests (not executed):")
         for rel in unavailable:
             print(f"  - {rel} (Godot unavailable)")
+    if incomplete:
+        print("[run_tests] INCOMPLETE tests (timeout / killed / no verdict):")
+        for rel in incomplete:
+            print(f"  - {rel}")
+        if stop:
+            print("[run_tests] remaining tests were not executed (--stop-on-fail)")
     if failures:
         print("[run_tests] failed tests:")
         for failure in failures:
             print(f"  - {failure}")
-        return 1
-    if unavailable:
-        print("[run_tests] INCOMPLETE: some suites unavailable (see list above)")
+    if failures or incomplete or unavailable or not_executed:
         return 1
     print("[run_tests] ALL PASS")
     return 0

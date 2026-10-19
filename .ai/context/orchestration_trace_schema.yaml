@@ -47,6 +47,9 @@ event:
 事件类型（生产触发点 → 语义）:
   orchestration_started:               # LevelOrchestrator.start() 接线成功后恰好一次
     data: {mode: waves|holdout|boss, stage_count: <int>}   # boss 模式胜利要求 boss 死亡
+    # Phase 1.28：data.mode 必须显式声明为 boss / waves / holdout 之一（invalid_start_mode）。
+    # 模式未知时所有模式专属规则都无法判定，因此拒绝而不是静默放行——旧 trace 一律在
+    # 首个事件声明 mode（真实捕获的四个基线均如此）。
   stage_started:                       # _start_stage(index)：阶段真正进入活动状态
     reason: "<stage_type>; data: {stage_type, stage_count}"
   stage_completed:                     # _complete_stage()：阶段确实满足完成条件
@@ -55,13 +58,23 @@ event:
     reason: "stage_completed | stages_exhausted"
     data: {from_stage_id, from_stage_index, to_stage_id, to_stage_index}
     # 顶层 stage_id/stage_index = 目标阶段；阶段链耗尽时 to_* 与顶层阶段字段均为 null
+    # Phase 1.28（模式边界）：以上三个阶段事件仅 mode == boss 且 data.stage_count > 0
+    # 时可达（stage_event_outside_boss_stages）——LevelConfig 禁止 waves / holdout 声明
+    # stages，单阶段 boss 不产生阶段事件；stage_index 必须 < data.stage_count
+    # （stage_start_outside_declared_count）。
   boss_death_confirmed:                # _mark_boss_defeated()：配置指定的 Boss 被真实死亡机制确认
     reason: "health_died; entity_id: <boss.entity>; instance_name: <实例名>"
     data: {boss_defeated_events: <int>}    # 恒为 1（重复 died 不重复确认）
   level_victory:                       # _finish(true) 与生产终结状态一致；只出现一次
     reason: "boss_defeated | all_waves_cleared | survive_duration | exit_reached_after_unlock | forced"
+    # Phase 1.28：reason 受模式约束（victory_reason_outside_mode）——boss 只能
+    # boss_defeated / forced；waves 只能 exit_reached_after_unlock / all_waves_cleared /
+    # forced；holdout 只能 survive_duration / forced。取值来自 LevelOrchestrator 的
+    # 实际写入点，不凭契约想象力扩展（forced = finish_level 显式终结）。
   level_failed:                        # fail_setup() / _finish(false) 与生产终结状态一致
     reason: "player_died | wave_timeout | setup_failed | forced"
+    # Phase 1.28：failure_reason_outside_mode —— player_died / setup_failed / forced 三模式
+    # 共有；wave_timeout 仅 waves（holdout 超时=生存成功而非失败）。
     data: "{field, message}（仅 setup_failed）"
   duplicate_event_ignored:             # 已结算的重复通知被忽略（可观测但不重复结算）
     reason: "boss_death | enemy_death | stage_completion | player_death | already_finished | exit_after_finish"
@@ -95,6 +108,12 @@ reason 代码语义:
     转移的 from = 最后完成阶段且 to 与随后的 stage_started 一致 / boss 模式胜利前必须有
     boss_death_confirmed / 阶段数完成后才可胜利 / 终结互斥且终结后只允许 duplicate_event_ignored /
     未知事件类型与未知 schema 版本一律拒绝（不静默忽略）。
+  - Phase 1.28（跨模式语义）：orchestration_started.data.mode 必须为 boss / waves /
+    holdout（invalid_start_mode）；阶段事件仅 boss 且已声明阶段数
+    （stage_event_outside_boss_stages）、索引必须在声明范围内
+    （stage_start_outside_declared_count）；终结原因必须落在该模式的可达集合
+    （victory_reason_outside_mode / failure_reason_outside_mode）。公共规则只约束
+    真是跨模式成立的约束，模式各自的事件链互不要求对方的事件。
   - 输出：final_state（empty|playing|victory|failed）、当前/最终阶段身份、started/completed
     阶段、transitions、boss_death_confirmed、victory/failed/terminated、ignored/rejected 列表、
     errors（首条不合法事件的 sequence + 稳定 reason）、event_summary、events_processed、
@@ -119,10 +138,12 @@ golden_baseline:                                       # document: orchestration
   scenarios:                                           # Phase 1.24 起四种编排模式各有基线
     multi_stage_boss: 清理→Boss 阶段→Boss 死亡确认→Victory（2 事件级 + 阶段链）
     single_stage_boss: Boss 死亡确认→Victory
-    waves: orchestration_started(waves) → level_victory(exit_reached_after_unlock)；
-           波次推进/出口解锁语义由探针度量断言（trace 契约 v1 不含波次事件——已知限制）
-    holdout: orchestration_started(holdout) → level_victory(survive_duration)；
-             持续生成/期满前不结算由探针度量断言（同上限制）
+    waves: orchestration_started(waves) → wave_started/cleared(0..1) → exit_unlocked
+           → level_victory(exit_reached_after_unlock)（v2，7 事件；波次推进与出口解锁
+           为事件级保护；生成数量与门状态为探针度量断言）
+    holdout: orchestration_started(holdout) → spawn_schedule_started(0)
+             → level_victory(survive_duration)（v2，3 事件；生成调度激活为事件级保护；
+             alive_seen / 期满前不结算为探针度量断言）
   fields:
     scenario_id: <场景标识（multi_stage_boss / single_stage_boss）>
     scenario_description: <覆盖范围的人类可读描述>
@@ -160,6 +181,10 @@ golden_baseline:                                       # document: orchestration
       - Phase 1.24：review 与 apply 都从候选文件**内容**重算指纹（normalized_fingerprint：
         trace schema 版本 + 全部事件，仅归一化 run_id/timestamp_ms）并与记录指纹比对；
         不一致 = 拒绝（exit 1，正式基线不动，不留半写入文件——apply 原子写入）
+      - Phase 1.26：指纹方案版本化。scheme 1 = Phase 1.23（payload 含 scenario_id，
+        仅 multi_stage_boss / single_stage_boss 的历史批准记录使用）；scheme 2 = Phase 1.24+
+        （不含 scenario_id，当前方案）。候选记录 approval.candidate_fingerprint_scheme；
+        历史文件无该字段时按文档化方案集合逐个验算（必须精确命中，不降低篡改检测）。
 
 
 # ============================================================
@@ -196,14 +221,137 @@ wave_events:                                           # 仅 waves 模式产生�
     victory_rule: mode == waves 且 total 已知时，level_victory 前必须清完全部波次
       （victory_before_all_waves_cleared 拒绝）；旧 trace（无波次事件、total 未知）
       不受此规则约束（向后兼容）
+    exit_unlock_precondition: >-
+      Phase 1.26：同为 waves 且 total 已知时，reason == exit_reached_after_unlock 的
+      level_victory 必须已有 exit_unlocked（victory_without_exit_unlock 拒绝）——
+      出口锁定期间不可能成立胜利。victory = all_waves_cleared 的直接胜利路径不经过
+      出口，不要求 exit_unlocked。旧 trace（无波次事件）不被事后套用新规则。
   golden_baseline_impact:
     waves: v2（Phase 1.25 重批：7 事件语义链 started→wave0→clear→wave1→clear→
       exit_unlocked→victory，真实 Godot 沙箱捕获 + 显式批准）
-    holdout: 保持 v1（审计结论：holdout 的开始与计时是同一原子转换 orchestration_started
-      （reason=holdout），完成已有 level_victory(survive_duration)——按「不虚构不存在的
-      状态」原则不新增事件；持续生成语义由探针度量断言）
-    boss 单/多阶段: 不变（不产生波次事件，零重录）
+    holdout: v2（Phase 1.27 重批：3 事件链 started→spawn_schedule_started(0)→
+      victory，真实 Godot 沙箱捕获 + 显式批准；v1 无生成调度事件，已被逐事件保护取代）
+    boss 单/多阶段: 不变（不产生波次/调度事件，零重录）
   coverage_statement: >-
-    事件级保护范围：波次开始/推进顺序、清空转换、出口解锁时机与次数、终结语义。
+    事件级保护范围：波次开始/推进顺序、清空转换、出口解锁时机与次数、holdout 生成调度
+    激活（每条调度一次）、终结语义（victory / failed / 终结后重复）。
     探针断言（非 trace 事件）：波次敌人生成数量、首波未清不生成第二波的生成层行为、
-    holdout 持续生成调度与 max_alive。未覆盖：spawn 级粒度事件（评估为噪声大于价值）。
+    holdout alive_seen 与 max_alive 限流。未覆盖：逐次 spawn 粒度事件（评估为噪声大于
+    价值）；holdout 失败路径与终结后重复不进基线，由 Tests/test_holdout_trace.gd 覆盖。
+  exit_gate_test:                                      # Phase 1.26：真实 Godot 注入
+    script: Tests/test_waves_exit_gate.gd                # G1–G6
+    proves: >-
+      出口锁定时把玩家注入出口区（真实 Area2D body_entered 路径）不结算：state 仍
+      Playing、无 level_victory、门不开，trace 记 invalid_transition_rejected(exit_locked)；
+      清空最后一波后 exit_unlocked 晚于最后一个 wave_cleared；随后经真实输入走进出口区
+      才产生唯一的 level_victory(exit_reached_after_unlock) 并位于最后一个事件。
+    trace_source: TimedCombatArena.export_trace_json（生产导出接口，非手工拼接事件）
+    baseline_impact: 无（守卫场景不进黄金基线；其事件流由回放规则与比较器用例锁定）
+
+# ============================================================
+# Holdout 语义事件（Phase 1.27 —— v1 加性扩展，向后兼容）
+
+holdout_events:                                        # 仅 holdout 模式产生；schema_version 仍为 1
+  compatibility: >-
+    加性扩展：旧 holdout trace（不含 spawn_schedule_started）仍可回放；但已批准的
+    holdout 基线 v2 要求该事件，因此旧 trace 与 v2 基线比较会得到 EVENT_MISSING
+    （REGRESSION，exit 1）——这是预期的行为变更信号，不是兼容性破坏。
+    其他模式（boss / waves）不产生该事件，也不受其规则影响。
+  event_types:
+    spawn_schedule_started:
+      produced_by: LevelOrchestrator._run_spawn_schedules（调度首次真正产出敌人的
+        转换边界；_spawn_schedule_started 守卫保证每条调度至多一次）
+      data: {schedule: <int 调度索引>, entity: <str 配置实体 id>,
+             interval: <正数 生成间隔>, max_alive: <非负整数 该调度存活上限，0 = 不限>}
+      order: 必须在 orchestration_started 之后；不得出现在终结事件之后
+        （event_after_terminal）；不要求按索引递增（各调度 delay 不同，先激活的可以是
+        后一条；每条索引本身至多出现一次）
+      repeat: 同一 schedule 索引不允许重复（duplicate_spawn_schedule 拒绝）
+      mode: 仅 holdout（spawn_event_outside_holdout_mode 拒绝）；不得携带
+        stage_id/stage_index（invalid_spawn_event 拒绝）
+  replay_rules:
+    payload_shape: data.schedule 必须为非负整数、data.entity 为字符串、
+      data.interval 为正数、data.max_alive 为非负整数，否则 invalid_spawn_event
+    no_invented_activation: 未在生存期内到点的调度（delay 大于 survival_duration）
+      不得产生该事件——测试 H2 锁定「不得虚构调度已激活」
+  runtime_summary:                                     # 供回放结果读取
+    spawn_schedules_started: 已激活的调度索引列表（保序，去重由回放规则保证）
+  golden_baseline_impact:
+    holdout: v2（3 事件：started → spawn_schedule_started(0) → victory）
+    boss / waves: 不受影响（不产生该事件）
+  failure_path_test:                                   # 不进基线，但必须真实执行
+    script: Tests/test_holdout_trace.gd                 # H1–H7
+    proves: >-
+      H1 正常完成链（started → schedule0 → victory，终结唯一且最后）；H2 delay 超出
+      生存期的调度不产生事件；H3 生存期满前玩家死亡 → level_failed(player_died) 唯一
+      且为最后事件、无 level_victory；H4 胜利后再收到死亡通知 →
+      duplicate_event_ignored(player_death)，终结仍唯一；H5 期满前不结算；
+      H6 序号/时间戳契约；H7 临时配置与导出 trace 清理。
+      用例全部通过生产导出接口 export_trace_json 读取事件。
+
+# ============================================================
+# Cross-Mode Semantics（Phase 1.28 —— 公共语义与模式特有语义的边界）
+
+cross_mode_semantics:
+  intent: >-
+    统一 boss / waves / holdout 三种模式之间**真正公共**的 trace 约束，并把模式特有限定
+    显式写进规则。不为了统一而强迫三种模式产生相同的事件序列；也不新增生产事件。
+  public_rules:                                        # 跨模式成立（与模式无关）
+  - 文档/事件结构、字段类型、序号 +1、时间戳非递减（既有规则）
+  - orchestration_started 必须存在、唯一、居首，且 data.mode ∈ {boss, waves, holdout}
+    （invalid_start_mode）
+  - 终结事件互斥且至多一个；终结之后只允许 duplicate_event_ignored
+    （duplicate_terminal / conflicting_terminal / event_after_terminal）
+  - 任何非法序列都给出稳定 reason 与退出码（1 = 违反契约，2 = 输入错误）
+  - 公共规则不得要求某个模式产生另一模式的事件
+  mode_specific_rules:                                 # 必须在规则上显式限定模式
+    boss:
+      events: [stage_started, stage_completed, stage_transitioned, boss_death_confirmed]
+      stage_events_require: mode == boss 且 data.stage_count > 0
+        （stage_event_outside_boss_stages）；stage_index < data.stage_count
+        （stage_start_outside_declared_count）
+      victory_reasons: [boss_defeated, forced]
+      failure_reasons: [player_died, setup_failed, forced]
+      victory_precondition: 已有 boss_death_confirmed（victory_without_boss_death）且已完成
+        声明的全部阶段（victory_before_all_stages）
+    waves:
+      events: [wave_started, wave_cleared, exit_unlocked]
+      victory_reasons: [exit_reached_after_unlock, all_waves_cleared, forced]
+      failure_reasons: [player_died, setup_failed, wave_timeout, forced]
+      victory_precondition: 清完全部波次（victory_before_all_waves_cleared）；reason =
+        exit_reached_after_unlock 时还必须有 exit_unlocked（victory_without_exit_unlock）
+    holdout:
+      events: [spawn_schedule_started]
+      victory_reasons: [survive_duration, forced]
+      failure_reasons: [player_died, setup_failed, forced]
+      note: 生存期满即胜利（wave_timeout 属于 waves 语义，不是 holdout 失败）
+  rejection_codes:                                     # Phase 1.28 新增（回放 + 比较器共用）
+    invalid_start_mode: data.mode 缺失 / 非字符串 / 不在三种模式内（停止解释：模式未知）
+    stage_event_outside_boss_stages: 阶段事件出现在 waves / holdout，或 boss 未声明阶段数
+    stage_start_outside_declared_count: stage_index 超出 data.stage_count
+    victory_reason_outside_mode: 胜利原因不属于该模式的可达集合
+    failure_reason_outside_mode: 失败原因不属于该模式的可达集合
+  baseline_contract:                                   # Phase 1.28：基线也要过回放
+    rule: validate_baseline 在结构校验通过后必须回放事件（错误前缀 "events must replay:"）
+    why: >-
+      结构合法但语义不合法的基线（手改 / 拼接）会让比较器把「基线不可能发生」错报成真实
+      trace 的回归。实测（修复前）：由不可达 trace 构造的基线可被 build_baseline 接受、
+      validate_baseline 返回空错误、compare(同一条非法 trace) = PASS / exit 0。
+    effect: 此类基线 → INVALID_BASELINE（exit 2），原因指向基线而不是 trace
+  golden_baseline_impact:
+    rule: 默认不重新录制任何现有基线；boss / waves 事件字节不变
+    verified: >-
+      Phase 1.28 仅改校验器与文档：四个已批准基线（multi_stage_boss 11 事件、
+      single_stage_boss 5、waves 7、holdout 3）在新规则下仍可回放且自比较 PASS。
+      holdout v1 / v2 兼容策略不变（v1 无调度事件 → 与 v2 基线比较报 EVENT_MISSING）。
+  evidence:                                            # 证据分层，不得混淆
+    replay_unit: validator/tests/test_orchestration_trace.py  # R68–R80（人工事件序列）
+    comparator_unit: validator/tests/test_trace_baselines.py  # U77–U85（回放器与比较器
+      # 对同一非法语义给出一致可解释结果；非法基线 → INVALID_BASELINE）
+    real_godot: >-
+      模式特有事件的生产可达性由真实捕获基线（四个）与既有 Godot 用例承担：
+      Tests/test_holdout_trace.gd（H1–H7）、Tests/test_waves_exit_gate.gd（G1–G7）、
+      boss 编排用例；本阶段新增规则属回放/比较器语义，不用手工 JSON 冒充生产行为。
+    limitations: >-
+      阶段 id 与配置拓扑的对应、逐次 spawn 粒度、max_alive 限流仍由生成链路探针度量，
+      回放层不声称能验证这些（不在本阶段扩大声明）。

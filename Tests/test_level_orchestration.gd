@@ -22,19 +22,36 @@ extends SceneTree
 const ARENA_SCENE := "res://Scenes/TimedCombatArena.tscn"
 const ENEMY_SCENE := "res://Scenes/Enemy.tscn"
 const SHIPPED_LEVEL := "res://Levels/timed_combat_arena.json"
-const TEMP_DIR := "res://Levels"
-const TEMP_LEVEL := "res://Levels/E2eLevelOrchestrationTest.json"
-const TEMP_LEVEL_DIRECT_WIN := "res://Levels/E2eLevelDirectWinTest.json"
-const TEMP_LEVEL_INVALID := "res://Levels/E2eLevelInvalidTest.json"
 const ATTACK_ACTION := "p1_attack"
 const MOVE_ACTION := "move_right"
 const ATTACK_BUDGET := 10
 const EXIT_BUDGET := 300
 const EXIT_START := Vector2(560, 0)
 
+## Phase 1.33（F4-B）：本运行专属目录。三个临时关卡配置不再写入共享的 `res://Levels`，
+## 而是落在 `.ai/tmp/runs/<pid>-<16 位十六进制随机后缀，与 Python run_workspace 同一契约>/`；只有「本运行写入且内容未变」的资源才允许删除。
+var _run_dir := _make_run_dir()
+var TEMP_LEVEL := _run_dir + "/E2eLevelOrchestrationTest.json"
+var TEMP_LEVEL_DIRECT_WIN := _run_dir + "/E2eLevelDirectWinTest.json"
+var TEMP_LEVEL_INVALID := _run_dir + "/E2eLevelInvalidTest.json"
+var _owned: Dictionary = {}
+
 var _failures: PackedStringArray = []
 var _finish_events: Array = []
 var _temp_files: PackedStringArray = [TEMP_LEVEL, TEMP_LEVEL_DIRECT_WIN, TEMP_LEVEL_INVALID]
+
+
+func _make_run_dir() -> String:
+	var base := "res://.ai/tmp/runs"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(base))
+	for attempt in 16:
+		var id := "%d-%08x%08x" % [OS.get_process_id(), randi(), randi()]
+		var candidate := base + "/" + id
+		if DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(candidate)):
+			continue                       # 标识冲突：拒绝接管，重试下一个候选
+		if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(candidate)) == OK:
+			return candidate
+	return ""
 
 
 func _initialize() -> void:
@@ -326,20 +343,49 @@ func _on_arena_finished(success: bool) -> void:
 
 
 func _write_json(path: String, data: Dictionary) -> bool:
-	if DirAccess.open(TEMP_DIR) == null:
-		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(TEMP_DIR))
+	if _run_dir.is_empty():
+		return false
+	if DirAccess.open(_run_dir) == null:
+		if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_run_dir)) != OK:
+			return false
+	var text := JSON.stringify(data, "  ") + "\n"
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		return false
-	file.store_string(JSON.stringify(data, "  ") + "\n")
+	file.store_string(text)
 	file.close()
+	_owned[path] = text.sha256_text()
 	return true
 
 
 func _cleanup() -> void:
-	for path in _temp_files:
+	# 只删「本运行写入且内容未变」的资源；内容不符 = 所有权无法证明 ⇒拒绝并报告。
+	for path: String in _owned.keys():
+		if not FileAccess.file_exists(path):
+			continue
+		var current := FileAccess.get_file_as_string(path)
+		if current.sha256_text() != _owned[path]:
+			_fail("ownership: 内容与本运行写入不一致，拒绝删除 %s" % path)
+			continue
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 		if FileAccess.file_exists(path):
-			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+			_fail("cleanup: 无法删除 %s" % path)
+	if not _run_dir.is_empty() and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(_run_dir)):
+		if DirAccess.remove_absolute(ProjectSettings.globalize_path(_run_dir)) != OK:
+			_fail("cleanup: 运行目录非空或无法删除 %s" % _run_dir)
+
+
+## 只报告不删除：`res://Levels` 中前缀命中但**不属于本运行**的残留。
+func _report_foreign_leftovers() -> void:
+	var dir := DirAccess.open("res://Levels")
+	if dir == null:
+		return
+	for file_name in dir.get_files():
+		if not file_name.begins_with("E2e"):
+			continue
+		var path := "res://Levels/" + file_name
+		if not _owned.has(path):
+			print("LEFTOVER (not owned by this run, not removed): %s" % path)
 
 
 func _fail(message: String) -> void:
@@ -350,6 +396,9 @@ func _report() -> void:
 	for path in _temp_files:
 		if FileAccess.file_exists(path):
 			_failures.append("Z: 临时关卡配置未清理 %s" % path)
+	if not _run_dir.is_empty() and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(_run_dir)):
+		_failures.append("Z: 运行目录未清理 %s" % _run_dir)
+	_report_foreign_leftovers()
 	if _failures.is_empty():
 		print("PASS: 关卡编排运行时验证通过")
 		quit(0)

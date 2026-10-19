@@ -1,11 +1,203 @@
 # Work State
 
-当前工程状态。（更新于 Phase 1.25 Semantic Orchestration Traces & Event-Level Regression Coverage 之后，待 commit）
+当前工程状态。（更新于 Phase 1.32 F4 Owned Cleanup 之后）
+
+Git 事实（2026-10-19 实测）：HEAD = `5e47bfd`（Phase 1.19–1.25 已提交）；Phase 1.26–1.32
+为**本地未提交增量**（含 Phase 1.30/1.31 审计报告、F4 实现与新增测试）。仓库内的用户自有
+修改 `.workbuddy/memory/2026-10-18.md` 未触碰。
+
+## Phase 1.32：F4 所有权清理（已实施并实测）
+
+- **新增 `testsupport/run_workspace.py`**：每次运行一个 `pid-uuid8` token 与专属运行根
+  （`.ai/tmp/runs/<token>/`，`mkdir exist_ok=False`）；`ownership.jsonl` 追加式记录
+  `created` / `removed`（相对路径 + sha256 + bytes + mtime_ns，fsync）。
+- **fail-closed 清理**：只删账本中 `created` 的文件；删除前校验 token、路径在运行根内、
+  非符号链接、size/mtime 与 sha256 一致，并在 unlink 前再次 `lstat` 比对；账本缺失 /
+  非法 JSON / token 不符 / 字段非法 ⇒ 整次拒绝；存在未入账文件 ⇒ 保留运行根与账本。
+- **cross-layer 迁移**：33 个夹具 → `fixtures/<name>.json`，探针 → `probe.gd`，均位于
+  运行根内（`res://.ai/tmp/runs/<token>/...`）；旧 `Levels/E2eContract__*` glob 清理已删除；
+  断言仍 65 项（66 行 PASS）。启动时对其它 token 只打印 `STALE (not removed)`。
+- **新增 `test_run_workspace.py`（W1–W15，19 项）**：正常清理 / 幂等 / 两运行隔离 /
+  内容篡改拒绝 / 账本缺失或损坏 / 路径越界 / 符号链接与目录替换 / 未入账文件 /
+  异常残留只报告 + 显式 reclaim / 两个真实子进程并发 / 失败保留诊断。实测 **exit 0**。
+- **实测**：`run_tests.py validator` **9/9 PASS，exit 0**；cross-layer **exit 0，66 PASS**；
+  全量 `run_tests.py` **82/82 PASS（exit 0，failed=0 incomplete=0 not_executed=0）**；
+  残留集成（独立进程留下运行根）→ `STALE` 报告、目录保留、reclaim 后 `.ai/tmp/runs` 余 0。
+- **未做**：F4-B（e2e + 6 个 GDScript 测试 + `user://`）、F5；未强杀真实测试进程；
+  四个基线 sha256/mtime 未变。
+- **已知限制**：无 janitor CLI（reclaim 需显式调用）；检查—删除仍有理论 TOCTOU 窗口；
+  `.godot` 缓存并发未加锁；残留不自动回收（无法证明持有者已死亡）。
+
+## Phase 1.34：统一运行标识与 E2E 并发安全（已实施并验证）
+
+- **L-9 已解决**：`testsupport/run_lock.py`——O_EXCL 互斥锁覆盖 e2e 共享产物完整
+  生命周期；持有者存活拒绝、可证死亡回收、锁内容非法 fail-closed + 人工恢复说明；
+  释放需 holder_id/pid/scope 三元组匹配。双真实子进程竞争实测（L7）。
+- **L-8 已解决**：canonical token = `<pid>-<16 hex>`（Python uuid4 / GD randi×2，
+  同一 TOKEN_RE）；legacy 8-hex 受限识别、reclaim 拒绝；畸形目录名忽略/拒绝；
+  「可识别 / 可证明所有权 / 可安全回收」三条件分离。W20–W23 锁定。
+- **L-10 保持保留**：`user://runtime-fixture-*` 不伪造所有权、不自动回收。
+- **修复**：1.33 遗留的 CONTRACT_INDEX.yaml 结构损坏（`- id:` 误嵌 `test_runner:`
+  mapping，曾致 scene_intent_contract / run_tests_evidence 失败）；GD 侧运行根
+  描述更正为 `.ai/tmp/runs/`（16-hex token）。
+- **实测**：test_run_workspace **36/36**；cross_layer 66；6 GD exit 0；e2e 173/173；
+  validate.py 0 error / 17 warning；四条基线未变。全量单命令 82 项中 80 PASS——
+  两个非 PASS 为环境删除守卫（L-11 新记录：F4-B 运行根自清理计入全量 turn 计数）。
+- **报告**：[PHASE_1_34_AUDIT.md](PHASE_1_34_AUDIT.md)。
+
+## Phase 1.33：F4-B 集成与资源所有权（已实施并验证）
+
+- **6 个 GDScript 测试**（orchestration_trace / boss / generic / level / holdout_trace /
+  waves_exit_gate）迁入 `.ai/tmp/runs/<pid>-<usec>/` 运行根：内容未变才删、
+  `res://Levels` / `user://` 前缀命中但不属于本运行的残留只报告不删除。
+- **e2e**：产物无法迁入运行根（`Scenes/<Pascal>.tscn` 是生产解析约定），采用
+  「显式声明清单 + 启动期内容签名 + 本次运行缺席证明」——签名匹配的上轮残留删除、
+  不匹配则拒绝删除并失败（fail-closed）；O1/O2 所有权断言纳入 e2e（173/173 PASS）。
+- **`user://` 审计**：`game/`（引擎/MCP 日志配置，不清理）、`runtime-fixture-*` ×7
+  （Phase 1.6 夹具，所有权不可证 → 保留）、`[unnamed project]`（空）——未删除任何内容。
+- **`.godot`**：单独风险评估（引擎缓存，非临时目录）；串行是当前唯一被验证的并发边界。
+- **实测**：6/6 GD exit 0；e2e 173/173（exit 0）；validator 段 9/9；`validate.py`
+  0 error / 17 warning；四条基线 sha256/mtime 与实施前一致。
+- **报告**：[PHASE_1_33_AUDIT.md](PHASE_1_33_AUDIT.md)（含验证矩阵、NOT_EXECUTED/SKIP、
+  L-8～L-10 新已知限制）。
+
+## Phase 1.31：执行隔离与安全清理（审计/设计完成，F4-A 已在 1.32 实施）
+
+## Phase 1.31：执行隔离与安全清理（审计/设计完成，未实施）
+
+- **只读审计 + 设计**（2026-10-19）：报告见 `.ai/context/PHASE_1_31_AUDIT.md`。
+  本阶段**未修改任何代码或测试**，只新增报告并更新文档。
+- **F4 现状（实测 + 代码证据）**：`test_cross_layer_contract.py` 的 `cleanup()` 按
+  `Levels/E2eContract__*.json` 前缀删除；临时目录模拟实测 own/foreign 均被删、无关文件保留；
+  cross-layer / e2e / 6 个 GDScript 测试全部使用固定文件名，无 run token、无所有权账本；
+  e2e 启动期清理按固定名单删除（行 401–412）。强杀后的 cross-layer 残留无启动期检查。
+- **Tier-1 隔离可行性（实测）**：在 `res://.ai/tmp/p131_<uuid>/` 写脚本 + 夹具，
+  `godot -s` 执行成功（`valid=1`），无 `.uid` 副作用，清理后 `git status` 仍为 26 条。
+  注意 `.ai/tmp/` 当前**未**被 `.gitignore` 忽略（实施前需补）。
+- **F5 现状（实测）**：`run_tests.py --python-only test_run_tests_evidence` 输出
+  `1 tests (Godot=0, Python=1)` + `completed=1/1` + `ALL PASS`（exit 0），日志不含过滤串；
+  空匹配 exit 1 正确；入口自身被中断时无摘要/证据文件。
+- **候选方案（未实施）**：F5 加法式 `--evidence` JSONL + `selection:` 行（退出码不变）；
+  F4 token 运行根 + `(path, sha256)` 账本 + fail-closed 清理 + 启动期只报告 stale。
+  安全场景矩阵（S1–S6）与授权清单见报告 §6/§11。
+- **未做的项**：F4/F5 实现；并发/强杀复现（禁止）；基线未改动（sha256/mtime 四次一致）。
+
+## Phase 1.30：执行隔离与证据来源（实测，未提交）
+
+- **只读审计**（2026-10-19）：报告见 `.ai/context/PHASE_1_30_AUDIT.md`（信任边界图 /
+  证据数据流图 / 字段性质表 / 风险排序 / 方案比较）。审计阶段未改任何代码。
+- **P0-1 全量守卫根因**：`SAFE_DELETE_BULK_CONFIRM_REQUIRED` 只出现在文档中（仓库无代码
+  产生它），是 WorkBuddy 宿主钩子（50 次删除/命令）；当前 Freebuff 运行时**不复现**：
+  单命令内 2000 次工作区 `unlink()` 不被终止，`run_tests.py` 单命令 **81/81 PASS、exit 0**
+  （`[77/81] PASS test_cross_layer_contract.py`）。文档已改为「环境条件观测」，保留分段兜底。
+  仍真实的隔离问题（共享固定路径 / glob 清理 / 强杀残留）已记录，本轮未改（F4 未授权）。
+- **P0-2 高严重度缺陷 E-1**：`approve._validate_candidate` 原地把调用方文档的事件 `run_id`
+  改成 `candidate-check`，`apply` 随后落盘 ⇒ 四个已批准基线的 `events[*].run_id` 全部被污染，
+  `source.trace_run_id` 成为孤证；同一进程复用该 trace 还会误报 `run_id_mismatch`。
+  修复：只在**副本**上规范化。E-2：新增 `source.trace_run_id` / `trace_event_count` 与内容
+  的一致性校验。生产 GDScript 未改、基线未重录。
+- **新增测试**：`test_trace_baselines.py` U95–U99（不修改输入 / run_id 不一致拒 / 缺声明拒 /
+  计数不一致与截断捕获拒 / apply 写入后仍保留真实 run_id）；U39 夹具补 `trace_run_id`。
+  修复前对照：U95 段在旧实现上以 `BaselineError: run_id_mismatch` 中止（exit 1）。
+- **不做的项**：本地 manifest / 签名（需新的可信根，对同权限攻击者收益有限）；
+  cross-layer 唯一令牌 + 所有权清理（F4，未授权）。
+
+## Phase 1.29：验证器信任边界与证据完整性（实测，未提交）
+
+- **审计（只读）**：重读 trace_replay / trace_baselines / approve_trace_baselines / run_tests
+  与全部调用方，输出信任边界图与入口清单；三条不变量（I1 合法性 / I2 审批绑定 /
+  I3 证据完整）逐条验证。所有复现均在临时目录或内存中完成，未触碰正式基线。
+- **已证实缺陷（均带实测）**：H1 classify 把自报 `SKIP` 的测试归为 PASS（e2e 的
+  T4–T12 在 Godot 缺失时整段跳过仍 return 0；`--python-only` 可输出 ALL PASS）；
+  M2 缺 scheme 声明的候选被批准后记录方案与指纹不符（`matching_fingerprint_schemes`=[1]）；
+  M3 同一「文件不存在」在回放 CLI=2、比较器=1；L1 CLI `--scenario` 被静默忽略；
+  L2 apply 读坏 JSON 抛回溯；L3 `--candidate <文件> --scenario <id>` 被当目录。
+- **修复**：`classify` 的 PASS 新增「未自报 SKIP」条件（skip 不得把 FAIL 降级）；新候选强制
+  声明当前指纹方案；`--scenario` 与内容 `scenario_id` 必须一致；候选读取统一 exit 2；
+  `--candidate` 仅在其确为目录时才拼接 `--scenario`。M3 选**锁定现状 + 文档化**
+  （CLI 兼容优先），不改变退出码。生产 GDScript 未改。
+- **新增测试**：`validator/tests/test_run_tests_evidence.py`（E1–E7，含真实
+  `run_python_test` 子进程路径、`main()` 空选择必须非 0 与无残留断言）；`test_trace_baselines.py` U86–U93
+  （方案必须声明 / 身份不一致 / 输入错误统一 / 退出码映射锁定，含正向对照）。
+- **不做的项（经评估）**：候选来源自报文本无密码学证明（需外部签名）；
+  `expected_final_state` 与自身事件的一致性未加校验（fail-safe 方向，不会掩盖回归）。
+
+## Phase 1.28：跨模式 trace 语义一致性（实测，未提交）
+
+- **审计**（只读，先行）：构造跨模式事件矩阵（11 类事件 × 产生模式 / 载荷 / 前置 / 重复策略 /
+  测试与基线覆盖），确认五处可复现缺陷：C1 阶段事件无模式门、C2 阶段数与
+  `data.stage_count` 不一致、C3 终结 reason 无模式校验、C4 `data.mode` 缺失时所有模式门失效、
+  C5 `validate_baseline` 不回放（实测：由不可达 trace 构造的基线被接受，
+  `compare(同一条非法 trace)` = PASS / exit 0）。
+- **修复最小必要**：`invalid_start_mode`（mode 必须显式声明）／
+  `stage_event_outside_boss_stages`／`stage_start_outside_declared_count`／
+  `victory_reason_outside_mode`／`failure_reason_outside_mode`；终结原因白名单取自
+  LevelOrchestrator 实际写入点。生产 GDScript 未改。
+- **基线契约**：`validate_baseline` 结构校验通过后必须回放（`events must replay:`）；
+  非法基线 → `INVALID_BASELINE`（exit 2），不再把基线自身的不可能行为归给 trace。
+- **公共 vs 模式特有边界**：公共 = 结构 / 序号 / 时间戳 / started 唯一居首且声明 mode /
+  终结互斥且之后只允许 `duplicate_event_ignored`；模式特有 = boss 的 `stage_*` 与
+  `boss_death_confirmed`、waves 的 `wave_*` 与 `exit_unlocked`、holdout 的
+  `spawn_schedule_started`，以及各模式的可达终结原因。不为统一而强迫相同事件序列。
+- **测试**：R68–R80（回放契约）、U77–U85（回放器与比较器一致拒绝、非法基线、黄金集合无
+  跨模式泄漏）。真实 Godot 证据仍来自四个捕获基线与既有 H / G / boss 用例。
+- **兼容性**：零重录；四个基线事件字节未变，仍可回放且自比较 PASS。
+
+## Phase 1.27：holdout 生成调度的事件级保护（实测，未提交）
+
+- **审计**：holdout 真实转换只有 start / 计时 / 调度产出 / 终结；调度产出与失败路径
+  此前无事件级保护，也无 trace 级测试。
+- **新事件** `spawn_schedule_started`（`_run_spawn_schedules` 真实产出边界 + 幂等守卫；
+  data = schedule/entity/interval/max_alive）；不虚构未到点的调度（H2 锁定）。
+- **回放规则**：holdout 模式限定、payload 形状、阶段身份禁止、索引不得重复；
+  结果新增 `spawn_schedules_started`；R62–R67（含 legacy 兼容）。
+- **真实 Godot 测试** `Tests/test_holdout_trace.gd` H1–H7：正常完成 / 不可达调度 /
+  提前失败（level_failed(player_died) 唯一）/ 终结后重复（duplicate_event_ignored）/ 
+  期满前不结算 / 序号与时间戳契约 / 清理；带用例完成计数防假通过。
+- **holdout 基线重批 v2**：真实捕获 → candidate → review → apply --i-approve；
+  3 事件链（捕获 run-675705；独立复核 run-679135 亦 3/3 PASS）；指纹 b62cb26f…（scheme 2）、
+  previous_baseline_version 1。
+- **探针证据修正**：`probe_metrics.trace_events` 改由导出文档统计（此前恒为 0）。
+- **比较器用例** U71–U76：v2 链与覆盖声明、自回放 PASS、旧 v1 形态 EVENT_MISSING、
+  interval 变更 DATA_FIELD_CHANGED、重复调度 TRACE_INVALID。
+- 实测：godot 38/38；回放 68；比较器 77；独立 E2E 171 PASS（T5d 3/3）；
+  holdout 真实捕获 3 事件；validate.py 0 error / 17 warning 不变。
+
+## Phase 1.26：状态一致性 + 出口锁定语义闭环（实测，未提交）
+
+- **文档一致性**：Phase 1.25 的代码已随 `5e47bfd` 提交，旧文档中的「未 commit」已纠正；
+  状态与 `git log` / `git status` 对齐，不再用提交说明代替测试证据。
+- **waves 覆盖声明**：`baselines/waves.json` 的 `coverage` 改为真实事件链描述
+  （wave_started/wave_cleared/exit_unlocked 属事件级保护；探针度量断言单独列）；
+  事件与指纹字节未变，批准记录加 `coverage_revised_at` / `coverage_revision_note`。
+- **回放契约**：`victory_without_exit_unlock`（waves + 含波次事件 + reason=
+  exit_reached_after_unlock 时必须已有 exit_unlocked）；旧 trace 不被追溯套用；R58–R60。
+- **真实 Godot 注入**：`Tests/test_waves_exit_gate.gd`（G1–G7）：锁定期间注入出口区不结算
+  （trace 记 invalid_transition_rejected(exit_locked)）→ 清空最后一波解锁 → 真实输入走进
+  出口区才胜利；事件取自生产导出接口。G7 额外发现并修复了「宿主不注入 exit_door 时可提前
+  胜利」的缺口：出口胜利现在要求 `_waves_all_cleared()`（只读编排状态，不依赖门对象），
+  解锁边界（信号 + trace）也不再要求门存在；boss / holdout / 直接胜利路径不变。
+  负向对照：临时移除守卫后 G7 以 exit 1 失败（0 波次未清即 level_victory），随后按字节
+  还原（sha256 一致）并重跑 G1–G7 = PASS。
+- **指纹方案化**：scheme 1（Phase 1.23，含 scenario_id）/ scheme 2（Phase 1.24+）；
+  两条 boss 历史基线现可复算（U66/U67）。
+- **测试入口**：`run_tests.py` 区分 PASS / FAIL / INCOMPLETE（超时 / 外部终止 / 无判定），
+  非 PASS 一律退出 1；输出 completed/passed/failed/incomplete/unavailable/not_executed。
+- **E2E 残留**：探针删除 .gd 后遗留的孤儿 `.uid`（实测 `Tests/e2e_behavior_probe.gd.uid`）
+  已纳入清理与 Z1 断言。
+- 实测：全量入口 79/79 PASS（exit 0，0 INCOMPLETE）；godot 37/37；回放 62；比较器 71；
+  独立 E2E 171 PASS（T5a–T5d 四模式全过）；cross_layer 66；level_planner 134；unified 36；
+  validate.py 0 error / 17 warning 不变。
+- 真实捕获复核：waves 在编排器守卫修复前后各捕获一次（均 7 事件、与 v2 基线 7/7 PASS），
+  基线无需重录。
+
+## Phase 1.25：waves 语义事件与事件级回归（实测，已随 5e47bfd 提交）
 
 ## Project Stage
 
-Feature-based Agent Development —— Phase 1.25（waves 语义事件 + 事件级回归覆盖）已完成并
-在本机实测通过；Phase 1.24（黄金基线覆盖补齐 + 审批安全 + 质量门禁）、Phase 1.23（黄金
+Feature-based Agent Development —— Phase 1.26（状态一致性 + 出口锁定语义闭环）已在本地
+实测通过（未提交）；Phase 1.25（waves 语义事件 + 事件级回归覆盖，已提交于 5e47bfd）、
+Phase 1.24（黄金基线覆盖补齐 + 审批安全 + 质量门禁）、Phase 1.23（黄金
 Trace 基线与回归检测）、Phase 1.22（可回放诊断事件 + 只读回放器）、Phase 1.21（多阶段
 Boss 编排 + 跨契约身份校验）、Phase 1.20（通用关卡编排 + BossChallenge 接入）、
 Phase 1.19（蓝图 → 组合计划生成）、Phase 1.18（Scene Intent 集成与运行时交互编排）、

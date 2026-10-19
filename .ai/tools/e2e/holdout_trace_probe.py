@@ -11,6 +11,9 @@ holdout 关卡配置，验证：
     H3  survive_duration 到点后恰好一次胜利（finish_events == [true]）
     H4  生产代码导出的编排诊断 trace 可写、可读（读取后自清理）
 
+证据字段 `probe_metrics.trace_events` 由 Python 侧从**导出的 trace 文档**统计
+（Phase 1.27：此前 GDScript 侧恒报 0，与 trace_event_count 矛盾）。
+
 机读输出：`MODE: <json>`（status / finish_events / trace_events）。退出码
 0 = PASS；1 = 断言失败；2 = 输入 / 环境错误。
 """
@@ -63,7 +66,6 @@ func _report(arena) -> void:
 \t\t"finish_events": _finish_events.size(),
 \t\t"finish_success": 1 if (_finish_events == [true]) else 0,
 \t\t"alive_seen": _alive_seen,
-\t\t"trace_events": 0,
 \t}
 \tprint("MODE: %s" % JSON.stringify(report))
 \tif _failures.is_empty():
@@ -210,10 +212,13 @@ def run_holdout_probe(level_res: str, project_root: Path = PROJECT_ROOT, godot=N
             trace_removed = True
         except OSError:                                     # pragma: no cover
             trace_removed = False
-    ok = (exit_code == 0 and parse_metrics(output).get("status") == "PASS")
+    metrics = parse_metrics(output)
+    # 证据统计由导出文档计算（单一事实来源）；探针脚本不自行声明事件数
+    metrics["trace_events"] = len(trace_document.get("events") or [])
+    ok = (exit_code == 0 and metrics.get("status") == "PASS")
     return HoldoutProbeResult(ok=ok,
                               exit_code=exit_code, level=level_res, arena=arena_res,
-                              output=output, metrics=parse_metrics(output),
+                              output=output, metrics=metrics,
                               script_removed=removed, trace_path=str(trace_path),
                               trace_document=trace_document,
                               trace_removed=trace_removed)

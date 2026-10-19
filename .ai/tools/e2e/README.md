@@ -347,15 +347,26 @@ python .ai/tools/scene_composer/plan_generator.py <blueprint.yaml> --host DualHo
 ```
 
 Phase 1.23 起 T 段建立 **黄金 Trace 基线回归检测**：T1–T3 断言四个已批准基线
-（`.ai/tools/validator/baselines/{multi_stage_boss,single_stage_boss}.json`）存在、
+（`.ai/tools/validator/baselines/{multi_stage_boss,single_stage_boss,waves,holdout}.json`）
+存在、
 满足基线契约（版本/批准记录/可回放事件）且只归一化显式动态字段；T4 由
 `trace_baseline_capture.py` 在**隔离沙箱**内重跑完整生成链路 + 真实 Godot 捕获两个
 场景的真实 trace（沙箱用后即删）；T5a–T5d 与批准基线**逐事件比较**（比较器
 `validator/trace_baselines.py`：先 trace 校验与回放，后按序对齐比较，动态字段仅
 run_id/timestamp_ms，data 默认 strict）；Phase 1.25 起 waves 基线 v2 含波次语义事件
 （7 事件链：started→wave_started(0)→wave_cleared(0)→wave_started(1)→wave_cleared(1)→
-exit_unlocked→victory）——波次推进与出口解锁直接受事件级保护；T7 捕获 trace 过
+exit_unlocked→victory）——波次推进与出口解锁直接受事件级保护；覆盖声明只描述
+真实事件链（探针度量断言单独列出，不冒充事件覆盖）；T7 捕获 trace 过
 Phase 1.22 回放器；
+Phase 1.26 起，waves 胜利若声称 `exit_reached_after_unlock` 则必须已有
+`exit_unlocked`（回放层 `victory_without_exit_unlock`；出口锁定期间不可能成立胜利）。
+Phase 1.27 起 holdout 基线为 v2（3 事件链 started→spawn_schedule_started(0)→victory）：
+生成调度激活由事件级保护；旧 v1 形态 trace 与 v2 基线比较会得到 EVENT_MISSING
+（explicit re-approval 的结果，不是兼容性破坏）。holdout 的失败路径与终结后重复
+由 `Tests/test_holdout_trace.gd`（H1–H7）在真实 Godot 中验证，不进基线。
+该守卫另有一条**真实 Godot 注入**证据：`Tests/test_waves_exit_gate.gd`（G1–G6）
+在出口锁定时把玩家注入出口区（真实 Area2D 路径）→ 无 level_victory；解锁后才结算；
+事件取自生产导出接口 `export_trace_json`，不是手工拼装。
 T8/T9 差异注入（改 victory reason → REGRESSION + 字段路径 + CLI exit 1）；
 T10 run_id/timestamp_ms 变化保持 PASS（显式动态策略）；T11/T12 基线缺失/损坏 =
 BASELINE_MISSING/INVALID_BASELINE（exit 2，绝不 PASS）；T13 断言本次运行**没有改写
@@ -371,6 +382,24 @@ python .ai/tools/e2e/approve_trace_baselines.py apply --candidate <候选目录>
     --approver <name> --note "<批准理由>" --i-approve
 # apply 先打印「现有基线 → 候选」逐事件差异并 version+1；无 --i-approve 拒绝写入
 ```
+
+指纹方案（Phase 1.26）：候选记录 `approval.candidate_fingerprint_scheme`。scheme 1 是
+Phase 1.23 的历史 payload（含 scenario_id），只有两条 boss 基线使用；scheme 2 是
+Phase 1.24+ 的当前 payload（trace schema 版本 + 事件）。历史文件缺该字段时按已记录
+方案集合逐个验算，必须精确命中——不降低篡改检测。
+
+审批入口的信任边界（Phase 1.29）：
+
+- **新候选必须声明当前方案**：缺少 `candidate_fingerprint_scheme` 或声明 scheme 1 的候选
+  review/apply 一律拒绝（exit 1）——否则 apply 会按当前方案写入记录，而指纹实际由
+  scheme 1 算出，使正式基线的批准记录永远无法复算。scheme 1 仅用于验证**已批准的历史
+  基线**（`matching_fingerprint_schemes`）。
+- **身份一致性**：给出 `--scenario` 时其必须与候选内容 `scenario_id` 一致（不一致 =
+  输入错误 exit 2）；写入目标始终跟随**内容**，CLI 声明不会被静默忽略。
+  `--candidate <文件> --scenario <id>` 现在按文件处理（此前会被当成目录拼接路径）。
+- **输入错误统一**：候选不可读 / 非 JSON / 非对象时，review 与 apply 给出相同诊断并
+  返回 2（不抛异常）。
+- 这些规则不改变正常审批路径：`candidate` 产物（scheme 2）仍可 review → apply。
 
 ## 环境与副作用边界
 

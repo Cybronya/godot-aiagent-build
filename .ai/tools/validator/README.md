@@ -29,7 +29,110 @@ python .ai/tools/validator/trace_replay.py <trace.json> [--json]
 
 契约见 `.ai/context/orchestration_trace_schema.yaml`；真实 trace 由
 `e2e/multi_stage_boss_probe.py` 从 Godot 运行导出，单测在
-`validator/tests/test_orchestration_trace.py`（R1–R43）。
+`validator/tests/test_orchestration_trace.py`（R1–R80；R44+ 波次语义，R58+ 出口解锁前置，
+R62+ holdout 生成调度激活，R68+ 跨模式语义：模式门 / 阶段数一致性 / 终结 reason 白名单 /
+mode 显式声明，并验证三条合法链不被误拒、四个真实基线仍可回放）。
+
+## Golden Trace Baselines（Phase 1.23–1.26）
+
+已批准基线在 `validator/baselines/<scenario_id>.json`（真实 Godot 沙箱捕获 + 显式批准）。
+比较器只读，先回放后逐事件比较：
+
+```bash
+python .ai/tools/validator/trace_baselines.py <trace.json> --scenario waves [--json]
+# 退出码: 0 = PASS；1 = REGRESSION/INCOMPLETE/INVALID_TRACE；2 = BASELINE_MISSING/INVALID_BASELINE
+```
+
+动态字段仅 `run_id` / `timestamp_ms`（显式策略）；`data` 默认 strict。基线只能通过
+`e2e/approve_trace_baselines.py`（candidate → review → apply --i-approve）更新，
+测试与比较器永不写基线。Phase 1.28 起基线也必须能通过回放：结构合法但语义不合法
+（跨模式事件 / 模式外终结原因 / 重复终结）的基线 → `INVALID_BASELINE`（exit 2），
+不会把「基线不可能发生」错报成真实 trace 的回归。
+
+### 输入类错误的退出码（Phase 1.29 锁定）
+
+同一「文件不存在 / 不可读」在两个入口的映射**不同且已显式锁定**（测试 U91–U93 守护，
+不得为“统一码”而静默改变）：
+
+| 条件 | `trace_replay.py` | `trace_baselines.py` |
+| --- | --- | --- |
+| trace 缺失 / 不可读 / 非法 JSON | 输入错误 exit 2 | `INVALID_TRACE` exit 1 |
+| 基线缺失 | — | `BASELINE_MISSING` exit 2 |
+| 基线不可读 / 非法 / 不符契约 | — | `INVALID_BASELINE` exit 2 |
+
+两者均非 0：输入问题与非法语义永远不会变成 PASS。
+
+## Cross-Mode Semantics（Phase 1.28）
+
+公共语义只覆盖真正跨模式成立的约束：结构 / 序号 / 时间戳、`orchestration_started` 唯一
+居首且 `data.mode` 显式声明（`invalid_start_mode`）、终结互斥且终结后只允许
+`duplicate_event_ignored`。模式特有语义显式限定模式：
+
+- boss：`stage_*`（需 `data.stage_count > 0`，`stage_event_outside_boss_stages`；
+  索引必须小于声明阶段数，`stage_start_outside_declared_count`）与 `boss_death_confirmed`；
+- waves：`wave_started` / `wave_cleared` / `exit_unlocked`；
+- holdout：`spawn_schedule_started`；
+- 终结原因必须属于该模式的可达集合（`victory_reason_outside_mode` /
+  `failure_reason_outside_mode`，取值来自生产写入点）。
+
+三种模式各自的事件链互不要求对方的事件（不为统一而强迫相同序列）。
+验证：`validator/tests/test_orchestration_trace.py`（R68–R79）与
+`validator/tests/test_trace_baselines.py`（U77–U85，回放器与比较器对同一非法语义给出
+一致可解释结果）。Phase 1.29 追加 U86–U94（审批信任边界 + 候选→审查→批准闭环）。
+
+## 信任边界与调用链（Phase 1.29）
+
+```
+不可信输入                       校验塔（唯一入口）                              信任内核（版本控制内）
+trace JSON   ──► trace_replay.load_trace ─► replay() ─┐
+基线 JSON    ──► load_baseline ─► validate_baseline（结构 + 回放）─┴─► compare() ─► 状态 / 退出码
+候选 JSON    ──► approve: review / apply ─► resolve_candidate_target ─► load_candidate（身份一致）
+                      └─► _validate_candidate + verify_candidate_fingerprint（当前方案）
+                      └─► apply 是唯一写入者（先校验现有基线，再原子写）
+真实捕获      ──► trace_baseline_capture ─► build_baseline（先校验 trace 再构造）
+测试入口      ──► run_tests.py：发现 → 子进程执行 → classify（退出码 + 失败/跳过标记）
+```
+
+三条应成立的不变量（Phase 1.29 逐条审计）：
+
+| 不变量 | 含义 | 结论 |
+| --- | --- | --- |
+| I1 合法性 | 进入比较的事件流 / 基线都先过 schema + 回放 | 成立（Phase 1.28 后；U77–U85 守护） |
+| I2 审批绑定 | 审批只对「内容未变且声明当前方案」的候选生效 | 修复后成立（U86–U88；连同身份一致性） |
+| I3 证据完整 | 报 PASS 的测试确实执行了断言 | 修复后成立（SKIP ⇒ INCOMPLETE；E1–E7） |
+
+残余风险（已评估、不引入新机制；Phase 1.30 复核后区分措辞）：候选的 `source.captured_by`
+/ `probe` / `generation_chain` 是**声明**（硬编码字符串 / 静态列表），仓库内没有能把
+「候选 = 真实捕获」做密码学绑定的手段；`source.trace_run_id` 现在是**一致性**约束
+（必须等于每个事件的 `run_id`，见下节），但仍不是来源真实性证明——两个字段在同一文件里，
+伪造者可一起改。防线是内容必须过 schema + 回放 + 指纹，加人工 `--i-approve`。
+
+## 审批与执行入口的信任边界（Phase 1.29）
+
+- 新候选必须声明**当前**指纹方案；缺少声明或声明已废弃的 scheme 1 → review/apply 拒绝，
+  scheme 1 仅用于验证历史已批准基线。
+- `--scenario` 必须与候选内容 `scenario_id` 一致；写入目标始终跟随内容。
+- 候选不可读 → review 与 apply 同为 exit 2 + 同一诊断；`--candidate <文件> --scenario <id>`
+  按文件处理。
+- 测试执行入口 `run_tests.py`：**自报 `SKIP:` 的测试不再算无条件 PASS**（归为 INCOMPLETE，
+  总入口 exit 1），因为“PASS”意味着断言确实执行过；分类语义与真实子进程路径由
+  `validator/tests/test_run_tests_evidence.py`（E1–E7）锁定；E7 直接走 `main()` 断言
+  「选中 0 个测试」时入口返回 1（未执行不得表现为成功）。
+
+## 证据来源与内容绑定（Phase 1.30）
+
+- **已复现缺陷（E-1）**：`_validate_candidate` 曾把调用方文档的事件 `run_id` **原地**改成
+  `candidate-check`，`apply` 随后把它落盘 ⇒ 四个已批准基线的 `events[*].run_id` 全是
+  `candidate-check`，而 `source.trace_run_id` 记的是 `run-xxxxxx`；来源变成无法交叉验证的
+  孤证。更严重的是同一进程内再次使用那份 trace 会误报 `run_id_mismatch`（已被污染的
+  内存对象不再是一份合法 trace）。现改为只在**副本**上规范化（U95 / U99 守护）。
+- **已补齐的一致性约束（E-2）**：候选必须写 `source.trace_run_id` 且等于每个事件的
+  `run_id`；`source.trace_event_count`（存在时）必须等于事件数（U96–U98，含截断捕获用例）。
+- **边界（必须如实说明）**：以上是**内容自洽性**，不是来源真实性。拥有本机同权限的攻击者
+  可同时改写内容与来源字段并自行传 `--i-approve`；`--approver` 是自由文本，不是身份认证。
+  指纹无密钥，只防意外改动，不防伪造。
+- **历史基线不可补救**：四个基线的 `run_id` 已被旧校验器覆写，且**禁止重录**，因此修复
+  只对此后生成的候选生效。
 
 ## 检查范围
 
@@ -93,3 +196,40 @@ Runtime 检查缺失永远不会被伪装成通过。耗时的 Runtime 探针为
 - **INCOMPLETE**：被请求的层（如 Runtime）不可用，未真正执行
 
 发现问题后由 Agent 决定如何修复，修复后再次运行 Validator。当前不接 Git hooks、GitHub Actions 或后台自动检查。
+
+## 执行隔离与清理所有权（Phase 1.31 审计，未实施）
+
+- **现状（已实测）**：`validator/tests/test_cross_layer_contract.py` 的 `cleanup()` 按
+  `Levels/E2eContract__*.json` **前缀**删除；在临时目录模拟中 own 与 foreign 文件都被删除、
+  无关文件保留（`foreign_removed=True`）。cross-layer / e2e / 6 个 GDScript 测试全部使用
+  固定文件名，**没有 run token，也没有所有权账本**；e2e 的启动期清理同样按固定名单删除。
+- **已实施（Phase 1.32，见下节）**：每次运行一个 token 运行根（`res://.ai/tmp/runs/<token>/`）
+  + 追加式 `(path, sha256)` 账本；
+  清理只删「账本中已创建、摘要匹配、位于本运行根/精确白名单」的路径；标记缺失、摘要不符、
+  路径越界一律**不删并报告**；stale 运行根只报告、不自动回收（无法证明持有者已死亡）。
+- **过滤证据（F5，未实施）**：过滤串目前不出现在输出中，过滤后只跑 1 项仍打印
+  `ALL PASS` / `completed=1/1`；入口自身被中断时没有摘要或证据文件。候选方案是加法式
+  `--evidence <path>`（JSONL：`run_start` / `test_end` / `run_end`）与 `selection:` 行，
+  退出码不变。
+- **边界**：不按文件名/时间/通配符删除；不重录基线；不关闭清理守卫。安全场景矩阵
+  （S1–S6）、兼容性影响与授权清单见 `.ai/context/PHASE_1_31_AUDIT.md`。
+
+## 运行工作区与所有权清理（Phase 1.32，已实施）
+
+- **模块**：`.ai/tools/testsupport/run_workspace.py`（标准库，不驱动 Godot）。
+  `RunWorkspace.create()` 生成 `pid-uuid8` token 与 `.ai/tmp/runs/<token>/`，账本为
+  `ownership.jsonl`（`created` / `removed`，含相对路径、sha256、bytes、mtime_ns，fsync）。
+- **清理只信账本**：不按文件名前缀 / glob / mtime 判断；删除前校验 token、路径在运行根内、
+  非符号链接、size/mtime 与 sha256 一致，并在 unlink 前再次 `lstat` 比对。
+  账本缺失 / 损坏 / 字段非法 ⇒ **整次拒绝删除**；存在未入账文件 ⇒ 保留运行根与账本。
+- **残留**：启动时列出其他 token 的运行根并打印 `STALE (not removed)`，**不自动删除**；
+  `reclaim_abandoned(..., acknowledge_abandoned=True)` 才逐个重新验证并删除。
+- **消费者**：`validator/tests/test_cross_layer_contract.py` 的 33 个夹具与探针已迁入运行根，
+  旧的 `Levels/E2eContract__*` 前缀清理已删除；断言仍 65 项（66 行 PASS）。
+- **测试**：`validator/tests/test_run_workspace.py`（W1–W19，23 项）覆盖隔离、幂等、篡改、
+  越界、符号链接、未入账、异常残留 + reclaim、两进程并发、诊断保留、删除前再校验、
+  账本中断行、token 冲突、GDScript 迁移静态锁定；全部在系统临时目录运行。
+- **忽略**：`.gitignore` 新增 `.ai/tmp/`（只覆盖易失运行工作区；`git ls-files .ai/tmp` = 0）。
+- **F4-B（Phase 1.33）**：e2e holdout 段已接入 RunWorkspace；6 个 GDScript 测试各自创建
+  `Levels/.runs/<token>/` 并以退出码证明自清理；残留扫描（共享 Levels 与 user:// 中的
+  本运行登记名）失败关闭。详见 `.ai/context/PHASE_1_33_AUDIT.md`；F5 与 janitor 未实施。

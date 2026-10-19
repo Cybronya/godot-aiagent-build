@@ -24,13 +24,47 @@ const BOSS_SCENE := "res://Scenes/Boss.tscn"
 const DOOR_SCENE := "res://Features/openable_door/OpenableDoor.tscn"
 const BOSS_CHALLENGE_SCENE := "res://Scenes/BossChallenge.tscn"
 const LEVEL_HOST_SCRIPT := preload("res://Orchestration/level_host.gd")
-const TEMP_CONFIG := "res://Levels/E2eBossLifecycleTest.json"
 const BOSS_ENTITY := "boss"
 const BOSS_INSTANCE := "Boss"
 const ENEMY_SCENE := "res://Scenes/Enemy.tscn"
 
+## Phase 1.33（F4-B）：本运行专属目录。临时关卡配置不再写入共享的 `res://Levels`，
+## 而是落在 `.ai/tmp/runs/<pid>-<16 位十六进制随机后缀，与 Python run_workspace 同一契约>/`；只有「本运行写入且内容未变」的资源才允许删除。
+var _run_dir := _make_run_dir()
+var TEMP_CONFIG := _run_dir + "/E2eBossLifecycleTest.json"
+var _owned: Dictionary = {}
+
 var _failures: PackedStringArray = []
 var _finish_events: Array = []
+
+
+func _make_run_dir() -> String:
+	var base := "res://.ai/tmp/runs"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(base))
+	for attempt in 16:
+		var id := "%d-%08x%08x" % [OS.get_process_id(), randi(), randi()]
+		var candidate := base + "/" + id
+		if DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(candidate)):
+			continue                       # 标识冲突：拒绝接管，重试下一个候选
+		if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(candidate)) == OK:
+			return candidate
+	return ""
+
+
+func _store_config(document: Dictionary) -> void:
+	if _run_dir.is_empty() or DirAccess.open(_run_dir) == null:
+		if _run_dir.is_empty() \
+				or DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_run_dir)) != OK:
+			_fail("config: 无法创建运行目录 %s" % _run_dir)
+			return
+	var text := JSON.stringify(document, "  ") + "\n"
+	var file := FileAccess.open(TEMP_CONFIG, FileAccess.WRITE)
+	if file == null:
+		_fail("config: 无法写入临时配置 %s" % TEMP_CONFIG)
+		return
+	file.store_string(text)
+	file.close()
+	_owned[TEMP_CONFIG] = text.sha256_text()
 
 
 func _initialize() -> void:
@@ -674,9 +708,7 @@ func _write_stage_config(name: String, first_stage: Variant, second_stage,
 	if only_entities:
 		document["boss"] = {"entity": BOSS_ENTITY, "instance": BOSS_INSTANCE,
 			"spawn": "existing"}
-	var file := FileAccess.open(TEMP_CONFIG, FileAccess.WRITE)
-	file.store_string(JSON.stringify(document, "  ") + "\n")
-	file.close()
+	_store_config(document)
 	return TEMP_CONFIG
 
 
@@ -744,9 +776,7 @@ func _write_config(name: String, scene: String, boss_block: Dictionary,
 		"exit": exit_block,
 		"victory": victory_block,
 	}
-	var file := FileAccess.open(TEMP_CONFIG, FileAccess.WRITE)
-	file.store_string(JSON.stringify(document, "  ") + "\n")
-	file.close()
+	_store_config(document)
 	return TEMP_CONFIG
 
 
@@ -762,15 +792,43 @@ func _has_error_at(errors: PackedStringArray, field: String) -> bool:
 
 
 func _remove_temp() -> void:
-	if FileAccess.file_exists(TEMP_CONFIG):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(TEMP_CONFIG))
+	# 只删「本运行写入且内容未变」的资源；内容不符 = 所有权无法证明 ⇒拒绝并报告。
+	for path: String in _owned.keys():
+		if not FileAccess.file_exists(path):
+			continue
+		var current := FileAccess.get_file_as_string(path)
+		if current.sha256_text() != _owned[path]:
+			_fail("ownership: 内容与本运行写入不一致，拒绝删除 %s" % path)
+			continue
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+		if FileAccess.file_exists(path):
+			_fail("cleanup: 无法删除 %s" % path)
+	if not _run_dir.is_empty() and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(_run_dir)):
+		if DirAccess.remove_absolute(ProjectSettings.globalize_path(_run_dir)) != OK:
+			_fail("cleanup: 运行目录非空或无法删除 %s" % _run_dir)
 
 
 func _fail(message: String) -> void:
 	_failures.append(message)
 
 
+## 只报告不删除：`res://Levels` 中前缀命中但**不属于本运行**的残留。
+func _report_foreign_leftovers() -> void:
+	var dir := DirAccess.open("res://Levels")
+	if dir == null:
+		return
+	for file_name in dir.get_files():
+		if not file_name.begins_with("E2e"):
+			continue
+		var path := "res://Levels/" + file_name
+		if not _owned.has(path):
+			print("LEFTOVER (not owned by this run, not removed): %s" % path)
+
+
 func _report() -> void:
+	if not _run_dir.is_empty() and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(_run_dir)):
+		_failures.append("Z: 运行目录未清理 %s" % _run_dir)
+	_report_foreign_leftovers()
 	if _failures.is_empty():
 		print("PASS: Boss 编排生命周期验证通过")
 		quit(0)

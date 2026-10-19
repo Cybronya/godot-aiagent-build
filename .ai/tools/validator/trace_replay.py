@@ -17,7 +17,26 @@
   - `timestamp_ms` 为非负、非递减的相对毫秒时间；
   - 首个事件必须是 `orchestration_started`；终结事件之后只允许 `duplicate_event_ignored`；
   - `level_victory` / `level_failed` 互斥；boss 模式的胜利必须先有 `boss_death_confirmed`；
-  - 阶段推进必须按索引顺序（前一阶段完成后才能开始下一阶段）。
+  - 阶段推进必须按索引顺序（前一阶段完成后才能开始下一阶段）；
+  - waves 模式（仅当 trace 含波次事件时）胜利前必须清完全部波次，且
+    `reason = exit_reached_after_unlock` 的胜利必须先有 `exit_unlocked`
+    （Phase 1.26：出口锁定期间不可能成立胜利）；
+  - `spawn_schedule_started` 只允许 holdout 模式，携带整数 `data.schedule` /
+    字符串 `data.entity` / 正数 `data.interval` / 非负整数 `data.max_alive`，
+    同一调度索引不得重复（Phase 1.27）。
+
+跨模式语义（Phase 1.28，公共规则只覆盖真正跨模式成立的约束）：
+  - `orchestration_started.data.mode` 必须显式声明为 boss / waves / holdout 之一
+    （`invalid_start_mode`）——模式未知时任何模式专属规则都无从判定，因此拒绝，
+    而不是静默放行（旧 trace 一律在首个事件声明 mode）；
+  - 模式专属事件不得跨模式出现：阶段事件（`stage_*`）仅 boss 且必须已声明阶段数
+    （`stage_event_outside_boss_stages`）；boss 死亡仅 boss（`boss_death_outside_boss_mode`）；
+    波次事件仅 waves（`wave_event_outside_waves_mode`）；生成调度仅 holdout
+    （`spawn_event_outside_holdout_mode`）；
+  - 阶段索引必须落在声明的阶段数内（`stage_start_outside_declared_count`）；
+  - 终结原因受模式约束（`victory_reason_outside_mode` / `failure_reason_outside_mode`）：
+    生产状态机不可能产生的「模式 + 原因」组合不是合法 trace；
+  - 公共规则不得强迫三种模式产生相同的事件序列：模式各自的合法链互不要求对方的事件。
 
 退出码: 0 = trace 合法且可回放；1 = trace 违反契约；2 = 输入错误（文件/JSON/schema 版本）。
 """
@@ -48,6 +67,8 @@ KNOWN_TYPES = (
     "wave_started",
     "wave_cleared",
     "exit_unlocked",
+    # Phase 1.27（v1 加性扩展）：holdout 生成调度激活事件（每个调度至多一次）。
+    "spawn_schedule_started",
 )
 TERMINAL_TYPES = ("level_victory", "level_failed")
 REQUIRED_FIELDS = (
@@ -55,6 +76,22 @@ REQUIRED_FIELDS = (
     "stage_id", "stage_index", "source", "reason", "entity_id", "instance_name", "data",
 )
 STAGE_TYPES = ("stage_started", "stage_completed", "stage_transitioned")
+
+# Phase 1.28：公共语义 —— trace 必须声明模式；模式专属事件与终结原因按模式判定。
+MODES = ("boss", "waves", "holdout")
+
+# 终结原因白名单：取值来自 LevelOrchestrator 的实际写入点（`_victory_reason` /
+# `_failure_reason`）与 `finish_level(forced)`；不得凭契约想象力扩展。
+MODE_VICTORY_REASONS = {
+    "boss": ("boss_defeated", "forced"),
+    "waves": ("exit_reached_after_unlock", "all_waves_cleared", "forced"),
+    "holdout": ("survive_duration", "forced"),
+}
+MODE_FAILURE_REASONS = {
+    "boss": ("player_died", "setup_failed", "forced"),
+    "waves": ("player_died", "setup_failed", "wave_timeout", "forced"),
+    "holdout": ("player_died", "setup_failed", "forced"),
+}
 
 
 class TraceInputError(ValueError):
@@ -128,6 +165,8 @@ def replay(events, *, run_id: str = "", event_count=None, dropped_events: int = 
         "wave_current": None,         # 当前已开始、尚未清空的波次索引
         "wave_cleared_count": 0,
         "exit_unlocked": False,
+        # Phase 1.27：已激活的 holdout 生成调度索引（每个至多一次）
+        "spawn_schedules_started": [],
     }
 
     if document is not None:
@@ -256,16 +295,40 @@ def replay(events, *, run_id: str = "", event_count=None, dropped_events: int = 
                 continue
             state["started"] = True
             data = event.get("data") or {}
-            state["mode"] = data.get("mode")
+            mode = data.get("mode")
+            # Phase 1.28：模式必须显式声明。模式未知时所有模式专属规则都无法判定，
+            # 放行会让「无 mode 的混合事件 trace」绕过全部模式门（实测可同时装下
+            # boss 死亡 + 波次链 + 生成调度 + 阶段链），因此这里拒绝并停止解释。
+            if mode not in MODES:
+                _reject(errors, sequence, "invalid_start_mode",
+                        "orchestration_started.data.mode must be one of %s (got %r)"
+                        % ("/".join(MODES), mode))
+                fatal = True
+                continue
+            state["mode"] = mode
             stage_count = data.get("stage_count", 0)
             state["stage_count"] = int(stage_count) if _is_int(stage_count) else 0
             state["requires_boss_death"] = state["mode"] == "boss"
+        elif event_type in STAGE_TYPES \
+                and (state["mode"] != "boss" or state["stage_count"] <= 0):
+            # Phase 1.28：阶段事件只属 boss 的多阶段链（LevelConfig 禁止 waves /
+            # holdout 声明 stages；单阶段 boss 无阶段链，stage_count 为 0）。
+            _reject(errors, sequence, "stage_event_outside_boss_stages",
+                    "%s while mode=%r declared %d stage(s)"
+                    % (event_type, state["mode"], state["stage_count"]))
+            continue
         elif event_type == "stage_started":
             index = event.get("stage_index")
             stage_id = event.get("stage_id")
             if not _is_int(index) or not isinstance(stage_id, str) or not stage_id:
                 _reject(errors, sequence, "invalid_stage_event",
                         "stage_started requires stage_id and integer stage_index")
+                continue
+            if index >= state["stage_count"]:
+                # Phase 1.28：阶段身份必须落在 orchestration_started 声明的拓扑内。
+                _reject(errors, sequence, "stage_start_outside_declared_count",
+                        "stage index %d exceeds the %d declared stage(s)"
+                        % (index, state["stage_count"]))
                 continue
             if state["current"] is not None:
                 _reject(errors, sequence, "stage_start_before_completion",
@@ -412,11 +475,46 @@ def replay(events, *, run_id: str = "", event_count=None, dropped_events: int = 
                                                   state["wave_cleared_count"]))
                         continue
                     state["exit_unlocked"] = True
+        elif event_type == "spawn_schedule_started":
+            data = event.get("data") or {}
+            if state["mode"] is not None and state["mode"] != "holdout":
+                _reject(errors, sequence, "spawn_event_outside_holdout_mode",
+                        "spawn_schedule_started while mode=%r" % (state["mode"],))
+                continue
+            if event.get("stage_id") is not None or event.get("stage_index") is not None:
+                _reject(errors, sequence, "invalid_spawn_event",
+                        "spawn_schedule_started must not carry stage identity")
+                continue
+            index = data.get("schedule")
+            entity = data.get("entity")
+            interval = data.get("interval")
+            max_alive = data.get("max_alive")
+            if not _is_int(index) or index < 0 \
+                    or not isinstance(entity, str) \
+                    or not _is_number(interval) or float(interval) <= 0.0 \
+                    or not _is_int(max_alive) or max_alive < 0:
+                _reject(errors, sequence, "invalid_spawn_event",
+                        "spawn_schedule_started requires integer data.schedule >= 0,"
+                        " string data.entity, positive data.interval and integer"
+                        " data.max_alive >= 0 (got %r)" % (data,))
+                continue
+            if index in state["spawn_schedules_started"]:
+                _reject(errors, sequence, "duplicate_spawn_schedule",
+                        "spawn schedule %d started twice" % index)
+                continue
+            state["spawn_schedules_started"].append(index)
         elif event_type == "duplicate_event_ignored":
             ignored_events.append({"sequence": sequence, "reason": str(event.get("reason"))})
         elif event_type == "invalid_transition_rejected":
             rejected_events.append({"sequence": sequence, "reason": str(event.get("reason"))})
         elif event_type == "level_victory":
+            # Phase 1.28：终结原因必须属于该模式的可达集合（公共语义 + 模式边界）。
+            allowed = MODE_VICTORY_REASONS.get(state["mode"], ())
+            if event.get("reason") not in allowed:
+                _reject(errors, sequence, "victory_reason_outside_mode",
+                        "mode %s cannot reach victory with reason %r (expected one of %s)"
+                        % (state["mode"], event.get("reason"), ", ".join(allowed)))
+                continue
             if state["requires_boss_death"] and not state["boss_death"]:
                 _reject(errors, sequence, "victory_without_boss_death",
                         "boss-mode victory requires boss_death_confirmed first")
@@ -434,8 +532,25 @@ def replay(events, *, run_id: str = "", event_count=None, dropped_events: int = 
                         "waves victory with %d/%d waves cleared"
                         % (state["wave_cleared_count"], state["wave_total"]))
                 continue
+            # Phase 1.26：出口成立路径的胜利必须已有 exit_unlocked。
+            # 只对「含波次事件的 waves trace」生效（wave_total 已知），旧 trace
+            # （无波次事件）不会被事后套用新规则；all_waves_cleared 直接胜利路径
+            # 按游戏规则不经过出口，不要求 exit_unlocked。
+            if state["mode"] == "waves" and state["wave_total"] is not None \
+                    and event.get("reason") == "exit_reached_after_unlock" \
+                    and not state["exit_unlocked"]:
+                _reject(errors, sequence, "victory_without_exit_unlock",
+                        "waves victory by exit_reached_after_unlock requires "
+                        "exit_unlocked first")
+                continue
             state["terminal"] = event_type
         elif event_type == "level_failed":
+            allowed = MODE_FAILURE_REASONS.get(state["mode"], ())
+            if event.get("reason") not in allowed:
+                _reject(errors, sequence, "failure_reason_outside_mode",
+                        "mode %s cannot fail with reason %r (expected one of %s)"
+                        % (state["mode"], event.get("reason"), ", ".join(allowed)))
+                continue
             state["terminal"] = event_type
 
     current = state["current"] or state["last_started"]
@@ -473,6 +588,7 @@ def _result(errors, ignored_events, rejected_events, started_stages, completed_s
         "errors": errors,
         "events_processed": events_processed,
         "sequence_gaps": state["sequence_gaps"],
+        "spawn_schedules_started": list(state.get("spawn_schedules_started") or []),
     }
 
 
@@ -496,10 +612,9 @@ def _fatal_input(reason: str, message: str) -> dict:
                          "requires_boss_death": False, "boss_death": False,
                          "terminal": None, "current": None, "last_started": None,
                          "last_completed": None, "pending_expected": None,
-                         "sequence_gaps": 0,
-                         "wave_total": None, "wave_started_count": 0,
-                         "wave_current": None, "wave_cleared_count": 0,
-                         "exit_unlocked": False,
+                         "sequence_gaps": 0,                        "wave_total": None, "wave_started_count": 0,
+                        "wave_current": None, "wave_cleared_count": 0,
+                        "exit_unlocked": False, "spawn_schedules_started": [],
                      }, "", 0)
     return result
 

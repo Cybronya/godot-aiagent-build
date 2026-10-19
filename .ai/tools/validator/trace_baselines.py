@@ -19,10 +19,13 @@ Golden Baseline Diff → Regression Verdict。
     其余字段（含 `data`）默认严格比较。
   - “比较通过”只表示事件流与已批准基线一致，不代表重新执行了游戏。
 
-退出码：
+退出码（Phase 1.29 显式锁定；测试 U91 / U92 守护）：
   0 = PASS
-  1 = REGRESSION / INCOMPLETE / INVALID_TRACE（行为或 trace 契约问题）
-  2 = BASELINE_MISSING / INVALID_BASELINE（输入 / 基线问题）
+  1 = REGRESSION / INCOMPLETE / INVALID_TRACE
+      包括「trace 文件不存在 / 不可读 / 非法 JSON」：本入口把它归为 trace 不可用
+      （INVALID_TRACE，不会当成 PASS）。只读回放 CLI（trace_replay.py）对同一条件
+      返回**输入错误 2**；两者均非 0，差异已文档化并锁定，不得静默改变。
+  2 = BASELINE_MISSING / INVALID_BASELINE（基线缺失、不可读、非法 JSON 或不符合契约）
 """
 
 from __future__ import annotations
@@ -316,7 +319,11 @@ def baseline_path_for(scenario_id: str, baseline_dir=None) -> Path:
 
 
 def validate_baseline(baseline) -> list:
-    """校验黄金基线文档；返回错误字符串列表（空 = 合法）。"""
+    """校验黄金基线文档（结构 + 事件回放语义）；返回错误字符串列表（空 = 合法）。
+
+    Phase 1.28：结构合法但回放不合法（跨模式事件 / 模式化终结原因 / 重复终结……）的
+    事件流不是合法基线——比较器必须先拒基线，而不是把问题归给真实 trace。
+    """
     if not isinstance(baseline, dict):
         return ["baseline root must be a JSON object"]
     errors: list = []
@@ -381,6 +388,15 @@ def validate_baseline(baseline) -> list:
             previous_timestamp = max(previous_timestamp, timestamp)
         if not isinstance(event.get("data"), dict):
             errors.append("events[%d].data must be a JSON object" % index)
+    # Phase 1.28：结构合法的基线事件也必须能通过回放（公共语义一致性）。否则一份被手改的
+    # 基线会被当作合法基线参与比较，把「基线本身不可能发生」错报成 trace 的回归。
+    if not errors:
+        replay_result = trace_replay.replay(events)
+        if not replay_result.get("ok"):
+            for error in replay_result.get("errors") or []:
+                errors.append("events must replay: [sequence=%s] %s: %s"
+                              % (error.get("sequence"), error.get("reason"),
+                                 error.get("message")))
     return errors
 
 
@@ -736,7 +752,11 @@ def _finalize(result: dict) -> dict:
 
 
 def compare_files(trace_path, baseline_path, *, scenario_id: str = "") -> dict:
-    """按文件比较；基线缺失 / 非法返回对应状态而不是抛异常。"""
+    """按文件比较；基线缺失 / 非法返回对应状态而不是抛异常。
+
+    Phase 1.29：输入类错误的映射被显式锁定——trace 不可读 → INVALID_TRACE（exit 1），
+    基线缺失 → BASELINE_MISSING、基线不可读 / 非法 → INVALID_BASELINE（均 exit 2）。
+    """
     trace_path = Path(trace_path)
     baseline_path = Path(baseline_path)
     scenario = scenario_id or baseline_path.stem

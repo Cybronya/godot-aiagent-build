@@ -30,6 +30,13 @@ Thumbs.db
 # 是资源文件 + asset_manifest.yaml。--check 可验证：missing/stale/synchronized。
 .ai/context/asset_index.json
 
+# 测试运行工作区（Phase 1.32）：每次运行专属、所有权验证后清理；不承载任何源码/文档
+.ai/tmp/
+
 # godot-official-docs: local read-only official docs source snapshot (244MB)
 # The navigation layer (references/4.7/) IS tracked; only the raw Source is ignored.
 .ai/skills/godot-official-docs_sources/
+
+# Run-tests evidence probes: generated per run at repo root by
+# test_run_tests_evidence.py (self-cleaning; killed runs leave them behind)
+run_tests_evidence_*/

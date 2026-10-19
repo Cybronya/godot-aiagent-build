@@ -88,6 +88,8 @@ var _survival_duration := 0.0
 var _max_alive_total := 0
 var _spawn_schedules: Array[Dictionary] = []
 var _next_spawn_at: Array[float] = []
+## Phase 1.27：哪几条生成调度已真正产出敌人（idle → active）；每个调度至多一次事件
+var _spawn_schedule_started: Array[bool] = []
 var _schedule_alive: Array[int] = []
 var _elapsed := 0.0
 # ---- boss 模式 ----
@@ -167,6 +169,7 @@ func apply_config(config: LevelConfig) -> bool:
 	_traced_cleared_wave = -1
 	_next_spawn_at.clear()
 	_schedule_alive.clear()
+	_spawn_schedule_started.clear()
 	for schedule in _spawn_schedules:
 		# 首次生成时间：delay > 0 时延迟到达即生成第一波、随后按 interval 续进
 		#（精英语义，与迁移前 survival_arena.gd 一致）；delay = 0 时等一个 interval
@@ -176,6 +179,7 @@ func apply_config(config: LevelConfig) -> bool:
 			first_at = float(schedule.get("interval", 1.0))
 		_next_spawn_at.append(first_at)
 		_schedule_alive.append(0)
+		_spawn_schedule_started.append(false)
 	return true
 
 
@@ -688,14 +692,26 @@ func _advance_wave() -> void:
 		_victory_reason = "all_waves_cleared"
 		_finish(true)
 		return
-	if _exit_unlock_when == LevelConfig.EXIT_ALL_WAVES_CLEARED and exit_door != null:
-		exit_door.set_open(true)
+	if _exit_unlock_when == LevelConfig.EXIT_ALL_WAVES_CLEARED:
+		# Phase 1.26：解锁是**编排语义**，与门是否存在无关（门只是物理表现）。
+		# 没有注入门的宿主也必须走到同一个解锁边界——否则它可以提前胜利，
+		# 而且 trace 里会出现「无 exit_unlocked 的出口胜利」。
+		if exit_door != null:
+			exit_door.set_open(true)
 		exit_unlocked.emit()
 		_trace_event("exit_unlocked", "orchestrator", "all_waves_cleared",
 			null, null, "", "", {"wave": wave_index})
 
 
 # ---------- holdout 模式：持续生成调度 ----------
+
+
+## waves 模式是否已完成全部波次（最后一波且无存活）。不读取门 / 场景状态，
+## 只反映编排语义；用于出口胜利的守卫。
+func _waves_all_cleared() -> bool:
+	if waves.is_empty():
+		return false
+	return wave_index >= waves.size() - 1 and alive_count <= 0
 
 
 func _run_spawn_schedules() -> void:
@@ -708,8 +724,20 @@ func _run_spawn_schedules() -> void:
 		if not _can_spawn(index):
 			# 达到上限：不推进下次生成时间，解除上限后立即补生成
 			continue
-		var enemy := _spawn(schedule["scene"], index, str(schedule.get("entity", "")))
+		var entity_id := str(schedule.get("entity", ""))
+		var enemy := _spawn(schedule["scene"], index, entity_id)
 		if enemy != null:
+			# Phase 1.27：调度首次真正产出敌人 = holdout 的「生成调度激活」状态转换。
+			# 每个调度至多一次；data 只放配置事实（索引 / 实体 / 间隔 / 上限）。
+			if not _spawn_schedule_started[index]:
+				_spawn_schedule_started[index] = true
+				_trace_event("spawn_schedule_started", "orchestrator", "spawn_due",
+					null, null, "", "", {
+						"schedule": index,
+						"entity": entity_id,
+						"interval": float(schedule.get("interval", 1.0)),
+						"max_alive": int(schedule.get("max_alive", 0)),
+					})
 			_next_spawn_at[index] = _elapsed + float(schedule.get("interval", 1.0))
 
 
@@ -784,6 +812,11 @@ func _on_exit_zone_body_entered(body: Node2D) -> void:
 	# boss 模式：Boss 存活 / 阶段链未完成时无论门状态如何都不得提前胜利
 	if _mode == LevelConfig.MODE_BOSS and (not _boss_is_defeated or not _stages_done):
 		_trace_invalid("victory_blocked")
+		return
+	# Phase 1.26：waves 模式要求所有波次已清空——不依赖门是否存在
+	#（没有注入门的宿主也不得提前胜利；门只是物理阻挡，不是唯一守卫）。
+	if _mode == LevelConfig.MODE_WAVES and not _waves_all_cleared():
+		_trace_invalid("exit_locked")
 		return
 	# 出口区位于出口门后，门未开时物理上不可达；此处再做门状态校验兜底
 	if exit_door != null and not exit_door.is_open():

@@ -19,9 +19,14 @@ extends SceneTree
 const PLAYER_SCENE := "res://Features/player_movement/Player.tscn"
 const BOSS_SCENE := "res://Scenes/Boss.tscn"
 const ENEMY_SCENE := "res://Scenes/Enemy.tscn"
-const TEMP_CONFIG := "res://Levels/E2eOrchestrationTraceTest.json"
-const EXPORT_PATH := "res://Tests/e2e_trace_export_test.json"
 const TraceScript := preload("res://Orchestration/orchestration_trace.gd")
+
+## Phase 1.33（F4-B）：本运行专属目录。临时配置与导出测试 trace 都落在
+## `.ai/tmp/runs/<pid>-<16 位十六进制随机后缀，与 Python run_workspace 同一契约>/`，不再写共享的 `res://Levels` 与 `res://Tests`。
+var _run_dir := _make_run_dir()
+var TEMP_CONFIG := _run_dir + "/E2eOrchestrationTraceTest.json"
+var EXPORT_PATH := _run_dir + "/e2e_trace_export_test.json"
+var _owned: Dictionary = {}
 
 const REQUIRED_FIELDS := ["schema_version", "run_id", "sequence", "event_type",
 	"timestamp_ms", "stage_id", "stage_index", "source", "reason", "entity_id",
@@ -329,6 +334,7 @@ func _case_t6_export_readback() -> void:
 	elif not FileAccess.file_exists(EXPORT_PATH):
 		_fail("T6: exported trace file is missing")
 	else:
+		_owned[EXPORT_PATH] = FileAccess.get_file_as_string(EXPORT_PATH).sha256_text()
 		var parsed = JSON.parse_string(FileAccess.get_file_as_string(EXPORT_PATH))
 		if not (parsed is Dictionary):
 			_fail("T6: exported trace must be a JSON object")
@@ -354,8 +360,7 @@ func _case_t6_export_readback() -> void:
 		_fail("T6: empty export path must fail")
 	if orchestrator.export_trace_json("res://no_such_dir_phase122/trace.json"):
 		_fail("T6: unwritable export path must fail without crashing")
-	if FileAccess.file_exists(EXPORT_PATH):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(EXPORT_PATH))
+	_delete_owned(EXPORT_PATH)
 	if FileAccess.file_exists(EXPORT_PATH):
 		_fail("T6: export test file must be removed after the check")
 	_finish_events.clear()
@@ -598,23 +603,84 @@ func _write_boss_config(name: String, stages: Variant) -> String:
 	}
 	if stages != null:
 		document["stages"] = stages
-	var file := FileAccess.open(TEMP_CONFIG, FileAccess.WRITE)
-	file.store_string(JSON.stringify(document, "  ") + "\n")
-	file.close()
+	_store_config(document)
 	return TEMP_CONFIG
 
 
+func _make_run_dir() -> String:
+	var base := "res://.ai/tmp/runs"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(base))
+	for attempt in 16:
+		var id := "%d-%08x%08x" % [OS.get_process_id(), randi(), randi()]
+		var candidate := base + "/" + id
+		if DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(candidate)):
+			continue                       # 标识冲突：拒绝接管，重试下一个候选
+		if DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(candidate)) == OK:
+			return candidate
+	return ""
+
+
+func _store_config(document: Dictionary) -> void:
+	if _run_dir.is_empty() \
+			or DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_run_dir)) != OK:
+		_fail("config: 无法创建运行目录 %s" % _run_dir)
+		return
+	var text := JSON.stringify(document, "  ") + "\n"
+	var file := FileAccess.open(TEMP_CONFIG, FileAccess.WRITE)
+	if file == null:
+		_fail("config: 无法写入临时配置 %s" % TEMP_CONFIG)
+		return
+	file.store_string(text)
+	file.close()
+	_owned[TEMP_CONFIG] = text.sha256_text()
+
+
+## 只删「本运行写入且内容未变」的资源；所有权无法证明 ⇒ 拒绝并报告。
+func _delete_owned(path: String) -> void:
+	if not FileAccess.file_exists(path):
+		return
+	if not _owned.has(path):
+		_fail("ownership: 拒绝删除无所有权记录的资源 %s" % path)
+		return
+	var current := FileAccess.get_file_as_string(path)
+	if current.sha256_text() != _owned[path]:
+		_fail("ownership: 内容与本运行写入不一致，拒绝删除 %s" % path)
+		return
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	if FileAccess.file_exists(path):
+		_fail("cleanup: 无法删除 %s" % path)
+
+
 func _remove_temp() -> void:
-	for path in [TEMP_CONFIG, EXPORT_PATH]:
-		if FileAccess.file_exists(path):
-			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	_delete_owned(TEMP_CONFIG)
+	_delete_owned(EXPORT_PATH)
+	if not _run_dir.is_empty() and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(_run_dir)):
+		if DirAccess.remove_absolute(ProjectSettings.globalize_path(_run_dir)) != OK:
+			_fail("cleanup: 运行目录非空或无法删除 %s" % _run_dir)
 
 
 func _fail(message: String) -> void:
 	_failures.append(message)
 
 
+## 只报告不删除：`res://Levels` / `res://Tests` 中前缀命中但**不属于本运行**的残留。
+func _report_foreign_leftovers() -> void:
+	for base: String in ["res://Levels", "res://Tests"]:
+		var dir := DirAccess.open(base)
+		if dir == null:
+			continue
+		for file_name in dir.get_files():
+			if not (file_name.begins_with("E2e") or file_name.begins_with("e2e_")):
+				continue
+			var path := base + "/" + file_name
+			if not _owned.has(path):
+				print("LEFTOVER (not owned by this run, not removed): %s" % path)
+
+
 func _report() -> void:
+	if not _run_dir.is_empty() and DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(_run_dir)):
+		_failures.append("T: 运行目录未清理 %s" % _run_dir)
+	_report_foreign_leftovers()
 	if _failures.is_empty():
 		print("PASS: 编排诊断事件验证通过")
 		quit(0)

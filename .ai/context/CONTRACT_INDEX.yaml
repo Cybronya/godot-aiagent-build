@@ -239,7 +239,12 @@ level_orchestration:                                   # Phase 1.13 建立；Pha
     toggle: trace_enabled = false                      # 关闭后零事件且游戏行为不变
     runtime_test: Tests/test_orchestration_trace.gd    # T1–T8：契约/幂等/失败/关闭/导出/卸载/waves+holdout
     replay_impl: validator/trace_replay.py             # 只读回放器 + CLI（--json；不驱动游戏）
-    replay_test: validator/tests/test_orchestration_trace.py   # R1–R43 人工序列契约用例
+    replay_test: validator/tests/test_orchestration_trace.py   # R1–R80 人工序列契约用例
+                                                # （R68–R80 = Phase 1.28 跨模式语义：模式门、
+                                                # 阶段数一致性、终结 reason 白名单、mode 声明、
+                                                # 三条合法链不被误拒、四个真实基线仍可回放）
+                                                       # （R44+ 波次语义；R58+ 出口解锁前置；
+                                                       # R62+ holdout 生成调度激活事件）
     e2e: e2e/tests/test_end_to_end_generation.py       # P14–P18：真实 trace → 独立回放 → 状态一致 /
                                                        #   确定性 / 去终结事件后为 playing / 临时 trace 清理
     boundary: "回放器不写入游戏；事件不是胜负/阶段转换的触发源（权威 = LevelOrchestrator）"
@@ -428,6 +433,58 @@ validator:
   contract: 只 CHECK/REPORT；修复归 runtime/self_repair.py，修改资源属人工权限
   version: 2                                           # Phase 1.15：+Layer Checks 编排与统一诊断
 
+# ---------- 测试执行入口（Phase 1.29 证据完整性） ----------
+
+test_runner:
+  entrypoint: run_tests.py                             # 全量/分段入口；阶段 1.26 起区分 PASS / FAIL / INCOMPLETE
+  classification:                                      # Phase 1.29：PASS 要求「退出码 0 且未自报 SKIP」
+    PASS: 退出码 0 且输出中没有 `SKIP:`（实际执行过全部断言）
+    FAIL: 退出码非 0 且有失败标记（FAIL / FAILED / Traceback / SCRIPT ERROR）
+    INCOMPLETE: 未执行 / 中断 / 超时 / 无任何报告即退出，或自报 `SKIP:`（依赖不可用）
+    why: >-
+      修复前实测 classify(0, "SKIP: …\nPASS: …") = PASS，而 e2e 集成套件在 Godot 缺失时
+      会跳过 T4–T12（黄金基线捕获与比较整段）仍返回 0 ⇒ 未执行的段会被汇总成 passed；
+      `--python-only` 下 unavailable 恒为空，甚至可输出 ALL PASS（exit 0）。
+  exit_codes: 0 = 全 PASS；1 = 存在 FAIL / INCOMPLETE / unavailable / 未执行；2 = 仅 --godot-only 缺 Godot
+  report: "completed/passed/failed/incomplete/unavailable/not_executed + 逐项状态与退出码"
+  test: validator/tests/test_run_tests_evidence.py     # E1–E7：分类四态 + 真实 run_python_test 路径 + main() 空选择
+  evidence: >-
+    GDScript 测试中途 SCRIPT ERROR 实测不会静默 quit(0)（进程挂住 → 超时 → INCOMPLETE）；
+    GDScript 测试中不存在 SKIP 字样，故该收紧对 Godot 侧零影响。
+  run_workspace:                                     # Phase 1.32（F4）：每次运行专属工作区 + 所有权清理
+    module: testsupport/run_workspace.py             # 标准库实现；不驱动 Godot
+    contract: >-
+      运行根 = .ai/tmp/runs/<pid>-<uuid8>/（mkdir exist_ok=False，已存在即拒绝接管）；
+      ownership.jsonl 追加式记录 created/removed（含 sha256/bytes/mtime_ns）；
+      清理只删账本中「token 匹配、路径在运行根内、非符号链接、size/mtime/sha256 一致」的文件；
+      账本缺失/损坏/字段非法 ⇒ 整次清理拒绝；运行根仅在全部文件已入账并验证后 rmtree；
+      其他 token 的残留只报告（stale_entries），reclaim_abandoned 必须显式确认且重新验账。
+    test: validator/tests/test_run_workspace.py      # W1–W19（隔离 / 幂等 / 篡改 / 越界 / 符号链接 /
+                                                     # 未入账 / 异常退出残留 / 两进程并发 / 失败诊断 /
+                                                     # 删除前再校验 / 账本中断行 / token 冲突 / GDScript 静态锁定）
+    consumer: validator/tests/test_cross_layer_contract.py  # 夹具与探针移入运行根；清理断言改为所有权验证
+    consumer2: tools/e2e/tests/test_end_to_end_generation.py # holdout 段临时关卡/trace 走 RunWorkspace
+    gitignore: .ai/tmp/                              # 易失工作区，不承载源码/文档
+    not_done: F5（过滤命中数）与 janitor CLI 仍未实施，需要独立授权
+
+
+gdscript_test_per_run_workspace:                       # Phase 1.33/1.34：GD 侧运行根（与 Python 同一契约）
+  phase: "1.33 / 1.34"
+  module: Tests/test_{generic_level_orchestration,level_orchestration,boss_orchestration,orchestration_trace,holdout_trace,waves_exit_gate}.gd
+  contract: >-
+    每个 GDScript 测试自行创建 .ai/tmp/runs/<pid>-<16 位十六进制随机后缀>/（与 Python
+    run_workspace 的 canonical TOKEN_RE 同一格式；目录已存在 = 标识冲突，拒绝接管并重试）。
+    临时关卡 JSON 与导出 trace 一律写入该目录；清理只删「本运行写入且内容未变」的文件；
+    res://Levels / user:// 中前缀命中但不属于本运行的残留只报告不删除（fail-closed）。
+    共享场景/配置只读不写；运行根在成功路径移除，失败时保留可诊断。GD 运行根无账本，
+    stale_entries 报 "no ledger"，reclaim 拒绝（所有权不可证）。
+  test: validator/tests/test_run_workspace.py::W19     # 静态锁定：不再写共享 Levels/user://
+  consumer: tools/e2e/tests/test_end_to_end_generation.py
+  not_done: >-
+    .godot/ 引擎缓存未隔离（并发导入竞争仅评估未消除）；user://runtime-fixture-* 历史
+    夹具所有权不可证，保留（L-10）。
+
+
 # ---------- Runtime ----------
 
 runtime_playtest:
@@ -447,10 +504,11 @@ orchestration_trace:                                   # Phase 1.22：诊断事�
     scenarios: [multi_stage_boss, single_stage_boss, waves, holdout]
                                                        # waves = v2（Phase 1.25 波次语义事件：
                                                        # wave_started/wave_cleared/exit_unlocked，
-                                                       # 7 事件链）；holdout 保持 v1（开始与计时是
-                                                       # 同一原子转换，完成已有 survive_duration
-                                                       # victory——不虚构不存在的状态）；schema v1
-                                                       # 加性扩展，旧基线零重录
+                                                       # 7 事件链）；holdout = v2（Phase 1.27：
+                                                       # spawn_schedule_started，3 事件链）；
+                                                       # boss 保持 v1；schema v1 加性扩展
+                                                       # （旧 trace 仍可回放；与 v2 基线比较会报
+                                                       # EVENT_MISSING = 预期的行为变更信号）
                                                        # 覆盖：Boss 单/多阶段 + waves（清波→出口→Victory）
                                                        # + holdout（持续生成→survive_duration Victory）；
                                                        # 全部来自真实 Godot 沙箱捕获 + 显式批准（Phase 1.24）
@@ -462,9 +520,65 @@ orchestration_trace:                                   # Phase 1.22：诊断事�
                                                        # Phase 1.24：review/apply 都从候选**文件内容**重算指纹并与
                                                        # 记录指纹比对（篡改/替换候选 = 拒绝，exit 1，基线不动）；
                                                        # apply 原子写入（同目录 tmp + os.replace，不留半写入文件）
+    fingerprint_scheme: {1: "Phase 1.23（含 scenario_id，历史基线）", 2: "Phase 1.24+（不含 scenario_id，当前）"}
+                                                       # Phase 1.26：方案版本化；候选记录
+                                                       # approval.candidate_fingerprint_scheme，
+                                                       # 历史文件按方案集合逐个验算（U66/U67）
     candidates: "候选只来自真实 Godot 捕获（e2e/trace_baseline_capture.py，沙箱内完整生成链路）"
     e2e: e2e/tests/test_end_to_end_generation.py       # T 段 T1–T14（真实捕获 + 逐事件比较 + 差异注入）
-    unit_test: validator/tests/test_trace_baselines.py # U1–U48（比较器/策略/批准流程/异常输入）
+    unit_test: validator/tests/test_trace_baselines.py # U1–U99（比较器/策略/批准流程/异常输入/
+                                                       # 已批准基线的真实事件链 + 指纹可追溯性；
+                                                       # U77–U85 = Phase 1.28 跨模式一致的拒绝理由、
+                                                       # U86–U94 = Phase 1.29 审批信任边界（方案必须
+                                                       # 声明、身份一致、输入错误统一、退出码锁定）、
+                                                       # U95–U99 = Phase 1.30 证据来源一致性（校验不改
+                                                       # 写输入 / run_id 与计数绑定 / 写入后保留真 run_id）、
+                                                       # 非法基线 → INVALID_BASELINE、黄金集合无跨模式泄漏）
+    cross_mode_semantics:                              # Phase 1.28：公共语义 vs 模式特有语义
+      public: 结构/序号/时间戳契约、started 唯一居首且 data.mode 显式、终结互斥且之后只允许
+        duplicate_event_ignored、非法序列的稳定 reason + 退出码
+      mode_scope: stage_* → boss（且需声明阶段数）；boss_death_confirmed → boss；
+        wave_started/wave_cleared/exit_unlocked → waves；spawn_schedule_started → holdout
+      new_reasons: [invalid_start_mode, stage_event_outside_boss_stages,
+                    stage_start_outside_declared_count, victory_reason_outside_mode,
+                    failure_reason_outside_mode]
+      terminal_reason_scope: 取值来自 LevelOrchestrator 实际写入点；boss 胜利只能 boss_defeated/forced；
+        waves 胜利 exit_reached_after_unlock/all_waves_cleared/forced；holdout 胜利 survive_duration/forced；
+        失败共有 player_died/setup_failed/forced，wave_timeout 仅 waves
+      baseline_contract: validate_baseline 结构校验通过后必须回放事件（"events must replay:"）——
+        结构合法但语义不合法的基线 → INVALID_BASELINE（exit 2），不把责任推给真实 trace
+      baseline_impact: 无重录；四个基线事件字节未变，仍可回放且自比较 PASS（U84 守护）
+    coverage_note: >-
+      waves 基线的 coverage 声明自 Phase 1.26 起只描述真实事件链（事件级保护），探针度量
+      断言单独列出——不得再出现「trace 不含波次事件」这类与 v2 内容矛盾的旧文案（U65 守护）。
+    exit_gate_test: Tests/test_waves_exit_gate.gd      # Phase 1.26：出口锁定不得胜利的真实 Godot 注入（G1–G7）
+    holdout_trace_test: Tests/test_holdout_trace.gd    # Phase 1.27：holdout 生成调度激活 / 提前失败 /
+                                                       # 终结后重复（H1–H7；事件经生产导出接口读取）
+    holdout_probe_evidence: "probe_metrics.trace_events 由导出 trace 文档统计（Phase 1.27 修正：
+      此前 GDScript 侧恒报 0，与 trace_event_count 矛盾）"
+    input_class_mapping:                               # Phase 1.29 M3：跨入口退出码映射已锁定
+      trace_unreadable: {trace_replay: 2, trace_baselines: "INVALID_TRACE (1)"}
+      baseline_missing: {trace_baselines: "BASELINE_MISSING (2)"}
+      baseline_unreadable_or_invalid: {trace_baselines: "INVALID_BASELINE (2)"}
+      note: >-
+        同一「文件不存在」在两个入口的码不同，均已文档化并用 U91–U93 锁定；两者均非 0，
+        输入问题永远不会变成 PASS。不得为“统一码”而静默改变任一入口行为。
+    approval_boundary:                                 # Phase 1.29：审批入口信任边界
+      new_candidate_scheme_required: 缺少 candidate_fingerprint_scheme 或声明 scheme 1 的新候选
+        review/apply 一律拒绝（exit 1）——scheme 1 仅用于验证历史已批准基线
+      identity_check: "--scenario 必须与候选内容 scenario_id 一致（否则 exit 2）；写入目标始终跟随内容"
+      candidate_resolution: "--candidate <文件> --scenario <id> 按文件处理（修正此前被当成目录拼接的路径缺陷）"
+      unreadable_candidate: 不可读 / 非 JSON / 非对象 → review 与 apply 同为 exit 2 + 同一诊断
+      provenance_consistency:                          # Phase 1.30（E-1/E-2）
+        validator_does_not_mutate: 校验只在事件**副本**上规范化 run_id；apply 写入的基线保留真实
+          run_id（旧实现把 candidate-check 写进正式基线，毁掉来源线索；U95/U99）
+        run_binding: "source.trace_run_id 必须非空且等于每个事件的 run_id（U96/U97）"
+        count_binding: "source.trace_event_count（存在时）必须等于事件数（U98，含截断捕获）"
+        note: >-
+          一致性 ≠ 来源真实性：两字段在同一文件里可被一起改写，指纹无密钥，--i-approve 无身份
+          认证。历史四个基线的 run_id 已被旧校验器覆写且禁止重录，修复只对此后候选生效。
+      tests: "validator/tests/test_trace_baselines.py U86–U99（异常路径 + 正向对照 + 候选→审查→批准闭环 +
+        证据来源一致性）"
 
 runtime_diagnosis:
   cli: runtime/diagnose_runtime.py

@@ -1,25 +1,29 @@
 {
   "document": "orchestration_trace_baseline",
   "baseline_schema_version": 1,
-  "baseline_version": 1,
+  "baseline_version": 2,
   "trace_schema_version": 1,
   "scenario_id": "holdout",
   "scenario_description": "holdout：持续生成 → 存活期满前不结算 → survive_duration 到点恰好一次 Victory",
   "coverage": [
-    "orchestration_started（holdout 模式）",
-    "持续生成按配置调度（探针度量 alive_seen > 0）",
-    "存活期满前不结算（探针断言 finish_events 为空）",
-    "level_victory（survive_duration）恰好一次且为最后一个事件"
+    "orchestration_started（holdout 模式）——事件级保护",
+    "spawn_schedule_started：每条生成调度首次真正产出敌人时记录一次；delay 未到点的调度不产生事件（事件级保护）",
+    "存活期满前不结算（探针断言 finish_events 为空；trace 级由 Tests/test_holdout_trace.gd 的 H5 验证）",
+    "level_victory（survive_duration）恰好一次且为最后一个事件（事件级保护）",
+    "探针度量断言（不是 trace 事件）：持续生成按配置调度（alive_seen > 0）",
+    "不在本基线内、由 Tests/test_holdout_trace.gd 验证：提前失败level_failed(player_died)（H3）与终结后重复 duplicate_event_ignored（H4）"
   ],
   "approved_behavior_version": "phase-1.22-orchestration-trace-contract-v1",
   "source": {
     "scenario_id": "holdout",
     "description": "holdout：持续生成 → 存活期满前不结算 → survive_duration 到点恰好一次 Victory",
     "coverage": [
-      "orchestration_started（holdout 模式）",
-      "持续生成按配置调度（探针度量 alive_seen > 0）",
-      "存活期满前不结算（探针断言 finish_events 为空）",
-      "level_victory（survive_duration）恰好一次且为最后一个事件"
+      "orchestration_started（holdout 模式）——事件级保护",
+      "spawn_schedule_started：每条生成调度首次真正产出敌人时记录一次；delay 未到点的调度不产生事件（事件级保护）",
+      "存活期满前不结算（探针断言 finish_events 为空；trace 级由 Tests/test_holdout_trace.gd 的 H5 验证）",
+      "level_victory（survive_duration）恰好一次且为最后一个事件（事件级保护）",
+      "探针度量断言（不是 trace 事件）：持续生成按配置调度（alive_seen > 0）",
+      "不在本基线内、由 Tests/test_holdout_trace.gd 验证：提前失败level_failed(player_died)（H3）与终结后重复 duplicate_event_ignored（H4）"
     ],
     "godot_version": "4.7.stable.official.5b4e0cb0f",
     "probe": "holdout_trace_probe.py",
@@ -40,21 +44,22 @@
       "finish_events": 1,
       "finish_success": 1,
       "status": "PASS",
-      "trace_events": 0
+      "trace_events": 3
     },
-    "trace_event_count": 2,
+    "trace_event_count": 3,
     "probe_script_removed": true,
     "captured_by": "trace_baseline_capture.py (sandboxed real Godot headless E2E)",
-    "trace_run_id": "run-1134031"
+    "trace_run_id": "run-675705"
   },
   "approval": {
     "status": "approved",
-    "approver": "Codebuff (Phase 1.24)",
+    "approver": "Codebuff (Phase 1.27)",
     "approved_at": "2026-10-18",
-    "note": "holdout 黄金基线 v1：真实 Godot 沙箱捕获；候选经 schema 校验 + 回放 + 指纹复验，逐事件审查通过",
-    "candidate_fingerprint": "0b9ebaf2cc314fd4f13d0c20da4c96cbe5d8cb029cd4a54775a525ce9df4da11",
-    "candidate_generated_at": "2026-10-18T02:34:34",
-    "previous_baseline_version": null
+    "note": "Phase 1.27: holdout 生成调度激活事件，真实捕获 3 事件链（started→schedule0→victory）；逐事件审查确认无其他语义变化",
+    "candidate_fingerprint": "b62cb26f546dc56f0d1cab389cbdb71ebda2904fc0c6376bcd09c6425eecc577",
+    "candidate_fingerprint_scheme": 2,
+    "candidate_generated_at": "2026-10-18T23:54:46",
+    "previous_baseline_version": 1
   },
   "comparison_policy": {
     "version": 1,
@@ -73,7 +78,7 @@
     "boss_death_confirmed": false,
     "stage_history": [],
     "terminal_event": "level_victory",
-    "event_count": 2
+    "event_count": 3
   },
   "events": [
     {
@@ -94,6 +99,25 @@
       "timestamp_ms": 0
     },
     {
+      "data": {
+        "entity": "trace_grunt",
+        "interval": 0.3,
+        "max_alive": 0,
+        "schedule": 0
+      },
+      "entity_id": null,
+      "event_type": "spawn_schedule_started",
+      "instance_name": null,
+      "reason": "spawn_due",
+      "run_id": "candidate-check",
+      "schema_version": 1,
+      "sequence": 1,
+      "source": "orchestrator",
+      "stage_id": null,
+      "stage_index": null,
+      "timestamp_ms": 152
+    },
+    {
       "data": {},
       "entity_id": null,
       "event_type": "level_victory",
@@ -101,11 +125,11 @@
       "reason": "survive_duration",
       "run_id": "candidate-check",
       "schema_version": 1,
-      "sequence": 1,
+      "sequence": 2,
       "source": "orchestrator",
       "stage_id": null,
       "stage_index": null,
-      "timestamp_ms": 1868
+      "timestamp_ms": 1856
     }
   ]
 }
