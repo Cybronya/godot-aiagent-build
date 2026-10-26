@@ -1,0 +1,23 @@
+# Source:  https://github.com/godotengine/godot-demo-projects/blob/master/3d/sky_shaders/spheres.gd
+# Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
+# Commit:  master
+@tool
+extends Node3D
+
+
+func _ready() -> void:
+	# Create spheres to represent various levels of material roughness and metallic.
+	for roughness in range(11):
+		for metallic in range(11):
+			var sphere := MeshInstance3D.new()
+			sphere.mesh = SphereMesh.new()
+			# Center the spheres around the node origin.
+			sphere.position = Vector3(roughness, 0, metallic) - Vector3(5, 0, 5)
+
+			var material := StandardMaterial3D.new()
+			material.albedo_color = Color(0.5, 0.5, 0.5)
+			material.roughness = roughness * 0.1
+			material.metallic = metallic * 0.1
+			sphere.material_override = material
+
+			add_child(sphere)

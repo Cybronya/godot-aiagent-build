@@ -59,6 +59,14 @@ Analyze → Understand → Plan → Modify → Validate
 
 新增 Feature 前，先检查 Existing Features / Skills / Components / Tests，避免重复实现。
 
+若无现成能力，先用统一资产搜索定位参考实现：
+`python .ai/tools/feature_registry/search_assets.py --query "关键词"`
+（同时搜 Features 资产与 godot-gdscript Skill 维护的外部片段库）。
+找到参考片段后**抽象简化落成新 Feature**（可用
+`github_collector.py promote --snippet <id> --name <feature>` 生成脚手架，
+见 `Features/FEATURE_SCHEMA.md`），而不是把外部片段直接拷进业务代码。
+片段是教材，Feature 才是资产。
+
 ### Rule 3：保持 State Ownership
 
 一个系统只负责自己的 State。冲突语义（如长盖短、幂等、死亡守卫）内置于拥有该状态的 Feature，由其公开接口表达；Scene Glue 只做事件连接与路由，不做状态仲裁。

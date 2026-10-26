@@ -27,3 +27,17 @@
   Python `.ai/tools/**/tests/test_*.py`，单测超时 Godot 120s / Python 300s）。
 - Godot 二进制：`F:/Godot_v4.7-stable/Godot_v4.7-stable_win64_console.exe`。
 - validate.py 既有基线：0 error / 17 warning（17 条均为 Asset Manifest 小写路径不符）。
+
+## Code Library（.ai/skills/foundation/godot-gdscript，2026-10-27 起）
+
+- 分类：`examples/` = Agent 自制示例；`code_library/` = GitHub 收集
+  （sources/ 原始 + references/ 蒸馏 + catalog.yaml + INDEX.md；references 与
+  sources 带 .gdignore，Godot 不导入）。
+- 工具 `tools/github_collector.py`：search/fetch/catalog/check/reindex；
+  GITHUB_TOKEN 可选提额；许可证白名单（MIT/BSD/CC0/Apache 等），GPL/未知跳过；
+  tarball 走 codeload 不占 API 配额。
+- 首批 12 仓库：godot-demo-projects、dialogic、dialogue_manager、phantom-camera、
+  beehave、open-rpg、statecharts、steering-ai-framework、Metroidvania-System、
+  两套 GameTemplate、Kenney City Builder。1810 条目 / 1454 parse OK / 0 FAIL。
+- Agent 检索入口：先读 code_library/INDEX.md，再查 catalog.yaml；片段是学习参考，
+  落地必须适配项目约定（class_name 冲突、Health 节点、enemies 组）。

@@ -1,0 +1,682 @@
+[
+  {
+    "full_name": "Orama-Interactive/Pixelorama",
+    "stars": 10845,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Unleash your creativity with Pixelorama, a powerful and accessible open-source pixel art multitool. Whether you want to create sprites, tiles, animations, or just express yourself in the language of pixel art, this software will realize your pixel-perfect dreams with a vast toolbox of features. Available on Windows, Linux, macOS and the Web!",
+    "default_branch": "master",
+    "pushed_at": "2026-10-26T13:57:54Z",
+    "topics": [
+      "animation",
+      "art",
+      "draw",
+      "game-development",
+      "gamedev",
+      "gdscript",
+      "godot",
+      "godot-engine",
+      "godotengine",
+      "graphics",
+      "paint",
+      "pixel",
+      "pixel-art",
+      "pixel-art-maker",
+      "pixel-editor",
+      "pixelart",
+      "pixelorama",
+      "sprite-animation",
+      "sprites",
+      "spritesheet"
+    ],
+    "html_url": "https://github.com/Orama-Interactive/Pixelorama"
+  },
+  {
+    "full_name": "godotengine/godot-demo-projects",
+    "stars": 9711,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Demonstration and Template Projects",
+    "default_branch": "master",
+    "pushed_at": "2026-10-08T09:33:27Z",
+    "topics": [],
+    "html_url": "https://github.com/godotengine/godot-demo-projects"
+  },
+  {
+    "full_name": "mbrlabs/Lorien",
+    "stars": 6863,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Infinite canvas drawing/whiteboarding app for Windows, Linux and macOS. Made with Godot.",
+    "default_branch": "main",
+    "pushed_at": "2025-09-22T21:29:46Z",
+    "topics": [
+      "drawing-app",
+      "godot-engine",
+      "infinite-canvas",
+      "note-taking",
+      "notebook",
+      "vector-graphics",
+      "whiteboard"
+    ],
+    "html_url": "https://github.com/mbrlabs/Lorien"
+  },
+  {
+    "full_name": "dialogic-godot/dialogic",
+    "stars": 6121,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "💬 Create Dialogs, Visual Novels, RPGs, and manage Characters with Godot to create your Game!",
+    "default_branch": "main",
+    "pushed_at": "2026-08-30T13:29:27Z",
+    "topics": [
+      "addon",
+      "dialogic",
+      "dialogue",
+      "game",
+      "gdscript",
+      "godot",
+      "plugin",
+      "visual-novel",
+      "visualnovel"
+    ],
+    "html_url": "https://github.com/dialogic-godot/dialogic"
+  },
+  {
+    "full_name": "RodZill4/material-maker",
+    "stars": 6025,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A procedural textures authoring and 3D model painting tool based on the Godot game engine",
+    "default_branch": "master",
+    "pushed_at": "2026-10-25T09:18:13Z",
+    "topics": [
+      "glsl",
+      "godot-engine",
+      "godotengine",
+      "material-maker",
+      "painting",
+      "procedural-generation",
+      "texture-synthesis",
+      "textures"
+    ],
+    "html_url": "https://github.com/RodZill4/material-maker"
+  },
+  {
+    "full_name": "nathanhoad/godot_dialogue_manager",
+    "stars": 3946,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A powerful nonlinear dialogue system for Godot",
+    "default_branch": "main",
+    "pushed_at": "2026-10-25T06:19:46Z",
+    "topics": [
+      "addon",
+      "csharp",
+      "dialogue",
+      "editor",
+      "gdscript",
+      "godot",
+      "godot4",
+      "godotengine",
+      "runtime"
+    ],
+    "html_url": "https://github.com/nathanhoad/godot_dialogue_manager"
+  },
+  {
+    "full_name": "ramokz/phantom-camera",
+    "stars": 3640,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A Camera addon for Godot 4. Inspired by Cinemachine.",
+    "default_branch": "main",
+    "pushed_at": "2026-10-21T18:24:35Z",
+    "topics": [
+      "addon",
+      "camera",
+      "csharp",
+      "game-development",
+      "godot",
+      "godotengine",
+      "plugin"
+    ],
+    "html_url": "https://github.com/ramokz/phantom-camera"
+  },
+  {
+    "full_name": "bitbrain/beehave",
+    "stars": 3312,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "🐝 behavior tree AI for Godot Engine",
+    "default_branch": "godot-4.x",
+    "pushed_at": "2026-09-20T21:03:24Z",
+    "topics": [
+      "ai",
+      "behavior-tree",
+      "game-development",
+      "gamedev",
+      "gdscript",
+      "godot",
+      "godot3",
+      "godot4",
+      "godotengine"
+    ],
+    "html_url": "https://github.com/bitbrain/beehave"
+  },
+  {
+    "full_name": "JHDev2006/Super-Mario-Bros.-Remastered-Public",
+    "stars": 3275,
+    "license": "GPL-3.0",
+    "license_ok": false,
+    "description": "A Remake / Celebration of the original 'Super Mario Bros.' games. Features new levels, custom modes, new characters, alongside a full level editor / custom level system!",
+    "default_branch": "main",
+    "pushed_at": "2026-10-17T14:33:08Z",
+    "topics": [],
+    "html_url": "https://github.com/JHDev2006/Super-Mario-Bros.-Remastered-Public"
+  },
+  {
+    "full_name": "j-p-higgins/SoundThread",
+    "stars": 3257,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Node based GUI for The Composers Desktop Project",
+    "default_branch": "main",
+    "pushed_at": "2026-10-09T17:08:24Z",
+    "topics": [],
+    "html_url": "https://github.com/j-p-higgins/SoundThread"
+  },
+  {
+    "full_name": "hi-godot/godot-ai",
+    "stars": 3229,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Production-grade MCP server and AI tools for the Godot engine. A Snap to install. Totally free and fun.",
+    "default_branch": "main",
+    "pushed_at": "2026-10-26T13:08:43Z",
+    "topics": [
+      "ai",
+      "game-development",
+      "godot",
+      "godot-plugin",
+      "mcp"
+    ],
+    "html_url": "https://github.com/hi-godot/godot-ai"
+  },
+  {
+    "full_name": "gdquest-demos/godot-open-rpg",
+    "stars": 3028,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Learn to create turn-based combat with this Open Source RPG demo ⚔",
+    "default_branch": "main",
+    "pushed_at": "2026-10-13T17:49:52Z",
+    "topics": [
+      "combat",
+      "game",
+      "game-development",
+      "gamedev",
+      "gdscript",
+      "godot",
+      "godot-engine",
+      "jrpg",
+      "rpg",
+      "turn-based"
+    ],
+    "html_url": "https://github.com/gdquest-demos/godot-open-rpg"
+  },
+  {
+    "full_name": "HungryProton/scatter",
+    "stars": 3017,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Godot engine addon to randomly fill an area with props or other scenes. Mirror of https://codeberg.org/hungryproton/proton_scatter",
+    "default_branch": "main",
+    "pushed_at": "2026-09-27T13:12:51Z",
+    "topics": [],
+    "html_url": "https://github.com/HungryProton/scatter"
+  },
+  {
+    "full_name": "git-learning-game/oh-my-git",
+    "stars": 2903,
+    "license": "NOASSERTION",
+    "license_ok": false,
+    "description": "An interactive Git learning game!",
+    "default_branch": "main",
+    "pushed_at": "2025-12-02T14:42:35Z",
+    "topics": [
+      "game",
+      "git",
+      "godot",
+      "learning",
+      "teaching",
+      "visualization"
+    ],
+    "html_url": "https://github.com/git-learning-game/oh-my-git"
+  },
+  {
+    "full_name": "GDQuest/learn-gdscript",
+    "stars": 2810,
+    "license": "NOASSERTION",
+    "license_ok": false,
+    "description": "Learn Godot's GDScript programming language from zero, right in your browser, for free.",
+    "default_branch": "main",
+    "pushed_at": "2026-10-21T19:20:47Z",
+    "topics": [
+      "education",
+      "game-development",
+      "gdscript",
+      "godot"
+    ],
+    "html_url": "https://github.com/GDQuest/learn-gdscript"
+  },
+  {
+    "full_name": "MewPurPur/GodSVG",
+    "stars": 2784,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A vector graphics application for structured SVG editing, available on all major desktop platforms and on web. Currently in late alpha.",
+    "default_branch": "main",
+    "pushed_at": "2026-10-24T08:01:07Z",
+    "topics": [
+      "blue-fox",
+      "gdscript",
+      "godot",
+      "godot-engine",
+      "godotengine",
+      "multi-platform",
+      "open-source",
+      "svg",
+      "svg-editor",
+      "svg-parser",
+      "thorvg",
+      "vector-graphics"
+    ],
+    "html_url": "https://github.com/MewPurPur/GodSVG"
+  },
+  {
+    "full_name": "bitwes/Gut",
+    "stars": 2771,
+    "license": "unknown",
+    "license_ok": false,
+    "description": "Godot Unit Test.  Unit testing tool for Godot Game Engine.",
+    "default_branch": "main",
+    "pushed_at": "2026-08-18T14:28:41Z",
+    "topics": [
+      "godot",
+      "godot-engine",
+      "tool",
+      "unit-test"
+    ],
+    "html_url": "https://github.com/bitwes/Gut"
+  },
+  {
+    "full_name": "KsanaDock/Microverse",
+    "stars": 2503,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simulation system. In this virtual world, AI characters possess independent thinking and memory, capable of autonomous social interactions, task completion, and developing complex social relationships through continuous communication.",
+    "default_branch": "main",
+    "pushed_at": "2026-04-10T00:54:43Z",
+    "topics": [
+      "ai-game",
+      "ai-world-simulation",
+      "godot",
+      "multi-agent"
+    ],
+    "html_url": "https://github.com/KsanaDock/Microverse"
+  },
+  {
+    "full_name": "Zylann/godot_heightmap_plugin",
+    "stars": 2285,
+    "license": "NOASSERTION",
+    "license_ok": false,
+    "description": "HeightMap terrain for Godot implemented in GDScript",
+    "default_branch": "master",
+    "pushed_at": "2026-07-30T20:14:30Z",
+    "topics": [
+      "game-development",
+      "godot-engine",
+      "heightmap",
+      "terrain"
+    ],
+    "html_url": "https://github.com/Zylann/godot_heightmap_plugin"
+  },
+  {
+    "full_name": "gdquest-demos/godot-4-procedural-generation",
+    "stars": 1932,
+    "license": "NOASSERTION",
+    "license_ok": false,
+    "description": "Procedural generation algorithms and demos for the Godot game engine",
+    "default_branch": "master",
+    "pushed_at": "2026-06-26T12:55:03Z",
+    "topics": [
+      "gdscript",
+      "godot-engine",
+      "godot-procedural",
+      "pcg",
+      "procedural-generation",
+      "procgen"
+    ],
+    "html_url": "https://github.com/gdquest-demos/godot-4-procedural-generation"
+  },
+  {
+    "full_name": "SirRamEsq/SmartShape2D",
+    "stars": 1760,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A 2D Terrain Tool for Godot",
+    "default_branch": "master",
+    "pushed_at": "2026-08-07T10:36:57Z",
+    "topics": [
+      "godot",
+      "plugin"
+    ],
+    "html_url": "https://github.com/SirRamEsq/SmartShape2D"
+  },
+  {
+    "full_name": "protongraph/protongraph",
+    "stars": 1749,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Experimental node-based software for procedural content generation",
+    "default_branch": "main",
+    "pushed_at": "2023-11-23T00:33:30Z",
+    "topics": [
+      "game-development",
+      "godot-engine",
+      "node-graph",
+      "standalone"
+    ],
+    "html_url": "https://github.com/protongraph/protongraph"
+  },
+  {
+    "full_name": "Maaack/Godot-Game-Template",
+    "stars": 1709,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Godot template with a main menu, options menus, pause menu, credits, scene loader, extra tools, and an example game scene.",
+    "default_branch": "main",
+    "pushed_at": "2026-10-26T18:34:23Z",
+    "topics": [
+      "game-development",
+      "godot",
+      "godot-addon",
+      "godot-plugin",
+      "godot-template",
+      "godot4",
+      "template-project"
+    ],
+    "html_url": "https://github.com/Maaack/Godot-Game-Template"
+  },
+  {
+    "full_name": "nezvers/Godot-GameTemplate",
+    "stars": 1670,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Template for top-down shooter, with solutions for tough problems.",
+    "default_branch": "master",
+    "pushed_at": "2026-06-18T16:13:49Z",
+    "topics": [
+      "async",
+      "gdscript",
+      "godot",
+      "loading",
+      "manager",
+      "menu",
+      "options",
+      "pause",
+      "sfx"
+    ],
+    "html_url": "https://github.com/nezvers/Godot-GameTemplate"
+  },
+  {
+    "full_name": "gaea-godot/gaea",
+    "stars": 1662,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Procedural generation add-on for Godot 4.",
+    "default_branch": "2.0",
+    "pushed_at": "2026-10-18T14:03:26Z",
+    "topics": [
+      "addon",
+      "godot-addon",
+      "godot4",
+      "procedural-generation",
+      "procgen"
+    ],
+    "html_url": "https://github.com/gaea-godot/gaea"
+  },
+  {
+    "full_name": "blackears/cyclopsLevelBuilder",
+    "stars": 1637,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A Godot plugin to let you block in levels inside the Godot editor.",
+    "default_branch": "master",
+    "pushed_at": "2026-10-26T00:07:30Z",
+    "topics": [],
+    "html_url": "https://github.com/blackears/cyclopsLevelBuilder"
+  },
+  {
+    "full_name": "derkork/godot-statecharts",
+    "stars": 1623,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A state charts extension for Godot 4",
+    "default_branch": "main",
+    "pushed_at": "2026-06-26T09:12:05Z",
+    "topics": [],
+    "html_url": "https://github.com/derkork/godot-statecharts"
+  },
+  {
+    "full_name": "KoBeWi/Metroidvania-System",
+    "stars": 1596,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "General-purpose framework for creating metroidvania games in Godot.",
+    "default_branch": "master",
+    "pushed_at": "2026-10-23T11:50:39Z",
+    "topics": [
+      "godot",
+      "metroidvania"
+    ],
+    "html_url": "https://github.com/KoBeWi/Metroidvania-System"
+  },
+  {
+    "full_name": "GDQuest/godot-steering-ai-framework",
+    "stars": 1588,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A complete framework for Godot to create beautiful and complex AI motion. Works both in 2D and in 3D.",
+    "default_branch": "master",
+    "pushed_at": "2024-09-13T09:43:05Z",
+    "topics": [
+      "agents",
+      "ai",
+      "algorithms",
+      "artificial-intelligence",
+      "framework",
+      "game-development",
+      "gdscript",
+      "godot",
+      "godot-engine",
+      "godot-game-engine",
+      "steering-behaviors"
+    ],
+    "html_url": "https://github.com/GDQuest/godot-steering-ai-framework"
+  },
+  {
+    "full_name": "KenneyNL/Starter-Kit-City-Builder",
+    "stars": 1495,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "",
+    "default_branch": "main",
+    "pushed_at": "2026-03-12T08:57:35Z",
+    "topics": [],
+    "html_url": "https://github.com/KenneyNL/Starter-Kit-City-Builder"
+  },
+  {
+    "full_name": "drwhut/tabletop-club",
+    "stars": 1467,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "An open-source platform for playing tabletop games in a physics-based 3D environment for Windows, macOS, and Linux! Made with the Godot Engine.",
+    "default_branch": "master",
+    "pushed_at": "2026-08-30T12:09:36Z",
+    "topics": [
+      "3d",
+      "game",
+      "godot-engine",
+      "multiplayer",
+      "physics",
+      "singleplayer",
+      "tabletop",
+      "tabletop-games",
+      "tabletop-gaming",
+      "tabletop-simulator"
+    ],
+    "html_url": "https://github.com/drwhut/tabletop-club"
+  },
+  {
+    "full_name": "a-little-org-called-mario/a-little-game-called-mario",
+    "stars": 1456,
+    "license": "NOASSERTION",
+    "license_ok": false,
+    "description": "open source collective hell game",
+    "default_branch": "main",
+    "pushed_at": "2025-03-30T17:25:43Z",
+    "topics": [
+      "game",
+      "game-development",
+      "gamedev",
+      "godot"
+    ],
+    "html_url": "https://github.com/a-little-org-called-mario/a-little-game-called-mario"
+  },
+  {
+    "full_name": "Ark2000/PankuConsole",
+    "stars": 1437,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Feature-packed real-time debugging toolkit for Godot Engine.",
+    "default_branch": "master",
+    "pushed_at": "2025-01-25T16:22:25Z",
+    "topics": [
+      "game-console",
+      "game-development",
+      "gamedev",
+      "gdscript",
+      "godot",
+      "godot-addon",
+      "godot-engine",
+      "godot-plugin",
+      "godot4"
+    ],
+    "html_url": "https://github.com/Ark2000/PankuConsole"
+  },
+  {
+    "full_name": "db0/godot-card-game-framework",
+    "stars": 1412,
+    "license": "AGPL-3.0",
+    "license_ok": false,
+    "description": "A framework which comes with prepared scenes and classes to kickstart your card game, as well as a powerful scripting engine to use to provide full rules enforcement.",
+    "default_branch": "main",
+    "pushed_at": "2025-05-20T11:42:56Z",
+    "topics": [
+      "card-game",
+      "framework",
+      "gamedev",
+      "godot",
+      "godot-engine"
+    ],
+    "html_url": "https://github.com/db0/godot-card-game-framework"
+  },
+  {
+    "full_name": "Deep-Fold/PixelPlanets",
+    "stars": 1402,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "",
+    "default_branch": "main",
+    "pushed_at": "2024-03-29T17:15:59Z",
+    "topics": [],
+    "html_url": "https://github.com/Deep-Fold/PixelPlanets"
+  },
+  {
+    "full_name": "viniciusgerevini/godot-aseprite-wizard",
+    "stars": 1395,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Godot Editor plugin to help import Aseprite animations to AnimationPlayers, AnimatedSprites and SpriteFrames.",
+    "default_branch": "godot_4",
+    "pushed_at": "2026-08-17T21:12:19Z",
+    "topics": [
+      "animation",
+      "aseprite",
+      "godot"
+    ],
+    "html_url": "https://github.com/viniciusgerevini/godot-aseprite-wizard"
+  },
+  {
+    "full_name": "godotengine/tps-demo",
+    "stars": 1390,
+    "license": "NOASSERTION",
+    "license_ok": false,
+    "description": "Godot Third Person Shooter with high quality assets and lighting",
+    "default_branch": "master",
+    "pushed_at": "2026-08-31T22:55:26Z",
+    "topics": [],
+    "html_url": "https://github.com/godotengine/tps-demo"
+  },
+  {
+    "full_name": "mhgolkar/Arrow",
+    "stars": 1361,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "Game Narrative Design Tool",
+    "default_branch": "main",
+    "pushed_at": "2025-09-05T15:03:54Z",
+    "topics": [
+      "game-design",
+      "game-development",
+      "game-narrative",
+      "interactive-fiction",
+      "interactive-storytelling",
+      "text-adventure"
+    ],
+    "html_url": "https://github.com/mhgolkar/Arrow"
+  },
+  {
+    "full_name": "popcar2/GodotOS",
+    "stars": 1352,
+    "license": "AGPL-3.0",
+    "license_ok": false,
+    "description": "A Fake Operating System Interface made in Godot!",
+    "default_branch": "main",
+    "pushed_at": "2026-03-10T00:26:06Z",
+    "topics": [
+      "application",
+      "desktop-environment",
+      "godot-engine",
+      "godot4",
+      "interface"
+    ],
+    "html_url": "https://github.com/popcar2/GodotOS"
+  },
+  {
+    "full_name": "Arnklit/Waterways",
+    "stars": 1341,
+    "license": "MIT",
+    "license_ok": true,
+    "description": "A tool to generate river meshes with flow and foam maps based on bezier curves.",
+    "default_branch": "main",
+    "pushed_at": "2025-12-17T03:14:45Z",
+    "topics": [
+      "flowmap",
+      "godot",
+      "river"
+    ],
+    "html_url": "https://github.com/Arnklit/Waterways"
+  }
+]

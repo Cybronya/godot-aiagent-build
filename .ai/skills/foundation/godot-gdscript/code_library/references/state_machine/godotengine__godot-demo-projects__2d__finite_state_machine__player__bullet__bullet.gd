@@ -1,0 +1,26 @@
+# Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/finite_state_machine/player/bullet/bullet.gd
+# Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
+# Commit:  master
+extends CharacterBody2D
+
+var direction := Vector2()
+@export var speed := 1000.0
+
+@onready var root := get_tree().root
+
+func _ready() -> void:
+	set_as_top_level(true)
+
+
+func _physics_process(delta: float) -> void:
+	if not root.get_visible_rect().has_point(position):
+		queue_free()
+
+	var motion := direction * speed * delta
+	var collision_info := move_and_collide(motion)
+	if collision_info:
+		queue_free()
+
+
+func _draw() -> void:
+	draw_circle(Vector2(), $CollisionShape2D.shape.radius, Color.WHITE)

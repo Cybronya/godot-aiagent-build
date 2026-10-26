@@ -1,0 +1,16 @@
+# Source:  https://github.com/GDQuest/godot-steering-ai-framework/blob/master/godot/addons/com.gdquest.godot-steering-ai-framework/Behaviors/GSAIEvade.gd
+# Repo:    GDQuest/godot-steering-ai-framework (star 1588) | License: MIT | Collected: 2026-10-26
+# Commit:  master
+# Calculates acceleration to take an agent away from where a target agent is
+# moving.
+# @category - Individual behaviors
+class_name GSAIEvade
+extends GSAIPursue
+
+
+func _init(agent: GSAISteeringAgent, target: GSAISteeringAgent, predict_time_max := 1.0):
+	super._init(agent, target, predict_time_max)
+
+
+func _get_modified_acceleration() -> float:
+	return -agent.linear_acceleration_max
