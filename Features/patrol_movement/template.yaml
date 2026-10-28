@@ -1,0 +1,24 @@
+# Feature Scene Template: patrol_movement
+
+feature:
+  id: patrol_movement
+
+scene:
+  source: PatrolMovement.tscn
+  root_type: CharacterBody2D   # 根脚本模式：本脚本驱动宿主自身移动（与 chase_movement 同模式）
+
+attach:
+  parent: root                 # 无子组件——本 Feature 即宿主根脚本
+
+validation:
+  required_nodes:
+    - PatrolMovement
+
+interfaces:
+  signals:
+    - waypoint_reached
+
+# 行为证据（Phase 1.49）：本组件是根脚本模式（无挂载宿主概念），且 waypoints
+# 是导出数组而非场景节点，不符合 template 的「组件挂进实体」形状。因此暂不
+# 声明 behavior:，自身验证以 test_patrol_movement.gd（SceneTree 无头测试，
+# 真实物理位移 + 信号计数轮询）为准。

@@ -1,6 +1,6 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-28T10:12:35Z",
+  "generated_at": "2026-10-28T10:34:20Z",
   "features": [
     {
       "id": "chase_movement",
@@ -472,6 +472,47 @@
       }
     },
     {
+      "id": "patrol_movement",
+      "version": "1",
+      "category": "movement",
+      "provides": [
+        "patrol_movement",
+        "waypoint_locomotion"
+      ],
+      "requires": [],
+      "interfaces": [
+        "get_current_index",
+        "points",
+        "speed",
+        "loop",
+        "waypoint_reached"
+      ],
+      "signals": [
+        "waypoint_reached"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/patrol_movement/test_patrol_movement.gd"
+      },
+      "relations": {
+        "works_with": [
+          "chase_movement",
+          "contact_damage"
+        ],
+        "commonly_used_with": [
+          "health",
+          "stun"
+        ],
+        "conflicts": [
+          "player_movement",
+          "chase_movement"
+        ],
+        "entity_roles": [
+          "enemy"
+        ],
+        "requires": []
+      }
+    },
+    {
       "id": "player_movement",
       "version": "1",
       "category": "behavior",
@@ -502,6 +543,52 @@
           "chase_movement"
         ],
         "entity_roles": [
+          "player"
+        ],
+        "requires": []
+      }
+    },
+    {
+      "id": "projectile",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "projectile",
+        "ranged_attack"
+      ],
+      "requires": [
+        "health_state"
+      ],
+      "interfaces": [
+        "launch",
+        "speed",
+        "damage",
+        "lifetime",
+        "max_hits",
+        "launch_on_ready",
+        "hit",
+        "finished"
+      ],
+      "signals": [
+        "hit",
+        "finished"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/projectile/test_projectile.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "i_frames",
+          "hit_flash"
+        ],
+        "commonly_used_with": [
+          "health",
+          "cooldown"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy",
           "player"
         ],
         "requires": []

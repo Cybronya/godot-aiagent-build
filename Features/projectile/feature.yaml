@@ -1,0 +1,85 @@
+# Feature Metadata: projectile
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: projectile
+version: 1
+category: component
+
+summary: 直线抛射物：恒速飞行，命中带 Health 的实体（"Health" 子节点约定）造成伤害；穿透数上限与生命期双重终止，到期自释放。
+
+provides:
+  - projectile
+  - ranged_attack
+
+requires:
+  - health_state   # 命中目标需带 Health 组件（伤害入口统一走 Health.take_damage，i_frames 无敌门自然生效）
+
+capabilities: []
+
+interfaces:
+  methods:
+    - name: launch
+      signature: "launch(direction: Vector2) -> void"
+      description: 发射（方向归一化，零向量忽略）；重复发射重置方向；launch_on_ready=true 时按自身旋转自动发射
+  signals:
+    - name: hit
+      signature: "hit(target: Node)"
+      description: 每次命中带 Health 的实体时发出
+    - name: finished
+      signature: "finished()"
+      description: 因穿透耗尽或生命期到期终止时发出（恰一次），随后自释放
+  exports:
+    - name: speed
+      type: float
+      default: 300.0
+      description: 飞行速度（像素/秒）
+    - name: damage
+      type: int
+      default: 1
+      description: 每次命中造成的伤害
+    - name: lifetime
+      type: float
+      default: 3.0
+      description: 生命期（秒），到期自动终止
+    - name: max_hits
+      type: int
+      default: 1
+      description: 最大命中数；<1 表示无限穿透
+    - name: launch_on_ready
+      type: bool
+      default: false
+      description: true 时 _ready 自动朝自身旋转方向（+X）发射
+
+ownership:
+  state:
+    - 飞行状态（方向、速度、剩余生命期、已命中计数）
+  rules:
+    - 拥有自身位移与生命周期；命中即自释放（穿透耗尽或到期），不写目标任何属性
+    - 伤害统一走 Health.take_damage——无敌门（i_frames）与死亡守卫自然生效
+    - 无 Health 的物体直接穿过（墙体等由物理层屏蔽）
+    - finished 恰好广播一次，随后 queue_free
+    - 命中判定交给物理 body_entered，不主动扫组
+
+relations:
+  works_with:
+    - contact_damage   # 同一套 "Health" 子节点命中约定
+    - i_frames         # 抛射物伤害会被无敌门拒绝
+    - hit_flash        # 命中目标可挂闪白反馈
+  commonly_used_with:
+    - health
+    - cooldown         # 发射节流
+  conflicts: []
+  entity_roles:
+    - enemy
+    - player
+
+composition:
+  entry_scene: Projectile.tscn
+  usage: 代码实例化后 launch(direction) 发射（或 launch_on_ready + rotation 定向）；碰撞层/掩码决定能打谁，damage 走 Health 契约
+  related_features: [health, contact_damage, cooldown, i_frames]
+
+validation:
+  self_test: test_projectile.gd
+  command: godot --headless --path . -s res://Features/projectile/test_projectile.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

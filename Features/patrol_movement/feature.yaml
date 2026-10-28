@@ -1,0 +1,72 @@
+# Feature Metadata: patrol_movement
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: patrol_movement
+version: 1
+category: movement
+
+summary: 巡逻移动组件：沿预设路径点循环（或往返）行进，与 player_movement（读输入）和 chase_movement（追目标）互为镜像，职责单一。
+
+provides:
+  - patrol_movement
+  - waypoint_locomotion
+
+requires: []             # 根脚本模式（extends CharacterBody2D），无 Feature 依赖
+
+capabilities: []         # 根脚本模式无需登记挂载能力
+
+interfaces:
+  methods:
+    - name: get_current_index
+      signature: "get_current_index() -> int"
+      description: 查询当前目标路径点索引
+  signals:
+    - name: waypoint_reached
+      signature: "waypoint_reached(index: int)"
+      description: 抵达路径点时发出；驻留状态下去重（同 index 不重复广播）
+  exports:
+    - name: points
+      type: Array[Vector2]
+      default: []
+      description: 路径点（相对初始位置的本地偏移）；为空静止不报错
+    - name: speed
+      type: float
+      default: 60.0
+      description: 行进速度（像素/秒）
+    - name: loop
+      type: bool
+      default: true
+      description: true 绕圈（末点回首点）；false 往返（端点折返）
+
+ownership:
+  state:
+    - 巡逻状态（当前索引、往返方向、目标点、原点快照）
+  rules:
+    - 根脚本模式：与 ChaseMovement 相同，直接驱动宿主 CharacterBody2D 的 velocity + move_and_slide
+    - 步长钳制：贴点而不是越过（不因帧步长跳过路径点）
+    - 抵达去重：驻留状态下同一 index 不重复广播（单点驻留只发一次）
+    - points 为相对初始位置的本地偏移；为空时静止不报错
+
+relations:
+  works_with:
+    - chase_movement    # 巡逻 → 发现目标切换追击（组合层切换根脚本或上层仲裁）
+    - contact_damage    # 巡逻敌人接触伤害
+  commonly_used_with:
+    - health
+    - stun
+  conflicts:
+    - player_movement   # 同为 CharacterBody2D 根脚本，不能同时挂同一实体
+    - chase_movement
+  entity_roles:
+    - enemy
+
+composition:
+  entry_scene: PatrolMovement.tscn
+  usage: 作为巡逻实体（CharacterBody2D）的根脚本；场景中摆实体、填 points 本地偏移即可；与 chase_movement 二选一（同为根脚本，由组合层/上层逻辑切换）
+  related_features: [chase_movement, contact_damage, health]
+
+validation:
+  self_test: test_patrol_movement.gd
+  command: godot --headless --path . -s res://Features/patrol_movement/test_patrol_movement.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

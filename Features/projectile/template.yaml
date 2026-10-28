@@ -1,0 +1,26 @@
+# Feature Scene Template: projectile
+
+feature:
+  id: projectile
+
+scene:
+  source: Projectile.tscn
+  root_type: Area2D     # 命中判定走物理 body_entered
+
+attach:
+  parent: root          # 抛射物通常由发射方动态实例化进场景
+
+validation:
+  required_nodes:
+    - Projectile
+    - Collision         # 命中体
+
+interfaces:
+  signals:
+    - hit
+    - finished
+
+# 行为证据（Phase 1.49）：launch 是代码调用，不在协议动作白名单内；抛射物
+# 动态实例化 + 物理命中不符合 template 的静态实例化形状。因此暂不声明
+# behavior:，自身验证以 test_projectile.gd（SceneTree 无头测试，真实物理
+# 命中 + 真实 Health 伤害链）为准。

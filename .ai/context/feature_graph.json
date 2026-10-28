@@ -12,7 +12,9 @@
     "i_frames",
     "moving_platform",
     "openable_door",
+    "patrol_movement",
     "player_movement",
+    "projectile",
     "screen_shake",
     "stun",
     "trigger_switch"
@@ -189,6 +191,26 @@
       "type": "commonly_used_with"
     },
     {
+      "from": "patrol_movement",
+      "to": "chase_movement",
+      "type": "works_with"
+    },
+    {
+      "from": "patrol_movement",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "patrol_movement",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "patrol_movement",
+      "to": "stun",
+      "type": "commonly_used_with"
+    },
+    {
       "from": "player_movement",
       "to": "health",
       "type": "commonly_used_with"
@@ -196,6 +218,31 @@
     {
       "from": "player_movement",
       "to": "health_bar",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "projectile",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "projectile",
+      "to": "i_frames",
+      "type": "works_with"
+    },
+    {
+      "from": "projectile",
+      "to": "hit_flash",
+      "type": "works_with"
+    },
+    {
+      "from": "projectile",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "projectile",
+      "to": "cooldown",
       "type": "commonly_used_with"
     },
     {
