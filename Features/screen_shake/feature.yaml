@@ -1,0 +1,75 @@
+# Feature Metadata: screen_shake
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: screen_shake
+version: 1
+category: component
+
+summary: 屏幕震动组件：挂在 Camera2D 下，trauma 强度衰减 + 种子化噪声驱动相机 offset，产生可复现的衰减式抖动。
+
+provides:
+  - screen_shake
+  - camera_feedback
+
+requires: []             # 宿主为 Camera2D（引擎节点，非 Feature），无 Feature 依赖
+
+capabilities: []         # 挂载目标 Camera2D 不在能力词汇表（Node/Sprite/AnimatedSprite/Audio/Collision）内，无需登记
+
+interfaces:
+  methods:
+    - name: add_trauma
+      signature: "add_trauma(amount: float) -> bool"
+      description: 叠加震动强度（0..1 自动 clamp）；从静止进入震动时广播一次 shaking(true)；返回是否实际生效
+  signals:
+    - name: shaking
+      signature: "shaking(is_shaking: bool)"
+      description: 震动状态跨越时广播（重复叠加不重复广播，衰减归零广播 false，幂等）
+  exports:
+    - name: decay
+      type: float
+      default: 2.0
+      description: trauma 每秒衰减量
+    - name: max_offset
+      type: float
+      default: 12.0
+      description: 满 trauma 时的最大像素偏移
+    - name: noise_speed
+      type: float
+      default: 20.0
+      description: 噪声采样时间推进速度（越大抖动越急促）
+    - name: noise_seed
+      type: int
+      default: 1337
+      description: 噪声种子；同种子同输入序列结果一致（测试/录像可复现）
+
+ownership:
+  state:
+    - 震动强度与活跃状态（_trauma、_active）
+    - 噪声采样时钟（_time）
+  rules:
+    - 独占宿主 Camera2D.offset：离开场景时归零归还，不触碰相机其它属性
+    - 幂等广播：震动中叠加不重复发 true；衰减归零恰好发一次 false
+    - 无效输入（amount<=0）与错误宿主（父节点非 Camera2D）直接拒绝，无副作用
+    - trauma 模型：偏移 = 噪声 × max_offset × trauma²（平方衰减）
+    - 不订阅任何 Feature 状态；触发时机（受击/爆炸/眩晕）由组合层调用 add_trauma
+
+relations:
+  works_with:
+    - contact_damage   # 受击时组合层调 add_trauma
+    - stun             # 眩晕触发/解除可叠加震动
+  commonly_used_with:
+    - health
+    - player_movement
+  conflicts: []        # 多实例同挂一台相机会争抢 offset，应一机一实例
+  entity_roles: []     # 挂在相机上，与实体角色无关
+
+composition:
+  entry_scene: ScreenShake.tscn
+  usage: 实例化为 Camera2D 的直接子节点；触发方（受击/爆炸等）调用 add_trauma(amount) 叠加强度，衰减与停止自动完成
+  related_features: [contact_damage, stun, health]
+
+validation:
+  self_test: test_screen_shake.gd
+  command: godot --headless --path . -s res://Features/screen_shake/test_screen_shake.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

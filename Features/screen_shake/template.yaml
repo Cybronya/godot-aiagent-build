@@ -1,0 +1,25 @@
+# Feature Scene Template: screen_shake
+
+feature:
+  id: screen_shake
+
+scene:
+  source: ScreenShake.tscn
+  root_type: Camera2D   # 震动写入宿主相机 offset，宿主必须是 Camera2D（直接子节点）
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - ScreenShake
+
+interfaces:
+  signals:
+    - shaking
+
+# 行为证据（Phase 1.49）：本组件的触发入口 add_trauma 是代码调用，不在协议动作
+# 白名单（.ai/context/behavior_protocol.yaml）内；且偏移由种子化噪声逐帧采样，
+# 不适合区间断言。因此暂不声明 behavior:，自身验证以
+# test_screen_shake.gd（SceneTree 无头测试）为准；后续若协议新增
+# screen_shake.add_trauma 动作与 camera.offset 观测，可补行为证据。

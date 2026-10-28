@@ -1,6 +1,6 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-26T19:28:47Z",
+  "generated_at": "2026-10-28T00:22:05Z",
   "features": [
     {
       "id": "chase_movement",
@@ -365,6 +365,43 @@
         "entity_roles": [
           "player"
         ],
+        "requires": []
+      }
+    },
+    {
+      "id": "screen_shake",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "screen_shake",
+        "camera_feedback"
+      ],
+      "requires": [],
+      "interfaces": [
+        "add_trauma",
+        "decay",
+        "max_offset",
+        "noise_speed",
+        "noise_seed",
+        "shaking"
+      ],
+      "signals": [
+        "shaking"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/screen_shake/test_screen_shake.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "stun"
+        ],
+        "commonly_used_with": [
+          "health",
+          "player_movement"
+        ],
+        "conflicts": [],
+        "entity_roles": [],
         "requires": []
       }
     },
