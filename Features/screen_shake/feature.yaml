@@ -13,7 +13,9 @@ provides:
 
 requires: []             # 宿主为 Camera2D（引擎节点，非 Feature），无 Feature 依赖
 
-capabilities: []         # 挂载目标 Camera2D 不在能力词汇表（Node/Sprite/AnimatedSprite/Audio/Collision）内，无需登记
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node         # 挂载目标 Camera2D 不在能力词汇表（Node/Sprite/AnimatedSprite/Audio/Collision）内，无需登记
 
 interfaces:
   methods:

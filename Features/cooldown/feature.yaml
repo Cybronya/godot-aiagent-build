@@ -13,7 +13,9 @@ provides:
 
 requires: []             # 纯计时，无 Feature 依赖
 
-capabilities: []         # 纯逻辑组件，不需要 Scene 能力
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node         # 纯逻辑组件，不需要 Scene 能力
 
 interfaces:
   methods:

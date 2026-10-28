@@ -18,9 +18,51 @@ interfaces:
   signals:
     - flashing
 
-# 行为证据（Phase 1.49）：受击触发链 health.take_damage → health_changed →
-# （call_deferred）→ modulate 抬升本可用协议动作表达，但 modulate 不是已登记
-# 观测项（协议只有 node2d.position/displacement 等），信号白名单也未含
-# hit_flash.flashing。因此暂不声明 behavior:，自身验证以
-# test_hit_flash.gd（SceneTree 无头测试，含真实 Health 组件订阅链）为准；
-# 后续若协议扩充 canvas_item.modulate 观测与 flashing 信号，可补行为证据。
+# 行为证据（Phase 1.52）：协议登记 hitflash.flashing 信号后，受击触发链
+# health.take_damage → health_changed →（call_deferred）→ flash() 全程可用
+# 现有词汇表达。触发走真实 Health 伤害链（不是直接调 flash()），断言落在
+# 信号跨越上（true / false 各恰好一次），modulate 数值不是行为语义的载体。
+# 证据场景 HitFlashFixture.tscn：Host(Sprite2D) + Health(10) + Flash(HitFlash)。
+behavior:
+  # ---- 1. 受击闪白：flashing(true) 恰好一次 ----------------------------------
+  # call_deferred 落地在帧末；advance 2 帧保证延迟调用与信号记录都已结算。
+  - id: hit_flashes_host
+    scene: HitFlashFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 2}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 9}
+      - {check: signal, target: Host/Flash, entry: hitflash.flashing,
+         count: 1, last_args: [true]}
+    window_frames: 5
+
+  # ---- 2. 闪白结束：flash_duration=0.15s = 9 帧；12 帧 > 9 帧 ----------------
+  - id: flash_ends_after_duration
+    scene: HitFlashFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 12}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: signal, target: Host/Flash, entry: hitflash.flashing,
+         count: 2, last_args: [false]}
+    window_frames: 5
+
+  # ---- 3. 治疗不闪白：恢复路径（current 上升）不触发 --------------------------
+  - id: heal_does_not_flash
+    scene: HitFlashFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 12}}
+      - {type: health.heal, target: Host/Health, params: {amount: 2}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 10}
+      - {check: signal, target: Host/Flash, entry: hitflash.flashing, count: 2}
+    window_frames: 5

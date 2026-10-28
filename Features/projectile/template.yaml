@@ -15,12 +15,66 @@ validation:
     - Projectile
     - Collision         # 命中体
 
+# L2 实例证据：入口场景自带 CollisionShape2D，必须声明真实结构（E1 审计口径，
+# 与 trigger_switch / contact_damage 同类）。只声明 Projectile.tscn 中真实存在
+# 的根类型与直接子节点；本声明不驱动生成（Builder 不消费它）。
+instance:
+  node_type: Area2D
+  children:
+    - CollisionShape2D
+
 interfaces:
   signals:
     - hit
     - finished
 
-# 行为证据（Phase 1.49）：launch 是代码调用，不在协议动作白名单内；抛射物
-# 动态实例化 + 物理命中不符合 template 的静态实例化形状。因此暂不声明
-# behavior:，自身验证以 test_projectile.gd（SceneTree 无头测试，真实物理
-# 命中 + 真实 Health 伤害链）为准。
+# 行为证据（Phase 1.52）：抛射物动态实例化 + 物理命中不符合 template 的静态
+# 实例化形状，因此行为契约使用证据夹具场景（ProjectileHitFixture.tscn /
+# ProjectileFreeFlightFixture.tscn），发射用组件已有的 launch_on_ready 导出
+# （夹具内置 true，_ready 即朝 +X 发射），不新增动作能力。契约见 behavior:。
+behavior:
+  # ---- 1. 飞行中：未到期、位置按恒速推进 -------------------------------------
+  # speed=300 px/s、固定 physics delta → 10 帧 = 50 px，精确可算非拟合。
+  - id: in_flight_moves_until_lifetime
+    scene: ProjectileFreeFlightFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 10}}
+    preconditions:
+      - {check: node.exists, target: Projectile, equals: true}
+    expected:
+      - {check: node.exists, target: Projectile, equals: true}
+      - {check: node2d.displacement, target: Projectile, axis: x, equals: 50.0, tolerance: 2.0}
+      - {check: signal, target: Projectile, entry: projectile.finished, count: 0}
+    window_frames: 5
+
+  # ---- 2. 生命期到期：终止自释放 + finished 恰一次 ---------------------------
+  # lifetime=0.5s（夹具覆写）= 30 帧；35 帧 > 30 帧，必然已终止。
+  # 位移断言用 displacement（基线在动作前采集，与加载期 settle 帧数无关）；
+  # 销毁断言用 node.exists==false（协议明确支持「节点缺失」语义），
+  # node.freed 的目标解析对已彻底释放的子节点会退化为 UNAVAILABLE。
+  - id: lifetime_expiry_frees_projectile
+    scene: ProjectileFreeFlightFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 35}}
+    preconditions:
+      - {check: node.exists, target: Projectile, equals: true}
+    expected:
+      - {check: node.exists, target: Projectile, equals: false}
+      - {check: signal, target: Projectile, entry: projectile.finished, count: 1}
+    window_frames: 5
+
+  # ---- 3. 命中带 Health 的实体：真实物理接触 → 真实 take_damage 伤害链 -------
+  # 目标在 x=200（碰撞半宽 12 + 弹体半径 6 → 接触点 ≈ x=182，第 ~37 帧）；
+  # 45 帧 > 37 帧，命中已发生且 max_hits=1 自释放。伤害走 Health.take_damage，
+  # 因此 i_frames 的无敌门若挂在目标上同样生效（伤害入口统一的验证闭环）。
+  - id: hit_deals_damage_and_expires
+    scene: ProjectileHitFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 45}}
+    preconditions:
+      - {check: health.current, target: Target/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Target/Health, equals: 9}
+      - {check: node.exists, target: Projectile, equals: false}
+      - {check: signal, target: Projectile, entry: projectile.finished, count: 1}
+    window_frames: 5

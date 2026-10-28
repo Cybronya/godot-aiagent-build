@@ -18,8 +18,35 @@ interfaces:
   signals:
     - shaking
 
-# 行为证据（Phase 1.49）：本组件的触发入口 add_trauma 是代码调用，不在协议动作
-# 白名单（.ai/context/behavior_protocol.yaml）内；且偏移由种子化噪声逐帧采样，
-# 不适合区间断言。因此暂不声明 behavior:，自身验证以
-# test_screen_shake.gd（SceneTree 无头测试）为准；后续若协议新增
-# screen_shake.add_trauma 动作与 camera.offset 观测，可补行为证据。
+# 行为证据（Phase 1.52）：协议新增 screenshake.add_trauma 动作与 shaking 信号
+# 登记。震动断言只落在**信号跨越**上（true 一次 / 到期 false 一次），不断言
+# 噪声偏移数值——偏移由种子化噪声逐帧采样，不是行为语义的载体；trauma 衰减
+# 是线性确定性过程（decay=2.0，0.4 强度恰 12 帧归零），信号时序因此可精确判定。
+# 证据场景 ScreenShakeFixture.tscn：Camera2D 根 + Shake(ScreenShake)。
+behavior:
+  # ---- 1. 从静止进入震动：shaking(true) 恰好一次（幂等广播） ------------------
+  - id: trauma_starts_shake
+    scene: ScreenShakeFixture.tscn
+    actions:
+      - {type: screenshake.add_trauma, target: Shake, params: {amount: 0.4}}
+      - {type: simulation.advance_frames, params: {frames: 2}}
+    preconditions:
+      - {check: signal, target: Shake, entry: screenshake.shaking, count: 0}
+    expected:
+      - {check: signal, target: Shake, entry: screenshake.shaking,
+         count: 1, last_args: [true]}
+    window_frames: 5
+
+  # ---- 2. 衰减归零：shaking(false) 恰好一次，总计 true+false 各一次 -----------
+  # 0.4 / 2.0 = 0.2s = 12 帧；30 帧 > 12 帧，必然已归零并广播 false。
+  - id: shake_stops_after_decay
+    scene: ScreenShakeFixture.tscn
+    actions:
+      - {type: screenshake.add_trauma, target: Shake, params: {amount: 0.4}}
+      - {type: simulation.advance_frames, params: {frames: 30}}
+    preconditions:
+      - {check: signal, target: Shake, entry: screenshake.shaking, count: 0}
+    expected:
+      - {check: signal, target: Shake, entry: screenshake.shaking,
+         count: 2, last_args: [false]}
+    window_frames: 5

@@ -41,3 +41,15 @@
   两套 GameTemplate、Kenney City Builder。1810 条目 / 1454 parse OK / 0 FAIL。
 - Agent 检索入口：先读 code_library/INDEX.md，再查 catalog.yaml；片段是学习参考，
   落地必须适配项目约定（class_name 冲突、Health 节点、enemies 组）。
+
+## 环境/工具注意（补充 2026-10-28）
+
+- WorkBuddy CLI shim 全局把 Python shutil.rmtree 重定向到回收站，本机
+  SHFileOperationW 返回 0x2 → 断言「工作区已清理」的测试默认必挂。跑全量测试
+  用 `CODEBUDDY_SAFE_DELETE_ENABLED=0 python .ai/tools/run_tests.py`。
+- Feature 元数据协议：feature.yaml 必须有 capabilities.required（映射形式，
+  词汇见 capability_registry.py；场景自带 CollisionShape2D → 加 Collision）；
+  带 template.yaml 必须声明 behavior: 行为证据（真实 Godot 运行 + 重放 2 次）。
+  行为词汇唯一事实源 .ai/context/behavior_protocol.yaml，改后须
+  behavior_protocol.py --write-manifest 重生成，且 feature/composite 两个探针
+  同步实现（两端的 capabilities 一致性测试会锁定）。

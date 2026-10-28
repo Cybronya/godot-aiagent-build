@@ -19,9 +19,55 @@ interfaces:
   signals:
     - protected
 
-# 行为证据（Phase 1.49）：触发链 health.take_damage → health_changed →
-# （call_deferred）→ set_invulnerable(true)。协议缺两块：受击快照判定需要
-# 前后两次 take_damage（协议无 iframes.grant 动作、无 health.is_invulnerable
-# 观测）。因此暂不声明 behavior:，自身验证以 test_i_frames.gd（SceneTree
-# 无头测试，走真实 Health 订阅链 + 真实 Cooldown 到期）为准；后续若协议
-# 扩充 health.is_invulnerable 观测与 i_frames.grant 动作，可补行为证据。
+# 行为证据（Phase 1.52）：全程使用既有词汇——触发链 health.take_damage →
+# health_changed →（call_deferred）→ grant() → Health 门控，断言落在
+# health.current / health.health_changed（被挡下的伤害不产生事件）上，
+# 不需要 i_frames 专属动作或观测。证据场景 IFramesFixture.tscn：
+# Host(Node) + Health(10) + Guard(IFrames, duration=0.3s=18 帧)。
+behavior:
+  # ---- 1. 窗口内免伤：第二次 take_damage 被门挡下，不产生第二次事件 -----------
+  # grant 经 call_deferred 落地，两次伤害之间必须推进 1 帧，否则门尚未关闭。
+  - id: iframes_block_damage_within_window
+    scene: IFramesFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 9}
+      - {check: signal, target: Host/Health, entry: health.health_changed,
+         count: 1, last_args: [9, 1]}
+    window_frames: 5
+
+  # ---- 2. 窗口结束恢复受伤：22 帧 > 18 帧，第二次伤害真实生效 -----------------
+  - id: iframes_expire_and_damage_resumes
+    scene: IFramesFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 22}}
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 8}
+      - {check: signal, target: Host/Health, entry: health.health_changed,
+         count: 2, last_args: [8, 1]}
+    window_frames: 5
+
+  # ---- 3. 死亡一击：正常致死，事件恰一次（死亡守卫不吞掉击杀） ----------------
+  - id: killing_blow_still_dies
+    scene: IFramesFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 10}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 0}
+      - {check: health.is_dead, target: Host/Health, equals: true}
+      - {check: signal, target: Host/Health, entry: health.died, count: 1}
+    window_frames: 5

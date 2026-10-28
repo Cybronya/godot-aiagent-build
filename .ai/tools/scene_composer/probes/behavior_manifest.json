@@ -1,0 +1,516 @@
+{
+  "actions": {
+    "cooldown.start": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "cooldown_start",
+      "implemented": true,
+      "params": {
+        "duration": {
+          "max": 10.0,
+          "min": 0.01,
+          "required": true,
+          "type": "float"
+        }
+      },
+      "target": "node"
+    },
+    "door.set_open": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "door_set_open",
+      "implemented": true,
+      "params": {
+        "value": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "target": "node"
+    },
+    "health.heal": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "health_heal",
+      "implemented": true,
+      "params": {
+        "amount": {
+          "max": 100,
+          "min": 1,
+          "required": true,
+          "type": "int"
+        }
+      },
+      "target": "node"
+    },
+    "health.take_damage": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "health_take_damage",
+      "implemented": true,
+      "params": {
+        "amount": {
+          "max": 100,
+          "min": 1,
+          "required": true,
+          "type": "int"
+        }
+      },
+      "target": "node"
+    },
+    "input.press": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "input_press",
+      "implemented": true,
+      "params": {
+        "action": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
+        }
+      },
+      "target": "none"
+    },
+    "input.release": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "input_release",
+      "implemented": true,
+      "params": {
+        "action": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
+        }
+      },
+      "target": "none"
+    },
+    "physics.overlap": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "physics_overlap",
+      "implemented": true,
+      "params": {
+        "damage": {
+          "max": 100,
+          "min": 0,
+          "required": false,
+          "type": "int"
+        },
+        "group": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
+        },
+        "health_max": {
+          "max": 10000,
+          "min": 1,
+          "required": false,
+          "type": "int"
+        }
+      },
+      "target": "node2d"
+    },
+    "screenshake.add_trauma": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "screenshake_add_trauma",
+      "implemented": true,
+      "params": {
+        "amount": {
+          "max": 1.0,
+          "min": 0.01,
+          "required": true,
+          "type": "float"
+        }
+      },
+      "target": "node"
+    },
+    "simulation.advance_frames": {
+      "advances_frames": true,
+      "fixture": false,
+      "implementation": "simulation_advance_frames",
+      "implemented": true,
+      "params": {
+        "frames": {
+          "max": 300,
+          "min": 1,
+          "required": true,
+          "type": "int"
+        },
+        "phase": {
+          "default": "physics",
+          "required": false,
+          "type": "enum",
+          "values": [
+            "physics"
+          ]
+        }
+      },
+      "target": "none"
+    },
+    "state.set_property": {
+      "advances_frames": false,
+      "fixture": true,
+      "implementation": "state_set_property",
+      "implemented": true,
+      "params": {
+        "property": {
+          "required": true,
+          "type": "property_ref"
+        },
+        "value": {
+          "required": true,
+          "type": "any"
+        }
+      },
+      "target": "node"
+    }
+  },
+  "limits": {
+    "max_fixture_actions": 4,
+    "max_frames_per_action": 300,
+    "max_total_frames": 600
+  },
+  "manifest_version": 2,
+  "observations": {
+    "cooldown.is_ready": {
+      "implementation": "observe_cooldown_is_ready",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "door.is_open": {
+      "implementation": "observe_door_is_open",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "gate.is_fulfilled": {
+      "implementation": "observe_gate_is_fulfilled",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "health.current": {
+      "implementation": "observe_health_current",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "int"
+      },
+      "target": "node"
+    },
+    "health.is_dead": {
+      "implementation": "observe_health_is_dead",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "health_bar.ratio": {
+      "implementation": "observe_health_bar_ratio",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": false,
+          "type": "float"
+        },
+        "max": {
+          "required": false,
+          "type": "float"
+        },
+        "min": {
+          "required": false,
+          "type": "float"
+        },
+        "tolerance": {
+          "max": 1.0,
+          "min": 0.0,
+          "required": false,
+          "type": "float"
+        }
+      },
+      "result": {
+        "type": "float"
+      },
+      "target": "node"
+    },
+    "node.exists": {
+      "implementation": "observe_node_exists",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "node.freed": {
+      "implementation": "observe_node_freed",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "default": true,
+          "required": false,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "node2d.displacement": {
+      "implementation": "observe_node2d_displacement",
+      "implemented": true,
+      "params": {
+        "axis": {
+          "required": true,
+          "type": "enum",
+          "values": [
+            "x",
+            "y"
+          ]
+        },
+        "equals": {
+          "required": false,
+          "type": "float"
+        },
+        "max": {
+          "required": false,
+          "type": "float"
+        },
+        "min": {
+          "required": false,
+          "type": "float"
+        },
+        "tolerance": {
+          "max": 1000000.0,
+          "min": 0.0,
+          "required": false,
+          "type": "float"
+        }
+      },
+      "result": {
+        "type": "float"
+      },
+      "target": "node2d"
+    },
+    "node2d.position": {
+      "implementation": "observe_node2d_position",
+      "implemented": true,
+      "params": {
+        "axis": {
+          "required": true,
+          "type": "enum",
+          "values": [
+            "x",
+            "y"
+          ]
+        },
+        "equals": {
+          "required": false,
+          "type": "float"
+        },
+        "max": {
+          "required": false,
+          "type": "float"
+        },
+        "min": {
+          "required": false,
+          "type": "float"
+        },
+        "tolerance": {
+          "max": 1000000.0,
+          "min": 0.0,
+          "required": false,
+          "type": "float"
+        }
+      },
+      "result": {
+        "type": "float"
+      },
+      "target": "node2d"
+    },
+    "pickup.is_collected": {
+      "implementation": "observe_pickup_is_collected",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    },
+    "signal": {
+      "implementation": "observe_signal",
+      "implemented": true,
+      "params": {
+        "count": {
+          "max": 1000,
+          "min": 0,
+          "required": true,
+          "type": "int"
+        },
+        "entry": {
+          "required": true,
+          "type": "signal_ref"
+        },
+        "last_args": {
+          "required": false,
+          "type": "scalar_list"
+        }
+      },
+      "result": {
+        "type": "int"
+      },
+      "target": "node"
+    },
+    "trigger.is_triggered": {
+      "implementation": "observe_trigger_is_triggered",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "bool"
+        }
+      },
+      "result": {
+        "type": "bool"
+      },
+      "target": "node"
+    }
+  },
+  "properties": {
+    "trigger_switch.trigger_mode": {
+      "class": "TriggerSwitch",
+      "property": "trigger_mode",
+      "values": [
+        "Latching",
+        "Repeat",
+        "Toggle"
+      ]
+    }
+  },
+  "protocol_version": 2,
+  "signals": {
+    "cooldown.finished": {
+      "args": [],
+      "signal": "cooldown_finished"
+    },
+    "cooldown.started": {
+      "args": [],
+      "signal": "cooldown_started"
+    },
+    "door.state_changed": {
+      "args": [
+        "bool"
+      ],
+      "signal": "state_changed"
+    },
+    "gate.fulfilled": {
+      "args": [
+        "bool"
+      ],
+      "signal": "fulfilled"
+    },
+    "health.died": {
+      "args": [],
+      "signal": "died"
+    },
+    "health.health_changed": {
+      "args": [
+        "int",
+        "int"
+      ],
+      "signal": "health_changed"
+    },
+    "hitflash.flashing": {
+      "args": [
+        "bool"
+      ],
+      "signal": "flashing"
+    },
+    "patrol.waypoint_reached": {
+      "args": [
+        "int"
+      ],
+      "signal": "waypoint_reached"
+    },
+    "pickup.collected": {
+      "args": [
+        "bool",
+        "string"
+      ],
+      "signal": "collected"
+    },
+    "projectile.finished": {
+      "args": [],
+      "signal": "finished"
+    },
+    "screenshake.shaking": {
+      "args": [
+        "bool"
+      ],
+      "signal": "shaking"
+    },
+    "stun.stunned": {
+      "args": [
+        "bool"
+      ],
+      "signal": "stunned"
+    },
+    "trigger.activated": {
+      "args": [
+        "bool"
+      ],
+      "signal": "activated"
+    }
+  }
+}

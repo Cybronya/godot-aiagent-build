@@ -14,7 +14,9 @@ provides:
 requires:
   - health_state   # flash_on_hit 模式需要宿主 Health 组件（命名 "Health" 或 health_path 指定）
 
-capabilities: []   # 挂载目标为引擎 CanvasItem，不在能力词汇表内，无需登记
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node   # 挂载目标为引擎 CanvasItem，不在能力词汇表内，无需登记
 
 interfaces:
   methods:

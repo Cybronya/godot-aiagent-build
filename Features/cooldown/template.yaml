@@ -19,7 +19,55 @@ interfaces:
     - cooldown_started
     - cooldown_finished
 
-# 行为证据（Phase 1.49）：start() 是代码调用，不在协议动作白名单内；冷却状态
-# 无对应已登记观测项。因此暂不声明 behavior:，自身验证以
-# test_cooldown.gd（SceneTree 无头测试）为准；后续若协议新增
-# cooldown.start 动作与 cooldown.is_ready 观测，可补行为证据。
+# 行为证据（Phase 1.52）：协议新增 cooldown.start 动作与 cooldown.is_ready 观测
+# （词汇唯一事实源 behavior_protocol.yaml，探针实现见 feature_behavior_probe.gd），
+# 冷却门控从此可在真实运行时验证。duration=0.2s 在固定 physics delta 下为 12 帧，
+# 全部数值精确可算，不靠容差掩盖差异。信号 cooldown_started/finished 已登记为
+# cooldown.started / cooldown.finished。
+behavior:
+  # ---- 1. 冷却中：is_ready 为 false，started 恰好一次 -------------------------
+  # 6 帧 < 12 帧（0.2s），仍处于冷却窗口内。
+  - id: cooldown_blocks_during_window
+    scene: Cooldown.tscn
+    actions:
+      - {type: cooldown.start, target: ".", params: {duration: 0.2}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+    preconditions:
+      - {check: cooldown.is_ready, target: ".", equals: true}
+    expected:
+      - {check: cooldown.is_ready, target: ".", equals: false}
+      - {check: signal, target: ".", entry: cooldown.started, count: 1}
+    window_frames: 5
+
+  # ---- 2. 到期：is_ready 回 true，started/finished 各恰好一次 -----------------
+  # 14 帧 > 12 帧，冷却必然已结束。
+  - id: cooldown_expires_and_notifies
+    scene: Cooldown.tscn
+    actions:
+      - {type: cooldown.start, target: ".", params: {duration: 0.2}}
+      - {type: simulation.advance_frames, params: {frames: 14}}
+    preconditions:
+      - {check: cooldown.is_ready, target: ".", equals: true}
+    expected:
+      - {check: cooldown.is_ready, target: ".", equals: true}
+      - {check: signal, target: ".", entry: cooldown.started, count: 1}
+      - {check: signal, target: ".", entry: cooldown.finished, count: 1}
+    window_frames: 5
+
+  # ---- 3. 重启语义：冷却中再次 start 重置剩余窗口并再次广播 started -----------
+  # 第一次 start 后 6 帧（剩 6 帧）时重启；再过 6 帧总计 12 帧，若未重启此刻
+  # 已就绪——is_ready==false 即证明窗口被重置。started==2 证明重启再次广播。
+  - id: restart_resets_remaining_window
+    scene: Cooldown.tscn
+    actions:
+      - {type: cooldown.start, target: ".", params: {duration: 0.2}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+      - {type: cooldown.start, target: ".", params: {duration: 0.2}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+    preconditions:
+      - {check: cooldown.is_ready, target: ".", equals: true}
+    expected:
+      - {check: cooldown.is_ready, target: ".", equals: false}
+      - {check: signal, target: ".", entry: cooldown.started, count: 2}
+      - {check: signal, target: ".", entry: cooldown.finished, count: 0}
+    window_frames: 5

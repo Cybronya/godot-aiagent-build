@@ -14,7 +14,10 @@ provides:
 requires:
   - health_state   # 命中目标需带 Health 组件（伤害入口统一走 Health.take_damage，i_frames 无敌门自然生效）
 
-capabilities: []
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node
+    - Collision
 
 interfaces:
   methods:

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="1_health"]
+[ext_resource type="PackedScene" path="res://Features/i_frames/IFrames.tscn" id="2_iframes"]
+
+[node name="IFramesRoot" type="Node"]
+
+[node name="Host" type="Node" parent="."]
+
+[node name="Health" parent="Host" instance=ExtResource("1_health")]
+max_health = 10
+
+[node name="Guard" parent="Host" instance=ExtResource("2_iframes")]

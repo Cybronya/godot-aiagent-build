@@ -1,0 +1,471 @@
+# ============================================================
+# Behavior Protocol（Phase 1.42）—— 动作 / 观测能力的唯一权威定义
+# ============================================================
+#
+# 本文件只描述「允许什么」，不描述任何 Feature 的预期结果。
+# Feature 的具体行为契约仍在 `Features/<id>/template.yaml` 的 `behavior:` 中。
+#
+# 消费方：
+#   - Python: scene_composer/behavior_protocol.py（严格加载 + 契约校验）
+#   - GDScript: probes/behavior_manifest.json（由本文件生成，探针只读运行时清单）
+#   - 一致性门禁: scene_composer/tests/test_behavior_protocol_consistency.py
+#
+# 约束：
+#   - 新增能力必须同时在此声明并提供探针实现；只声明不实现 → 使用即 INVALID。
+#   - `implementation` 是探针内部实现 ID，不是可调用方法名，不可由契约覆盖。
+#   - 修改协议必须重新生成 manifest：python .ai/tools/scene_composer/behavior_protocol.py --write-manifest
+#
+# Phase 1.42 新增（时间驱动能力）：
+#   - `simulation.advance_frames`：唯一的帧推进入口。只支持 physics 帧
+#     （固定 delta = 1/physics_ticks_per_second，可重放）；process 帧在 headless 下
+#     不受节流，delta 非确定，因此不声明、使用即拒绝。
+#   - `state.set_property`：受约束的**夹具**设置。只允许本文件 `properties:` 声明的
+#     属性，必须带 `fixture: true`，且必须排在任何行为动作之前；每次只设 1 个属性。
+#   - `input.press` / `input.release`：受控输入夹具（Input.action_press/release），
+#     动作名必须存在于项目 InputMap。
+#   - `node2d.position` / `node2d.displacement`：在动作后的帧检查点读取真实
+#     global_position（绝对 / 相对契约起始基线的位移），支持 equals 或 min/max 区间。
+#
+# Phase 1.46 新增（组合场景所需的最小观测能力，单个 Feature 同样可用）：
+#   - `gate.is_fulfilled`：读取 ConditionGate 的聚合输出状态。组合链（开关 → 条件 →
+#     门）需要区分「门关着是因为条件未满足」与「条件已满足但门没开」，只观察门无法
+#     区分；该观测不新增任何写入能力。
+#   - `gate.fulfilled` 信号：用于断言聚合输出「翻转了几次」及参数，与后置状态互补。
+#
+# Phase 1.49 新增（只读信号）：
+#   - `stun.stunned`：眩晕状态跨越广播。
+#
+# Phase 1.50 新增（只读观测，不新增动作）：
+#   - `health_bar.ratio`：读取血条组件实际用于绘制填充宽度的比例（`get_ratio()`）。
+#     存在理由：血条是纯显示组件，没有任何状态写入入口可用于构造结果，也不暴露像素；
+#     不读它的公开 getter 就只能验证 Health（等于没验证显示）。
+#     权限边界：只读、无副作用、不触发重绘；目标没有该 getter 时判 INSUFFICIENT。
+
+protocol_version: 2
+status: current
+
+targets:
+  kinds:
+    none: "不针对具体节点（帧推进 / 全局输入）；target 必须省略或为 '.'"
+    node: "场景节点路径（'.' = 场景根，或相对路径）"
+    node2d: "必须是 Node2D（位置观测、physics.overlap 在其实体位置生成接触体）"
+
+# 单契约预算：两端使用同一份数值，不在探针里另存常量。
+limits:
+  max_frames_per_action: 300    # 单次 simulation.advance_frames 上限（= 该动作 frames.max）
+  max_total_frames: 600         # 单契约累计帧预算（所有推进动作 + window_frames）
+  max_fixture_actions: 4        # 单契约前置设置动作（fixture: true）数量上限
+
+actions:
+  door.set_open:
+    implementation: door_set_open
+    implemented: true
+    target: node
+    summary: "调用 OpenableDoor.set_open(value)；不直接改内部状态"
+    params:
+      value:
+        type: bool
+        required: true
+
+  health.take_damage:
+    implementation: health_take_damage
+    implemented: true
+    target: node
+    summary: "调用 Health.take_damage(amount)"
+    params:
+      amount:
+        type: int
+        required: true
+        min: 1
+        max: 100
+
+  health.heal:
+    implementation: health_heal
+    implemented: true
+    target: node
+    summary: "调用 Health.heal(amount)；上限钳制由 Health 负责"
+    params:
+      amount:
+        type: int
+        required: true
+        min: 1
+        max: 100
+
+  physics.overlap:
+    implementation: physics_overlap
+    implemented: true
+    target: node2d
+    summary: "在目标位置生成真实 CharacterBody2D（可带真实 Health），由物理帧触发 body_entered"
+    params:
+      group:
+        type: string
+        required: true
+        non_empty: true
+      health_max:
+        type: int
+        min: 1
+        max: 10000
+      damage:
+        type: int
+        min: 0
+        max: 100
+
+  simulation.advance_frames:
+    implementation: simulation_advance_frames
+    implemented: true
+    target: none
+    advances_frames: true       # 计入 limits.max_total_frames 预算
+    summary: "推进真实 physics 帧（固定 delta）；不用私有回调或手工改写状态模拟时间"
+    params:
+      frames:
+        type: int
+        required: true
+        min: 1
+        max: 300
+      phase:
+        type: enum
+        values: [physics]
+        default: physics
+        description: "帧类型；process 帧在 headless 下 delta 非确定，故不声明"
+
+  state.set_property:
+    implementation: state_set_property
+    implemented: true
+    target: node
+    fixture: true
+    summary: "受约束的夹具设置：仅 properties: 声明的属性，记录 before/value/after；必须排在行为动作之前"
+    params:
+      property:
+        type: property_ref
+        required: true
+      value:
+        type: any
+        required: true
+        description: "必须落在所引用属性的 values 内（交叉校验）"
+
+  input.press:
+    implementation: input_press
+    implemented: true
+    target: none
+    summary: "Input.action_press(action)；动作名必须存在于项目 InputMap"
+    params:
+      action:
+        type: string
+        required: true
+        non_empty: true
+
+  # Phase 1.52（code_library 批量资产）：cooldown / screen_shake 的写入入口。
+  # 与 door.set_open / health.take_damage 同型：调用组件公开方法，不直接改内部状态。
+  cooldown.start:
+    implementation: cooldown_start
+    implemented: true
+    target: node
+    summary: "调用 Cooldown.start(duration)；重启语义（冷却中重打重计）由组件定义"
+    params:
+      duration:
+        type: float
+        required: true
+        min: 0.01
+        max: 10.0
+
+  screenshake.add_trauma:
+    implementation: screenshake_add_trauma
+    implemented: true
+    target: node
+    summary: "调用 ScreenShake.add_trauma(amount)；叠加、钳制与幂等广播由组件定义"
+    params:
+      amount:
+        type: float
+        required: true
+        min: 0.01
+        max: 1.0
+
+  input.release:
+    implementation: input_release
+    implemented: true
+    target: none
+    summary: "Input.action_release(action)；探针退出时释放本次按下的全部动作"
+    params:
+      action:
+        type: string
+        required: true
+        non_empty: true
+
+observations:
+  door.is_open:
+    implementation: observe_door_is_open
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "OpenableDoor.is_open()"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  health.current:
+    implementation: observe_health_current
+    implemented: true
+    target: node
+    result:
+      type: int
+    summary: "Health.get_current_health()"
+    params:
+      equals:
+        type: int
+        required: true
+
+  health.is_dead:
+    implementation: observe_health_is_dead
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "Health.is_dead()"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  # Phase 1.50：`health_bar` 的显示证据。血条没有可读的像素，唯一的显示状态读入口是它
+  # 公开的 `get_ratio()`——`_draw()` 用它算填充宽度（`bar_size.x * ratio`），除此之外没有
+  # 别的变换。本观测是**纯只读**的：只调用这个 getter，不写属性、不触发重绘、不调用 setter。
+  # 目标必须是带 `get_ratio() -> float` 的组件（本项目唯一实现 = HealthBar）；否则判定为
+  # 证据不足（UNAVAILABLE → INSUFFICIENT/check_unavailable），而不是猜一个值。
+  health_bar.ratio:
+    implementation: observe_health_bar_ratio
+    implemented: true
+    target: node
+    result:
+      type: float
+    summary: "HealthBar.get_ratio() —— 实际用于绘制填充宽度的比例（0.0 ~ 1.0；未绑定 Health 时为 0.0）"
+    params:
+      equals:
+        type: float
+      tolerance:
+        type: float
+        min: 0.0
+        max: 1.0
+      min:
+        type: float
+      max:
+        type: float
+
+  pickup.is_collected:
+    implementation: observe_pickup_is_collected
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "CollectPickup.is_collected()"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  node.freed:
+    implementation: observe_node_freed
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "目标节点已释放或 queued_for_deletion；不读取节点方法"
+    params:
+      equals:
+        type: bool
+        default: true
+
+  node.exists:
+    implementation: observe_node_exists
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "目标节点仍可解析且有效（未被释放/未排队删除）；节点缺失时返回 false 而不是 UNAVAILABLE"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  gate.is_fulfilled:
+    implementation: observe_gate_is_fulfilled
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "ConditionGate.is_fulfilled()"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  trigger.is_triggered:
+    implementation: observe_trigger_is_triggered
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "TriggerSwitch.is_triggered()"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  # Phase 1.52：冷却门控的只读入口。is_ready() 是组件节流判定的唯一公开读法
+  # （节流点写法 `if cooldown.is_ready():`），观测它就是观测组件的判定结果本身。
+  cooldown.is_ready:
+    implementation: observe_cooldown_is_ready
+    implemented: true
+    target: node
+    result:
+      type: bool
+    summary: "Cooldown.is_ready()"
+    params:
+      equals:
+        type: bool
+        required: true
+
+  node2d.position:
+    implementation: observe_node2d_position
+    implemented: true
+    target: node2d
+    result:
+      type: float
+    summary: "在检查点读取 global_position 的单轴分量（绝对位置）"
+    params:
+      axis:
+        type: enum
+        values: [x, y]
+        required: true
+      equals:
+        type: float
+      tolerance:
+        type: float
+        min: 0.0
+        max: 1000000.0
+      min:
+        type: float
+      max:
+        type: float
+
+  node2d.displacement:
+    implementation: observe_node2d_displacement
+    implemented: true
+    target: node2d
+    result:
+      type: float
+    summary: "global_position 相对契约起始基线（动作前）的单轴位移；基线由探针在动作前采集"
+    params:
+      axis:
+        type: enum
+        values: [x, y]
+        required: true
+      equals:
+        type: float
+      tolerance:
+        type: float
+        min: 0.0
+        max: 1000000.0
+      min:
+        type: float
+      max:
+        type: float
+
+  signal:
+    implementation: observe_signal
+    implemented: true
+    target: node
+    result:
+      type: int
+    summary: "注册信号的发射次数（可选 last_args 精确比对）"
+    params:
+      entry:
+        type: signal_ref
+        required: true
+      count:
+        type: int
+        required: true
+        min: 0
+        max: 1000
+      last_args:
+        type: scalar_list
+
+signals:
+  door.state_changed:
+    signal: state_changed
+    args: [bool]
+    summary: "OpenableDoor 状态切换"
+
+  pickup.collected:
+    signal: collected
+    args: [bool, string]
+    summary: "CollectPickup 收集事件 (value, pickup_id)"
+
+  health.health_changed:
+    signal: health_changed
+    args: [int, int]
+    summary: "Health 数值变化 (current, amount)"
+
+  health.died:
+    signal: died
+    args: []
+    summary: "Health 死亡事件"
+
+  trigger.activated:
+    signal: activated
+    args: [bool]
+    summary: "TriggerSwitch 状态变化 (triggered)"
+
+  gate.fulfilled:
+    signal: fulfilled
+    args: [bool]
+    summary: "ConditionGate 聚合输出翻转 (is_fulfilled)"
+
+  stun.stunned:
+    signal: stunned
+    args: [bool]
+    summary: "Stun 眩晕状态跨越广播 (is_stunned)；重复同值不广播"
+
+  # ---- Phase 1.52（code_library 批量资产）：cooldown / screen_shake / hit_flash /
+  # ---- patrol_movement / projectile 的跨帧状态信号。全部是组件已声明的公开信号，
+  # ---- 本节只做登记（名字 + 载荷类型），不新增信号、不改变组件行为。
+  cooldown.started:
+    signal: cooldown_started
+    args: []
+    summary: "Cooldown 冷却开始（含冷却中重启）"
+
+  cooldown.finished:
+    signal: cooldown_finished
+    args: []
+    summary: "Cooldown 冷却到期回就绪"
+
+  screenshake.shaking:
+    signal: shaking
+    args: [bool]
+    summary: "ScreenShake 震动状态跨越广播 (is_shaking)；重复同值不广播（幂等）"
+
+  hitflash.flashing:
+    signal: flashing
+    args: [bool]
+    summary: "HitFlash 闪白状态跨越广播 (is_flashing)；重复同值不广播（幂等）"
+
+  patrol.waypoint_reached:
+    signal: waypoint_reached
+    args: [int]
+    summary: "PatrolMovement 抵达路径点 (index)；驻留期间对同一抵达去重"
+
+  projectile.finished:
+    signal: finished
+    args: []
+    summary: "Projectile 终止（穿透耗尽或生命期到期），恰一次"
+
+
+# 受约束状态设置白名单。只用于构造无法通过合法动作建立的前置条件；
+# class 必须等于目标节点脚本的全局类名，value 必须落在 values 内。
+properties:
+  trigger_switch.trigger_mode:
+    property: trigger_mode
+    class: TriggerSwitch
+    values: [Latching, Repeat, Toggle]
+    summary: "枚举导出属性；探针按属性 hint_string 解析序号，hint 不含该名字则拒绝"

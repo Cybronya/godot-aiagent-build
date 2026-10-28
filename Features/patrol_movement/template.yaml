@@ -18,7 +18,49 @@ interfaces:
   signals:
     - waypoint_reached
 
-# 行为证据（Phase 1.49）：本组件是根脚本模式（无挂载宿主概念），且 waypoints
-# 是导出数组而非场景节点，不符合 template 的「组件挂进实体」形状。因此暂不
-# 声明 behavior:，自身验证以 test_patrol_movement.gd（SceneTree 无头测试，
-# 真实物理位移 + 信号计数轮询）为准。
+# 行为证据（Phase 1.52）：patrol 在 _ready 即自行启动（根脚本模式，无写入入口
+# 可调用），协议的 simulation.advance_frames + waypoint_reached 信号登记 +
+# node2d.displacement 观测足以表达「按路径移动并抵达」的完整行为语义。
+# 证据夹具：PatrolLoopFixture.tscn（2 点环线）/ PatrolPingPongFixture.tscn
+# （3 点折返），speed=120 px/s、固定 physics delta → 每段 60px = 30 帧，精确可算。
+behavior:
+  # ---- 1. 环线巡航：依次抵达 0、1 号点（30 帧 / 点） ---------------------------
+  # 70 帧：t=30 抵达 idx0、t=60 抵达 idx1，随后向 idx0 返程 10 帧。
+  - id: loop_patrol_cycles_waypoints
+    scene: PatrolLoopFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 70}}
+    preconditions:
+      - {check: signal, target: ".", entry: patrol.waypoint_reached, count: 0}
+    expected:
+      - {check: signal, target: ".", entry: patrol.waypoint_reached,
+         count: 2, last_args: [1]}
+    window_frames: 5
+
+  # ---- 2. 出线段位移：前 10 帧恒速直线推进（120px/s × 10/60s = 20px）----------
+  # 基线在动作前采集，位移与加载期 settle 帧数无关。
+  - id: outbound_leg_moves_at_constant_speed
+    scene: PatrolLoopFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 10}}
+    preconditions:
+      - {check: node.exists, target: ".", equals: true}
+    expected:
+      - {check: node2d.displacement, target: ".", axis: x,
+         equals: 20.0, tolerance: 2.0}
+    window_frames: 5
+
+  # ---- 3. 往返折返：3 点路径走到末端后反向，最后一次广播是回程抵达 idx1 --------
+  # t=15/30/45 抵达 idx0/1/2（count 3），折返后 t=60 抵达 idx1（count 4）。
+  # 推进 62 帧：62 动作帧 + window 5 + settle 2 = 69 < 75（第 5 次抵达 idx0），
+  # 恰好锁定 4 次广播而不把下一次折返算进来。
+  - id: ping_pong_reverses_at_path_end
+    scene: PatrolPingPongFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 62}}
+    preconditions:
+      - {check: signal, target: ".", entry: patrol.waypoint_reached, count: 0}
+    expected:
+      - {check: signal, target: ".", entry: patrol.waypoint_reached,
+         count: 4, last_args: [1]}
+    window_frames: 5

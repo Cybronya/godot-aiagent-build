@@ -15,7 +15,9 @@ requires:
   - health_state   # 门在 Health 上（命名 "Health" 或 health_path 指定）
   - cooldown       # 窗口计时复用 Cooldown（IFrames.tscn 内置实例）
 
-capabilities: []
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node
 
 interfaces:
   methods:
