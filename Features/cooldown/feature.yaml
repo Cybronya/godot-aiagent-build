@@ -1,0 +1,82 @@
+# Feature Metadata: cooldown
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: cooldown
+version: 1
+category: component
+
+summary: 通用冷却组件：start() 开始/重启倒计时，期间 is_ready 为 false，到期广播 finished；用于攻击间隔、技能 CD 等节流场景。
+
+provides:
+  - cooldown
+  - rate_limit
+
+requires: []             # 纯计时，无 Feature 依赖
+
+capabilities: []         # 纯逻辑组件，不需要 Scene 能力
+
+interfaces:
+  methods:
+    - name: start
+      signature: "start(override_duration := -1.0) -> bool"
+      description: 开始/重启冷却；-1（或不传）用 duration 导出值；显式 0 拒绝；重启语义（重置剩余时长并再次广播 started）；返回是否实际生效
+    - name: is_ready
+      signature: "is_ready() -> bool"
+      description: 查询是否就绪（未在冷却中）
+    - name: get_remaining
+      signature: "get_remaining() -> float"
+      description: 剩余秒数；就绪/未运行时为 0.0
+    - name: get_progress
+      signature: "get_progress() -> float"
+      description: 冷却进度 1.0=就绪；运行中 0.0（刚开始）.. 接近 1.0（将就绪）
+  signals:
+    - name: cooldown_started
+      signature: "cooldown_started()"
+      description: 每次有效 start 广播一次（含重启）
+    - name: cooldown_finished
+      signature: "cooldown_finished()"
+      description: 到期广播一次
+  exports:
+    - name: duration
+      type: float
+      default: 1.0
+      description: 默认冷却时长（秒）；无参 start 时使用
+    - name: auto_start
+      type: bool
+      default: false
+      description: true 时 _ready 即自动开始一次冷却
+
+ownership:
+  state:
+    - 倒计时状态（_running、_remaining、_peak）
+  rules:
+    - 只拥有自己的计时状态，不触碰宿主任何属性
+    - 重启语义：冷却中再次 start 重置剩余时长并再次广播 started（与 Stun 的
+      长盖短刻意不同——攻击 CD 的自然语义是重打重计）
+    - 无效时长（override 显式为 0 或 duration<=0）直接拒绝，无副作用
+    - _physics_process 驱动（headless 确定性），到期 finished 恰好广播一次
+
+relations:
+  works_with:
+    - contact_damage   # 受击无敌帧：受击后 start 一段免伤间隔（组合层裁决）
+    - stun             # 眩晕结束后接攻击 CD
+  commonly_used_with:
+    - health
+    - player_movement
+    - screen_shake
+  conflicts: []
+  entity_roles:
+    - enemy
+    - player
+    - trap
+
+composition:
+  entry_scene: Cooldown.tscn
+  usage: "实例化为任意节点的子节点；节流点判断 is_ready 后行动并 start；到期自动回就绪，无需手动复位"
+  related_features: [contact_damage, stun, health]
+
+validation:
+  self_test: test_cooldown.gd
+  command: godot --headless --path . -s res://Features/cooldown/test_cooldown.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

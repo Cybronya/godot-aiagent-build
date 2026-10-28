@@ -1,0 +1,25 @@
+# Feature Scene Template: cooldown
+
+feature:
+  id: cooldown
+
+scene:
+  source: Cooldown.tscn
+  root_type: Node      # 纯逻辑计时组件，可挂任意节点
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - Cooldown
+
+interfaces:
+  signals:
+    - cooldown_started
+    - cooldown_finished
+
+# 行为证据（Phase 1.49）：start() 是代码调用，不在协议动作白名单内；冷却状态
+# 无对应已登记观测项。因此暂不声明 behavior:，自身验证以
+# test_cooldown.gd（SceneTree 无头测试）为准；后续若协议新增
+# cooldown.start 动作与 cooldown.is_ready 观测，可补行为证据。

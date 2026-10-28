@@ -1,6 +1,6 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-28T00:29:07Z",
+  "generated_at": "2026-10-28T10:00:17Z",
   "features": [
     {
       "id": "chase_movement",
@@ -145,6 +145,51 @@
         "requires": [
           "damage_receiver"
         ]
+      }
+    },
+    {
+      "id": "cooldown",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "cooldown",
+        "rate_limit"
+      ],
+      "requires": [],
+      "interfaces": [
+        "start",
+        "is_ready",
+        "get_remaining",
+        "get_progress",
+        "duration",
+        "auto_start",
+        "cooldown_started",
+        "cooldown_finished"
+      ],
+      "signals": [
+        "cooldown_started",
+        "cooldown_finished"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/cooldown/test_cooldown.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "stun"
+        ],
+        "commonly_used_with": [
+          "health",
+          "player_movement",
+          "screen_shake"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy",
+          "player",
+          "trap"
+        ],
+        "requires": []
       }
     },
     {
