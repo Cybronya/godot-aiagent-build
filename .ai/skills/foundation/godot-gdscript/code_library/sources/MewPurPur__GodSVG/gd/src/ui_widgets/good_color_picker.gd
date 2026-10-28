@@ -1,0 +1,617 @@
+extends MarginContainer
+
+const ColorPickerLayoutPopupScene = preload("res://src/ui_widgets/color_picker_layout_popup.tscn")
+const EyedropperPopupScene = preload("res://src/ui_widgets/eyedropper_popup.tscn")
+
+const handle_texture = preload("res://assets/icons/BWHandle.svg")
+const slider_arrow = preload("res://assets/icons/SliderArrow.svg")
+const side_slider_arrow = preload("res://assets/icons/SliderArrowSide.svg")
+const bg_pattern = preload("res://assets/icons/CheckerboardMini.svg")
+
+const KEYBOARD_DELAY_DURATION = 0.5
+
+var alpha_enabled := false
+var is_none_keyword_available := false
+var is_current_color_keyword_available := false
+
+var color_model_button_group := ButtonGroup.new()
+
+var color_config: ColorPickerUtils.ColorConfig
+
+@onready var color_models_container: HBoxContainer = %ColorModels
+@onready var color_models_button: Button = %ColorModelsButton
+@onready var start_color_rect: Control = %ColorsDisplay/StartColorRect
+@onready var color_rect: Control = %ColorsDisplay/ColorRect
+@onready var keyword_button: Button = %KeywordButton
+@onready var reset_color_button: Button = %ColorsDisplay/ColorRect/ResetColorButton
+@onready var eyedropper_button: Button = %EyedropperButton
+@onready var alpha_slider: HBoxContainer = %Slider4
+
+
+@onready var color_area: MarginContainer = %PickerArea/ColorAreaInputArea
+@onready var color_area_drawn: ColorRect = %PickerArea/ColorAreaInputArea/ColorArea
+var color_area_surface := RenderingServer.canvas_item_create()
+var color_area_dragged := false
+var color_area_scrolled_time := -1.0
+
+@onready var primary_slider: MarginContainer = %PickerArea/PrimarySliderInputArea
+@onready var primary_slider_drawn: ColorRect = %PickerArea/PrimarySliderInputArea/PrimarySlider
+var primary_slider_surface := RenderingServer.canvas_item_create()
+var primary_slider_dragged := false
+var primary_slider_scrolled_time := -1.0
+
+# Tracks are the color rects of the sliders.
+@onready var tracks_arr: Array[ColorRect] = [%Slider1/InputArea/Track, %Slider2/InputArea/Track, %Slider3/InputArea/Track, %Slider4/InputArea/Track]
+# Widgets are the margin containers that acts as click areas and draw the arrow.
+@onready var widgets_arr: Array[MarginContainer] = [%Slider1/InputArea, %Slider2/InputArea, %Slider3/InputArea, %Slider4/InputArea]
+# Fields are the number fields beside the color tracks.
+var hslider_surfaces: Array[RID] = [RenderingServer.canvas_item_create(), RenderingServer.canvas_item_create(),
+		RenderingServer.canvas_item_create(), RenderingServer.canvas_item_create()]
+var hsliders_dragged: Array[bool] = [false, false, false, false]
+var hsliders_scrolled_time: PackedFloat32Array = [-1.0, -1.0, -1.0, -1.0]
+
+@onready var fields_arr: Array[BetterLineEdit] = [%Slider1/IntField, %Slider2/IntField, %Slider3/IntField, %Slider4/IntField]
+
+
+# To be called right after the color picker is added.
+func setup_color(new_color_config: ColorPickerUtils.ColorConfig) -> void:
+	color_config = new_color_config
+
+func sync_to_config() -> void:
+	for child in color_models_container.get_children():
+		color_models_container.remove_child(child)
+		child.queue_free()
+	
+	var normal_stylebox := StyleBoxFlat.new()
+	normal_stylebox.bg_color = ThemeUtils.hover_overlay_color
+	
+	var hover_stylebox := normal_stylebox.duplicate()
+	hover_stylebox.bg_color = ThemeUtils.strong_hover_overlay_color
+	
+	var focus_stylebox := StyleBoxFlat.new()
+	focus_stylebox.draw_center = false
+	focus_stylebox.set_border_width_all(2)
+	focus_stylebox.border_color = ThemeUtils.focus_color
+	
+	var pressed_stylebox := StyleBoxFlat.new()
+	pressed_stylebox.bg_color = ThemeUtils.hover_pressed_overlay_color
+	pressed_stylebox.border_width_top = 2
+	pressed_stylebox.content_margin_bottom = 2.0
+	pressed_stylebox.border_color = Color(ThemeUtils.editable_text_color, 0.7)
+	
+	for active_color_model: ColorPickerUtils.ColorModel in Configs.savedata.color_picker_active_models:
+		var btn := Button.new()
+		btn.begin_bulk_theme_override()
+		btn.add_theme_constant_override("align_to_largest_stylebox", 0)
+		btn.add_theme_stylebox_override("normal", normal_stylebox)
+		btn.add_theme_stylebox_override("hover", hover_stylebox)
+		btn.add_theme_stylebox_override("focus", focus_stylebox)
+		btn.add_theme_stylebox_override("pressed", pressed_stylebox)
+		btn.add_theme_stylebox_override("hover_pressed", pressed_stylebox)
+		btn.end_bulk_theme_override()
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.button_group = color_model_button_group
+		btn.toggle_mode = true
+		btn.action_mode = BaseButton.ACTION_MODE_BUTTON_PRESS
+		
+		if active_color_model == Configs.savedata.color_picker_current_model:
+			btn.button_pressed = true
+		btn.pressed.connect(
+			func() -> void:
+				Configs.savedata.color_picker_current_model = active_color_model
+				for button in color_model_button_group.get_buttons():
+					button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+				btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
+				_on_color_picker_layout_changed()
+		)
+		btn.text = ColorPickerUtils.color_model_to_string(active_color_model)
+		color_models_container.add_child(btn)
+	
+	var expanded_focus_stylebox := focus_stylebox.duplicate()
+	expanded_focus_stylebox.set_expand_margin_all(3)
+	reset_color_button.add_theme_stylebox_override("focus", expanded_focus_stylebox)
+	_on_color_picker_layout_changed()
+
+
+func sync_color_model_buttons_mouse_cursor_shape() -> void:
+	for button in color_model_button_group.get_buttons():
+		button.mouse_default_cursor_shape = Control.CURSOR_ARROW if button == color_model_button_group.get_pressed_button() else Control.CURSOR_POINTING_HAND
+
+func _ready() -> void:
+	Configs.theme_changed.connect(sync_to_config)
+	sync_to_config()
+	# Set up signals.
+	color_area.gui_input.connect(_on_color_area_gui_input)
+	primary_slider.gui_input.connect(parse_primary_slider_input)
+	primary_slider.focus_entered.connect(primary_slider.queue_redraw)
+	primary_slider.focus_exited.connect(primary_slider.queue_redraw)
+	reset_color_button.pressed.connect(_on_reset_color_button_pressed)
+	
+	start_color_rect.draw.connect(_on_start_color_rect_draw)
+	color_rect.draw.connect(_on_color_rect_draw)
+	color_area.draw.connect(_on_color_area_draw)
+	primary_slider.draw.connect(_on_primary_slider_draw)
+	
+	if is_instance_valid(color_config):
+		for i in (range(0, 4) if alpha_enabled else range(0, 3)):
+			widgets_arr[i].draw.connect(_on_hslider_draw.bind(i))
+			widgets_arr[i].gui_input.connect(parse_hslider_input.bind(i))
+			tracks_arr[i].resized.connect(sync_to_color)
+			fields_arr[i].text_submitted.connect(_on_hslider_text_submitted.bind(i))
+		if alpha_enabled:
+			alpha_slider.visible = true
+	
+	color_model_button_group.pressed.connect(sync_color_model_buttons_mouse_cursor_shape.unbind(1))
+	sync_color_model_buttons_mouse_cursor_shape.call()
+	
+	if is_none_keyword_available or is_current_color_keyword_available:
+		keyword_button.tooltip_text = Translator.translate("Color keywords")
+		keyword_button.pressed.connect(_on_keyword_button_pressed)
+		keyword_button.show()
+	
+	color_models_button.pressed.connect(_on_color_models_button_pressed)
+	eyedropper_button.pressed.connect(_on_eyedropper_pressed)
+	eyedropper_button.tooltip_text = Translator.translate("Eyedropper")
+	# Set up the rest.
+	RenderingServer.canvas_item_set_parent(color_area_surface, color_area.get_canvas_item())
+	RenderingServer.canvas_item_set_parent(primary_slider_surface, primary_slider.get_canvas_item())
+	for idx in widgets_arr.size():
+		RenderingServer.canvas_item_set_parent(hslider_surfaces[idx], widgets_arr[idx].get_canvas_item())
+	
+	color_config.color_changed.connect(sync_to_color)
+	sync_to_color()
+	_on_color_picker_layout_changed()
+
+func setup_initial_focus() -> void:
+	if keyword_button.visible:
+		keyword_button.grab_focus(true)
+	else:
+		eyedropper_button.grab_focus(true)
+
+func register_focus_sequence() -> void:
+	var focus_sequence: Array[Control] = [color_area, primary_slider, keyword_button, reset_color_button, eyedropper_button]
+	focus_sequence.append_array(color_models_container.get_children())
+	focus_sequence.append(color_models_button)
+	focus_sequence.append_array(widgets_arr)
+	focus_sequence.append_array(fields_arr)
+	HandlerGUI.register_focus_sequence(self, focus_sequence)
+
+func _exit_tree() -> void:
+	RenderingServer.free_rid(color_area_surface)
+	RenderingServer.free_rid(primary_slider_surface)
+	for surface in hslider_surfaces:
+		RenderingServer.free_rid(surface)
+
+
+func _on_color_picker_layout_changed() -> void:
+	match Configs.savedata.color_picker_current_model:
+		ColorPickerUtils.ColorModel.RGB:
+			tracks_arr[0].material.set_shader_parameter("interpolation", 1)
+			tracks_arr[1].material.set_shader_parameter("interpolation", 2)
+			tracks_arr[2].material.set_shader_parameter("interpolation", 3)
+		ColorPickerUtils.ColorModel.HSV:
+			tracks_arr[0].material.set_shader_parameter("interpolation", 4)
+			tracks_arr[1].material.set_shader_parameter("interpolation", 5)
+			tracks_arr[2].material.set_shader_parameter("interpolation", 6)
+		ColorPickerUtils.ColorModel.HSL:
+			tracks_arr[0].material.set_shader_parameter("interpolation", 4)
+			tracks_arr[1].material.set_shader_parameter("interpolation", 7)
+			tracks_arr[2].material.set_shader_parameter("interpolation", 8)
+	if is_instance_valid(color_config) and alpha_enabled:
+		tracks_arr[3].material.set_shader_parameter("interpolation", 0)
+	
+	match Configs.savedata.color_picker_current_shape:
+		ColorPickerUtils.PickerShape.HS_V_CIRCLE:
+			color_area_drawn.material.set_shader_parameter("interpolation", 0)
+			primary_slider_drawn.material.set_shader_parameter("interpolation", 6)
+		ColorPickerUtils.PickerShape.HS_L_CIRCLE:
+			color_area_drawn.material.set_shader_parameter("interpolation", 1)
+			primary_slider_drawn.material.set_shader_parameter("interpolation", 8)
+		ColorPickerUtils.PickerShape.SV_H_SQUARE:
+			color_area_drawn.material.set_shader_parameter("interpolation", 2)
+			primary_slider_drawn.material.set_shader_parameter("interpolation", 4)
+		ColorPickerUtils.PickerShape.SL_H_SQUARE:
+			color_area_drawn.material.set_shader_parameter("interpolation", 3)
+			primary_slider_drawn.material.set_shader_parameter("interpolation", 4)
+		ColorPickerUtils.PickerShape.HL_S_SQUARE:
+			color_area_drawn.material.set_shader_parameter("interpolation", 4)
+			primary_slider_drawn.material.set_shader_parameter("interpolation", 7)
+		ColorPickerUtils.PickerShape.NORMAL_MAP:
+			color_area_drawn.material.set_shader_parameter("interpolation", 100)
+			primary_slider_drawn.material.set_shader_parameter("interpolation", 100)
+	sync_to_color()
+	register_focus_sequence()
+
+func _on_color_models_button_pressed() -> void:
+	var context_popup := ColorPickerLayoutPopupScene.instantiate()
+	context_popup.color_picker_layout_changed.connect(sync_to_config)
+	HandlerGUI.popup_under_rect_center(context_popup, color_models_button.get_global_rect(), get_viewport())
+
+
+func sync_to_color() -> void:
+	# Adjust the shaders.
+	if is_instance_valid(color_config):
+		var shifted_color := color_config.color.duplicate()
+		shifted_color.shift_hsv()
+		var regular_color := shifted_color.to_color()
+		match Configs.savedata.color_picker_current_shape:
+			ColorPickerUtils.PickerShape.HS_V_CIRCLE:
+				primary_slider_drawn.material.set_shader_parameter("base_color", regular_color)
+				color_area_drawn.material.set_shader_parameter("third_value", 1.0)
+			ColorPickerUtils.PickerShape.HS_L_CIRCLE:
+				primary_slider_drawn.material.set_shader_parameter("base_color", regular_color)
+				color_area_drawn.material.set_shader_parameter("third_value", 0.5)
+			ColorPickerUtils.PickerShape.SV_H_SQUARE, ColorPickerUtils.PickerShape.SL_H_SQUARE:
+				primary_slider_drawn.material.set_shader_parameter("base_color", Color.RED)
+				color_area_drawn.material.set_shader_parameter("third_value", color_config.color.get_hue())
+			ColorPickerUtils.PickerShape.HL_S_SQUARE:
+				primary_slider_drawn.material.set_shader_parameter("base_color", regular_color)
+				color_area_drawn.material.set_shader_parameter("third_value", color_config.color.get_hue())
+			ColorPickerUtils.PickerShape.NORMAL_MAP:
+				primary_slider_drawn.material.set_shader_parameter("base_color", regular_color)
+				color_area_drawn.material.set_shader_parameter("third_value", 1.0)
+		for i in (range(0, 4) if alpha_enabled else range(0, 3)):
+			tracks_arr[i].material.set_shader_parameter("base_color", regular_color)
+			sync_hslider(i)
+		
+		# Update color button.
+		if color_config.initial_color.equals(color_config.color):
+			reset_color_button.disabled = true
+		else:
+			reset_color_button.disabled = false
+			var accent_hue_color := Color.from_hsv(ThemeUtils.accent_color.h, 1.0, 1.0)
+			reset_color_button.begin_bulk_theme_override()
+			# The average luminoscity of the checkerboard pattern is 2/3.
+			if lerpf(2/3.0, color_config.color.get_luminance_imprecise(), color_config.color.a) < 0.5:
+				reset_color_button.add_theme_color_override("icon_hover_color", Color.WHITE)
+				reset_color_button.add_theme_color_override("icon_focus_color", Color.WHITE)
+				reset_color_button.add_theme_color_override("icon_pressed_color", accent_hue_color.lerp(Color.WHITE, 0.76))
+			else:
+				reset_color_button.add_theme_color_override("icon_hover_color", Color.BLACK)
+				reset_color_button.add_theme_color_override("icon_focus_color", Color.BLACK)
+				reset_color_button.add_theme_color_override("icon_pressed_color", accent_hue_color.lerp(Color.BLACK, 0.64))
+			reset_color_button.end_bulk_theme_override()
+	
+	# Full redraw.
+	for i in 4:
+		var widget := widgets_arr[i]
+		if is_instance_valid(widget):
+			widget.queue_redraw()
+	primary_slider.queue_redraw()
+	color_area.queue_redraw()
+	color_rect.queue_redraw()
+	start_color_rect.queue_redraw()
+
+
+# Implements keyboard control for the widgets.
+func _process(delta: float) -> void:
+	if primary_slider.has_focus():
+		var axis := Input.get_axis("ui_down", "ui_up")
+		if not is_zero_approx(axis):
+			if not primary_slider.has_focus(true):
+				primary_slider.grab_focus()
+			var offset_change := 0.0
+			if primary_slider_scrolled_time < 0:
+				primary_slider_scrolled_time = 0.0
+				offset_change = 0.01
+			elif primary_slider_scrolled_time <= KEYBOARD_DELAY_DURATION:
+				var new_move := false
+				if Input.is_action_just_pressed("ui_up"):
+					axis = 1
+					new_move = true
+				elif Input.is_action_just_pressed("ui_down"):
+					axis = -1
+					new_move = true
+				
+				if new_move:
+					primary_slider_scrolled_time = 0.0
+					offset_change = 0.01
+			else:
+				offset_change = clampf(snappedf(primary_slider_scrolled_time * delta, 0.01), 0.01, 0.05)
+			primary_slider_scrolled_time += delta
+			ColorPickerUtils.set_primary_slider_offset(color_config.color,
+					ColorPickerUtils.get_primary_slider_offset(color_config.color) + offset_change * axis)
+			color_config.color_changed.emit()
+		elif primary_slider_scrolled_time >= 0:
+			primary_slider_scrolled_time = -1.0
+			color_config.register_visual_change()
+	elif primary_slider_scrolled_time >= 0:
+		primary_slider_scrolled_time = -1.0
+		color_config.register_visual_change()
+	
+	for index in widgets_arr.size():
+		var hslider := widgets_arr[index]
+		if hslider.has_focus():
+			var axis := Input.get_axis("ui_left", "ui_right")
+			if not is_zero_approx(axis):
+				if not hslider.has_focus(true):
+					hslider.grab_focus()
+				var offset_change := 0.0
+				if hsliders_scrolled_time[index] < 0:
+					hsliders_scrolled_time[index] = 0.0
+					offset_change = 1.0 / ColorPickerUtils.get_channel_fidelity(index)
+				elif primary_slider_scrolled_time <= KEYBOARD_DELAY_DURATION:
+					var new_move := false
+					if Input.is_action_just_pressed("ui_left"):
+						axis = -1
+						new_move = true
+					elif Input.is_action_just_pressed("ui_right"):
+						axis = 1
+						new_move = true
+					
+					if new_move:
+						hsliders_scrolled_time[index] = 0.0
+						offset_change = 1.0 / ColorPickerUtils.get_channel_fidelity(index)
+				elif hsliders_scrolled_time[index] > KEYBOARD_DELAY_DURATION:
+					offset_change = clampf(snappedf(hsliders_scrolled_time[index] * delta, 0.01), 0.01, 0.05)
+				hsliders_scrolled_time[index] += delta
+				ColorPickerUtils.set_channel_offset(color_config.color, index,
+						ColorPickerUtils.get_channel_offset(color_config.color, index) + offset_change * axis)
+				color_config.color_changed.emit()
+			elif hsliders_scrolled_time[index] >= 0:
+				hsliders_scrolled_time[index] = -1.0
+				color_config.register_visual_change()
+		elif hsliders_scrolled_time[index] >= 0:
+			hsliders_scrolled_time[index] = -1.0
+			color_config.register_visual_change()
+	
+	if color_area.has_focus():
+		var vector := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		if not vector.is_zero_approx():
+			if not color_area.has_focus(true):
+				color_area.grab_focus()
+			var offset_change := 0.0
+			if color_area_scrolled_time < 0:
+				color_area_scrolled_time = 0.0
+				offset_change = 0.01
+			elif color_area_scrolled_time <= KEYBOARD_DELAY_DURATION:
+				var new_move := false
+				if Input.is_action_just_pressed("ui_left"):
+					vector = Vector2.LEFT
+					new_move = true
+				elif Input.is_action_just_pressed("ui_right"):
+					vector = Vector2.RIGHT
+					new_move = true
+				elif Input.is_action_just_pressed("ui_up"):
+					vector = Vector2.UP
+					new_move = true
+				elif Input.is_action_just_pressed("ui_down"):
+					vector = Vector2.DOWN
+					new_move = true
+				
+				if new_move:
+					color_area_scrolled_time = 0.0
+					offset_change = 0.01
+			else:
+				offset_change = clampf(snappedf(color_area_scrolled_time * delta, 0.01), 0.01, 0.05)
+			color_area_scrolled_time += delta
+			ColorPickerUtils.set_color_area_coordinates(color_config.color,
+					ColorPickerUtils.get_color_area_coordinates(color_config.color) + vector * offset_change)
+			color_config.color_changed.emit()
+		elif color_area_scrolled_time >= 0:
+			color_area_scrolled_time = -1.0
+			color_config.register_visual_change()
+	elif color_area_scrolled_time >= 0:
+		color_area_scrolled_time = -1.0
+		color_config.register_visual_change()
+
+
+func _on_color_area_gui_input(event: InputEvent) -> void:
+	for action_name in ["ui_left", "ui_right", "ui_up", "ui_down"]:
+		if event.is_action_pressed(action_name, true, true):
+			accept_event()
+	
+	var should_change_offset := false
+	if Utils.is_event_drag_start(event):
+		color_area_dragged = true
+		should_change_offset = true
+	elif color_area_dragged:
+		if Utils.is_event_drag(event):
+			should_change_offset = true
+		elif Utils.is_event_drag_end(event):
+			color_area_dragged = false
+			color_config.register_visual_change()
+			return
+	
+	if should_change_offset:
+		ColorPickerUtils.set_color_area_coordinates(color_config.color,
+				(event.position + color_area.position - color_area_drawn.position) / color_area_drawn.size)
+		color_config.color_changed.emit()
+
+func parse_primary_slider_input(event: InputEvent) -> void:
+	match ColorPickerUtils.get_current_picker_shape_geometric_shape():
+		ColorPickerUtils.PickerGeometricShape.CIRCLE_AND_BAR, ColorPickerUtils.PickerGeometricShape.SQUARE_AND_BAR:
+			for action_name in ["ui_down", "ui_up", "ui_left", "ui_right"]:
+				if event.is_action_pressed(action_name, true, true):
+					accept_event()
+			
+			var should_change_offset := false
+			if Utils.is_event_drag_start(event):
+				primary_slider_dragged = true
+				should_change_offset = true
+			elif primary_slider_dragged:
+				if Utils.is_event_drag(event):
+					should_change_offset = true
+				elif Utils.is_event_drag_end(event):
+					primary_slider_dragged = false
+					color_config.register_visual_change()
+					return
+			
+			if should_change_offset:
+				var new_offset: float
+				match ColorPickerUtils.get_current_picker_shape_geometric_shape():
+					ColorPickerUtils.PickerGeometricShape.CIRCLE_AND_BAR, ColorPickerUtils.PickerGeometricShape.SQUARE_AND_BAR:
+						new_offset = 1.0 - (event.position.y - primary_slider_drawn.position.y) / primary_slider_drawn.size.y
+				ColorPickerUtils.set_primary_slider_offset(color_config.color, new_offset)
+				color_config.color_changed.emit()
+
+func parse_hslider_input(event: InputEvent, index: int) -> void:
+	for action_name in ["ui_left", "ui_right"]:
+		if event.is_action_pressed(action_name, true, true):
+			accept_event()
+	
+	var should_change_offset := false
+	if Utils.is_event_drag_start(event):
+		hsliders_dragged[index] = true
+		should_change_offset = true
+	elif hsliders_dragged[index]:
+		if Utils.is_event_drag(event):
+			should_change_offset = true
+		elif Utils.is_event_drag_end(event):
+			hsliders_dragged[index] = false
+			color_config.register_visual_change()
+			widgets_arr[index].queue_redraw()
+			return
+	
+	if should_change_offset:
+		ColorPickerUtils.set_channel_offset(color_config.color, index,
+				(event.position.x - tracks_arr[index].position.x) / tracks_arr[index].size.x)
+		color_config.color_changed.emit()
+
+# When slider text is submitted, it should be clamped, used, and then the slider should
+# be updated again so the text reflects the new value even if the color didn't change.
+func _on_hslider_text_submitted(new_text: String, index: int) -> void:
+	var new_value := ParserNumstring.evaluate(new_text)
+	if is_nan(new_value):
+		sync_hslider(index)
+		return
+	ColorPickerUtils.set_channel_offset(color_config.color, index, new_value / ColorPickerUtils.get_channel_fidelity(index))
+	color_config.register_visual_change()
+	widgets_arr[index].queue_redraw()
+	sync_hslider(index)
+
+func sync_hslider(index: int) -> void:
+	var num_value: float
+	if Configs.savedata.color_picker_current_model == ColorPickerUtils.ColorModel.RGB:
+		# In this case, it's better to use the hex value, as it benefits from paint calibration.
+		num_value = ParserPaint.text_to_color(ParserPaint.add_hash_if_hex(color_config.color.paint))[index]
+	else:
+		num_value = ColorPickerUtils.get_channel_offset(color_config.color, index)
+	fields_arr[index].text = String.num_uint64(roundi(num_value * ColorPickerUtils.get_channel_fidelity(index)))
+
+
+func _on_keyword_button_pressed() -> void:
+	var btn_arr: Array[ContextButton] = []
+	if is_none_keyword_available:
+		btn_arr.append(ContextButton.create_custom("none", color_config.set_color_to_keyword.bind("none"),
+				preload("res://assets/icons/NoneColor.svg"), color_config.color.paint == "none"))
+	if is_current_color_keyword_available:
+		btn_arr.append(ContextButton.create_custom("currentColor", color_config.set_color_to_keyword.bind("currentColor"),
+				preload("res://assets/icons/Paste.svg"), color_config.color.paint == "currentColor"))
+	
+	for btn in btn_arr:
+		btn.add_theme_font_override("font", ThemeUtils.mono_font)
+	HandlerGUI.popup_under_rect(ContextPopup.create(btn_arr), keyword_button.get_global_rect(), get_viewport())
+
+func _on_reset_color_button_pressed() -> void:
+	color_config.color = color_config.initial_color.duplicate()
+	color_config.register_visual_change()
+
+
+# Gray out the start color rect if it's not actually a color.
+func _on_start_color_rect_draw() -> void:
+	var rect_size := start_color_rect.size
+	var rect := Rect2(Vector2.ZERO, rect_size)
+	if ParserID.is_valid_url(color_config.initial_literal_paint):
+		var cross_color := Color(0.8, 0.8, 0.8)
+		start_color_rect.draw_rect(rect, Color(0.6, 0.6, 0.6))
+		start_color_rect.draw_line(Vector2.ZERO, rect_size, cross_color, 0.5, true)
+		start_color_rect.draw_line(Vector2(rect_size.x, 0), Vector2(0, rect_size.y), cross_color, 0.5, true)
+	else:
+		start_color_rect.draw_texture_rect(bg_pattern, rect, true)
+		start_color_rect.draw_rect(rect, color_config.initial_color.to_color())
+
+func _on_color_rect_draw() -> void:
+	var rect := Rect2(Vector2.ZERO, color_rect.size)
+	color_rect.draw_texture_rect(bg_pattern, rect, true)
+	color_rect.draw_rect(rect, color_config.color.to_color())
+
+func _on_color_area_draw() -> void:
+	RenderingServer.canvas_item_clear(color_area_surface)
+	var point_pos := color_area_drawn.position
+	var handle_texture_size := handle_texture.get_size()
+	
+	# Unique case.
+	if Configs.savedata.color_picker_current_shape ==  ColorPickerUtils.PickerShape.NORMAL_MAP:
+		var n := Vector2(color_config.color.r * 2.0 - 1.0, 1.0 - color_config.color.g * 2.0)
+		if n.length() > 1.0 + ColorPickerUtils.NORMAL_CIRCLE_ERROR_THRESHOLD:
+			if color_area.has_focus(true):
+				get_theme_stylebox("focus", "FlatButton").draw(color_area_surface, color_area_drawn.get_rect().grow(3))
+			return
+		elif n.length() > 1.0:
+			n = n.normalized()
+		point_pos += color_area_drawn.size * n/2
+	
+	match ColorPickerUtils.get_current_picker_shape_geometric_shape():
+		ColorPickerUtils.PickerGeometricShape.CIRCLE_AND_BAR:
+			var angle_value := color_config.color.get_hue()
+			var distance_value: float
+			match Configs.savedata.color_picker_current_shape:
+				ColorPickerUtils.PickerShape.HS_V_CIRCLE:
+					distance_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 1, ColorPickerUtils.ColorModel.HSV)
+				ColorPickerUtils.PickerShape.HS_L_CIRCLE:
+					distance_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 1, ColorPickerUtils.ColorModel.HSL)
+			point_pos += color_area_drawn.size / 2 * (Vector2(1, 1) + Vector2.from_angle(angle_value * TAU) * distance_value)
+		ColorPickerUtils.PickerGeometricShape.SQUARE_AND_BAR:
+			var horizontal_value: float
+			var vertical_value: float
+			match Configs.savedata.color_picker_current_shape:
+				ColorPickerUtils.PickerShape.SV_H_SQUARE:
+					horizontal_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 1, ColorPickerUtils.ColorModel.HSV)
+					vertical_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 2, ColorPickerUtils.ColorModel.HSV)
+				ColorPickerUtils.PickerShape.SL_H_SQUARE:
+					horizontal_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 1, ColorPickerUtils.ColorModel.HSL)
+					vertical_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 2, ColorPickerUtils.ColorModel.HSL)
+				ColorPickerUtils.PickerShape.HL_S_SQUARE:
+					horizontal_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 0, ColorPickerUtils.ColorModel.HSL)
+					vertical_value = ColorPickerUtils.get_channel_offset_for_model(color_config.color, 2, ColorPickerUtils.ColorModel.HSL)
+			point_pos += Vector2(horizontal_value, 1 - vertical_value) * color_area_drawn.size
+	RenderingServer.canvas_item_add_texture_rect(color_area_surface, Rect2(point_pos - handle_texture_size / 2, handle_texture_size), handle_texture)
+	if color_area.has_focus(true):
+		get_theme_stylebox("focus", "FlatButton").draw(color_area_surface, Rect2(point_pos - Vector2(8, 8), Vector2(16, 16)))
+
+func _on_primary_slider_draw() -> void:
+	RenderingServer.canvas_item_clear(primary_slider_surface)
+	
+	# Unique case.
+	if Configs.savedata.color_picker_current_shape == ColorPickerUtils.PickerShape.NORMAL_MAP:
+		if Vector2(color_config.color.r * 2.0 - 1.0, color_config.color.g * 2.0 - 1.0).length() > 1.0 + ColorPickerUtils.NORMAL_CIRCLE_ERROR_THRESHOLD:
+			if primary_slider.has_focus(true):
+				get_theme_stylebox("focus", "FlatButton").draw(primary_slider_surface, primary_slider_drawn.get_rect().grow(3))
+			return
+	
+	var primary_slider_offset := ColorPickerUtils.get_primary_slider_offset(color_config.color)
+	if primary_slider_offset < 0.0 or primary_slider_offset > 1.0:
+		return
+	
+	var arrow_modulate := ThemeUtils.tinted_contrast_color
+	if not primary_slider_dragged and primary_slider_scrolled_time < 0:
+		arrow_modulate.a = 2/3.0
+	var arrow_y := primary_slider_drawn.size.y * (1 - primary_slider_offset) + primary_slider_drawn.position.y - side_slider_arrow.get_height() / 2.0
+	side_slider_arrow.draw(primary_slider_surface, Vector2(0, arrow_y), arrow_modulate)
+	if primary_slider.has_focus(true):
+		get_theme_stylebox("focus", "FlatButton").draw(primary_slider_surface, Rect2(Vector2(0, arrow_y), Vector2(side_slider_arrow.get_size())).grow(3))
+
+func _on_hslider_draw(index: int) -> void:
+	var surface := hslider_surfaces[index]
+	RenderingServer.canvas_item_clear(surface)
+	var arrow_modulate := ThemeUtils.tinted_contrast_color
+	if not hsliders_dragged[index]:
+		arrow_modulate.a *= 2/3.0
+	get_theme_default_font().draw_string(surface, Vector2(-12, 11), ColorPickerUtils.get_channel_letter(index),
+			HORIZONTAL_ALIGNMENT_CENTER, 12, 14, ThemeUtils.text_color)
+	var arrow_x := tracks_arr[index].position.x + tracks_arr[index].size.x *\
+			ColorPickerUtils.get_channel_offset(color_config.color, index) - slider_arrow.get_width() / 2.0
+	slider_arrow.draw(surface, Vector2(arrow_x, tracks_arr[index].size.y), arrow_modulate)
+	if widgets_arr[index].has_focus(true):
+		get_theme_stylebox("focus", "FlatButton").draw(surface, Rect2(Vector2(arrow_x, tracks_arr[index].size.y), Vector2(slider_arrow.get_size())).grow(3))
+
+
+func _on_eyedropper_pressed() -> void:
+	var eyedropper_popup := EyedropperPopupScene.instantiate()
+	eyedropper_popup.color_picked.connect(_on_eyedropper_color_picker)
+	HandlerGUI.add_popup(eyedropper_popup, false)
+
+func _on_eyedropper_color_picker(new_color: Color) -> void:
+	color_config.color = ColorPickerUtils.PreciseColor.from_color(new_color)
+	color_config.register_visual_change()

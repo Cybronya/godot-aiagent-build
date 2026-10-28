@@ -1,0 +1,42 @@
+# Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/lazy_loader.gd
+# Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
+# Commit:  master
+@tool
+# ------------------------------------------------------------------------------
+# Static
+# ------------------------------------------------------------------------------
+static var usage_counter = load('res://addons/gut/thing_counter.gd').new()
+static var WarningsManager = load('res://addons/gut/warnings_manager.gd')
+
+static func load_all():
+	for key in usage_counter.things:
+		key.get_loaded()
+
+
+static func print_usage():
+	for key in usage_counter.things:
+		print(key._path, '  (', usage_counter.things[key], ')')
+
+
+static func clear():
+	usage_counter.things.clear()
+
+# ------------------------------------------------------------------------------
+# Class
+# ------------------------------------------------------------------------------
+var _loaded = null
+var _path = null
+
+func _init(path):
+	_path = path
+	usage_counter.add_thing_to_count(self)
+
+
+func get_loaded():
+	if(_loaded == null):
+		_loaded = WarningsManager.load_script_ignoring_all_warnings(_path)
+	usage_counter.add(self)
+	return _loaded
+
+
+

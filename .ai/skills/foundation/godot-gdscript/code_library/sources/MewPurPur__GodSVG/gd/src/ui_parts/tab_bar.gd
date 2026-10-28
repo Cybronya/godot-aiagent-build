@@ -1,0 +1,514 @@
+extends ProceduralControl
+
+const PreviewRectScene = preload("res://src/ui_widgets/preview_rect.tscn")
+
+const plus_icon = preload("res://assets/icons/Plus.svg")
+const close_icon = preload("res://assets/icons/Close.svg")
+const scroll_forwards_icon = preload("res://assets/icons/ScrollForwards.svg")
+const scroll_backwards_icon = preload("res://assets/icons/ScrollBackwards.svg")
+
+const DEFAULT_TAB_WIDTH = 140.0
+const MIN_TAB_WIDTH = 70.0
+const CLOSE_BUTTON_MARGIN = 2
+const SCROLL_SPEED = 10.0
+const BUTTON_SCROLL_INTENSITY = 48.0
+
+var current_scroll := 0.0
+var scrolling_backwards := false
+var scrolling_forwards := false
+
+# Processing is enabled only when dragging.
+var proposed_drop_idx := -1:
+	set(new_value):
+		if proposed_drop_idx != new_value:
+			proposed_drop_idx = new_value
+			queue_redraw()
+
+func _ready() -> void:
+	super()
+	var shortcuts := ShortcutsRegistration.new()
+	shortcuts.add_shortcut("close_tab", func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index()),
+			ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("close_all_other_tabs", func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index(),
+			FileUtils.TabCloseMode.ALL_OTHERS), ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("close_tabs_to_left", func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index(),
+			FileUtils.TabCloseMode.TO_LEFT), ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("close_tabs_to_right", func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index(),
+			FileUtils.TabCloseMode.TO_RIGHT), ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("close_empty_tabs", func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index(),
+			FileUtils.TabCloseMode.EMPTY), ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("close_saved_tabs", func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index(),
+			FileUtils.TabCloseMode.SAVED), ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("new_tab", Configs.savedata.add_empty_tab, ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("select_next_tab",
+			func() -> void: Configs.savedata.set_active_tab_index(posmod(Configs.savedata.get_active_tab_index() + 1, Configs.savedata.get_tab_count())),
+			ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	shortcuts.add_shortcut("select_previous_tab",
+			func() -> void: Configs.savedata.set_active_tab_index(posmod(Configs.savedata.get_active_tab_index() - 1, Configs.savedata.get_tab_count())),
+			ShortcutsRegistration.Behavior.PASS_THROUGH_POPUPS)
+	HandlerGUI.register_shortcuts(self, shortcuts)
+	
+	Configs.active_tab_changed.connect(sync_buttons)
+	Configs.active_tab_changed.connect(scroll_to_active)
+	Configs.tabs_changed.connect(scroll_to_active)
+	resized.connect(scroll_to_active)
+	Configs.language_changed.connect(queue_redraw)
+	Configs.theme_changed.connect(sync_buttons)
+	Configs.tabs_changed.connect(sync_buttons)
+	resized.connect(sync_buttons)
+	set_process(false)
+
+
+func sync_buttons() -> void:
+	buttons.clear()
+	
+	var close_rect := get_close_button_rect()
+	if close_rect.has_area():
+		var new_button := ButtonData.create_from_icon(close_rect, func() -> void: FileUtils.close_tabs(Configs.savedata.get_active_tab_index()), close_icon)
+		new_button.use_arrow_cursor = true
+		new_button.theme_color_overrides = {
+			"icon_normal_color": ThemeUtils.tinted_contrast_color,
+			"icon_pressed_color": ThemeUtils.highlighted_text_color,
+		}
+		var hover_sb: StyleBoxFlat = get_theme_stylebox("hover", "FlatButton").duplicate()
+		hover_sb.bg_color = ThemeUtils.strong_hover_overlay_color
+		new_button.theme_stylebox_overrides["hover"] = hover_sb
+		var pressed_sb: StyleBoxFlat = get_theme_stylebox("pressed", "FlatButton").duplicate()
+		pressed_sb.bg_color = ThemeUtils.hover_pressed_overlay_color
+		new_button.theme_stylebox_overrides["pressed"] = pressed_sb
+		buttons.append(new_button)
+	
+	var add_rect := get_add_button_rect()
+	if add_rect.has_area():
+		var new_button := ButtonData.create_from_icon(add_rect, Configs.savedata.add_empty_tab, plus_icon)
+		new_button.use_arrow_cursor = true
+		new_button.theme_color_overrides = {
+			"icon_normal_color": ThemeUtils.tinted_contrast_color,
+			"icon_pressed_color": ThemeUtils.highlighted_text_color,
+		}
+		const CONST_ARR: PackedStringArray = ["hover", "pressed"]
+		for stylebox_theme in CONST_ARR:
+			var sb: StyleBoxFlat = get_theme_stylebox(stylebox_theme, "FlatButton").duplicate()
+			sb.corner_radius_bottom_left = 0
+			sb.corner_radius_bottom_right = 0
+			new_button.theme_stylebox_overrides[stylebox_theme] = sb
+		buttons.append(new_button)
+	queue_redraw()
+
+func _draw() -> void:
+	get_theme_stylebox("tabbar_background", "TabContainer").draw(ci, get_rect())
+	var mouse_pos := get_local_mouse_position()
+	
+	for tab_index in Configs.savedata.get_tab_count():
+		var rect := get_tab_rect(tab_index)
+		if not rect.has_area():
+			continue
+		
+		var current_tab_name := ""
+		
+		var current_tab := Configs.savedata.get_tab(tab_index)
+		current_tab_name = current_tab.presented_name
+		if current_tab.marked_unsaved:
+			current_tab_name = "* " + current_tab_name
+		
+		if tab_index == Configs.savedata.get_active_tab_index():
+			get_theme_stylebox("tab_selected", "TabContainer").draw(ci, rect)
+			var text_line_width := rect.size.x - size.y
+			if text_line_width > 0:
+				var text_line := TextLine.new()
+				text_line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS_FORCE
+				text_line.add_string(current_tab_name, ThemeUtils.main_font, 13)
+				text_line.width = text_line_width - 2
+				text_line.draw(ci, rect.position + Vector2(4, 3), get_theme_color("font_selected_color", "TabContainer"))
+		else:
+			var is_hovered := rect.has_point(mouse_pos)
+			get_theme_stylebox("tab_hovered" if is_hovered else "tab_unselected", "TabContainer").draw(ci, rect)
+			
+			var text_line_width := rect.size.x - 8
+			if text_line_width > 0:
+				var text_color := get_theme_color("font_hovered_color" if is_hovered else "font_unselected_color", "TabContainer")
+				
+				var text_line := TextLine.new()
+				text_line.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS_FORCE
+				text_line.add_string(current_tab_name, ThemeUtils.main_font, 13)
+				text_line.width = text_line_width
+				text_line.draw(ci, rect.position + Vector2(4, 3), text_color)
+	
+	var scroll_backwards_rect := get_scroll_backwards_area_rect()
+	if scroll_backwards_rect.has_area():
+		var scroll_backwards_icon_size := scroll_backwards_icon.get_size()
+		var icon_modulate := Color.WHITE
+		if is_scroll_backwards_disabled():
+			icon_modulate = get_theme_color("icon_disabled_color", "Button")
+		else:
+			var line_x := scroll_backwards_rect.end.x + 1
+			draw_line(Vector2(line_x, 0), Vector2(line_x, size.y), ThemeUtils.basic_panel_border_color)
+			if scroll_backwards_rect.has_point(mouse_pos):
+				var stylebox_theme := "pressed" if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) else "hover"
+				get_theme_stylebox(stylebox_theme, "FlatButton").draw(ci, scroll_backwards_rect)
+		draw_texture_rect(scroll_backwards_icon, Rect2(scroll_backwards_rect.position + (scroll_backwards_rect.size - scroll_backwards_icon_size) / 2.0,
+				scroll_backwards_icon_size), false, icon_modulate)
+	
+	var scroll_forwards_rect := get_scroll_forwards_area_rect()
+	if scroll_forwards_rect.has_area():
+		var scroll_forwards_icon_size := scroll_forwards_icon.get_size()
+		var icon_modulate := Color.WHITE
+		if is_scroll_forwards_disabled():
+			icon_modulate = get_theme_color("icon_disabled_color", "Button")
+		else:
+			var line_x := scroll_forwards_rect.position.x
+			draw_line(Vector2(line_x, 0), Vector2(line_x, size.y), ThemeUtils.basic_panel_border_color)
+			if scroll_forwards_rect.has_point(mouse_pos):
+				var stylebox_theme := "pressed" if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) else "hover"
+				get_theme_stylebox(stylebox_theme, "FlatButton").draw(ci, scroll_forwards_rect)
+		draw_texture_rect(scroll_forwards_icon, Rect2(scroll_forwards_rect.position + (scroll_forwards_rect.size - scroll_forwards_icon_size) / 2.0,
+				scroll_forwards_icon_size), false, icon_modulate)
+	
+	super()
+	
+	if proposed_drop_idx != -1:
+		var prev_tab_rect := get_tab_rect(proposed_drop_idx - 1)
+		var x_pos: float
+		if prev_tab_rect.has_area():
+			x_pos = prev_tab_rect.end.x
+		else:
+			x_pos = get_tab_rect(proposed_drop_idx).position.x
+		draw_line(Vector2(x_pos, 0), Vector2(x_pos, size.y), Configs.savedata.basic_color_valid, 4)
+
+func _gui_input(event: InputEvent) -> void:
+	super(event)
+	if not event is InputEventMouse:
+		return
+	
+	queue_redraw()
+	if not event is InputEventMouseButton:
+		return
+	
+	if event.is_pressed():
+		if event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_LEFT]:
+			scroll_backwards(event.factor)
+		elif event.button_index in [MOUSE_BUTTON_WHEEL_DOWN, MOUSE_BUTTON_WHEEL_RIGHT]:
+			scroll_forwards(event.factor)
+		elif event.button_index in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]:
+			var hovered_idx := get_hovered_index()
+			if hovered_idx != -1:
+				if hovered_idx == Configs.savedata.get_active_tab_index():
+					scroll_to_active()
+				else:
+					# Give time for deferred callbacks that might change the active SVG. For example, the code editor
+					# might get unfocused by clicking on a tab, changing the SVG, so this should be deferred.
+					Configs.savedata.set_active_tab_index.call_deferred(hovered_idx)
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				var scroll_backwards_area_rect := get_scroll_backwards_area_rect()
+				if scroll_backwards_area_rect.has_area() and scroll_backwards_area_rect.has_point(event.position) and not is_scroll_backwards_disabled():
+					scrolling_backwards = true
+					set_process(true)
+					return
+				
+				var scroll_forwards_area_rect := get_scroll_forwards_area_rect()
+				if scroll_forwards_area_rect.has_area() and scroll_forwards_area_rect.has_point(event.position) and not is_scroll_forwards_disabled():
+					scrolling_forwards = true
+					set_process(true)
+					return
+				
+				if hovered_idx == -1 and not get_close_button_rect().has_point(event.position) and event.double_click:
+					Configs.savedata.add_empty_tab()
+				return
+			
+			var btn_arr: Array[ContextButton] = []
+			
+			if hovered_idx == -1:
+				if get_add_button_rect().has_point(event.position) or get_scroll_forwards_area_rect().has_point(event.position) or\
+				get_scroll_backwards_area_rect().has_point(event.position):
+					return
+				btn_arr.append(ContextButton.create_from_action("new_tab"))
+			else:
+				var new_active_tab := Configs.savedata.get_tab(hovered_idx)
+				var external_file_missing := not FileAccess.file_exists(new_active_tab.svg_file_path)
+				var tab_count := Configs.savedata.get_tab_count()
+				
+				var has_empty_tabs := false
+				for tab in Configs.savedata.get_tabs():
+					if tab.is_empty():
+						has_empty_tabs = true
+						break
+				
+				var has_saved_tabs := false
+				for tab in Configs.savedata.get_tabs():
+					if tab.is_saved():
+						has_saved_tabs = true
+						break
+				
+				btn_arr.append(ContextButton.create_from_action("close_tab").set_icon_none())
+				btn_arr.append(ContextButton.create_arrow(Translator.translate("Close multiple"), [
+					func() -> ContextButton: return ContextButton.create_from_action("close_all_other_tabs", tab_count < 2).set_icon_none(),
+					func() -> ContextButton: return ContextButton.create_from_action("close_tabs_to_left", hovered_idx == 0).set_icon_none(),
+					func() -> ContextButton: return ContextButton.create_from_action("close_tabs_to_right", hovered_idx == tab_count - 1).set_icon_none(),
+					func() -> ContextButton: return ContextButton.create_from_action("close_empty_tabs", not has_empty_tabs).set_icon_none(),
+					func() -> ContextButton: return ContextButton.create_from_action("close_saved_tabs", not has_saved_tabs).set_icon_none(),
+				]))
+				btn_arr.append(ContextButton.create_from_action("save"))
+				btn_arr.append(ContextButton.create_from_action("save_as").add_custom_text(Translator.translate("Save SVG as…")))
+				btn_arr.append(ContextButton.create_from_action("reset_svg", FileUtils.compare_svg_to_disk_contents() != FileUtils.FileState.DIFFERENT))
+				btn_arr.append(ContextButton.create_from_action("open_externally", external_file_missing))
+				btn_arr.append(ContextButton.create_from_action("open_in_folder", external_file_missing))
+			
+			var tab_popup := ContextPopup.create(btn_arr, true, -1, PackedInt32Array([2, 4]))
+			if hovered_idx != -1:
+				var tab_global_rect := get_tab_rect(hovered_idx)
+				tab_global_rect.position += get_global_rect().position
+				HandlerGUI.popup_under_rect(tab_popup, tab_global_rect, get_viewport())
+			else:
+				HandlerGUI.popup_under_position(tab_popup, get_global_mouse_position(), get_viewport())
+	elif event.button_index == MOUSE_BUTTON_MIDDLE:
+		if Configs.savedata.tab_mmb_close:
+			FileUtils.close_tabs(get_hovered_index())
+		else:
+			# Refer to a previous comment for why it needs to be deferred.
+			Configs.savedata.set_active_tab_index.call_deferred(get_hovered_index())
+	elif event.button_index == MOUSE_BUTTON_LEFT:
+		scrolling_backwards = false
+		scrolling_forwards = false
+		set_process(false)
+
+
+# Autoscroll when the dragged tab is hovered beyond the tabs area.
+func _process(delta: float) -> void:
+	var mouse_pos := get_local_mouse_position()
+	var scroll_forwards_area_rect := get_scroll_forwards_area_rect()
+	if ((scrolling_forwards and scroll_forwards_area_rect.has_point(mouse_pos)) or\
+	(mouse_pos.x > size.x - size.y - scroll_forwards_area_rect.size.x)) and scroll_forwards_area_rect.has_area():
+		scroll_forwards(delta * BUTTON_SCROLL_INTENSITY)
+		return
+	
+	var scroll_backwards_area_rect := get_scroll_backwards_area_rect()
+	if ((scrolling_backwards and scroll_backwards_area_rect.has_point(mouse_pos)) or\
+	(mouse_pos.x < scroll_backwards_area_rect.size.x)) and scroll_backwards_area_rect.has_area():
+		scroll_backwards(delta * BUTTON_SCROLL_INTENSITY)
+		return
+
+
+func scroll_backwards(factor := 1.0) -> void:
+	set_scroll(current_scroll - SCROLL_SPEED * factor)
+
+func scroll_forwards(factor := 1.0) -> void:
+	set_scroll(current_scroll + SCROLL_SPEED * factor)
+
+func scroll_to_active() -> void:
+	var idx := Configs.savedata.get_active_tab_index()
+	set_scroll(clampf(current_scroll, MIN_TAB_WIDTH * (idx + 1) - size.x + size.y +\
+			get_scroll_forwards_area_rect().size.x + get_scroll_backwards_area_rect().size.x, MIN_TAB_WIDTH * idx))
+
+func set_scroll(new_value: float) -> void:
+	if get_scroll_limit() < 0:
+		new_value = 0.0
+	else:
+		new_value = clampf(new_value, 0, get_scroll_limit())
+	if current_scroll != new_value:
+		current_scroll = new_value
+		sync_buttons()
+
+
+func get_tab_rect(idx: int) -> Rect2:
+	# Things that can take space.
+	var scroll_backwards_button_width := get_scroll_backwards_area_rect().size.x
+	var scroll_forwards_button_width := get_scroll_forwards_area_rect().size.x
+	
+	var left_limit := scroll_backwards_button_width
+	var right_limit := size.x - size.y - scroll_forwards_button_width
+	
+	var tab_width := clampf((size.x - size.y - scroll_backwards_button_width - scroll_forwards_button_width) / Configs.savedata.get_tab_count(),
+			MIN_TAB_WIDTH, DEFAULT_TAB_WIDTH)
+	
+	var unclamped_tab_start := tab_width * idx - current_scroll + left_limit
+	var tab_start := clampf(unclamped_tab_start, left_limit, right_limit)
+	var tab_end := clampf(unclamped_tab_start + tab_width, left_limit, right_limit)
+	
+	if tab_end <= tab_start:
+		return Rect2()
+	return Rect2(tab_start, 0, tab_end - tab_start, size.y)
+
+func get_close_button_rect() -> Rect2:
+	var tab_rect := get_tab_rect(Configs.savedata.get_active_tab_index())
+	var side := size.y - CLOSE_BUTTON_MARGIN * 2
+	var left_coords := tab_rect.position.x + tab_rect.size.x - CLOSE_BUTTON_MARGIN - side
+	if left_coords < get_scroll_backwards_area_rect().size.x or tab_rect.size.x < size.y - CLOSE_BUTTON_MARGIN:
+		return Rect2()
+	return Rect2(left_coords, CLOSE_BUTTON_MARGIN, side, side)
+
+func get_add_button_rect() -> Rect2:
+	return Rect2(minf(DEFAULT_TAB_WIDTH * Configs.savedata.get_tab_count(), size.x - size.y), 0, size.y, size.y)
+
+func get_scroll_forwards_area_rect() -> Rect2:
+	if size.x - size.y > Configs.savedata.get_tab_count() * MIN_TAB_WIDTH:
+		return Rect2()
+	var width := size.y / 1.5
+	return Rect2(size.x - size.y - width, 0, width, size.y)
+
+func is_scroll_forwards_disabled() -> bool:
+	return current_scroll >= get_scroll_limit()
+
+func get_scroll_backwards_area_rect() -> Rect2:
+	if size.x - size.y > Configs.savedata.get_tab_count() * MIN_TAB_WIDTH:
+		return Rect2()
+	return Rect2(0, 0, size.y / 1.5, size.y)
+
+func is_scroll_backwards_disabled() -> bool:
+	return current_scroll <= 0.0
+
+func get_scroll_limit() -> float:
+	var scroll_backwards_button_width := get_scroll_backwards_area_rect().size.x
+	var scroll_forwards_button_width := get_scroll_forwards_area_rect().size.x
+	
+	var available_area := size.x - size.y - scroll_backwards_button_width - scroll_forwards_button_width
+	return clampf(available_area / Configs.savedata.get_tab_count(), MIN_TAB_WIDTH, DEFAULT_TAB_WIDTH) * Configs.savedata.get_tab_count() - available_area
+
+func get_hovered_index() -> int:
+	return get_tab_index_at(get_local_mouse_position())
+
+
+func _get_tooltip(at_position: Vector2) -> String:
+	var add_rect := get_add_button_rect()
+	if add_rect.has_point(at_position):
+		return Translator.translate("Create a new tab")
+	
+	var hovered_tab_idx := get_tab_index_at(at_position)
+	if hovered_tab_idx == -1:
+		var backwards_area_rect := get_scroll_backwards_area_rect()
+		if backwards_area_rect.has_area() and backwards_area_rect.has_point(at_position):
+			return Translator.translate("Scroll backwards")
+		
+		var forwards_area_rect := get_scroll_forwards_area_rect()
+		if forwards_area_rect.has_area() and forwards_area_rect.has_point(at_position):
+			return Translator.translate("Scroll forwards")
+		
+		return ""
+	else:
+		# Return tab index as metadata so _make_custom_tooltip can determine the tab even if the mouse moves.
+		return String.num_int64(hovered_tab_idx)
+
+func _make_custom_tooltip(for_text: String) -> Object:
+	if not for_text.is_valid_int():
+		return null
+	
+	var hovered_tab_idx := for_text.to_int()
+	var hovered_tab := Configs.savedata.get_tab(hovered_tab_idx)
+	var is_saved := not hovered_tab.svg_file_path.is_empty()
+	
+	var path := hovered_tab.get_presented_svg_file_path()
+	var label := Label.new()
+	if is_saved:
+		label.begin_bulk_theme_override()
+		label.add_theme_font_override("font", ThemeUtils.mono_font)
+		label.add_theme_font_size_override("font_size", 12)
+		label.end_bulk_theme_override()
+	else:
+		label.add_theme_font_override("font", ThemeUtils.main_font)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.text = path if is_saved else Translator.translate("This SVG is not bound to a file location yet.")
+	Utils.set_max_text_width(label, 200.0, 4.0)
+	
+	# If the tab is active or empty, no need for an SVG preview.
+	if hovered_tab.empty_unsaved or hovered_tab_idx == Configs.savedata.get_active_tab_index():
+		return label
+	
+	var margin_container := MarginContainer.new()
+	var tooltip_panel_stylebox := get_theme_stylebox("panel", "TooltipPanel")
+	margin_container.begin_bulk_theme_override()
+	margin_container.add_theme_constant_override("margin_top", 8 - int(tooltip_panel_stylebox.content_margin_top))
+	margin_container.add_theme_constant_override("margin_bottom", 8 - int(tooltip_panel_stylebox.content_margin_bottom))
+	margin_container.add_theme_constant_override("margin_left", 8 - int(tooltip_panel_stylebox.content_margin_left))
+	margin_container.end_bulk_theme_override()
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 8)
+	var preview_rect := PreviewRectScene.instantiate()
+	hbox.add_child(preview_rect)
+	preview_rect.custom_minimum_size = Vector2(96, 96)
+	preview_rect.size = Vector2.ZERO
+	preview_rect.setup_svg_without_dimensions(FileAccess.get_file_as_string(hovered_tab.get_edited_file_path()))
+	preview_rect.shrink_to_fit(16, 16)
+	hbox.add_child(label)
+	margin_container.add_child(hbox)
+	return margin_container
+
+
+func get_tab_index_at(checked_position: Vector2) -> int:
+	if not get_close_button_rect().has_point(checked_position):
+		for tab_index in Configs.savedata.get_tab_count():
+			var tab_rect := get_tab_rect(tab_index)
+			if tab_rect.has_area() and tab_rect.has_point(checked_position):
+				return tab_index
+	return -1
+
+
+class DragData:
+	var index := -1
+	func _init(new_index: int) -> void:
+		index = new_index
+
+func get_drop_index_at(checked_position: Vector2) -> int:
+	var scroll_backwards_button_width := get_scroll_backwards_area_rect().size.x
+	var scroll_forwards_button_width := get_scroll_forwards_area_rect().size.x
+	
+	if checked_position.x < scroll_backwards_button_width or checked_position.x > size.x - scroll_forwards_button_width - size.y:
+		return -1
+	
+	var first_tab_with_area := 0
+	for idx in Configs.savedata.get_tab_count():
+		if get_tab_rect(idx).has_area():
+			first_tab_with_area = idx
+			break
+	
+	var tab_width := clampf((size.x - size.y - scroll_backwards_button_width - scroll_forwards_button_width) / Configs.savedata.get_tab_count(),
+			MIN_TAB_WIDTH, DEFAULT_TAB_WIDTH)
+	
+	for idx in range(first_tab_with_area, Configs.savedata.get_tab_count()):
+		var tab_rect := get_tab_rect(idx)
+		if not tab_rect.has_area() or tab_width * (idx + 0.5) - current_scroll + scroll_backwards_button_width > checked_position.x:
+			return idx
+	return Configs.savedata.get_tab_count()
+
+func _get_drag_data(at_position: Vector2) -> Variant:
+	var tab_index_at_position := get_tab_index_at(at_position)
+	if tab_index_at_position == -1:
+		return
+	
+	var tab_width := get_tab_rect(tab_index_at_position).size.x
+	# Roughly mimics the tab drawing.
+	var preview := Panel.new()
+	preview.modulate = Color(1, 1, 1, 0.85)
+	preview.custom_minimum_size = Vector2(tab_width, size.y)
+	preview.add_theme_stylebox_override("panel", get_theme_stylebox("tab_selected", "TabContainer"))
+	var label := Label.new()
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS_FORCE
+	label.text = Configs.savedata.get_active_tab().presented_name
+	preview.add_child(label)
+	label.position = Vector2(4, 3)
+	label.size.x = tab_width - 8
+	
+	set_drag_preview(preview)
+	set_process(true)
+	return DragData.new(tab_index_at_position)
+
+func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
+	if not data is DragData:
+		proposed_drop_idx = -1
+		return false
+	var current_drop_idx := get_drop_index_at(at_position)
+	if current_drop_idx in [data.index, data.index + 1]:
+		proposed_drop_idx = -1
+		return false
+	else:
+		proposed_drop_idx = current_drop_idx
+		return true
+
+func _drop_data(at_position: Vector2, data: Variant) -> void:
+	if not data is DragData:
+		return
+	set_process(false)
+	Configs.savedata.move_tab(data.index, get_drop_index_at(at_position))
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_DRAG_END:
+		set_process(false)
+		proposed_drop_idx = -1

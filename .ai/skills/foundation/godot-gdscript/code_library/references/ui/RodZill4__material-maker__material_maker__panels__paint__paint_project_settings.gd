@@ -1,0 +1,37 @@
+# Source:  https://github.com/RodZill4/material-maker/blob/master/material_maker/panels/paint/paint_project_settings.gd
+# Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
+# Commit:  master
+extends Window
+
+var project
+
+func _ready():
+	pass
+
+func _on_Margin_minimum_size_changed():
+	set_size($Margin.get_minimum_size())
+
+func edit_settings(p):
+	project = p
+	var settings : Dictionary = project.get_settings()
+	$Margin/VBox/TextureSize/SizeOptionButton.size_value = settings.texture_size
+	$Margin/VBox/PaintEmission.button_pressed = settings.paint_emission
+	$Margin/VBox/PaintNormal.button_pressed = settings.paint_normal
+	$Margin/VBox/PaintDepth.button_pressed = settings.paint_depth
+	$Margin/VBox/Bump/PaintBump.button_pressed = settings.paint_depth_as_bump
+	$Margin/VBox/Bump/BumpStrength.value = settings.bump_strength
+	popup_centered()
+
+func apply_settings():
+	var settings : Dictionary = {}
+	settings.texture_size = $Margin/VBox/TextureSize/SizeOptionButton.size_value
+	settings.paint_emission = $Margin/VBox/PaintEmission.pressed
+	settings.paint_normal = $Margin/VBox/PaintNormal.pressed
+	settings.paint_depth = $Margin/VBox/PaintDepth.pressed
+	settings.paint_depth_as_bump = $Margin/VBox/Bump/PaintBump.pressed
+	settings.bump_strength = $Margin/VBox/Bump/BumpStrength.value
+	project.set_settings(settings)
+
+func ok():
+	apply_settings()
+	queue_free()

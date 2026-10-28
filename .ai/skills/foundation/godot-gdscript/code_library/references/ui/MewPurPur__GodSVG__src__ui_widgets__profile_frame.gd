@@ -1,0 +1,102 @@
+# Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/profile_frame.gd
+# Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
+# Commit:  main
+# This is similar to SettingFrame, but specifically for dropdowns without a default value.
+extends MarginContainer
+
+const BasicDropdown = preload("res://src/ui_widgets/dropdown_basic.gd")
+
+signal value_changed
+signal defaults_applied
+
+const BasicDropdownScene = preload("res://src/ui_widgets/dropdown_basic.tscn")
+
+var getter: Callable
+var setter: Callable
+var disabled_check_callback: Callable
+var text: String
+
+var ci := get_canvas_item()
+var dropdown: BasicDropdown
+
+var is_hovered := false
+var tooltip_rect := Rect2(NAN, NAN, NAN, NAN)
+
+@onready var button: Button = $HBoxContainer/Button
+@onready var control: Control = $HBoxContainer/Control
+
+func setup_dropdown(values: Array, value_text_map: Dictionary) -> void:
+	dropdown = BasicDropdownScene.instantiate()
+	dropdown.values = values
+	dropdown.value_text_map = value_text_map
+
+func _ready() -> void:
+	Configs.theme_changed.connect(sync_theming)
+	sync_theming()
+	button.text = Translator.translate("Apply")
+	button.tooltip_text = Translator.translate("Apply all of this preset's defaults")
+	control.add_child(dropdown)
+	dropdown.value_changed.connect(_dropdown_modification)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
+	resized.connect(setup_size)
+	dropdown.set_value(getter.call())
+	button_update_disabled()
+	button.pressed.connect(defaults_applied.emit)
+	control.resized.connect(setup_size.call_deferred)
+	setup_size.call_deferred()
+
+func sync_theming() -> void:
+	const CONST_ARR: PackedStringArray = ["normal", "hover", "pressed", "disabled"]
+	for theming in CONST_ARR:
+		var stylebox := get_theme_stylebox(theming, "TranslucentButton").duplicate()
+		stylebox.content_margin_top = 0
+		stylebox.content_margin_bottom = 0
+		button.add_theme_stylebox_override(theming, stylebox)
+
+
+func button_update_disabled() -> void:
+	var should_disable: bool = disabled_check_callback.call()
+	button.disabled = should_disable
+	button.mouse_default_cursor_shape = Control.CURSOR_ARROW if should_disable else Control.CURSOR_POINTING_HAND
+
+func setup_size() -> void:
+	dropdown.position = Vector2(control.size.x - 102, 1)
+	dropdown.size = Vector2(100, 22)
+	queue_redraw()
+
+# value can be String for dropdown or int for enum dropdown.
+func _dropdown_modification(value: Variant) -> void:
+	setter.call(value)
+	dropdown.set_value(getter.call())
+	value_changed.emit()
+
+
+func _on_mouse_entered() -> void:
+	is_hovered = true
+	queue_redraw()
+
+func _on_mouse_exited() -> void:
+	is_hovered = false
+	queue_redraw()
+
+func _draw() -> void:
+	if is_hovered:
+		get_theme_stylebox("hover", "FlatButton").draw(ci, Rect2(Vector2.ZERO, size))
+	
+	var text_width := size.x - button.size.x - dropdown.size.x - 16
+	var text_obj := TextLine.new()
+	text_obj.add_string(text, ThemeUtils.main_font, 13)
+	text_obj.width = text_width
+	text_obj.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS_FORCE
+	text_obj.draw(ci, Vector2(4, 5), ThemeUtils.text_color)
+	
+	if text_width < ThemeUtils.main_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x:
+		tooltip_rect = Rect2(4, 5, text_width, size.y - 10)
+	else:
+		tooltip_rect = Rect2(NAN, NAN, NAN, NAN)
+
+func _get_tooltip(at_position: Vector2) -> String:
+	if tooltip_rect.is_finite() and tooltip_rect.has_point(at_position):
+		return text
+	return ""

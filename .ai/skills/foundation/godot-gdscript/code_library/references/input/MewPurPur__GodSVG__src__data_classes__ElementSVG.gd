@@ -1,0 +1,102 @@
+# Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/data_classes/ElementSVG.gd
+# Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
+# Commit:  main
+## An <svg> element.
+class_name ElementSVG extends Element
+
+# These are important to keep as 64-bit in some situations.
+var width: float
+var height: float
+var precise_viewbox := PackedFloat64Array([0, 0, 0, 0])
+var viewbox := Rect2()
+var viewbox_normalized_diagonal: float
+
+var canvas_transform: Transform2D  # Automatically updated with the precise transform.
+var canvas_precise_transform: PackedFloat64Array:
+	set(new_value):
+		canvas_precise_transform = new_value
+		canvas_transform = Utils64Bit.get_transform(canvas_precise_transform)
+
+const name = "svg"
+const possible_conversions: PackedStringArray = []
+
+func _init() -> void:
+	canvas_precise_transform = PackedFloat64Array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+	attribute_changed.connect(_conditional_update_cache)
+	# If attributes change in an ancestor, it can affect percentage calculations.
+	ancestor_attribute_changed.connect(_conditional_update_cache)
+	super()
+
+func _conditional_update_cache(attribute_name: String) -> void:
+	if attribute_name in ["width", "height", "viewBox"]:
+		update_cache()
+
+func update_cache() -> void:
+	if svg == null and root != self:
+		_set_cached_viewbox(0, 0, 0, 0)
+		return
+	
+	var has_valid_width := has_attribute("width")
+	var has_valid_height := has_attribute("height")
+	var has_valid_viewbox := has_attribute("viewBox")
+	# Return early on invalid input.
+	if not has_valid_viewbox and not (has_valid_width and has_valid_height):
+		width = get_attribute_num("width") if has_valid_width else 0.0
+		height = get_attribute_num("height") if has_valid_height else 0.0
+		_set_cached_viewbox(0, 0, 0, 0)
+		canvas_precise_transform = PackedFloat64Array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+		return
+	
+	# From now on we're sure the input is valid. Cache width and height.
+	if has_valid_width:
+		width = get_attribute_num("width")
+		if not has_valid_height:
+			height = width / get_attribute("viewBox").get_list_element(2) * get_attribute("viewBox").get_list_element(3)
+		else:
+			height = get_attribute_num("height")
+	elif has_valid_height:
+		height = get_attribute_num("height")
+		width = height / get_attribute("viewBox").get_list_element(3) * get_attribute("viewBox").get_list_element(2)
+	else:
+		width = get_attribute("viewBox").get_list_element(2)
+		height = get_attribute("viewBox").get_list_element(3)
+	
+	# Cache viewbox.
+	if has_valid_viewbox and get_attribute("viewBox").get_list_size() >= 4:
+		var viewbox_attrib: AttributeList = get_attribute("viewBox")
+		_set_cached_viewbox(viewbox_attrib.get_list_element(0), viewbox_attrib.get_list_element(1),
+				viewbox_attrib.get_list_element(2), viewbox_attrib.get_list_element(3))
+	else:
+		_set_cached_viewbox(0, 0, get_attribute_num("width"), get_attribute_num("height"))
+	# Cache canvas transform.
+	var width_ratio := width / precise_viewbox[2]
+	var height_ratio := height / precise_viewbox[3]
+	if width_ratio < height_ratio:
+		canvas_precise_transform = PackedFloat64Array([width_ratio, 0.0, 0.0, width_ratio, -precise_viewbox[0] * width_ratio,
+				-precise_viewbox[1] * width_ratio + (height - width_ratio * precise_viewbox[3]) / 2.0])
+	else:
+		canvas_precise_transform = PackedFloat64Array([height_ratio, 0.0, 0.0, height_ratio, -precise_viewbox[0] * height_ratio +\
+				(width - height_ratio * precise_viewbox[2]) / 2, -precise_viewbox[1] * height_ratio])
+	if not canvas_transform.is_finite():
+		canvas_precise_transform = PackedFloat64Array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+
+func _set_cached_viewbox(x: float, y: float, w: float, h: float) -> void:
+	precise_viewbox = PackedFloat64Array([x, y, w, h])
+	viewbox = Rect2(x, y, w, h)
+	viewbox_normalized_diagonal = Vector2(w, h).length() / sqrt(2)
+
+
+func canvas_to_world(position: Vector2) -> Vector2:
+	return canvas_transform * position
+
+func world_to_canvas(position: Vector2) -> Vector2:
+	return canvas_transform.affine_inverse() * position
+
+func world_to_canvas_64_bit(precise_position: PackedFloat64Array) -> PackedFloat64Array:
+	return Utils64Bit.transform_vector_mult(Utils64Bit.get_transform_affine_inverse(canvas_precise_transform), precise_position)
+
+
+func _get_own_default(attribute_name: String) -> String:
+	match attribute_name:
+		"x", "y": return "0"
+		_: return ""

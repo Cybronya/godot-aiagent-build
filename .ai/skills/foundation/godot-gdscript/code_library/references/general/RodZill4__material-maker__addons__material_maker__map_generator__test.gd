@@ -1,0 +1,24 @@
+# Source:  https://github.com/RodZill4/material-maker/blob/master/addons/material_maker/map_generator/test.gd
+# Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
+# Commit:  master
+extends TextureRect
+
+var map_list : Array
+
+func _ready():
+	var s : int = 512
+	get_window().size = Vector2i(s, s)
+	map_list = MMMapGenerator.MAP_DEFINITIONS.keys()
+	$Maps.clear()
+	for map in map_list:
+		$Maps.add_item(map)
+	$Maps.select(0)
+	show_map(map_list[0])
+
+func show_map(map_name : String):
+	var mesh = load("res://material_maker/meshes/suzanne.obj")
+	var t : MMTexture = await MMMapGenerator.get_map(mesh, map_name, 512, true)
+	texture = await t.get_texture()
+
+func _on_maps_item_selected(index):
+	show_map(map_list[index])

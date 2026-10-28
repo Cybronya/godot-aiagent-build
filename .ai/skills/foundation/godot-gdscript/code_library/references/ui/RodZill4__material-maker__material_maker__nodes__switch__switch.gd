@@ -1,0 +1,105 @@
+# Source:  https://github.com/RodZill4/material-maker/blob/master/material_maker/nodes/switch/switch.gd
+# Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
+# Commit:  master
+extends MMGraphNodeGeneric
+
+var fixed_lines : int = 0
+
+func _ready() -> void:
+	super._ready()
+	update_node()
+
+func update_node() -> void:
+	close_button.visible = mm_globals.get_config(SETTINGS_NODE_CLOSE_BUTTON)
+	if generator == null or !generator.parameters.has("outputs") or !generator.parameters.has("choices"):
+		return
+	save_remote_metadata()
+	save_preview_widget()
+	var new_fixed_lines = 3 if generator.editable else 1
+	if new_fixed_lines != fixed_lines:
+		fixed_lines = new_fixed_lines
+		# Remove all lines
+		while get_child_count() > 0:
+			var remove = get_child(0)
+			remove_child(remove)
+			remove.free()
+		var lines_list = []
+		if generator.editable:
+			lines_list.push_back( { name="outputs", tooltip="Outputs count", min=1, max=5 } )
+			lines_list.push_back( { name="choices", tooltip="Choices count", min=2, max=10 } )
+		lines_list.push_back( { name="source", tooltip="Current choice", min=0, max=generator.parameters.choices-1 } )
+		for l in lines_list:
+			var sizer = HBoxContainer.new()
+			var input_label = Label.new()
+			input_label.mouse_filter = Control.MOUSE_FILTER_STOP
+			input_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			sizer.add_child(input_label)
+			sizer.custom_minimum_size.y = get_minimum_line_height()
+			if generator.editable:
+				var param_label = Label.new()
+				param_label.text = l.tooltip
+				sizer.add_child(param_label)
+			var control : HSlider = HSlider.new()
+			control.name = l.name
+			control.value = generator.parameters[l.name]
+			control.min_value = l.min
+			control.max_value = l.max
+			control.step = 1
+			control.custom_minimum_size = Vector2(75, 22)
+			MMGraphNodeRemote.setup_linked_control_callbacks(control, true)
+			restore_remote_metadata(control)
+			if l.has("tooltip"):
+				control.tooltip_text = l.tooltip
+			sizer.add_child(control)
+			control.connect("value_changed", Callable(self, "_on_value_changed").bind(l.name))
+			controls[l.name] = control
+			add_child(sizer)
+	else:
+		# Keep lines with controls
+		while get_child_count() > output_count and get_child_count() > fixed_lines:
+			var remove = get_child(get_child_count()-1)
+			remove_child(remove)
+			remove.free()
+	# Populate the GraphNode
+	var output_count : int = generator.parameters.outputs
+	var input_count : int = output_count * generator.parameters.choices
+	controls["source"].max_value = generator.parameters.choices-1
+	while get_child_count() < input_count:
+		var sizer = HBoxContainer.new()
+		sizer.custom_minimum_size.y = get_minimum_line_height()
+		var input_label = Label.new()
+		input_label.mouse_filter = Control.MOUSE_FILTER_STOP
+		input_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		sizer.add_child(input_label)
+		add_child(sizer)
+	size = Vector2(0, 0)
+	for i in range(get_child_count()):
+		var sizer = get_child(i)
+		var has_input = true
+		var has_output = i < output_count
+		if i >= input_count:
+			sizer.get_child(0).text = ""
+			has_input = false
+		else:
+			@warning_ignore("integer_division")
+			var source : int = i/output_count
+			var label : Label = sizer.get_child(0)
+			label.text = PackedByteArray([65+i%int(output_count)]).get_string_from_ascii()+str(1+source)
+			label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0) if source == generator.parameters.source else Color(0.5, 0.5, 0.5))
+			if label.gui_input.is_connected(_on_input_label_gui_input):
+				label.gui_input.disconnect(_on_input_label_gui_input)
+			label.gui_input.connect(_on_input_label_gui_input.bind(source))
+		set_slot(i, has_input, 42, Color(1.0, 1.0, 1.0, 1.0), has_output, 42, Color(1.0, 1.0, 1.0, 1.0))
+	# Preview
+	restore_preview_widget()
+
+func get_minimum_line_height() -> int:
+	if has_theme_constant("minimum_line_height", "MM_Node"):
+		return get_theme_constant("minimum_line_height", "MM_Node")
+	return 25
+
+func _on_input_label_gui_input(ev : InputEvent, idx : int) -> void:
+	if ev is InputEventMouseButton and ev.button_index == MOUSE_BUTTON_LEFT and ev.pressed:
+		if generator.get_parameter("source") != idx:
+			generator.set_parameter.call_deferred("source", idx)
+		accept_event()

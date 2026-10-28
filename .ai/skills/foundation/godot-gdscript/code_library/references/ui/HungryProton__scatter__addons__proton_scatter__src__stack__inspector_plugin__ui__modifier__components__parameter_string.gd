@@ -1,0 +1,30 @@
+# Source:  https://github.com/HungryProton/scatter/blob/main/addons/proton_scatter/src/stack/inspector_plugin/ui/modifier/components/parameter_string.gd
+# Repo:    HungryProton/scatter (star 3017) | License: MIT | Collected: 2026-10-28
+# Commit:  main
+@tool
+extends "base_parameter.gd"
+
+
+@onready var _label: Label = $Label
+@onready var _line_edit: LineEdit = $MarginContainer/MarginContainer/LineEdit
+
+
+func _ready() -> void:
+	_line_edit.connect("text_entered", _on_value_changed)
+	_line_edit.connect("focus_exited", _on_focus_exited)
+
+
+func set_parameter_name(text: String) -> void:
+	_label.text = text
+
+
+func _set_value(val: String) -> void:
+	_line_edit.text = val
+
+
+func get_value() -> String:
+	return _line_edit.get_text()
+
+
+func _on_focus_exited() -> void:
+	_on_value_changed(get_value())

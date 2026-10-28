@@ -1,0 +1,13 @@
+# Source:  https://github.com/Ark2000/PankuConsole/blob/master/example/main.gd
+# Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
+# Commit:  master
+extends Node2D
+
+func say_hello():
+	print("hello!")
+
+func set_bg_to_blue():
+	RenderingServer.set_default_clear_color(Color("#5b94c6"))
+
+func set_bg_to_white():
+	RenderingServer.set_default_clear_color(Color("#ffffff"))

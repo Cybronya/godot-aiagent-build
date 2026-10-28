@@ -1,0 +1,48 @@
+# Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/presented_shortcut.gd
+# Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
+# Commit:  main
+extends PanelContainer
+
+@onready var label: Label = %MainContainer/Label
+@onready var shortcut_container: HBoxContainer = %ShortcutContainer
+
+var action: String
+
+func _ready() -> void:
+	Configs.language_changed.connect(sync_localization)
+	sync_localization()
+	Configs.shortcuts_changed.connect(check_shortcuts_validity)
+	# Set up shortcut buttons. Nothing on them needs to be localized.
+	var events := InputMap.action_get_events(action)
+	for i in events.size():
+		var new_btn := Button.new()
+		new_btn.custom_minimum_size = Vector2(160, 24)
+		new_btn.size_flags_horizontal = Control.SIZE_FILL
+		new_btn.theme_type_variation = "TranslucentButtonThin"
+		new_btn.focus_mode = Control.FOCUS_NONE
+		new_btn.disabled = true
+		new_btn.text = events[i].as_text_keycode()
+		shortcut_container.add_child(new_btn)
+	check_shortcuts_validity()
+
+func sync_localization() -> void:
+	label.text = TranslationUtils.get_action_description(action)
+
+func check_shortcuts_validity() -> void:
+	var events := InputMap.action_get_events(action)
+	for i in events.size():
+		var shortcut_btn := shortcut_container.get_child(i)
+		if not Configs.savedata.is_shortcut_valid(events[i]):
+			var warning_color := Color(Configs.savedata.basic_color_warning, 0.8)
+			shortcut_btn.add_theme_color_override("font_disabled_color", warning_color)
+			var conflicts := Configs.savedata.get_actions_with_shortcut(events[i])
+			conflicts.erase(action)
+			if conflicts.size() > 8:
+				conflicts.resize(8)
+				conflicts.append("...")
+			for ii in conflicts.size():
+				conflicts[ii] = TranslationUtils.get_action_description(conflicts[ii])
+			shortcut_btn.tooltip_text = Translator.translate("Also used by") + ":\n" + "\n".join(conflicts)
+		else:
+			shortcut_btn.remove_theme_color_override("font_disabled_color")
+			shortcut_btn.tooltip_text = ""

@@ -1,0 +1,162 @@
+@abstract class_name ShortcutUtils
+
+const echoable_actions: PackedStringArray = ["ui_up", "ui_down", "ui_left", "ui_right", "ui_focus_next", "ui_focus_prev"]
+
+# The bool after each action is for whether the action can be modified.
+const _action_categories_dict: Dictionary[String, Dictionary] = {
+	"file": {
+		"import": true,
+		"export": true,
+		"save": true,
+		"save_as": true,
+		"close_tab": true,
+		"close_all_other_tabs": true,
+		"close_tabs_to_left": true,
+		"close_tabs_to_right": true,
+		"close_empty_tabs": true,
+		"close_saved_tabs": true,
+		"new_tab": true,
+		"select_next_tab": true,
+		"select_previous_tab": true,
+		"optimize": true,
+		"copy_svg_text": true,
+		"reset_svg": true,
+		"open_externally": true,
+		"open_in_folder": true,
+	},
+	"edit": {
+		"ui_undo": true,
+		"ui_redo": true,
+		"ui_copy": true,
+		"ui_paste": true,
+		"ui_cut": true,
+		"select_all": true,
+		"duplicate": true,
+		"move_up": true,
+		"move_down": true,
+		"set_as_origin": true,
+		"reverse_order": true,
+		"delete": true,
+		"find": true,
+		"evaluate": true,
+	},
+	"view": {
+		"zoom_in": true,
+		"zoom_out": true,
+		"zoom_reset": true,
+		"toggle_fullscreen": true,
+		"debug": false,
+		"advanced_debug": false,
+		"view_show_grid": true,
+		"view_show_handles": true,
+		"view_rasterized_svg": true,
+		"load_reference": true,
+		"view_show_reference": true,
+		"view_overlay_reference": true,
+	},
+	"tool": {
+		"toggle_snap": true,
+		"add_move": false,
+		"add_line": false,
+		"add_horizontal_line": false,
+		"add_vertical_line": false,
+		"add_closure": false,
+		"add_elliptical_arc": false,
+		"add_quadratic_bezier": false,
+		"add_shorthand_quadratic_bezier": false,
+		"add_cubic_bezier": false,
+		"add_shorthand_cubic_bezier": false,
+	},
+	"help": {
+		"quit": false,
+		"open_settings": true,
+		"about_info": true,
+		"about_donate": true,
+		"about_repo": true,
+		"about_website": true,
+		"check_updates": true,
+	}
+}
+
+static func get_action_icon(action: String) -> DPITexture:
+	match action:
+		"ui_paste": return preload("res://assets/icons/Paste.svg")
+		"ui_cut": return preload("res://assets/icons/Cut.svg")
+		"import": return preload("res://assets/icons/Import.svg")
+		"export": return preload("res://assets/icons/Export.svg")
+		"save", "save_as": return preload("res://assets/icons/Save.svg")
+		"new_tab": return preload("res://assets/icons/CreateTab.svg")
+		"copy_svg_text", "ui_copy": return preload("res://assets/icons/Copy.svg")
+		"optimize": return preload("res://assets/icons/Compress.svg")
+		"reset_svg", "zoom_reset", "check_updates": return preload("res://assets/icons/Reload.svg")
+		"open_externally": return preload("res://assets/icons/OpenFile.svg")
+		"open_in_folder": return preload("res://assets/icons/OpenFolder.svg")
+		"ui_undo": return preload("res://assets/icons/Undo.svg")
+		"ui_redo": return preload("res://assets/icons/Redo.svg")
+		"duplicate": return preload("res://assets/icons/Duplicate.svg")
+		"move_up": return preload("res://assets/icons/MoveUp.svg")
+		"move_down": return preload("res://assets/icons/MoveDown.svg")
+		"set_as_origin": return preload("res://assets/icons/NewOrigin.svg")
+		"reverse_order": return preload("res://assets/icons/Reverse.svg")
+		"delete": return preload("res://assets/icons/Delete.svg")
+		"find": return preload("res://assets/icons/Search.svg")
+		"zoom_in": return preload("res://assets/icons/Plus.svg")
+		"zoom_out": return preload("res://assets/icons/Minus.svg")
+		"debug", "advanced_debug": return preload("res://assets/icons/Debug.svg")
+		"toggle_snap": return preload("res://assets/icons/Snap.svg")
+		"quit": return preload("res://assets/icons/Quit.svg")
+		"open_settings": return preload("res://assets/icons/Gear.svg")
+		"about_donate": return preload("res://assets/icons/Heart.svg")
+		"about_repo", "about_website": return preload("res://assets/icons/Link.svg")
+		"toggle_fullscreen": return preload("res://assets/icons/Expand.svg")
+		"load_reference": return preload("res://assets/icons/Reference.svg")
+		"select_all": return preload("res://assets/icons/SelectAll.svg")
+		"evaluate": return preload("res://assets/icons/Evaluate.svg")
+		_: return preload("res://assets/icons/Placeholder.svg")
+
+static func get_actions(category: String) -> PackedStringArray:
+	return _action_categories_dict[category].keys()
+
+static func get_all_actions() -> PackedStringArray:
+	var shortcuts := PackedStringArray()
+	for category in _action_categories_dict:
+		shortcuts += get_actions(category)
+	return shortcuts
+
+static func is_action_modifiable(shortcut: String) -> bool:
+	for category in _action_categories_dict:
+		if _action_categories_dict[category].has(shortcut):
+			return _action_categories_dict[category][shortcut]
+	return false
+
+static func get_action_showcase_text(action: String) -> String:
+	var shortcut := get_action_first_valid_shortcut(action)
+	if is_instance_valid(shortcut):
+		return shortcut.as_text_keycode()
+	return ""
+
+static func get_action_all_valid_shortcuts(action: String) -> Array[InputEventKey]:
+	var shortcuts: Array[InputEventKey] = []
+	for event in InputMap.action_get_events(action):
+		if event is InputEventKey and is_shortcut_valid(event, action):
+			shortcuts.append(event.duplicate())
+	return shortcuts
+
+static func get_action_first_valid_shortcut(action: String) -> InputEventKey:
+	for event in InputMap.action_get_events(action):
+		if event is InputEventKey and is_shortcut_valid(event, action):
+			return event
+	return null
+
+static func is_shortcut_valid(shortcut: InputEventKey, action: String) -> bool:
+	return not is_action_modifiable(action) or Configs.savedata.is_shortcut_valid(shortcut)
+
+static func is_action_pressed(event: InputEvent, action: String, allow_echo := false) -> bool:
+	# TODO Sometimes MacOS gives us an InputEventAction here. This doesn't happen on my Linux laptop.
+	# I don't know which platform's behavior is the correct one... But it should be handled gracefully.
+	if event is InputEventAction:
+		if event.event_index == -1:
+			# The action has no associated shortcut, so we don't need to check validity.
+			return event.pressed and event.action == action
+		event = InputMap.action_get_events(event.action)[event.event_index]
+	return event.is_action_pressed(action, allow_echo, true) and is_shortcut_valid(event, action)

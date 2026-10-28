@@ -1,0 +1,51 @@
+# Source:  https://github.com/mbrlabs/Lorien/blob/main/lorien/Misc/Types.gd
+# Repo:    mbrlabs/Lorien (star 6865) | License: MIT | Collected: 2026-10-27
+# Commit:  main
+extends Node
+class_name Types
+
+# -------------------------------------------------------------------------------------------------
+enum Tool {
+	BRUSH,
+	RECTANGLE,
+	CIRCLE,
+	LINE,
+	ERASER,
+	SELECT,
+}
+
+# -------------------------------------------------------------------------------------------------
+enum GridPattern {
+	DOTS,
+	LINES,
+	NONE
+}
+
+# -------------------------------------------------------------------------------------------------
+static var UIThemeArray : Array[String] = ["dark", "light"]
+
+# -------------------------------------------------------------------------------------------------
+enum UITheme {
+	DARK,
+	LIGHT
+}
+
+# -------------------------------------------------------------------------------------------------
+enum BrushRoundingType {
+	FLAT = 0,
+	ROUNDED = 1
+}
+
+# -------------------------------------------------------------------------------------------------
+enum UIScale {
+	AUTO,
+	CUSTOM
+}
+
+# -------------------------------------------------------------------------------------------------
+class CanvasInfo:
+	var point_count: int
+	var stroke_count: int
+	var current_pressure: float
+	var selected_lines : int
+	var pen_inverted : bool

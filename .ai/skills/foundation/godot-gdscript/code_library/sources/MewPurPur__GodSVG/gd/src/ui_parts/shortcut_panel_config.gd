@@ -1,0 +1,92 @@
+extends PanelContainer
+
+const BasicDropdown = preload("res://src/ui_widgets/dropdown_basic.gd")
+const ShortcutPanel = preload("res://src/ui_parts/shortcut_panel.gd")
+
+const clear_icon = preload("res://assets/icons/Clear.svg")
+
+const BasicDropdownScene = preload("res://src/ui_widgets/dropdown_basic.tscn")
+
+@onready var close_button: Button = $VBoxContainer/CloseButton
+@onready var slot_container: VBoxContainer = %SlotContainer
+@onready var layout_dropdown: BasicDropdown = %LayoutDropdown
+
+func _ready() -> void:
+	close_button.pressed.connect(queue_free)
+	close_button.text = Translator.translate("Close")
+	%Title.text = Translator.translate("Configure Shortcut Panel")
+	%LayoutLabel.text = Translator.translate("Layout")
+	layout_dropdown.values = range(ShortcutPanel.Layout.size())
+	layout_dropdown.value_text_map = ShortcutPanel.get_preset_value_text_map()
+	layout_dropdown.set_value(Configs.savedata.shortcut_panel_layout)
+	layout_dropdown.value_changed.connect(_on_layout_dropdown_value_changed)
+	update_shortcut_slots()
+
+func update_shortcut_slots() -> void:
+	var shortcut_texts: Dictionary[String, String] = {}  # action: action_description
+	for shortcut in ShortcutUtils.get_all_actions():
+		shortcut_texts[shortcut] = TranslationUtils.get_action_description(shortcut)
+	
+	for child in slot_container.get_children():
+		child.queue_free()
+	
+	for i in range(SaveData.SHORTCUT_PANEL_MAX_SLOTS):
+		var current_shortcut := Configs.savedata.get_shortcut_panel_slot(i)
+		
+		var hbox := HBoxContainer.new()
+		slot_container.add_child(hbox)
+		
+		var icon_presentation := PanelContainer.new()
+		icon_presentation.custom_minimum_size = Vector2(28, 28)
+		if current_shortcut.is_empty():
+			var sb := icon_presentation.get_theme_stylebox("panel").duplicate()
+			sb.border_color.a *= 0.5
+			icon_presentation.add_theme_stylebox_override("panel", sb)
+		else:
+			var icon := TextureRect.new()
+			icon.modulate = ThemeUtils.tinted_contrast_color
+			icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+			icon.texture = ShortcutUtils.get_action_icon(current_shortcut)
+			icon_presentation.add_child(icon)
+		hbox.add_child(icon_presentation)
+		
+		var dropdown := BasicDropdownScene.instantiate()
+		dropdown.custom_minimum_size = Vector2(100, 28)
+		dropdown.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		dropdown.align_left = true
+		dropdown.value_text_map = shortcut_texts
+		dropdown.values = ShortcutUtils.get_all_actions()
+		dropdown.disabled_values = Configs.savedata.get_shortcut_panel_slots().values()
+		dropdown.set_value(current_shortcut, false)
+		dropdown.value_changed.connect(_on_dropdown_value_changed.bind(i))
+		hbox.add_child(dropdown)
+		
+		if current_shortcut.is_empty():
+			var spacer := Control.new()
+			spacer.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			spacer.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			spacer.custom_minimum_size = Vector2(28, 28)
+			hbox.add_child(spacer)
+		else:
+			var clear_button := Button.new()
+			clear_button.theme_type_variation = "FlatButton"
+			clear_button.icon = clear_icon
+			clear_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			clear_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			clear_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			clear_button.custom_minimum_size = Vector2(28, 28)
+			clear_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			clear_button.pressed.connect(_on_clear_button_pressed.bind(i))
+			hbox.add_child(clear_button)
+
+
+func _on_dropdown_value_changed(shortcut: String, slot: int) -> void:
+	Configs.savedata.set_shortcut_panel_slot(slot, shortcut)
+	update_shortcut_slots()
+
+func _on_clear_button_pressed(slot: int) -> void:
+	Configs.savedata.erase_shortcut_panel_slot(slot)
+	update_shortcut_slots()
+
+func _on_layout_dropdown_value_changed(new_value: ShortcutPanel.Layout) -> void:
+	Configs.savedata.shortcut_panel_layout = new_value

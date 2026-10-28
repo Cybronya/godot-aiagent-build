@@ -1,0 +1,220 @@
+@abstract class_name Utils
+
+const IMAGE_FORMATS: PackedStringArray = ["png", "jpg", "jpeg", "jpe", "jfif", "jfi", "jif", "webp", "dds", "svg"]
+const DYNAMIC_FONT_FORMATS: PackedStringArray = ["ttf", "otf", "woff", "woff2", "pfb", "pfm"]
+
+const MAX_NUMERIC_PRECISION = 6
+const MAX_ANGLE_PRECISION = 4
+
+enum InteractionType {NONE = 0, HOVERED = 1, SELECTED = 2, HOVERED_SELECTED = 3}
+enum LayoutPart {NONE, CODE_EDITOR, INSPECTOR, CANVAS, PREVIEWS}
+
+const _LAYOUT_ICONS: Dictionary[LayoutPart, Texture2D] = {
+	LayoutPart.CODE_EDITOR: preload("res://assets/icons/CodeEditor.svg"),
+	LayoutPart.INSPECTOR: preload("res://assets/icons/Inspector.svg"),
+	LayoutPart.CANVAS: preload("res://assets/icons/Canvas.svg"),
+	LayoutPart.PREVIEWS: preload("res://assets/icons/Previews.svg"),
+}
+const _LAYOUT_PLACEHOLDER_ICON = preload("res://assets/icons/Placeholder.svg")
+
+static func get_layout_part_icon(layout_part: LayoutPart) -> Texture2D:
+	return _LAYOUT_ICONS.get(layout_part, _LAYOUT_PLACEHOLDER_ICON)
+
+
+static func num_simple(number: float, decimals := -1) -> String:
+	return String.num(number, decimals).trim_suffix(".0")
+
+static func is_string_upper(string: String) -> bool:
+	return string.to_upper() == string
+
+static func is_string_lower(string: String) -> bool:
+	return string.to_lower() == string
+
+static func get_file_name(string: String) -> String:
+	return string.get_file().trim_suffix("." + string.get_extension())
+
+static func get_lowercase_extension(string: String) -> String:
+	return string.get_extension().to_lower()
+
+## Method for showing the file path without stuff like "/home/mewpurpur/".
+static func simplify_file_path(file_path: String) -> String:
+	var home_dir := get_home_dir()
+	var prefix := "" if home_dir.is_empty() else "~/"
+	if file_path.begins_with(home_dir):
+		return prefix + file_path.trim_prefix(home_dir).trim_prefix("/").trim_prefix("\\")
+	return file_path
+
+## Returns the directory considered home, such as "/home/mewpurpur/".
+static func get_home_dir() -> String:
+	return OS.get_environment("USERPROFILE" if OS.get_name() == "Windows" else "HOME")
+
+
+# Resizes the control to be resized automatically to its text width, up to a maximum.
+# The property name defaults account for most controls that may need to use this.
+static func set_max_text_width(control: Control, max_width: float, buffer: float,
+text_property := "text", font_property := "font", font_size_property := "font_size") -> void:
+	control.custom_minimum_size.x = minf(control.get_theme_font(font_property).get_string_size(control.get(text_property),
+			HORIZONTAL_ALIGNMENT_FILL, -1, control.get_theme_font_size(font_size_property)).x + buffer, max_width)
+
+static func rotate_flat_stylebox_90_left(stylebox: StyleBoxFlat) -> void:
+	var temp1 := stylebox.border_width_left
+	stylebox.border_width_left = stylebox.border_width_top
+	stylebox.border_width_top = stylebox.border_width_right
+	stylebox.border_width_right = stylebox.border_width_bottom
+	stylebox.border_width_bottom = temp1
+	
+	var temp2 := stylebox.corner_radius_bottom_left
+	stylebox.corner_radius_bottom_left = stylebox.corner_radius_top_left
+	stylebox.corner_radius_top_left = stylebox.corner_radius_top_right
+	stylebox.corner_radius_top_right = stylebox.corner_radius_bottom_right
+	stylebox.corner_radius_bottom_right = temp2
+	
+	var temp3 := stylebox.content_margin_left
+	stylebox.content_margin_left = stylebox.content_margin_top
+	stylebox.content_margin_top = stylebox.content_margin_right
+	stylebox.content_margin_right = stylebox.content_margin_bottom
+	stylebox.content_margin_bottom = temp3
+	
+	var temp4 := stylebox.expand_margin_left
+	stylebox.expand_margin_left = stylebox.expand_margin_top
+	stylebox.expand_margin_top = stylebox.expand_margin_right
+	stylebox.expand_margin_right = stylebox.expand_margin_bottom
+	stylebox.expand_margin_bottom = temp4
+
+
+static func get_cubic_bezier_points(cp1: Vector2, cp2: Vector2, cp3: Vector2, cp4: Vector2) -> PackedVector2Array:
+	var curve := Curve2D.new()
+	curve.add_point(cp1, Vector2(), cp2)
+	curve.add_point(cp4, cp3)
+	return curve.tessellate(8, 0.4)
+
+static func get_quadratic_bezier_points(cp1: Vector2, cp2: Vector2, cp3: Vector2) -> PackedVector2Array:
+	return Utils.get_cubic_bezier_points(cp1, 2/3.0 * (cp2 - cp1), 2/3.0 * (cp2 - cp3), cp3)
+
+# Calculate quadratic bezier point coordinate along an axis.
+static func quadratic_bezier_interpolate(p0: float, p1: float, p2: float, t: float) -> float:
+	var u := 1.0 - t
+	return u * u * p0 + 2 * u * t * p1 + t * t * p2
+
+# Ellipse parametric equation.
+static func E(c: Vector2, r: Vector2, cosine: float, sine: float, t: float) -> Vector2:
+	var xt := r.x * cos(t)
+	var yt := r.y * sin(t)
+	return c + Vector2(xt * cosine - yt * sine, xt * sine + yt * cosine)
+
+# Ellipse parametric equation derivative (for tangents).
+static func Et(r: Vector2, cosine: float, sine: float, t: float) -> Vector2:
+	var xt := -r.x * sin(t)
+	var yt := r.y * cos(t)
+	return Vector2(xt * cosine - yt * sine, xt * sine + yt * cosine)
+
+static func is_point_on_segment(point_x: float, point_y: float, start_x: float, start_y: float, end_x: float, end_y: float) -> bool:
+	var point := Vector2(point_x, point_y)
+	var start := Vector2(start_x, start_y)
+	var end := Vector2(end_x, end_y)
+	var start_to_point_distance_squared := start.distance_squared_to(point)
+	if is_zero_approx(start_to_point_distance_squared):
+		return true
+	var end_to_point_distance_squared := end.distance_squared_to(point)
+	if is_zero_approx(end_to_point_distance_squared):
+		return true
+	var start_to_end_distance_squared := start.distance_squared_to(end)
+	if start_to_end_distance_squared < start_to_point_distance_squared or start_to_end_distance_squared < end_to_point_distance_squared:
+		return false
+	return is_equal_approx(fposmod(start.angle_to_point(point), TAU), fposmod(start.angle_to_point(end), TAU))
+
+
+static func is_event_drag(event: InputEvent) -> bool:
+	return event is InputEventMouseMotion and event.button_mask == MOUSE_BUTTON_LEFT
+
+static func is_event_drag_start(event: InputEvent) -> bool:
+	return event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
+
+static func is_event_drag_end(event: InputEvent) -> bool:
+	return event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_released()
+
+static func is_event_drag_cancel(event: InputEvent) -> bool:
+	return event.is_action_pressed("ui_cancel") or event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT
+
+# Used to somewhat prevent unwanted inputs from triggering XNode drag & drop.
+static func mouse_filter_pass_non_drag_events(event: InputEvent) -> Control.MouseFilter:
+	return Control.MOUSE_FILTER_STOP if event is InputEventMouseMotion and event.button_mask == MOUSE_BUTTON_MASK_LEFT else Control.MOUSE_FILTER_PASS
+
+
+static func has_clipboard_web_safe() -> bool:
+	if OS.has_feature("web"):
+		return false
+	return DisplayServer.clipboard_has()
+
+static func get_clipboard_web_safe() -> String:
+	if OS.has_feature("web"):
+		return ""
+	return DisplayServer.clipboard_get()
+
+static func has_clipboard_image_web_safe() -> bool:
+	if OS.has_feature("web"):
+		return false
+	return DisplayServer.clipboard_has_image()
+
+
+# Just enough of a parser to handle app_data.toml
+static func get_app_info() -> Dictionary[String, Variant]:
+	var toml_text := FileAccess.get_file_as_string("res://app_info.toml")
+	var lines := toml_text.split("\n", false)
+	var result: Dictionary[String, Variant]
+	var i := 0
+	
+	while i < lines.size():
+		var line := lines[i].get_slice("#", 0).strip_edges()
+		if line.is_empty():
+			i += 1
+			continue
+		
+		var parts := line.split("=", false, 2)
+		if parts.size() != 2:
+			i += 1
+			continue
+		
+		var key := parts[0].strip_edges()
+		var raw_value := parts[1].strip_edges()
+		
+		if raw_value.begins_with("["):
+			var array_text := ""
+			if raw_value.ends_with("]"):
+				array_text = raw_value.substr(1, raw_value.length() - 2)
+			else:
+				array_text = raw_value.right(-1)
+				while true:
+					i += 1
+					if i >= lines.size():
+						break
+					var next_line := lines[i].get_slice("#", 0).strip_edges()
+					if next_line.ends_with("]"):
+						array_text += " " + next_line.substr(0, next_line.length() - 1)
+						break
+					else:
+						array_text += " " + next_line
+			
+			var elements := array_text.split(",", false)
+			var arr := []
+			for elem in elements:
+				var v := elem.strip_edges()
+				if (v.begins_with('"') and v.ends_with('"')) or (v.begins_with("'") and v.ends_with("'")):
+					arr.append(v.substr(1, v.length() - 2))
+				elif v.is_valid_int():
+					arr.append(v.to_int())
+				elif v.is_valid_float():
+					arr.append(v.to_float())
+			result[key] = arr
+		
+		else:
+			if (raw_value.begins_with('"') and raw_value.ends_with('"')) or (raw_value.begins_with("'") and raw_value.ends_with("'")):
+				result[key] = raw_value.substr(1, raw_value.length() - 2)
+			elif raw_value.is_valid_int():
+				result[key] = raw_value.to_int()
+			elif raw_value.is_valid_float():
+				result[key] = raw_value.to_float()
+		
+		i += 1
+	
+	return result
