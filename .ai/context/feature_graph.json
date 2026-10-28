@@ -9,6 +9,7 @@
     "health",
     "health_bar",
     "hit_flash",
+    "i_frames",
     "moving_platform",
     "openable_door",
     "player_movement",
@@ -139,6 +140,31 @@
     },
     {
       "from": "hit_flash",
+      "to": "screen_shake",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "i_frames",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "i_frames",
+      "to": "hit_flash",
+      "type": "works_with"
+    },
+    {
+      "from": "i_frames",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "i_frames",
+      "to": "cooldown",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "i_frames",
       "to": "screen_shake",
       "type": "commonly_used_with"
     },

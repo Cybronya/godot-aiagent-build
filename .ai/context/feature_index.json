@@ -1,6 +1,6 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-28T10:00:17Z",
+  "generated_at": "2026-10-28T10:12:35Z",
   "features": [
     {
       "id": "chase_movement",
@@ -241,6 +241,8 @@
         "heal",
         "get_current_health",
         "is_dead",
+        "set_invulnerable",
+        "is_invulnerable",
         "max_health",
         "health_changed",
         "died"
@@ -346,6 +348,52 @@
           "enemy",
           "player",
           "trap"
+        ],
+        "requires": [
+          "damage_receiver"
+        ]
+      }
+    },
+    {
+      "id": "i_frames",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "invincibility_frames",
+        "damage_grace_window"
+      ],
+      "requires": [
+        "health_state",
+        "cooldown"
+      ],
+      "interfaces": [
+        "grant",
+        "is_protected",
+        "iframes_on_hit",
+        "duration",
+        "health_path",
+        "protected"
+      ],
+      "signals": [
+        "protected"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/i_frames/test_i_frames.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "hit_flash"
+        ],
+        "commonly_used_with": [
+          "health",
+          "cooldown",
+          "screen_shake"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "player",
+          "enemy"
         ],
         "requires": [
           "damage_receiver"

@@ -1,0 +1,79 @@
+# Feature Metadata: i_frames
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: i_frames
+version: 1
+category: component
+
+summary: 受击无敌帧组件：宿主受伤后自动在 Health 上开启一段无敌窗口，窗口内免伤，到期自动恢复；计时复用 Cooldown，门控复用 Health 无敌门。
+
+provides:
+  - invincibility_frames
+  - damage_grace_window
+
+requires:
+  - health_state   # 门在 Health 上（命名 "Health" 或 health_path 指定）
+  - cooldown       # 窗口计时复用 Cooldown（IFrames.tscn 内置实例）
+
+capabilities: []
+
+interfaces:
+  methods:
+    - name: grant
+      signature: "grant(override_duration := -1.0) -> bool"
+      description: 主动开启无敌窗口；-1（或不传）用 duration 导出值；保护中/无 Health/宿主死亡拒绝（固定窗口不刷新）；返回是否实际生效
+    - name: is_protected
+      signature: "is_protected() -> bool"
+      description: 查询是否处于无敌窗口
+  signals:
+    - name: protected
+      signature: "protected(is_protected: bool)"
+      description: 保护状态跨越时广播（进入 true / 结束 false，幂等）
+  exports:
+    - name: iframes_on_hit
+      type: bool
+      default: true
+      description: 订阅宿主 Health，受击即自动开窗
+    - name: duration
+      type: float
+      default: 0.3
+      description: 单次无敌窗口时长（秒）
+    - name: health_path
+      type: NodePath
+      default: ""
+      description: 宿主 Health 组件路径；为空时按约定查找父节点下 "Health"
+
+ownership:
+  state:
+    - 保护状态（_active）与生命值快照（_last_health）
+  rules:
+    - 门状态归 Health（set_invulnerable），窗口计时归 Cooldown，本组件只做胶水与快照判定
+    - 固定窗口：保护中再次受击/主动 grant 均不刷新时长（与 Stun 长盖短、Cooldown 重启都不同——无敌帧应是确定保护期）
+    - 受击判定走 call_deferred 落地（health_changed 在 _is_dead 置位前发出的时序陷阱，与 Stun/hit_flash 同一套模式）
+    - 治疗不触发；死亡宿主拒绝开窗；移除组件时若在保护中归还门状态（避免永久无敌）
+
+relations:
+  # 依赖 Health 的无敌门（health_state + set_invulnerable）
+  requires: [damage_receiver]
+  works_with:
+    - contact_damage   # 接触伤害源 + 受击开窗 = 经典无敌帧组合
+    - hit_flash        # 受击表现：闪白（视觉）+ 无敌窗（机制）互不越权
+  commonly_used_with:
+    - health
+    - cooldown
+    - screen_shake
+  conflicts: []      # 同一 Health 多实例会争抢门写权，应一 Health 一实例
+  entity_roles:
+    - player
+    - enemy
+
+composition:
+  entry_scene: IFrames.tscn
+  usage: 实例化为带 Health 组件的实体子节点；受击自动开窗，或代码调用 grant(duration)（技能无敌）；窗口内 contact_damage 的攻击会被 Health 门静默拒绝
+  related_features: [health, cooldown, contact_damage, hit_flash]
+
+validation:
+  self_test: test_i_frames.gd
+  command: godot --headless --path . -s res://Features/i_frames/test_i_frames.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

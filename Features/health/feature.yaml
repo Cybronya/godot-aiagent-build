@@ -35,6 +35,12 @@ interfaces:
     - name: is_dead
       signature: "is_dead() -> bool"
       description: 查询死亡状态
+    - name: set_invulnerable
+      signature: "set_invulnerable(value: bool) -> void"
+      description: 开关无敌门；为 true 时 take_damage 静默拒绝（heal 不受影响）；默认 false，由组合组件（如 i_frames）驱动
+    - name: is_invulnerable
+      signature: "is_invulnerable() -> bool"
+      description: 查询无敌门状态
   signals:
     - name: health_changed
       signature: "health_changed(current: int, amount: int)"
@@ -52,9 +58,11 @@ ownership:
   state:
     - 当前生命值
     - 死亡状态
+    - 无敌门状态（_invulnerable；只存当前状态不计时，窗口计时由 i_frames+cooldown 组合负责）
   rules:
     - 死亡后的具体表现（消失、重生、结算等）由订阅 died 的游戏逻辑决定，本组件不实现
     - 死亡后忽略一切后续伤害与恢复（死亡守卫）
+    - 无敌门默认关闭（加性扩展）：关闭时 take_damage 行为与历史完全一致；开门只挡伤害不挡治疗
 
 composition:
   entry_scene: Health.tscn

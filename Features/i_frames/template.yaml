@@ -1,0 +1,27 @@
+# Feature Scene Template: i_frames
+
+feature:
+  id: i_frames
+
+scene:
+  source: IFrames.tscn
+  root_type: Node      # 胶水组件，可挂任意带 Health 的实体
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - IFrames
+    - Cooldown          # 内置 Cooldown 实例负责窗口计时
+
+interfaces:
+  signals:
+    - protected
+
+# 行为证据（Phase 1.49）：触发链 health.take_damage → health_changed →
+# （call_deferred）→ set_invulnerable(true)。协议缺两块：受击快照判定需要
+# 前后两次 take_damage（协议无 iframes.grant 动作、无 health.is_invulnerable
+# 观测）。因此暂不声明 behavior:，自身验证以 test_i_frames.gd（SceneTree
+# 无头测试，走真实 Health 订阅链 + 真实 Cooldown 到期）为准；后续若协议
+# 扩充 health.is_invulnerable 观测与 i_frames.grant 动作，可补行为证据。
