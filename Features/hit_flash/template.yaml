@@ -1,0 +1,26 @@
+# Feature Scene Template: hit_flash
+
+feature:
+  id: hit_flash
+
+scene:
+  source: HitFlash.tscn
+  root_type: Node2D   # 闪白写入宿主 CanvasItem 的 modulate，宿主须为 Node2D 等画布项
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - HitFlash
+
+interfaces:
+  signals:
+    - flashing
+
+# 行为证据（Phase 1.49）：受击触发链 health.take_damage → health_changed →
+# （call_deferred）→ modulate 抬升本可用协议动作表达，但 modulate 不是已登记
+# 观测项（协议只有 node2d.position/displacement 等），信号白名单也未含
+# hit_flash.flashing。因此暂不声明 behavior:，自身验证以
+# test_hit_flash.gd（SceneTree 无头测试，含真实 Health 组件订阅链）为准；
+# 后续若协议扩充 canvas_item.modulate 观测与 flashing 信号，可补行为证据。

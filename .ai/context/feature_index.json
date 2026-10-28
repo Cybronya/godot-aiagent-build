@@ -1,6 +1,6 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-28T00:22:05Z",
+  "generated_at": "2026-10-28T00:29:07Z",
   "features": [
     {
       "id": "chase_movement",
@@ -258,6 +258,52 @@
         ],
         "requires": [
           "health_state"
+        ]
+      }
+    },
+    {
+      "id": "hit_flash",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "hit_flash",
+        "hit_feedback"
+      ],
+      "requires": [
+        "health_state"
+      ],
+      "interfaces": [
+        "flash",
+        "flash_on_hit",
+        "flash_color",
+        "flash_duration",
+        "health_path",
+        "flash_target_path",
+        "flashing"
+      ],
+      "signals": [
+        "flashing"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/hit_flash/test_hit_flash.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "stun"
+        ],
+        "commonly_used_with": [
+          "health",
+          "screen_shake"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy",
+          "player",
+          "trap"
+        ],
+        "requires": [
+          "damage_receiver"
         ]
       }
     },

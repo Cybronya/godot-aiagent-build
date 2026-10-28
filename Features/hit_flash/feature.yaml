@@ -1,0 +1,87 @@
+# Feature Metadata: hit_flash
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: hit_flash
+version: 1
+category: component
+
+summary: 受击闪白组件：宿主生命值下降时把目标 CanvasItem 的 modulate 抬到 flash_color 并线性衰减回基色；受击触发与 API 触发可并存。
+
+provides:
+  - hit_flash
+  - hit_feedback
+
+requires:
+  - health_state   # flash_on_hit 模式需要宿主 Health 组件（命名 "Health" 或 health_path 指定）
+
+capabilities: []   # 挂载目标为引擎 CanvasItem，不在能力词汇表内，无需登记
+
+interfaces:
+  methods:
+    - name: flash
+      signature: "flash(duration := -1.0) -> bool"
+      description: 触发一次闪白；duration<=0 用 flash_duration；返回是否实际生效（错误宿主/死亡/无效时长拒绝）
+  signals:
+    - name: flashing
+      signature: "flashing(is_flashing: bool)"
+      description: 闪白状态跨越时广播（重复触发不重复广播，衰减归零广播 false，幂等）
+  exports:
+    - name: flash_on_hit
+      type: bool
+      default: true
+      description: 订阅宿主 Health，受击（生命值下降）时触发闪白
+    - name: flash_color
+      type: Color
+      default: Color(4, 4, 4)
+      description: 闪白颜色；SDR 下被钳制为白，HDR 2D 下为过曝白
+    - name: flash_duration
+      type: float
+      default: 0.15
+      description: 单次闪白时长（线性衰减回基色）
+    - name: health_path
+      type: NodePath
+      default: ""
+      description: 宿主 Health 组件路径；为空时按约定查找父节点下 "Health"
+    - name: flash_target_path
+      type: NodePath
+      default: ""
+      description: 闪白目标路径；为空时用父节点（须为 CanvasItem）
+
+ownership:
+  state:
+    - 闪白活跃状态、剩余/总时长（_active、_remaining、_total）
+    - 基色快照（_base，_ready 时记录）
+  rules:
+    - 闪白期间独占目标 modulate；移除组件时若仍在闪白则归还基色
+    - 幂等广播：闪白中重复触发不重复发 true；衰减归零恰好发一次 false
+    - 长盖短：时长内再次触发取较大值刷新剩余时长，不提前结束（与 Stun 一致）
+    - 死亡宿主拒绝新闪白；受击判定用 call_deferred 落地（击杀一击的 health_changed
+      在 _is_dead 置位前发出，与 Stun 同一套模式）
+    - 治疗不触发；amount<=0 的无效时长忽略
+    - 用 modulate 而非 shader：任意 CanvasItem 即插即用，不要求材质配置
+
+relations:
+  # flash_on_hit 模式依赖宿主 Health（damage_receiver 能力）
+  requires: [damage_receiver]
+  works_with:
+    - contact_damage
+    - stun          # 受击同时眩晕+闪白，表现叠加
+  commonly_used_with:
+    - health
+    - screen_shake  # 受击反馈组合：实体闪白 + 相机震动
+  conflicts: []     # 同一目标多实例会争抢 modulate，应一目标一实例
+  entity_roles:
+    - enemy
+    - player
+    - trap
+
+composition:
+  entry_scene: HitFlash.tscn
+  usage: 实例化为 CanvasItem 实体（Node2D 等）的子节点；受击自动触发需宿主带 Health 组件，也可代码调用 flash(duration)；与 Health / ContactDamage / ScreenShake 组合
+  related_features: [health, contact_damage, stun, screen_shake]
+
+validation:
+  self_test: test_hit_flash.gd
+  command: godot --headless --path . -s res://Features/hit_flash/test_hit_flash.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

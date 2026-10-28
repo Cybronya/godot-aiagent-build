@@ -7,6 +7,7 @@
     "heal_pickup",
     "health",
     "health_bar",
+    "hit_flash",
     "moving_platform",
     "openable_door",
     "player_movement",
@@ -93,6 +94,26 @@
     {
       "from": "health_bar",
       "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "hit_flash",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "hit_flash",
+      "to": "stun",
+      "type": "works_with"
+    },
+    {
+      "from": "hit_flash",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "hit_flash",
+      "to": "screen_shake",
       "type": "commonly_used_with"
     },
     {
