@@ -1,0 +1,18 @@
+{
+  "full_name": "blackears/cyclopsLevelBuilder",
+  "stars": 1639,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A Godot plugin to let you block in levels inside the Godot editor.",
+  "default_branch": "master",
+  "pushed_at": "2026-10-28T11:27:24Z",
+  "topics": [],
+  "html_url": "https://github.com/blackears/cyclopsLevelBuilder",
+  "branch": "master",
+  "commit_sha": "ea41feaab5dd",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 332,
+  "slug": "blackears__cyclopsLevelBuilder",
+  "commit_sha_full": "ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2",
+  "backfilled_at": "2026-10-29"
+}

@@ -1,0 +1,24 @@
+{
+  "full_name": "lampe-games/godot-open-rts",
+  "stars": 1136,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Open Source RTS game made in Godot 4",
+  "default_branch": "main",
+  "pushed_at": "2025-01-07T19:51:38Z",
+  "topics": [
+    "godot",
+    "godot-engine",
+    "godot-game",
+    "rts",
+    "rts-game"
+  ],
+  "html_url": "https://github.com/lampe-games/godot-open-rts",
+  "branch": "main",
+  "commit_sha": "a628ad3bb6a9",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 126,
+  "slug": "lampe-games__godot-open-rts",
+  "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+  "backfilled_at": "2026-10-29"
+}

@@ -1,0 +1,17 @@
+# Source:  https://github.com/godot-gdunit-labs/gdUnit4/blob/master/addons/gdUnit4/src/core/execution/stages/GdUnitTestSuiteBeforeStage.gd
+# Repo:    godot-gdunit-labs/gdUnit4 (star 1283) | License: MIT | Collected: 2026-10-29
+# Commit:  e031bd413681
+class_name GdUnitTestSuiteBeforeStage
+extends IGdUnitExecutionStage
+## The test suite startup hook implementation.[br]
+## It executes the 'before()' block from the test-suite.
+
+
+func _execute(context: GdUnitExecutionContext) -> void:
+	var test_suite := context.test_suite
+
+	fire_event(GdUnitEvent.new()\
+		.suite_before(context.get_test_suite_path(), test_suite.get_name(), test_suite.get_child_count()))
+
+	@warning_ignore("redundant_await")
+	await test_suite.before()

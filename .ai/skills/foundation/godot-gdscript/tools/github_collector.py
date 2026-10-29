@@ -218,10 +218,20 @@ def _fetch_one(meta: dict, dest: Path) -> None:
             sha = root_name[len(full.rsplit('/', 1)[-1]) + 1:] if root_name else ""
             safe = [m for m in members
                     if not m.name.startswith("/") and ".." not in Path(m.name).parts]
-            tf.extractall(extract_root, members=safe, filter="data")
+            # 逐成员提取：个别仓库存在「同名既是目录又是文件」等怪结构，
+            # 单成员失败只警告跳过，不废掉整个仓库的下载。
+            for m in safe:
+                try:
+                    tf.extract(m, extract_root, filter="data")
+                except Exception as exc:  # noqa: BLE001
+                    print(f"[fetch] WARN 跳过异常成员 {m.name}: {exc}")
         src_root = extract_root / root_name
         count = 0
         for f in sorted(src_root.rglob("*")):
+            if not f.is_file():
+                # 个别仓库存在以 .gd 结尾的目录（如 netfox 的 addons/nohub.gd/），
+                # 不能当作脚本文件复制
+                continue
             rel = f.relative_to(src_root)
             if f.suffix.lower() in GD_SUFFIXES and f.stat().st_size <= MAX_FILE_BYTES:
                 out = gd_dir / _sanitize_rel(rel)
@@ -236,6 +246,15 @@ def _fetch_one(meta: dict, dest: Path) -> None:
             ):
                 shutil.copy2(f, dest / f.name)
     info = dict(meta)
+    # codeload tarball 根名是 <repo>-<branch>，不含 commit sha——
+    # 必须查 API 拿分支头真实 sha（失败回退分支名，backfill-meta 可再兜底）。
+    if not _sha_looks_valid(sha, branch):
+        try:
+            info_json = _http_get_json(
+                f"https://api.github.com/repos/{full}/commits/{branch}", None)
+            sha = info_json["sha"][:12]
+        except Exception as exc:  # noqa: BLE001
+            print(f"[fetch] WARN commit sha 回退为分支名 {branch}: {exc}")
     info.update({
         "branch": branch, "commit_sha": sha, "fetched_at": _now(),
         "gd_file_count": count, "slug": slug,
@@ -285,6 +304,8 @@ def cmd_catalog(args: argparse.Namespace) -> None:
     for repo_dir in repos:
         meta = json.loads((repo_dir / "_meta.json").read_text(encoding="utf-8"))
         for f in sorted((repo_dir / "gd").rglob("*")):
+            if not f.is_file():
+                continue  # 跳过以 .gd 结尾的目录等非文件条目
             if f.suffix.lower() not in GD_SUFFIXES:
                 continue
             rel = f.relative_to(repo_dir / "gd")

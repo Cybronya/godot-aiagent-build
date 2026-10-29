@@ -1,0 +1,31 @@
+{
+  "full_name": "godot-gdunit-labs/gdUnit4",
+  "stars": 1283,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Embedded unit testing framework for Godot 4 supporting GDScript and C#. Features test-driven development, embedded test inspector, extensive assertions, mocking, scene testing.",
+  "default_branch": "master",
+  "pushed_at": "2026-10-27T14:12:06Z",
+  "topics": [
+    "game-development",
+    "gdscript",
+    "gdunit4",
+    "godot4",
+    "mocking",
+    "scene-testing",
+    "test-automation",
+    "testing",
+    "testing-tools",
+    "unit-test",
+    "unittest",
+    "unittest-framework"
+  ],
+  "html_url": "https://github.com/godot-gdunit-labs/gdUnit4",
+  "branch": "master",
+  "commit_sha": "e031bd413681",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 235,
+  "slug": "godot-gdunit-labs__gdUnit4",
+  "commit_sha_full": "e031bd41368135246d1e9bedb4e9556d39cc026f",
+  "backfilled_at": "2026-10-29"
+}

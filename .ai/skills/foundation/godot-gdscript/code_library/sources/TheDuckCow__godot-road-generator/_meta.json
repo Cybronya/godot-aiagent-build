@@ -1,0 +1,27 @@
+{
+  "full_name": "TheDuckCow/godot-road-generator",
+  "stars": 1249,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A Godot plugin for creating 3D highways/streets and lane-following traffic",
+  "default_branch": "main",
+  "pushed_at": "2026-10-25T18:57:54Z",
+  "topics": [
+    "game-development",
+    "gdscript",
+    "godot",
+    "godot-engine",
+    "godot-plugin",
+    "godot4",
+    "procedural-generation",
+    "traffic-simulation"
+  ],
+  "html_url": "https://github.com/TheDuckCow/godot-road-generator",
+  "branch": "main",
+  "commit_sha": "7cbefde04e57",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 36,
+  "slug": "TheDuckCow__godot-road-generator",
+  "commit_sha_full": "7cbefde04e57a84499c5d8ba636c9cb4fd7d22c0",
+  "backfilled_at": "2026-10-29"
+}

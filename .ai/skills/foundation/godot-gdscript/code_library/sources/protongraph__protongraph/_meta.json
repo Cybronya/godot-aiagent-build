@@ -1,0 +1,23 @@
+{
+  "full_name": "protongraph/protongraph",
+  "stars": 1749,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Experimental node-based software for procedural content generation",
+  "default_branch": "main",
+  "pushed_at": "2023-11-23T00:33:30Z",
+  "topics": [
+    "game-development",
+    "godot-engine",
+    "node-graph",
+    "standalone"
+  ],
+  "html_url": "https://github.com/protongraph/protongraph",
+  "branch": "main",
+  "commit_sha": "1e2411a29464",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 167,
+  "slug": "protongraph__protongraph",
+  "commit_sha_full": "1e2411a29464a704cbaae761aaeba441ede4d124",
+  "backfilled_at": "2026-10-29"
+}

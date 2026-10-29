@@ -1,0 +1,22 @@
+{
+  "full_name": "Arnklit/Waterways",
+  "stars": 1342,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A tool to generate river meshes with flow and foam maps based on bezier curves.",
+  "default_branch": "main",
+  "pushed_at": "2025-12-17T03:14:45Z",
+  "topics": [
+    "flowmap",
+    "godot",
+    "river"
+  ],
+  "html_url": "https://github.com/Arnklit/Waterways",
+  "branch": "main",
+  "commit_sha": "cd2e2193fe2c",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 16,
+  "slug": "Arnklit__Waterways",
+  "commit_sha_full": "cd2e2193fe2c7792efb4c35118ade3ad868538b4",
+  "backfilled_at": "2026-10-29"
+}

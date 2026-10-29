@@ -1,0 +1,24 @@
+{
+  "full_name": "hi-godot/godot-ai",
+  "stars": 3268,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Production-grade MCP server and AI tools for the Godot engine. A Snap to install. Totally free and fun.",
+  "default_branch": "main",
+  "pushed_at": "2026-10-28T12:59:34Z",
+  "topics": [
+    "ai",
+    "game-development",
+    "godot",
+    "godot-plugin",
+    "mcp"
+  ],
+  "html_url": "https://github.com/hi-godot/godot-ai",
+  "branch": "main",
+  "commit_sha": "a799acfa49cd",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 258,
+  "slug": "hi-godot__godot-ai",
+  "commit_sha_full": "a799acfa49cd9510738b7976355aae85cf7577b9",
+  "backfilled_at": "2026-10-29"
+}

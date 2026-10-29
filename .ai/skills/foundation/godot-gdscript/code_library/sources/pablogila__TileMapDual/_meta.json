@@ -1,0 +1,22 @@
+{
+  "full_name": "pablogila/TileMapDual",
+  "stars": 1292,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "An automatic, real-time dual-grid tileset system for Godot",
+  "default_branch": "main",
+  "pushed_at": "2026-09-03T17:31:09Z",
+  "topics": [
+    "gamedev",
+    "godot",
+    "tilemap"
+  ],
+  "html_url": "https://github.com/pablogila/TileMapDual",
+  "branch": "main",
+  "commit_sha": "b4dc77500354",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 17,
+  "slug": "pablogila__TileMapDual",
+  "commit_sha_full": "b4dc7750035432fc7ec76076589bed34721cb147",
+  "backfilled_at": "2026-10-29"
+}

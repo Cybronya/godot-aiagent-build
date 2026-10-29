@@ -1,0 +1,27 @@
+# Source:  https://github.com/foxssake/netfox/blob/main/addons/vest/vest-internals.gd
+# Repo:    foxssake/netfox (star 1121) | License: MIT | Collected: 2026-10-29
+# Commit:  cf5189d18e98
+@tool
+extends Object
+
+const Matchers := preload("res://addons/vest/vest-matchers.gd")
+const Serializer := preload("res://addons/vest/vest-data-serializer.gd")
+const LocalSettings := preload("res://addons/vest/vest-local-settings.gd")
+
+const GoToTestCommand := preload("res://addons/vest/commands/go-to-test-command.gd")
+const CreateTestCommand := preload("res://addons/vest/commands/create-test-command.gd")
+const RunTestCommand := preload("res://addons/vest/commands/run-test-command.gd")
+
+const ONLY_DISABLED := 0
+const ONLY_AUTO := 1
+const ONLY_ENABLED := 2
+const ONLY_DEFAULT := ONLY_AUTO
+
+static func create_commands() -> Array[Node]:
+	# TODO: Don't recreate if exists
+	var commands := [
+		GoToTestCommand.new(),
+		CreateTestCommand.new(),
+		RunTestCommand.new()
+	] as Array[Node]
+	return commands

@@ -1,0 +1,43 @@
+# Source:  https://github.com/godot-gdunit-labs/gdUnit4/blob/master/addons/gdUnit4/src/core/execution/stages/GdUnitTestCaseExecutionStage.gd
+# Repo:    godot-gdunit-labs/gdUnit4 (star 1283) | License: MIT | Collected: 2026-10-29
+# Commit:  e031bd413681
+class_name GdUnitTestCaseExecutionStage
+extends IGdUnitExecutionStage
+## The test case execution stage.[br]
+
+var _stage_single_test: IGdUnitExecutionStage = GdUnitTestCaseSingleExecutionStage.new()
+var _stage_fuzzer_test: IGdUnitExecutionStage = GdUnitTestCaseFuzzedExecutionStage.new()
+
+
+## Executes the test case 'test_<name>()'.[br]
+## It executes synchronized following stages[br]
+##  -> test_before() [br]
+##  -> test_case() [br]
+##  -> test_after() [br]
+@warning_ignore("redundant_await")
+func _execute(context: GdUnitExecutionContext) -> void:
+	var test_case := context.test_case
+
+	if GdUnitSettings.is_project_settings_auto_save():
+		context.save_project_settings()
+	context.error_monitor_start()
+
+	if test_case.is_fuzzed():
+		await _stage_fuzzer_test.execute(context)
+	else:
+		await _stage_single_test.execute(context)
+
+	await context.gc()
+	context.error_monitor_stop()
+	if GdUnitSettings.is_project_settings_auto_save():
+		context.restore_project_settings()
+
+	# finally free the test instance
+	if is_instance_valid(context.test_case):
+		context.test_case.dispose()
+
+
+func set_debug_mode(debug_mode: bool = false) -> void:
+	super.set_debug_mode(debug_mode)
+	_stage_single_test.set_debug_mode(debug_mode)
+	_stage_fuzzer_test.set_debug_mode(debug_mode)

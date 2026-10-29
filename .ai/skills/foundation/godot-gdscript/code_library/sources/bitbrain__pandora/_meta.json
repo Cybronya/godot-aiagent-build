@@ -1,0 +1,25 @@
+{
+  "full_name": "bitbrain/pandora",
+  "stars": 1129,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Godot 4 addon for RPG data management such items, inventories, spells, mobs, quests and NPCs.",
+  "default_branch": "godot-4.x",
+  "pushed_at": "2026-08-20T17:22:22Z",
+  "topics": [
+    "data",
+    "godot",
+    "godot4",
+    "godotengine",
+    "management",
+    "rpg"
+  ],
+  "html_url": "https://github.com/bitbrain/pandora",
+  "branch": "godot-4.x",
+  "commit_sha": "fa48e30e6609",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 80,
+  "slug": "bitbrain__pandora",
+  "commit_sha_full": "fa48e30e6609ecd6dbd9edf25e0a26f64deb26a0",
+  "backfilled_at": "2026-10-29"
+}

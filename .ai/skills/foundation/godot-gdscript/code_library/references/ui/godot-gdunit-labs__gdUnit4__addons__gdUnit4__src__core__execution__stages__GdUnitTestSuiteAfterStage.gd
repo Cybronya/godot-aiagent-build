@@ -1,0 +1,31 @@
+# Source:  https://github.com/godot-gdunit-labs/gdUnit4/blob/master/addons/gdUnit4/src/core/execution/stages/GdUnitTestSuiteAfterStage.gd
+# Repo:    godot-gdunit-labs/gdUnit4 (star 1283) | License: MIT | Collected: 2026-10-29
+# Commit:  e031bd413681
+class_name GdUnitTestSuiteAfterStage
+extends IGdUnitExecutionStage
+## The test suite shutdown hook implementation.[br]
+## It executes the 'after()' block from the test-suite.
+
+const GdUnitTools := preload("res://addons/gdUnit4/src/core/GdUnitTools.gd")
+
+
+func _execute(context: GdUnitExecutionContext) -> void:
+	var test_suite := context.test_suite
+
+	@warning_ignore("redundant_await")
+	await test_suite.after()
+	await context.gc(GdUnitExecutionContext.GcOrphansCheck.SUITE_HOOK_AFTER)
+
+	var reports := context.collect_reports(false)
+	var statistics := context.calculate_statistics(reports)
+	fire_event(GdUnitEvent.new()\
+		.suite_after(context.get_test_suite_path(), \
+			test_suite.get_name(),
+			statistics,
+			reports))
+	GdUnitFileAccess.clear_tmp()
+	# Guard that checks if all doubled (spy/mock) objects are released
+	await GdUnitClassDoubler.check_leaked_instances()
+	# we hide the scene/main window after runner is finished
+	if not Engine.is_embedded_in_editor():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)

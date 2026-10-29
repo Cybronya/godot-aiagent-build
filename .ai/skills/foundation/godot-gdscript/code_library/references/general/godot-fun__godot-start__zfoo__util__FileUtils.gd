@@ -1,0 +1,41 @@
+# Source:  https://github.com/godot-fun/godot-start/blob/main/zfoo/util/FileUtils.gd
+# Repo:    godot-fun/godot-start (star 1106) | License: MIT | Collected: 2026-10-29
+# Commit:  115fc06e42f3
+extends Object
+
+const StringUtils = preload("res://zfoo/util/StringUtils.gd")
+
+# 以追加的方式写入一个content
+static func writeStringToFile(filePath: String, content: String) -> void:
+	var file = FileAccess.open(filePath, FileAccess.WRITE)
+	# bread and butter
+	file.store_string(content)
+	file = null
+	pass
+	
+
+# 读取文件
+static func readFileToString(filePath: String) -> String:
+	# make sure our file exists on users system
+	if !FileAccess.file_exists(filePath):
+		return StringUtils.EMPTY
+	
+	# allow reading only for file
+	var file = FileAccess.open(filePath, FileAccess.READ)
+	
+	var content = file.get_as_text()
+	file = null
+	return content
+
+# 读取文件
+static func readFileToByteArray(filePath: String) -> PackedByteArray:
+	# make sure our file exists on users system
+	if !FileAccess.file_exists(filePath):
+		return PackedByteArray()
+	
+	# allow reading only for file
+	var file = FileAccess.open(filePath, FileAccess.READ)
+	
+	var buffer = file.get_buffer(file.get_length())
+	file = null
+	return buffer

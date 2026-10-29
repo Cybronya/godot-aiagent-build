@@ -1,0 +1,31 @@
+# Source:  https://github.com/bitbrain/pandora/blob/godot-4.x/addons/pandora/model/types/int.gd
+# Repo:    bitbrain/pandora (star 1129) | License: MIT | Collected: 2026-10-29
+# Commit:  fa48e30e6609
+extends PandoraPropertyType
+
+const ICON_PATH = "res://addons/pandora/icons/int.svg"
+
+const SETTING_MIN_VALUE = "Min Value"
+const SETTING_MAX_VALUE = "Max Value"
+
+const SETTINGS = {
+	SETTING_MIN_VALUE: {"type": "int", "value": -9999999999},
+	SETTING_MAX_VALUE: {"type": "int", "value": 9999999999}
+}
+
+
+func _init() -> void:
+	super("int", SETTINGS, 0, ICON_PATH)
+
+
+func parse_value(variant: Variant, settings: Dictionary = {}) -> Variant:
+	if variant is float:
+		return int(variant)
+	return variant
+
+
+func is_valid(variant: Variant) -> bool:
+	return variant is int
+
+func is_actual_type(variant: Variant) -> bool:
+	return variant is int

@@ -1,0 +1,24 @@
+{
+  "full_name": "nathanhoad/godot_input_helper",
+  "stars": 1113,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A simple input helper for the Godot Engine",
+  "default_branch": "main",
+  "pushed_at": "2025-06-08T00:04:09Z",
+  "topics": [
+    "addon",
+    "csharp",
+    "gdscript",
+    "godot",
+    "godot4"
+  ],
+  "html_url": "https://github.com/nathanhoad/godot_input_helper",
+  "branch": "main",
+  "commit_sha": "ccfad58f7eea",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 5,
+  "slug": "nathanhoad__godot_input_helper",
+  "commit_sha_full": "ccfad58f7eea997e3d4f0903dcac9212da2b2208",
+  "backfilled_at": "2026-10-29"
+}

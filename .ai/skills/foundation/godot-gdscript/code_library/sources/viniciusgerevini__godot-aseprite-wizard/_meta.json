@@ -1,0 +1,22 @@
+{
+  "full_name": "viniciusgerevini/godot-aseprite-wizard",
+  "stars": 1396,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Godot Editor plugin to help import Aseprite animations to AnimationPlayers, AnimatedSprites and SpriteFrames.",
+  "default_branch": "godot_4",
+  "pushed_at": "2026-08-17T21:12:19Z",
+  "topics": [
+    "animation",
+    "aseprite",
+    "godot"
+  ],
+  "html_url": "https://github.com/viniciusgerevini/godot-aseprite-wizard",
+  "branch": "godot_4",
+  "commit_sha": "18ebea9868ea",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 60,
+  "slug": "viniciusgerevini__godot-aseprite-wizard",
+  "commit_sha_full": "18ebea9868ea567782ae9e53b27ad260dbc8e062",
+  "backfilled_at": "2026-10-29"
+}

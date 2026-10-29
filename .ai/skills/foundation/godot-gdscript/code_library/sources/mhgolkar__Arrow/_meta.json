@@ -1,0 +1,25 @@
+{
+  "full_name": "mhgolkar/Arrow",
+  "stars": 1363,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Game Narrative Design Tool",
+  "default_branch": "main",
+  "pushed_at": "2025-09-05T15:03:54Z",
+  "topics": [
+    "game-design",
+    "game-development",
+    "game-narrative",
+    "interactive-fiction",
+    "interactive-storytelling",
+    "text-adventure"
+  ],
+  "html_url": "https://github.com/mhgolkar/Arrow",
+  "branch": "main",
+  "commit_sha": "5c0291c72e0f",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 106,
+  "slug": "mhgolkar__Arrow",
+  "commit_sha_full": "5c0291c72e0fe1c1ac3024cb68826caa213532ee",
+  "backfilled_at": "2026-10-29"
+}

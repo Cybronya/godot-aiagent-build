@@ -1,0 +1,21 @@
+# Source:  https://github.com/foxssake/netfox/blob/main/addons/vest/measures/value-measure.gd
+# Repo:    foxssake/netfox (star 1121) | License: MIT | Collected: 2026-10-29
+# Commit:  cf5189d18e98
+extends VestMeasure
+
+## Measures the value of a metric, retaining only the last emitted value.
+
+var _value: Variant = null
+
+func _init(p_metric: StringName):
+  super(p_metric)
+
+func get_measure_name() -> String:
+  return "value"
+
+func get_value() -> Variant:
+  return _value
+
+func ingest(value: Variant) -> void:
+  _value = value
+

@@ -1,0 +1,25 @@
+{
+  "full_name": "gdquest-demos/godot-make-pro-2d-games",
+  "stars": 1276,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A-RPG demo made with Godot, MIT-licensed, from our Godot course",
+  "default_branch": "master",
+  "pushed_at": "2021-04-26T01:38:17Z",
+  "topics": [
+    "game",
+    "game-development",
+    "gdscript",
+    "godot",
+    "mit-license",
+    "video-game"
+  ],
+  "html_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games",
+  "branch": "master",
+  "commit_sha": "7290681309ff",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 109,
+  "slug": "gdquest-demos__godot-make-pro-2d-games",
+  "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+  "backfilled_at": "2026-10-29"
+}
