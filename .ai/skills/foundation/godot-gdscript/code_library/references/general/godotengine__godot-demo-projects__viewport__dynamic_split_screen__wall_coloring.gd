@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/viewport/dynamic_split_screen/wall_coloring.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 @tool
 extends Node3D
 ## Sets a random color to all objects in the "walls" group.

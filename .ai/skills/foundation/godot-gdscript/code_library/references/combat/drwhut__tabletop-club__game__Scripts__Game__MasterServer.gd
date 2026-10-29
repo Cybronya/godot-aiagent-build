@@ -1,6 +1,6 @@
 # Source:  https://github.com/drwhut/tabletop-club/blob/master/game/Scripts/Game/MasterServer.gd
 # Repo:    drwhut/tabletop-club (star 1467) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  a4fb379b0f4a
 # tabletop-club
 # Copyright (c) 2020-2026 Benjamin 'drwhut' Beddows
 #

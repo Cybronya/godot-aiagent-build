@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/combat_arena.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## An arena is the editor-configured environment for a battle. It is a Control node that contains 
 ## the combat participants and details (such as background, foreground, music, etc.).
 class_name CombatArena extends Control

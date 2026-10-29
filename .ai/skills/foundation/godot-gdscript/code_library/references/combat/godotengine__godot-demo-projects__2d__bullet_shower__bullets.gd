@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/bullet_shower/bullets.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends Node2D
 # This demo is an example of controlling a high number of 2D objects with logic
 # and collision without using nodes in the scene. This technique is a lot more

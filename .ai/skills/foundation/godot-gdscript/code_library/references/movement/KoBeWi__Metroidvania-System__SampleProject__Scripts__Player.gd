@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/SampleProject/Scripts/Player.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 # This script is based on the default CharacterBody2D template. Not much interesting happening here.
 extends CharacterBody2D
 

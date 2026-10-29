@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/gui/drag_and_drop/drag_drop_script.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends ColorPickerButton
 
 # Returns the data to pass from an object when you click and drag away from

@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Classes/Cels/AudioCel.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 class_name AudioCel
 extends BaseCel
 ## A class for the properties of cels in AudioLayers.

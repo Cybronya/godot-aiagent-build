@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/xr/openxr_binding_modifier_demo/start_vr.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends Node3D
 
 signal focus_lost

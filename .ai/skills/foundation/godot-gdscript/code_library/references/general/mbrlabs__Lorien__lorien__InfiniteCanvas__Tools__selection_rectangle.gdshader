@@ -1,6 +1,6 @@
 # Source:  https://github.com/mbrlabs/Lorien/blob/main/lorien/InfiniteCanvas/Tools/selection_rectangle.gdshader
 # Repo:    mbrlabs/Lorien (star 6865) | License: MIT | Collected: 2026-10-27
-# Commit:  main
+# Commit:  17e32227dfce
 shader_type canvas_item;
 
 uniform vec4 background_color;

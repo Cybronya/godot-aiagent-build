@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/Extensions/ModernMap/SampleProject/Scripts/GenerateAllOverlays.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 @tool
 extends EditorScript
 

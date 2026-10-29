@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/field_camera.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## Specialized camera that is constrained to the [Gameboard]'s boundaries.
 ##
 ## The camera's limits are set dynamically according to the viewport's dimensions. Normally, the

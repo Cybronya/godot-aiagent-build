@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/res/shader/simple_fast_blur.gdshader
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 shader_type canvas_item;
 
 uniform float lod:hint_range(0.0, 5.0) = 0.0;

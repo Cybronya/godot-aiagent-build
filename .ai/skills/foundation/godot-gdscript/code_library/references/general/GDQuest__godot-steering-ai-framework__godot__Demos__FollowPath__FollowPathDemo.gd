@@ -1,6 +1,6 @@
 # Source:  https://github.com/GDQuest/godot-steering-ai-framework/blob/master/godot/Demos/FollowPath/FollowPathDemo.gd
 # Repo:    GDQuest/godot-steering-ai-framework (star 1588) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  9d7cf0deff80
 extends Node
 
 @export_range(0, 2000, 40) var linear_speed_max := 600.0: set = set_linear_speed_max

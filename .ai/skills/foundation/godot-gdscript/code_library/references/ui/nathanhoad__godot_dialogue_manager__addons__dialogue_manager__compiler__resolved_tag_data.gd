@@ -1,6 +1,6 @@
 # Source:  https://github.com/nathanhoad/godot_dialogue_manager/blob/main/addons/dialogue_manager/compiler/resolved_tag_data.gd
 # Repo:    nathanhoad/godot_dialogue_manager (star 3946) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  ebfc3f0cb6e1
 ## Tag data associated with a line of dialogue.
 class_name DMResolvedTagData extends RefCounted
 

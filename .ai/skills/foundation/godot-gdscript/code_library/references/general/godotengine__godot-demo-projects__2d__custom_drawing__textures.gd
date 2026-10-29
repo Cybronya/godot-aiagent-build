@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/custom_drawing/textures.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # This is a `@tool` script so that the custom 2D drawing can be seen in the editor.
 @tool
 extends Panel

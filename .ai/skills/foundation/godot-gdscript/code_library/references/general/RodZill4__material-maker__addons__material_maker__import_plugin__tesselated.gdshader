@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/material_maker/import_plugin/tesselated.gdshader
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 shader_type spatial;
 render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
 uniform vec4 albedo : source_color;

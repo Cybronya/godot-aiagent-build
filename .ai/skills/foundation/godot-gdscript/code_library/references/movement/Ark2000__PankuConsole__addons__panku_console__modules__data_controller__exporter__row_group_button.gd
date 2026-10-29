@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/modules/data_controller/exporter/row_group_button.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 extends Button
 
 @export var unpressed_icon:Texture2D = preload("res://addons/panku_console/res/icons2/chevron_right.svg")

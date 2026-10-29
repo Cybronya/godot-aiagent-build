@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/compound_state.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 @tool
 @icon("compound_state.svg")
 ## A compound state is a state that has multiple sub-states of which exactly one can

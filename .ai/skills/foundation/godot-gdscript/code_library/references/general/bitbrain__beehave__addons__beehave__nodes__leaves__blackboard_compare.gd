@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/leaves/blackboard_compare.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## Compares two values using the specified comparison operator.
 ## Returns [code]FAILURE[/code] if any of the expression fails or the
 ## comparison operation returns [code]false[/code], otherwise it returns [code]SUCCESS[/code].

@@ -1,6 +1,6 @@
 # Source:  https://github.com/nathanhoad/godot_dialogue_manager/blob/main/addons/dialogue_manager/nodes/marker/dialogue_marker_3d.gd
 # Repo:    nathanhoad/godot_dialogue_manager (star 3946) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  ebfc3f0cb6e1
 @icon("uid://bo1hdyjmnjdql")
 
 ## A special marker node that helps locate the in-world representation of the speaking character.

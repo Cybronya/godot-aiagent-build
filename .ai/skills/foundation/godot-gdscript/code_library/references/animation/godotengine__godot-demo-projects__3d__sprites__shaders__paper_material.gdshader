@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/3d/sprites/shaders/paper_material.gdshader
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 shader_type spatial;
 render_mode depth_draw_opaque, cull_disabled, depth_prepass_alpha;
 

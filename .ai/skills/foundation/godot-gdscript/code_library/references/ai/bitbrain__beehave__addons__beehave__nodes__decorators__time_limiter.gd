@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/decorators/time_limiter.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## The Time Limit Decorator will give its `RUNNING` child a set amount of time to finish
 ## before interrupting it and return a `FAILURE` status code.
 ## The timer resets the next time that a child is not `RUNNING`

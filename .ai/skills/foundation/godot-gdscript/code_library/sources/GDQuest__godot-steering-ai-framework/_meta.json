@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1588,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "9d7cf0deff80",
   "fetched_at": "2026-10-26",
   "gd_file_count": 67,
-  "slug": "GDQuest__godot-steering-ai-framework"
+  "slug": "GDQuest__godot-steering-ai-framework",
+  "commit_sha_full": "9d7cf0deff805d8f2a5316c33f3c85cffa3376a7",
+  "backfilled_at": "2026-10-29"
 }

@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/unrecognized_field.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # An editor to be tied to an attribute GodSVG can't recognize, allowing to still edit it.
 extends BetterLineEdit
 

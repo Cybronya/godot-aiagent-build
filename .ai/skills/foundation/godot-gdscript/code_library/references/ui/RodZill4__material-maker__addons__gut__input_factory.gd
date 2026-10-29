@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/input_factory.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 class_name GutInputFactory
 ## Static class full of helper methods to make InputEvent instances.
 ##

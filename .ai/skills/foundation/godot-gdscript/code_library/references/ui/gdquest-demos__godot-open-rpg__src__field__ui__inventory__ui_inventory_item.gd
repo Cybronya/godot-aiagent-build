@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/ui/inventory/ui_inventory_item.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## An inventory item, tracking both it's UI representation and underlying data.
 ## Will be replaced in future iterations of the OpenRPG project.
 ## Please see UIInventory for additional information.

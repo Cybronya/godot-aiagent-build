@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 2502,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "7a061d41ed67",
   "fetched_at": "2026-10-28",
   "gd_file_count": 30,
-  "slug": "KsanaDock__Microverse"
+  "slug": "KsanaDock__Microverse",
+  "commit_sha_full": "7a061d41ed67825496588e39ca37b0b2b7465fb2",
+  "backfilled_at": "2026-10-29"
 }

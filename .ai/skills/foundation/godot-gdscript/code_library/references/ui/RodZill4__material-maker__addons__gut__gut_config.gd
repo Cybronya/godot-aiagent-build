@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/gut_config.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # ##############################################################################
 #
 # This holds all the configuratoin values for GUT.  It can load and save values

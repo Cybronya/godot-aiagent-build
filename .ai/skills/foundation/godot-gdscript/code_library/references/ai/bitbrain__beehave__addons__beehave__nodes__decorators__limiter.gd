@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/decorators/limiter.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## The limiter will execute its `RUNNING` child `x` amount of times. When the number of
 ## maximum ticks is reached, it will return a `FAILURE` status code.
 ## The count resets the next time that a child is not `RUNNING`

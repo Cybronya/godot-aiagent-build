@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/Extensions/ModernMap/SampleProject/Scripts/Game.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 # This is the main script of the game. It manages the current map and some other stuff.
 extends "res://addons/MetroidvaniaSystem/Template/Scripts/MetSysGame.gd"
 class_name Game

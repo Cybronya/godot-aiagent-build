@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Classes/ResourceProject.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 class_name ResourceProject
 extends Project
 ## A class for easily editing individual project sub-resources like tiles, index maps, etc.

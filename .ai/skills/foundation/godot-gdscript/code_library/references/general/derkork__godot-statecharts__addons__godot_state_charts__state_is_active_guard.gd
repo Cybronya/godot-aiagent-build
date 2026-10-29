@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/state_is_active_guard.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 @tool
 @icon("state_is_active_guard.svg")
 ## A guard that checks if a certain state is active.

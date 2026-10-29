@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/dynamic_gdscript.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 @tool
 var default_script_name_no_extension = 'gut_dynamic_script'
 var default_script_resource_path = 'res://addons/gut/not_a_real_file/'

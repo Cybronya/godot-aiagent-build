@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/Extensions/ModernMap/SampleProject/Scripts/Portal.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 # A portal object that transports to another world layer.
 extends Area2D
 # The target map after entering the portal.

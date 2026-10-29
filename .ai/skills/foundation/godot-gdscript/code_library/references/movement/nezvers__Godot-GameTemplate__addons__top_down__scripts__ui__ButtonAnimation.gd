@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/top_down/scripts/ui/ButtonAnimation.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## Handles button state style tweening using AnimatedStyleBoxFlat
 class_name ButtonAnimator
 extends Node

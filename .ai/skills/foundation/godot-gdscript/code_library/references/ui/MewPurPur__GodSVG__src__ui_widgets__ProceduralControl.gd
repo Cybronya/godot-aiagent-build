@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/ProceduralControl.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A control meant to be fully drawn. Such controls often need flat-like buttons, so this control providing a common implementation.
 class_name ProceduralControl extends Control
 

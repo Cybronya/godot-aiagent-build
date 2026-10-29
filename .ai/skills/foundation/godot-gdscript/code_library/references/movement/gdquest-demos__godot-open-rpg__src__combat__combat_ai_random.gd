@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/combat_ai_random.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## The base class responsible for AI-controlled Battlers.
 ##
 ## For now, this simply selects a random [BattlerAction] and picks a random target, if one is

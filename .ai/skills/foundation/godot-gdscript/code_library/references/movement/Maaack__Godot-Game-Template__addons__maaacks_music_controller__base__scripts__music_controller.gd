@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_music_controller/base/scripts/music_controller.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 class_name MusicController
 extends Node
 ## Controller for music playback across scenes.

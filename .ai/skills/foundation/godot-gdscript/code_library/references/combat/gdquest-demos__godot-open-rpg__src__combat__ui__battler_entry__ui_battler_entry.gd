@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/battler_entry/ui_battler_entry.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## An entry in the [UIPlayerBattlerList] for one of the player's [Battler]s.
 class_name UIBattlerEntry extends TextureRect
 

@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/static/Bitwise/Bitwise.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## references:
 ## - https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/
 class_name Bitwise

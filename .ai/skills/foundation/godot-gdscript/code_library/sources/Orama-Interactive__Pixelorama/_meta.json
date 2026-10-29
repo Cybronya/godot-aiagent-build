@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 10855,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "fae9327992f1",
   "fetched_at": "2026-10-27",
   "gd_file_count": 268,
-  "slug": "Orama-Interactive__Pixelorama"
+  "slug": "Orama-Interactive__Pixelorama",
+  "commit_sha_full": "fae9327992f1506f340b920e0fa6515a88298079",
+  "backfilled_at": "2026-10-29"
 }

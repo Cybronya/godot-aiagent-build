@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/summary.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # ------------------------------------------------------------------------------
 # Prints things, mostly.  Knows too much about gut.gd, but it's only supposed to
 # work with gut.gd, so I'm fine with that.

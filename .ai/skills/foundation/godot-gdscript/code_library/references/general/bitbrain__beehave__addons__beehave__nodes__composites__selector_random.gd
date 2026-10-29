@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/composites/selector_random.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## This node will attempt to execute all of its children just like a
 ## [code]SelectorStar[/code] would, with the exception that the children
 ## will be executed in a random order.

@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Resources/dialogic_style.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 @tool
 extends Resource
 class_name DialogicStyle

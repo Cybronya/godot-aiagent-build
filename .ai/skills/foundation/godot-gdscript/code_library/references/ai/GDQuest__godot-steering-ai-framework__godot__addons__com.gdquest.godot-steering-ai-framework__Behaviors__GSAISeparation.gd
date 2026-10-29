@@ -1,6 +1,6 @@
 # Source:  https://github.com/GDQuest/godot-steering-ai-framework/blob/master/godot/addons/com.gdquest.godot-steering-ai-framework/Behaviors/GSAISeparation.gd
 # Repo:    GDQuest/godot-steering-ai-framework (star 1588) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  9d7cf0deff80
 # Calculates an acceleration that repels the agent from its neighbors in the
 # given `GSAIProximity`.
 #

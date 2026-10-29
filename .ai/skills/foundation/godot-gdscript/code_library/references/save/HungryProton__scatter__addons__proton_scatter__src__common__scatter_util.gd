@@ -1,6 +1,6 @@
 # Source:  https://github.com/HungryProton/scatter/blob/main/addons/proton_scatter/src/common/scatter_util.gd
 # Repo:    HungryProton/scatter (star 3017) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7198cc00078e
 extends Node
 
 # To prevent the other core scripts from becoming too large, some of their

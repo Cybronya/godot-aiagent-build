@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_scene_loader/base/nodes/autoloads/scene_loader/scene_loader.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 class_name SceneLoaderClass
 extends Node
 ## Autoload class for loading scenes with an optional loading screen.

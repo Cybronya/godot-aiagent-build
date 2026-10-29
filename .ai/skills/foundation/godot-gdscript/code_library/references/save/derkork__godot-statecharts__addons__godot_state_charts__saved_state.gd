@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/saved_state.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 ## This represents the saved state of a state chart (or a part of it).
 ## It is used to save the state of a state chart to a file and to restore it later.
 ## It is also used in History states.

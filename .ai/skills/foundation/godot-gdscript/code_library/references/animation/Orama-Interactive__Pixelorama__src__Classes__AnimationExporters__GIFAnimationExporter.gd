@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Classes/AnimationExporters/GIFAnimationExporter.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 class_name GIFAnimationExporter
 extends AImgIOBaseExporter
 ## Acts as the interface between the AImgIO format-independent interface and gdgifexporter.

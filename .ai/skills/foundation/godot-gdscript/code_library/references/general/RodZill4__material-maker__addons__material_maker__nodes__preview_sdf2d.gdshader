@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/material_maker/nodes/preview_sdf2d.gdshader
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 uniform float variation = 0.0;
 
 vec4 preview_2d(vec2 uv) {

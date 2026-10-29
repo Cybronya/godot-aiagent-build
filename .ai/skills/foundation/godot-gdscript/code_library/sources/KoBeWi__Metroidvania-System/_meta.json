@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1596,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "0065ae897429",
   "fetched_at": "2026-10-26",
   "gd_file_count": 56,
-  "slug": "KoBeWi__Metroidvania-System"
+  "slug": "KoBeWi__Metroidvania-System",
+  "commit_sha_full": "0065ae8974291d1c4dfe72f55cfca0f37e3d6ef3",
+  "backfilled_at": "2026-10-29"
 }

@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/gamepieces/controllers/gamepiece_controller.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 @tool
 @icon("res://assets/editor/icons/IconGamepieceController.svg")
 class_name GamepieceController extends Node2D

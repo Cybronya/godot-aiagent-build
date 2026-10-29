@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/ui/GlobalSettingsUI.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 extends CanvasLayer
 
 # GlobalSettingsUI - 游戏设置界面管理

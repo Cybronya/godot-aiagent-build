@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/config_classes/ConfigResource.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A resource that implements the very useful changed_deferred signal.
 @abstract class_name ConfigResource extends Resource
 

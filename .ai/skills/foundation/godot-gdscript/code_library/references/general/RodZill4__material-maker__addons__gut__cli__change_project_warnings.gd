@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/cli/change_project_warnings.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 extends SceneTree
 
 var Optparse = load('res://addons/gut/cli/optparse.gd')

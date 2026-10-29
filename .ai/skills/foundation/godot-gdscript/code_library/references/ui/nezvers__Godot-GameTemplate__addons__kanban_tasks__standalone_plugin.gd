@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/kanban_tasks/standalone_plugin.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 #@standalone
 # The line above is needed for standalone detection. Do not modify it.
 @tool

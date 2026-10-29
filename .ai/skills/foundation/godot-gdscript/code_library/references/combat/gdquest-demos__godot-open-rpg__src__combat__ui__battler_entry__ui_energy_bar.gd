@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/battler_entry/ui_energy_bar.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 # Bar representing a [Battler]'s energy points. Each point is a [UIEnergyPoint].
 class_name UIBattlerEnergyBar extends Node
 

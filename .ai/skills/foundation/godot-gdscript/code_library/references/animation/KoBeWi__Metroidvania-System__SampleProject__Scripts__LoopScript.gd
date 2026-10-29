@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/SampleProject/Scripts/LoopScript.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 # Overrides room transitions to create confusing maps. Takes effect when player is inside the area. It has to be placed in the middle of room transition.
 extends Area2D
 

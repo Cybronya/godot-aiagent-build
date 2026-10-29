@@ -1,6 +1,6 @@
 # Source:  https://github.com/ramokz/phantom-camera/blob/main/addons/phantom_camera/scripts/panel/updater/download_update_panel.gd
 # Repo:    ramokz/phantom-camera (star 3640) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  9874dfe68827
 #######################################################################
 # Credit goes to the Dialogue Manager plugin for this script
 # Check it out at: https://github.com/nathanhoad/godot_dialogue_manager

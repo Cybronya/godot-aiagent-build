@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/decorators/until_fail.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## The UntilFail Decorator will return `RUNNING` if its child returns
 ## `SUCCESS` or `RUNNING` or it will return `SUCCESS` if its child returns
 ## `FAILURE`

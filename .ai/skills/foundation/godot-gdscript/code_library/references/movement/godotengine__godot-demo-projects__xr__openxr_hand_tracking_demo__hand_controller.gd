@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/xr/openxr_hand_tracking_demo/hand_controller.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends XRController3D
 
 # Check if we can use our palm pose or should fallback to our grip pose.

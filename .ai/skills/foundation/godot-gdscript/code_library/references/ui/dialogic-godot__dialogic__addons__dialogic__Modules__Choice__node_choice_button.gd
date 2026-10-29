@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Modules/Choice/node_choice_button.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 class_name DialogicNode_ChoiceButton
 extends Button
 ## This button allows the player to make a choice in the Dialogic system.

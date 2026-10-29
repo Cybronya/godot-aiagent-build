@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1495,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "4535092b740b",
   "fetched_at": "2026-10-26",
   "gd_file_count": 6,
-  "slug": "KenneyNL__Starter-Kit-City-Builder"
+  "slug": "KenneyNL__Starter-Kit-City-Builder",
+  "commit_sha_full": "4535092b740b378b700efd9df9e27a631815b84a",
+  "backfilled_at": "2026-10-29"
 }

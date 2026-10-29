@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/Tests/Unit/guess_special_resource_test.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 extends GdUnitTestSuite
 
 ## Check if transition animations can be accessed with "in", "out, "in out"

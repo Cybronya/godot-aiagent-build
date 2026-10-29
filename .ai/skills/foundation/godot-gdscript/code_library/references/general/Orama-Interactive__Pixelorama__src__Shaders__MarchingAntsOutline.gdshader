@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Shaders/MarchingAntsOutline.gdshader
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 // Taken and modified from https://godotshaders.com/shader/2d-outline-inline/
 // Also thanks to https://andreashackel.de/tech-art/stripes-shader-1/ for the stripe tutorial
 shader_type canvas_item;

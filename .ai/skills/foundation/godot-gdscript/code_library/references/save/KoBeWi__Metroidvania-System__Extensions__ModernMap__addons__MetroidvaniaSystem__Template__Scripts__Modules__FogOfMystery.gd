@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/Extensions/ModernMap/addons/MetroidvaniaSystem/Template/Scripts/Modules/FogOfMystery.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## A MetSys module for gradually discovering rooms.
 ##
 ## The module integrates with "overlay" custom element. When player moves within a room, portions of the room surrounding the player will be discovered. The discovered data is stored in your save file.

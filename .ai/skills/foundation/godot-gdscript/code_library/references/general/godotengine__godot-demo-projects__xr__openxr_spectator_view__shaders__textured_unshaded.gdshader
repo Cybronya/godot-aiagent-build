@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/xr/openxr_spectator_view/shaders/textured_unshaded.gdshader
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, unshaded;
 

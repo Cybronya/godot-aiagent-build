@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/scripts/level_and_state_manager.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 extends LevelManager
 
 func set_current_level_path(value : String) -> void:

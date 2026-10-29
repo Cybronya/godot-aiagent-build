@@ -1,6 +1,6 @@
 # Source:  https://github.com/ramokz/phantom-camera/blob/main/addons/phantom_camera/scripts/resources/tween_resource.gd
 # Repo:    ramokz/phantom-camera (star 3640) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  9874dfe68827
 @icon("res://addons/phantom_camera/icons/phantom_camera_tween.svg")
 class_name PhantomCameraTween
 extends Resource

@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/ai/memory/MemoryManager.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 extends Node
 
 # 记忆类型枚举

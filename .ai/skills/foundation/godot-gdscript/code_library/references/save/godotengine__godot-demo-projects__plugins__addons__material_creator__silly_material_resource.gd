@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/plugins/addons/material_creator/silly_material_resource.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 ## Example class that can be imported, exported, loaded, saved, etc, in various ways.
 ##
 ## - To perform an editor import as a `SillyMaterialResource`, the class

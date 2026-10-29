@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Tools/DesignTools/LineTool.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 extends BaseDrawTool
 
 var _original_pos := Vector2i.ZERO

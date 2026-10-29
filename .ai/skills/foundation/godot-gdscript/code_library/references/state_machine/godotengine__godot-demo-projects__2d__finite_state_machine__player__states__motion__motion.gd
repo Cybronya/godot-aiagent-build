@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/finite_state_machine/player/states/motion/motion.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends "res://player/player_state.gd"
 # Collection of important methods to handle direction and animation.
 

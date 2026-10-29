@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/utilities/state_chart_util.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 @tool
 
 ## Finds the first ancestor of the given node which is a state

@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Modules/Background/Transitions/push_transition_shader.gdshader
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 shader_type canvas_item;
 
 uniform vec2 final_offset = vec2(0,-1);

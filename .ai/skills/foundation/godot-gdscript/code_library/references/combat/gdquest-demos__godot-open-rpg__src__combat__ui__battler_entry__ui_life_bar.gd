@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/battler_entry/ui_life_bar.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## An element of the [UIBattlerEntry] that visually shows player [Battler] life points.
 ##
 ## The LifeBar also can show an action icon to demonstrate when the player has queued an action for

@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/console.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 class_name PankuConsole extends CanvasLayer
 # `console.gd` is a global singleton that provides all modules with a common interface
 # you can also use some of its members to interact with the console

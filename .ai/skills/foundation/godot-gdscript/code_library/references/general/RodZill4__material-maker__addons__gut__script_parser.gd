@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/script_parser.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # These methods didn't have flags that would exclude them from being used
 # in a double and they appear to break things if they are included.
 const BLACKLIST = [

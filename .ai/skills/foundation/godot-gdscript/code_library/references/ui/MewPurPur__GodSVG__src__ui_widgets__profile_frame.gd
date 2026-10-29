@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/profile_frame.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # This is similar to SettingFrame, but specifically for dropdowns without a default value.
 extends MarginContainer
 

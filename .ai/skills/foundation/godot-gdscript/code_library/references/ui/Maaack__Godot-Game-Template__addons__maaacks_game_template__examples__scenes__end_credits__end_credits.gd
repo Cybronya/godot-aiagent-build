@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_game_template/examples/scenes/end_credits/end_credits.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 @tool
 extends "res://addons/maaacks_game_template/examples/scenes/credits/scrolling_credits.gd"
 

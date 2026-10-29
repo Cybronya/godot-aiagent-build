@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/GameSaveManager.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 # GameSaveManager.gd - 游戏存档管理器
 # 负责保存和加载游戏中所有角色的数据
 

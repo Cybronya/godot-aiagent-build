@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1623,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "76d226a3efac",
   "fetched_at": "2026-10-26",
   "gd_file_count": 56,
-  "slug": "derkork__godot-statecharts"
+  "slug": "derkork__godot-statecharts",
+  "commit_sha_full": "76d226a3efac66a72aea825382b320c94808f409",
+  "backfilled_at": "2026-10-29"
 }

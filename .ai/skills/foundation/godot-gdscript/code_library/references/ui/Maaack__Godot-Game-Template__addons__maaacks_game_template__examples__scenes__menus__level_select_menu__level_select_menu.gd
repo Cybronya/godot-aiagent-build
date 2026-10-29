@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_game_template/examples/scenes/menus/level_select_menu/level_select_menu.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 extends Control
 
 ## Loads a simple ItemList node within a margin container. SceneLister updates

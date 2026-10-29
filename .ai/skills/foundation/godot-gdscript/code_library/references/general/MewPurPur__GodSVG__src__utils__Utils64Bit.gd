@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/Utils64Bit.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## Vector2 and Transform2D aren't precise enough to have their numbers used directly in the SVG, as they are 32-bit.
 ## GodSVG uses PackedFloat64Array to mock them and this class implements the necessary functionality to make them work.
 @abstract class_name Utils64Bit

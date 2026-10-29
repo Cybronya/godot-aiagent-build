@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Template/Scripts/SaveManager.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## Loads and saves game data.
 ##
 ## Save Manager can save and load game data, i.e. MetSys save data and other game-specific values. The class internally stores the data in a [Dictionary], which is then serialized either in text or binary format. The manager does not support [Object]-based data (although it has special methods for handling [Resource]s).

@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/options_dialog.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # A more complex dialog, with the ability to have any number of arbitrary options, a list, and a checkbox.
 extends PanelContainer
 

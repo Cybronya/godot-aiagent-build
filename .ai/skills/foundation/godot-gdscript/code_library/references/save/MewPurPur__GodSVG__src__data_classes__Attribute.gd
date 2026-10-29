@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/data_classes/Attribute.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## Represents an attribute inside an element, i.e. <element attribute="value"/>.
 ## If the Attribute's data type is known, one of the inheriting classes should be used.
 ## By default uses the editor formatter.

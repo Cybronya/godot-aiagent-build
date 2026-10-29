@@ -1,6 +1,6 @@
 # Source:  https://github.com/GDQuest/godot-steering-ai-framework/blob/master/godot/addons/com.gdquest.godot-steering-ai-framework/GSAIPath.gd
 # Repo:    GDQuest/godot-steering-ai-framework (star 1588) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  9d7cf0deff80
 # Represents a path made up of Vector3 waypoints, split into segments path
 # follow behaviors can use.
 # @category - Base types

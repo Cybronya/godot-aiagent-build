@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/nodes/ResourceNode/ResourceNodeItem.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## Data entry for ResourceNode, because Inspector is not fun.
 class_name ResourceNodeItem
 extends Resource

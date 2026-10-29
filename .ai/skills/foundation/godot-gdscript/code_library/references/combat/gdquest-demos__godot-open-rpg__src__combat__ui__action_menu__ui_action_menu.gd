@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/action_menu/ui_action_menu.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## A menu lists a [Battler]'s [member Battler._actions], allowing the player to select one.
 class_name UIActionMenu extends VBoxContainer
 

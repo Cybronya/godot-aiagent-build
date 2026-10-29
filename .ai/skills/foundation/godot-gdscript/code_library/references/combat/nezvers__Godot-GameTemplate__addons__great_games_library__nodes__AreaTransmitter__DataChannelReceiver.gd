@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/nodes/AreaTransmitter/DataChannelReceiver.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## Handles received transmission preliminary processing on receivers behalf for a certain transmission channel.
 class_name DataChannelReceiver
 extends Node

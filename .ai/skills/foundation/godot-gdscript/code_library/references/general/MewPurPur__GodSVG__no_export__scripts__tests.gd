@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/no_export/scripts/tests.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # Run with Ctrl+Shift+X.
 # A script intended to test sensitive parts of the codebase.
 # This is reserved to things that are easy to test and fairly implementation-agnostic.

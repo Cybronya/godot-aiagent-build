@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/composites/simple_parallel.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## Simple Parallel nodes will attampt to execute all chidren at same time and
 ## can only have exactly two children. First child as primary node, second
 ## child as secondary node.

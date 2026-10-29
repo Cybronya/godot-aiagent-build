@@ -1,6 +1,6 @@
 # Source:  https://github.com/mbrlabs/Lorien/blob/main/lorien/InfiniteCanvas/Cursor/BaseCursor.gd
 # Repo:    mbrlabs/Lorien (star 6865) | License: MIT | Collected: 2026-10-27
-# Commit:  main
+# Commit:  17e32227dfce
 @icon("res://Assets/Icons/cursor_icon.png")
 class_name BaseCursor
 extends Sprite2D

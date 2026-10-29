@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/xr/openxr_spectator_view/shaders/eye_output.gdshader
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 shader_type canvas_item;
 
 uniform sampler2DArray xr_texture : source_color;

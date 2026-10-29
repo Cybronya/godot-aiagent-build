@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Modules/Settings/subsystem_settings.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 extends DialogicSubsystem
 ## Subsystem that allows setting and getting settings that are automatically saved slot independent.
 ##

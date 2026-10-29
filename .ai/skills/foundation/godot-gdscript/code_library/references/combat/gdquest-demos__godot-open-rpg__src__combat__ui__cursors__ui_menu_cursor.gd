@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/cursors/ui_menu_cursor.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## The cursor of a [UIListMenu], indicating which option is currently in focus.
 class_name UIMenuCursor extends Marker2D
 

@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/misc/hdr_output/output_max_linear_value/color_flash.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends MeshInstance3D
 
 @export_range(0, 3, 0.05, "or_less", "or_greater") var fade_time: float = 1.0

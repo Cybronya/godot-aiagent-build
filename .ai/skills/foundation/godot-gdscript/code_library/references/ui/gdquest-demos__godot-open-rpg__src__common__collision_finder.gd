@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/common/collision_finder.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## Find all collision shapes of a given mask within a specified search radius.
 ##
 ## The CollisionFinder is used to search for objects that contain a [CollisionObject2D]. In the 

@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/UI/TopMenuContainer/undo_history_dialog.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 extends AcceptDialog
 
 @onready var item_list: ItemList = $ItemList

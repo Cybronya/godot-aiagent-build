@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/config_classes/PreviewPresentationLossless.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 class_name PreviewPresentationLossless extends PreviewPresentation
 
 func get_presentation_name() -> String:

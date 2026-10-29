@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_scene_loader/base/nodes/loading_screen/loading_screen.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 class_name LoadingScreen
 extends CanvasLayer
 ## Scene for displaying the progress of a loading scene to the player.

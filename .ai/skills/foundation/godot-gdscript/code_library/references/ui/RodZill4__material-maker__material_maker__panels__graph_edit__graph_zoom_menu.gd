@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/material_maker/panels/graph_edit/graph_zoom_menu.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 extends PanelContainer
 
 const SETTING_GRAPH_ZOOM_LEVEL := "graph_zoom_level"

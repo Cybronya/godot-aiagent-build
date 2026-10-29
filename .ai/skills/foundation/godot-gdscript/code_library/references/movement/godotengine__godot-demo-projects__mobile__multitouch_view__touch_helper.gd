@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/mobile/multitouch_view/touch_helper.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # This will track the position of every pointer in its public `state` property, which is a
 # Dictionary, in which each key is a pointer index (integer) and each value its position (Vector2).
 # It works by listening to input events not handled by other means.

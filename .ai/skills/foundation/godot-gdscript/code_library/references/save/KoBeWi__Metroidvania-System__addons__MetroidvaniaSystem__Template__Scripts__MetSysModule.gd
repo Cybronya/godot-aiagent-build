@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Template/Scripts/MetSysModule.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## Module for extending MetSysGame.
 ##
 ## MetSysModule is a simple class that can be added to MetSysGame via [code]add_module()[/code] method. It does not provide any functionality other than having a convenient reference to the game node. It's just a lightweight object that you can easily add to the game scene. Once the module is installed, it will call [code]_initialize()[/code] method, which you can override to do setup. Check code of RoomTransitions and PassageAutomapper for example how to implement a module.

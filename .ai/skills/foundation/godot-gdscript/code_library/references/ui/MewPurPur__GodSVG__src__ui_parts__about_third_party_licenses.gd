@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_parts/about_third_party_licenses.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 extends VBoxContainer
 
 const UNUSED_MODULE_PATHS: PackedStringArray = ["modules/betsy", "modules/godot_physics_2d",

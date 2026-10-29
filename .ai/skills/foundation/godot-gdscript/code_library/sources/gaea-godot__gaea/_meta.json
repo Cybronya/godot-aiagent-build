@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1663,
   "branch": "2.0",
-  "commit_sha": "2.0",
+  "commit_sha": "79461f6491e7",
   "fetched_at": "2026-10-28",
   "gd_file_count": 137,
-  "slug": "gaea-godot__gaea"
+  "slug": "gaea-godot__gaea",
+  "commit_sha_full": "79461f6491e796bc50939babceb14d34f019a588",
+  "backfilled_at": "2026-10-29"
 }

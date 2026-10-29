@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Modules/Glossary/glossary_resource.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 @tool
 ## Resource used to store glossary entries. Can be saved to disc and used as a glossary.
 ## Add/create glossaries fom the glossaries editor

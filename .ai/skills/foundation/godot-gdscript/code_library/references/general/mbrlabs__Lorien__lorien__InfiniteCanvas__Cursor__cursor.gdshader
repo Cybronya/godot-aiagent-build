@@ -1,6 +1,6 @@
 # Source:  https://github.com/mbrlabs/Lorien/blob/main/lorien/InfiniteCanvas/Cursor/cursor.gdshader
 # Repo:    mbrlabs/Lorien (star 6865) | License: MIT | Collected: 2026-10-27
-# Commit:  main
+# Commit:  17e32227dfce
 shader_type canvas_item;
 
 uniform sampler2D SCREEN_TEXTURE: hint_screen_texture, filter_linear_mipmap;

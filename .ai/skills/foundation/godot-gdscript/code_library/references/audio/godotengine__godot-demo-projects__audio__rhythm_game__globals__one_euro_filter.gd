@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/audio/rhythm_game/globals/one_euro_filter.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # Copyright (c) 2023 Patryk Kalinowski (patrykkalinowski.com)
 # SPDX-License-Identifier: MIT
 

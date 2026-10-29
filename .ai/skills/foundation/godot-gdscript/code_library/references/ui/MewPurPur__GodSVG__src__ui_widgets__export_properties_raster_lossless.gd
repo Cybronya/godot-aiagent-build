@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/export_properties_raster_lossless.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 extends VBoxContainer
 
 const ColorEditWithOptions = preload("res://src/ui_widgets/color_edit_with_options.gd")

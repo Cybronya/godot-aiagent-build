@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/actions/battler_action_attack.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 # A sample [BattlerAction] implementation that simulates a direct melee hit.
 class_name AttackBattlerAction extends BattlerAction
 

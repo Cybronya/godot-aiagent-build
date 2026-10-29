@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/LineEditButton.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## An optimized control representing a LineEdit with a button attached to it.
 @icon("res://no_export/class_icons/LineEditButton.svg")
 class_name LineEditButton extends Control

@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/TitledPanel.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # Titled panels have two children: The first is on top and it's the title,
 # the second one is on the bottom and it's the panel.
 @abstract class_name TitledPanel extends Container

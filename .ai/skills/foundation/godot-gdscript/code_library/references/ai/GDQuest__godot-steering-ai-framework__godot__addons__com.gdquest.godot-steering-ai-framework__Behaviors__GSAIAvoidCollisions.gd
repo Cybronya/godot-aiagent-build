@@ -1,6 +1,6 @@
 # Source:  https://github.com/GDQuest/godot-steering-ai-framework/blob/master/godot/addons/com.gdquest.godot-steering-ai-framework/Behaviors/GSAIAvoidCollisions.gd
 # Repo:    GDQuest/godot-steering-ai-framework (star 1588) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  9d7cf0deff80
 # Steers the agent to avoid obstacles in its path. Approximates obstacles as
 # spheres.
 # @category - Group behaviors

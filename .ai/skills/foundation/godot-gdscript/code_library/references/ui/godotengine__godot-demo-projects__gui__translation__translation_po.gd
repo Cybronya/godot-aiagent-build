@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/gui/translation/translation_po.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # For more information on translation using PO files,
 # search Godot's online documentation "Localization using gettext", or visit
 # https://docs.godotengine.org/en/latest/tutorials/i18n/localization_using_gettext.html

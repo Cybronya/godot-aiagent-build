@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/material_maker/panels/preview_3d/environment_menu.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 extends PanelContainer
 
 const SETTING_PREVIEW_CLEAR_BG := "3D_preview_panel_clear_background"

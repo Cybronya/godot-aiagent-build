@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Scripts/MapView.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## Displays a portion of the map on a [CanvasItem].
 ##
 ## [MapView] is a low-level interface for displaying map data. It's very optimized, capable of drawing large maps and update them partially. This is an advanced feature, for basic needs consider using Minimap.tscn.

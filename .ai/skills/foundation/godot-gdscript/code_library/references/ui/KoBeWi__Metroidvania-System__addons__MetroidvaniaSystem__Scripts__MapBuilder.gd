@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Scripts/MapBuilder.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## A class for creating custom cells at runtime.
 ##
 ## MapBuilder is obtained with [method MetroidvaniaSystem.get_map_builder] and can be used for procedural map generation or other use-cases where cells that weren't created in the editor need to be used.

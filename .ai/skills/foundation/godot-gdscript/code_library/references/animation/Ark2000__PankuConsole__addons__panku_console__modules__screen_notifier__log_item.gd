@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/modules/screen_notifier/log_item.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 extends HBoxContainer
 
 var life = 2.0

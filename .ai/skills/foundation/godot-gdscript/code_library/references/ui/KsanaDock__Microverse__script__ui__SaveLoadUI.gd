@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/ui/SaveLoadUI.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 # SaveLoadUI.gd - 存档加载界面
 # 提供游戏存档、读档和删除存档的功能
 

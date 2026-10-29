@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/3d/tonemap_color_correction/neutral_luts/3d/create_neutral_3d_luts.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # This script can be run from the script editor (File > Run or press Ctrl + Shift + X).
 @tool
 extends EditorScript

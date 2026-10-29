@@ -1,6 +1,6 @@
 # Source:  https://github.com/ramokz/phantom-camera/blob/main/addons/phantom_camera/scripts/gizmos/phantom_camera_noise_emitter_gizmo_plugin_3d.gd
 # Repo:    ramokz/phantom-camera (star 3640) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  9874dfe68827
 extends EditorNode3DGizmoPlugin
 
 var _spatial_script: Script = preload("res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_noise_emitter_3d.gd")

@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/UI/Dialogs/HelperScripts/SmartSlicePreview.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 extends Control
 
 ## Add this as a child of the texturerect that contains the main spritesheet

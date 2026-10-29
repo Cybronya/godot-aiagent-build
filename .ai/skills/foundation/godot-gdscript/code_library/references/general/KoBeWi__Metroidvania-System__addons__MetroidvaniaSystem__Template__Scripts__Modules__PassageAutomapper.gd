@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Template/Scripts/Modules/PassageAutomapper.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## A MetSys module that handles discovering room connections.
 ##
 ## The module connects to [signal MetroidvaniaSystem.cell_changed]. Whenever cell changes, the module will check whether the player crossed a border that shoud've been a wall. If it was, a CellOverride will be created to display a passage at this border. This is useful for creating secret rooms with hidden entrances.

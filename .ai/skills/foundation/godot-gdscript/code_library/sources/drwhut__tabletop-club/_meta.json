@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1467,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "a4fb379b0f4a",
   "fetched_at": "2026-10-28",
   "gd_file_count": 57,
-  "slug": "drwhut__tabletop-club"
+  "slug": "drwhut__tabletop-club",
+  "commit_sha_full": "a4fb379b0f4af1f066bf378bd652d8be90d64e32",
+  "backfilled_at": "2026-10-29"
 }

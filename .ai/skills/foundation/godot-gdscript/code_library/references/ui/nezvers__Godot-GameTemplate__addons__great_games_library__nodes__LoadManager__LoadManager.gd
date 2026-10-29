@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/nodes/LoadManager/LoadManager.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## WARNING: Seems to be broken. Sub-resources are failing to load or something.
 ## Load resources with built in threaded loading
 ## Use this as hub for loading resources

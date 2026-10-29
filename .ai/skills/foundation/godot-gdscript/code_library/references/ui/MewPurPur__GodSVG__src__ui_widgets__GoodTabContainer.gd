@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/GoodTabContainer.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A class similar to TabContainer, but more adapted to GodSVG's needs.
 ## It's less configurable, but has the ability to have tabs on the side.
 class_name GoodTabContainer extends Control

@@ -1,6 +1,6 @@
 # Source:  https://github.com/HungryProton/scatter/blob/main/addons/proton_scatter/src/scatter_item.gd
 # Repo:    HungryProton/scatter (star 3017) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7198cc00078e
 @tool
 @icon("../icons/item.svg")
 class_name ProtonScatterItem

@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/serialized_state_chart.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 # This class is used to serialize a state chart to a resource. It is intended 
 # to make it easier to save and load state charts, as well as to transfer them
 # over the network if needed.

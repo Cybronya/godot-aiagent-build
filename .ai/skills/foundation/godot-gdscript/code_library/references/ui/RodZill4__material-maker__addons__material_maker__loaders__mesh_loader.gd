@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/material_maker/loaders/mesh_loader.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 class_name MMMeshLoader
 
 static func get_file_dialog_filters() -> Array[String]:

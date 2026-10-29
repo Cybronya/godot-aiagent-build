@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 3017,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "7198cc00078e",
   "fetched_at": "2026-10-28",
   "gd_file_count": 88,
-  "slug": "HungryProton__scatter"
+  "slug": "HungryProton__scatter",
+  "commit_sha_full": "7198cc00078ebde61307578137c3f35223c6e438",
+  "backfilled_at": "2026-10-29"
 }

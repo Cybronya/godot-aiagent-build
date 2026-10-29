@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/gameboard/gameboard_layer.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## A variation of [TileMapLayer] that is used to create the [Gameboard].
 ##
 ## Comes setup with a few tools used by designers to setup maps, specifying which cells may be

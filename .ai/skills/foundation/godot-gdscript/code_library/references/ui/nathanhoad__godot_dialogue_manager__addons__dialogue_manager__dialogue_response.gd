@@ -1,6 +1,6 @@
 # Source:  https://github.com/nathanhoad/godot_dialogue_manager/blob/main/addons/dialogue_manager/dialogue_response.gd
 # Repo:    nathanhoad/godot_dialogue_manager (star 3946) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  ebfc3f0cb6e1
 ## A response to a line of dialogue, usualy attached to a [code]DialogueLine[/code].
 class_name DialogueResponse extends RefCounted
 

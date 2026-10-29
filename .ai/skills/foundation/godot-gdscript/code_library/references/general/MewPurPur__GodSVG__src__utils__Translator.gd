@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/Translator.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A wrapper around basic TranslationServer methods.
 ## The update_translations.gd script collects strings from all Translator methods used across the codebase.
 @abstract class_name Translator

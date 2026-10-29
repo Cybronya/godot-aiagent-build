@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/UndoRedoRef.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # This class only exists because it's stupid how Godot's UndoRedo extends Object.
 # I mean, every class you're expected to construct is a RefCounted. Objects are used
 # for sitting ducks like singletons and read-only stuff. Except UndoRedo, which is easy

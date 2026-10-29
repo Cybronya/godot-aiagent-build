@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 3946,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "ebfc3f0cb6e1",
   "fetched_at": "2026-10-26",
   "gd_file_count": 57,
-  "slug": "nathanhoad__godot_dialogue_manager"
+  "slug": "nathanhoad__godot_dialogue_manager",
+  "commit_sha_full": "ebfc3f0cb6e146f8b27c76be288157fcde0f0ffc",
+  "backfilled_at": "2026-10-29"
 }

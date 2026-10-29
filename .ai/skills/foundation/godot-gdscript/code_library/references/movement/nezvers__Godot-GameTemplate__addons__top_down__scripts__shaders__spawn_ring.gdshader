@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/top_down/scripts/shaders/spawn_ring.gdshader
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 shader_type canvas_item;
 
 // 1D texture gradient from center for generated circle;

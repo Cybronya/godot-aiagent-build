@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/config_classes/Formatter.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A resource used to determine how to structure the XML and format attribute values.
 ## The various configs are described interactively in the GodSVG settings menu.
 class_name Formatter extends ConfigResource

@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/modules/interactive_shell/console_ui/panku_console_ui.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 extends Control
 
 @onready var _console_logs = $HBoxContainer/Control/VBoxContainer/ConsoleLogs

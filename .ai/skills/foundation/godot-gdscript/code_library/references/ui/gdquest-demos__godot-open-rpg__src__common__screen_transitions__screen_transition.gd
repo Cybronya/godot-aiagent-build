@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/common/screen_transitions/screen_transition.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## A transition (usually between gameplay scenes) in which the screen is hidden behind an opaque
 ## color and then shown again.
 ##

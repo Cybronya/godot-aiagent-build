@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/utilities/editor_debugger/editor_debugger_remote.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 ## This is the remote part of the editor debugger. It attaches to a state
 ## chart similar to the in-game debugger and forwards signals and debug
 ## information to the editor. 

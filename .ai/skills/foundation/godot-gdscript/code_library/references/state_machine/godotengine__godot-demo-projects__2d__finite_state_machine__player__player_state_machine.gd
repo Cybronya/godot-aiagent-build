@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/finite_state_machine/player/player_state_machine.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends "res://state_machine/state_machine.gd"
 
 var PLAYER_STATE = preload("res://player/player_state.gd").PLAYER_STATE

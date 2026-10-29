@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Editor/Settings/CoreSettingsPages/csv_file.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 class_name DialogicCsvFile
 extends RefCounted
 ## Handles translation of a [class DialogicTimeline] to a CSV file.

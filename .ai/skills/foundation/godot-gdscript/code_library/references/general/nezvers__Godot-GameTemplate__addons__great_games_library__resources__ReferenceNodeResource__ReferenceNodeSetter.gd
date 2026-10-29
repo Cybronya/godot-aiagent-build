@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/resources/ReferenceNodeResource/ReferenceNodeSetter.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## Node to act as automatic reference assigner for ReferenceNodeResource.
 class_name ReferenceNodeSetter
 extends Node

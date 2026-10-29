@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/utilities/editor_debugger/editor_debugger_settings_propagator.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 @tool
 ## This node receives messages from the editor debugger and forwards them to the state chart. It
 ## the reverse of EditorDebuggerMessage.

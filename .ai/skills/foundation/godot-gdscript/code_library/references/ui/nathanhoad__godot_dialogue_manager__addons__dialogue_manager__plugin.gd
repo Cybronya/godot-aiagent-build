@@ -1,6 +1,6 @@
 # Source:  https://github.com/nathanhoad/godot_dialogue_manager/blob/main/addons/dialogue_manager/plugin.gd
 # Repo:    nathanhoad/godot_dialogue_manager (star 3946) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  ebfc3f0cb6e1
 @tool
 class_name DMPlugin extends EditorPlugin
 

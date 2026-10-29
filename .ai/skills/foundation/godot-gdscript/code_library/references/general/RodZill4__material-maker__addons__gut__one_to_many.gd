@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/one_to_many.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # ------------------------------------------------------------------------------
 # This datastructure represents a simple one-to-many relationship.  It manages
 # a dictionary of value/array pairs.  It ignores duplicates of both the "one"

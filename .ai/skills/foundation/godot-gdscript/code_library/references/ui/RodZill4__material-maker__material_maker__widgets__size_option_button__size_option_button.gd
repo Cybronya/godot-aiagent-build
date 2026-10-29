@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/material_maker/widgets/size_option_button/size_option_button.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 extends "res://material_maker/widgets/option_edit/option_edit.gd"
 class_name SizeOptionButton
 

@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/gut_fonts.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # ------------------------------------------------------------------------------
 # There was an error that someone found in Godot 4.4.1, but ended up being a
 # different error in Godot 4.5.  The fix was to hold a reference to the font

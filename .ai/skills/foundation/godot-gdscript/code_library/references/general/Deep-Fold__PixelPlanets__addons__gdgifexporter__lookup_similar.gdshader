@@ -1,6 +1,6 @@
 # Source:  https://github.com/Deep-Fold/PixelPlanets/blob/main/addons/gdgifexporter/lookup_similar.gdshader
 # Repo:    Deep-Fold/PixelPlanets (star 1403) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  8ec6ee305527
 shader_type canvas_item;
 render_mode unshaded;
 

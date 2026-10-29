@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/gut_tracked_error.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 class_name GutTrackedError
 ## This contains all the information provided by Godot about an error.
 ## This is also used to represent a GUT error.  See [Logger] for

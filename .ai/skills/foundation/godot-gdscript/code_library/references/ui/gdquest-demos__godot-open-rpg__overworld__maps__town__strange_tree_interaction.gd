@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/overworld/maps/town/strange_tree_interaction.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 # Opens up a secret path once the 'Strange Tree' has been interacted with twice.
 @tool
 extends InteractionTemplateConversation

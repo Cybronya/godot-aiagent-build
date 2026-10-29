@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/ai/APIConfig.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 # APIConfig.gd - API配置管理器
 # 统一管理所有API相关的配置信息，避免硬编码和重复代码
 

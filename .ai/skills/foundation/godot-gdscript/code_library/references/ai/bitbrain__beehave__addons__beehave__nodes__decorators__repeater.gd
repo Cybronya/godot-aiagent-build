@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/decorators/repeater.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## The repeater will execute its child until it returns `SUCCESS` a certain amount of times.
 ## When the number of maximum ticks is reached, it will return a `SUCCESS` status code.
 ## If the child returns `FAILURE`, the repeater will return `FAILURE` immediately.

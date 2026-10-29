@@ -1,6 +1,6 @@
 # Source:  https://github.com/ramokz/phantom-camera/blob/main/addons/phantom_camera/examples/scripts/2D/2d_room_limit_tween.gd
 # Repo:    ramokz/phantom-camera (star 3640) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  9874dfe68827
 extends Node2D
 
 @onready var pcam_room_left: PhantomCamera2D = %RoomLeftPhantomCamera2D

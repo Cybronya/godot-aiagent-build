@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/utilities/editor_debugger/editor_debugger_state_info.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 @tool
 ## Helper class for serializing/deserializing state information from the game
 ## into a format that can be used by the editor.

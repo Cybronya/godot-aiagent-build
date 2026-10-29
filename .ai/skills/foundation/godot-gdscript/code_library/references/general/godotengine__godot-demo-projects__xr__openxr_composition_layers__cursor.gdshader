@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/xr/openxr_composition_layers/cursor.gdshader
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 shader_type canvas_item;
 
 uniform vec3 color : source_color = vec3(1.0, 1.0, 1.0);

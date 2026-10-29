@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/battler_entry/ui_player_battler_list.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## The player battler UI displays information for each player-owned [Battler] in a combat.
 ## These entries may be selected in order to queue actions for the battlers to perform.
 class_name UIPlayerBattlerList extends VBoxContainer

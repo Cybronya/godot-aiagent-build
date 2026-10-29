@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1670,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "d5d8d1588742",
   "fetched_at": "2026-10-26",
   "gd_file_count": 234,
-  "slug": "nezvers__Godot-GameTemplate"
+  "slug": "nezvers__Godot-GameTemplate",
+  "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+  "backfilled_at": "2026-10-29"
 }

@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/leaves/blackboard_erase.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## Erases the specified key from the blackboard.
 ## Returns [code]FAILURE[/code] if expression execution fails, otherwise [code]SUCCESS[/code].
 @tool

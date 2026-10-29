@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/loading/serialization/save_load_config_file.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends Button
 # This script shows how to save data using Godot's custom ConfigFile format.
 # ConfigFile can store any Variant type except Signal or Callable.

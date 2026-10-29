@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/settings_content_palettes.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 extends VBoxContainer
 
 const PaletteConfigWidgetScene = preload("res://src/ui_widgets/palette_config.tscn")

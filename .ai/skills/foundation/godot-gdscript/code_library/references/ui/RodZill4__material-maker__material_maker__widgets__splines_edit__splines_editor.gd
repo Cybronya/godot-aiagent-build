@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/material_maker/widgets/splines_edit/splines_editor.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 @tool
 extends "res://material_maker/widgets/splines_edit/splines_view.gd"
 

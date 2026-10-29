@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/ColorPickerUtils.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 class_name ColorPickerUtils extends RefCounted
 
 const NORMAL_CIRCLE_ERROR_THRESHOLD = 0.01

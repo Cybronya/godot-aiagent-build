@@ -1,6 +1,6 @@
 # Source:  https://github.com/ramokz/phantom-camera/blob/main/addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 # Repo:    ramokz/phantom-camera (star 3640) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  9874dfe68827
 extends Area3D
 
 @export var area_pcam: PhantomCamera3D

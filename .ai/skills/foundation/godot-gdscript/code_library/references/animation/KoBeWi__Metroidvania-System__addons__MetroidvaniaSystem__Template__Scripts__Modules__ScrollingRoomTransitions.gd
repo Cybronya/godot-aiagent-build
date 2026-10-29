@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Template/Scripts/Modules/ScrollingRoomTransitions.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 ## A MetSysModule that handles room transitions, with a scrolling effect.
 ##
 ## This module is the same as RoomTransitions, but includes a scrolling effect (similar to Zelda or Metroid). When the player moves to another room, both previous and next rooms will be visible and the camera will scroll to the new room.

@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_scene_loader/examples/scenes/loading_screens/loading_screen_with_shader_caching.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 extends LoadingScreen
 ## Loading Screen extension that pre-loads shaders before opening the next scene.
 

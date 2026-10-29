@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/ImageExportData.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 # We're not serializing this class at the moment, but its duplicate() method and changed signal are used.
 @abstract class_name ImageExportData extends Resource
 

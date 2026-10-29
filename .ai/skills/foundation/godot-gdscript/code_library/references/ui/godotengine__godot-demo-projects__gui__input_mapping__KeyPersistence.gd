@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/gui/input_mapping/KeyPersistence.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # This is an autoload (singleton) which will save
 # the key maps in a simple way through a dictionary.
 extends Node

@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 6030,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "7d6daae3c74c",
   "fetched_at": "2026-10-28",
   "gd_file_count": 450,
-  "slug": "RodZill4__material-maker"
+  "slug": "RodZill4__material-maker",
+  "commit_sha_full": "7d6daae3c74c09720afe4138ce09699ab3591ce1",
+  "backfilled_at": "2026-10-29"
 }

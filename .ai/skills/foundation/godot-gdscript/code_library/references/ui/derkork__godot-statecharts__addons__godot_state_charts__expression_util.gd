@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/addons/godot_state_charts/expression_util.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 static func evaluate_expression(context:String, state_chart: StateChart, expression: String, default_value:Variant) -> Variant:
 	var the_expression := Expression.new()
 	var input_names := state_chart._expression_properties.keys()

@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/common/player.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## An autoload that provides easy access to the player's state, including both Combat and Field
 ## details.
 ## Reference to the player's party, inventory, and currently active character are found here.

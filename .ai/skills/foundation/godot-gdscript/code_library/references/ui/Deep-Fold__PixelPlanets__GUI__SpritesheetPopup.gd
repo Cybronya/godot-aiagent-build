@@ -1,6 +1,6 @@
 # Source:  https://github.com/Deep-Fold/PixelPlanets/blob/main/GUI/SpritesheetPopup.gd
 # Repo:    Deep-Fold/PixelPlanets (star 1403) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  8ec6ee305527
 extends ColorRect
 
 @onready var w_frames = $PopupFront/VBoxContainer/SpritesheetSettings/VBoxContainer/WidthFrames

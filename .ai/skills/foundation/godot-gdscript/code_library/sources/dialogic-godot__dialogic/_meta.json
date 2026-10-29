@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 6121,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "701b67bbe601",
   "fetched_at": "2026-10-26",
   "gd_file_count": 274,
-  "slug": "dialogic-godot__dialogic"
+  "slug": "dialogic-godot__dialogic",
+  "commit_sha_full": "701b67bbe60114e010476d1685f7de1261091c29",
+  "backfilled_at": "2026-10-29"
 }

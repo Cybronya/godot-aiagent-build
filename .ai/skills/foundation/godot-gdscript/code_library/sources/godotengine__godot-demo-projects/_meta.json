@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 9711,
   "branch": "master",
-  "commit_sha": "master",
+  "commit_sha": "b761b4cd5718",
   "fetched_at": "2026-10-26",
   "gd_file_count": 507,
-  "slug": "godotengine__godot-demo-projects"
+  "slug": "godotengine__godot-demo-projects",
+  "commit_sha_full": "b761b4cd5718a7118f2c95eb55f181d0a5f004f1",
+  "backfilled_at": "2026-10-29"
 }

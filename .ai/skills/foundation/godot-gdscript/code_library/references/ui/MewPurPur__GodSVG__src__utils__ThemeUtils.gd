@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/ThemeUtils.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 @abstract class_name ThemeUtils
 
 static var main_font: FontVariation = preload("res://assets/fonts/MainFont.tres")

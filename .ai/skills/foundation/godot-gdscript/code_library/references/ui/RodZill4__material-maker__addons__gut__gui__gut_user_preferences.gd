@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/gui/gut_user_preferences.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 class GutEditorPref:
 	var gut_pref_prefix = 'gut/'
 	var pname = '__not_set__'

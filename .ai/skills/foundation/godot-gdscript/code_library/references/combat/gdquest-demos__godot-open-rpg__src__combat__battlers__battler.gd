@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/battlers/battler.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## A playable combatant that carries out [BattlerActions] as its [member readiness] charges.
 ##
 ## Battlers are the playable characters or enemies that show up in battle. They have [BattlerStats],

@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/composites/randomized_composite.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## Base class for composite nodes that execute their children in randomized order.
 ## Provides functionality for shuffling children with optional weight-based distribution.
 ## When weights are enabled, children with higher weights have a higher chance of being

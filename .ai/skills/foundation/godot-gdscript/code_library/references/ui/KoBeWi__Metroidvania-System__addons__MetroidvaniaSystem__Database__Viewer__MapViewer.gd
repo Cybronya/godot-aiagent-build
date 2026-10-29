@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Database/Viewer/MapViewer.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 @tool
 extends "res://addons/MetroidvaniaSystem/Database/EditorMapView.gd"#"uid://dpi3c1f5q7s70"
 

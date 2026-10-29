@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Autoload/HTML5FileExchange.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 extends Node
 ## Code taken and modified from https://github.com/Pukkah/HTML5-File-Exchange-for-Godot
 ## Thanks to Pukkah from GitHub for providing the original code

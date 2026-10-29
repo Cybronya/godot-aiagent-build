@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/plugins/addons/material_creator/material_plugin.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 ## A simple (and silly) material resource plugin. Allows you to make a really
 ## simple material from a custom dock, which can be applied to meshes,
 ## saved to files, loaded from files, imported from files, and more.

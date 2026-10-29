@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/gamepieces/gamepiece_registry.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## The GamepieceRegistry keeps track of each [Gamepiece] that is currently placed on the board.
 ##
 ## Since player movement is locked to gameboard cells (rather than physics-based movement), this

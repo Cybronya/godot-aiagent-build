@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Example Assets/bbcode_transitions/bbcode_transition_effect.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 @tool
 class_name DialogicRichTextTransitionEffect
 extends RichTextEffect

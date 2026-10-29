@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/addons/dialogic/Resources/character.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 @tool
 @icon("uid://bbea0efx0ybu7")
 extends "res://addons/dialogic/Resources/dialogic_identifiable_resource.gd"

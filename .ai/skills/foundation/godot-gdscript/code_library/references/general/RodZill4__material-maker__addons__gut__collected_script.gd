@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/collected_script.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # ------------------------------------------------------------------------------
 # This holds all the meta information for a test script.  It contains the
 # name of the inner class and an array of CollectedTests.  This does not parse

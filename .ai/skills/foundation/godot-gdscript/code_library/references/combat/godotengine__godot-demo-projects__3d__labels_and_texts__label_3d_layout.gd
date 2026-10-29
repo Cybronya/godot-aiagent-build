@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/3d/labels_and_texts/label_3d_layout.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # Layout is simulated by adjusting Label3Ds' `offset` properties.
 # This can be done in the inspector, or via code with the help of `Font.get_string_size()`.
 # For proper billboard behavior, Label3D's `offset` property

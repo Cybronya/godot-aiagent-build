@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/viewport/split_screen_input/sub_viewport_container.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 ## Input Routing for different SubViewports.
 ## Based on the provided input configuration, ensures only the correct
 ## events reaching the SubViewport.

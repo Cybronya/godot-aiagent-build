@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/material_maker/sdf_builder/sdf2d/alter/flip.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 extends "res://addons/material_maker/sdf_builder/sdf2d/boolean/union.gd"
 
 func _ready():

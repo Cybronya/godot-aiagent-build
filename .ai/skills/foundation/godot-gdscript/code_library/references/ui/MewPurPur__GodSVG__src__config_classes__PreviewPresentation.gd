@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/config_classes/PreviewPresentation.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A resource passed to ElementRoot.optimize() to determine configs.
 @abstract class_name PreviewPresentation extends ConfigResource
 

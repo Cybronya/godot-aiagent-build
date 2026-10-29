@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/common/lynx_window2/lynx_windows_manager_2.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 #A simple control node managing its child windows
 class_name PankuLynxWindowsManager extends Control
 

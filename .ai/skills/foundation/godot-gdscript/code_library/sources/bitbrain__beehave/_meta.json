@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 3312,
   "branch": "godot-4.x",
-  "commit_sha": "godot-4.x",
+  "commit_sha": "fe589153fa78",
   "fetched_at": "2026-10-26",
   "gd_file_count": 46,
-  "slug": "bitbrain__beehave"
+  "slug": "bitbrain__beehave",
+  "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+  "backfilled_at": "2026-10-29"
 }

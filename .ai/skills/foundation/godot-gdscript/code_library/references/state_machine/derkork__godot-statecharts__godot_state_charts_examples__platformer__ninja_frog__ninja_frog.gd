@@ -1,6 +1,6 @@
 # Source:  https://github.com/derkork/godot-statecharts/blob/main/godot_state_charts_examples/platformer/ninja_frog/ninja_frog.gd
 # Repo:    derkork/godot-statecharts (star 1623) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  76d226a3efac
 extends CharacterBody2D
 
 ## Emitted when this node is clicked with a mouse 

@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/ui/SaveLoadUIManager.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 # SaveLoadUIManager.gd - 存档加载界面管理器
 # 作为CanvasLayer类型的UI，用于在游戏中显示存档界面
 

@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/resources/ReferenceNodeResource/ReferenceNodeResource.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 ## Resource to reference a Node and receive notification when the reference is changed.
 class_name ReferenceNodeResource
 extends Resource

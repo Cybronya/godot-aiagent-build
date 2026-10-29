@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/decorators/delayer.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## The Delay Decorator will return 'RUNNING' for a set amount of time
 ## before executing its child.
 ## The timer resets when both it and its child are not `RUNNING`

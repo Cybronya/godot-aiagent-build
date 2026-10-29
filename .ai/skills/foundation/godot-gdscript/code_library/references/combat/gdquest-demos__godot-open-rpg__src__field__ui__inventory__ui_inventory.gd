@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/ui/inventory/ui_inventory.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## An exceptionally simple item inventory that tracks which items the player has picked up.
 ## Normally, inventory design would be more complex. In particular, you would want to separate the
 ## inventory data structures from the UI implementation, as should be done in a future update to

@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 1709,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "5cc611f7dfcd",
   "fetched_at": "2026-10-26",
   "gd_file_count": 127,
-  "slug": "Maaack__Godot-Game-Template"
+  "slug": "Maaack__Godot-Game-Template",
+  "commit_sha_full": "5cc611f7dfcd1850f0f5877c8315dd59a0388938",
+  "backfilled_at": "2026-10-29"
 }

@@ -1,6 +1,6 @@
 # Source:  https://github.com/RodZill4/material-maker/blob/master/addons/gut/result_exporter.gd
 # Repo:    RodZill4/material-maker (star 6030) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  7d6daae3c74c
 # ------------------------------------------------------------------------------
 # Creates a structure that contains all the data about the results of running
 # tests.  This was created to make an intermediate step organizing the result

@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/plugins/addons/material_creator/editor/importers/import_silly_material.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 ## Imports a `.silly_mat_importable` as a SillyMaterialResource.
 ## This class needs to be registered in the EditorPlugin to be used.
 ##

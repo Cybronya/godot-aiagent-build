@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/src/Shaders/Effects/Rotation/OmniScale.gdshader
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 // No AA version from https://github.com/deakcor/godot-omniscale/blob/5dfee6e89cd955dd01dccfe70c9979f9b55bb1bf/OmniScale.shader
 // Edited slightly by Overloaded to add rotation support for Pixelorama
 shader_type canvas_item;

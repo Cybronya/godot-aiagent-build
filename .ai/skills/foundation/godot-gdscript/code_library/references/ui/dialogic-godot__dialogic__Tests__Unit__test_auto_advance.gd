@@ -1,6 +1,6 @@
 # Source:  https://github.com/dialogic-godot/dialogic/blob/main/Tests/Unit/test_auto_advance.gd
 # Repo:    dialogic-godot/dialogic (star 6121) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  701b67bbe601
 extends GdUnitTestSuite
 
 ## Ensure Auto-Advance is enabled properly using the user input flag.

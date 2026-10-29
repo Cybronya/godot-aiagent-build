@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/actions/battler_hit.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## Represents a damage-dealing hit to be applied to a target Battler.
 ## Encapsulates calculations for how hits are applied based on some properties.
 class_name BattlerHit extends RefCounted

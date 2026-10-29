@@ -1,6 +1,6 @@
 # Source:  https://github.com/KsanaDock/Microverse/blob/main/script/ui/SettingsManager.gd
 # Repo:    KsanaDock/Microverse (star 2502) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7a061d41ed67
 # SettingsManager.gd - 设置管理器单例
 # 统一管理游戏设置，使用信号机制实现解耦
 

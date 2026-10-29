@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/cutscenes/cutscene.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## A cutscene stops field gameplay to run a scripted event.
 ##
 ## A cutscene may be thought of as the videogame equivalent of a short scene in a film. For example,

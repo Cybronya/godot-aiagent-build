@@ -1,6 +1,6 @@
 # Source:  https://github.com/gaea-godot/gaea/blob/2.0/addons/gaea/editor/inspector/inspector_plugin.gd
 # Repo:    gaea-godot/gaea (star 1663) | License: MIT | Collected: 2026-10-28
-# Commit:  2.0
+# Commit:  79461f6491e7
 extends EditorInspectorPlugin
 
 const GradientVisualizer = preload("uid://cwaqlwiy2t1pe")

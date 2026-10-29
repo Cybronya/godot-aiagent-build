@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/XIDUtils.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## XID stands for XML Node ID. These IDs take the form of a PackedInt32Array with indices.
 ## For example, if an XML node is the third child of the first element, its XID is [0, 2].
 ## This class provides utilities for working with XIDs.

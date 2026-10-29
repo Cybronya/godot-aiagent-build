@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/loading/autoload/global.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends Node
 # Changing scenes is most easily done using the `change_scene_to_file()` and
 # `change_scene_to_packed()` methods of SceneTree. This script demonstrates

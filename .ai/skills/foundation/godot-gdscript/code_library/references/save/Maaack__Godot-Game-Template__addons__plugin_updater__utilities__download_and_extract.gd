@@ -1,6 +1,6 @@
 # Source:  https://github.com/Maaack/Godot-Game-Template/blob/main/addons/plugin_updater/utilities/download_and_extract.gd
 # Repo:    Maaack/Godot-Game-Template (star 1709) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  5cc611f7dfcd
 @tool
 ## Utility node for downloading and unzipping a file from a URL to an extraction destination.
 extends Node

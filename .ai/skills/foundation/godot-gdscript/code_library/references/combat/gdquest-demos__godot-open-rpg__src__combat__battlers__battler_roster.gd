@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/battlers/battler_roster.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## The BattlerRoster provides easy access to combat participants.
 ##
 ## The roster is a central means of accessing all the [Battler]s in a combat, providing utility

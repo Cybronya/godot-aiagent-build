@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/field/cutscenes/templates/treasure_chests/treasure_chest_interaction.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 @tool
 # An interaction that opens and closes an animated chest and adds an item to the player's inventory.
 # The item is only added the first time the player opens the chest.

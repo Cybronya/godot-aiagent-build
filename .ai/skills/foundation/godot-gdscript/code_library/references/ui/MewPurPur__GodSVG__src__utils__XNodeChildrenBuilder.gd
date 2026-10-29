@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/utils/XNodeChildrenBuilder.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 @abstract class_name XNodeChildrenBuilder
 
 const ElementFrameScene = preload("res://src/ui_widgets/element_frame.tscn")

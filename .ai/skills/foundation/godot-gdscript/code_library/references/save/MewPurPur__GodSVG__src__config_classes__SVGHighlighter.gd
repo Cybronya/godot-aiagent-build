@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/config_classes/SVGHighlighter.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A syntax highlighter for SVGs, allows for more flexibility than CodeHighlighter.
 class_name SVGHighlighter extends SyntaxHighlighter
 

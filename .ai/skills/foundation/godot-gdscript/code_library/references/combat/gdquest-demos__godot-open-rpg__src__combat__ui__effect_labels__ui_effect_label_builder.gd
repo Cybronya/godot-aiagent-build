@@ -1,6 +1,6 @@
 # Source:  https://github.com/gdquest-demos/godot-open-rpg/blob/main/src/combat/ui/effect_labels/ui_effect_label_builder.gd
 # Repo:    gdquest-demos/godot-open-rpg (star 3028) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  d59f2f71bc04
 ## A builder class responsible for adding visual feedback to [BattlerActions].
 ##
 ## This feedback takes the form of different UI elements (such as an animated label) that may

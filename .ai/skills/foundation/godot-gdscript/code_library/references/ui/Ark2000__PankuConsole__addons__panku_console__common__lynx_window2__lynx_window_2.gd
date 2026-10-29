@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/common/lynx_window2/lynx_window_2.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 class_name PankuLynxWindow extends ColorRect
 
 #Do not connect the button node directly, use these signals to detect click event.

@@ -1,6 +1,6 @@
 # Source:  https://github.com/nezvers/Godot-GameTemplate/blob/master/addons/great_games_library/nodes/Navigation/TileCollisionGenerator.gd
 # Repo:    nezvers/Godot-GameTemplate (star 1670) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  d5d8d1588742
 @tool
 ## Collects tiles for obstacles and puts information into AStarGrid2D for navigation path calculations
 class_name TileCollisionGenerator

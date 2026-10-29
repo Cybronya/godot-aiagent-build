@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/finite_state_machine/state_machine/state.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends Node
 # Base interface for all states: it doesn't do anything by itself,
 # but forces us to pass the right arguments to the methods below

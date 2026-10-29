@@ -1,6 +1,6 @@
 # Source:  https://github.com/KoBeWi/Metroidvania-System/blob/master/addons/MetroidvaniaSystem/Scripts/SaveData.gd
 # Repo:    KoBeWi/Metroidvania-System (star 1596) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  0065ae897429
 extends RefCounted
 
 const SIMPLE_STORABLE_PROPERTIES: Array[StringName] = [&"discovered_cells", &"stored_objects", &"custom_markers"]

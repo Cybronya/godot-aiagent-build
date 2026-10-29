@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/modules/system_report/os_report.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 #reference: https://github.com/godotengine/godot-demo-projects/blob/4.0-dev/misc/os_test/os_test.gd
 
 var rtl := PackedStringArray()

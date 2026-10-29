@@ -1,6 +1,6 @@
 # Source:  https://github.com/KenneyNL/Starter-Kit-City-Builder/blob/main/scripts/view.gd
 # Repo:    KenneyNL/Starter-Kit-City-Builder (star 1495) | License: MIT | Collected: 2026-10-26
-# Commit:  main
+# Commit:  4535092b740b
 extends Node3D
 
 var camera_position:Vector3

@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/data_classes/ParserNumstring.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## Parser for numeric text, including the compressed number arrays used in pathdata and transform lists.
 ## This parser has situational configuration options, so it's not abstract.
 class_name ParserNumstring

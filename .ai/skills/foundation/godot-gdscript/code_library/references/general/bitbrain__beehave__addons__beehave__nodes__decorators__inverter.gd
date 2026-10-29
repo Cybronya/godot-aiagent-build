@@ -1,6 +1,6 @@
 # Source:  https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/nodes/decorators/inverter.gd
 # Repo:    bitbrain/beehave (star 3312) | License: MIT | Collected: 2026-10-26
-# Commit:  godot-4.x
+# Commit:  fe589153fa78
 ## An inverter will return `FAILURE` in case it's child returns a `SUCCESS` status
 ## code or `SUCCESS` in case its child returns a `FAILURE` status code.
 @tool

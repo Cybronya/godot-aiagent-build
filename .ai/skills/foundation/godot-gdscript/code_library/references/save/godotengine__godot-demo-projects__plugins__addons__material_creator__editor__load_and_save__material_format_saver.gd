@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/plugins/addons/material_creator/editor/load_and_save/material_format_saver.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 ## Custom saver for the `.silly_mat_loadable` file format.
 ## Works together with `SillyMatFormatLoader` to support loading and saving.
 ## This class needs to be registered in the EditorPlugin to be used.

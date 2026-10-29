@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/2d/finite_state_machine/player/states/combat/stagger.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 extends "res://player/player_state.gd"
 # The stagger state end with the stagger animation from the AnimationPlayer.
 # The animation only affects the Body Sprite2D's modulate property so it

@@ -1,6 +1,6 @@
 # Source:  https://github.com/MewPurPur/GodSVG/blob/main/src/ui_widgets/BetterLineEdit.gd
 # Repo:    MewPurPur/GodSVG (star 2784) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  52ad7944fcf9
 ## A LineEdit with a few tweaks to make it nicer to use.
 @icon("res://no_export/class_icons/BetterLineEdit.svg")
 class_name BetterLineEdit extends LineEdit

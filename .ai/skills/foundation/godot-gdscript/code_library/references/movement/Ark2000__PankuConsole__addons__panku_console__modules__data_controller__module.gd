@@ -1,6 +1,6 @@
 # Source:  https://github.com/Ark2000/PankuConsole/blob/master/addons/panku_console/modules/data_controller/module.gd
 # Repo:    Ark2000/PankuConsole (star 1436) | License: MIT | Collected: 2026-10-28
-# Commit:  master
+# Commit:  863324dfb752
 class_name PankuModuleDataController extends PankuModule
 
 const exporter_prefab = preload("./exporter/exporter_2.tscn")

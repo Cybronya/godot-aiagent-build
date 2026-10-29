@@ -1,6 +1,6 @@
 # Source:  https://github.com/HungryProton/scatter/blob/main/addons/proton_scatter/src/shapes/base_shape.gd
 # Repo:    HungryProton/scatter (star 3017) | License: MIT | Collected: 2026-10-28
-# Commit:  main
+# Commit:  7198cc00078e
 @tool
 class_name ProtonScatterBaseShape
 extends Resource

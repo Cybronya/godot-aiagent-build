@@ -1,6 +1,6 @@
 # Source:  https://github.com/Orama-Interactive/Pixelorama/blob/master/addons/dockable_container/inspector_plugin/editor_inspector_plugin.gd
 # Repo:    Orama-Interactive/Pixelorama (star 10855) | License: MIT | Collected: 2026-10-27
-# Commit:  master
+# Commit:  fae9327992f1
 extends EditorInspectorPlugin
 
 const LayoutEditorProperty := preload("layout_editor_property.gd")

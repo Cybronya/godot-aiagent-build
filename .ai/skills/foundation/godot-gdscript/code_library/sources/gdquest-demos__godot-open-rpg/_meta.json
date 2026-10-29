@@ -4,8 +4,10 @@
   "license": "MIT",
   "stars": 3028,
   "branch": "main",
-  "commit_sha": "main",
+  "commit_sha": "d59f2f71bc04",
   "fetched_at": "2026-10-26",
   "gd_file_count": 346,
-  "slug": "gdquest-demos__godot-open-rpg"
+  "slug": "gdquest-demos__godot-open-rpg",
+  "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+  "backfilled_at": "2026-10-29"
 }

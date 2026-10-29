@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/gui/translation/translation_csv.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # For more information on localization,
 # search Godot's online documentation "Internationalization", or visit
 # https://docs.godotengine.org/en/latest/tutorials/i18n/index.html

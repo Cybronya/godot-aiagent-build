@@ -1,6 +1,6 @@
 # Source:  https://github.com/godotengine/godot-demo-projects/blob/master/misc/2.5d/assets/player/player_math_25d.gd
 # Repo:    godotengine/godot-demo-projects (star 9711) | License: MIT | Collected: 2026-10-26
-# Commit:  master
+# Commit:  b761b4cd5718
 # Handles Player-specific behavior like moving. We calculate such things with CharacterBody3D.
 class_name PlayerMath25D  # No icon necessary
 extends CharacterBody3D
