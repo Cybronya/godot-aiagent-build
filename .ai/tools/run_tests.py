@@ -19,10 +19,10 @@ A positional filter matches a test's repository-relative path.
   PASS        实际执行且退出码 0，且**没有报告任何跳过（SKIP）的检查**
   FAIL        实际执行且退出码非 0，且输出里有失败报告（断言失败 / 契约不符 / 崩溃）
   INCOMPLETE  未执行、执行中断、超时、进程未给出任何报告即退出，或测试自报
-              `SKIP: …`（依赖不可用 ⇒ 并非全部断言执行过）——无法确定结果
+              `SKIP: …`（依赖不可用 -> 并非全部断言执行过）——无法确定结果
 
 Phase 1.29 为何把 SKIP 归为 INCOMPLETE：本入口的 PASS 承诺是「实际执行过」；
-测试自报 SKIP（例：godot executable not found ⇒ T 段黄金基线捕获/比较整段未跑）时
+测试自报 SKIP（例：godot executable not found -> T 段黄金基线捕获/比较整段未跑）时
 退出码仍为 0，若不单独识别，未执行的检查段会被汇总成 passed。与
 validator/README 的「检查缺失永远不会被伪装成通过」保持一致。
 
@@ -48,22 +48,36 @@ INCOMPLETE 就不能宣称该段通过。在会触发删除守卫的宿主上，
 
     python .ai/tools/run_tests.py --godot-only            # Godot 全部（38）
     python .ai/tools/run_tests.py asset_registry          # 11
-    python .ai/tools/run_tests.py e2e                     # 1（e2e 集成；内部 171 项断言，含 T 段黄金基线）
+    python .ai/tools/run_tests.py e2e                     # 2（e2e 集成；内部 173 项断言，含 T 段黄金基线 / O1-O2 所有权）
+    python .ai/tools/run_tests.py evaluation              # 2（评分 / runner 契约）
     python .ai/tools/run_tests.py feature_registry        # 4
     python .ai/tools/run_tests.py gameplay_planner        # 2
-    python .ai/tools/run_tests.py runtime                 # 4
-    python .ai/tools/run_tests.py scene_composer          # 17
-    python .ai/tools/run_tests.py validator               # 9（含 cross-layer / 黄金基线 / 入口证据完整性 /                                                           #    运行工作区所有权 W1–W19）
+    python .ai/tools/run_tests.py runtime                 # 5
+    python .ai/tools/run_tests.py scene_composer          # 31（含运行时实例证据 / 行为证据 / 协议一致性 /
+                                                          #     时间驱动行为（Phase 1.42）/ 追逐行为（Phase 1.43）/
+                                                          #     条件门控行为（Phase 1.44）/ 组合场景链（Phase 1.46）/
+                                                          #     接触伤害行为（Phase 1.47）/ 史莱姆接触端到端（Phase 1.48）/
+                                                          #     眩晕行为（Phase 1.49）/ 血条显示行为（Phase 1.50）/
+                                                          #     健康缺陷注入（Phase 1.51）；
+                                                          #     真实 Godot 加载、帧推进与动作重放）
+    python .ai/tools/run_tests.py validator               # 10（含 cross-layer / 黄金基线 / 入口证据完整性 /
+                                                          #     运行工作区所有权 W1–W24 + L1–L8 / e2e 所有权 E1–E4）
 
 过滤按**路径子串**匹配（含文件名），段之间可能重叠（如 scene_composer 下名为
 `*_validator*.py` 的文件同时落入 validator 段），因此各段计数之和不等于 Python 总数
-（当前 44；全量 = Godot 38 + Python 44 = 82）。
+（Phase 1.51 实测：Python 发现集合 = **61** 个文件，全量 = Godot 38 + Python 61 = **99**。
+该数字测于 HEAD `5d585e4`；并行工作流在 `a851ce2` 新增 `screen_shake` / `hit_flash` 两个
+Godot 测试文件后为 Godot 40 + Python 61 = **101**。
+8 个具名段的选择数之和 = 67，去重后恰好 = 61，即没有任何测试文件落在 8 段之外；
+差额 6 就是上述重叠文件。要核对总数请用 `**/tests/test_*.py` 的发现集合，不要用各段计数之和。）
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
+import signal
 import subprocess
 import sys
 from pathlib import Path
@@ -75,6 +89,24 @@ STATUS_FAIL = "FAIL"
 STATUS_INCOMPLETE = "INCOMPLETE"
 # 测试自身报告失败时会写出的标记（用于区分「断言失败」与「未报告就死掉」）
 FAILURE_MARKERS = ("FAIL", "FAILED", "Traceback", "SCRIPT ERROR")
+
+
+def keep_diagnostics_printable() -> None:
+    """诊断输出不得因控制台编码中止整轮回归（Phase 1.51.2）。
+
+    子进程输出按 UTF-8 捕获、非法字节 errors="replace"；但父进程把失败尾部写回默认
+    控制台/文件编码（例如 Windows cp936）时，只要出现一个该编码无法表示的字符
+    （实测：测试输出里的 "✓"），`print` 就抛 UnicodeEncodeError 并跳过汇总，把
+    一条 FAIL 证据变成没有归属信息的崩溃。这里只放宽**诊断输出的编码错误处理**
+    （不可表示字符写成 `\\uXXXX` 转义），不改子进程解码、PASS/FAIL 分类或退出码。
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="backslashreplace")
+        except (AttributeError, ValueError):  # 非 TextIOWrapper，无法重配置
+            pass
+
+
 # 测试自报跳过的标记（Phase 1.29）：出现即说明有检查没有执行，不能算作无条件 PASS。
 SKIP_MARKERS = ("SKIP:",)
 
@@ -93,12 +125,57 @@ PYTHON_TIMEOUT_OVERRIDES = {
     # e2e 含四次「完整生成链路 + 真实 Godot」沙箱捕获（4 场景基线）+ 全链路回归；
     # 高负载机器上实测可达 ~19 分钟，给 1800s 余量。
     ".ai/tools/e2e/tests/test_end_to_end_generation.py": 1800,
+    # 行为证据测试枚举全部带 template.yaml 的 Feature，逐契约真实 Godot 运行 +
+    # 双重放（Phase 1.54 起 23 Feature / ~59 契约）；单机实测 ~5.5 分钟，给 900s。
+    ".ai/tools/scene_composer/tests/test_feature_behavior_evidence.py": 900,
 }
 
 
 def python_timeout_for(test: Path) -> int:
-    rel = test.relative_to(PROJECT_ROOT).as_posix()
+    try:
+        rel = test.relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        # 仓库外路径（如 evidence 测试的系统临时 probe）：无覆盖项，用默认超时。
+        return PYTHON_TIMEOUT_PER_TEST
     return PYTHON_TIMEOUT_OVERRIDES.get(rel, PYTHON_TIMEOUT_PER_TEST)
+
+
+def terminate_tree(pid: int) -> None:
+    """连同子孙进程一起终止（Phase 1.51.2）。"""
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/F", "/T", "/PID", str(pid)],
+                       capture_output=True, text=True, errors="replace")
+        return
+    try:
+        os.killpg(os.getpgid(pid), signal.SIGKILL)
+    except (OSError, ProcessLookupError):
+        pass
+
+
+def run_captured(cmd: list, timeout: int, cwd: str | None = None) -> tuple:
+    """运行命令并捕获输出；超时按**进程树**终止，返回 (退出码, 输出, 是否超时)。
+
+    `subprocess.run(timeout=…) + capture_output` 只杀直接子进程。测试再派生 Godot
+    之类的孙进程并继承同一管道时，`communicate()` 仍要等 EOF——Phase 1.51.2 实测：
+    `scene_composer` 全段在 `test_slime_contact_arena` 处停滞 46 分钟，父进程仍在等待，
+    而两个 Godot 孙进程存活；同一测试单进程直接运行 67.8s PASS。
+    这里改为 Popen + 进程组/进程树终止，并把 stdout/stderr 合并成一个流（顺序与真实
+    输出一致），判定与退出码语义不变：超时仍记为 exit=1 + TIMEOUT。
+    """
+    proc = subprocess.Popen(
+        cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        stdin=subprocess.DEVNULL, text=True, encoding="utf-8",
+        errors="replace", start_new_session=True)
+    try:
+        output = proc.communicate(timeout=timeout)[0] or ""
+        return proc.returncode, output, False
+    except subprocess.TimeoutExpired:
+        terminate_tree(proc.pid)
+        try:
+            output = proc.communicate(timeout=60)[0] or ""
+        except subprocess.TimeoutExpired:
+            output = ""
+        return 1, output, True
 
 
 def refresh_import_cache(godot: str) -> bool:
@@ -218,17 +295,8 @@ def run_godot_test(godot: str, test: Path) -> tuple[str, str]:
 def run_python_test(test: Path) -> tuple[str, str]:
     cmd = [sys.executable, str(test)]
     timeout = python_timeout_for(test)
-    timeout_label = ""
-    try:
-        proc = subprocess.run(
-            cmd, cwd=str(PROJECT_ROOT), capture_output=True, text=True,
-            encoding="utf-8", errors="replace", timeout=timeout,
-            stdin=subprocess.DEVNULL,
-        )
-        returncode, output = proc.returncode, (proc.stdout or "") + (proc.stderr or "")
-    except subprocess.TimeoutExpired:
-        returncode, output = 1, ""
-        timeout_label = f"TIMEOUT after {timeout}s"
+    returncode, output, timed_out = run_captured(cmd, timeout, str(PROJECT_ROOT))
+    timeout_label = f"TIMEOUT after {timeout}s" if timed_out else ""
     status = classify(returncode, output, timeout_label)
     if status == STATUS_PASS:
         return status, f"exit={returncode}"
@@ -238,6 +306,7 @@ def run_python_test(test: Path) -> tuple[str, str]:
 
 
 def main() -> int:
+    keep_diagnostics_printable()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("filter_dir", nargs="?", help="only run tests whose path contains this")
     mode = parser.add_mutually_exclusive_group()

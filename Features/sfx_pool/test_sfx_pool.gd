@@ -88,7 +88,10 @@ func _on_played() -> void:
 
 func _make_wav() -> AudioStreamWAV:
 	var wav := AudioStreamWAV.new()
+	# 1 秒静音：空数据流可能在音频 mix 线程调度下瞬间 finished（竞态），
+	# 会导致占用簿记不确定；1s 远长于测试窗口，簿记确定。
 	wav.data = PackedByteArray()
+	wav.data.resize(44100)
 	wav.format = AudioStreamWAV.FORMAT_8_BITS
 	wav.mix_rate = 44100
 	return wav
