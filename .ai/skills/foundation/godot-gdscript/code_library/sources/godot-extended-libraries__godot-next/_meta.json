@@ -1,0 +1,21 @@
+{
+  "full_name": "godot-extended-libraries/godot-next",
+  "stars": 998,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Godot Node Extensions - Basic Node Extensions for Godot Engine",
+  "default_branch": "master",
+  "pushed_at": "2024-06-29T08:56:23Z",
+  "topics": [
+    "gdscript",
+    "godot",
+    "godot-engine",
+    "plugins"
+  ],
+  "html_url": "https://github.com/godot-extended-libraries/godot-next",
+  "branch": "master",
+  "commit_sha": "4ac438abe5b4",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 47,
+  "slug": "godot-extended-libraries__godot-next"
+}

@@ -1,0 +1,21 @@
+{
+  "full_name": "crystal-bit/godot-game-template",
+  "stars": 993,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Generic template for Godot games",
+  "default_branch": "main",
+  "pushed_at": "2026-06-21T15:20:16Z",
+  "topics": [
+    "game-template",
+    "godot",
+    "godot4",
+    "godotengine"
+  ],
+  "html_url": "https://github.com/crystal-bit/godot-game-template",
+  "branch": "main",
+  "commit_sha": "e9dc8926d156",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 20,
+  "slug": "crystal-bit__godot-game-template"
+}

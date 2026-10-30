@@ -1,0 +1,21 @@
+{
+  "full_name": "MarcoFazioRandom/Virtual-Joystick-Godot",
+  "stars": 991,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A simple virtual joystick for touchscreens, for both 2D and 3D games, with useful options.",
+  "default_branch": "Main",
+  "pushed_at": "2025-01-19T15:33:38Z",
+  "topics": [
+    "gdscript",
+    "godot",
+    "joystick",
+    "touchscreen"
+  ],
+  "html_url": "https://github.com/MarcoFazioRandom/Virtual-Joystick-Godot",
+  "branch": "Main",
+  "commit_sha": "b90891ee9908",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 4,
+  "slug": "MarcoFazioRandom__Virtual-Joystick-Godot"
+}

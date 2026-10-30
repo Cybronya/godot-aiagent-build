@@ -1,0 +1,19 @@
+# Source:  https://github.com/godot-escoria/escoria-demo-game/blob/main/addons/escoria-core/game/core-scripts/esc/types/esc_room_container.gd
+# Repo:    godot-escoria/escoria-demo-game (star 855) | License: MIT | Collected: 2026-10-29
+# Commit:  92e650697717
+## Abstract base class for a container of Escoria entities specific to a room
+## to be stored in and used by the Escoria object manager.
+class_name ESCRoomContainer
+extends RefCounted
+
+
+## Designates whether the objects contained in this container are all reserved objects.
+var is_reserved: bool = false
+
+## Global ID of the room in which the objects in this container are registered.
+var room_global_id: String = ""
+
+## Instance ID of the room in which the objects in this container are registered.
+## This is used to disambiguate in cases where more than one of the same room
+## exist in the object manager.
+var room_instance_id: int = -1

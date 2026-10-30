@@ -1,0 +1,30 @@
+# Source:  https://github.com/Miziziziz/MizGodotTools/blob/main/menus/sub_menus/load_game_menu/load_game_menu.gd
+# Repo:    Miziziziz/MizGodotTools (star 987) | License: MIT | Collected: 2026-10-29
+# Commit:  cb548f9035a3
+extends SubMenu
+
+@onready var buttons_container = %ButtonsContainer
+const LOAD_GAME_BUTTON_FORMAT = "{file_name} : {info}"
+@onready var manage_save_files_button: Button = $Panel/ManageSaveFilesButton
+
+func _ready():
+	for c in buttons_container.get_children():
+		c.queue_free()
+	
+	for save_file_path in SaveManager.get_all_saved_game_file_paths():
+		var file_name = save_file_path.get_file()
+		file_name = file_name.trim_suffix("." + save_file_path.get_extension())
+		
+		var button := Button.new()
+		button.text = LOAD_GAME_BUTTON_FORMAT.format({
+			"file_name" : file_name.capitalize(),
+			"info" : SaveManager.get_save_file_info(save_file_path),
+			})
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.button_up.connect(SaveManager.load_game_from_file.bind(save_file_path))
+		buttons_container.add_child(button)
+	manage_save_files_button.button_up.connect(open_save_folder)
+
+func open_save_folder():
+	var path = ProjectSettings.globalize_path(SaveManager.SAVE_FILE_DIRECTORY)
+	OS.shell_open(path)

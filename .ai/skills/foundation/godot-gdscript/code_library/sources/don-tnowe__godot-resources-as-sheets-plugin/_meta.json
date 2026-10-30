@@ -1,0 +1,22 @@
+{
+  "full_name": "don-tnowe/godot-resources-as-sheets-plugin",
+  "stars": 1031,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "I needed to edit many Resource files, so figured someone would too.",
+  "default_branch": "master",
+  "pushed_at": "2026-01-27T18:24:27Z",
+  "topics": [
+    "addon",
+    "godot",
+    "godot-engine",
+    "godotengine",
+    "plugin"
+  ],
+  "html_url": "https://github.com/don-tnowe/godot-resources-as-sheets-plugin",
+  "branch": "master",
+  "commit_sha": "3363e0d2136c",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 47,
+  "slug": "don-tnowe__godot-resources-as-sheets-plugin"
+}

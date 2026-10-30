@@ -1,0 +1,25 @@
+{
+  "full_name": "QodotPlugin/qodot-plugin",
+  "stars": 982,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "(LEGACY) Quake .map support for Godot 3.x",
+  "default_branch": "master",
+  "pushed_at": "2023-03-09T18:23:26Z",
+  "topics": [
+    "brushes",
+    "entities",
+    "games",
+    "geometry",
+    "godot",
+    "quake",
+    "textures",
+    "trenchbroom"
+  ],
+  "html_url": "https://github.com/QodotPlugin/qodot-plugin",
+  "branch": "master",
+  "commit_sha": "4731a36dec69",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 35,
+  "slug": "QodotPlugin__qodot-plugin"
+}

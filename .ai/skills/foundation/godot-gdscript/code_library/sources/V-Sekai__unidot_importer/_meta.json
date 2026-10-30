@@ -1,0 +1,23 @@
+{
+  "full_name": "V-Sekai/unidot_importer",
+  "stars": 979,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Import .unitypackage and other assets designed for Unity Engine as a GDScript addon for vanilla Godot 4.x",
+  "default_branch": "main",
+  "pushed_at": "2026-10-14T18:20:41Z",
+  "topics": [
+    "game-development",
+    "godot",
+    "godot-engine",
+    "unity"
+  ],
+  "html_url": "https://github.com/V-Sekai/unidot_importer",
+  "branch": "main",
+  "commit_sha": "9719eaa2c5ac",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 28,
+  "slug": "V-Sekai__unidot_importer",
+  "commit_sha_full": "9719eaa2c5ac10c6444800913a06f28934f4dc34",
+  "backfilled_at": "2026-10-29"
+}

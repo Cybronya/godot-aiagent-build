@@ -1,0 +1,23 @@
+{
+  "full_name": "Whimfoome/godot-FirstPersonStarter",
+  "stars": 1034,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "FPS (First Person Shooter) controller template for Godot 4 to give starter content for a new or already existing project!",
+  "default_branch": "main",
+  "pushed_at": "2024-05-05T13:49:52Z",
+  "topics": [
+    "fps-template",
+    "gamedev",
+    "gdscript",
+    "godot",
+    "godot-engine",
+    "godot4"
+  ],
+  "html_url": "https://github.com/Whimfoome/godot-FirstPersonStarter",
+  "branch": "main",
+  "commit_sha": "893db99a10ee",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 4,
+  "slug": "Whimfoome__godot-FirstPersonStarter"
+}

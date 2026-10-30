@@ -1,0 +1,26 @@
+{
+  "full_name": "peter-kish/gloot",
+  "stars": 989,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A universal inventory system for the Godot game engine.",
+  "default_branch": "master",
+  "pushed_at": "2026-07-14T19:04:39Z",
+  "topics": [
+    "gdscript",
+    "godot",
+    "godot-engine",
+    "godotengine",
+    "inventory",
+    "inventory-management",
+    "inventory-management-system",
+    "inventory-system",
+    "plugin"
+  ],
+  "html_url": "https://github.com/peter-kish/gloot",
+  "branch": "master",
+  "commit_sha": "6b09b87ac07a",
+  "fetched_at": "2026-10-29",
+  "gd_file_count": 38,
+  "slug": "peter-kish__gloot"
+}
