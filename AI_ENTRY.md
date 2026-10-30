@@ -269,3 +269,48 @@ scene-composer Skill（消费 Binding → Scene Intent / 场景生成）
 > 本节只声明路由，**不引入新的入口体系**：Framework 机器入口仍为
 > `.ai/config/agent.yaml`，Skill 发现仍为 `.ai/config/skill-registry.yaml`，
 > Skill 定义仍为 `.ai/skills/**/SKILL.md`。
+## 13. 临时文件与磁盘空间卫生（每次任务开始前）
+
+Agent 常把中间产物写到系统临时目录（Windows `%TEMP%`，即
+`C:/Users/<user>/AppData/Local/Temp`；Linux/macOS 为 `$TMPDIR`）。
+这些目录不由项目清理，累积后会占满系统盘。
+
+触发时机：**任何 Agent、任何线程开始执行任务时**，若上次运行距今跨天（≥24 小时），
+在开始分析任务之前先做一次清理；当天内的重复任务不需要重复清理。
+
+清理范围（安全边界优先）：
+
+- 只清理本机 Agent 自己创建的临时产物（进程包装目录、抓取/评测中间目录、
+  一次性 project copy、探针输出等），且最后修改时间 ≥ 24 小时。
+- 只处理临时目录根下的直接子项；不跟随符号链接；不删除临时目录根本身。
+- 跳过无法确定归属、正被占用或权限不足的条目（`Access denied` / `in use`）：
+  记录后继续，不得为了删除文件去终止其它进程。
+- 不清理 `C:/Windows/Temp`、安装器/驱动目录，以及任何不在 `%TEMP%` / `$TMPDIR`
+  下的路径。
+- 不因为清理失败而判定任务失败；清理结果只写进本次交付说明。
+
+建议做法（PowerShell，先看后删）：
+
+```powershell
+# 1) 预览：临时目录中 ≥24h 的 Agent 产物（按大小排序）
+Get-ChildItem $env:TEMP -Force |
+  Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-1) -and $_.Name -match 'codebuff|ai-|agent|copy|probe|eval' } |
+  Sort-Object Length -Descending | Select-Object Name, Length, LastWriteTime -First 20
+
+# 2) 删除同一集合（占用中的条目自动跳过并列出）
+$targets = Get-ChildItem $env:TEMP -Force |
+  Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-1) -and $_.Name -match 'codebuff|ai-|agent|copy|probe|eval' }
+$freed = 0; $failed = @()
+foreach ($t in $targets) {
+  $size = if ($t.PSIsContainer) { (Get-ChildItem $t.FullName -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum } else { $t.Length }
+  try { Remove-Item $t.FullName -Recurse -Force -ErrorAction Stop; $freed += [int64]$size }
+  catch { $failed += "$($t.Name): $($_.Exception.Message)" }
+}
+"freed_mb={0:N1} failed={1}" -f ($freed/1MB), $failed.Count
+$failed
+```
+
+Git Bash 下等价路径为 `$TMP` / `$TEMP`（Windows）或 `$TMPDIR`。
+
+交付要求：在任务说明或阶段审计报告中注明「清理了几个条目、释放多少 MB、
+哪些条目因占用被跳过」。清理不修改任何项目文件，也不涉及 Git。

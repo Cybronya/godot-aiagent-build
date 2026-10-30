@@ -1,0 +1,70 @@
+# ============================================================
+# Composite Behavior Protocol（Phase 1.46）—— 组合场景端到端行为证据的协议
+# ============================================================
+#
+# 为什么需要独立协议（而不是塞进 `Features/<id>/template.yaml#behavior`）：
+#
+#   1. 组合契约描述的是**场景**（多个 Feature 在同一个 .tscn 里通过 [connection]
+#      与物理交互形成的链），它不属于任何一个 Feature，写进单个 Feature 会
+#      把「场景归属」错记成「组件归属」。
+#   2. 既有 `behavior[].scene` 只允许 `Features/<feature>/` 内的相对路径（防止
+#      行为证据读取 Feature 之外的内容）。组合场景位于 `Scenes/`，扩大那条规则
+#      等于让所有单组件契约都能指向任意场景，破坏既有隔离语义。
+#   3. 既有契约是「一次动作序列 + 一个观测窗口 + 一组后置断言」。组合链需要
+#      **分阶段**：每阶段有自己的动作与断言，阶段的先后顺序本身就是「事件顺序」
+#      证据；链只完成一部分时必须有阶段级失败记录，不能整条判 PASS。
+#
+# 本文件只描述「允许什么场景、允许多少阶段与帧」，不描述任何预期结果；
+# 动作 / 观测 / 信号能力的唯一权威仍然是 `behavior_protocol.yaml`（通过
+# `extends` 引用其版本）。新增组合能力必须先在此声明并提供探针实现。
+#
+# 消费方：
+#   - Python: scene_composer/composite_behavior_protocol.py（严格加载 + 契约校验）
+#   - GDScript: probes/composite_behavior_manifest.json（由本文件生成，探针只读）
+#   - 一致性门禁: scene_composer/tests/test_composite_behavior_evidence.py
+#
+# 修改本文件后必须重新生成 manifest：
+#   python .ai/tools/scene_composer/composite_behavior_protocol.py --write-manifest
+
+protocol_version: 1
+status: current
+
+# 组合契约复用共享行为协议的能力集合；版本不符 → 加载失败（不降级）。
+extends:
+  protocol: behavior_protocol.yaml
+  version: 2
+
+# 受约束的场景资源路径。只有在这里登记的 .tscn 可以被组合契约加载；
+# 契约不得自己拼接任意路径，也不得指向 Features/ 或项目之外。
+scenes:
+  escape_room: Scenes/EscapeRoom.tscn
+  slime_contact: Scenes/SlimeContactArena.tscn
+  survival_arena: Scenes/SurvivalArena.tscn
+
+# 阶段 / 帧 / 观测预算。Python 与探针读取同一份数值（探针只读 manifest）。
+limits:
+  min_stages: 2              # 单阶段不算组合链：它的语义与单 Feature 行为重复
+  max_stages: 8
+  max_actions_per_stage: 8
+  max_checks_per_stage: 12
+  max_window_frames: 120     # 单阶段动作后的观测窗口（physics frames）
+  max_total_frames: 1200     # 整条链累计预算（所有推进动作 + 所有窗口）
+
+# 组合契约不得使用的共享动作。组合证据的意义是「真实组件通过场景连接与物理
+# 交互协作」，用夹具属性写入制造中间状态会绕开这条链。能力仍存在于共享协议中，
+# 供单个 Feature 的夹具使用。
+denied_actions:
+  - action: state.set_property
+    reason: "composite evidence must come from real component interaction, not fixture property writes"
+
+# 阶段语义（探针实现，写在这里作为唯一说明）：
+#   - stages 按声明顺序执行；第 N 阶段的动作在第 N-1 阶段的断言全部成立后才开始，
+#     因此「先 A 后 B」由阶段边界证明，不需要额外顺序断言。
+#   - 每阶段：执行 actions → 在 waited=0 取一次观测 → 逐 physics 帧轮询直到全部
+#     期望成立或窗口耗尽（与单个 Feature 探针相同的语义）。
+#   - 任一阶段失败 → 立即停止，结果记录 failed_stage / completed_stages，整条链
+#     不得判 PASS。
+#   - 每阶段必须至少有一个非夹具动作（不允许「只做设置」的阶段），并且
+#     「不推进任何帧 + 只断言什么都没发生」的阶段非法（Phase 1.45 零帧规则）。
+#   - 信号计数跨阶段累计：第 N 阶段断言的是「到第 N 阶段结束时累计发射次数」，
+#     这正是事件次数与顺序的证据。

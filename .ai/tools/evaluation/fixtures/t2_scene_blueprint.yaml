@@ -1,0 +1,43 @@
+# EVAL136 fixture — T2 输入（Scene Blueprint，四 Feature 组合）
+#
+# 需求（冻结）：an enemy that chases the target, damages on contact,
+#               has health, and can be stunned
+# Feature 组合（compose_features.py 判定）：chase_movement + contact_damage + health + stun
+# 结构：根 = ChaseMovement（CharacterBody2D，承担运动职责），
+#       组件 contact_damage / health / stun 作为子节点，
+#       ContactShape 挂在 ContactDamage 下（Area2D 需要形状才能感知重叠），
+#       Collision 为实体自身的物理形状。
+
+scene:
+  id: eval_stun_enemy
+root:
+  scene: res://Features/chase_movement/ChaseMovement.tscn
+  name: EvalStunEnemy
+  # 同时声明 type 是能力契约的要求（Node 契约要求 root 具备 name + type）；
+  # 必须与入口场景的真实根类型一致（ChaseMovement.tscn = CharacterBody2D），
+  # 否则 scene_validator 会判根实例类型不匹配。
+  type: CharacterBody2D
+  groups: [enemies]
+  properties:
+    speed: 80.0
+
+components:
+  - feature: contact_damage
+  - feature: health
+  - feature: stun
+
+nodes:
+  - type: CollisionShape2D
+    name: Collision
+    shape:
+      type: rectangle
+      size: [28, 28]
+  - type: CollisionShape2D
+    name: ContactShape
+    parent: ContactDamage
+    shape:
+      type: rectangle
+      size: [36, 36]
+
+validation:
+  required_tests: [chase_movement, contact_damage, health, stun]

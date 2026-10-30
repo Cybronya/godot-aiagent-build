@@ -1,0 +1,21 @@
+# EVAL136 fixture — T1 attempt 1 input（compose_features.py 输出的等价物）
+#
+# 需求（冻结）：a collectible key that disappears when picked up
+# 说明：这是工具链「按需求直接得到」的 Entity Blueprint（entity/features 形态），
+# 评估第一次尝试就使用它，**不做任何人工修正**——用于观测生成器在
+# 单 Feature、根节点非物理体（CollectPickup 根是 Area2D，但 Entity Blueprint
+# 推导出的 root.type 是 Node2D）时会发生什么。
+
+entity:
+  id: eval_key
+  role: key_item
+
+features:
+  - collect_pickup
+
+reason:
+  collect_pickup: "provides: collect_event; role: key_item"
+
+validation:
+  required_tests:
+    - collect_pickup

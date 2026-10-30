@@ -64,6 +64,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -319,12 +320,72 @@ def _ownership_reason(path: Path) -> str:
     return "unsupported artifact type"
 
 
-def _ownership_scan_start() -> set[Path]:
+def _godot_delete(paths: list[Path], godot) -> tuple[int, list[str]]:
+    """Phase 1.35（L-11 根因缓解）：所有权**已验证**的删除清单委托给 Godot 探针执行。
+
+    与 GDScript 测试的 DirAccess 自清理是同一执行器模式（F4-B 既有设计）：
+    Python 层零 unlink 调用——全量 turn 的真实删除计数（环境守卫，50/命令）
+    不再被本套件的合法自清理耗尽。删除范围 = Python 侧（清单 + 内容签名 +
+    本次运行缺席证明）验证后的路径，以常量形式渲染进探针源码（可审计）；
+    Godot 只删除清单内的路径；删除后由 Python 逐路径断言不存在。
+    Godot 缺失时回退 Python 删除（此时多数分段本就 SKIP）。
+    """
+    if not paths:
+        return 0, []
+    if godot is None:
+        removed, failures = 0, []
+        for target in paths:
+            try:
+                target.unlink()
+                removed += 1
+            except OSError as exc:
+                failures.append("%s (%s)" % (_rel(target), exc))
+        return removed, failures
+    script_dir = PROJECT_ROOT / ".ai" / "tmp" / "runs"
+    script_dir.mkdir(parents=True, exist_ok=True)
+    script = script_dir / ("e2e_cleanup_%d.gd" % os.getpid())
+    body = "\n".join('\tDirAccess.remove_absolute("%s")' % p.as_posix()
+                     for p in paths)
+    script.write_text(
+        "extends SceneTree\n"
+        "## Phase 1.35 e2e cleanup: deletes ONLY the ownership-verified list\n"
+        "## rendered below by the Python side (manifest + signature + absence).\n"
+        "func _initialize() -> void:\n" + body +
+        '\n\tprint("CLEANUP_DONE %d")\n\tquit(0)\n' % len(paths),
+        encoding="utf-8", newline="\n")
+    try:
+        proc = subprocess.run(
+            [str(godot), "--headless", "--path", str(PROJECT_ROOT), "-s",
+             "res://.ai/tmp/runs/" + script.name],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            cwd=str(PROJECT_ROOT), stdin=subprocess.DEVNULL, timeout=120)
+        done = "CLEANUP_DONE" in (proc.stdout or "")
+    except (OSError, subprocess.SubprocessError) as exc:
+        done = False
+        print("[cleanup-probe] Godot cleanup failed: %s" % exc)
+    removed, failures = 0, []
+    for target in paths:
+        if not target.exists():
+            removed += 1
+        else:
+            failures.append("%s (still present after cleanup probe)" % _rel(target))
+    if not done:
+        failures.append("cleanup probe did not report CLEANUP_DONE")
+    try:
+        script.unlink()
+        Path(str(script) + ".uid").unlink(missing_ok=True)
+    except OSError:
+        pass
+    return removed, failures
+
+
+def _ownership_scan_start(godot) -> set[Path]:
     """启动期所有权扫描：签名验证后删除残留；无法证明归属则拒绝删除并失败。
 
     返回「扫描后不存在」的路径集合 = 本次运行的创建前提。
     """
     absent: set[Path] = set()
+    stale_verified: list[Path] = []
     for target in _declared_targets():
         if not target.exists():
             absent.add(target)
@@ -333,11 +394,19 @@ def _ownership_scan_start() -> set[Path]:
         if reason:
             _stale_refused.append("%s (%s)" % (_rel(target), reason))
             continue
-        try:
-            target.unlink()
+        stale_verified.append(target)
+    godot_removed, godot_failures = _godot_delete(stale_verified, godot)
+    for target in stale_verified:
+        if not target.exists():
             _stale_removed.append(_rel(target))
-        except OSError as exc:
-            _stale_refused.append("%s (cannot remove stale artifact: %s)" % (_rel(target), exc))
+            # 回收后该路径在本轮扫描结束时**已被证明为空** ⇒ 登记为「本运行可拥有」：
+            # 否则本轮重建同名产物时，结束清理会以「运行前就存在」为由拒绝删除，
+            # 把一次成功的残留回收变成一次自我阻塞（Phase 1.33 复核发现的记账缺陷）。
+            absent.add(target)
+        else:
+            _stale_refused.append("%s (cannot remove stale artifact)" % _rel(target))
+    for failure in godot_failures:
+        _stale_refused.append(failure)
     for entry in _stale_removed:
         print("STALE (removed, signature verified): %s" % entry)
     for entry in _stale_refused:
@@ -346,10 +415,11 @@ def _ownership_scan_start() -> set[Path]:
     return absent
 
 
-def _ownership_cleanup(absent: set[Path]) -> tuple[int, int]:
-    """结束清理：只删清单内 + 扫描后缺席 + 签名仍匹配 的路径。"""
+def _ownership_cleanup(absent: set[Path], godot) -> tuple[int, int]:
+    """结束清理：只删清单内 + 扫描后缺席 + 签名仍匹配 的路径（Godot 执行删除）。"""
     removed = 0
     refused = 0
+    verified: list[Path] = []
     for target in _declared_targets():
         if not target.exists():
             continue
@@ -364,12 +434,12 @@ def _ownership_cleanup(absent: set[Path]) -> tuple[int, int]:
             _failures.append("ownership: refusing to delete %s (%s)"
                              % (_rel(target), reason))
             continue
-        try:
-            target.unlink()
-            removed += 1
-        except OSError as exc:
-            refused += 1
-            _failures.append("cleanup: cannot remove %s (%s)" % (_rel(target), exc))
+        verified.append(target)
+    godot_removed, failures = _godot_delete(verified, godot)
+    removed += godot_removed
+    for failure in failures:
+        refused += 1
+        _failures.append("cleanup: %s" % failure)
     return removed, refused
 
 _BOSS_GAMEPLAY = {
@@ -550,6 +620,7 @@ def main() -> int:
     probe_player_written = False
     dual_written = False
     godot = None
+    godot = find_godot()      # Phase 1.35：所有权删除执行器需要 Godot（提前发现）
     _stale_removed.clear()
     _stale_refused.clear()
     absent_after_scan: set[Path] = set()
@@ -557,7 +628,7 @@ def main() -> int:
         # 启动期所有权扫描（Phase 1.33，取代 Phase 1.23 的无条件删除）：只有内容签名
         # 与本套件产物一致的残留才会被删除；无法证明归属的文件一律拒绝删除并失败，
         # 以此保证 G4/L9 等断言的「从干净状态开始」前提同时不越权删除用户数据。
-        absent_after_scan = _ownership_scan_start()
+        absent_after_scan = _ownership_scan_start(godot)
         # ==================== A. 自然语言 -> Gameplay Blueprint -> 每实体蓝图 ====================
         print("--- A. natural language -> gameplay blueprint -> entity blueprints ---")
         gameplay = work / "gameplay.yaml"
@@ -2087,7 +2158,7 @@ def main() -> int:
            repr([(b["role"], b.get("compatibility")) for b in legacy_leaked]))
     finally:
         # ---- 所有权清理（Phase 1.33）：只删清单内 + 本运行缺席证明 + 签名匹配的路径 ----
-        removed_count, refused_count = _ownership_cleanup(absent_after_scan)
+        removed_count, refused_count = _ownership_cleanup(absent_after_scan, godot)
         print("[ownership] stale_removed=%d stale_refused=%d removed=%d refused=%d"
               % (len(_stale_removed), len(_stale_refused), removed_count, refused_count))
         ok("O1: every artifact deleted this run was created this run and signature-verified",

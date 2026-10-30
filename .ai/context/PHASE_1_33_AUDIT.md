@@ -6,6 +6,10 @@
 > 基线：Phase 1.32 工作区；HEAD = `5e47bfd`（master），暂存区为空。
 > 注：F4-B 代码由并行会话实施；本阶段完成的是**逐项验证、`user://` 与 `.godot` 审计、
 > 文档同步与交付报告**（验证证据见 §6，代码非本会话编写处已注明）。
+>
+> **2026-10-20 复核补记见 §11**：在 Phase 1.34（HEAD=`1c30f94`）与未提交的
+> Phase 1.35 之后的当前工作区上做了一次独立复核，修复了复核中发现的**一处所有权
+> 记账缺陷**（§11.1），并更正了被后续阶段改写的 §2.2 / §5.2 / §9 事实（§11.2）。
 
 ## 0. 范围与结论
 
@@ -243,3 +247,111 @@ Phase 1.6 夹具生命周期的独立决策（带显式清单），而非测试�
 F4-B（e2e 资源映射隔离 + 6 个 GDScript 测试运行根迁移 + `user://` 审计）已实施并逐项
 验证；F4-A 行为未破坏；`.godot` 未被当作临时目录处理；四条黄金基线原样保留；
 F5 与 janitor CLI 未实施。本阶段到此停止，等待下一阶段授权。
+
+## 11. 复核补记（2026-10-20，本会话在当前工作区上的独立复核）
+
+> 背景：Phase 1.33 的实现与首轮验证由并行会话完成（§0 已注明）。随后 Phase 1.34
+> （统一运行标识 + e2e 串行锁）已提交（HEAD = `1c30f94`，Phases 1.26–1.34），
+> 未提交的 Phase 1.35 继续把运行根迁入 Godot `user://` 侧。本节只做两件事：
+> (a) 在**当前工作区**上重新验证 Phase 1.33 的范围（命令 / 真实退出码 / 状态分类）；
+> (b) 修复复核中发现的一处所有权记账缺陷，并给出针对性测试。
+> 本节不引入 janitor CLI、不实施 F5、不动 `.godot`。
+
+### 11.1 复核发现的缺陷与最小修复（e2e 所有权记账）
+
+- **现象**：工作区里存在上一次**被中断**的 e2e 运行残留（16 个清单内产物：
+  `Scenes/E2e*.tscn`、`Levels/E2e*.json`、`Tests/test_e2e_probe_enemy.gd`）时，
+  下一轮 e2e 的启动期扫描按内容签名**成功回收**了它们（`stale_removed=19`、
+  `stale_refused=0`），但本轮结束清理却以「运行前就存在」为由**拒绝**删除本轮
+  重建的同名产物（`refused=18`）→ O1 / Z1 失败 → e2e `exit=1`。
+- **根因**：`test_end_to_end_generation.py::_ownership_scan_start()` 只把「扫描开始时
+  就不存在」的路径写入可拥有集合（`absent`），**被扫描回收的残留没有重新登记**。
+  于是「一次成功的残留回收」反而变成「下一轮的自我阻塞」——与本报告 §5.2 声称的
+  「下一轮自动回收且不阻塞后续运行」不符。
+- **最小修复**：`_ownership_scan_start()` 中，回收后确认路径已不存在的目标追加进
+  可拥有集合。删除前仍重新校验内容签名、删除范围不变、外来文件仍然拒绝删除
+  （fail-closed 语义不变）；只修记账，不放宽任何删除前提。
+- **针对性测试**：新增 `.ai/tools/validator/tests/test_e2e_ownership.py`（E1–E4）——
+  E1 扫描前不存在 ⇒ 可拥有 ⇒ 结束清理可删；E2 可验证残留被回收 ⇒ **重新登记**
+  ⇒ 本轮重建的同名产物可删；E3 外来文件不删、不登记、结束清理仍拒绝（文件存活）；
+  E4 可拥有产物在清理前被改写 ⇒ 拒绝删除。全部在系统临时目录内运行，只替换 e2e
+  的「清单 / 签名判定 / 删除原语」三个接缝，不触碰仓库资源。
+
+### 11.2 更正（被 Phase 1.34 / 1.35 改写的事实）
+
+| 报告位置 | 原表述 | 当前事实（复核于当前工作区） | 依据 |
+| --- | --- | --- | --- |
+| §2.2 | GD 运行根 = `res://.ai/tmp/runs/<pid>-<usec>/` | `user://.test_runs/runs/<pid>-<16 hex>`（token 与 Python 侧 canonical 格式统一） | 6 个 `Tests/*.gd` 的 `_make_run_dir()`；`testsupport/run_workspace.py` 的 `TOKEN_RE` |
+| §2.3 | `user://` 无测试写入 | GD 测试现在**写入** `user://.test_runs/runs/<token>/`（token 独占子目录，只删本运行自有文件）；引擎日志 / MCP 配置 / Phase 1.6 夹具目录仍不清理 | 同上；`%APPDATA%/Godot/app_userdata/game/.test_runs/runs/` |
+| §5.2 L-8 | GD 运行根不被 Python 侧 stale 识别 | **已解决**：两侧 token 格式统一（`^[0-9]+-[0-9a-f]{16}$`），legacy 8-hex 只识别不回收 | W20–W23 |
+| §5.3 L-9 | 两个 e2e 并发会互删同名产物 | **已解决**：`.ai/tmp/runs/e2e.lock`（`O_EXCL` 获取 + 持有者身份校验 + 可证死亡回收） | `testsupport/run_lock.py`；L1–L8 |
+| §6 T-A1 | W1–W19 | 当前 **W1–W24 + L1–L8 = 37 项**（含 W4b/W9b/W11b/W11c 等分项） | `test_run_workspace.py` 实测输出 |
+
+### 11.3 复核验证矩阵（当前工作区，2026-10-20）
+
+| # | 命令 / 场景 | 退出码 | 结果 | 状态 |
+| --- | --- | --- | --- | --- |
+| R-A1 | `python .ai/tools/validator/tests/test_run_workspace.py` | 0 | 37 项全过（尾行 `PASS: run workspace ownership (W1-W24, L1-L8)`） | PASS |
+| R-E1 | `python .ai/tools/e2e/tests/test_end_to_end_generation.py`（**修复后**，工作区存在 16 个中断残留） | 0 | **173/173 PASS**；`stale_removed=19 stale_refused=0 removed=18 refused=0`；O1/O2/Z1 全过；结束后工作区清单内产物 **0** | PASS |
+| R-E2 | 同上（修复前，基线复现） | 1 | 18 个产物以「运行前就存在」被拒删 → O1/Z1 失败 | FAIL（已定位并修复，见 §11.1） |
+| R-O1 | `python .ai/tools/validator/tests/test_e2e_ownership.py` | 0 | E1–E4 全过（针对性测试） | PASS |
+| R-V1 | `python .ai/tools/run_tests.py validator` | 0 | `completed=10/10 passed=10 failed=0`（含 cross-layer、run_workspace、e2e 所有权 E1–E4） | PASS |
+| R-F1 | `python .ai/tools/run_tests.py`（全量） | 0 | `completed=83/83 passed=83 failed=0 incomplete=0`（含 38 个 GDScript 测试、e2e 173/173、本新增 E1–E4） | PASS |
+| R-B1 | 四条黄金基线 sha256/mtime 复核 | — | 与 Phase 1.31 记录逐项一致（§7） | PASS |
+| R-C1 | 两个真实 e2e 进程并发 | — | Phase 1.34 已用串行锁解决（L-9） | SKIP（已由后续阶段关闭） |
+| R-C2 | 多 Godot 进程并发读写 `.godot` | — | 禁止修改共享缓存的并发实验 | NOT_EXECUTED |
+| R-U1 | `user://runtime-fixture-*` 回收 | — | 所有权不可证 → 拒绝 | SKIP |
+| R-J1 | janitor CLI | — | 未授权 | NOT_EXECUTED |
+| R-F5 | F5（过滤命中数 / 执行证据） | — | 未授权 | NOT_EXECUTED |
+
+### 11.4 复核期间观察到的残留与恢复证据
+
+复核开始时工作区同时存在三类残留（全部来自被中断的运行）：
+
+| 残留 | 识别方式 | 处置 | 结果 |
+| --- | --- | --- | --- |
+| `.ai/tmp/runs/e2e.lock`（持有者 pid 7620 已死亡） | 锁内持有者身份 + 进程存活校验 | 可证死亡 ⇒ 回收 | PASS（后续 e2e 正常取得锁） |
+| `.ai/tmp/runs/13776-ce1ab482e6d140ac/`（`ownership.jsonl` + `probe.gd`） | canonical token 目录 + 账本 | **只报告、不自动删**（fail-closed，保留可诊断证据） | 保留（需显式 reclaim 授权） |
+| 16 个 e2e 清单内产物（`Scenes/E2e*.tscn` / `Levels/E2e*.json` / `Tests/test_e2e_probe_enemy.gd`） | 清单 + 内容签名 | 启动期签名验证后回收并重新登记 ⇒ 本轮结束时按所有权删除 | PASS（工作区归零） |
+
+这三条正是本阶段要求区分的三类：**当前运行独占**（本轮重建的同名产物）、
+**引擎/插件管理**（`user://` 日志与配置）、**所有权不可证的残留**（stale 运行根）——
+最后一类一律保留，未做任何"顺手清理"。
+
+### 11.5 最终验证与工作区快照（2026-10-20，末轮）
+
+| # | 命令 | 退出码 | 结果 | 状态 |
+| --- | --- | --- | --- | --- |
+| R-A2 | `python .ai/tools/validator/tests/test_run_workspace.py` | 0 | 尾行 `PASS: run workspace ownership (W1-W24, L1-L8)` | PASS |
+| R-V2 | `python .ai/tools/run_tests.py validator` | 0 | `completed=10/10 passed=10 failed=0` | PASS |
+| R-F2 | `python .ai/tools/run_tests.py`（全量，最终工作区） | 0 | `completed=83/83 passed=83 failed=0 incomplete=0`，尾行 `ALL PASS`；日志 `.ai/tmp/full_regression_133_verify.log`（Godot 38 + Python 45） | PASS |
+| R-B2 | 四条基线 sha256/mtime（全量回归后复核） | — | 与 §7 逐项一致（`BASELINES_UNCHANGED: True`） | PASS |
+| R-R1 | 全量后 `Scenes/E2e*.tscn` / `Levels/E2e*.json` / `Tests/e2e_*probe.gd` / `Tests/e2e_*trace.json` 扫描 | — | **0 项** | PASS |
+| R-R2 | `.ai/tmp/runs/` 枚举 | — | 仅 `13776-ce1ab482e6d140ac`（外来 stale，**保留不删**）；`e2e.lock` 不存在 | PASS |
+
+最终工作区快照：
+
+| 项 | 值 |
+| --- | --- |
+| HEAD | `1c30f94`（master）；**未 commit、未 push**，暂存区 0 |
+| 已修改 | 19 个文件：`CURRENT_TASK.md`、`PHASE_1_33_AUDIT.md`、`WORK_STATE.md`、`CONTRACT_INDEX.yaml`、`validator/README.md`、`run_tests.py`、`testsupport/run_workspace.py`、`e2e/tests/test_end_to_end_generation.py`、`validator/tests/test_cross_layer_contract.py`、`validator/tests/test_run_tests_evidence.py`、`validator/tests/test_run_workspace.py`、`Orchestration/level_config.gd`、6 个 `Tests/*.gd`、`.workbuddy/memory/2026-10-19.md` |
+| 未跟踪 | 1 个：`.ai/tools/validator/tests/test_e2e_ownership.py`（本阶段新增，尚未 `git add`） |
+| `.godot/` | 未触碰（未清理、未迁移、未重建）；未做并发实验 |
+| `user://` | 未删除任何内容（引擎日志 / MCP 配置 / Phase 1.6 夹具目录全部保留） |
+
+文档同步（本会话，仅改真实变化的描述）：`.ai/tools/validator/README.md`（W 计数 → 37、
+F4-B 段落改为当前 `user://.test_runs/runs/<token>/` 与 e2e 串行锁事实、新增 e2e 所有权测试
+说明）、`.ai/context/CONTRACT_INDEX.yaml`（`run_workspace` 契约的 `test` / `owner_test` /
+`consumer2` / `gdscript_roots`）、`.ai/tools/run_tests.py` 文档字符串（e2e 173 断言、
+validator 10、Python 45 / 全量 83）。
+
+**顺带观察（未修，记录为限制）**：`python .ai/tools/run_tests.py --help` 在 Windows GBK
+控制台下抛 `UnicodeEncodeError`（文档字符串中的 `⇒`，HEAD 已存在，非本阶段引入）。
+属工具可用性小缺陷，修复需改输出编码而非测试逻辑，留待后续授权。
+
+### 11.6 本次复核未做的事
+
+- 未清理 `.godot/`（引擎缓存，单独评估见 §4）；未做任何共享缓存并发实验。
+- 未删除 `user://runtime-fixture-*`（所有权不可证，§2.3）。
+- 未引入 janitor CLI、未实施 F5（未授权）。
+- 未 commit、未 push、未重录基线、未改写历史 `run_id`。

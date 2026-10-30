@@ -24,6 +24,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import platform
 import re
 import shutil
 import uuid
@@ -134,6 +135,48 @@ class RunWorkspace:
     @classmethod
     def default_base_dir(cls, repo_root: Path) -> Path:
         return Path(repo_root) / ".ai" / "tmp" / "runs"
+
+    @classmethod
+    def godot_user_runs_base(cls, repo_root: Path | None = None) -> Path:
+        """Godot `user://.test_runs/runs/` 对应的真实路径（Phase 1.35）。
+
+        落在 Godot 用户数据目录（Windows: %APPDATA%/Godot/app_userdata/<name>/，
+        即 C: 盘）——运行根的自清理删除发生在这里，不占用工作区的删除预算。
+        project 名从 project.godot 的 config/name 解析；环境变量 GODOT_USER_DATA_DIR
+        可整体覆盖（测试与多Checkout 场景使用）。
+        """
+        repo = Path(repo_root) if repo_root is not None else cls.default_repo_root()
+        override = os.environ.get("GODOT_USER_DATA_DIR")
+        if override:
+            user_data = Path(override)
+        else:
+            name = ""
+            project_godot = repo / "project.godot"
+            if project_godot.is_file():
+                for line in project_godot.read_text(encoding="utf-8").splitlines():
+                    line = line.strip()
+                    if line.startswith("config/name="):
+                        name = line.split("=", 1)[1].strip().strip('"').strip()
+                        break
+            if not name:
+                raise OwnershipError(
+                    "cannot resolve the Godot user-data directory: project.godot "
+                    "has no config/name (or set GODOT_USER_DATA_DIR)")
+            appdata = os.environ.get("APPDATA")
+            if appdata:
+                user_data = Path(appdata) / "Godot" / "app_userdata" / name
+            elif platform.system() == "Darwin":
+                user_data = Path.home() / "Library" / "Application Support" / "Godot" / "app_userdata" / name
+            else:
+                user_data = Path.home() / ".local" / "share" / "godot" / "app_userdata" / name
+        return user_data / ".test_runs" / "runs"
+
+    def user_res(self, rel: str) -> str:
+        """本运行根内文件的 Godot `user://` 路径（探针/脚本经 FileAccess 读取）。"""
+        clean = str(rel).replace("\\", "/").lstrip("/")
+        if rel != clean or rel.startswith("/"):
+            raise OwnershipError("refusing a non-relative user path: %r" % rel)
+        return "user://.test_runs/runs/%s/%s" % (self.token, clean)
 
     @classmethod
     def create(cls, repo_root: Path | None = None, base_dir: Path | None = None) -> "RunWorkspace":

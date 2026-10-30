@@ -176,6 +176,41 @@ python .ai/tools/validator/validate.py --level Levels/survival_arena.json \
     --gameplay-blueprint survival_game.yaml --project-root .
 ```
 
+### 运行时实例证据（Phase 1.39，显式 opt-in）
+
+第 7 阶段（Feature Instance Evidence）是**静态**的：只证明 `.tscn` 文本与声明一致。
+要证明「真实加载后对象存在且类型/数量符合契约」，单独调用运行时入口：
+
+```bash
+python .ai/tools/validator/validate.py --instance-runtime collect_pickup
+python .ai/tools/validator/validate.py --instance-runtime all --require-runtime
+```
+
+| 状态 | 含义 | 默认 | `--require-runtime` |
+| --- | --- | --- | --- |
+| `PASS` | 加载后满足契约 | 通过 | 通过 |
+| `MISMATCH` | 加载失败 / 缺失 / 类型或数量不符 | failure | failure |
+| `INSUFFICIENT` | 探针超时、采集失败、需动作才能生成 | warning | **failure** |
+| `INVALID` | 契约非法 | failure | failure |
+| `NOT_DECLARED` | 未声明 `instance.runtime` | 不检查 | 不检查 |
+
+**运行成本**：每个 Feature 启动一次真实 Godot headless（进程级超时 90s，默认窗口 0 帧），
+因此缺省不执行；静态 Validator 行为与历史版本一致。证据文件落在
+`.ai/tmp/runtime-instance/<run_id>/`（contract / result / stdout / stderr），可逐次追踪。
+
+**失败语义区分**：静态 `MISMATCH`（文本与声明矛盾）与运行时 `MISMATCH`（加载/对象矛盾）
+是不同层的证据，都可定位到具体 check；`INSUFFICIENT` 一律表示「无法下结论」，
+最终验收必须加 `--require-runtime`，不允许把「没跑成」当成功。
+
+**行为证据（Phase 1.40 / 1.42 / 1.43）不在 Validator 内**：真实动作 + 后置状态由独立入口
+`scene_composer/feature_behavior_evidence.py` 负责（隔离场景副本、默认重放 2 次、
+`--require-behavior` 收紧 `INSUFFICIENT`；Phase 1.42 起可在动作序列中推进真实
+physics 帧并观测位移/区间，能力仍由 `behavior_protocol.yaml` 唯一定义；
+Phase 1.43 起单个 behavior 可用 `scene:` 指向同一 Feature 目录内的证据夹具场景，
+不增加任何动作/观测能力；Phase 1.44 起条件门控（`condition_gate`）以真实接触 →
+聚合 → 下游动作的链路取证，同样只复用 v2 既有能力）；本 README 描述的静态 /
+运行时实例命令与失败语义保持不变。
+
 编排实现在 `validator/unified.py`（各层调用既有独立检查器，不重新实现规则）。
 
 **Binding 层约定（Phase 1.18）**：无 `--gameplay-blueprint` 时无法判断实体存在性，
@@ -226,10 +261,17 @@ Runtime 检查缺失永远不会被伪装成通过。耗时的 Runtime 探针为
   `reclaim_abandoned(..., acknowledge_abandoned=True)` 才逐个重新验证并删除。
 - **消费者**：`validator/tests/test_cross_layer_contract.py` 的 33 个夹具与探针已迁入运行根，
   旧的 `Levels/E2eContract__*` 前缀清理已删除；断言仍 65 项（66 行 PASS）。
-- **测试**：`validator/tests/test_run_workspace.py`（W1–W19，23 项）覆盖隔离、幂等、篡改、
+- **测试**：`validator/tests/test_run_workspace.py`（W1–W24 + L1–L8，37 项）覆盖隔离、幂等、篡改、
   越界、符号链接、未入账、异常残留 + reclaim、两进程并发、诊断保留、删除前再校验、
-  账本中断行、token 冲突、GDScript 迁移静态锁定；全部在系统临时目录运行。
+  账本中断行、token 冲突、GDScript 迁移静态锁定、token 格式统一与 e2e 串行锁；
+  全部在系统临时目录运行。
+- **e2e 所有权**：`validator/tests/test_e2e_ownership.py`（E1–E4）只替换 e2e 的
+  「清单 / 签名判定 / 删除原语」三个接缝，覆盖「扫描期回收的残留重新登记」
+  「外来文件拒绝删除」「清理前被改写则拒删」。
 - **忽略**：`.gitignore` 新增 `.ai/tmp/`（只覆盖易失运行工作区；`git ls-files .ai/tmp` = 0）。
-- **F4-B（Phase 1.33）**：e2e holdout 段已接入 RunWorkspace；6 个 GDScript 测试各自创建
-  `Levels/.runs/<token>/` 并以退出码证明自清理；残留扫描（共享 Levels 与 user:// 中的
-  本运行登记名）失败关闭。详见 `.ai/context/PHASE_1_33_AUDIT.md`；F5 与 janitor 未实施。
+- **F4-B（Phase 1.33）**：e2e 固定名产物采用「显式清单 + 启动期内容签名 + 本次运行缺席证明」
+  （生产解析约定要求 `Scenes/<Pascal>.tscn`，不能迁入运行根）；6 个 GDScript 测试各自创建
+  `user://.test_runs/runs/<pid>-<16hex>/`（token 与 Python 侧 canonical 格式统一），只删
+  本运行自有文件，共享目录残留只报告；e2e 串行锁 `.ai/tmp/runs/e2e.lock`（`O_EXCL` +
+  持有者可证死亡才回收）。`user://` 引擎日志 / MCP 配置 / Phase 1.6 夹具目录一律不清理
+  （所有权不可证）。详见 `.ai/context/PHASE_1_33_AUDIT.md`；F5 与 janitor 未实施。

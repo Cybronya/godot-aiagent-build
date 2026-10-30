@@ -5,7 +5,33 @@
 
 ## 当前状态
 
-Phase 1.34（Unified Run Identity & E2E Concurrency Safety）**已实施并验证**：
+Phase 1.38（Feature Instance Evidence Reconciliation）**已完成并实测**：新增
+`.ai/tools/scene_composer/instance_evidence.py`，用真实入口 `.tscn` 核对 `template.yaml#instance`
+（区分声明 / 静态场景 / 运行时 三级证据与 PASS/MISMATCH/INSUFFICIENT/INVALID/NOT_DECLARED），
+并接入 Validator 第 7 阶段。新增 53 checks 回归测试；真实仓库负向对照（删除 PickupShape）
+被抓住并 sha256 还原；相关 10 个测试与全量 **87/87 PASS**、Validator 0 error / 17 warning；
+四条黄金基线未变；未提交、未推送。报告：[PHASE_1_38_AUDIT.md](PHASE_1_38_AUDIT.md)。
+剩余风险：静态解析看不到运行时创建；`runtime_children` 可被滥用为 warning 豁免；挂载模式未进 compose。
+
+Phase 1.37（Evaluation-Driven Capability Improvement）**已完成并实测**：基于 1.36 评估
+证据定位主瓶颈为「单 Feature / 自包含实体生成第一跳被能力契约误判拦截」，根因是
+Feature 元数据未声明入口场景自带的碰撞结构（`template.yaml` 缺 `instance:`）。
+修复为 6 个 Feature 的数据声明 + 文档 + 新增回归测试（`test_feature_instance_evidence.py`），
+**未改判定逻辑、生成产物零漂移**。评估：v2 任务集首次通过 **3/5 → 4/5**、计划修订
+**2/2 → 1/1**、最终 **5/5**；v1 冻结任务集指标 **不变**（无回归）；自动修复 1/1、
+回归缺陷 0/5 不变；四条黄金基线未变；未提交、未推送。
+报告：[PHASE_1_37_AUDIT.md](PHASE_1_37_AUDIT.md)。全量测试 **86/86 PASS**。
+顺带修复 D8（外部产物环判定误报菱形引用）；
+未修复：D3（`--waves` 被忽略）、D4（信号连线/多实例）、D5（`--tests` 空断言）。
+
+Phase 1.36（End-to-End Capability Evaluation）**已完成并实测**：新增
+`.ai/tools/evaluation/`（固定 5 任务集 T1–T5 + 判定/指标口径 + 4 个真实 Godot 探针 +
+所有权清理）。两次全量评估 **5/5 PASS**、首次通过率 **3/5**、框架自动修复 **1/1**、
+计划修订 **2/2**、回归缺陷 **0**；全量回归 **85/85 PASS**；四条黄金基线未变；
+未提交、未推送。报告：[PHASE_1_36_AUDIT.md](PHASE_1_36_AUDIT.md)。
+F5 与 janitor CLI 仍未实施；`.godot` 并发治理仍未实施。
+
+Phase 1.34（Unified Run Identity & E2E Concurrency Safety）此前已实施并验证：
 L-9 = e2e 串行互斥锁（`testsupport/run_lock.py`：O_EXCL 获取 + 持有者身份校验 +
 可证死亡回收 + fail-closed，覆盖创建→使用→清理完整生命周期，双真实进程竞争实测）；
 L-8 = 统一运行标识契约（canonical `<pid>-<16 hex>`，Python/GD 同一格式；legacy 8-hex
@@ -33,6 +59,13 @@ Phase 1.33（F4-B Integration & Resource Ownership）**已实施并验证**：E2
 - **新已知限制**：L-8 GD 侧运行根不被 Python 侧 stale 识别；L-9 两个 e2e 并发会互删
   签名匹配的同名产物（e2e 禁止并发）；F5 与 janitor CLI 仍未实施。
 - 详见报告 §5（风险）、§9（未解决风险与所需授权）、§6（验证矩阵，含 NOT_EXECUTED/SKIP）。
+- **2026-10-20 复核补记（报告 §11）**：在 Phase 1.34/1.35 之后的当前工作区上做了
+  一次独立复核，修复了**一处所有权记账缺陷**——启动期扫描被签名验证后回收的残留
+  没有重新登记为「本运行可拥有」，导致结束清理以「运行前就存在」为由拒删本轮
+  重建的同名产物（e2e exit 1，一次成功的残留回收反而阻塞下一轮）；最小修复 +
+  新增针对性测试 `validator/tests/test_e2e_ownership.py`（E1–E4）。修复后实测：
+  e2e **173/173 PASS**（回收 19 个中断残留、工作区归零）、validator 段 **10/10**、
+  全量 **83/83 PASS**；报告 §2.2 / §5.2 / §9 中被 1.34/1.35 改写的事实已在 §11.2 更正。
 
 Phase 1.32（F4 Owned Cleanup）**F4-A 已实施并实测**：cross-layer 迁入每次运行专属目录，
 所有权账本 + fail-closed 清理 + 残留报告/显式恢复。报告：[PHASE_1_32_AUDIT.md](PHASE_1_32_AUDIT.md)。

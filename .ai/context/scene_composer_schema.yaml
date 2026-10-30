@@ -737,7 +737,8 @@ artifact_evidence_validation:                          # CURRENT
     - 不猜测通过、不降级放行、不自动修复；核验失败只报告（并保留产物）。
     - 声明若要被核验，必须描述产物里也会存在的结构（宿主节点、根类型，或 ExtResource 指向的
       组件入口场景；见 known_gaps.artifact_parser_scope_limited）。
-    - 外部产物不可读 / 成环 → 整条链 BLOCKED（证据链不完整即不放行），不论该声明能否本地满足。
+    - 外部产物不可读 / 成环 → 整条链 BLOCKED（证据链不完整即不放行），不论该声明能否本地满足；
+      菱形引用（同一文件经多条路径可达）不是环（Phase 1.37）。
   not_in_scope: [Godot runtime validation, .tscn 语义级解析, Script, Animation]
   test: [scene_composer/tests/test_artifact_evidence_validator.py,
          scene_composer/tests/test_external_artifact_evidence.py]
@@ -763,8 +764,17 @@ external_artifact_evidence:                            # CURRENT
     missing: "External artifact unavailable: <res:// path>"      # 不猜测、不拼路径
     out_of_scope: 非 res://Features/ 的 PackedScene 不解析、也不报错（记入 known gaps）
   cycle_guard:
-    rule: 以「已访问文件绝对路径」判定；宿主 .tscn 本身也在集合内
+    rule: >-
+      Phase 1.37 起以「**祖先链**」判定（文件绝对路径）：只有回到当前解析路径上的祖先
+      才是环；宿主 .tscn 本身也在祖先链上。同一文件经不同分支重复可达（菱形，如
+      Host → Health 与 Host → Player → Health）是合法结构，只解析一次并复用证据。
+      单文件入口 resolve_external_artifact(visited=...) 的入参语义不变（入参即祖先集合）。
     message: "External artifact recursion detected: <res:// path>"
+    why: >-
+      以全局 visited 判环会把菱形当环：一旦组件声明 instance: 开启证据核验，
+      player_movement 的 Player.tscn（内含 Health.tscn）与宿主直接引用的 Health 就成菱形，
+      导致所有该结构的实体场景被误判 BLOCKED（Phase 1.37 实测 e2e L6）。
+    test: scene_composer/tests/test_external_artifact_evidence.py（Case 5c 菱形 PASS / Case 5·5b 环仍 BLOCKED）
   references_graph:                                    # 1.8.16 返回 / 1.8.17 消费
     rule: "resolve_external_artifacts 额外返回 {res:// 路径: [其直接引用的 res:// 路径]}"
     consumer: component_instance_ownership（可达闭包 → artifact_evidence_validator 的证据池）
@@ -776,7 +786,8 @@ external_artifact_evidence:                            # CURRENT
     声明核对顺序：组件实例声明 → 同 Feature 外部组件场景 → 宿主节点 → 其余外部产物。
     Capability Contract 层（Builder 之前）仍只吃计划，**不读产物**；本条优先级只属于 artifact 层。
   blocked_behavior: >-
-    外部产物不可读 / 成环 → 整条链 BLOCKED（证据链不完整即不放行）；compose() 返回 ok=false、
+    外部产物不可读 / 成环 → 整条链 BLOCKED（证据链不完整即不放行；菱形引用不算环）；
+    compose() 返回 ok=false、
     failures 前缀 "Artifact Evidence: "，生成物保留供诊断。
   report: 同 artifact_evidence_validation 的 ArtifactEvidenceReport（checked_external_artifacts 记录已解析的 res:// 路径）
   rules:
@@ -785,6 +796,348 @@ external_artifact_evidence:                            # CURRENT
     - 不修改 .tscn、不自动修复、不删除产物。
   not_in_scope: [Godot runtime validation, 资源文件内容解析, 非 Features 场景解析, Script, Animation]
   test: scene_composer/tests/test_external_artifact_evidence.py
+
+# ============================================================
+# Feature Instance Evidence Reconciliation（Phase 1.38 —— 声明 vs 真实 .tscn）
+# ============================================================
+
+feature_instance_evidence_reconciliation:              # CURRENT
+  summary: >
+    `template.yaml` 的 `instance:` 只是**声明**；本层用独立的静态场景证据核对它，
+    把「模板声称有、场景实际上没有」变成可定位的失败，而不是让能力契约拿假证据放行。
+  problem: >-
+    Phase 1.37 的修复把 `instance:` 当契约证据后，声明本身从未被核对：模板写
+    `children: [CollisionShape2D]` 而入口场景没有该节点，契约仍 PASS。
+  module: scene_composer/instance_evidence.py
+  entrypoints:
+    reconcile_declaration: "[declaration, scene_path, feature?, project_root?] -> Report"
+    reconcile_feature: "[feature, features_dir?, project_root?] -> Report"
+    reconcile_component_mounts: "[scene_path, feature_ids, features_dir?, project_root?] -> {status, findings, components}"
+    reconcile_all / declared_features / summarize: 批量与汇总
+  evidence_model:                                      # 三级证据，不得互相顶替
+    declaration:
+      source: "Features/<id>/template.yaml#instance"
+      proves: 预期（需要哪些节点结构）
+      does_not_prove: 实例真的存在
+    static_scene:
+      source: ".tscn 文本（external_artifact_resolver.parse_scene_text，单一解析实现）"
+      proves: 场景文件里实际有哪些节点 / 类型 / 层级 / 场景实例 / 资源引用
+      does_not_prove: 运行时场景树（脚本可在 _ready 中增删节点）
+    runtime:
+      source: Godot 探针 / runtime_result（不在本层）
+      proves: 加载后的真实对象与可观察行为
+      note: 本层不产生运行时证据；需要它时结论必须是 INSUFFICIENT
+  status:
+    PASS: 声明与静态场景一致
+    MISMATCH: 静态场景已证实与声明矛盾（根类型 / 子节点缺失 / 层级错误 / 数量 / 重复路径）
+    INSUFFICIENT: 静态无法确认（runtime_children / 解析器不认识的结构）——不是 PASS，也不是失败
+    INVALID: 声明非法、场景不可读或无根节点
+    NOT_DECLARED: 未声明 instance:（旧 Feature 合法，不强制迁移）
+  declaration_fields:
+    node_type: 必需；必须等于入口场景根节点类型（根不可能由脚本动态创建）
+    children: 可选；要求为「根节点的直接子节点类型」；同一类型重复 n 次 = 需要 n 个
+    runtime_children: 可选（Phase 1.38）；必须 ⊆ children；这些类型静态找不到时 → INSUFFICIENT
+    parent / id / resources: 生成物侧的声明语义（见 component_instance_materialization），本层不解释
+  checks:
+    root: 声明 node_type vs 场景根 type → INSTANCE_ROOT_TYPE_MISMATCH
+    children_present: 直接子节点类型与数量 → PASS 项记入 checked[]
+    children_nested_wrongly: 类型存在但层级不对 → INSTANCE_CHILD_PATH_MISMATCH（带实际路径）
+    children_missing: 完全不存在且未声明 runtime_children → INSTANCE_CHILD_MISSING
+    children_count: 声明多于实际 → INSTANCE_CHILD_COUNT_MISMATCH
+    duplicates: 同一节点路径出现多次 → INSTANCE_DUPLICATE_NODE_PATH
+    parse_limited: "'[node ...]' 行多于解析结果 → INSTANCE_PARSE_LIMITED（warning，不判无效）"
+    runtime_stale: runtime_children 里的类型静态存在 → INSTANCE_RUNTIME_CHILD_STALE（warning）
+    mount_mode: 组件在生成物中恰好挂载一次、引用模板声明的入口场景、
+                子节点必须在挂载子树或组件自身场景内（不接受「别的组件也有该类型」）
+  integration:
+    validator: validator/check_instance_evidence.py   # 第 7 阶段：MISMATCH/INVALID → failure；INSUFFICIENT → warning
+    cli: scene_composer/instance_evidence.py --feature <id> / --all / --blueprint+--scene
+    compose: 未接入（artifact_evidence 报告形态已冻结，避免新增键破坏逐字比较；见报告剩余风险）
+  independent_evidence: >-
+    核对对象是 Feature 自己的 `.tscn` 文本，不复用生成器的 Scene Intent / 预期对象；
+    解析器与 artifact 层共用同一实现（避免两套脆弱解析），但证据来源独立。
+  not_in_scope: [Godot runtime validation, 自动修复声明, 批量改写 Feature, 信号连线语义]
+  test: scene_composer/tests/test_instance_evidence_reconciliation.py
+
+# ============================================================
+# Runtime Instance Evidence（Phase 1.39 —— 真实加载后的对象树）
+# ============================================================
+
+runtime_instance_evidence:                            # CURRENT
+  summary: >
+    1.38 只证明「`.tscn` 文本里写了这个节点」。本层在真实 Godot headless 中加载场景，
+    从加载后的对象树取证，把证据推进到「加载后对象确实存在且类型/数量符合契约」。
+  problem: >-
+    文本里有 `CollisionShape2D` 不代表脚本没在 `_ready` 里删掉它；`runtime_children`
+    里的动态节点此前也从未被任何一层确认真的出现过。
+  module: scene_composer/runtime_instance_evidence.py
+  probe: scene_composer/probes/instance_runtime_probe.gd      # extends SceneTree，`-s` 运行
+  entrypoints:
+    build_contract: "[feature, features_dir?, run_id?] -> (contract|None, Report)"
+    run_probe: "[contract, project_root?, timeout_s?, godot?] -> observation（不判定）"
+    judge: "[observation, report] -> Report（采集失败不得 PASS）"
+    batch: verify_feature / verify_all / declared_features / summarize
+    cli: "runtime_instance_evidence.py --feature <id> | --all [--require-runtime] [--json]"
+  evidence_layers:                                    # 四层证据，不得互相顶替
+    file_parsed: "`.tscn` 文本可解析（1.38 静态层；本层不重复实现）"
+    resource_loaded: Godot 能 `ResourceLoader.load` → 否则 MISMATCH / load_error
+    node_exists: 加载后 root 的子树里有目标节点，类型/数量符合契约（本层）
+    behavior_correct: 节点行为（生命值/信号/胜负）—— 不在本层，见 Tests/*.gd 与 e2e probe
+  contract:                                           # template.yaml#instance.runtime
+    when: after_load | after_frames:<0..600> | after_action:<name>   # 缺省 after_load
+    timeout_frames: "0..600；0 = 不轮询（静态结构），>0 = 观察窗口帧数"
+    scene: 可选 `res://...`，缺省用模板入口场景
+    expectations: 可选；缺省由 node_type + children 推导（根 + 直接子节点类型与数量）
+    expectation_fields:
+      path: 绝对路径（相对场景根，"." = 根）；与 parent 互斥
+      parent: "父路径（缺省根）；按「直接子节点 + 类型」计数"
+      type: 必需；必须是已知节点类型（ClassDB 可解析）；子类也算匹配
+      count: "1..64，缺省 1（同一路径多个节点 / 同一父节点下同类型数量）"
+      runtime: 可选；true = 该目标来自 runtime_children（动态）
+      id: 可选；缺省 `<type>#<index>`，用于追踪 first_seen_frame
+  timing:
+    after_load: 场景树 join 后再稳定 2 帧（`_ready` 已执行完）
+    after_frames: 稳定后再等 N 帧（覆盖延迟创建）
+    polling: timeout_frames > 0 时只在「尚未全部满足」时继续等；已满足立即结束，不空转
+    before_observation: 未到观察时机不判定 → 不得提前报缺失
+    action: "`after_action:*` 一律 INSUFFICIENT（action_not_triggerable），且不启动 Godot；不为了测试自动按键 / 注入输入 / 改变游戏状态"
+  status:
+    PASS: 加载成功后，全部目标在观察时机（及窗口内）满足契约
+    MISMATCH: 加载成功但对象树与契约明确冲突，或资源/脚本加载失败
+    INSUFFICIENT: 无法下结论（Godot 缺失、探针超时/无结果、动作未触发）—— 永远不是 PASS
+    INVALID: 契约本身非法（when / timeout_frames / count / type / path+parent 冲突）
+    NOT_DECLARED: 未声明 `runtime:`（不凭空要求运行时证据；1.38 及更早的 Feature 合法）
+  reasons:
+    load_error: 场景/依赖资源/脚本加载失败（同时读 stderr 的引擎报错行，不只信探针自述）
+    script_error: 探针自报 PASS 但 stderr 有 `SCRIPT ERROR:` → 降级 MISMATCH
+    missing: 目标（静态声明）不存在
+    missing_after_timeout: 动态目标在整个观察窗口内未出现——只声称「窗口内未出现」
+    type_mismatch / count_mismatch: 路径存在但类型不符 / 数量不符
+    action_not_triggerable: 需要动作才能生成，本层不触发
+    evidence_unavailable / probe_timeout: 采集失败（INSUFFICIENT）
+    contract_invalid: 契约非法（INVALID）
+    runtime_not_declared: 未声明
+  provenance: >-
+    result 内带 run_id、scene、expected_when、observed_frame、waited_frames、node_count；
+    每个 check 带 expected/found 数量、found_paths、actual_types、runtime 标记与 first_seen_frame。
+    证据文件固定落在 `.ai/tmp/runtime-instance/<run_id>/`（contract.json / result.json /
+    stdout.log / stderr.log），不写项目文件。
+  gate:
+    static_validator: 默认不启动 Godot；`--instance-runtime` 未给定时行为不变
+    runtime_entry: "validate.py --instance-runtime <feature|all> [--require-runtime]"
+    policies: MISMATCH/INVALID → failure；INSUFFICIENT → warning，`--require-runtime` 时 failure
+    exit_codes: 0 = PASS/NOT_DECLARED（或未开 --require-runtime 的 INSUFFICIENT）；1 = 失败
+  not_in_scope: [行为测试, 任意游戏内事件注入, 全项目场景批量运行时校验, 自动修复场景]
+  test: scene_composer/tests/test_runtime_instance_evidence.py
+
+# ============================================================
+# Feature Behavior Evidence（Phase 1.40 —— 受控动作后的行为证据）
+# ============================================================
+
+feature_behavior_evidence:                            # CURRENT
+  summary: >
+    1.38 证明「声明 ↔ .tscn 文本」，1.39 证明「加载后节点存在」，本层证明
+    「真实动作被触发后状态/信号符合契约」。不重复实现结构对账，也不并入结构 PASS。
+  module: scene_composer/feature_behavior_evidence.py
+  probe: scene_composer/probes/feature_behavior_probe.gd   # extends SceneTree，`-s` 运行
+  protocol:                                            # Phase 1.41 / 1.42：能力唯一定义
+    source: .ai/context/behavior_protocol.yaml         # 人写；动作/观测/信号/属性/参数约束
+    version: 2                                         # v2 = 帧推进 + 受限状态设置 + 时间观测
+    manifest: scene_composer/probes/behavior_manifest.json   # 由协议生成，探针只读
+    loader: scene_composer/behavior_protocol.py         # 严格加载 + 契约校验 + 生成器
+    generator: "behavior_protocol.py --write-manifest"
+    drift_gate: "behavior_protocol.py --check-manifest --capabilities"
+    fail_closed: 协议缺失/损坏/版本不兼容/未实现项 → INVALID 且退出非 0，不降级
+    single_source: 探针不解析 YAML，也不另存能力表；仅保留实现 ID → 内部方法映射
+    limits: "max_frames_per_action / max_total_frames / max_fixture_actions，两端共用"
+    generated_extras: limits + fixture/advances_frames 标志 + properties 白名单
+  isolation: >-
+    每次 CLI 调用复制 `Features/` 与探针到 `.ai/tmp/behavior/workspace-*/project`，
+    以 `godot --headless --path <copy> -s ...` 运行；只删除本次调用拥有的临时目录，
+    不写仓库场景、不改黄金基线。
+  contract:                                           # template.yaml 顶层 behavior:
+    fields:
+      id: 必填；同一 Feature 内唯一
+      scene: >-
+        Phase 1.43；可选。证据场景，只能是**同一 Feature 目录**内的相对 `.tscn`
+        （拒绝绝对路径 / `res://` / `..` / 非 .tscn / 缺失文件 → INVALID）。
+        缺省用模板入口场景；只选择证据场景（如 chase 需要静止目标），
+        不改变组合入口，不增加任何动作/观测/写入能力。
+      actions: "非空；[{type, target?, params?}]，type 必须是注册动作"
+      preconditions: "动作前断言；任一不成立 → INSUFFICIENT（不执行动作）"
+      expected: 非空；动作后的后置断言
+      window_frames: "1..600（physics frames），缺省 30"
+    actions:                                          # 协议声明；不执行任意方法名
+      door.set_open: "params.value: bool → OpenableDoor.set_open"
+      health.take_damage: "params.amount: 1..100 → Health.take_damage"
+      health.heal: "params.amount: 1..100 → Health.heal"
+      physics.overlap: >-
+        生成真实 CharacterBody2D（params.group；可选 health_max / damage），
+        由物理帧触发 Area2D.body_entered；不直接调用 _on_body_entered。
+      simulation.advance_frames: >-
+        Phase 1.42；{frames: 1..300, phase: physics}。只支持 physics 帧（固定 delta、
+        可重放）；process 帧在 headless 下 delta 非确定，未声明、使用即 INVALID。
+        每个动作记录 started_frame / ended_frame / advanced_frames。
+      state.set_property: >-
+        Phase 1.42；fixture: true。只能写协议 `properties:` 声明的属性（property_ref +
+        value 交叉校验），必须排在所有行为动作之前，单契约 ≤ 4 次且不能是唯一动作；
+        记录 before / value / after，运行时校验脚本全局类名与属性 hint。
+      input.press / input.release: >-
+        Phase 1.42；Input.action_press/release，动作名必须在 InputMap；探针退出时
+        释放本次按下的全部动作（夹具必须可回滚）。press 在下一次输入刷新后生效。
+      implemented_false: "协议可声明未实现项，但使用即 INVALID（不得误认为已支持）"
+    checks:
+      door.is_open: OpenableDoor.is_open()
+      health.current: Health.get_current_health()
+      health.is_dead: Health.is_dead()
+      pickup.is_collected: CollectPickup.is_collected()
+      node.freed: "目标节点已释放或 queued_for_deletion"
+      node.exists: "仍可解析且有效；节点缺失时返回 false（不是 UNAVAILABLE）"
+      trigger.is_triggered: TriggerSwitch.is_triggered()
+      gate.is_fulfilled: "Phase 1.46；ConditionGate.is_fulfilled()（组合链的中间状态）"
+      node2d.position: "Phase 1.42；{axis: x|y} + equals[+tolerance] 或 min/max，读 global_position"
+      node2d.displacement: >-
+        Phase 1.42；相对**动作前基线**的单轴位移（基线由探针采集，不由预期反推）；
+        同样支持 equals[+tolerance] 或 min/max 区间。
+      signal: "{entry: <协议信号键>, count, last_args?}"
+    targets:
+      ".": 场景根
+      "<path>": 相对场景根的节点路径
+      "@actor[/path]": physics.overlap 生成的真实实体（及其子节点）
+      "none": "动作/观测不针对节点（帧推进、全局输入）；target 必须省略或为 '.'"
+  status:
+    PASS: 动作确实执行，且窗口内全部后置断言成立，重放一致
+    MISMATCH: 动作执行了，但状态/信号与契约冲突，或节点未被释放
+    INSUFFICIENT: 动作入口不可用 / 前置不满足 / 观测不可用 / 采集失败 / 重放不一致 / Godot 缺失
+    INVALID: 契约非法（未知动作/参数/检查/信号/目标/属性，重复 id，窗口或帧/夹具预算越界，
+             夹具排在行为动作之后，浮点观测缺少可比对条件，phase 非 physics）
+    NOT_DECLARED: 未声明 behavior:（不凭空要求行为证据）
+  reasons:
+    action_unavailable: 目标缺少注册入口 / 动作未执行（即使状态凑巧符合也不 PASS）
+    precondition_unmet: 前置断言不成立，动作未执行
+    check_unavailable: 观测目标或方法不可用（INSUFFICIENT）
+    state_mismatch / signal_mismatch / node_still_present: 动作已执行但结果冲突（MISMATCH）
+    replay_inconsistent: 多次重放关键结果不一致（INSUFFICIENT）
+    evidence_unavailable / probe_timeout / godot_unavailable: 采集失败（INSUFFICIENT）
+    protocol_invalid: 协议缺失/损坏/版本不兼容（INVALID，不降级）
+    protocol_drift: 生成的 manifest 与协议不一致（INVALID，拒绝运行）
+    contract_invalid / behavior_not_declared: 契约层结论
+  replay:
+    default: 2
+    max: 5
+    compare: status / reason / action_executed / 每条 check 的 expected+observed+status
+    ignore: run_id / frame 号 / duration（时序抖动不应造成假不一致）
+    policy: 任一重放不一致 → INSUFFICIENT，永不 PASS
+  timing:
+    observation: 动作后逐 physics frame 轮询；全部满足立即结束，否则等满 window_frames
+    first_observed_frame: 每个 check 首次满足时的相对帧号；未满足为 -1
+    timeout: 窗口耗尽但动作已执行 → MISMATCH（观测到状态不符），不是 PASS
+    frames: >-
+      Phase 1.42；动作序列可含 simulation.advance_frames，帧预算 = 所有推进 + window_frames
+      ≤ max_total_frames（600）；单次 ≤ max_frames_per_action（300）。
+      跨重放只比关键状态/事件顺序，不比绝对帧号与耗时。
+  evidence_dir: .ai/tmp/behavior/<run_id>/   # contract/result/stdout/stderr；run_id 含 replay 序号
+  provenance: >-
+    报告含 feature/behavior/scene_id/run_id、actions、preconditions、observation_window、
+    expected、actual、first_observed_frame、replay_consistent 与证据路径；
+    PASS 必须有 action_executed=true 且 checks 非空。
+  gate:
+    independent_cli: "feature_behavior_evidence.py --feature <id> | --all [--require-behavior] [--json] [--replay N]"
+    policies: MISMATCH/INVALID → failure；INSUFFICIENT → warning，`--require-behavior` 时 failure
+    exit_codes: 0 = PASS/NOT_DECLARED（或未开 --require-behavior 的 INSUFFICIENT）；1 = 失败；2 = 输入错误
+    static_validator: 不变；行为证据不进入 validate.py，也不改变 --instance-runtime 语义
+    protocol_gate: 协议非法 / manifest 漂移 / 探针实现缺失 → failure（CLI 退出 1）
+  not_in_scope: [全项目 Feature 行为覆盖, 任意 GDScript 执行, 真实存档操作, 自动修复失败行为]
+  test: scene_composer/tests/test_feature_behavior_evidence.py
+  test_time_driven: scene_composer/tests/test_behavior_time_driven.py   # Phase 1.42
+
+# ============================================================
+# Composite Scene Behavior Evidence（Phase 1.46 —— 组合场景端到端行为证据）
+# ============================================================
+
+composite_behavior_evidence:                          # CURRENT
+  summary: >
+    1.40–1.45 证明「单个 Feature 的动作 → 后置状态/事件符合契约」。本层证明
+    「多个 Feature 在同一个真实场景里通过 [connection] 与物理交互连成的链」：
+    分阶段动作 + 每阶段中间断言 + 阶段边界即事件顺序 + 部分完成绝不 PASS。
+    它不是 1.40 的替代，也不把单组件结论放大成组合结论。
+  module: scene_composer/composite_behavior_evidence.py
+  probe: scene_composer/probes/composite_behavior_probe.gd   # extends SceneTree，`-s` 运行
+  why_separate_protocol: >-
+    `behavior[].scene` 只允许 `Features/<f>/` 内路径（隔离语义）；组合契约属于场景而非
+    Feature；形状是分阶段链而不是「一组动作 + 一个窗口」。把组合链写进单 Feature 的
+    behavior 会把场景归属记错、并破坏既有隔离规则，因此独立成协议与契约目录。
+  protocol:                                            # Phase 1.46
+    source: .ai/context/composite_behavior_protocol.yaml
+    version: 1
+    extends: behavior_protocol.yaml v2                 # 能力唯一权威仍是共享协议
+    manifest: scene_composer/probes/composite_behavior_manifest.json   # 生成物，探针只读
+    loader: scene_composer/composite_behavior_protocol.py
+    generator: "composite_behavior_protocol.py --write-manifest"
+    drift_gate: "composite_behavior_protocol.py --check-manifest --list-contracts"
+    capability_gate: "check_capabilities(protocol, behavior, probe --capabilities)"
+    only_adds:
+      scenes: "允许被加载的 .tscn 白名单（受约束的场景资源路径，必须在项目内且存在）"
+      limits: "min_stages / max_stages / max_actions_per_stage / max_checks_per_stage /
+               max_window_frames / max_total_frames，两端共用"
+      denied_actions: "组合契约不得使用的共享动作（state.set_property：不允许夹具写状态冒充交互）"
+  contract:                                            # .ai/context/composite_scenes/<scene_id>.yaml
+    scene_id: 必须与文件名逐字一致，且在协议 scenes 白名单中
+    scene: 必须与白名单路径逐字一致（拒绝任意拼接 / Features/ / 项目外路径）
+    features: 参与该链的 Feature id（必须存在；用于可追溯性）
+    preconditions: "场景加载后、第一阶段动作前必须成立；不成立 → INSUFFICIENT precondition_unmet"
+    stages: >-
+      2..8 段，按声明顺序执行。每段 {id, actions, expected, window_frames}：
+      actions 非空且至少一个非夹具动作；expected 非空；window_frames 1..120。
+      第 N 段的断言在第 N+1 段动作之前求值，因此阶段边界就是事件顺序证据；
+      信号计数跨阶段累计（「第 2 段为 0、第 3 段为 1」同时证明次数与先后）。
+    stage_rules:
+      - "夹具（fixture）动作必须在同段的行为动作之前"
+      - "单段既不推进任何 physics 帧、又只断言「什么都没发生」→ INVALID（Phase 1.45 零帧规则的组合形式）"
+      - "单段全部动作 + 窗口计入 max_total_frames（1200）"
+      - "阶段 id 全链唯一"
+  status:
+    PASS: 每段都真实执行并成立，completed_stages == 契约阶段顺序，重放一致
+    MISMATCH: 某段观测到与契约冲突的状态/事件（记录 failed_stage + completed_stages）
+    INSUFFICIENT: 动作不可执行 / 前置不满足 / 观测不可用 / 采集失败 / 重放不一致 / Godot 缺失
+    INVALID: 协议或契约非法（场景不在白名单、禁止动作、非法/未知观测、预算或窗口越界、
+             阶段重复、零帧纯否定段），不启动 Godot
+  reasons:
+    stage_incomplete: 只完成部分阶段（或阶段状态不全是 PASS）→ 绝不保持 PASS
+    check_unavailable: 某段观测目标/方法不可用 → INSUFFICIENT（不折叠成「未发生」）
+    state_mismatch / signal_mismatch: 某段观测结果冲突 → MISMATCH
+    precondition_unmet: 前置断言不成立，任何阶段都没有执行
+    action_unavailable: 某段动作未执行
+    replay_inconsistent: 多次重放关键结果不一致 → INSUFFICIENT
+    contract_invalid / protocol_invalid / protocol_drift: 契约或协议层结论
+  replay:
+    default: 2
+    max: 5
+    compare: status / reason / failed_stage / action_executed / completed_stages /
+             每段的 id+status+reason 与每条 check 的 expected+observed+status
+    ignore: run_id / frame 号 / waited_frames / duration / 证据路径
+    policy: 任一重放不一致 → INSUFFICIENT，永不保留 PASS；时序上界不在本层结论内
+  ownership:                                           # 延续 1.32 / 1.34 契约
+    workspace: .ai/tmp/composite/workspaces/<run_id>/project   # 独占创建（exist_ok=False）
+    owner_record: "workspaces/<run_id>/owner.json（run_id + pid + 创建时间）"
+    cleanup_rule: "只有 owner.json 的 run_id 与本运行一致才 rmtree；否则保留并报告原因"
+    stale: "其他运行的目录只通过 stale_workspaces() 报告，绝不删除"
+    copied: "Features / Scenes / Orchestration / Levels / Systems / Assets + project.godot 的 [input][physics]"
+  evidence_dir: .ai/tmp/composite/<run_id>/   # contract/result/stdout/stderr（run_id 含 scene + replay）
+  provenance: >-
+    报告含 scene_id/scene/run_id/features/stages/frame_budget、每段 actions+checks+waited_frames、
+    completed_stages/failed_stage、replay_consistent 与证据路径；
+    PASS 必须有 action_executed=true、每段 checks 非空、completed_stages 等于契约阶段顺序。
+  gate:
+    independent_cli: "composite_behavior_evidence.py --scene <id> | --all [--require-composite] [--json] [--replay N]"
+    policies: MISMATCH/INVALID → failure；INSUFFICIENT → warning，`--require-composite` 时 failure
+    exit_codes: 0 = PASS（或未开 --require-composite 的 INSUFFICIENT）；1 = 失败；2 = 输入错误
+    static_validator: 不变；组合证据不进入 validate.py，也不启动 Godot
+  not_in_scope: [任意游戏自动化, 全场景批量回归, 二次开发式场景改写, 时序上界结论]
+  contracts:
+    escape_room: "两个开关 → 条件聚合 → 出口门 → 真实物理通行（四段）"
+    survival_arena: "一个奖励开关 → 主门 + 侧门（两段；不声称关门阻断通行，几何本身可绕行）"
+  test: scene_composer/tests/test_composite_behavior_evidence.py
 
 # ============================================================
 # Derivation —— Entity Blueprint (+ Binding) → Scene Intent

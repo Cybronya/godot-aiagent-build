@@ -57,7 +57,7 @@ from runtime_result import find_godot_binary                           # noqa: E
 from testsupport.run_workspace import OwnershipError, RunWorkspace     # noqa: E402
 
 _failures: list[str] = []
-_workspace: RunWorkspace | None = None
+_workspaces: list[RunWorkspace] = []          # Phase 1.35：fixtures(user://) + probe(仓库内)
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -237,25 +237,34 @@ FIXTURES = [
 PROBE_TEMPLATE = '''extends SceneTree
 ## 由 .ai/tools/validator/tests/test_cross_layer_contract.py 生成——跨层契约探针。
 ## 不要手工编辑；用后即删（生成方 finally 清理）。
+## Phase 1.35：夹具合并为单一 bundle 文件（一个 JSON 承载全部夹具配置），
+## 探针经 LevelConfig.from_dictionary 内存构建——33 个夹具文件不再各自落盘。
 
-const FIXTURES := [%s]
+const BUNDLE := "%s"
 const DEFAULT_CHECKS := [%s]
 
 func _initialize() -> void:
-	for path in FIXTURES:
-		var config := LevelConfig.from_file(path)
+	var text := FileAccess.get_file_as_string(BUNDLE)
+	var parsed: Variant = JSON.parse_string(text)
+	if not (parsed is Dictionary) or not (parsed.get("fixtures") is Array):
+		printerr("BUNDLE: cannot read %%s" %% BUNDLE)
+		quit(1)
+		return
+	for item in parsed["fixtures"]:
+		var name: String = item["name"]
+		var config := LevelConfig.from_dictionary(item["config"], "bundle:%%s" %% name)
 		var first_error := "-"
 		if not config.errors.is_empty():
 			first_error = config.errors[0]
-		print("CONTRACT: %%s accepted=%%d error=%%s" %% [path, 1 if config.is_valid() else 0, first_error])
-		if path in DEFAULT_CHECKS:
+		print("CONTRACT: %%s accepted=%%d error=%%s" %% [name, 1 if config.is_valid() else 0, first_error])
+		if name in DEFAULT_CHECKS:
 			var orchestrator := LevelOrchestrator.new()
 			if orchestrator.apply_config(config):
 				print("DEFAULTS: %%s exit=%%s victory=%%s mode=%%s"
-					%% [path, orchestrator.get_exit_unlock_when(),
+					%% [name, orchestrator.get_exit_unlock_when(),
 					orchestrator.get_victory_condition(), orchestrator.get_mode()])
 			else:
-				print("DEFAULTS: %%s apply_failed=%%s" %% [path, str(orchestrator.get_config_errors())])
+				print("DEFAULTS: %%s apply_failed=%%s" %% [name, str(orchestrator.get_config_errors())])
 			orchestrator.free()
 	quit(0)
 '''
@@ -283,40 +292,47 @@ def run() -> int:
         skip("C1-C8: cross-layer Godot probe", "godot executable not found; "
              "Python-side verdicts are still exercised below")
     # Phase 1.32（F4）：所有夹具与探针放进本次运行专属目录，并逐个登记所有权。
-    workspace = RunWorkspace.create()
-    _workspace = workspace
+    # Phase 1.35：夹具迁入 Godot user://（.test_runs/runs/<token>/，C: 盘）——
+    # 33 个夹具的自清理删除不再占用工作区删除预算（环境守卫限制 L-11 的根因缓解）；
+    # probe.gd 必须是 res://（godot -s 只接受 res:// 脚本），保留在仓库内的
+    # 独立迷你工作区（2 个文件的删除属于预算内）。
+    workspace = RunWorkspace.create(base_dir=RunWorkspace.godot_user_runs_base(PROJECT_ROOT))
+    probe_workspace = RunWorkspace.create()
+    _workspaces.extend((workspace, probe_workspace))
     for stale in workspace.stale_entries():
         print("STALE (not removed): token=%s state=%s files=%d last=%s"
               % (stale["token"], stale["state"], stale["file_count"], stale["last_event"]))
-    fixture_res_paths: list[str] = []
-    defaults_res_paths: list[str] = []
+    defaults_names: list[str] = []
     expected: dict[str, dict] = {}
+    bundle_items: list[dict] = []
     for name, config, expect_valid, expect_field, check_defaults in FIXTURES:
-        fixture = workspace.path_for("fixtures/%s.json" % name)
-        _write(fixture, config)
-        workspace.record(fixture)
-        res_path = workspace.res_path("fixtures/%s.json" % name)
-        fixture_res_paths.append(res_path)
         if check_defaults:
-            defaults_res_paths.append(res_path)
+            defaults_names.append(name)
         accepted, first_failure, field = _python_verdict(config)
-        expected[res_path] = {"accept": accepted, "field": field,
-                              "python_first": first_failure,
-                              "expect_field": expect_field,
-                              "name": name}
+        expected[name] = {"accept": accepted, "field": field,
+                          "python_first": first_failure,
+                          "expect_field": expect_field,
+                          "name": name}
+        bundle_items.append({"name": name, "config": config})
 
-    probe_path = workspace.path_for("probe.gd")
+    # Phase 1.35：33 个夹具合并为单一 bundle 文件（探针经
+    # LevelConfig.from_dictionary 内存构建）——本测试的落盘删除从 35 降到 3。
+    bundle = workspace.path_for("fixtures/bundle.json")
+    _write(bundle, {"fixtures": bundle_items})
+    workspace.record(bundle)
+
+    probe_path = probe_workspace.path_for("probe.gd")
     probe_path.write_text(PROBE_TEMPLATE % (
-        ", ".join('"%s"' % p for p in fixture_res_paths),
-        ", ".join('"%s"' % p for p in defaults_res_paths)), encoding="utf-8")
-    workspace.record(probe_path)
+        workspace.user_res("fixtures/bundle.json"),
+        ", ".join('"%s"' % n for n in defaults_names)), encoding="utf-8")
+    probe_workspace.record(probe_path)
     godot_lines: list[str] = []
     probe_ran = False
     try:
         if godot is not None:
             proc = subprocess.run(
                 [str(godot), "--headless", "--path", str(PROJECT_ROOT), "-s",
-                 workspace.res_path("probe.gd")],
+                 probe_workspace.res_path("probe.gd")],
                 capture_output=True, text=True, encoding="utf-8", errors="replace",
                 cwd=str(PROJECT_ROOT), stdin=subprocess.DEVNULL, timeout=180)
             godot_lines = [line for line in ((proc.stdout or "") + (proc.stderr or "")).splitlines()
@@ -331,25 +347,24 @@ def run() -> int:
     finally:
         # Godot 可能在脚本旁生成 .uid（派生文件）；只登记、随后按所有权清理。
         try:
-            workspace.record_if_exists(workspace.path_for("probe.gd.uid"))
+            probe_workspace.record_if_exists(probe_workspace.path_for("probe.gd.uid"))
         except OwnershipError as exc:
             _failures.append("cleanup: cannot account for probe.gd.uid (%s)" % exc)
 
-    godot_by_path: dict[str, dict] = {}
+    godot_by_name: dict[str, dict] = {}
     for line in godot_lines:
         match = re.match(r"^(CONTRACT|DEFAULTS): (\S+) (.+)$", line)
         if not match:
             continue
-        kind, path, rest = match.groups()
-        godot_by_path.setdefault(path, {})[kind] = rest
+        kind, name, rest = match.groups()
+        godot_by_name.setdefault(name, {})[kind] = rest
 
     # ---- 逐例比较两层判定（C1–C8）----
-    for res_path, exp in expected.items():
+    for name, exp in expected.items():
         label = exp["name"]
         accepted, first_failure, field = _python_verdict(
-            next(c for n, c, *_ in FIXTURES
-                 if res_path.endswith("/%s.json" % n)))
-        godot = godot_by_path.get(res_path, {})
+            next(c for n, c, *_ in FIXTURES if n == name))
+        godot = godot_by_name.get(name, {})
         if not probe_ran:
             continue
         contract_line = godot.get("CONTRACT", "")
@@ -375,10 +390,10 @@ def run() -> int:
 
     # ---- C7：缺省块默认行为一致 ----
     if probe_ran:
-        defaults_path = next((p for p in defaults_res_paths if p in godot_by_path
-                              and "DEFAULTS" in godot_by_path[p]), None)
-        if defaults_path:
-            rest = godot_by_path[defaults_path]["DEFAULTS"]
+        defaults_name = next((n for n in defaults_names if n in godot_by_name
+                              and "DEFAULTS" in godot_by_name[n]), None)
+        if defaults_name:
+            rest = godot_by_name[defaults_name]["DEFAULTS"]
             match = re.match(r"exit=(\S+) victory=(\S+) mode=(\S+)$", rest)
             ok("C7: Godot orchestrator defaults are parseable",
                bool(match), repr(rest))
@@ -411,6 +426,10 @@ def run() -> int:
        repr(report.failures()))
     ok("cleanup: no unaccounted / conflicting test artifacts",
        not report.failures(), repr(report.failures()))
+    probe_report = probe_workspace.cleanup()
+    ok("cleanup: probe workspace removed (ownership verified)",
+       probe_report.run_root_removed and not probe_workspace.run_root.exists(),
+       repr(probe_report.failures()))
 
     print()
     if _failures:
@@ -429,13 +448,12 @@ def _write(path: Path, data: dict) -> None:
 
 def cleanup() -> None:
     """异常路径的兜底清理：只清本运行的所有权账本，绝不按前缀/glob 删除。"""
-    global _workspace
-    if _workspace is None:
-        return
-    workspace, _workspace = _workspace, None
-    report = workspace.cleanup()
-    for failure in report.failures():
-        print("CLEANUP: " + failure)
+    global _workspaces
+    pending, _workspaces = _workspaces, []
+    for workspace in pending:
+        report = workspace.cleanup()
+        for failure in report.failures():
+            print("CLEANUP: " + failure)
 
 
 if __name__ == "__main__":

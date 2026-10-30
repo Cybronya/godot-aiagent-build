@@ -360,12 +360,18 @@ def main() -> int:
         missing: list[str] = []
         for name in migrated:
             source = (repo_tests / name).read_text(encoding="utf-8")
-            if "res://Levels/E2e" in source or ':= "user://' in source:
+            if "res://Levels/E2e" in source or "res://Levels/.runs" in source:
                 offenders.append(name)
+            # Phase 1.35：运行根迁入 user://.test_runs/runs（token 作用域，C: 盘）；
+            # 旧的仓库内 .ai/tmp/runs 基座与共享 user:// 根一律禁止。
+            if '"user://.test_runs/runs"' not in source:
+                missing.append(name + " (missing user://.test_runs/runs base)")
+            if "res://.ai/tmp/runs" in source:
+                offenders.append(name + " (in-repo run root)")
             if "_make_run_dir" not in source or "_owned" not in source:
                 missing.append(name)
-        ok("W19: the six GDScript tests use a per-run workspace and no longer write to "
-           "shared Levels/ or user://",
+        ok("W19: the six GDScript tests use token-scoped user://.test_runs run roots"
+           " and no longer write to shared Levels/ or in-repo roots",
            not offenders and not missing, repr((offenders, missing)))
     finally:
         if _base is not None:
@@ -408,6 +414,17 @@ def main() -> int:
         ok("W23: malformed directory names are not treated as run roots"
            " (ignored by stale entries, refused by reclaim)",
            not stale2 and report2.unsafe and malformed.exists(), repr(stale2))
+        cl_source = (Path(__file__).resolve().parents[4]
+                     / ".ai" / "tools" / "validator" / "tests"
+                     / "test_cross_layer_contract.py").read_text(encoding="utf-8")
+        ok("W24: cross-layer fixtures live in the user:// test-runs base and the"
+           " probe script stays res:// (deletion budget separation)",
+           "godot_user_runs_base" in cl_source
+           and 'user_res("fixtures/' in cl_source
+           and 'probe_workspace.res_path("probe.gd")' in cl_source,
+           repr((("godot_user_runs_base" in cl_source),
+                 ('user_res("fixtures/' in cl_source),
+                 ('probe_workspace.res_path("probe.gd")' in cl_source))))
     finally:
         shutil.rmtree(_base, ignore_errors=True)
 
@@ -510,7 +527,7 @@ def main() -> int:
         for failure in _failures:
             print("  - " + failure)
         return 1
-    print("PASS: run workspace ownership (W1-W23, L1-L8)")
+    print("PASS: run workspace ownership (W1-W24, L1-L8)")
     return 0
 
 

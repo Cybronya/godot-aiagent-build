@@ -1,0 +1,116 @@
+# ============================================================
+# 组合场景契约：SlimeContactArena（Phase 1.48 —— 敌人接触伤害端到端验收）
+# ============================================================
+#
+# 场景：Scenes/SlimeContactArena.tscn（正式场景，由两个既有 Feature 场景拼成，
+#       没有胶水脚本、没有额外信号连接）
+#
+#   Player      = Features/player_movement/Player.tscn，position (-160, 0)，groups=["players"]
+#   SlimeEnemy  = Scenes/SlimeEnemy.tscn（ChaseMovement 根 + Health(5) + ContactDamage(1/0.5s)
+#                 + ContactShape 36×36 + Collision 28×28），position (0, 0)
+#
+# 被验证的链（全部来自真实物理与既有组件代码）：
+#
+#   输入 move_right → PlayerController.velocity → CharacterBody2D 真实位移
+#     → Player 碰撞盒(32×48) 与 ContactShape(36×36) 真实重叠
+#     → ContactDamage._physics_process 的节拍结算
+#     → Health.take_damage(1)（玩家自己的 Health 节点）
+#     → health_changed(current, 1) 信号 + 玩家血量下降
+#
+# 为什么这条链只有组合场景能表达（Phase 1.47 §6.3 的结论）：
+#   - 单 Feature 契约的 `behavior[].scene` 只允许 `Features/<id>/` 内路径；
+#   - 组合协议一次只加载一个场景，而 `SlimeEnemy.tscn` 里没有玩家；
+#   - 组合探针不支持 `@actor`（`physics.overlap` 生成的实体不可寻址观测），
+#     因此不能用「在史莱姆身上造一个玩家」的方式表达「真实玩家走进敌人」。
+#
+# 数值来源（全部由源码 / 场景数据推导，不是拟合观测）：
+#   - Player.speed = 220 px/s，physics 60 Hz → 3.667 px/帧。
+#   - Player 碰撞 32×48（半宽 16），SlimeEnemy 身体碰撞 28×28（半宽 14）
+#     → 玩家被史莱姆身体挡住时的中心 x = -(16+14) = -30。
+#   - ContactShape 是 36×36（半宽 18）→ 玩家碰撞盒进入接触区的条件是
+#     |dx| < 18+16 = 34，即 x > -34。所以接触带是 (-34, -30]，被挡住时必然在带内。
+#   - 因此「玩家中心 x ∈ [-34, -26]」这一断言本身就是**真实接触证据**：
+#     只有被史莱姆身体挡住才会停在这里，而停在这里必然与 ContactShape 重叠。
+#
+# 伤害语义（源码事实，不是对观测的总结）：
+#   `contact_damage.gd` 每物理帧 `_cooldown -= delta`，`_cooldown <= 0` 时立即结算并把
+#   `_cooldown` 重置为 `tick_interval`。`_cooldown` 初值 0 → **第 1 物理帧就结算一次（此时
+#   无重叠，不造成伤害）**，之后每 30 帧（0.5 s）结算一次。所以：
+#     - 伤害是「按固定节拍」而非「每帧」或「每次进入接触一次」；
+#     - 接触期间会**重复**造成伤害，重复次数取决于接触持续时间，而不是固定设计值；
+#     - 本契约因此**不**断言「总共几次伤害」这种随窗口变化的数值，只断言
+#       「第一次结算恰好一次、之后离开接触不再增加」，这是唯一与时间相位无关的部分。
+#
+# 观测窗口为什么是 45 帧（第 2 段）：进入接触后最坏情况要等满一个 30 帧节拍才结算，
+#   45 = 30 + 15 帧余量；同时因为探针「一旦全部期望成立就结束该阶段」，第 2 段会在
+#   第一次结算的那一帧结束，第二次结算（30 帧后）不可能被纳入。
+#
+# 明确未覆盖（见 PHASE_1_48_AUDIT.md）：
+#   - 死亡：玩家 10 点生命、每节拍 1 点，10 个节拍（约 5 s）才会死亡，本契约不推进那么久。
+#   - 追击移动：`SlimeEnemy.tscn` 的 `ChaseMovement.target_path` 为空 → 敌人不移动
+#     （本契约反而用「史莱姆位置不变」把这一现状固定下来，避免以后配了目标却没更新契约）。
+#   - 玩家攻击敌人、敌人受击：`ContactDamage` 只对 `players` 组生效，敌人自己不受伤。
+
+scene_id: slime_contact
+scene: Scenes/SlimeContactArena.tscn
+summary: "真实玩家走进史莱姆 → ContactDamage 节拍结算 → 玩家 Health 下降"
+features: [player_movement, chase_movement, contact_damage, health]
+
+preconditions:
+  - {check: health.current, target: Player/Health, equals: 10}
+  - {check: health.current, target: SlimeEnemy/Health, equals: 5}
+  - {check: signal, target: Player/Health, entry: health.health_changed, count: 0}
+
+stages:
+  # ---- 1. 只靠近、尚未接触：真实位移发生，但没有任何伤害 ----------------------
+  - id: approach_without_contact_deals_no_damage
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 20}}
+      - {type: input.release, params: {action: move_right}}
+    expected:
+      # 20 帧 ≈ 73 px → x ≈ -87。下界 -130 证明「真的动了」（> 30 px），
+      # 上界 -60 距离接触带 (-34, …] 还有 26 px 余量，因此本段必然未接触。
+      - {check: node2d.position, target: Player, axis: x, min: -130.0, max: -60.0}
+      - {check: node2d.position, target: Player, axis: y, min: -8.0, max: 8.0}
+      - {check: health.current, target: Player/Health, equals: 10}
+      - {check: signal, target: Player/Health, entry: health.health_changed, count: 0}
+      - {check: health.current, target: SlimeEnemy/Health, equals: 5}
+    window_frames: 5
+
+  # ---- 2. 真实接触：被史莱姆身体挡住，且恰好结算一次 1 点伤害 ----------------
+  - id: contact_deals_one_tick_of_damage
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 25}}
+      - {type: input.release, params: {action: move_right}}
+    expected:
+      # 被史莱姆身体挡在 -30：这个区间既是「接触证据」，也是「无法再前进」的证据。
+      - {check: node2d.position, target: Player, axis: x, min: -34.0, max: -26.0}
+      # 10 - 1 = 9：伤害量与 Health 的语义一致，而不是「生命值变了」。
+      - {check: health.current, target: Player/Health, equals: 9}
+      # 事件次数 + 参数：证明是一次 1 点伤害，且与生命值读数一致。
+      - {check: signal, target: Player/Health, entry: health.health_changed,
+         count: 1, last_args: [9, 1]}
+      # 伤害是单向的：敌人自己的血量不变（ContactDamage 只打 players 组）。
+      - {check: health.current, target: SlimeEnemy/Health, equals: 5}
+      # 敌人不会移动（target_path 为空）：位置不变是当前设计，不是偶然。
+      - {check: node2d.position, target: SlimeEnemy, axis: x, min: -2.0, max: 2.0}
+      - {check: node2d.position, target: SlimeEnemy, axis: y, min: -2.0, max: 2.0}
+    window_frames: 45
+
+  # ---- 3. 离开接触：位移真实发生，但生命值与事件计数都不再变化 --------------
+  - id: leaving_contact_stops_damage
+    actions:
+      - {type: input.press, params: {action: move_left}}
+      - {type: simulation.advance_frames, params: {frames: 25}}
+      - {type: input.release, params: {action: move_left}}
+      # 再空跑 45 帧（≥ 1.5 个节拍）：若「靠近即扣血」或伤害不受重叠约束，这里必然掉血。
+      - {type: simulation.advance_frames, params: {frames: 45}}
+    expected:
+      # 从 -30 左移 25 帧 ≈ -122：远离接触带。
+      - {check: node2d.position, target: Player, axis: x, min: -140.0, max: -80.0}
+      - {check: health.current, target: Player/Health, equals: 9}
+      - {check: signal, target: Player/Health, entry: health.health_changed, count: 1}
+      - {check: health.current, target: SlimeEnemy/Health, equals: 5}
+    window_frames: 5

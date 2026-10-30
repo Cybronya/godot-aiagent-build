@@ -85,7 +85,24 @@ def run() -> int:
     if os.path.isfile(graph_path):
         graph = json.load(io.open(graph_path, encoding="utf-8"))
         nodes = set(graph.get("nodes", []))
-        ok("graph: 12 nodes", len(nodes) == 12, str(sorted(nodes)))
+        # Feature 数量是数据，不是不变量：期望集合直接独立枚举 Features 下的目录名，
+        # 不读取被测图，也不复用 build_feature_index 的发现逻辑，避免生成器漏项时循环自证。
+        features_root = os.path.join(PROJECT_ROOT, "Features")
+        feature_dirs = {name for name in os.listdir(features_root)
+                        if os.path.isdir(os.path.join(features_root, name))}
+        directories_without_metadata = sorted(
+            name for name in feature_dirs
+            if not os.path.isfile(os.path.join(features_root, name, "feature.yaml"))
+        )
+        expected_nodes = feature_dirs
+        ok("graph: every Feature directory has metadata", not directories_without_metadata,
+           str(directories_without_metadata))
+        ok("graph: every Feature directory is a node (%d)" % len(expected_nodes),
+           nodes == expected_nodes,
+           "missing=%s extra=%s" % (sorted(expected_nodes - nodes), sorted(nodes - expected_nodes)))
+        ok("graph: core features present",
+           {"health", "contact_damage", "stun", "player_movement", "trigger_switch"} <= nodes,
+           str(sorted(nodes)))
         edges = graph.get("edges", [])
         ok("graph: has health->contact_damage edge",
            any(e["from"] == "health" and e["to"] == "contact_damage" and e["type"] == "commonly_used_with"

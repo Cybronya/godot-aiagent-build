@@ -1,0 +1,541 @@
+# EVAL136 — End-to-End Capability Evaluation 任务集（Phase 1.36）
+#
+# 冻结规则（修改任何一条都必须重跑全部任务并在报告中说明原因）：
+#   1. `requirement` 是任务的自然语言需求，不允许为了让工具通过而改写。
+#   2. `attempts` 顺序执行：前一次尝试未通过才会执行下一次；`kind` 是修复归因
+#      （initial / plan_revision / framework），指标按 kind 分别统计。
+#   3. `verify` 是行为与回归证据：只认真实运行结果（Godot 探针 / 既有测试套件）。
+#   4. `stage` 声明的路径在运行前必须不存在；运行后只按标记删除本次产物。
+#
+# 步骤类型：
+#   tool         —— 以 sys.executable 运行 .ai/tools/<argv[0]>（cwd = 项目根）
+#   godot        —— `godot --headless --path . <argv> [-- <user_args>]`
+#   stage        —— 复制 fixtures/<fixture> 到 dest（dest 必须不存在）
+#   copy         —— 复制 source（文件或目录）到 dest（dest 必须不存在）
+#   mutate_json  —— 复制 source 到 dest 并按 set 覆盖字段（用于受控负向变异体）
+#   assert_json  —— 读取 JSON 文档并按 checks 断言（equals / contains）
+#   assert_file  —— 文件存在性 / 内容断言（exists / absent / contains_in / not_contains_in）
+# 断言：expect_exit（默认 0）、contains（全部命中）、missing（全部不出现）
+
+schema:
+  id: evaluation_tasks
+  version: 1
+
+run:
+  artifact_marker: EVAL136
+
+tasks:
+  # ------------------------------------------------------------------ T1
+  - id: T1
+    title: 单 Feature 生成与验证（collect_pickup）
+    requirement: a collectible key that disappears when picked up
+    covers: [single_feature, generated_scene_runtime]
+    required_phases: [plan, artifacts, loadable, behavior, negative, regression]
+    stage:
+      - id: t1_stage_entity_blueprint
+        kind: stage
+        fixture: t1_entity_blueprint.yaml
+        dest: "{run_dir}/blueprints/t1_entity_blueprint.yaml"
+      - id: t1_stage_scene_blueprint
+        kind: stage
+        fixture: t1_scene_blueprint.yaml
+        dest: "{run_dir}/blueprints/t1_scene_blueprint.yaml"
+      - id: t1_stage_probe
+        kind: copy
+        source: .ai/tools/evaluation/probes/eval_pickup_probe.gd
+        dest: Tests/eval136_pickup_probe.gd
+        marker: EVAL136
+    attempts:
+      - name: entity_blueprint
+        kind: initial
+        # 证伪尝试：故意先用「最直接的」Entity Blueprint，观测生成器是否真的能
+        # 交付单 Feature 场景。步骤预期跑完（包括预期中的 exit 1），
+        # 但本尝试**不算通过**，需求仍由下一次尝试交付。
+        expect_failure: true
+        steps:
+          - id: t1_plan_features
+            phase: plan
+            argv:
+              - feature_registry/compose_features.py
+              - a collectible key that disappears when picked up
+              - --id
+              - eval_key
+            contains:
+              - "role: key_item"
+              - "- collect_pickup"
+          - id: t1_compose_entity
+            phase: artifacts
+            argv:
+              - scene_composer/scene_composer.py
+              - "{run_dir}/blueprints/t1_entity_blueprint.yaml"
+              - --out
+              - Scenes
+              - --tests
+            expect_exit: 1
+            contains:
+              - Capability contract failed
+      - name: scene_blueprint_revision
+        kind: plan_revision
+        steps:
+          - id: t1_compose_scene
+            phase: artifacts
+            argv:
+              - scene_composer/scene_composer.py
+              - "{run_dir}/blueprints/t1_scene_blueprint.yaml"
+              - --out
+              - Scenes
+              - --tests
+            contains:
+              - "Generated: Scenes"
+              - "Validation: PASS"
+            generated:
+              - Scenes/EvalKey.tscn
+              - Tests/test_eval_key.gd
+            marker: EvalKey
+    verify:
+      - id: t1_generated_test
+        phase: loadable
+        kind: godot
+        argv: ["-s", "res://Tests/test_eval_key.gd"]
+        contains:
+          - "PASS"
+      - id: t1_behavior_positive
+        phase: behavior
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_pickup_probe.gd"]
+        user_args: ["res://Scenes/EvalKey.tscn", positive]
+        contains:
+          - "PASS: eval136 pickup probe (positive)"
+      - id: t1_behavior_negative
+        phase: negative
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_pickup_probe.gd"]
+        user_args: ["res://Scenes/EvalKey.tscn", negative]
+        contains:
+          - "PASS: eval136 pickup probe (negative)"
+      - id: t1_regression_feature
+        phase: regression
+        kind: tool
+        argv: [run_tests.py, "Features/collect_pickup"]
+        contains:
+          - passed
+
+  # ------------------------------------------------------------------ T2
+  - id: T2
+    title: 多 Feature 组合（chase_movement + contact_damage + health + stun）
+    requirement: an enemy that chases the target, damages on contact, has health, and can be stunned
+    covers: [multi_feature_composition, runtime_behavior]
+    required_phases: [plan, artifacts, loadable, behavior, negative, regression]
+    stage:
+      - id: t2_stage_blueprint
+        kind: stage
+        fixture: t2_scene_blueprint.yaml
+        dest: "{run_dir}/blueprints/t2_scene_blueprint.yaml"
+      - id: t2_stage_probe
+        kind: copy
+        source: .ai/tools/evaluation/probes/eval_stun_enemy_probe.gd
+        dest: Tests/eval136_stun_enemy_probe.gd
+        marker: EVAL136
+    attempts:
+      - name: compose_four_features
+        kind: initial
+        steps:
+          - id: t2_plan_features
+            phase: plan
+            argv:
+              - feature_registry/compose_features.py
+              - an enemy that chases the target, damages on contact, has health, and can be stunned
+            contains:
+              - "- chase_movement"
+              - "- contact_damage"
+              - "- health"
+              - "- stun"
+          - id: t2_compose
+            phase: artifacts
+            argv:
+              - scene_composer/scene_composer.py
+              - "{run_dir}/blueprints/t2_scene_blueprint.yaml"
+              - --out
+              - Scenes
+              - --tests
+            contains:
+              - "Validation: PASS"
+            generated:
+              - Scenes/EvalStunEnemy.tscn
+              - Tests/test_eval_stun_enemy.gd
+            marker: EvalStunEnemy
+          - id: t2_scene_structure
+            phase: artifacts
+            kind: assert_file
+            contains_in:
+              Scenes/EvalStunEnemy.tscn: '[node name="ContactShape" type="CollisionShape2D" parent="ContactDamage"]'
+            exists:
+              - Scenes/EvalStunEnemy.tscn
+              - Tests/test_eval_stun_enemy.gd
+    verify:
+      - id: t2_generated_test
+        phase: loadable
+        kind: godot
+        argv: ["-s", "res://Tests/test_eval_stun_enemy.gd"]
+        contains:
+          - "PASS"
+      - id: t2_behavior_positive
+        phase: behavior
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_stun_enemy_probe.gd"]
+        user_args: ["res://Scenes/EvalStunEnemy.tscn", positive]
+        contains:
+          - "PASS: eval136 stun enemy probe (positive)"
+      - id: t2_behavior_negative
+        phase: negative
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_stun_enemy_probe.gd"]
+        user_args: ["res://Scenes/EvalStunEnemy.tscn", negative]
+        contains:
+          - "PASS: eval136 stun enemy probe (negative)"
+      - id: t2_regression_feature
+        phase: regression
+        kind: tool
+        argv: [run_tests.py, "Features/stun"]
+        contains:
+          - passed
+
+  # ------------------------------------------------------------------ T3
+  - id: T3
+    title: 条件判断与事件联动（两把钥匙 → 条件门 → 门）
+    requirement: 两把钥匙都拿到后门才打开
+    covers: [conditional_logic, event_wiring]
+    required_phases: [plan, loadable, behavior, negative, regression]
+    stage:
+      - id: t3_stage_scene
+        kind: stage
+        fixture: t3_key_door.tscn
+        dest: Scenes/EvalKeyDoor.tscn
+        marker: Eval136Marker
+      - id: t3_stage_probe
+        kind: copy
+        source: .ai/tools/evaluation/probes/eval_key_door_probe.gd
+        dest: Tests/eval136_key_door_probe.gd
+        marker: EVAL136
+      - id: t3_stage_load_probe
+        kind: copy
+        source: .ai/tools/evaluation/probes/eval_scene_load_probe.gd
+        dest: Tests/eval136_scene_load_probe.gd
+        marker: EVAL136
+    attempts:
+      - name: author_wiring
+        kind: initial
+        steps:
+          - id: t3_wiring_first_key
+            phase: plan
+            kind: assert_file
+            contains_in:
+              Scenes/EvalKeyDoor.tscn: 'signal="collected" from="KeyA" to="Gate" method="set_condition"'
+            exists:
+              - Scenes/EvalKeyDoor.tscn
+          - id: t3_wiring_second_key
+            phase: plan
+            kind: assert_file
+            contains_in:
+              Scenes/EvalKeyDoor.tscn: 'signal="collected" from="KeyB" to="Gate" method="set_condition"'
+          - id: t3_wiring_door_target
+            phase: plan
+            kind: assert_file
+            contains_in:
+              Scenes/EvalKeyDoor.tscn: 'signal="fulfilled" from="Gate" to="Door" method="set_open"'
+          - id: t3_gate_threshold
+            phase: plan
+            kind: assert_file
+            contains_in:
+              Scenes/EvalKeyDoor.tscn: condition_count = 2
+    verify:
+      - id: t3_scene_loadable
+        phase: loadable
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_scene_load_probe.gd"]
+        user_args: ["res://Scenes/EvalKeyDoor.tscn", "KeyA,KeyB,Gate,Door"]
+        contains:
+          - "PASS: eval136 scene load probe"
+      - id: t3_behavior_full
+        phase: behavior
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_key_door_probe.gd"]
+        user_args: ["res://Scenes/EvalKeyDoor.tscn", full]
+        contains:
+          - "PASS: eval136 key door probe (full)"
+      - id: t3_behavior_partial
+        phase: negative
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_key_door_probe.gd"]
+        user_args: ["res://Scenes/EvalKeyDoor.tscn", partial]
+        contains:
+          - "PASS: eval136 key door probe (partial)"
+      - id: t3_regression_feature
+        phase: regression
+        kind: tool
+        argv: [run_tests.py, "Features/condition_gate"]
+        contains:
+          - passed
+
+  # ------------------------------------------------------------------ T4
+  - id: T4
+    title: 小型关卡与胜负条件（两波清剿 → 出口解锁）
+    requirement: 两波敌人，清空所有波次后打开出口
+    covers: [level_orchestration, victory_condition]
+    required_phases: [plan, artifacts, loadable, behavior, negative, regression]
+    stage:
+      - id: t4_stage_gameplay
+        kind: stage
+        fixture: t4_gameplay_blueprint.yaml
+        dest: "{run_dir}/blueprints/t4_gameplay.yaml"
+      - id: t4_stage_load_probe
+        kind: copy
+        source: .ai/tools/evaluation/probes/eval_scene_load_probe.gd
+        dest: Tests/eval136_level_load_probe.gd
+        marker: EVAL136
+    attempts:
+      - name: waves_flag
+        kind: initial
+        # 证伪尝试：用 --waves 2 表达「两波」（该 flag 的文案含义），
+        # 观测生成器是否真的产出 2 波；步骤自身的断言会 FAIL，
+        # 这里额外显式标记，避免未来断言被改宽后静默结束尝试。
+        expect_failure: true
+        steps:
+          - id: t4_generate_waves_flag
+            phase: artifacts
+            argv:
+              - gameplay_planner/level_planner.py
+              - "{run_dir}/blueprints/t4_gameplay.yaml"
+              - --mode
+              - waves
+              - --waves
+              - "2"
+              - --wave
+              - eval_grunt:2
+              - --out
+              - Levels/EvalWaveLevel.json
+            contains:
+              - "Generated: Levels"
+            generated:
+              - Levels/EvalWaveLevel.json
+            marker: eval_wave_level
+          - id: t4_wave_count_from_flag
+            phase: plan
+            kind: assert_json
+            path: Levels/EvalWaveLevel.json
+            checks:
+              - path: waves.length
+                equals: 2
+              - path: mode
+                equals: waves
+              - path: exit.unlock_when
+                equals: all_waves_cleared
+      - name: explicit_waves
+        kind: plan_revision
+        steps:
+          - id: t4_generate_explicit
+            phase: artifacts
+            argv:
+              - gameplay_planner/level_planner.py
+              - "{run_dir}/blueprints/t4_gameplay.yaml"
+              - --mode
+              - waves
+              - --wave
+              - eval_grunt:2
+              - --wave
+              - eval_grunt:3
+              - --out
+              - Levels/EvalWaveLevel.json
+            contains:
+              - "2 wave(s), 5 enemies"
+            generated:
+              - Levels/EvalWaveLevel.json
+            marker: eval_wave_level
+          - id: t4_wave_shape
+            phase: plan
+            kind: assert_json
+            path: Levels/EvalWaveLevel.json
+            checks:
+              - path: waves.length
+                equals: 2
+              - path: waves[0].entries[0].count
+                equals: 2
+              - path: waves[1].entries[0].count
+                equals: 3
+              - path: entities.eval_grunt.scene
+                equals: res://Scenes/Enemy.tscn
+              - path: level.arena_scene
+                equals: res://Scenes/TimedCombatArena.tscn
+          - id: t4_level_check
+            phase: artifacts
+            argv:
+              - gameplay_planner/level_planner.py
+              - --check
+              - Levels/EvalWaveLevel.json
+            contains:
+              - "PASS: level orchestration valid"
+    verify:
+      - id: t4_arena_loadable
+        phase: loadable
+        kind: godot
+        argv: ["-s", "res://Tests/eval136_level_load_probe.gd"]
+        user_args: ["res://Scenes/TimedCombatArena.tscn", "Player,Entities,Mechanism/ExitDoor,Mechanism/ExitZone"]
+        contains:
+          - "PASS: eval136 scene load probe"
+      - id: t4_runtime_probe
+        phase: behavior
+        kind: tool
+        argv:
+          - e2e/level_orchestration_probe.py
+          - res://Levels/EvalWaveLevel.json
+        contains:
+          - "Result: status=PASS"
+          - "waves=2.0"
+          - "door_open_after_all=1.0"
+      - id: t4_mutant_config
+        phase: negative
+        kind: mutate_json
+        source: Levels/EvalWaveLevel.json
+        dest: "{run_dir}/mutant_level.json"
+        set:
+          entities.eval_grunt.scene: res://Scenes/Missing136.tscn
+        generated:
+          - "{run_dir}/mutant_level.json"
+      - id: t4_mutant_rejected
+        phase: negative
+        argv:
+          - gameplay_planner/level_planner.py
+          - --check
+          - "{run_dir}/mutant_level.json"
+        expect_exit: 1
+        missing:
+          - "PASS: level orchestration valid"
+      - id: t4_regression_level
+        phase: regression
+        kind: tool
+        argv: [run_tests.py, "level_orchestration"]
+        contains:
+          - passed
+
+  # ------------------------------------------------------------------ T5
+  - id: T5
+    title: 运行时诊断与受限自修复（Node not found → 修复 → 回归）
+    requirement: 运行时报告 Node not found 时定位硬编码节点路径并做最小修复
+    covers: [runtime_diagnosis, limited_self_repair]
+    required_phases: [plan, artifacts, loadable, behavior, negative, regression]
+    stage:
+      - id: t5_copy_project
+        kind: copy
+        source: .ai/tools/runtime/tests/fixtures/broken_node_path
+        dest: "{run_dir}/repair_project"
+    attempts:
+      - name: framework_repair
+        kind: framework
+        steps:
+          - id: t5_runtime_defect
+            phase: behavior
+            argv:
+              - runtime/run_scene.py
+              - --project
+              - "{run_dir}/repair_project"
+              - --scene
+              - res://Scenes/BrokenNodePath.tscn
+              - --json
+              - --no-logs
+              - --out
+              - "{run_dir}/before.json"
+            expect_exit: 1
+            contains:
+              - "Node not found"
+          - id: t5_defect_classified
+            phase: behavior
+            kind: assert_json
+            path: "{run_dir}/before.json"
+            checks:
+              - path: status
+                equals: FAIL
+              - path: errors[0].message
+                contains: "Node not found"
+          - id: t5_dry_run
+            phase: plan
+            argv:
+              - runtime/self_repair.py
+              - --project
+              - "{run_dir}/repair_project"
+              - --scene
+              - res://Scenes/BrokenNodePath.tscn
+              - --dry-run
+            # dry-run 不修改项目，因此运行时仍然失败（退出码 1）：这里断言的是
+            # 「诊断分类正确」，不是「已经修好」
+            expect_exit: 1
+            contains:
+              - node_not_found
+              - "confidence=high"
+              - broken_node_path.gd:6
+          - id: t5_dry_run_no_write
+            phase: negative
+            kind: assert_file
+            contains_in:
+              "{run_dir}/repair_project/Scenes/broken_node_path.gd": 'get_node("Helth")'
+            not_contains_in:
+              "{run_dir}/repair_project/Scenes/broken_node_path.gd": 'get_node("Health")'
+          - id: t5_repair
+            phase: artifacts
+            timeout: 240
+            argv:
+              - runtime/self_repair.py
+              - --project
+              - "{run_dir}/repair_project"
+              - --scene
+              - res://Scenes/BrokenNodePath.tscn
+              - --max-attempts
+              - "3"
+              - --history-dir
+              - "{run_dir}/repair_project/repair-history"
+            contains:
+              - "Repair       PASS"
+              - "Result: PASS"
+          - id: t5_repair_diff
+            phase: artifacts
+            kind: assert_file
+            contains_in:
+              "{run_dir}/repair_project/Scenes/broken_node_path.gd": 'get_node("Health")'
+            not_contains_in:
+              "{run_dir}/repair_project/Scenes/broken_node_path.gd": 'get_node("Helth")'
+          - id: t5_history_written
+            phase: artifacts
+            kind: assert_file
+            exists:
+              - "{run_dir}/repair_project/repair-history/repair-001.yaml"
+    verify:
+      - id: t5_runtime_after
+        phase: loadable
+        kind: tool
+        argv:
+          - runtime/run_scene.py
+          - --project
+          - "{run_dir}/repair_project"
+          - --scene
+          - res://Scenes/BrokenNodePath.tscn
+          - --json
+          - --no-logs
+          - --out
+          - "{run_dir}/after.json"
+        contains:
+          - '"status": "PASS"'
+      - id: t5_after_json
+        phase: loadable
+        kind: assert_json
+        path: "{run_dir}/after.json"
+        checks:
+          - path: status
+            equals: PASS
+          - path: errors.length
+            equals: 0
+      - id: t5_regression_self_repair
+        phase: regression
+        kind: tool
+        timeout: 600
+        argv: [run_tests.py, "test_self_repair"]
+        contains:
+          - passed

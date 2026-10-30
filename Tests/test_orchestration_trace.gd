@@ -608,7 +608,7 @@ func _write_boss_config(name: String, stages: Variant) -> String:
 
 
 func _make_run_dir() -> String:
-	var base := "res://.ai/tmp/runs"
+	var base := "user://.test_runs/runs"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(base))
 	for attempt in 16:
 		var id := "%d-%08x%08x" % [OS.get_process_id(), randi(), randi()]

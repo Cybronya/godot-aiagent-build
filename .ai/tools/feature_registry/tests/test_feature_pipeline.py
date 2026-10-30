@@ -216,7 +216,20 @@ def run() -> int:
     print("=== Test 3c: Real project check ===")
     real = metadata_validator.check_features(PROJECT_ROOT, os.path.join(DOTAI, "context", "feature_index.json"))
     ok("validator(real project): no failures", real["failures"] == [], str(real["failures"]))
-    ok("validator(real project): checked 12 features", real["checked"] == 12, str(real["checked"]))
+    # 断言的是「validator 真的走遍了磁盘上的每个 Feature 目录」，而不是某个快照数字。
+    # 期望集合独立枚举目录名，不复用 builder 或 validator 的发现逻辑；否则它们漏检时
+    # 期望也可能一起缩小。上面的 no failures 还要求每个目录具有有效 metadata 且索引新鲜。
+    features_root = os.path.join(PROJECT_ROOT, "Features")
+    feature_dirs = {name for name in os.listdir(features_root)
+                    if os.path.isdir(os.path.join(features_root, name))}
+    ok("validator(real project): every Feature directory has metadata",
+       all(os.path.isfile(os.path.join(features_root, name, "feature.yaml"))
+           for name in feature_dirs), str(sorted(feature_dirs)))
+    ok("validator(real project): checked every Feature directory (%d)" % len(feature_dirs),
+       real["checked"] == len(feature_dirs),
+       "checked=%d expected=%d (%s)" % (real["checked"], len(feature_dirs), sorted(feature_dirs)))
+    ok("validator(real project): core features were checked",
+       {"health", "contact_damage", "stun"} <= feature_dirs, str(sorted(feature_dirs)))
 
     shutil.rmtree(tmp, ignore_errors=True)
     shutil.rmtree(bad, ignore_errors=True)

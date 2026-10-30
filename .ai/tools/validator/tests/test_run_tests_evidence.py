@@ -73,7 +73,10 @@ def main() -> int:
        repr((run_tests.STATUS_PASS, run_tests.STATUS_FAIL, run_tests.STATUS_INCOMPLETE)))
 
     # ---------- E4：真实子进程路径（不只手测纯函数） ----------
-    work = Path(tempfile.mkdtemp(prefix="run_tests_evidence_", dir=str(run_tests.PROJECT_ROOT)))
+    # Phase 1.35：probe 目录放系统临时目录（默认）——run_python_test 按绝对路径
+    # 直跑，无需仓库内路径；被杀运行也不在仓库根留下残留（原 PROJECT_ROOT 选址
+    # 曾使全量 turn 的删除计数被推过环境守卫上限，见 PHASE_1_35_AUDIT §3）。
+    work = Path(tempfile.mkdtemp(prefix="run_tests_evidence_"))
     probes = {
         "test_probe_clean.py": "print('PASS: clean probe')\nraise SystemExit(0)\n",
         "test_probe_skip.py": ("print('SKIP: optional probe (dependency unavailable)')\n"

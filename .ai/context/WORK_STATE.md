@@ -1,10 +1,10 @@
 # Work State
 
-当前工程状态。（更新于 Phase 1.32 F4 Owned Cleanup 之后）
+当前工程状态。（更新于 Phase 1.38 Feature Instance Evidence Reconciliation 之后）
 
-Git 事实（2026-10-19 实测）：HEAD = `5e47bfd`（Phase 1.19–1.25 已提交）；Phase 1.26–1.32
-为**本地未提交增量**（含 Phase 1.30/1.31 审计报告、F4 实现与新增测试）。仓库内的用户自有
-修改 `.workbuddy/memory/2026-10-18.md` 未触碰。
+Git 事实（2026-10-20 实测）：HEAD = `1c30f94`（Phase 1.19–1.25 已提交）；Phase 1.26–1.37
+为**本地未提交增量**（含 Phase 1.30/1.31/1.33/1.36/1.37 审计报告与对应实现/测试）。
+仓库内的用户自有修改 `.workbuddy/memory/2026-10-18.md` 未触碰。
 
 ## Phase 1.32：F4 所有权清理（已实施并实测）
 
@@ -27,6 +27,68 @@ Git 事实（2026-10-19 实测）：HEAD = `5e47bfd`（Phase 1.19–1.25 已提�
   四个基线 sha256/mtime 未变。
 - **已知限制**：无 janitor CLI（reclaim 需显式调用）；检查—删除仍有理论 TOCTOU 窗口；
   `.godot` 缓存并发未加锁；残留不自动回收（无法证明持有者已死亡）。
+
+## Phase 1.38：实例证据对账（已实施并实测）
+
+- **缺口**：`template.yaml#instance` 是声明证据，1.37 后直接喂能力契约，但从未与真实
+  `.tscn` 核对（`artifact_evidence` 只在组合时核对，且允许子节点“在别处”）。
+- **新增** `scene_composer/instance_evidence.py`：三级证据（declaration / static_scene /
+  runtime），状态 PASS / MISMATCH / INSUFFICIENT / INVALID / NOT_DECLARED；
+  根类型、直接子节点类型与计数、层级错误、重复路径、解析受限、`runtime_children` 豁免。
+  另含挂载模式（恰好一次、引用正确入口场景、子节点不得来自别的组件）。
+- **门禁**：`validator/check_instance_evidence.py` 作为 Validator 第 7 阶段；
+  MISMATCH/INVALID → failure，INSUFFICIENT → warning。未声明仍是 NOT_DECLARED（向后兼容）。
+- **实测**：新测试 **53 checks** exit 0；相关 10 个测试全过；全量 **87/87 PASS**；
+  Validator **0 error / 17 warning**；真实负向对照（删 PickupShape）→ 测试 exit 1、
+  Validator exit 1，sha256 还原后一致；四条黄金基线未变。
+- **报告**：[PHASE_1_38_AUDIT.md](PHASE_1_38_AUDIT.md)。
+- **未接入**：挂载模式不进 compose（artifact_evidence 报告形态已冻结）；运行时对账未实现。
+
+## Phase 1.37：评估驱动的能力改进（已实施并实测）
+
+- **瓶颈**：Phase 1.36 的 T1 首次尝试被 `Capability contract failed: Collision requires
+  CollisionShape2D` 拦住，必须人工改计划才能交付单 Feature 场景。
+- **根因**：能力契约只读 Scene Intent 中**已声明**的结构；6 个 Feature 的入口场景
+  自带碰撞形状却未在 `template.yaml` 声明 `instance:`，于是证据缺失。
+- **修复**：`collect_pickup` / `heal_pickup` / `openable_door` / `trigger_switch` /
+  `moving_platform` / `player_movement` 的 `template.yaml` 补 `instance:` 声明；
+  `contact_damage` 有意不声明（其入口场景无碰撞形状，接触形状由宿主提供）。
+  **未改**契约判定、Resolver、生成器、Validator；生成产物逐字节不变。
+- **新增测试** `test_feature_instance_evidence.py`（E1–E5，41 checks）：声明与 `.tscn`
+  一致、去掉声明必须仍 BLOCKED（防放宽）、生成物不变、无声明的 Feature 不被推断。
+  修复前 **10 项 FAIL**（负向对照），修复后 exit 0。
+- **附带修复（被激活的旧缺陷）**：① 外部产物环判定把**菱形引用**当环
+  （`Health.tscn` 经 `Player.tscn` 二次可达 → e2e L6 误报）→ 改为祖先链判定，
+  Case 5c 锁定菱形放行、环 Case 5/5b 仍 BLOCKED；② adoption 审计断言写死了
+  「声明 Collision ⇒ 裸计划必须 BLOCKED」→ 改为按真实场景碰撞形状判定，
+  `contact_damage`（声明了 Collision 但场景无形状）仍必须 BLOCKED。
+- **实测（同一 `scoring.py`，最终态 token `10160-5db19546` / `7648-1d43424a`）**：
+  v2 首次通过 **4/5**、计划修订 **1/1**；v1 冻结任务集与 1.36 完全一致（3/5、2/2）；
+  最终 5/5；自动修复 1/1；回归缺陷 0/5；清理 24 项 / 拒绝 0 / 残留 0；基线未变。
+- **全量测试**：86/86 PASS（exit 0）；中途 84/86（上述两个被激活的缺陷）已如实记录在报告。
+- **报告**：[PHASE_1_37_AUDIT.md](PHASE_1_37_AUDIT.md)。
+- **未修**：D3（`--waves` 被静默忽略，T4 仍需计划修订）、D4（信号连线/同 Feature 多实例）、
+  D5（`--tests` 在根实例蓝图上产出空断言）。
+
+## Phase 1.36：端到端能力评估（已实施并实测）
+
+- **新增评估套件** `.ai/tools/evaluation/`：`tasks.yaml`（5 个冻结任务）+ `runner.py`
+  （暂存 → 执行 → 真实 Godot 探针 → 所有权清理 → 报告）+ `scoring.py`（判定与指标口径
+  唯一事实源）+ 4 个行为/加载探针 + 5 个固定输入。
+- **阶段判定**：`plan / artifacts / loadable / behavior / negative / regression`；
+  任一 FAIL 即 FAIL，无证据 = NOT_EXECUTED；任务 PASS 要求必需阶段全部 PASS（未执行不算通过）。
+- **归因分离**：`initial` / `plan_revision` / `framework` 三类尝试分别统计；
+  标 `expect_failure` 的证伪尝试按预期跑完也不算通过，并继续后续尝试。
+- **实测（两次正式运行，token 5112-08e78d96 / 7656-e9c85412）**：5/5 PASS；
+  首次通过率 3/5（T1 单 Feature 需计划修订、T4 波次参数需显式 `--wave`）；
+  自动修复 1/1（T5：`Node not found` → `node_path_literal` 修复 → 运行时 PASS）；
+  回归缺陷 0/5；单次全量耗时 115.0 s / 117.2 s。
+- **资源纪律**：清理 24 项 / 拒绝 0 / 共享目录残留 0；产物路径启动前不存在、
+  内容标记匹配才删；标记不匹配或运行目录之外的目录一律拒绝删除。
+- **实测回归**：全量 `run_tests.py` **85/85 PASS**（83 + 2 个评估器自测：28 + 24 checks）；
+  四条黄金基线 sha256/mtime 未变。
+- **报告**：[PHASE_1_36_AUDIT.md](PHASE_1_36_AUDIT.md)。
+- **未做**：F5、janitor CLI、`.godot` 并发治理；成本/模型计量（UNAVAILABLE）；并行评估。
 
 ## Phase 1.34：统一运行标识与 E2E 并发安全（已实施并验证）
 
@@ -60,10 +122,14 @@ Git 事实（2026-10-19 实测）：HEAD = `5e47bfd`（Phase 1.19–1.25 已提�
   0 error / 17 warning；四条基线 sha256/mtime 与实施前一致。
 - **报告**：[PHASE_1_33_AUDIT.md](PHASE_1_33_AUDIT.md)（含验证矩阵、NOT_EXECUTED/SKIP、
   L-8～L-10 新已知限制）。
+- **2026-10-20 复核补记（§11）**：当前工作区（Phase 1.34 已提交 + 1.35 未提交）上
+  独立复核，修复**一处 e2e 所有权记账缺陷**：启动期扫描回收的残留未重新登记为
+  「本运行可拥有」⇒ 结束清理拒删本轮重建的同名产物 ⇒ e2e exit 1（残留回收反而
+  阻塞下一轮）。最小修复 + 新增 `validator/tests/test_e2e_ownership.py`（E1–E4）。
+  修复后：e2e 173/173（含回收 19 个中断残留、工作区归零）、validator 段 10/10、
+  全量 83/83；基线 sha256/mtime 未变；`.godot` 未清理；F5 与 janitor 仍未实施。
 
 ## Phase 1.31：执行隔离与安全清理（审计/设计完成，F4-A 已在 1.32 实施）
-
-## Phase 1.31：执行隔离与安全清理（审计/设计完成，未实施）
 
 - **只读审计 + 设计**（2026-10-19）：报告见 `.ai/context/PHASE_1_31_AUDIT.md`。
   本阶段**未修改任何代码或测试**，只新增报告并更新文档。

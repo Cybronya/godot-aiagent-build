@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/collect_pickup/CollectPickup.tscn" id="1_key"]
+[ext_resource type="PackedScene" path="res://Features/condition_gate/ConditionGate.tscn" id="2_gate"]
+[ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="3_door"]
+
+[node name="EvalKeyDoor" type="Node2D"]
+
+[node name="Eval136Marker" type="Node" parent="."]
+
+[node name="KeyA" parent="." instance=ExtResource("1_key")]
+position = Vector2(-120, 0)
+pickup_id = "key_a"
+
+[node name="KeyB" parent="." instance=ExtResource("1_key")]
+position = Vector2(120, 0)
+pickup_id = "key_b"
+
+[node name="Gate" parent="." instance=ExtResource("2_gate")]
+condition_count = 2
+
+[node name="Door" parent="." instance=ExtResource("3_door")]
+position = Vector2(0, -120)
+
+; collected(value, pickup_id) 与 set_condition(value, id) 签名天然对位 —— 不得再加 binds，
+; 否则会以 3 个实参调用 2 参方法（Phase 1.36 评估中实测到的文档/契约不一致，见报告）。
+[connection signal="collected" from="KeyA" to="Gate" method="set_condition"]
+[connection signal="collected" from="KeyB" to="Gate" method="set_condition"]
+[connection signal="fulfilled" from="Gate" to="Door" method="set_open"]

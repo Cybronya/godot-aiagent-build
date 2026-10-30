@@ -28,6 +28,11 @@ from validator.check_assets import check_assets as check_assets_rules
 # .ai/context/asset_bindings/*.yaml; never migrates or rewrites files.
 from asset_registry.check_binding_schema import check_bindings as check_binding_schema_rules
 
+# Feature Instance Evidence Validation (stage 7, Phase 1.38). Reconciles every declared
+# template.yaml `instance:` block against the Feature's real entry .tscn (static text).
+# MISMATCH/INVALID -> failure; INSUFFICIENT (runtime-only evidence) -> warning.
+from validator.check_instance_evidence import check_instance_evidence as check_instance_evidence_rules
+
 
 def report_feature_metadata(r: Reporter, prints: list) -> None:
     """Run the Feature Metadata + Index checks and feed them into the shared Reporter."""
@@ -57,6 +62,70 @@ def report_assets(r: Reporter, prints: list) -> None:
         prints.append(f"  Assets checked: {result['checked']}")
     else:
         prints.append(f"  Asset validation: {result.get('note') or 'not applicable'}")
+
+def report_instance_evidence(r: Reporter, prints: list) -> None:
+    """Run the Feature Instance Evidence stage and feed it into the shared Reporter."""
+    try:
+        result = check_instance_evidence_rules()
+    except Exception as exc:                     # 读取层异常不得伪装成 PASS
+        r.fail(f"Feature instance evidence: check failed ({exc})")
+        prints.append("  Feature instance evidence: check failed")
+        return
+    for failure in result.get("failures") or []:
+        r.fail(failure)
+    for warning in result.get("warnings") or []:
+        r.warn(warning)
+    prints.append("  Feature instance evidence: %d declared / %d checked"
+                  % (result.get("declared", 0), result.get("checked", 0)))
+
+
+def report_instance_runtime(r: Reporter, prints: list, targets: list,
+                           require_runtime: bool) -> None:
+    """Phase 1.39：显式 opt-in 的运行时实例证据（真实 Godot 加载；慢）。
+
+    静态 Validator 默认不调用本阶段：只有传入 `--instance-runtime <feature|all>` 才运行。
+    MISMATCH/INVALID → failure；INSUFFICIENT → `--require-runtime` 时为 failure，否则 warning。
+    """
+    scene_composer_dir = TOOLS_DIR / "scene_composer"
+    if str(scene_composer_dir) not in sys.path:
+        sys.path.insert(0, str(scene_composer_dir))
+    try:
+        from runtime_instance_evidence import (declared_features, summarize,
+                                               verify_feature)
+    except Exception as exc:                     # 导入失败不得伪装成 PASS
+        r.fail(f"Runtime instance evidence: verifier unavailable ({exc})")
+        prints.append("  Runtime instance evidence: verifier unavailable")
+        return
+
+    wanted = []
+    for target in targets:
+        if str(target).strip().lower() == "all":
+            wanted.extend(declared_features())
+        elif target not in wanted:
+            wanted.append(str(target))
+    if not wanted:
+        prints.append("  Runtime instance evidence: no feature declared runtime")
+        return
+
+    reports = []
+    for feature in wanted:
+        report = verify_feature(feature)
+        reports.append(report)
+        if report.status in ("MISMATCH", "INVALID"):
+            r.fail(f"Runtime instance evidence: {feature} {report.status} "
+                   f"({report.reason}: {report.detail})")
+        elif report.status == "INSUFFICIENT":
+            message = (f"Runtime instance evidence: {feature} INSUFFICIENT "
+                       f"({report.reason}: {report.detail})")
+            if require_runtime:
+                r.fail(message)
+            else:
+                r.warn(message)
+    summary = summarize(reports)
+    prints.append("  Runtime instance evidence: %d checked (pass=%d mismatch=%d "
+                  "insufficient=%d)" % (summary["checked"], summary["pass"],
+                                         summary["mismatch"], summary["insufficient"]))
+
 
 def report_binding_schemas(r: Reporter, prints: list) -> None:
     """Run the Binding Schema Validation stage and feed it into the shared Reporter."""
@@ -232,6 +301,12 @@ def main():
                    help="existing runtime_result JSON judged without running Godot (repeatable)")
     p.add_argument("--project-root", default=str(TOOLS_DIR.parent.parent),
                    help="Godot project root for layer checks (default: repository root)")
+    # Phase 1.39：运行时实例证据（显式 opt-in；每次都会真实启动 Godot，慢）
+    p.add_argument("--instance-runtime", action="append", default=[],
+                   help="Feature id or 'all': verify instance.runtime with a real Godot load "
+                        "(repeatable; slow, off by default)")
+    p.add_argument("--require-runtime", action="store_true",
+                   help="treat runtime INSUFFICIENT as failure for --instance-runtime")
     args=p.parse_args(); config_dir=args.config_dir.resolve(); r=Reporter()
     print("Godot Agent Skill Framework Validator"); print(f"Config: {config_dir}")
     files={k:config_dir/n for k,n in {
@@ -549,11 +624,15 @@ def main():
     #   4. Feature Index Validation      (feature_index.json sync)
     #   5. Asset Validation              (asset_index.json / bindings / scene refs)
     #   6. Binding Schema Validation     (asset_bindings/*.yaml schema_version; Phase 1.7.9)
+    #   7. Feature Instance Evidence     (template.yaml instance: vs real entry .tscn; 1.38)
     # (Feature Tests remain project-side and are run separately.)
     checks_prints: list = []
     report_feature_metadata(r, checks_prints)
     report_assets(r, checks_prints)
     report_binding_schemas(r, checks_prints)
+    report_instance_evidence(r, checks_prints)
+    if args.instance_runtime:
+        report_instance_runtime(r, checks_prints, args.instance_runtime, args.require_runtime)
 
     # Phase 1.15：Layer Checks —— Scene / Gameplay / Level / Runtime 编排既有检查器。
     # 各层独立执行（局部失败不阻断其他层）；Runtime 层 Godot 不可用时如实标记

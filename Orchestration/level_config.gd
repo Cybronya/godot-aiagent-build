@@ -103,6 +103,19 @@ static func from_file(path: String) -> LevelConfig:
 	return config
 
 
+## 内存字典 → 配置（Phase 1.35）：与 from_file 同一校验/构建管线，供聚合场景
+## （单文件携带多份配置，如跨层契约探针的 bundle）按内存构建，不落盘。
+static func from_dictionary(parsed: Dictionary, source := "<dictionary>") -> LevelConfig:
+	var config := LevelConfig.new()
+	config.source_path = source
+	config._validate(parsed)
+	if not config.errors.is_empty():
+		config.stage = "config_validate"
+		return config
+	config._build(parsed)
+	return config
+
+
 ## 遗留 waves 数据 → 内存配置（场景内手写 waves 兼容通道；导出数据受信任，不做规则校验）。
 ## 每波接受两种形态：entries（配置形态）或 enemy_scene/enemy_count/elite_scene/elite_count。
 static func make_waves(raw_waves: Array) -> LevelConfig:

@@ -1,0 +1,20 @@
+# EVAL136 fixture — T1 attempt 2 input（Scene Blueprint，人工计划修订）
+#
+# 与 attempt 1 的差别只有一处：显式声明 root.scene = Feature 入口场景，
+# 让实体根就是 CollectPickup（Area2D + 自带 PickupShape），
+# 而不是「Node2D 容器 + 组件子节点」。这是仓库既有约定
+# （Entity Blueprint 推导说明 §root.type：enemy/player 角色 → CharacterBody2D，
+#   其余 → Node2D；e2e 主力链路则显式声明根实例场景）。
+# 该修订属于**计划层修订**，不是框架自动修复。
+
+scene:
+  id: eval_key
+root:
+  scene: res://Features/collect_pickup/CollectPickup.tscn
+  name: EvalKey
+  groups: [pickups]
+  properties:
+    pickup_id: eval_key_01
+
+validation:
+  required_tests: [collect_pickup]

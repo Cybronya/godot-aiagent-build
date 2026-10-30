@@ -1,0 +1,66 @@
+# ============================================================
+# 组合场景契约：SurvivalArena（Phase 1.46 第二个组合场景 / 对照基线）
+# ============================================================
+#
+# 场景：Scenes/SurvivalArena.tscn（正式关卡场景，不是夹具）
+# 组合链（场景 [connection] 数据，1 → 2）：
+#
+#   RewardSwitch.activated → MainDoor.set_open
+#   RewardSwitch.activated → SideDoor.set_open
+#
+# 本契约只覆盖**开关 → 双门**这一段，理由与边界：
+#
+#   - 该段的因果完整：一个开关的激活事件同时驱动两扇门，两扇门各自广播且仅广播一次。
+#   - **不**覆盖「门关闭时阻断通行 / 开门后可通行」：这两段已用一份三段契约实测过
+#     （导航到 y≈-77 → 右移被主门挡在 x≈452 → 触发开关 → 再右移穿过），结果不稳定：
+#     6 次调用中 4 次 PASS、1 次 MISMATCH（45 帧只走了 60.7px，停在 x≈512.7 而非 ≥520）、
+#     1 次 replay_inconsistent。根因在 `Scenes/survival_arena.gd::_enemy_spawn_offset()`：
+#     敌人在玩家周围 `randf()*TAU` 角度、180–260px 处生成，可能正好落在通道上挡住玩家。
+#     因此该场景的**通行段不可重放**，本契约不断言它（证据见审计 §6，非“门不阻挡”）。
+#     几何上主门确实能挡：Divider 上/下段覆盖 y∈[-338,-110] 与 [110,338]，主门覆盖
+#     y∈[-64,64]，剩余通道仅 46px 宽，而玩家碰撞高 48px。
+#   - **不**覆盖撤离/胜负/计时：那是 LevelOrchestrator 的 real-time 编排，进程帧率与
+#     敌人刷新顺序不属于本契约的语义比较范围。
+#   - 敌人/陷阱刷新在本场景 `_ready` 后由编排器驱动，与本链并行；本链只断言门的
+#     状态与事件计数（它们不依赖敌人，也不依赖玩家位置），因此两次重放稳定一致。
+#     这是**有意的范围收紧**：不是“场景已完整验证”，而是“这一段的证据可重复”。
+#
+# 数值来源：门与开关都来自 Features/openable_door 与 Features/trigger_switch 的正式实例，
+# 初始 start_open=false（两个门节点都没有覆盖该导出），RewardSwitch 默认 Latching。
+
+scene_id: survival_arena
+scene: Scenes/SurvivalArena.tscn
+summary: "一个奖励开关同时驱动主门与侧门（1 → 2 连接）"
+features: [trigger_switch, openable_door]
+
+preconditions:
+  - {check: door.is_open, target: Mechanism/MainDoor, equals: false}
+  - {check: door.is_open, target: Mechanism/SideDoor, equals: false}
+  - {check: trigger.is_triggered, target: Mechanism/RewardSwitch, equals: false}
+
+stages:
+  # ---- 1. 初始：两扇门都关闭且没有任何开门事件 ---------------------------------
+  - id: both_doors_start_closed
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 20}}
+    expected:
+      - {check: door.is_open, target: Mechanism/MainDoor, equals: false}
+      - {check: door.is_open, target: Mechanism/SideDoor, equals: false}
+      - {check: signal, target: Mechanism/MainDoor, entry: door.state_changed, count: 0}
+      - {check: signal, target: Mechanism/SideDoor, entry: door.state_changed, count: 0}
+    window_frames: 5
+
+  # ---- 2. 触发奖励开关：两扇门各打开一次 ---------------------------------------
+  - id: reward_switch_opens_both_doors
+    actions:
+      - {type: physics.overlap, target: Mechanism/RewardSwitch, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 15}}
+    expected:
+      - {check: trigger.is_triggered, target: Mechanism/RewardSwitch, equals: true}
+      - {check: door.is_open, target: Mechanism/MainDoor, equals: true}
+      - {check: door.is_open, target: Mechanism/SideDoor, equals: true}
+      - {check: signal, target: Mechanism/MainDoor, entry: door.state_changed,
+         count: 1, last_args: [true]}
+      - {check: signal, target: Mechanism/SideDoor, entry: door.state_changed,
+         count: 1, last_args: [true]}
+    window_frames: 20

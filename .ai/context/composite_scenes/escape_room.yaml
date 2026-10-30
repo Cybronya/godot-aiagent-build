@@ -1,0 +1,103 @@
+# ============================================================
+# 组合场景契约：EscapeRoom（Phase 1.46 首个验收对象）
+# ============================================================
+#
+# 场景：Scenes/EscapeRoom.tscn（正式场景，不是测试夹具）
+# 组合链（全部为场景 [connection] 数据 + 真实物理，无胶水参与机关关系）：
+#
+#   SwitchA.activated → ConditionGate.set_condition(switch_a)
+#   SwitchB.activated → ConditionGate.set_condition(switch_b)
+#   ConditionGate.fulfilled → ExitDoor.set_open
+#
+# 覆盖的端到端链：
+#   1. 出口关闭时门真实阻挡：输入驱动右移 150 帧，玩家停在门左侧而不是穿出；
+#   2. 只满足一个条件：门仍关闭，且没有任何开门事件；
+#   3. 满足第二个条件：聚合输出翻转、门打开，恰好一次开门事件（带参数 true）；
+#   4. 同一玩家、同一输入再次右移：真实越过原门口，证明阻挡确实解除。
+#
+# 第 1 段与第 4 段使用**同一个**玩家、**同一个**输入动作与同样的位移方向，唯一变化是
+# 第 3 段把门打开了 —— 因此「穿过去了」不是靠修改位置/调用私有回调伪造的。
+#
+# 数值来源（不是拟合实现，均由源码/场景数据推导）：
+#   - Player.speed = 220 px/s，physics 60 Hz → 3.667 px/帧；150 帧 ≈ 550 px，
+#     远大于到门的 348 px，因此「走满 150 帧仍停在 332 附近」只能由阻挡解释。
+#   - OpenableDoor 碰撞 24×128，位于 (360,0) → 左边缘 348；Player 碰撞 32 宽
+#     → 被阻挡时 global x ≈ 348 - 16 = 332。
+#   - 第 4 段 45 帧 ≈ 165 px：从 ≈332 出发 → ≈497，断言只需 > 384（门右边缘 372）。
+#
+# 明确未覆盖（见 PHASE_1_46_AUDIT.md）：
+#   - 条件回落后门关闭：本场景两个开关都是 Latching（触发后保持），无法撤回条件，
+#     因此「All 聚合的动态回落」不在本契约覆盖范围内（由 condition_gate 的单组件
+#     behavior `condition_fallback_withdraws_output` 覆盖，但那是夹具而非本场景）。
+#   - 逃脱 HUD/胜利文案与 EscapeZone：EscapeZone 未连接任何信号，场景在
+#     ConditionGate.fulfilled 时即进入 Escaped；这是场景设计语义，不作为本契约断言。
+
+scene_id: escape_room
+scene: Scenes/EscapeRoom.tscn
+summary: "两个开关 → 条件聚合 → 出口门 → 真实物理通行"
+features: [player_movement, trigger_switch, condition_gate, openable_door]
+
+preconditions:
+  - {check: door.is_open, target: Mechanism/ExitDoor, equals: false}
+  - {check: gate.is_fulfilled, target: Mechanism/ConditionGate, equals: false}
+  - {check: trigger.is_triggered, target: Mechanism/SwitchA, equals: false}
+  - {check: trigger.is_triggered, target: Mechanism/SwitchB, equals: false}
+
+stages:
+  # ---- 1. 关闭的门真实阻挡 ----------------------------------------------------
+  - id: closed_door_blocks_traversal
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 150}}
+      - {type: input.release, params: {action: move_right}}
+    expected:
+      # 走满 150 帧仍停在门左侧：既证明「动了」（>=320），又证明「被挡住」（<=340）。
+      - {check: node2d.position, target: Player, axis: x, min: 320.0, max: 340.0}
+      - {check: node2d.position, target: Player, axis: y, min: -8.0, max: 8.0}
+      - {check: door.is_open, target: Mechanism/ExitDoor, equals: false}
+      - {check: signal, target: Mechanism/ExitDoor, entry: door.state_changed, count: 0}
+    window_frames: 10
+
+  # ---- 2. 只触发 A：条件未满足，门仍关闭 --------------------------------------
+  - id: switch_a_partial_condition_keeps_door_closed
+    actions:
+      # 在开关位置生成真实 CharacterBody2D（group=players），由物理帧触发 body_entered。
+      - {type: physics.overlap, target: Mechanism/SwitchA, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 12}}
+    expected:
+      - {check: trigger.is_triggered, target: Mechanism/SwitchA, equals: true}
+      - {check: trigger.is_triggered, target: Mechanism/SwitchB, equals: false}
+      - {check: gate.is_fulfilled, target: Mechanism/ConditionGate, equals: false}
+      - {check: door.is_open, target: Mechanism/ExitDoor, equals: false}
+      - {check: signal, target: Mechanism/ConditionGate, entry: gate.fulfilled, count: 0}
+      - {check: signal, target: Mechanism/ExitDoor, entry: door.state_changed, count: 0}
+    window_frames: 20
+
+  # ---- 3. 第二个条件满足：聚合输出 → 门打开 -----------------------------------
+  - id: switch_b_fulfils_gate_and_opens_door
+    actions:
+      - {type: physics.overlap, target: Mechanism/SwitchB, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 12}}
+    expected:
+      - {check: trigger.is_triggered, target: Mechanism/SwitchB, equals: true}
+      - {check: gate.is_fulfilled, target: Mechanism/ConditionGate, equals: true}
+      - {check: door.is_open, target: Mechanism/ExitDoor, equals: true}
+      # 事件次数 + 参数：既证明「发生了一次」，也证明不是重复广播。
+      - {check: signal, target: Mechanism/ConditionGate, entry: gate.fulfilled,
+         count: 1, last_args: [true]}
+      - {check: signal, target: Mechanism/ExitDoor, entry: door.state_changed,
+         count: 1, last_args: [true]}
+    window_frames: 20
+
+  # ---- 4. 同一输入再次右移：真实穿过原门口 ------------------------------------
+  - id: player_traverses_opened_gap
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 45}}
+      - {type: input.release, params: {action: move_right}}
+    expected:
+      # 门右边缘 372；384 是「确实越过门口」的下界（与 Tests/test_escape_room.gd 同一口径）。
+      - {check: node2d.position, target: Player, axis: x, min: 384.0}
+      - {check: node2d.position, target: Player, axis: y, min: -8.0, max: 8.0}
+      - {check: door.is_open, target: Mechanism/ExitDoor, equals: true}
+    window_frames: 5

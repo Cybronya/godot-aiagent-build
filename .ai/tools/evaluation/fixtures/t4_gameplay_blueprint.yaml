@@ -1,0 +1,31 @@
+# EVAL136 fixture — T4 输入（Gameplay Blueprint：两波清剿 + 出口解锁）
+#
+# 需求（冻结）：一个两波敌人、清空所有波次后打开出口的小型关卡
+# 关卡编排由 level_planner.py 生成（waves 模式）；竞技场 = 项目既有
+# res://Scenes/TimedCombatArena.tscn（承载 exit/victory 逻辑）。
+# eval_grunt 复用项目既有敌人实体场景（不为评估新增游戏资产）。
+
+gameplay:
+  id: eval_wave_level
+
+entities:
+  player:
+    role: player
+    features: [health, player_movement]
+    scene: res://Features/player_movement/Player.tscn
+  eval_grunt:
+    role: enemy
+    features: [chase_movement, contact_damage, health]
+    scene: res://Scenes/Enemy.tscn
+
+systems: [enemy_spawn]
+
+loop:
+  start: player spawned
+  cycle: clear wave one; clear wave two
+  end: exit reached
+
+validation:
+  required_entities: [player, eval_grunt]
+  required_features: []
+  required_tests: [health, chase_movement]

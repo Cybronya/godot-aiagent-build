@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/player_movement/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/SlimeEnemy.tscn" id="2_slime"]
+
+[node name="SlimeContactArena" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player") groups=["players"]]
+position = Vector2(-160, 0)
+
+[node name="SlimeEnemy" parent="." instance=ExtResource("2_slime")]
