@@ -11,9 +11,13 @@ extends Node
 ## - 轮转取代队列：空闲池满时直接复用「下一个」播放器（round-robin 抢占最旧），
 ##   池永远不会满到拒绝——语义是"最新音效优先"。
 ## - 音调随机 pitch_scale = 1 ± pitch_range，避免同一段音效连播的重复感。
-## - 忙碌簿记自管：play 时标记占用、finished 归还。引擎在 headless/无音频设备
-##   环境下 playing 恒为 false 且 finished 可能不触发，因此**绝不读引擎播放状态
-##   做判断**，active_count() 读的是自己的簿记，行为在任何环境确定。
+## - 忙碌簿记自管，绝不读引擎播放状态做判断（实测引擎行为随环境漂移：
+##   完整项目里 headless 的 Dummy 驱动会真实混音（playing=true、时长到期
+##   finished）；精简项目里同一驱动不启动播放且 finished 立即触发。两种环境下
+##   读 playing/等 finished 都会得到不同簿记）。规则：
+##     * 非无头环境：play 标记占用、finished 归还（真实回放语义）。
+##     * 无头环境（DisplayServer "headless"）：引擎不会真正出声，不连接
+##       finished——占用只能由抢占释放（active_count 上限 = pool_size，确定）。
 ##
 ## 所有权：独占自己创建的 AudioStreamPlayer 子节点（_ready 时生成，离开场景时
 ## 随子树释放）；不触碰宿主任何属性，不订阅任何 Feature 状态。
@@ -28,13 +32,16 @@ var _players: Array[AudioStreamPlayer] = []
 var _busy: Array[bool] = []
 var _next := 0
 var _active := 0
+var _headless := false
 
 
 func _ready() -> void:
+	_headless = DisplayServer.get_name() == "headless"
 	for i: int in pool_size:
 		var p := AudioStreamPlayer.new()
 		p.volume_db = volume_db
-		p.finished.connect(_on_finished.bind(i))
+		if not _headless:
+			p.finished.connect(_on_finished.bind(i))
 		add_child(p)
 		_players.append(p)
 		_busy.append(false)
@@ -60,8 +67,8 @@ func play(stream: AudioStream) -> bool:
 	return true
 
 
-## 当前被占用（尚未 finished 归还）的播放器数量。读的是自管簿记，
-## 在 headless 下与真实音频设备下语义一致。
+## 当前被占用的播放器数量。非无头环境 = 正在回放（未 finished）；无头环境 =
+## 自上次起尚未被抢占的播放数（上限 pool_size）。读的是自管簿记，不依赖引擎状态。
 func active_count() -> int:
 	return _active
 

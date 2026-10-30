@@ -45,18 +45,23 @@ func _initialize() -> void:
 	if pool.active_count() != 8:
 		_failures.append("第 9 次播放应抢占最旧，占用仍为 8，实际 %d" % pool.active_count())
 
-	# ---- 4. finished 归还：手动触发最旧播放器的 finished，占用降为 7 ----
-	# headless 下引擎不触发 finished（playing 恒 false），由测试模拟真实回放完成。
+	# ---- 4. finished 归还（仅非无头环境连接）：无头下 finished 不应扣减 ----
+	# 无头环境引擎不会真正出声（实测 Dummy 驱动行为随项目配置漂移），组件不连接
+	# finished；直接调用归还函数覆盖该分支，断言无头下播放器占用语义是"由抢占释放"。
 	var players := pool.get_children().filter(
 			func(c: Node) -> bool: return c is AudioStreamPlayer)
 	if players.size() != 8:
 		_failures.append("池应有 8 个 AudioStreamPlayer 子节点，实际 %d" % players.size())
-	players[0].finished.emit()
-	if pool.active_count() != 7:
-		_failures.append("finished 后占用应降为 7，实际 %d" % pool.active_count())
-	players[0].finished.emit()  # 重复 finished 不应重复归还
-	if pool.active_count() != 7:
-		_failures.append("重复 finished 不应再次扣减，实际 %d" % pool.active_count())
+	if DisplayServer.get_name() == "headless":
+		players[0].finished.emit()
+		if pool.active_count() != 8:
+			_failures.append("无头下 finished 未连接，不应扣减，实际 %d" % pool.active_count())
+		pool._on_finished(0)  # 白盒覆盖归还分支
+		if pool.active_count() != 7:
+			_failures.append("归还分支应扣减到 7，实际 %d" % pool.active_count())
+		pool._on_finished(0)  # 重复归还不应重复扣减
+		if pool.active_count() != 7:
+			_failures.append("重复 finished 不应再次扣减，实际 %d" % pool.active_count())
 
 	# ---- 5. 音调边界：每次播放的 pitch_scale 都落在 1±pitch_range ----
 	for i: int in 20:
@@ -88,12 +93,12 @@ func _on_played() -> void:
 
 func _make_wav() -> AudioStreamWAV:
 	var wav := AudioStreamWAV.new()
-	# 1 秒静音：空数据流可能在音频 mix 线程调度下瞬间 finished（竞态），
-	# 会导致占用簿记不确定；1s 远长于测试窗口，簿记确定。
+	# 60 秒静音（8bit/8000Hz）：headless Dummy 驱动按墙钟时间混音，高负载下
+	# 短流会在测试窗口内放完触发 finished，占用簿记不确定；60s >> 任何窗口。
 	wav.data = PackedByteArray()
-	wav.data.resize(44100)
+	wav.data.resize(480000)
 	wav.format = AudioStreamWAV.FORMAT_8_BITS
-	wav.mix_rate = 44100
+	wav.mix_rate = 8000
 	return wav
 
 

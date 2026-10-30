@@ -988,13 +988,13 @@ func _impl_sfx_play(node: Node, params: Dictionary, record: Dictionary) -> Dicti
 		record["error"] = "target cannot play sfx"
 		return record
 	var wav := AudioStreamWAV.new()
-	# 1 秒静音（8bit/44100Hz = 44100 字节）：空数据流可能在音频 mix 线程调度下
-	# 瞬间触发 finished，占用簿记变竞态（replay_inconsistent）；1s >> 观测窗口，
-	# 播放在窗口内必然未结束，簿记确定。
+	# 60 秒静音（8bit/8000Hz = 480000 字节）：headless 的 Dummy 音频驱动仍按
+	# **墙钟时间**混音——套件高负载下物理帧被拖慢，短流会在观测窗口内放完触发
+	# finished，占用簿记失真（实测 1s 流在高负载下不够）；60s >> 任何窗口。
 	wav.data = PackedByteArray()
-	wav.data.resize(44100)
+	wav.data.resize(480000)
 	wav.format = AudioStreamWAV.FORMAT_8_BITS
-	wav.mix_rate = 44100
+	wav.mix_rate = 8000
 	var accepted: bool = node.call("play", wav)
 	record["executed"] = true
 	record["accepted"] = accepted
