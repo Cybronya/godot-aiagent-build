@@ -18,3 +18,70 @@ interfaces:
   signals:
     - health_changed
     - died
+
+# 行为证据（Phase 1.40）：调用真实 Health 入口，观测数值与信号；
+# 不直接写 _current_health。重放由 feature_behavior_evidence.py --replay 负责。
+behavior:
+  - id: damage
+    actions:
+      - {type: health.take_damage, target: ".", params: {amount: 4}}
+    preconditions:
+      - {check: health.current, target: ".", equals: 5}
+      - {check: health.is_dead, target: ".", equals: false}
+    expected:
+      - {check: health.current, target: ".", equals: 1}
+      - {check: signal, entry: health.health_changed, target: ".", count: 1, last_args: [1, 4]}
+    window_frames: 10
+  - id: heal_clamped
+    actions:
+      - {type: health.take_damage, target: ".", params: {amount: 4}}
+      - {type: health.heal, target: ".", params: {amount: 99}}
+    preconditions:
+      - {check: health.current, target: ".", equals: 5}
+    expected:
+      - {check: health.current, target: ".", equals: 5}
+      # Phase 1.51：补上最后一次事件的参数断言。原来只断言次数（count: 2），
+      # 于是「heal 发出错误参数」这个缺陷没有任何契约能看见（已用注入实验证实）。
+      # 末次事件是 heal(99)：current 钳制到 5，amount 原样回传 ⇒ [5, 99]。
+      - {check: signal, entry: health.health_changed, target: ".", count: 2, last_args: [5, 99]}
+    window_frames: 10
+  - id: death
+    actions:
+      - {type: health.take_damage, target: ".", params: {amount: 5}}
+    preconditions:
+      - {check: health.is_dead, target: ".", equals: false}
+    expected:
+      - {check: health.current, target: ".", equals: 0}
+      - {check: health.is_dead, target: ".", equals: true}
+      - {check: signal, entry: health.died, target: ".", count: 1}
+    window_frames: 10
+  # Phase 1.51：death 用的是恰好等于 max_health 的伤害（5），所以「伤害下限钳制
+  # 被移除、生命值可以变负」这个缺陷它看不见（0 与负值都不会出现）。本契约改用
+  # 100 点过杀伤害，把「未钳到 0」变成可观测（current / is_dead / 事件参数三处）。
+  - id: overkill_clamps_at_zero
+    actions:
+      - {type: health.take_damage, target: ".", params: {amount: 100}}
+    preconditions:
+      - {check: health.current, target: ".", equals: 5}
+      - {check: health.is_dead, target: ".", equals: false}
+    expected:
+      - {check: health.current, target: ".", equals: 0}
+      - {check: health.is_dead, target: ".", equals: true}
+      - {check: signal, entry: health.health_changed, target: ".", count: 1, last_args: [0, 100]}
+    window_frames: 10
+  # Phase 1.51：death 只做一次致命伤害，观测不到「死亡守卫」是否还在。本契约
+  # 在死亡后继续尝试扣血与治疗：守卫被移除时 current 会被改为 0 以外的值、
+  # health_changed 会多一次、died 会重复触发——三处都有可观测后果。
+  - id: post_death_guard
+    actions:
+      - {type: health.take_damage, target: ".", params: {amount: 5}}
+      - {type: health.take_damage, target: ".", params: {amount: 2}}
+      - {type: health.heal, target: ".", params: {amount: 3}}
+    preconditions:
+      - {check: health.current, target: ".", equals: 5}
+    expected:
+      - {check: health.current, target: ".", equals: 0}
+      - {check: health.is_dead, target: ".", equals: true}
+      - {check: signal, entry: health.died, target: ".", count: 1}
+      - {check: signal, entry: health.health_changed, target: ".", count: 1}
+    window_frames: 10

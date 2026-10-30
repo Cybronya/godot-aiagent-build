@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Features/player_movement/player_controller.gd" id="1_controller"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="2_health"]
+[ext_resource type="PackedScene" path="res://Features/stun/Stun.tscn" id="3_stun"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(32, 48)
+
+[node name="StunFixture" type="Node2D"]
+
+[node name="Host" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("1_controller")
+
+[node name="Collision" type="CollisionShape2D" parent="Host"]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Health" parent="Host" instance=ExtResource("2_health")]
+max_health = 10
+
+[node name="Stun" parent="Host" instance=ExtResource("3_stun")]
+stun_on_hit = true
+stun_duration = 0.4

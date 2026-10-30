@@ -1,0 +1,71 @@
+# Feature Metadata: knockback
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: knockback
+version: 1
+category: component
+
+summary: 击退组件：挂在 CharacterBody2D 实体下，施加一段线性衰减的位置位移脉冲，用于受击反馈。不碰宿主 velocity，与移动类根脚本天然无冲突。
+
+provides:
+  - knockback
+  - hit_response
+
+requires: []             # 宿主为 CharacterBody2D（引擎节点，非 Feature），无 Feature 依赖
+
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node         # 挂载目标 CharacterBody2D 不在能力词汇表（Node/Sprite/AnimatedSprite/Audio/Collision）内，无需登记
+
+interfaces:
+  methods:
+    - name: apply
+      signature: "apply(direction: Vector2, force: float) -> bool"
+      description: 施加击退脉冲（方向自动归一化）；从静止进入击退时广播一次 knockback_changed(true)；宿主缺失/force<=0/零方向返回 false
+    - name: is_active
+      signature: "is_active() -> bool"
+      description: 击退是否仍在衰减中
+    - name: current_velocity
+      signature: "current_velocity() -> Vector2"
+      description: 当前击退速度（随衰减趋零，只读诊断用）
+  signals:
+    - name: knockback_changed
+      signature: "knockback_changed(is_active: bool)"
+      description: 击退状态跨越时广播（激活中重复 apply 不重复广播，衰减归零恰好发一次 false，幂等）
+  exports:
+    - name: decay
+      type: float
+      default: 800.0
+      description: 击退速度每秒衰减量（px/s²）；总位移 = F²/(2D)（离散帧和再加 F·dt/2）
+
+ownership:
+  state:
+    - 击退速度与激活状态（_velocity、_active）
+  rules:
+    - 位置位移式：每物理帧宿主 global_position += 击退速度×delta，不读写宿主 velocity——与 chase/patrol 等直接写 velocity 的移动脚本无冲突
+    - 幂等广播：激活中重复 apply 只覆盖速度不重复发 true；衰减归零恰好发一次 false
+    - 重启语义：激活中再次 apply 覆盖当前击退速度，从新值重新衰减
+    - 无效输入（force<=0、零方向）与错误宿主（父节点非 CharacterBody2D）直接拒绝，无副作用
+    - 位移是永久的（击退本就改变位置），离开场景无需归还；不订阅任何 Feature 状态
+
+relations:
+  works_with:
+    - contact_damage   # 受击时组合层调 apply
+    - projectile       # 弹体命中回调里施加击退
+    - health           # 伤害与击退通常同帧发生
+  commonly_used_with:
+    - stun             # 击退+硬直组合是标准受击反馈
+    - chase_movement   # 敌人移动脚本不受影响
+  conflicts: []        # 位移式击退不争抢任何宿主属性；多实例会叠加位移，不应同时挂
+  entity_roles: []     # 挂在实体 CharacterBody2D 下，与具体角色无关
+
+composition:
+  entry_scene: Knockback.tscn
+  usage: 实例化为 CharacterBody2D 的直接子节点；触发方（受击/爆炸等）调用 apply(direction, force)，衰减与停止自动完成
+  related_features: [contact_damage, projectile, stun, health]
+
+validation:
+  self_test: test_knockback.gd
+  command: godot --headless --path . -s res://Features/knockback/test_knockback.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

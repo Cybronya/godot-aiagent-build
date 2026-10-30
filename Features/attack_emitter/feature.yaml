@@ -1,0 +1,85 @@
+# Feature Metadata: attack_emitter
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: attack_emitter
+version: 1
+category: component
+
+summary: 攻击发射器组件：可嵌套的攻击发起单元，damage/攻击源/排除列表沿链传播；射线实现做瞬时命中判定并按 Health.take_damage 协议结算；视觉反馈由信号交组合层。
+
+provides:
+  - attack_trigger
+  - raycast_damage_dealing
+  - emitter_composition
+
+requires: []
+
+capabilities:
+  required:
+    - Node
+
+interfaces:
+  methods:
+    - name: set_bodies_to_exclude
+      signature: "set_bodies_to_exclude(bodies: Array) -> void"
+      description: 声明攻击应排除的物理体（通常为攻击者自身），沿发射器链传播
+    - name: do_attack
+      signature: "do_attack() -> void"
+      description: 发起攻击：沿链调用所有子发射器并广播 attacked
+  signals:
+    - name: attacked
+      signature: "attacked"
+      description: 攻击发起（do_attack 被调用，无论是否命中）
+    - name: attack_performed
+      signature: "attack_performed(from_pos: Vector2, to_pos: Vector2, hit: bool, point: Vector2)"
+      description: 一次具体发射完成；弹道线/特效等视觉反馈由组合层据此实现
+    - name: attack_hit
+      signature: "attack_hit(target: Node, point: Vector2)"
+      description: 命中可伤害目标且伤害已实际结算
+  exports:
+    - name: damage
+      type: int
+      default: 1
+      description: 单次攻击伤害值，沿发射器链向子发射器传播
+    - name: source_of_attack
+      type: Node2D
+      default: null
+      description: 攻击来源实体（击杀归属、报复 AI 判定用），沿链传播
+
+ownership:
+  state:
+    - damage / source_of_attack / 排除列表（发射器链共享的攻击参数）
+  rules:
+    - 命中协议：目标实现 take_damage(amount: int) 即结算（对接 health Feature 公开接口），无附加伤害数据类
+    - 视觉反馈（弹道、命中特效、音效）不属于本组件，由组合层订阅信号实现
+    - 射线实现需要 RayCast2D 子节点（target_position 定方向与射程，通常 (射程, 0)）
+
+composition:
+  entry_scene: AttackEmitter.tscn
+  usage: 基类场景可直接挂子发射器组合多形态；射线形态给 Node2D 挂 raycast_attack_emitter.gd 并配 RayCast2D 子节点；武器节点在攻击输入时调 do_attack()
+  related_features: [health, projectile, contact_damage, stun]
+
+validation:
+  self_test: test_attack_emitter.gd
+  command: godot --headless --path . -s res://Features/attack_emitter/test_attack_emitter.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - health
+  commonly_used_with:
+    - health
+    - projectile
+    - stun
+    - hit_flash
+  conflicts: []
+  entity_roles:
+    - player
+    - enemy
+    - trap
+
+# 来源片段（仅供学习，已抽象重写）：
+#   snippet_id: Miziziziz__MizGodotTools__items__weapons__attack_emitters__attack_emitter.gd
+#   source_url: https://github.com/Miziziziz/MizGodotTools/blob/main/items/weapons/attack_emitters/attack_emitter.gd
+#   repo: Miziziziz/MizGodotTools (star 987) | License: MIT

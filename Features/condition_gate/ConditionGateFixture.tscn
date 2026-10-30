@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/condition_gate/ConditionGate.tscn" id="1_gate"]
+[ext_resource type="PackedScene" path="res://Features/trigger_switch/trigger_switch.tscn" id="2_switch"]
+[ext_resource type="PackedScene" path="res://Features/openable_door/OpenableDoor.tscn" id="3_door"]
+
+[node name="ConditionGateFixture" type="Node2D"]
+
+[node name="Gate" parent="." instance=ExtResource("1_gate")]
+condition_count = 2
+
+[node name="SwitchA" parent="." instance=ExtResource("2_switch")]
+position = Vector2(-100, 0)
+
+[node name="SwitchB" parent="." instance=ExtResource("2_switch")]
+position = Vector2(100, 0)
+trigger_mode = 2
+
+[node name="Door" parent="." instance=ExtResource("3_door")]
+position = Vector2(0, 200)
+
+[connection signal="activated" from="SwitchA" to="Gate" method="set_condition" binds=["a"]]
+[connection signal="activated" from="SwitchB" to="Gate" method="set_condition" binds=["b"]]
+[connection signal="fulfilled" from="Gate" to="Door" method="set_open"]

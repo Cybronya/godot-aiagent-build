@@ -1,0 +1,49 @@
+# Feature Scene Template: state_machine
+
+feature:
+  id: state_machine
+
+scene:
+  source: StateMachine.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - StateMachine
+
+interfaces:
+  signals:
+    - state_changed
+
+# behavior 证据说明：StateMachine.tscn 根节点为纯 Node + state_machine.gd，
+# 无子状态、无宿主实体——状态机行为（注册/切换/回退/幂等/开关）全部由
+# test_state_machine.gd 以真实运行时动态构造 StateNode 子状态验证，
+# 并由 StateMachineBehaviorFixture.tscn（Machine + idle/chase 两个
+# FixtureState 子状态，autostart 起始 idle）提供真实运行时行为证据。
+behavior:
+  # finished/编程切换：idle --transition_to("chase")--> chase，广播 state_changed 一次。
+  - id: transition_to_named_state
+    scene: StateMachineBehaviorFixture.tscn
+    actions:
+      - {type: statemachine.transition_to, target: Machine, params: {state_name: "chase"}}
+    preconditions:
+      - {check: statemachine.current_state_name, target: Machine, equals: "idle"}
+    expected:
+      - {check: statemachine.current_state_name, target: Machine, equals: "chase"}
+      - {check: signal, entry: statemachine.state_changed, target: Machine, count: 1}
+    window_frames: 10
+
+  # previous 回退：chase --previous--> idle（历史栈），两次切换各广播一次。
+  - id: previous_backtracks_via_history
+    scene: StateMachineBehaviorFixture.tscn
+    actions:
+      - {type: statemachine.transition_to, target: Machine, params: {state_name: "chase"}}
+      - {type: statemachine.transition_to, target: Machine, params: {state_name: "previous"}}
+    preconditions:
+      - {check: statemachine.current_state_name, target: Machine, equals: "idle"}
+    expected:
+      - {check: statemachine.current_state_name, target: Machine, equals: "idle"}
+      - {check: signal, entry: statemachine.state_changed, target: Machine, count: 2}
+    window_frames: 10

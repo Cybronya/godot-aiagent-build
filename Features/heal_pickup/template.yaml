@@ -15,3 +15,34 @@ validation:
 
 interfaces:
   signals: []
+
+# 组件实例计划（Phase 1.37）：声明本组件入口场景自带的节点结构。
+# 作用 = 能力契约证据（Phase 1.8.14 机制）：不声明时契约只能看到「组件」，
+# 看不到其内部节点，依赖 Collision 的组合会被误判为 BLOCKED
+# （Phase 1.36 评估 T1 的首次失败原因）。
+# 约束：只声明 HealPickup.tscn = Area2D + PickupShape(CollisionShape2D) 中真实存在的结构与直接子节点类型；
+#       本声明不驱动生成（Builder 不消费它），因此 .tscn 输出不变。
+instance:
+  node_type: Area2D
+  children:
+    - CollisionShape2D
+
+# 运行时实例证据（Phase 1.39）：要求 Godot 真实加载后的对象树满足本声明。
+# 期望由 node_type / children 推导（根 + 直接子节点类型与数量），
+# 静态结构不需要轮询；失败由 runtime_instance_evidence.py 报 MISMATCH/INSUFFICIENT。
+  runtime:
+    when: after_load        # 观察时机：加载完成并稳定 2 帧
+    timeout_frames: 0       # 0 = 不轮询（静态结构）
+
+# 行为证据（Phase 1.40）：生成真实 CharacterBody2D + Health 实例，由物理帧触发
+# body_entered，观测真实恢复结果与拾取物释放；不直接调用 _on_body_entered。
+behavior:
+  - id: heal_damaged_target
+    actions:
+      - {type: physics.overlap, target: ".",
+         params: {group: players, health_max: 5, damage: 3}}
+    preconditions: []
+    expected:
+      - {check: health.current, target: "@actor/Health", equals: 4}
+      - {check: node.freed, target: ".", equals: true}
+    window_frames: 30

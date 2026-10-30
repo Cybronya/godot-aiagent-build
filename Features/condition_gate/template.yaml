@@ -16,3 +16,73 @@ validation:
 interfaces:
   signals:
     - fulfilled
+
+# Behavior Evidence (Phase 1.44): 真实 Godot 运行时 + 真实物理接触。
+# 入口场景 ConditionGate.tscn 只有一个 Node 根：既没有条件输入源，也没有下游，
+# 无法区分「门控未达成」与「门控逻辑失效」。因此本行为使用同目录的证据夹具场景，
+# 按 feature.yaml 的 composition 契约连接（activated -> set_condition，fulfilled -> set_open）。
+# `scene` 只选择证据场景，不增加动作 / 观测 / 属性写入能力；协议仍为 v2。
+#
+# 夹具：Gate(condition_count=2, All) + SwitchA(Latching) + SwitchB(Toggle) + Door。
+# 三个 behavior 都由真实 TriggerSwitch 接触事件驱动门控，没有任何内部回调调用。
+behavior:
+  # 2 个条件只满足 1 个：输入确实送达（开关被真实触发），但不满足聚合阈值。
+  # 断言「开关已触发」避免把「什么都没发生」误判为门控正确。
+  - id: partial_conditions_block_output
+    scene: ConditionGateFixture.tscn
+    actions:
+      - {type: physics.overlap, target: SwitchA, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+    preconditions:
+      - {check: door.is_open, target: Door, equals: false}
+      - {check: trigger.is_triggered, target: SwitchA, equals: false}
+      - {check: trigger.is_triggered, target: SwitchB, equals: false}
+      - {check: signal, entry: door.state_changed, target: Door, count: 0}
+    expected:
+      - {check: trigger.is_triggered, target: SwitchA, equals: true}
+      - {check: trigger.is_triggered, target: SwitchB, equals: false}
+      - {check: door.is_open, target: Door, equals: false}
+      - {check: signal, entry: door.state_changed, target: Door, count: 0}
+    window_frames: 10
+
+  # 2 个条件都满足：聚合跨越阈值，门控输出真实驱动下游门一次。
+  - id: all_conditions_fulfill
+    scene: ConditionGateFixture.tscn
+    actions:
+      - {type: physics.overlap, target: SwitchA, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+      - {type: physics.overlap, target: SwitchB, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+    preconditions:
+      - {check: trigger.is_triggered, target: SwitchA, equals: false}
+      - {check: trigger.is_triggered, target: SwitchB, equals: false}
+      - {check: door.is_open, target: Door, equals: false}
+      - {check: signal, entry: door.state_changed, target: Door, count: 0}
+    expected:
+      - {check: trigger.is_triggered, target: SwitchA, equals: true}
+      - {check: trigger.is_triggered, target: SwitchB, equals: true}
+      - {check: door.is_open, target: Door, equals: true}
+      - {check: signal, entry: door.state_changed, target: Door, count: 1, last_args: [true]}
+    window_frames: 10
+
+  # 条件回落：SwitchB 为 Toggle，第二次进入把该条件翻回 false，聚合必须随之回落。
+  # 最终状态与初始状态相同，因此必须用 state_changed 次数与最后一次参数证明「先开后关」。
+  - id: condition_fallback_withdraws_output
+    scene: ConditionGateFixture.tscn
+    actions:
+      - {type: physics.overlap, target: SwitchA, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+      - {type: physics.overlap, target: SwitchB, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+      - {type: physics.overlap, target: SwitchB, params: {group: players}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+    preconditions:
+      - {check: trigger.is_triggered, target: SwitchB, equals: false}
+      - {check: door.is_open, target: Door, equals: false}
+      - {check: signal, entry: door.state_changed, target: Door, count: 0}
+    expected:
+      - {check: trigger.is_triggered, target: SwitchA, equals: true}
+      - {check: trigger.is_triggered, target: SwitchB, equals: false}
+      - {check: door.is_open, target: Door, equals: false}
+      - {check: signal, entry: door.state_changed, target: Door, count: 2, last_args: [false]}
+    window_frames: 10

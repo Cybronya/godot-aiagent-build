@@ -1,0 +1,88 @@
+# Feature Metadata: state_machine
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: state_machine
+version: 1
+category: logic
+
+summary: 通用有限状态机：子节点即状态，转发物理帧与输入给当前状态，finished 信号或显式调用驱动切换，支持 previous 历史回退。
+
+provides:
+  - state_switching
+  - state_history_backtrack
+
+requires: []
+
+capabilities:
+  required:
+    - Node
+
+interfaces:
+  methods:
+    - name: start
+      signature: "start(first_state: StateNode) -> void"
+      description: 显式启动状态机并进入起始状态（autostart=false 时使用）
+    - name: set_active
+      signature: "set_active(value: bool) -> void"
+      description: 开关状态机；关闭时 exit 当前状态并停止转发，重新开启时重新 enter 当前状态
+    - name: transition_to
+      signature: "transition_to(next_state_name: String) -> void"
+      description: 切换到指定状态（子节点名）；"previous" 回退上一个状态；未知名报错保持；同状态幂等忽略
+    - name: is_active
+      signature: "is_active() -> bool"
+      description: 查询状态机是否处于激活状态
+    - name: has_state
+      signature: "has_state(state_name: String) -> bool"
+      description: 查询是否存在指定名字的子状态
+  signals:
+    - name: state_changed
+      signature: "state_changed(current_state: StateNode)"
+      description: 每次状态切换后广播新当前状态（含 start 启动）
+  exports:
+    - name: start_state_name
+      type: String
+      default: ""
+      description: autostart 使用的起始状态名；为空时取第一个 StateNode 子节点
+    - name: autostart
+      type: bool
+      default: true
+      description: _ready 时自动以 start_state_name 启动
+
+ownership:
+  state:
+    - 当前状态（current_state）
+    - 状态历史栈（_history，仅由 "previous" 消费）
+    - 激活开关（_active）
+  rules:
+    - 状态注册以子节点名为准（节点名即状态名），状态机不维护第二份映射
+    - 切换幂等：transition_to 当前状态被忽略，不触发 exit/enter
+    - 关闭状态下 transition_to 与 finished 均被忽略；具体状态行为由 StateNode 派生类实现
+
+composition:
+  entry_scene: StateMachine.tscn
+  usage: 实例化 StateMachine.tscn 并添加 StateNode 派生子节点（节点名即状态名）；或纯代码 add_child + start()
+  related_features: [health, contact_damage, chase_movement, patrol_movement]
+
+validation:
+  self_test: test_state_machine.gd
+  command: godot --headless --path . -s res://Features/state_machine/test_state_machine.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with:
+    - health
+    - contact_damage
+    - chase_movement
+    - patrol_movement
+  conflicts: []
+  entity_roles:
+    - enemy
+    - player
+    - logic
+
+# 来源片段（仅供学习，已抽象重写）：
+#   snippet_id: godot-escoria__escoria-demo-game__addons__escoria-core__patterns__state_machine__state.gd
+#   source_url: https://github.com/godot-escoria/escoria-demo-game/blob/main/addons/escoria-core/patterns/state_machine/state_machine.gd
+#   repo: godot-escoria/escoria-demo-game (star 855) | License: MIT

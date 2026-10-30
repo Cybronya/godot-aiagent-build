@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Features/chase_movement/chase_movement.gd" id="1_chase"]
+
+[node name="ChaseFixture" type="Node2D"]
+
+[node name="Chaser" type="CharacterBody2D" parent="."]
+script = ExtResource("1_chase")
+speed = 60.0
+target_path = NodePath("../Target")
+
+[node name="Target" type="Node2D" parent="."]
+position = Vector2(300, 0)

@@ -26,7 +26,9 @@
 循环引用（递归解析）：
 
     A.tscn ⇄ B.tscn 之类可达环 → \"External artifact recursion detected: <path>\"（BLOCKED）
-    以「已访问文件绝对路径」判定；宿主 .tscn 本身也在已访问集合内。
+    判定口径（Phase 1.37 修正）：**回溯祖先链**——只有再次遇到当前解析路径上的文件才是环；
+    菱形引用（Host → A、Host → B → A）是合法的 Godot 组合结构，只解析一次、复用证据。
+    宿主 .tscn 本身也在祖先链上。
 
 契约：.ai/context/scene_composer_schema.yaml#external_artifact_evidence
 """
@@ -104,6 +106,16 @@ def is_component_scene(resource_path) -> bool:
     text = str(resource_path or "").strip()
     return (text.startswith(RESOURCE_PREFIX + FEATURES_SEGMENT)
             and text.lower().endswith(SCENE_SUFFIX))
+
+
+def _abs_key(scene_path, resource_path, project_root=None) -> str:
+    """组件场景 -> 文件绝对路径（祖先链身份；无法解析 → ""）。
+
+    与 resolve_external_artifact 的身份口径必须一致，否则环判定会和解析器不一致。
+    """
+    root = project_root or project_root_for(scene_path)
+    file_path = resolve_resource_path(resource_path, root)
+    return os.path.abspath(file_path) if file_path else ""
 
 
 def feature_id_of(resource_path) -> str:
@@ -276,22 +288,32 @@ def resolve_external_artifacts(scene_path, project_root=None) -> dict:
         references —— 引用图 {res:// 路径: [其直接引用的 res:// 路径]}（供调用方计算可达闭包）
     任一环节失败（不存在 / 循环 / 非法路径）→ status BLOCKED 且 errors 非空
     （证据链不完整时不得放行）。
+
+    环判定用**祖先链**（Phase 1.37）：同一文件经不同分支重复可达（菱形）是合法结构，
+    只解析一次并复用证据；只有回到当前路径上的祖先才是真正的环。
     """
     errors, artifacts, nodes, references = [], [], [], {}
     host_key = os.path.abspath(str(scene_path)) if scene_path else ""
-    visited = {host_key} if host_key else set()
+    host_ancestors = frozenset([host_key]) if host_key else frozenset()
     try:
         host = parse_scene_text(scene_path)
     except OSError:
         return {"status": STATUS_BLOCKED, "artifacts": [], "nodes": [], "references": {},
                 "errors": ["External artifact unavailable: %s" % (scene_path or "<missing>")]}
 
-    queue = [(ref, 0) for ref in component_scene_refs(host)]
+    queue = [(ref, 0, host_ancestors) for ref in component_scene_refs(host)]
     while queue:
-        resource_path, depth = queue.pop(0)
+        resource_path, depth, ancestors = queue.pop(0)
+        key = _abs_key(scene_path, resource_path, project_root)
+        if key and key in ancestors:
+            # 真正的环：回到当前解析路径上的祖先（先判环，再由菱形缓存复用）
+            errors.append("External artifact recursion detected: %s" % resource_path)
+            continue
+        if resource_path in references:
+            continue                          # 菱形：已解析，复用证据（不是环）
         result = resolve_external_artifact(scene_path, resource_path,
-                                           project_root=project_root, visited=visited,
-                                           depth=depth)
+                                           project_root=project_root,
+                                           visited=set(ancestors), depth=depth)
         if result["status"] != STATUS_PASS:
             errors.extend(result["errors"])
             continue
@@ -299,7 +321,9 @@ def resolve_external_artifacts(scene_path, project_root=None) -> dict:
         if resource_path not in artifacts:
             artifacts.append(resource_path)
             nodes.extend(result["nodes"])
-        queue.extend((ref, depth + 1) for ref in result["references"])
+        child_ancestors = frozenset(ancestors | {_abs_key(scene_path, resource_path,
+                                                         project_root)})
+        queue.extend((ref, depth + 1, child_ancestors) for ref in result["references"])
 
     status = STATUS_BLOCKED if errors else STATUS_PASS
     return {"status": status, "artifacts": artifacts, "nodes": nodes,

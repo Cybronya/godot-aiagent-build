@@ -1,0 +1,70 @@
+# Feature Scene Template: knockback
+
+feature:
+  id: knockback
+
+scene:
+  source: Knockback.tscn
+  root_type: CharacterBody2D   # 位移写入宿主根 global_position，宿主必须是 CharacterBody2D
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - Knockback
+
+interfaces:
+  signals:
+    - knockback_changed
+
+# 行为证据（Phase 1.54）：协议新增 knockback.apply 动作与 knockback.changed 信号登记。
+# 位移断言落在**协议已有的 node2d.displacement 观测**上（无需新观测）：force=240、
+# decay=800 时离散帧和总位移 = F²/(2D) + F·dt/2 = 36 + 2 = 38px，全程固定物理帧，
+# 数值确定。信号断言与 ScreenShake 同型：true 一次 / 到期 false 一次（幂等）。
+# 证据场景 KnockbackFixture.tscn：CharacterBody2D 根（Body）+ Knock(Knockback)。
+behavior:
+  # ---- 1. 从静止进入击退：knockback_changed(true) 恰好一次，产生 +x 位移 ----
+  - id: knockback_applies_and_signals
+    scene: KnockbackFixture.tscn
+    actions:
+      - {type: knockback.apply, target: Knock, params: {dir_x: 1.0, dir_y: 0.0, force: 240.0}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+    preconditions:
+      - {check: signal, target: Knock, entry: knockback.changed, count: 0}
+      - {check: node2d.displacement, target: ".", axis: x, equals: 0.0, tolerance: 0.01}
+    expected:
+      - {check: signal, target: Knock, entry: knockback.changed,
+         count: 1, last_args: [true]}
+      - {check: node2d.displacement, target: ".", axis: x, min: 10.0}
+      - {check: node2d.displacement, target: ".", axis: y, equals: 0.0, tolerance: 0.01}
+    window_frames: 5
+
+  # ---- 2. 衰减归零：knockback_changed(false) 恰好一次，总位移 = 38px ----
+  # 240/800 = 0.3s = 18 帧；40 帧 > 18 帧，必然已归零并广播 false。
+  - id: knockback_decays_to_rest
+    scene: KnockbackFixture.tscn
+    actions:
+      - {type: knockback.apply, target: Knock, params: {dir_x: 1.0, dir_y: 0.0, force: 240.0}}
+      - {type: simulation.advance_frames, params: {frames: 40}}
+    preconditions:
+      - {check: signal, target: Knock, entry: knockback.changed, count: 0}
+    expected:
+      - {check: signal, target: Knock, entry: knockback.changed,
+         count: 2, last_args: [false]}
+      - {check: node2d.displacement, target: ".", axis: x, equals: 38.0, tolerance: 1.0}
+      - {check: node2d.displacement, target: ".", axis: y, equals: 0.0, tolerance: 0.01}
+    window_frames: 5
+
+  # ---- 3. 无效输入：force<=0 被组件拒绝，无任何广播 ----
+  - id: knockback_rejects_invalid
+    scene: KnockbackFixture.tscn
+    actions:
+      - {type: knockback.apply, target: Knock, params: {dir_x: 1.0, dir_y: 0.0, force: 0.0}}
+      - {type: simulation.advance_frames, params: {frames: 3}}
+    preconditions:
+      - {check: signal, target: Knock, entry: knockback.changed, count: 0}
+    expected:
+      - {check: signal, target: Knock, entry: knockback.changed, count: 0}
+      - {check: node2d.displacement, target: ".", axis: x, equals: 0.0, tolerance: 0.01}
+    window_frames: 5

@@ -131,15 +131,24 @@ def real_feature_ids() -> list:
 
 
 def scene_node_types(feature_id: str) -> list:
-    """Feature 入口场景（*.tscn）中出现的节点类型（用于声明审计）。"""
-    feature_dir = os.path.join(template_loader.FEATURES_DIR, feature_id)
-    types = []
-    for name in sorted(os.listdir(feature_dir)):
-        if not name.endswith(".tscn"):
-            continue
-        text = open(os.path.join(feature_dir, name), encoding="utf-8").read()
-        types.extend(re.findall(r"\[node [^\]]*type=\"([^\"]+)\"", text))
-    return types
+    """Feature **入口场景**（*.tscn）中出现的节点类型（用于声明审计）。
+
+    Phase 1.47：只读 `template.yaml#scene.source` 声明的入口场景。此前扫描 Feature
+    目录下的**所有** .tscn，于是只用于行为证据的夹具场景（Phase 1.43 的
+    ChaseTargetFixture.tscn、Phase 1.47 的 ContactDamageFixture.tscn）会被当成
+    「组件自带结构」的证据：ContactDamageFixture 的 CollisionShape2D 让
+    `owns_shape` 变成 True，而实际入口场景 ContactDamage.tscn 并不自带碰撞形状，
+    审计结论因此自相矛盾。行为证据场景只选择证据，不改变组合入口（与
+    `behavior[].scene` 的语义一致），所以这里也不应把它算进来。
+    """
+    template = template_loader.load_template(feature_id)
+    res_path = template_loader.template_scene_path(feature_id, template)
+    relative = res_path.replace("res://", "")
+    path = os.path.join(PROJECT_ROOT, *relative.split("/"))
+    if not os.path.isfile(path):
+        return []
+    text = open(path, encoding="utf-8").read()
+    return re.findall(r"\[node [^\]]*type=\"([^\"]+)\"", text)
 
 
 def run() -> int:
@@ -327,12 +336,34 @@ def run() -> int:
             ok("audit: %s contract PASS with plan evidence" % fid,
                contract.ok and contract.checked_capabilities == declared_caps,
                str(contract.to_dict()))
+            plan = template_loader.feature_instance_plan(fid)
+            declared_instance = set(plan.get("children") or [])
+            if isinstance(plan.get("node_type"), str):
+                declared_instance.add(plan["node_type"])
             bare = scene_blueprint([fid], root_type="Node2D", scene_id="probe_bare_%s" % fid)
             bare_intent, _ = scene_intent.intent_from_blueprint(copy.deepcopy(bare))
             bare_contract = capability_contract_validator.validate_capability_contract(
                 bare_intent)
-            ok("audit: %s contract verdict matches its declared requirements" % fid,
-               ("Collision" in declared_caps) == (bare_contract.status == "BLOCKED"),
+            # Phase 1.37：裸计划（无 nodes[] 证据）的结论必须跟随**组件自带的结构**：
+            # 入口场景自己带碰撞形状才能靠自身证据通过；否则仍然必须 BLOCKED。
+            # 旧断言把「声明 Collision ⇒ 必须 BLOCKED」写死，实际把缺陷当成了预期。
+            # 判定只看真实场景节点类型（不看 feature.yaml 的 usage 散文）：后者描述的是
+            # “宿主应提供什么”，不是“组件自带什么”。
+            owns_shape = any(node_type in ("CollisionShape2D", "CollisionPolygon2D")
+                             for node_type in audit[fid]["node_types"])
+            expects_pass = ("Collision" not in declared_caps) or owns_shape
+            ok("audit: %s bare plan verdict follows its own scene evidence" % fid,
+               (bare_contract.status != "BLOCKED") == expects_pass,
+               str((bare_contract.status, bare_contract.errors,
+                    declared_instance, owns_shape)))
+            ok("audit: %s a bare plan without self evidence is still BLOCKED" % fid,
+               expects_pass
+               or (bare_contract.status == "BLOCKED" and bare_contract.errors
+                   == ["Capability contract failed: Collision requires CollisionShape2D"]),
+               str((bare_contract.status, bare_contract.errors)))
+            ok("audit: %s a self-declared collider never leaves errors behind" % fid,
+               not expects_pass
+               or (bare_contract.status == "PASS" and not bare_contract.errors),
                str((bare_contract.status, bare_contract.errors)))
 
         # 12 个真实 Feature 的声明汇总（打印迁移结果，便于报告核对）

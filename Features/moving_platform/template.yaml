@@ -15,3 +15,46 @@ validation:
 
 interfaces:
   signals: []
+
+# 组件实例计划（Phase 1.37）：声明本组件入口场景自带的节点结构。
+# 作用 = 能力契约证据（Phase 1.8.14 机制）：不声明时契约只能看到「组件」，
+# 看不到其内部节点，依赖 Collision 的组合会被误判为 BLOCKED
+# （Phase 1.36 评估 T1 的首次失败原因）。
+# 约束：只声明 MovingPlatform.tscn = AnimatableBody2D + Visual + RideZone(Area2D) 中真实存在的结构与直接子节点类型；
+#       本声明不驱动生成（Builder 不消费它），因此 .tscn 输出不变。
+instance:
+  node_type: AnimatableBody2D
+  children:
+    - Area2D
+
+# 运行时实例证据（Phase 1.39）：要求 Godot 真实加载后的对象树满足本声明。
+# 期望由 node_type / children 推导（根 + 直接子节点类型与数量），
+# 静态结构不需要轮询；失败由 runtime_instance_evidence.py 报 MISMATCH/INSUFFICIENT。
+  runtime:
+    when: after_load        # 观察时机：加载完成并稳定 2 帧
+    timeout_frames: 0       # 0 = 不轮询（静态结构）
+
+# 行为证据（Phase 1.42）：时间驱动位移。
+# 位置由 _physics_process 内部时间驱动（travel=200, period=4 → 1 秒位移 ≈ 100）；
+# 帧推进走协议动作 simulation.advance_frames（真实 physics 帧），不直接改写平台位置。
+# 基线由探针在动作前采集，位移 = 当前 global_position - 基线。
+behavior:
+  - id: travel
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 60}}
+    preconditions:
+      - {check: node2d.position, target: ".", axis: y, equals: 0.0, tolerance: 0.5}
+    expected:
+      - {check: node2d.displacement, target: ".", axis: x, min: 98.0, max: 102.0}
+      - {check: node2d.displacement, target: ".", axis: y, equals: 0.0, tolerance: 0.5}
+    window_frames: 1
+
+  # 一个完整往返（4 秒 = 240 physics 帧）后必须回到基线：
+  # 单向直线运动或半途停住都无法满足。
+  - id: round_trip
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 240}}
+    expected:
+      - {check: node2d.displacement, target: ".", axis: x, equals: 0.0, tolerance: 2.0}
+      - {check: node.exists, target: ".", equals: true}
+    window_frames: 1

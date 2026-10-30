@@ -9,6 +9,7 @@
     Case 3  外部场景不存在 → BLOCKED \"External artifact unavailable\"
     Case 4  多级 child（Area2D → Node2D → CollisionShape2D）→ PASS
     Case 5  循环引用（A ⇄ B）→ BLOCKED \"External artifact recursion detected\"
+    Case 5c 菱形引用（Host → A、Host → B → A）→ PASS（不是环，只解析一次）
     Case 6  既有 slime_enemy：.tscn / .gd 逐字节不变
 
 附件：真实 feature 链（contact_damage 的 Area2D 由外部场景确认、CollisionShape2D 由宿主提供）、
@@ -294,6 +295,49 @@ def run() -> int:
            case5b.status == "BLOCKED"
            and case5b.errors == ["External artifact recursion detected: %s" % self_res],
            str(case5b.to_dict()))
+
+        # ---------------- Case 5c: 菱形引用（同一组件经两条路径可达）----------------
+        # Phase 1.37：健康组件既被宿主直接引用、又通过 player_movement 的入口场景可达
+        # （Player.tscn 内含 Health.tscn）。菱形是合法的组合结构，不是环；若判成环，
+        # 开启实例证据核验后所有「根组件自带另一组件」的实体都会 BLOCKED。
+        print("=== Case 5c: a diamond reference is not a cycle ===")
+        dia_a_dir = os.path.join(features_dir, "dia_a")
+        dia_b_dir = os.path.join(features_dir, "dia_b")
+        dia_a_res = "res://Features/dia_a/A.tscn"
+        dia_b_res = "res://Features/dia_b/B.tscn"
+        write_text(os.path.join(dia_a_dir, "A.tscn"),
+                   "[gd_scene load_steps=1 format=3]\n\n"
+                   "[node name=\"A\" type=\"Area2D\"]\n\n"
+                   "[node name=\"ShapeA\" type=\"CollisionShape2D\" parent=\".\"]\n")
+        write_text(os.path.join(dia_b_dir, "B.tscn"),
+                   "[gd_scene load_steps=2 format=3]\n\n"
+                   "[ext_resource type=\"PackedScene\" path=\"%s\" id=\"1_a\"]\n\n"
+                   "[node name=\"B\" type=\"Area2D\"]\n\n"
+                   "[node name=\"A\" parent=\".\" instance=ExtResource(\"1_a\")]\n"
+                   % dia_a_res)
+        dia_host = write_text(os.path.join(scenes_dir, "diamond.tscn"),
+                              "[gd_scene load_steps=3 format=3]\n\n"
+                              "[ext_resource type=\"PackedScene\" path=\"%s\" id=\"1_a\"]\n"
+                              "[ext_resource type=\"PackedScene\" path=\"%s\" id=\"2_b\"]\n\n"
+                              "[node name=\"ExternalProbe\" type=\"Node2D\"]\n\n"
+                              "[node name=\"A\" parent=\".\" instance=ExtResource(\"1_a\")]\n"
+                              "[node name=\"B\" parent=\".\" instance=ExtResource(\"2_b\")]\n"
+                              % (dia_a_res, dia_b_res))
+        dia_external = external_artifact_resolver.resolve_external_artifacts(dia_host)
+        ok("case5c: the diamond resolves without a recursion error",
+           dia_external["status"] == "PASS" and dia_external["errors"] == []
+           and dia_external["artifacts"] == [dia_a_res, dia_b_res],
+           str(dia_external))
+        ok("case5c: the shared component's nodes are collected exactly once",
+           sum(1 for node in dia_external["nodes"] if node.get("origin") == dia_a_res) == 2,
+           str(dia_external["nodes"]))
+        dia_case = artifact_evidence_validator.verify_artifact_evidence(
+            intent_doc([instance_entry("dia_b", "Area2D", ["CollisionShape2D"])],
+                       ["Collision"]), dia_host)
+        ok("case5c: the chain accepts the diamond and records both artifacts",
+           dia_case.ok
+           and dia_case.checked_external_artifacts == [dia_a_res, dia_b_res],
+           str(dia_case.to_dict()))
 
         # ---------------- Case 6: 既有 slime_enemy ----------------
         print("=== Case 6: the existing slime_enemy chain stays byte-identical ===")

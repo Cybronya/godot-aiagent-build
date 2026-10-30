@@ -16,3 +16,55 @@ validation:
 
 interfaces:
   signals: []
+
+# 组件实例计划（Phase 1.37）：声明本组件入口场景自带的节点结构。
+# 作用 = 能力契约证据（Phase 1.8.14 机制）：不声明时契约只能看到「组件」，
+# 看不到其内部节点，依赖 Collision 的组合会被误判为 BLOCKED
+# （Phase 1.36 评估 T1 的首次失败原因）。
+# 约束：只声明 Player.tscn = CharacterBody2D + Visual + Collision(CollisionShape2D) 中真实存在的结构与直接子节点类型；
+#       本声明不驱动生成（Builder 不消费它），因此 .tscn 输出不变。
+instance:
+  node_type: CharacterBody2D
+  children:
+    - CollisionShape2D
+
+# 运行时实例证据（Phase 1.39）：要求 Godot 真实加载后的对象树满足本声明。
+# 期望由 node_type / children 推导（根 + 直接子节点类型与数量），
+# 静态结构不需要轮询；失败由 runtime_instance_evidence.py 报 MISMATCH/INSUFFICIENT。
+  runtime:
+    when: after_load        # 观察时机：加载完成并稳定 2 帧
+    timeout_frames: 0       # 0 = 不轮询（静态结构）
+
+# 行为证据（Phase 1.42）：受控输入 + 真实物理帧。
+# input.press/release 走 Input.action_press/release（InputMap 中的真实动作），
+# 位移由 CharacterBody2D.move_and_slide 在物理帧里产生，不直接设置位置。
+# 12 physics 帧 × speed(220)/60 ≈ 44 px。
+# 行为证据（Phase 1.42）：受控输入 + 真实物理帧。
+# input.press 走 Input.action_press（InputMap 中的真实动作），在下一帧的输入刷新后生效，
+# 因此先推 1 帧作为显式 flush，再推 N 帧观察位移。
+# 位移由 CharacterBody2D.move_and_slide 在物理帧里产生，不直接设置位置。
+# 实测 12 帧 × speed(220)/60 = 44.0 px。
+behavior:
+  - id: move_right
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}    # 输入刷新帧
+      - {type: simulation.advance_frames, params: {frames: 12}}
+    preconditions:
+      - {check: node2d.displacement, target: ".", axis: x, equals: 0.0, tolerance: 0.01}
+    expected:
+      - {check: node2d.displacement, target: ".", axis: x, min: 43.5, max: 44.5}
+      - {check: node2d.displacement, target: ".", axis: y, equals: 0.0, tolerance: 0.5}
+    window_frames: 1
+
+  # 松开输入后不得继续移动：release 立即生效，再推 12 帧位移必须仍停在 44.0。
+  - id: stop_on_release
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}    # 输入刷新帧
+      - {type: simulation.advance_frames, params: {frames: 12}}
+      - {type: input.release, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 12}}
+    expected:
+      - {check: node2d.displacement, target: ".", axis: x, min: 43.5, max: 44.5}
+    window_frames: 1

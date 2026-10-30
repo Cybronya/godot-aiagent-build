@@ -16,3 +16,34 @@ validation:
 interfaces:
   signals:
     - state_changed
+
+# 组件实例计划（Phase 1.37）：声明本组件入口场景自带的节点结构。
+# 作用 = 能力契约证据（Phase 1.8.14 机制）：不声明时契约只能看到「组件」，
+# 看不到其内部节点，依赖 Collision 的组合会被误判为 BLOCKED
+# （Phase 1.36 评估 T1 的首次失败原因）。
+# 约束：只声明 OpenableDoor.tscn = StaticBody2D + Visual + Collision(CollisionShape2D) 中真实存在的结构与直接子节点类型；
+#       本声明不驱动生成（Builder 不消费它），因此 .tscn 输出不变。
+instance:
+  node_type: StaticBody2D
+  children:
+    - CollisionShape2D
+
+# 运行时实例证据（Phase 1.39）：要求 Godot 真实加载后的对象树满足本声明。
+# 期望由 node_type / children 推导（根 + 直接子节点类型与数量），
+# 静态结构不需要轮询；失败由 runtime_instance_evidence.py 报 MISMATCH/INSUFFICIENT。
+  runtime:
+    when: after_load        # 观察时机：加载完成并稳定 2 帧
+    timeout_frames: 0       # 0 = 不轮询（静态结构）
+
+# 行为证据（Phase 1.40）：在隔离场景副本中调用真实入口 set_open(bool)，
+# 观测真实状态与信号；不直接改 _is_open 之类的内部状态。
+behavior:
+  - id: open
+    actions:
+      - {type: door.set_open, target: ".", params: {value: true}}
+    preconditions:
+      - {check: door.is_open, target: ".", equals: false}
+    expected:
+      - {check: door.is_open, target: ".", equals: true}
+      - {check: signal, entry: door.state_changed, target: ".", count: 1, last_args: [true]}
+    window_frames: 12

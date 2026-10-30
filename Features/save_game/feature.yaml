@@ -1,0 +1,94 @@
+# Feature Metadata: save_game
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: save_game
+version: 1
+category: logic
+
+summary: 槽位存档组件：收集 player/serializable/instanced 三类节点快照到 JSON 槽位文件，恢复时清场重建；只管快照的收集/落盘/应用，场景切换由组合层编排。
+
+provides:
+  - save_slots
+  - world_snapshot
+  - node_save_protocol
+
+requires: []
+
+capabilities:
+  required:
+    - Node
+
+interfaces:
+  methods:
+    - name: save_to_slot
+      signature: "save_to_slot(slot_name: String) -> bool"
+      description: 收集当前世界快照写入槽位（user://saved_games/<slot>.save）；非法槽位名拒绝
+    - name: load_from_slot
+      signature: "load_from_slot(slot_name: String) -> bool"
+      description: 把槽位快照应用回当前场景树（清 instanced、回填 player/serializable、重建 instanced）；不切换场景
+    - name: autosave / quicksave
+      signature: "autosave() -> bool | quicksave() -> bool"
+      description: 固定槽位 autosave / quicksave 的保存便捷入口
+    - name: load_autosave / load_quicksave
+      signature: "load_autosave() -> bool | load_quicksave() -> bool"
+      description: 对应固定槽位的恢复便捷入口
+    - name: get_slot_list
+      signature: "get_slot_list() -> Array[String]"
+      description: 全部槽位名，按修改时间新→旧排序
+    - name: get_last_slot
+      signature: "get_last_slot() -> String"
+      description: 最近写入的槽位名；从未保存返回空串
+    - name: add_deleted_node_path
+      signature: "add_deleted_node_path(node_path: String) -> void"
+      description: 记录静态节点被删除（如道具被拾取），恢复时按路径清除
+  signals:
+    - name: game_saved
+      signature: "game_saved(slot_path: String)"
+      description: 每次成功落盘后广播槽位路径
+    - name: game_loaded
+      signature: "game_loaded(save_data: SaveData)"
+      description: 快照应用完成后广播（附带完整数据，供组合层读扩展字段）
+  exports:
+    - name: verbose
+      type: bool
+      default: false
+      description: 打开过程日志输出
+
+ownership:
+  state:
+    - 槽位文件（user://saved_games/*.save）
+    - 最近槽位记录（user://saved_games/_last.txt）
+    - 删除记账列表（_deleted_node_paths）
+  rules:
+    - 节点存档协议：实现 get_save_data()/load_save_data(data) 即参与存档
+    - 组约定：player=全局玩家；serializable=场景静态节点（node_path 记账）；
+      instanced=运行时实例（get_save_data 须自带 instance_uid 字段）
+    - 只负责快照收集/落盘/应用回当前树；跨场景切换（change_scene + 重放）由组合层编排
+    - 恢复时先清 instanced 组，再按删除记账 queue_free，再回填数据
+
+composition:
+  entry_scene: SaveGame.tscn
+  usage: 将 SaveGame.tscn 实例化挂到编排层（如 Orchestration 的 Game 节点下）；实体按协议实现两方法并加入对应组
+  related_features: [health, collect_pickup, condition_gate]
+
+validation:
+  self_test: test_save_game.gd
+  command: godot --headless --path . -s res://Features/save_game/test_save_game.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - collect_pickup
+  commonly_used_with:
+    - health
+    - collect_pickup
+    - condition_gate
+  conflicts: []
+  entity_roles:
+    - logic
+
+# 来源片段（仅供学习，已抽象重写）：
+#   snippet_id: Miziziziz__MizGodotTools__globals__save_manager__save_manager.gd
+#   source_url: https://github.com/Miziziziz/MizGodotTools/blob/main/globals/save_manager/save_manager.gd
+#   repo: Miziziziz/MizGodotTools (star 987) | License: MIT

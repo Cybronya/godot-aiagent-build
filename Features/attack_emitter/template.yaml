@@ -1,0 +1,54 @@
+# Feature Scene Template: attack_emitter
+
+feature:
+  id: attack_emitter
+
+scene:
+  source: AttackEmitter.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - AttackEmitter
+
+interfaces:
+  signals:
+    - attacked
+    - attack_performed
+    - attack_hit
+
+# Behavior Evidence (Phase 1.53)：真实 Godot 运行时 + 真实物理接触。
+# 证据夹具 AttackEmitterFixture.tscn（Emitter(damage=3) + RayCast2D
+# (target_position=(100,0)) + FixtureTarget(StaticBody2D, +X 110px, 40x40 碰撞体，
+# 子节点真实 Health)）：射线命中/排除/未命中全部由真实 RayCast2D 物理判定驱动，
+# target 的 take_damage 由组件真实调用并转发 Health，没有任何内部回调伪造伤害。
+behavior:
+  # 射线命中：一次 do_attack 经真实物理判定命中目标，damage=3 结算进 Health。
+  - id: raycast_hit_deals_damage
+    scene: AttackEmitterFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 2}}
+      - {type: attackemitter.do_attack, target: Emitter}
+    preconditions:
+      - {check: health.current, target: Target/Health, equals: 5}
+    expected:
+      - {check: health.current, target: Target/Health, equals: 2}
+      - {check: signal, entry: attackemitter.attack_hit, target: Emitter, count: 1}
+    window_frames: 10
+
+  # 连续攻击致死：两次 damage=3 打穿 max_health=5，Health 进入死亡态并广播 died。
+  - id: repeated_attack_can_kill
+    scene: AttackEmitterFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 2}}
+      - {type: attackemitter.do_attack, target: Emitter}
+      - {type: attackemitter.do_attack, target: Emitter}
+    preconditions:
+      - {check: health.current, target: Target/Health, equals: 5}
+    expected:
+      - {check: health.current, target: Target/Health, equals: 0}
+      - {check: health.is_dead, target: Target/Health, equals: true}
+      - {check: signal, entry: health.died, target: Target/Health, count: 1}
+    window_frames: 10

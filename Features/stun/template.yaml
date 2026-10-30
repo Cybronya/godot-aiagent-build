@@ -17,3 +17,117 @@ validation:
 interfaces:
   signals:
     - stunned
+
+# 行为证据（Phase 1.49）：`stun` 的唯一真实入口是「宿主受击 / 宿主物理停摆与恢复」，
+# 没有可以直接构造结果的公开动作（`stun()` 是代码调用，不在协议动作里）。因此证据场景
+# StunFixture.tscn 提供：
+#
+#   Host (CharacterBody2D, player_controller.gd)  ← 输入驱动的真实位移
+#   ├── Collision 32×48
+#   ├── Health (Health.tscn, max_health=10)       ← 受击来源（真实 health_changed）
+#   └── Stun (Stun.tscn, stun_on_hit=true, stun_duration=0.4)
+#
+# 触发方式只用 `health.take_damage`：它经 Health 的 health_changed 走 stun_on_hit 的
+# 真实订阅链（含 call_deferred 落地），**不**调用 stun() 方法——那会绕过被测的触发逻辑。
+# 可观测证据是「宿主是否真的停止位移」与「stunned(bool) 的跨越广播」：
+#
+#   0.4 s 眩晕 @ 60 Hz ≈ 24 帧；PlayerController.speed = 220 → 3.667 px/帧。
+#   同一套输入下，未眩晕 20 帧 ≈ 73 px，眩晕 20 帧 ≈ 0 px —— 两者相差一个量级，
+#   所以位移阈值不是拟合观测，而是「冻结 / 未冻结」的区分线（见各行为注释）。
+behavior:
+  # ---- 1. 受击 → 物理停摆：输入仍按住，但宿主不再移动 --------------------------
+  - id: hit_stuns_and_freezes_host
+    scene: StunFixture.tscn
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}    # 输入刷新帧
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 20}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+      - {check: signal, target: Host/Stun, entry: stun.stunned, count: 0}
+    expected:
+      # 未眩晕时 20 帧 ≈ 73 px；停摆后只可能剩「延迟一帧落地」的 1–2 帧余量（≤ 8 px）。
+      - {check: node2d.displacement, target: Host, axis: x, min: -1.0, max: 8.0}
+      - {check: node2d.displacement, target: Host, axis: y, equals: 0.0, tolerance: 0.5}
+      - {check: health.current, target: Host/Health, equals: 9}
+      # 状态跨越只广播一次 true（幂等），并且是进入眩晕的那一次。
+      - {check: signal, target: Host/Stun, entry: stun.stunned,
+         count: 1, last_args: [true]}
+    window_frames: 5
+
+  # ---- 2. 到点自动恢复：同一输入继续推进，宿主重新移动 ------------------------
+  - id: stun_expires_and_host_resumes
+    scene: StunFixture.tscn
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 44}}   # 24 帧眩晕 + 20 帧移动
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      # 24 帧停摆 + 约 19 帧移动 ≈ 70 px；下界 45 已排除「一直停着」，上界 100 排除「从未停过」（160+ px）。
+      - {check: node2d.displacement, target: Host, axis: x, min: 45.0, max: 100.0}
+      - {check: health.current, target: Host/Health, equals: 9}
+      # true → false：恢复时恰好广播一次，参数为 false。
+      - {check: signal, target: Host/Stun, entry: stun.stunned,
+         count: 2, last_args: [false]}
+    window_frames: 10
+
+  # ---- 3. 治疗不触发眩晕：同一套输入 + 同一时长，宿主仍全速移动 --------------
+  - id: heal_does_not_stun
+    scene: StunFixture.tscn
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+      # 满血治疗：health_changed(10, 1) 仍然发出（amount 为正），但生命值没有下降。
+      - {type: health.heal, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 24}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      # 与行为 1 相同的输入/帧数：如果「amount>0 即受击」，这里会停摆（≤ 8 px）。
+      - {check: node2d.displacement, target: Host, axis: x, min: 70.0, max: 95.0}
+      - {check: health.current, target: Host/Health, equals: 10}
+      - {check: signal, target: Host/Stun, entry: stun.stunned, count: 0}
+    window_frames: 5
+
+  # ---- 4. 击杀不触发眩晕：死亡宿主拒绝 stun，物理不被本组件暂停 -----------------
+  - id: death_guard_rejects_stun
+    scene: StunFixture.tscn
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+      # 一击毙命：health_changed(0, 10) 仍会走受击订阅，但 stun() 内的死亡守卫必须拒绝。
+      - {type: health.take_damage, target: Host/Health, params: {amount: 10}}
+      - {type: simulation.advance_frames, params: {frames: 20}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      # 死亡表现不属于本组件（由死亡订阅方负责），所以宿主物理没被 stun 停掉。
+      - {check: node2d.displacement, target: Host, axis: x, min: 60.0, max: 80.0}
+      - {check: health.current, target: Host/Health, equals: 0}
+      - {check: health.is_dead, target: Host/Health, equals: true}
+      - {check: signal, target: Host/Stun, entry: stun.stunned, count: 0}
+    window_frames: 5
+
+  # ---- 5. 眩晕中再次受击：延长但不重复广播 true --------------------------------
+  - id: reentry_extends_without_rebroadcast
+    scene: StunFixture.tscn
+    actions:
+      - {type: input.press, params: {action: move_right}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 6}}
+      # 仍在 0.4 s 眩晕内再次受击：长盖短，不产生第二次 true。
+      - {type: health.take_damage, target: Host/Health, params: {amount: 1}}
+      - {type: simulation.advance_frames, params: {frames: 10}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: node2d.displacement, target: Host, axis: x, min: -1.0, max: 8.0}
+      - {check: health.current, target: Host/Health, equals: 8}
+      - {check: signal, target: Host/Stun, entry: stun.stunned,
+         count: 1, last_args: [true]}
+    window_frames: 5

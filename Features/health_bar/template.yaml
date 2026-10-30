@@ -15,3 +15,103 @@ validation:
 
 interfaces:
   signals: []
+
+# 行为证据（Phase 1.50）：`health_bar` 是纯显示组件，没有可以「调用一下就改变状态」的入口
+# （setter / 公开写入都不存在），所以证据只能是「Health 真的变化 → 血条真的变」。
+#
+# 证据场景 HealthBarFixture.tscn：
+#
+#   Host (Node2D)
+#   ├── Health (max_health=10)              ← 真实 take_damage / heal
+#   └── Bar (HealthBar, health_path="../Health")
+#   Orphan (HealthBar, health_path 未设置)   ← 对照组：Health 满血，但它的比例为 0.0
+#
+# 显示状态怎么读（这是本阶段唯一的协议扩展，见 PHASE_1_50_AUDIT.md §3）：
+#   `health_bar.ratio` = `get_ratio()` 的返回值。它**就是** `_draw()` 用来算填充宽度的
+#   那个值（`bar_size.x * ratio`），`_draw()` 里没有别的变换。血条不暴露像素，也不缓存
+#   显示值，所以这是能读到的全部显示状态；它是只读的，不写任何属性、不触发重绘。
+#
+# 更新路径（源码事实）：`Health.health_changed` → `HealthBar._on_health_changed` → `queue_redraw()`。
+# 因此以下契约的时序是**同步**的：伤害/治疗是同步调用，比例在下一次读取时就已经是新值，
+# 不存在动画、延迟或补间（`_draw()` 里没有 Tween / 计时器）。所以推进 1 帧只为让帧管线
+# 完整跑一轮，不靠窗口「等到对为止」（断言里 waited_frames 应为 0）。
+#
+# 数值来源：max_health=10（本场景显式覆写）；伤害 4 → 6/10=0.6；治疗 2 → 8/10=0.8；
+# 致命伤害 10 → 0/10=0.0（`_draw()` 在 ratio==0 时不画填充）。全部是精确可算的数，
+# 不是对观测的拟合，也不靠容差掩盖差异（0.6 与 1.0、0.5 都有 0.1 以上的距离）。
+behavior:
+  # ---- 1. 初始：满血 → 比例为 1.0 -------------------------------------------
+  - id: initial_health_bar_ratio
+    scene: HealthBarFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health_bar.ratio, target: Host/Bar, equals: 1.0, tolerance: 0.0001}
+      - {check: health.current, target: Host/Health, equals: 10}
+    window_frames: 5
+
+  # ---- 2. 真实受伤：6/10 = 0.6，且变化来自真实 health_changed 事件 ----------
+  - id: damage_updates_health_bar
+    scene: HealthBarFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 4}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    # 前置条件只断言「跑得起来所需的状态」（Health 满血），**不**断言初始比例：
+    # 否则比例本身坏了时会先掉进 precondition_unmet（INSUFFICIENT），把「显示错了」
+    # 误报成「证据不足」。初始比例由 initial_health_bar_ratio 单独负责。
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 6}
+      - {check: health_bar.ratio, target: Host/Bar, equals: 0.6, tolerance: 0.0005}
+      # 事件次数 + 参数：证明比例变化对应一次真实伤害，而不是某个夹具自己改的值。
+      - {check: signal, target: Host/Health, entry: health.health_changed,
+         count: 1, last_args: [6, 4]}
+    window_frames: 5
+
+  # ---- 3. 真实治疗：从 0.6 回到 8/10 = 0.8 -----------------------------------
+  - id: healing_updates_health_bar
+    scene: HealthBarFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 4}}
+      - {type: health.heal, target: Host/Health, params: {amount: 2}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 8}
+      - {check: health_bar.ratio, target: Host/Bar, equals: 0.8, tolerance: 0.0005}
+      - {check: signal, target: Host/Health, entry: health.health_changed,
+         count: 2, last_args: [8, 2]}
+    window_frames: 5
+
+  # ---- 4. 死亡：0/10 = 0.0（`_draw()` 不画填充） ----------------------------
+  - id: death_empties_health_bar
+    scene: HealthBarFixture.tscn
+    actions:
+      - {type: health.take_damage, target: Host/Health, params: {amount: 10}}
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health.current, target: Host/Health, equals: 0}
+      - {check: health.is_dead, target: Host/Health, equals: true}
+      - {check: health_bar.ratio, target: Host/Bar, equals: 0.0, tolerance: 0.0001}
+    window_frames: 5
+
+  # ---- 5. 对照：未绑定 Health 的血条恒为 0.0，即使旁边 Health 是满的 ---------
+  # 这条契约的作用是证明「观测读的是血条，不是 Health」：如果观测偷偷读 Health，
+  # 这里会得到 1.0 而不是 0.0。它同时固定了「未绑定则不绘制」这一现有设计语义。
+  - id: unbound_bar_reports_no_fill
+    scene: HealthBarFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 1}}
+    preconditions:
+      - {check: health.current, target: Host/Health, equals: 10}
+    expected:
+      - {check: health_bar.ratio, target: Orphan, equals: 0.0, tolerance: 0.0001}
+      - {check: health_bar.ratio, target: Host/Bar, equals: 1.0, tolerance: 0.0001}
+      - {check: health.current, target: Host/Health, equals: 10}
+    window_frames: 5

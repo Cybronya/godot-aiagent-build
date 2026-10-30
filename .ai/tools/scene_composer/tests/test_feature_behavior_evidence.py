@@ -32,6 +32,8 @@ import subprocess
 import sys
 import tempfile
 
+import yaml
+
 _HERE = os.path.dirname(os.path.abspath(__file__))
 TOOL_DIR = os.path.dirname(_HERE)
 TOOLS_DIR = os.path.dirname(TOOL_DIR)
@@ -194,9 +196,22 @@ def main() -> int:
                     feature, FEATURES, FEATURES, godot, replay=2, workspace=workspace))
         finally:
             workspace.close()
-        ok("case1: legacy + time-driven + Phase 1.43-1.50 + Phase 1.52 behaviors "
-           "are checked (49 total)",
-           len(reports) == 49, str(len(reports)))
+        expected_behavior_keys = {
+            (feature, contract["id"])
+            for feature in declared
+            for contract in (yaml.safe_load(open(
+                os.path.join(FEATURES, feature, "template.yaml"),
+                encoding="utf-8")) or {}).get("behavior", [])
+            if isinstance(contract, dict) and isinstance(contract.get("id"), str)
+        }
+        actual_behavior_keys = {(report.feature, report.behavior) for report in reports}
+        ok("case1: every behavior declared in the current templates is checked exactly once",
+           len(reports) == len(expected_behavior_keys)
+           and actual_behavior_keys == expected_behavior_keys,
+           "expected=%d actual=%d missing=%s extra=%s" % (
+               len(expected_behavior_keys), len(reports),
+               sorted(expected_behavior_keys - actual_behavior_keys),
+               sorted(actual_behavior_keys - expected_behavior_keys)))
         ok("case1: the five health_bar behaviors are checked",
            {(report.feature, report.behavior) for report in reports} >= {
                ("health_bar", "initial_health_bar_ratio"),

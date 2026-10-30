@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="1_health"]
+[ext_resource type="PackedScene" path="res://Features/health_bar/HealthBar.tscn" id="2_bar"]
+
+[node name="HealthBarFixture" type="Node2D"]
+
+[node name="Host" type="Node2D" parent="."]
+
+[node name="Health" parent="Host" instance=ExtResource("1_health")]
+max_health = 10
+
+[node name="Bar" parent="Host" instance=ExtResource("2_bar")]
+position = Vector2(0, -34)
+health_path = NodePath("../Health")
+
+[node name="Orphan" parent="." instance=ExtResource("2_bar")]
+position = Vector2(0, 40)

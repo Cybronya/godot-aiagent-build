@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Features/save_game/instanced_node_fixture.gd" id="1_inf"]
+
+[node name="InstancedNodeFixture" type="Node"]
+script = ExtResource("1_inf")

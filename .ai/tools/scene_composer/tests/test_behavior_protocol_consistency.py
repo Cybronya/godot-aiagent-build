@@ -157,23 +157,27 @@ def main() -> int:
         ok("case1: protocol_version is 2",
            protocol.version == behavior_protocol.SUPPORTED_PROTOCOL_VERSION == 2,
            str(protocol.version))
-        # Phase 1.46 追加 gate.is_fulfilled 观测与 gate.fulfilled 信号（组合场景链所需）；
-        # Phase 1.49 追加 stun.stunned 信号（眩晕状态跨越广播）；
-        # Phase 1.50 追加 health_bar.ratio 观测（血条的只读显示状态，动作表未变）。
-        # Phase 1.52 追加 cooldown.start / screenshake.add_trauma 动作、
-        # cooldown.is_ready 观测与 6 个组件状态信号登记（code_library 批量资产）。
-        # 计数仍然精确锁定，不允许静默增减能力。
-        ok("case1: ten actions / thirteen observations / thirteen signals / one property",
-           (len(protocol.actions), len(protocol.observations), len(protocol.signals),
-            len(protocol.properties)) == (10, 13, 13, 1),
-           str((len(protocol.actions), len(protocol.observations), len(protocol.signals),
-                len(protocol.properties))))
+        # 行为总量会随 Feature 增长；检查协议结构的实际不变量，由 manifest 完整对账
+        # 并由后续探针能力测试拒绝缺失/多余实现，不固定能力总数。
+        required_entries = {
+            "actions": {"simulation.advance_frames", "state.set_property"},
+            "observations": {"health.current", "health.is_dead"},
+            "signals": {"health.health_changed", "health.died"},
+        }
+        ok("case1: required protocol capability families are present",
+           all(required_entries[k] <= set(getattr(protocol, k))
+               for k in required_entries), str(required_entries))
+        health_properties = {name for name, spec in protocol.properties.items()
+                            if spec.get("class") == "Health"}
+        ok("case1: Health exposes no writable protocol properties",
+           not health_properties, str(sorted(health_properties)))
+        implementation_families = (protocol.actions, protocol.observations)
+        ok("case1: every capability has a distinct implementation mapping",
+           all(len({spec["implementation"] for spec in family.values()}) == len(family)
+               for family in implementation_families))
         ok("case1: every entry is explicitly implemented",
            all(spec["implemented"] for spec in protocol.actions.values())
            and all(spec["implemented"] for spec in protocol.observations.values()))
-        ok("case1: implementations are unique per capability",
-           len({spec["implementation"] for spec in protocol.actions.values()}) == 10
-           and len({spec["implementation"] for spec in protocol.observations.values()}) == 13)
         ok("case1: limits and fixture/advance flags are declared",
            protocol.limits == {"max_frames_per_action": 300, "max_total_frames": 600,
                                "max_fixture_actions": 4},
@@ -446,8 +450,21 @@ def main() -> int:
                     protocol=protocol))
         finally:
             workspace.close()
-        ok("case8: forty-nine behaviors checked", len(reports) == 49, str(len(reports)))
+        expected_behavior_keys = set()
+        for feature in behavior.declared_features(FEATURES):
+            with open(os.path.join(FEATURES, feature, "template.yaml"),
+                      "r", encoding="utf-8") as handle:
+                declaration = yaml.safe_load(handle) or {}
+            for contract in (declaration.get("behavior") or []):
+                if isinstance(contract, dict) and isinstance(contract.get("id"), str):
+                    expected_behavior_keys.add((feature, contract["id"]))
         checked = {(report.feature, report.behavior) for report in reports}
+        ok("case8: every currently declared behavior was checked exactly once",
+           len(reports) == len(expected_behavior_keys) and checked == expected_behavior_keys
+           and len(checked) == len(reports),
+           "expected=%d actual=%d missing=%s extra=%s" % (
+               len(expected_behavior_keys), len(reports),
+               sorted(expected_behavior_keys - checked), sorted(checked - expected_behavior_keys)))
         ok("case8: the six Phase 1.40 behaviors are still declared",
            checked.issuperset({
                ("openable_door", "open"), ("health", "damage"),
@@ -494,6 +511,14 @@ def main() -> int:
         ok("case8: the Phase 1.51 health behaviors are declared",
            checked.issuperset({("health", "overkill_clamps_at_zero"),
                                ("health", "post_death_guard")}),
+           str(sorted(checked)))
+        # Phase 1.54：knockback / sfx_pool（code_library 批量资产第三批）。
+        ok("case8: the Phase 1.54 knockback and sfx_pool behaviors are declared",
+           checked.issuperset({("knockback", "knockback_applies_and_signals"),
+                               ("knockback", "knockback_decays_to_rest"),
+                               ("knockback", "knockback_rejects_invalid"),
+                               ("sfx_pool", "sfx_play_emits_and_occupies"),
+                               ("sfx_pool", "sfx_pool_steals_oldest_when_full")}),
            str(sorted(checked)))
         for report in reports:
             ok("case8: %s/%s PASS with consistent replays" % (report.feature, report.behavior),

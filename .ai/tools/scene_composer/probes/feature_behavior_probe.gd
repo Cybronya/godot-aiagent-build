@@ -66,6 +66,13 @@ const ACTION_IMPLEMENTATIONS := {
 	"input_release": "_impl_input_release",
 	"cooldown_start": "_impl_cooldown_start",
 	"screenshake_add_trauma": "_impl_screenshake_add_trauma",
+	"statemachine_start": "_impl_statemachine_start",
+	"statemachine_transition_to": "_impl_statemachine_transition_to",
+	"savegame_save_slot": "_impl_savegame_save_slot",
+	"savegame_load_slot": "_impl_savegame_load_slot",
+	"attackemitter_do_attack": "_impl_attackemitter_do_attack",
+	"knockback_apply": "_impl_knockback_apply",
+	"sfx_play": "_impl_sfx_play",
 }
 
 const OBSERVATION_IMPLEMENTATIONS := {
@@ -82,6 +89,9 @@ const OBSERVATION_IMPLEMENTATIONS := {
 	"observe_node2d_displacement": "_observe_node2d_displacement",
 	"observe_signal": "_observe_signal",
 	"observe_cooldown_is_ready": "_observe_cooldown_is_ready",
+	"observe_statemachine_current_state_name": "_observe_statemachine_current_state_name",
+	"observe_savegame_last_slot": "_observe_savegame_last_slot",
+	"observe_sfx_pool_active_count": "_observe_sfx_pool_active_count",
 }
 
 var _contract_path := ""
@@ -898,6 +908,95 @@ func _impl_screenshake_add_trauma(node: Node, params: Dictionary, record: Dictio
 	return record
 
 
+## Phase 1.53：StateMachine.start(state)。目标必须是带 start() 的 StateMachine。
+func _impl_statemachine_start(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("start"):
+		record["error"] = "target is not a StateMachine"
+		return record
+	var state_name := str(params.get("state_name", ""))
+	var state := node.get_node_or_null(state_name)
+	if state == null:
+		record["error"] = "no such StateNode child: " + state_name
+		return record
+	node.call("start", state)
+	record["executed"] = true
+	record["accepted"] = true
+	return record
+
+
+## Phase 1.53：StateMachine.transition_to(name)。
+func _impl_statemachine_transition_to(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("transition_to"):
+		record["error"] = "target is not a StateMachine"
+		return record
+	node.call("transition_to", str(params.get("state_name", "")))
+	record["executed"] = true
+	record["accepted"] = true
+	return record
+
+
+## Phase 1.53：SaveGame.save_to_slot(slot)。非法槽位名组件自拒（accepted=false）。
+func _impl_savegame_save_slot(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("save_to_slot"):
+		record["error"] = "target is not a SaveGame"
+		return record
+	var accepted: bool = node.call("save_to_slot", str(params.get("slot", "")))
+	record["executed"] = true
+	record["accepted"] = accepted
+	return record
+
+
+## Phase 1.53：SaveGame.load_from_slot(slot)。槽位不存在时组件返回 false。
+func _impl_savegame_load_slot(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("load_from_slot"):
+		record["error"] = "target is not a SaveGame"
+		return record
+	var accepted: bool = node.call("load_from_slot", str(params.get("slot", "")))
+	record["executed"] = true
+	record["accepted"] = accepted
+	return record
+
+
+## Phase 1.53：AttackEmitter.do_attack()。命中与结算由组件与物理决定。
+func _impl_attackemitter_do_attack(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("do_attack"):
+		record["error"] = "target is not an AttackEmitter"
+		return record
+	node.call("do_attack")
+	record["executed"] = true
+	record["accepted"] = true
+	return record
+
+
+## Phase 1.54：Knockback.apply(direction, force)。方向归一化、重启覆盖与无效拒绝
+## （force<=0 / 零方向 / 宿主缺失）由组件定义；探针只调用公开方法。
+func _impl_knockback_apply(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("apply"):
+		record["error"] = "target cannot apply knockback"
+		return record
+	var direction := Vector2(float(params.get("dir_x", 0.0)), float(params.get("dir_y", 0.0)))
+	var accepted: bool = node.call("apply", direction, float(params.get("force", 0.0)))
+	record["executed"] = true
+	record["accepted"] = accepted
+	return record
+
+
+## Phase 1.54：SfxPool.play(stream)。播放载荷由探针内部构造（短静音
+## AudioStreamWAV）——协议参数是标量，无法表达流对象；轮转/抢占语义由组件定义。
+func _impl_sfx_play(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("play"):
+		record["error"] = "target cannot play sfx"
+		return record
+	var wav := AudioStreamWAV.new()
+	wav.data = PackedByteArray()
+	wav.format = AudioStreamWAV.FORMAT_8_BITS
+	wav.mix_rate = 44100
+	var accepted: bool = node.call("play", wav)
+	record["executed"] = true
+	record["accepted"] = accepted
+	return record
+
+
 ## 受控物理接触：在目标位置生成真实 CharacterBody2D（可带真实 Health 实例），
 ## 由后续物理帧触发 Area2D.body_entered；不直接调用拾取物的私有回调。
 func _impl_physics_overlap(node: Node, params: Dictionary, record: Dictionary) -> Dictionary:
@@ -1100,6 +1199,31 @@ func _observe_cooldown_is_ready(node: Node, _entry: Dictionary) -> Dictionary:
 	if node == null or not node.has_method("is_ready"):
 		return {"available": false}
 	return {"available": true, "observed": bool(node.call("is_ready"))}
+
+
+## Phase 1.53：StateMachine 当前状态名（未启动时为空串）。只读，不触发切换。
+func _observe_statemachine_current_state_name(node: Node, _entry: Dictionary) -> Dictionary:
+	if node == null or not ("current_state" in node):
+		return {"available": false}
+	var current = node.get("current_state")
+	if current == null or not is_instance_valid(current):
+		return {"available": true, "observed": ""}
+	return {"available": true, "observed": String(current.name)}
+
+
+## Phase 1.53：SaveGame 最近写入的槽位名。只读。
+func _observe_savegame_last_slot(node: Node, _entry: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("get_last_slot"):
+		return {"available": false}
+	return {"available": true, "observed": String(node.call("get_last_slot"))}
+
+
+## Phase 1.54：SfxPool 占用数。只读调用 active_count()——自管簿记，headless 下
+## 与真实音频环境语义一致；没有该 getter 的节点 → UNAVAILABLE，不猜值。
+func _observe_sfx_pool_active_count(node: Node, _entry: Dictionary) -> Dictionary:
+	if node == null or not node.has_method("active_count"):
+		return {"available": false}
+	return {"available": true, "observed": int(node.call("active_count"))}
 
 
 ## Phase 1.50：血条实际用于绘制填充宽度的比例。只调用公开 getter，不写属性、不触发重绘。

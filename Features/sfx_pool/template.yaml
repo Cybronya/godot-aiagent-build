@@ -1,0 +1,60 @@
+# Feature Scene Template: sfx_pool
+
+feature:
+  id: sfx_pool
+
+scene:
+  source: SfxPool.tscn
+  root_type: Node   # 播放器子节点由 _ready 运行时创建，宿主可以是任意 Node
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - SfxPool
+
+interfaces:
+  signals:
+    - played
+
+# 行为证据（Phase 1.54）：协议新增 sfx.play 动作（探针内部构造静音 AudioStreamWAV
+# 作为播放载荷）与 sfx_pool.active_count 只读观测（自管簿记——headless 下引擎
+# playing 恒为 false 且 finished 不触发，簿记是唯一确定的读法）。占用断言依赖
+# headless 确定性：finished 永不触发 → 占用只增不减，直到抢占。
+# 证据场景 SfxPoolFixture.tscn：Node 根（Pool, pool_size=8 默认）。
+behavior:
+  # ---- 1. 单次播放：played 同步广播一次，簿记占用 1 ----
+  - id: sfx_play_emits_and_occupies
+    scene: SfxPoolFixture.tscn
+    actions:
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: simulation.advance_frames, params: {frames: 2}}
+    preconditions:
+      - {check: signal, target: ".", entry: sfx.played, count: 0}
+      - {check: sfx_pool.active_count, target: ".", equals: 0}
+    expected:
+      - {check: signal, target: ".", entry: sfx.played, count: 1}
+      - {check: sfx_pool.active_count, target: ".", equals: 1}
+    window_frames: 5
+
+  # ---- 2. 池抢占：连播 9 次占用恒为 8（第 9 次抢占最旧，不拒绝） ----
+  - id: sfx_pool_steals_oldest_when_full
+    scene: SfxPoolFixture.tscn
+    actions:
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: sfx.play, target: ".", params: {}}
+      - {type: simulation.advance_frames, params: {frames: 2}}
+    preconditions:
+      - {check: sfx_pool.active_count, target: ".", equals: 0}
+    expected:
+      - {check: signal, target: ".", entry: sfx.played, count: 9}
+      - {check: sfx_pool.active_count, target: ".", equals: 8}
+    window_frames: 5

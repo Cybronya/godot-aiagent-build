@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Features/attack_emitter/raycast_attack_emitter.gd" id="1_rae"]
+[ext_resource type="Script" path="res://Features/attack_emitter/fixture_target.gd" id="2_tgt"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="3_hl"]
+
+[sub_resource type="RectangleShape2D" id="shape_target"]
+size = Vector2(40, 40)
+
+[node name="AttackEmitterFixture" type="Node2D"]
+
+[node name="Emitter" type="Node2D" parent="."]
+script = ExtResource("1_rae")
+damage = 3
+
+[node name="RayCast2D" type="RayCast2D" parent="Emitter"]
+target_position = Vector2(100, 0)
+
+[node name="Target" type="StaticBody2D" parent="."]
+position = Vector2(110, 0)
+script = ExtResource("2_tgt")
+
+[node name="Health" parent="Target" instance=ExtResource("3_hl")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
+shape = SubResource("shape_target")

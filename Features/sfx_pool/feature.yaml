@@ -1,0 +1,76 @@
+# Feature Metadata: sfx_pool
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: sfx_pool
+version: 1
+category: component
+
+summary: 音效池组件：运行时创建一组 AudioStreamPlayer 轮转播放一次性音效，音调随机去重复感；忙碌簿记自管，headless 下行为确定。
+
+provides:
+  - sfx_pool
+  - audio_feedback
+
+requires: []             # 宿主为任意 Node，无 Feature 依赖
+
+capabilities:            # Phase 1.8.12：本 Feature 需要的 Scene 能力（词汇唯一事实源 capability_registry.py）
+  required:
+    - Node         # 播放器由 _ready 运行时创建，场景本身只含 Node 根
+
+interfaces:
+  methods:
+    - name: play
+      signature: "play(stream: AudioStream) -> bool"
+      description: 取下一个播放器（忙碌则抢占）播放并同步广播 played；null 流返回 false；永不因池满拒绝（最新音效优先）
+    - name: active_count
+      signature: "active_count() -> int"
+      description: 当前被占用（未 finished 归还）的播放器数量；读自管簿记，headless 下语义一致
+  signals:
+    - name: played
+      signature: "played()"
+      description: 一次播放已触发（同步广播；无载荷——stream 由调用方持有）
+  exports:
+    - name: pool_size
+      type: int
+      default: 8
+      description: 池内播放器数量（_ready 时创建）
+    - name: pitch_range
+      type: float
+      default: 0.1
+      description: 音调随机幅度：pitch_scale ∈ 1±pitch_range
+    - name: volume_db
+      type: float
+      default: 0.0
+      description: 池内播放器统一音量
+
+ownership:
+  state:
+    - 播放器池与占用簿记（_players、_busy、_active、轮转指针）
+  rules:
+    - 独占自己创建的 AudioStreamPlayer 子节点，离开场景随子树释放；不触碰宿主任何属性
+    - 抢占语义：池满时复用下一个（round-robin）播放器，绝不拒绝新音效
+    - 簿记自管：play 标记占用、finished 归还、重复 finished 幂等；不读引擎 playing 状态（headless 恒 false）
+    - 音调随机仅影响听感，不影响簿记与广播时序
+    - 不订阅任何 Feature 状态；触发时机（受击/拾取/开门）由组合层调用 play
+
+relations:
+  works_with:
+    - contact_damage   # 受击音效
+    - collect_pickup   # 拾取音效
+    - openable_door    # 开门音效
+  commonly_used_with:
+    - knockback        # 受击反馈（音效+位移）组合
+    - health           # 死亡音效
+  conflicts: []        # 多实例各自成池互不干扰；全局建议单实例挂场景根
+  entity_roles: []     # 通常挂场景根/UI 层，与实体角色无关
+
+composition:
+  entry_scene: SfxPool.tscn
+  usage: 实例化为场景节点（建议场景根子节点）；触发方调用 play(stream)，池管理自动完成
+  related_features: [contact_damage, collect_pickup, openable_door]
+
+validation:
+  self_test: test_sfx_pool.gd
+  command: godot --headless --path . -s res://Features/sfx_pool/test_sfx_pool.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1

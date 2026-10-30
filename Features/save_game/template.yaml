@@ -1,0 +1,54 @@
+# Feature Scene Template: save_game
+
+feature:
+  id: save_game
+
+scene:
+  source: SaveGame.tscn
+
+attach:
+  parent: root
+
+validation:
+  required_nodes:
+    - SaveGame
+
+interfaces:
+  signals:
+    - game_saved
+    - game_loaded
+
+# Behavior Evidence (Phase 1.53)：SaveGame.tscn 根节点为纯 Node + save_game.gd，
+# 无宿主场景、无可存档实体。行为证据由 SaveGameBehaviorFixture.tscn 提供
+# （Saver + World 下的 Player/Door 两个 SaveGameFixtureNode，各挂真实 Health），
+# 存档/恢复行为全部由真实落盘 + Health 公开接口回放驱动；数据往返与
+# instanced 重建协议由 test_save_game.gd 另行验证。
+behavior:
+  # 扣血后保存：快照落盘（game_saved 广播、last_slot 记录）。
+  - id: save_slot_persists_world_state
+    scene: SaveGameBehaviorFixture.tscn
+    actions:
+      - {type: health.take_damage, target: World/Player/Health, params: {amount: 2}}
+      - {type: savegame.save_slot, target: Saver, params: {slot: "behavior_save"}}
+    preconditions:
+      - {check: health.current, target: World/Player/Health, equals: 5}
+    expected:
+      - {check: signal, entry: savegame.game_saved, target: Saver, count: 1}
+      - {check: savegame.last_slot, target: Saver, equals: "behavior_save"}
+      - {check: health.current, target: World/Player/Health, equals: 3}
+    window_frames: 10
+
+  # 保存后继续破坏现场，再恢复：快照把玩家血量回放到保存时刻。
+  - id: load_slot_restores_world_state
+    scene: SaveGameBehaviorFixture.tscn
+    actions:
+      - {type: health.take_damage, target: World/Player/Health, params: {amount: 2}}
+      - {type: savegame.save_slot, target: Saver, params: {slot: "behavior_save"}}
+      - {type: health.take_damage, target: World/Player/Health, params: {amount: 2}}
+      - {type: savegame.load_slot, target: Saver, params: {slot: "behavior_save"}}
+    preconditions:
+      - {check: health.current, target: World/Player/Health, equals: 5}
+    expected:
+      - {check: health.current, target: World/Player/Health, equals: 3}
+      - {check: signal, entry: savegame.game_loaded, target: Saver, count: 1}
+    window_frames: 10

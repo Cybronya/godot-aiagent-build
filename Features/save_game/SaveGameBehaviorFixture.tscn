@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Features/save_game/save_game.gd" id="1_sg"]
+[ext_resource type="Script" path="res://Features/save_game/save_game_fixture_node.gd" id="2_fx"]
+[ext_resource type="PackedScene" path="res://Features/health/Health.tscn" id="3_hl"]
+
+[node name="SaveGameBehaviorFixture" type="Node"]
+
+[node name="Saver" type="Node" parent="."]
+script = ExtResource("1_sg")
+
+[node name="World" type="Node" parent="."]
+
+[node name="Player" type="Node" parent="World" groups=["player"]]
+script = ExtResource("2_fx")
+
+[node name="Health" parent="World/Player" instance=ExtResource("3_hl")]
+
+[node name="Door" type="Node" parent="World" groups=["serializable"]]
+script = ExtResource("2_fx")
+
+[node name="Health" parent="World/Door" instance=ExtResource("3_hl")]

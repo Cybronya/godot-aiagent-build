@@ -30,3 +30,33 @@ validation:
 
 interfaces:
   signals: []
+
+behavior:
+  # 追击需要目标，而 ChaseMovement.tscn 本身不配置 target_path（组件只负责朝目标移动）。
+  # 因此本行为使用同目录的证据夹具场景：容器根 + Chaser(target_path=../Target) + 静止 Target。
+  # `scene` 只选择证据场景，不改变组合入口，也不增加协议能力。
+  - id: approach_target
+    scene: ChaseTargetFixture.tscn
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 60}}
+    preconditions:
+      - {check: node2d.position, target: Target, axis: x, equals: 300.0, tolerance: 0.5}
+      - {check: node2d.displacement, target: Chaser, axis: x, equals: 0.0, tolerance: 0.01}
+    expected:
+      # 夹具 speed = 60 px/s（= 1 px/物理帧）× 1 s ≈ 60 px；
+      # 允许观测点落在物理帧边界前后一帧（即 58..61 px）。
+      - {check: node2d.displacement, target: Chaser, axis: x, min: 57.5, max: 62.5}
+      - {check: node2d.displacement, target: Chaser, axis: y, equals: 0.0, tolerance: 0.5}
+      # 目标全程静止 ⇒ 追击者的 +x 位移就是「与目标距离缩短」。
+      - {check: node2d.position, target: Target, axis: x, equals: 300.0, tolerance: 0.5}
+      - {check: node.exists, target: Chaser, equals: true}
+    window_frames: 1
+
+  # 契约规则：没有目标是**保持静止**，不是随便乱走。
+  - id: hold_without_target
+    actions:
+      - {type: simulation.advance_frames, params: {frames: 30}}
+    expected:
+      - {check: node2d.displacement, target: ".", axis: x, equals: 0.0, tolerance: 0.01}
+      - {check: node2d.displacement, target: ".", axis: y, equals: 0.0, tolerance: 0.01}
+    window_frames: 1

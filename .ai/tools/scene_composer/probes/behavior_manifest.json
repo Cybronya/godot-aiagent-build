@@ -1,5 +1,13 @@
 {
   "actions": {
+    "attackemitter.do_attack": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "attackemitter_do_attack",
+      "implemented": true,
+      "params": {},
+      "target": "node"
+    },
     "cooldown.start": {
       "advances_frames": false,
       "fixture": false,
@@ -86,6 +94,33 @@
       },
       "target": "none"
     },
+    "knockback.apply": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "knockback_apply",
+      "implemented": true,
+      "params": {
+        "dir_x": {
+          "max": 1.0,
+          "min": -1.0,
+          "required": true,
+          "type": "float"
+        },
+        "dir_y": {
+          "max": 1.0,
+          "min": -1.0,
+          "required": true,
+          "type": "float"
+        },
+        "force": {
+          "max": 10000.0,
+          "min": 0.0,
+          "required": true,
+          "type": "float"
+        }
+      },
+      "target": "node"
+    },
     "physics.overlap": {
       "advances_frames": false,
       "fixture": false,
@@ -112,6 +147,34 @@
       },
       "target": "node2d"
     },
+    "savegame.load_slot": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "savegame_load_slot",
+      "implemented": true,
+      "params": {
+        "slot": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
+        }
+      },
+      "target": "node"
+    },
+    "savegame.save_slot": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "savegame_save_slot",
+      "implemented": true,
+      "params": {
+        "slot": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
+        }
+      },
+      "target": "node"
+    },
     "screenshake.add_trauma": {
       "advances_frames": false,
       "fixture": false,
@@ -125,6 +188,14 @@
           "type": "float"
         }
       },
+      "target": "node"
+    },
+    "sfx.play": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "sfx_play",
+      "implemented": true,
+      "params": {},
       "target": "node"
     },
     "simulation.advance_frames": {
@@ -163,6 +234,34 @@
         "value": {
           "required": true,
           "type": "any"
+        }
+      },
+      "target": "node"
+    },
+    "statemachine.start": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "statemachine_start",
+      "implemented": true,
+      "params": {
+        "state_name": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
+        }
+      },
+      "target": "node"
+    },
+    "statemachine.transition_to": {
+      "advances_frames": false,
+      "fixture": false,
+      "implementation": "statemachine_transition_to",
+      "implemented": true,
+      "params": {
+        "state_name": {
+          "non_empty": true,
+          "required": true,
+          "type": "string"
         }
       },
       "target": "node"
@@ -388,6 +487,42 @@
       },
       "target": "node"
     },
+    "savegame.last_slot": {
+      "implementation": "observe_savegame_last_slot",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
+      },
+      "target": "node"
+    },
+    "sfx_pool.active_count": {
+      "implementation": "observe_sfx_pool_active_count",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": false,
+          "type": "int"
+        },
+        "max": {
+          "required": false,
+          "type": "int"
+        },
+        "min": {
+          "required": false,
+          "type": "int"
+        }
+      },
+      "result": {
+        "type": "int"
+      },
+      "target": "node"
+    },
     "signal": {
       "implementation": "observe_signal",
       "implemented": true,
@@ -409,6 +544,20 @@
       },
       "result": {
         "type": "int"
+      },
+      "target": "node"
+    },
+    "statemachine.current_state_name": {
+      "implementation": "observe_statemachine_current_state_name",
+      "implemented": true,
+      "params": {
+        "equals": {
+          "required": true,
+          "type": "string"
+        }
+      },
+      "result": {
+        "type": "string"
       },
       "target": "node"
     },
@@ -440,6 +589,10 @@
   },
   "protocol_version": 2,
   "signals": {
+    "attackemitter.attack_hit": {
+      "args": [],
+      "signal": "attack_hit"
+    },
     "cooldown.finished": {
       "args": [],
       "signal": "cooldown_finished"
@@ -477,6 +630,12 @@
       ],
       "signal": "flashing"
     },
+    "knockback.changed": {
+      "args": [
+        "bool"
+      ],
+      "signal": "knockback_changed"
+    },
     "patrol.waypoint_reached": {
       "args": [
         "int"
@@ -494,11 +653,29 @@
       "args": [],
       "signal": "finished"
     },
+    "savegame.game_loaded": {
+      "args": [],
+      "signal": "game_loaded"
+    },
+    "savegame.game_saved": {
+      "args": [
+        "string"
+      ],
+      "signal": "game_saved"
+    },
     "screenshake.shaking": {
       "args": [
         "bool"
       ],
       "signal": "shaking"
+    },
+    "sfx.played": {
+      "args": [],
+      "signal": "played"
+    },
+    "statemachine.state_changed": {
+      "args": [],
+      "signal": "state_changed"
     },
     "stun.stunned": {
       "args": [

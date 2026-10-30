@@ -1,7 +1,53 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-28T12:12:32Z",
+  "generated_at": "2026-10-30T14:48:44Z",
   "features": [
+    {
+      "id": "attack_emitter",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "attack_trigger",
+        "raycast_damage_dealing",
+        "emitter_composition"
+      ],
+      "requires": [],
+      "interfaces": [
+        "set_bodies_to_exclude",
+        "do_attack",
+        "damage",
+        "source_of_attack",
+        "attacked",
+        "attack_performed",
+        "attack_hit"
+      ],
+      "signals": [
+        "attacked",
+        "attack_performed",
+        "attack_hit"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/attack_emitter/test_attack_emitter.gd"
+      },
+      "relations": {
+        "works_with": [
+          "health"
+        ],
+        "commonly_used_with": [
+          "health",
+          "projectile",
+          "stun",
+          "hit_flash"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "player",
+          "enemy",
+          "trap"
+        ],
+        "requires": []
+      }
+    },
     {
       "id": "chase_movement",
       "version": "1",
@@ -401,6 +447,43 @@
       }
     },
     {
+      "id": "knockback",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "knockback",
+        "hit_response"
+      ],
+      "requires": [],
+      "interfaces": [
+        "apply",
+        "is_active",
+        "current_velocity",
+        "decay",
+        "knockback_changed"
+      ],
+      "signals": [
+        "knockback_changed"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/knockback/test_knockback.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "projectile",
+          "health"
+        ],
+        "commonly_used_with": [
+          "stun",
+          "chase_movement"
+        ],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
       "id": "moving_platform",
       "version": "1",
       "category": "world",
@@ -595,6 +678,51 @@
       }
     },
     {
+      "id": "save_game",
+      "version": "1",
+      "category": "logic",
+      "provides": [
+        "save_slots",
+        "world_snapshot",
+        "node_save_protocol"
+      ],
+      "requires": [],
+      "interfaces": [
+        "save_to_slot",
+        "load_from_slot",
+        "autosave / quicksave",
+        "load_autosave / load_quicksave",
+        "get_slot_list",
+        "get_last_slot",
+        "add_deleted_node_path",
+        "verbose",
+        "game_saved",
+        "game_loaded"
+      ],
+      "signals": [
+        "game_saved",
+        "game_loaded"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/save_game/test_save_game.gd"
+      },
+      "relations": {
+        "works_with": [
+          "collect_pickup"
+        ],
+        "commonly_used_with": [
+          "health",
+          "collect_pickup",
+          "condition_gate"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "logic"
+        ],
+        "requires": []
+      }
+    },
+    {
       "id": "screen_shake",
       "version": "1",
       "category": "component",
@@ -628,6 +756,86 @@
         ],
         "conflicts": [],
         "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
+      "id": "sfx_pool",
+      "version": "1",
+      "category": "component",
+      "provides": [
+        "sfx_pool",
+        "audio_feedback"
+      ],
+      "requires": [],
+      "interfaces": [
+        "play",
+        "active_count",
+        "pool_size",
+        "pitch_range",
+        "volume_db",
+        "played"
+      ],
+      "signals": [
+        "played"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/sfx_pool/test_sfx_pool.gd"
+      },
+      "relations": {
+        "works_with": [
+          "contact_damage",
+          "collect_pickup",
+          "openable_door"
+        ],
+        "commonly_used_with": [
+          "knockback",
+          "health"
+        ],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
+      "id": "state_machine",
+      "version": "1",
+      "category": "logic",
+      "provides": [
+        "state_switching",
+        "state_history_backtrack"
+      ],
+      "requires": [],
+      "interfaces": [
+        "start",
+        "set_active",
+        "transition_to",
+        "is_active",
+        "has_state",
+        "start_state_name",
+        "autostart",
+        "state_changed"
+      ],
+      "signals": [
+        "state_changed"
+      ],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/state_machine/test_state_machine.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [
+          "health",
+          "contact_damage",
+          "chase_movement",
+          "patrol_movement"
+        ],
+        "conflicts": [],
+        "entity_roles": [
+          "enemy",
+          "player",
+          "logic"
+        ],
         "requires": []
       }
     },

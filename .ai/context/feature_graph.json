@@ -1,5 +1,6 @@
 {
   "nodes": [
+    "attack_emitter",
     "chase_movement",
     "collect_pickup",
     "condition_gate",
@@ -10,16 +11,45 @@
     "health_bar",
     "hit_flash",
     "i_frames",
+    "knockback",
     "moving_platform",
     "openable_door",
     "patrol_movement",
     "player_movement",
     "projectile",
+    "save_game",
     "screen_shake",
+    "sfx_pool",
+    "state_machine",
     "stun",
     "trigger_switch"
   ],
   "edges": [
+    {
+      "from": "attack_emitter",
+      "to": "health",
+      "type": "works_with"
+    },
+    {
+      "from": "attack_emitter",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "attack_emitter",
+      "to": "projectile",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "attack_emitter",
+      "to": "stun",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "attack_emitter",
+      "to": "hit_flash",
+      "type": "commonly_used_with"
+    },
     {
       "from": "chase_movement",
       "to": "health",
@@ -171,6 +201,31 @@
       "type": "commonly_used_with"
     },
     {
+      "from": "knockback",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "knockback",
+      "to": "projectile",
+      "type": "works_with"
+    },
+    {
+      "from": "knockback",
+      "to": "health",
+      "type": "works_with"
+    },
+    {
+      "from": "knockback",
+      "to": "stun",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "knockback",
+      "to": "chase_movement",
+      "type": "commonly_used_with"
+    },
+    {
       "from": "moving_platform",
       "to": "player_movement",
       "type": "commonly_used_with"
@@ -246,6 +301,26 @@
       "type": "commonly_used_with"
     },
     {
+      "from": "save_game",
+      "to": "collect_pickup",
+      "type": "works_with"
+    },
+    {
+      "from": "save_game",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "save_game",
+      "to": "collect_pickup",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "save_game",
+      "to": "condition_gate",
+      "type": "commonly_used_with"
+    },
+    {
       "from": "screen_shake",
       "to": "contact_damage",
       "type": "works_with"
@@ -263,6 +338,51 @@
     {
       "from": "screen_shake",
       "to": "player_movement",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "sfx_pool",
+      "to": "contact_damage",
+      "type": "works_with"
+    },
+    {
+      "from": "sfx_pool",
+      "to": "collect_pickup",
+      "type": "works_with"
+    },
+    {
+      "from": "sfx_pool",
+      "to": "openable_door",
+      "type": "works_with"
+    },
+    {
+      "from": "sfx_pool",
+      "to": "knockback",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "sfx_pool",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "state_machine",
+      "to": "health",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "state_machine",
+      "to": "contact_damage",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "state_machine",
+      "to": "chase_movement",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "state_machine",
+      "to": "patrol_movement",
       "type": "commonly_used_with"
     },
     {

@@ -26,3 +26,61 @@ validation:
 
 interfaces:
   signals: []
+
+# 行为证据（Phase 1.47）：本组件没有公开方法与信号，唯一的行为入口是「真实重叠 +
+# 物理帧上的节拍结算」，因此证据只能由真实物理接触驱动，不能用方法调用代替。
+# 证据场景 ContactDamageFixture.tscn（Feature 目录内，只选择证据场景，不改变组合入口）：
+#
+#   ContactDamage   Area2D + 36x36 ContactShape（默认 damage=1、tick_interval=0.5）
+#   Heavy           同一脚本的第二实例，damage=3（验证「配置的伤害量被尊重」而不是硬编码 1）
+#   FarPoint        (400,0)，离两个接触区都很远（验证「无接触不伤害」）
+#
+# 目标实体由 physics.overlap 生成：真实 CharacterBody2D + 真实 Health.tscn，加入
+# group=players，按实测位置与接触区重叠。**不使用** physics.overlap 的 damage 参数：
+# 那个参数会直接调用 take_damage，等于替被测组件制造伤害结果。
+#
+# 数值来源（实测，不是拟合实现）：
+#   - tick_interval = 0.5s，physics 60 Hz → 30 帧一个结算节拍。实测（三次运行）：实体在
+#     action_frame=1 加入后，首次伤害在 waited_frames=24〜25 被观察到；第二个节拍约在
+#     第 54–55 帧，因此窗口上限取 45 帧：「恰好 1 次事件 + 生命值 5→4」不会因第二个节拍
+#     变得不可判定，同时窗口只有 20 帧又看不到首次伤害（Phase 1.47 先验到的事实）。
+#   - 无接触契约推进 40 帧 + 5 帧观察窗口（共 45 帧 > 一个完整结算节拍），证明「即使
+#     过一个完整节拍也确实没有伤害」。
+#   - 组与 Health 命名是 Feature 声明的组合契约（target_group + "Health" 子节点）。
+behavior:
+  - id: damage_on_contact
+    scene: ContactDamageFixture.tscn
+    actions:
+      - {type: physics.overlap, target: ContactDamage,
+         params: {group: players, health_max: 5}}
+    preconditions: []
+    expected:
+      - {check: health.current, target: "@actor/Health", equals: 4}
+      - {check: signal, entry: health.health_changed, target: "@actor/Health",
+         count: 1, last_args: [4, 1]}
+    window_frames: 45
+
+  - id: no_damage_without_contact
+    scene: ContactDamageFixture.tscn
+    actions:
+      - {type: physics.overlap, target: FarPoint,
+         params: {group: players, health_max: 5}}
+      - {type: simulation.advance_frames, params: {frames: 40}}
+    preconditions: []
+    expected:
+      - {check: health.current, target: "@actor/Health", equals: 5}
+      - {check: signal, entry: health.health_changed, target: "@actor/Health", count: 0}
+    window_frames: 5
+
+  - id: damage_amount_is_respected
+    scene: ContactDamageFixture.tscn
+    actions:
+      - {type: physics.overlap, target: Heavy,
+         params: {group: players, health_max: 5}}
+    preconditions: []
+    expected:
+      # 5 - 3 = 2；把一个 damage=3 的实例写成硬编码 1 会得到 4 与 [4,1]。
+      - {check: health.current, target: "@actor/Health", equals: 2}
+      - {check: signal, entry: health.health_changed, target: "@actor/Health",
+         count: 1, last_args: [2, 3]}
+    window_frames: 45

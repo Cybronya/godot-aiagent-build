@@ -1,0 +1,24 @@
+{
+  "denied_actions": [
+    {
+      "action": "state.set_property",
+      "reason": "composite evidence must come from real component interaction, not fixture property writes"
+    }
+  ],
+  "extends_protocol_version": 2,
+  "limits": {
+    "max_actions_per_stage": 8,
+    "max_checks_per_stage": 12,
+    "max_stages": 8,
+    "max_total_frames": 1200,
+    "max_window_frames": 120,
+    "min_stages": 2
+  },
+  "manifest_version": 1,
+  "protocol_version": 1,
+  "scenes": {
+    "escape_room": "Scenes/EscapeRoom.tscn",
+    "slime_contact": "Scenes/SlimeContactArena.tscn",
+    "survival_arena": "Scenes/SurvivalArena.tscn"
+  }
+}

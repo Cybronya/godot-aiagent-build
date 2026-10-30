@@ -317,3 +317,31 @@ python .ai/tools/scene_composer/tests/test_health_behavior.py
   ——自释放型组件（projectile finished 后 queue_free）的终止信号是真实观测而非
   UNAVAILABLE；此前 node.freed 对已释放**子节点**同样退化为 UNAVAILABLE，销毁断言
   请用 `node.exists == false`（协议明确支持节点缺失语义）。
+
+---
+
+## 附：Phase 1.53 增量（code_library 批量资产第二批，2026-10-30）
+
+**新增带行为契约的 Feature（3 个）：**
+
+| Feature | 行为契约数 | 证据场景 | 备注 |
+| --- | --- | --- | --- |
+| state_machine | — | StateMachineBehaviorFixture.tscn | 新动作 `statemachine.start/transition_to`、新观测 `statemachine.current_state_name`、新信号 `statemachine.state_changed` |
+| save_game | — | SaveGameBehaviorFixture.tscn | 新动作 `savegame.save_slot/load_slot`、新观测 `savegame.last_slot`、新信号 `savegame.game_saved/game_loaded` |
+| attack_emitter | — | AttackEmitterFixture.tscn | 新动作 `attackemitter.do_attack`、新信号 `attackemitter.attack_hit` |
+
+## 附：Phase 1.54 增量（code_library 批量资产第三批，2026-10-30）
+
+**新增带行为契约的 Feature（2 个）：**
+
+| Feature | 行为契约数 | 证据场景 | 备注 |
+| --- | --- | --- | --- |
+| knockback | 3 | KnockbackFixture.tscn（CharacterBody2D 根 + Knock） | 新动作 `knockback.apply`、新信号 `knockback.changed`；位移断言复用 node2d.displacement（离散帧和 = F²/(2D) + F·dt/2 = 38px，固定物理帧确定） |
+| sfx_pool | 2 | SfxPoolFixture.tscn（Node 根 Pool） | 新动作 `sfx.play`（探针内部构造静音 AudioStreamWAV）、新观测 `sfx_pool.active_count`、新信号 `sfx.played`；占用断言依赖 headless 确定性（finished 不触发 → 簿记只增不减，直到抢占） |
+
+**协议词汇增量（behavior_protocol.yaml，计数 15→17 动作 / 15→16 观测 / 17→19 信号）：**
+
+- 动作：`knockback.apply`（params: dir_x/dir_y/force 标量）、`sfx.play`（stream 由探针构造，协议参数是标量无法表达流对象）
+- 观测：`sfx_pool.active_count`（自管簿记是 headless 下唯一确定的占用读法）
+- 信号登记：`knockback.changed`、`sfx.played`（无载荷——协议 args 只允许 bool/int/string，含对象载荷的组件信号不改协议语义）
+- 组合探针（composite_behavior_probe.gd）补齐 1.53 全部 5 动作/2 观测 + 1.54 全部 2 动作/1 观测（两端能力一致性）
