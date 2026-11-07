@@ -1,0 +1,104 @@
+{
+  "actions": [
+    {
+      "params": {
+        "group": "p166_foreign"
+      },
+      "target": ".",
+      "type": "physics.overlap"
+    },
+    {
+      "params": {
+        "frames": 6,
+        "phase": "physics"
+      },
+      "target": ".",
+      "type": "simulation.advance_frames"
+    },
+    {
+      "params": {
+        "group": "p166_foreign"
+      },
+      "target": ".",
+      "type": "physics.overlap"
+    },
+    {
+      "params": {
+        "frames": 6,
+        "phase": "physics"
+      },
+      "target": ".",
+      "type": "simulation.advance_frames"
+    }
+  ],
+  "behavior": "trigger_switch/latch_once",
+  "behavior_id": "latch_once",
+  "cleanup": [
+    "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+  ],
+  "contract_version": "4076f02be9eb",
+  "created_at": "2026-11-06T10:37:21Z",
+  "dependency_refs": [],
+  "derivation": "守卫 if not body.is_in_group(target_group):（Features/trigger_switch/trigger_switch.gd:37）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+  "environment_requirements": [
+    "Godot 4.7 headless",
+    "behavior_protocol v2",
+    "scene: res://Features/trigger_switch/trigger_switch.tscn"
+  ],
+  "execution_status": "NOT_EXECUTED",
+  "expected_observations": [
+    {
+      "check": "trigger.is_triggered",
+      "equals": false,
+      "target": "."
+    },
+    {
+      "check": "signal",
+      "count": 0,
+      "entry": "trigger.activated",
+      "target": "."
+    }
+  ],
+  "failure_classification_policy": {
+    "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+    "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+    "RESOURCE_FAILURE": "场景/夹具缺失",
+    "RUNNER_FAILURE": "探针或判定器故障",
+    "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+    "UNKNOWN_FAILURE": "证据不足以归类"
+  },
+  "feature_id": "trigger_switch",
+  "knowledge_refs": [
+    "k-f26d4a87ed04a064"
+  ],
+  "preconditions": [
+    {
+      "check": "trigger.is_triggered",
+      "equals": false,
+      "target": "."
+    },
+    {
+      "check": "signal",
+      "count": 0,
+      "entry": "trigger.activated",
+      "target": "."
+    }
+  ],
+  "rule_id": "foreign_group_ignored",
+  "scenario_id": "s-37cd4dc9f084950e",
+  "scenario_type": "GUARD_MEMBERSHIP",
+  "scene": "res://Features/trigger_switch/trigger_switch.tscn",
+  "schema": "behavior_test_scenario",
+  "schema_version": 1,
+  "source_refs": [
+    {
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "line": 37
+    }
+  ],
+  "title": "非目标组成员不得触发行为（守卫：if not body.is_in_group(target_group):）",
+  "validated_at": "",
+  "validation_status": "VALID",
+  "window_frames": 30
+}

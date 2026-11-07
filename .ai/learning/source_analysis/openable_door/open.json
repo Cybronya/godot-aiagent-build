@@ -1,0 +1,190 @@
+{
+  "analysis_status": "COMPLETE",
+  "behavior_category": "A",
+  "behavior_id": "open",
+  "conditions": [
+    {
+      "condition": "if _is_open == value:",
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "set_open",
+      "line": 33
+    },
+    {
+      "condition": "if _collision != null:",
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "_apply",
+      "line": 40
+    },
+    {
+      "condition": "if _visual != null:",
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "_apply",
+      "line": 42
+    }
+  ],
+  "contract_reference": "Features/openable_door/template.yaml#behavior=open",
+  "contract_version": "0550357495e5",
+  "entry_points": [
+    {
+      "file": "Features/openable_door/openable_door.gd",
+      "line": 32,
+      "name": "set_open",
+      "params": "value: bool",
+      "returns": "void",
+      "source_reference": "Features/openable_door/openable_door.gd:32#func=set_open",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "_apply",
+      "kind": "emit",
+      "line": 44,
+      "signal": "state_changed"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "set_open",
+      "kind": "guard_return",
+      "line": 34,
+      "value": ""
+    },
+    {
+      "condition": "if _collision != null:",
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "_apply",
+      "kind": "null_guard",
+      "line": 40
+    },
+    {
+      "condition": "if _visual != null:",
+      "file": "Features/openable_door/openable_door.gd",
+      "function": "_apply",
+      "kind": "null_guard",
+      "line": 42
+    }
+  ],
+  "feature_id": "openable_door",
+  "generated_at": "2026-11-06T10:02:16Z",
+  "implementation_references": [
+    "Features/openable_door/openable_door.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "OpenableDoor",
+      "digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+      "digest_of": "file_bytes",
+      "path": "Features/openable_door/openable_door.gd"
+    }
+  ],
+  "side_effects": [
+    {
+      "attribute": "disabled",
+      "file": "Features/openable_door/openable_door.gd",
+      "kind": "deferred_property_write",
+      "line": 41,
+      "object": "_collision",
+      "value": "value"
+    }
+  ],
+  "state_variables": [
+    {
+      "declared_in": "Features/openable_door/openable_door.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 40
+        },
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 41
+        }
+      ],
+      "variable": "_collision",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/openable_door/openable_door.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "set_open",
+          "line": 33
+        }
+      ],
+      "variable": "_is_open",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/openable_door/openable_door.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 42
+        },
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 43
+        }
+      ],
+      "variable": "_visual",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/openable_door/openable_door.gd",
+      "initial": "Color(0.55, 0.4, 0.25, 1.0)",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 43
+        }
+      ],
+      "variable": "closed_visual_color",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/openable_door/openable_door.gd",
+      "initial": "Color(0.4, 0.8, 0.5, 0.25)",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/openable_door/openable_door.gd",
+          "function": "_apply",
+          "line": 43
+        }
+      ],
+      "variable": "open_visual_color",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": []
+}

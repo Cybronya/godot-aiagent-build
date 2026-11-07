@@ -1,0 +1,30 @@
+{
+  "analyzed_at": "2026-11-06T11:21:22Z",
+  "behavior": "i_frames/iframes_expire_and_damage_resumes",
+  "classification": "BEHAVIOR_CONFIRMED",
+  "evidence": {
+    "bundle": ".ai/tmp/p166/evidence/5428-cc9e82ad-bundle.json",
+    "bundle_digest": "f5a15343b6a5c54652fb748f6e455fbba15d21409abed1e5be2cc99c5c9c48a7",
+    "manifest_digest": "4a8740b0da812c734a2074e079fa47c429c01c7d704d9b25f0c7acc6e5e2ee7e"
+  },
+  "knowledge_refs": [
+    "k-12ca60365bb2e0b6"
+  ],
+  "label": "P4",
+  "reasons": [
+    "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+    "real observation satisfies DEPENDENCY_PRECONDITION scenario expectation"
+  ],
+  "rule_id": "dependency_postcondition_after_death",
+  "run_id": "b2bf66a0-f112-4249-9ecf-eed565e62659",
+  "scenario_id": "s-e6eb3fc5c8e82e32",
+  "scenario_type": "DEPENDENCY_PRECONDITION",
+  "statuses": {
+    "attestation_status": "ATTESTED_VERIFIED",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "execution_status": "PASSED",
+    "official_contract_status": "INCOMPLETE",
+    "scenario_evidence_status": "PASS"
+  }
+}

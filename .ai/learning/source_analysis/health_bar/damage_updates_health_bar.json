@@ -1,0 +1,58 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "damage_updates_health_bar",
+  "conditions": [],
+  "contract_reference": "Features/health_bar/template.yaml#behavior=damage_updates_health_bar",
+  "contract_version": "bf6cdfd528d2",
+  "entry_points": [
+    {
+      "emitter": "_health",
+      "file": "Features/health_bar/health_bar.gd",
+      "line": 39,
+      "name": "_on_health_changed",
+      "params": "_current: int, _amount: int",
+      "returns": "void",
+      "signal": "health_changed",
+      "source_reference": "Features/health_bar/health_bar.gd:39#func=_on_health_changed",
+      "trigger": "signal_handler"
+    },
+    {
+      "emitter": "_health",
+      "file": "Features/health_bar/health_bar.gd",
+      "line": 43,
+      "name": "_on_died",
+      "params": "",
+      "returns": "void",
+      "signal": "died",
+      "source_reference": "Features/health_bar/health_bar.gd:43#func=_on_died",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [],
+  "failure_paths": [],
+  "feature_id": "health_bar",
+  "generated_at": "2026-11-06T09:31:31Z",
+  "implementation_references": [
+    "Features/health_bar/health_bar.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "HealthBar",
+      "digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+      "digest_of": "file_bytes",
+      "path": "Features/health_bar/health_bar.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

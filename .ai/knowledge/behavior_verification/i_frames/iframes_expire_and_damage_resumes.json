@@ -1,0 +1,174 @@
+{
+  "behavior_category": "A",
+  "behavior_id": "iframes_expire_and_damage_resumes",
+  "change_reason": "Phase 1.64 batch B1 verification",
+  "confidence": "VERIFIED_EXECUTION",
+  "contract_version": "d1cee84ef2fc",
+  "dependency_references": [
+    "health",
+    "simulation"
+  ],
+  "evidence_references": [
+    {
+      "attestation": "ATTESTATION_VERIFIED",
+      "bundle": ".ai/tmp/p164/batch1/evidence/11964-c659bb45-bundle.json",
+      "digest": "d55bfd4102590ab56a41545f348a361df58396e36e4dd0a7e621171900e0d132",
+      "run_id": "11964-79c99c5e-iframes_expire_and_damage_resumes",
+      "signature": "SIGNATURE_VERIFIED"
+    }
+  ],
+  "expected_transitions": [
+    {
+      "check": "health.current",
+      "equals": 8,
+      "target": "Host/Health"
+    },
+    {
+      "check": "signal",
+      "count": 2,
+      "entry": "health.health_changed",
+      "last_args": [
+        8,
+        1
+      ],
+      "target": "Host/Health"
+    }
+  ],
+  "facts": [
+    {
+      "claim": "前置条件：{\"check\": \"health.current\", \"equals\": 10, \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes.preconditions",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"health.current\", \"equals\": 8, \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"signal\", \"count\": 2, \"entry\": \"health.health_changed\", \"last_args\": [8, 1], \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "已审批 Binding 的 expected 与契约一致（binding_id=BND-I_FRAMES-IFRAMES_EXPIRE_AND）",
+      "source_ref": "binding:BND-I_FRAMES-IFRAMES_EXPIRE_AND",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "真实执行证据状态 EVIDENCE_VERIFIED（bundle=.ai/tmp/p164/batch1/evidence/11964-c659bb45-bundle.json）",
+      "source_ref": ".ai/tmp/p164/batch1/evidence/11964-c659bb45-bundle.json",
+      "source_type": "TEST_OBSERVATION"
+    },
+    {
+      "claim": "Evaluation 结论 VERIFIED_PASS（report=.ai/tmp/p164/combined/eval/batch1/evidence_report.json, task=P164-I_FRAMES-IFRAMES_EXPIRE_AND_DAMAGE_RESUMES）",
+      "source_ref": ".ai/tmp/p164/combined/eval/batch1/evidence_report.json",
+      "source_type": "TEST_OBSERVATION"
+    },
+    {
+      "claim": "Mutation M11-i-frames-window-close-not-restored 判定 MUTANT_KILLED（effectiveness={\"baseline_holds\": true, \"baseline_predicate\": {\"equals\": 8}, \"check\": \"health.current\", \"control_observation\": {\"check\": \"health.current\", \"entry\": \"\", \"expected\": 8.0, \"first_observed_frame\": 0, \"observed\": 8, \"observed_args\": [], \"status\": \"PASS\", \"target\": \"Host/Health\"}, \"control_record\": {\"reason\": \"ok\", \"status\": \"PASS\"}, \"effective\": true, \"entry\": \"\", \"mutant_holds\": true, \"mutant_observation\": {\"check\": \"health.current\", \"entry\": \"\", \"expected\": 8.0, \"first_observed_frame\": -1, \"observed\": 9, \"observed_args\": [], \"status\": \"STATE_MISMATCH\", \"target\": \"Host/Health\"}, \"mutant_predicate\": {\"equals\": 9}, \"mutant_record\": {\"reason\": \"state_mismatch\", \"status\": \"MISMATCH\"}, \"reason\": \"control and mutant observations differ as declared\", \"target\": \"Host/Health\"}）",
+      "source_ref": ".ai/tmp/p164/mutation2/reports/M11-i-frames-window-close-not-restored.json",
+      "source_type": "MUTATION_OBSERVATION"
+    },
+    {
+      "claim": "分类 A（次类 F）；依据：contract: 窗口过後伤害恢复生效",
+      "source_ref": ".ai/context/phase_1_64_behavior_taxonomy.json",
+      "source_type": "INFERENCE"
+    }
+  ],
+  "failure_modes": [],
+  "feature_id": "i_frames",
+  "implementation_references": [
+    "Features/i_frames/i_frames.gd"
+  ],
+  "known_edge_cases": [],
+  "last_verified_run_id": "11964-79c99c5e-iframes_expire_and_damage_resumes",
+  "mutation_references": [
+    {
+      "effectiveness": {
+        "baseline_holds": true,
+        "baseline_predicate": {
+          "equals": 8
+        },
+        "check": "health.current",
+        "control_observation": {
+          "check": "health.current",
+          "entry": "",
+          "expected": 8.0,
+          "first_observed_frame": 0,
+          "observed": 8,
+          "observed_args": [],
+          "status": "PASS",
+          "target": "Host/Health"
+        },
+        "control_record": {
+          "reason": "ok",
+          "status": "PASS"
+        },
+        "effective": true,
+        "entry": "",
+        "mutant_holds": true,
+        "mutant_observation": {
+          "check": "health.current",
+          "entry": "",
+          "expected": 8.0,
+          "first_observed_frame": -1,
+          "observed": 9,
+          "observed_args": [],
+          "status": "STATE_MISMATCH",
+          "target": "Host/Health"
+        },
+        "mutant_predicate": {
+          "equals": 9
+        },
+        "mutant_record": {
+          "reason": "state_mismatch",
+          "status": "MISMATCH"
+        },
+        "reason": "control and mutant observations differ as declared",
+        "target": "Host/Health"
+      },
+      "mutation_id": "M11-i-frames-window-close-not-restored",
+      "mutation_type": "resource_release_omitted",
+      "report": ".ai/tmp/p164/mutation2/reports/M11-i-frames-window-close-not-restored.json",
+      "target_function": "_on_window_end",
+      "verdict": "MUTANT_KILLED"
+    }
+  ],
+  "observed_transitions": {
+    "attestation_digest": "0bbaa57ccafd5e97f9f6130a2c7d3b40d776559e4a0dacee30f8ca7682a55a9f",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_digest": "d55bfd4102590ab56a41545f348a361df58396e36e4dd0a7e621171900e0d132",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "run_id": "11964-79c99c5e-iframes_expire_and_damage_resumes"
+  },
+  "preconditions": [
+    {
+      "check": "health.current",
+      "equals": 10,
+      "target": "Host/Health"
+    }
+  ],
+  "schema": "behavior_verification_knowledge",
+  "schema_version": 1,
+  "secondary_categories": [
+    "F"
+  ],
+  "test_scenarios": {
+    "behavior_contract": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes",
+    "existing_tests": [
+      "Features/i_frames/test_i_frames.gd"
+    ],
+    "window_frames": 5
+  },
+  "triggering_conditions": [
+    "health.take_damage",
+    "simulation.advance_frames",
+    "health.take_damage",
+    "simulation.advance_frames"
+  ],
+  "unresolved_questions": [
+    "无覆盖该 Behavior 的 Holdout 数据集。"
+  ],
+  "updated_at": "2026-11-04T17:13:55Z"
+}

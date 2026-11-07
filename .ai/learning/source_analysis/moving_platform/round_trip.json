@@ -1,0 +1,164 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "round_trip",
+  "conditions": [
+    {
+      "condition": "if period <= 0.0:",
+      "file": "Features/moving_platform/moving_platform.gd",
+      "function": "_physics_process",
+      "line": 28
+    },
+    {
+      "condition": "if is_instance_valid(rider):",
+      "file": "Features/moving_platform/moving_platform.gd",
+      "function": "_physics_process",
+      "line": 36
+    }
+  ],
+  "contract_reference": "Features/moving_platform/template.yaml#behavior=round_trip",
+  "contract_version": "a406f3dd7f66",
+  "entry_points": [
+    {
+      "file": "Features/moving_platform/moving_platform.gd",
+      "line": 26,
+      "name": "_physics_process",
+      "params": "delta: float",
+      "returns": "void",
+      "source_reference": "Features/moving_platform/moving_platform.gd:26#func=_physics_process",
+      "trigger": "frame_update"
+    }
+  ],
+  "events": [],
+  "failure_paths": [
+    {
+      "file": "Features/moving_platform/moving_platform.gd",
+      "function": "_physics_process",
+      "kind": "guard_return",
+      "line": 29,
+      "value": ""
+    }
+  ],
+  "feature_id": "moving_platform",
+  "generated_at": "2026-11-06T09:31:37Z",
+  "implementation_references": [
+    "Features/moving_platform/moving_platform.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "MovingPlatform",
+      "digest": "ee3468b9e80b65f49b2a51bc7768b55dcc26bd0d2e42a2df8af9757190728f74",
+      "digest_of": "file_bytes",
+      "path": "Features/moving_platform/moving_platform.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/moving_platform/moving_platform.gd",
+      "initial": "Vector2.ZERO",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 33
+        }
+      ],
+      "variable": "_last_position",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 34
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/moving_platform/moving_platform.gd",
+      "initial": "Vector2.ZERO",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 32
+        }
+      ],
+      "variable": "_origin",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/moving_platform/moving_platform.gd",
+      "initial": "0.0",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 27
+        },
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 30
+        }
+      ],
+      "variable": "_time",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/moving_platform/moving_platform.gd",
+      "initial": "4.0",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 28
+        },
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 30
+        }
+      ],
+      "variable": "period",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/moving_platform/moving_platform.gd",
+      "initial": "Vector2(200.0, 0.0)",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/moving_platform/moving_platform.gd",
+          "function": "_physics_process",
+          "line": 32
+        }
+      ],
+      "variable": "travel",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约 action 均为 harness 驱动，入口按帧回调 _physics_process 认定（未绑定具体方法）",
+    "契约引用的符号 displacement 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 exists 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

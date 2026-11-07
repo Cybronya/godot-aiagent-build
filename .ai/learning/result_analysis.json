@@ -1,0 +1,163 @@
+{
+  "analyses": [
+    {
+      "analyzed_at": "2026-11-06T11:21:22Z",
+      "behavior": "openable_door/open",
+      "classification": "CONTRACT_CONFIRMED",
+      "evidence": {
+        "bundle": ".ai/tmp/p166/evidence/5428-3ce13e58-bundle.json",
+        "bundle_digest": "9301ef3c8d3282a946e9aa4ab8c25f924ad0e9729226ea9f7947e52e2f051ef9",
+        "manifest_digest": "cca3d30f1c14d6fec4a57a79511277613a01e5281709e0bdfedff5da34c656ce"
+      },
+      "knowledge_refs": [
+        "k-071a0c439e08b406"
+      ],
+      "label": "P4",
+      "reasons": [
+        "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+        "real observation satisfies GUARD_IDEMPOTENCE scenario expectation"
+      ],
+      "rule_id": "idempotent_repeat",
+      "run_id": "cbb98cef-d40b-470f-96cb-7e721dd56af6",
+      "scenario_id": "s-16f6576c8683f7bc",
+      "scenario_type": "GUARD_IDEMPOTENCE",
+      "statuses": {
+        "attestation_status": "ATTESTED_VERIFIED",
+        "evaluation_status": "VERIFIED_PASS",
+        "evidence_status": "EVIDENCE_VERIFIED",
+        "execution_status": "PASSED",
+        "official_contract_status": "PASS",
+        "scenario_evidence_status": "PASS"
+      }
+    },
+    {
+      "analyzed_at": "2026-11-06T11:21:22Z",
+      "behavior": "trigger_switch/latch_once",
+      "classification": "SOURCE_CONFIRMED",
+      "evidence": {
+        "bundle": ".ai/tmp/p166/evidence/5428-e7f2ec3f-bundle.json",
+        "bundle_digest": "ee764939aae4fb8fe0b8c64e97928a53c3d11f03cc2fa1c2d56a07e21b9a0a63",
+        "manifest_digest": "03fcda0862b420a456449eb97d4df83d728f686570ca0e8c072c7cf38b7fbbd5"
+      },
+      "knowledge_refs": [
+        "k-f26d4a87ed04a064"
+      ],
+      "label": "P4",
+      "reasons": [
+        "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+        "real observation satisfies GUARD_MEMBERSHIP scenario expectation"
+      ],
+      "rule_id": "foreign_group_ignored",
+      "run_id": "a39a4ce5-92bd-444f-9bad-a2a1958147e3",
+      "scenario_id": "s-37cd4dc9f084950e",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "statuses": {
+        "attestation_status": "ATTESTED_VERIFIED",
+        "evaluation_status": "VERIFIED_PASS",
+        "evidence_status": "EVIDENCE_VERIFIED",
+        "execution_status": "PASSED",
+        "official_contract_status": "FAIL",
+        "scenario_evidence_status": "PASS"
+      }
+    },
+    {
+      "analyzed_at": "2026-11-06T11:21:22Z",
+      "behavior": "health/damage",
+      "classification": "SOURCE_CONFIRMED",
+      "evidence": {
+        "bundle": ".ai/tmp/p166/evidence/5428-3f4723e0-bundle.json",
+        "bundle_digest": "9e1ab97607c2947ce52158dc6328091853767b8def33b19810071557648de0cd",
+        "manifest_digest": "7c32b01a820fd0986a8658c32c9035d32ffb126f348e7e1e687bc3eccd57b3b9"
+      },
+      "knowledge_refs": [
+        "k-55d8c3b7dea55340"
+      ],
+      "label": "P4",
+      "reasons": [
+        "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+        "real observation satisfies GUARD_TERMINAL_STATE scenario expectation"
+      ],
+      "rule_id": "post_terminal_input_ignored",
+      "run_id": "07abd604-4a61-448d-95d5-39310f2f198d",
+      "scenario_id": "s-7771e41885fcd58e",
+      "scenario_type": "GUARD_TERMINAL_STATE",
+      "statuses": {
+        "attestation_status": "ATTESTED_VERIFIED",
+        "evaluation_status": "VERIFIED_PASS",
+        "evidence_status": "EVIDENCE_VERIFIED",
+        "execution_status": "PASSED",
+        "official_contract_status": "INCOMPLETE",
+        "scenario_evidence_status": "PASS"
+      }
+    },
+    {
+      "analyzed_at": "2026-11-06T11:21:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "classification": "SOURCE_CONFIRMED",
+      "evidence": {
+        "bundle": ".ai/tmp/p166/evidence/5428-ac7ca98f-bundle.json",
+        "bundle_digest": "49077b318526bbc3becc3a8115e42b54617ad25c9dd5d7cc91f89538e43879dd",
+        "manifest_digest": "d7e21b10eb9eb5ccda252d4b713647a32e9cecfee2301d6f3e37fdf9c072d5aa"
+      },
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "label": "P4",
+      "reasons": [
+        "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+        "real observation satisfies GUARD_INPUT_VALIDATION scenario expectation"
+      ],
+      "rule_id": "invalid_slot_rejected",
+      "run_id": "083e4b6b-8859-4bb0-b2a5-9660eae3fcee",
+      "scenario_id": "s-8b9f108ecb56beb2",
+      "scenario_type": "GUARD_INPUT_VALIDATION",
+      "statuses": {
+        "attestation_status": "ATTESTED_VERIFIED",
+        "evaluation_status": "VERIFIED_PASS",
+        "evidence_status": "EVIDENCE_VERIFIED",
+        "execution_status": "PASSED",
+        "official_contract_status": "FAIL",
+        "scenario_evidence_status": "PASS"
+      }
+    },
+    {
+      "analyzed_at": "2026-11-06T11:21:22Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "classification": "BEHAVIOR_CONFIRMED",
+      "evidence": {
+        "bundle": ".ai/tmp/p166/evidence/5428-cc9e82ad-bundle.json",
+        "bundle_digest": "f5a15343b6a5c54652fb748f6e455fbba15d21409abed1e5be2cc99c5c9c48a7",
+        "manifest_digest": "4a8740b0da812c734a2074e079fa47c429c01c7d704d9b25f0c7acc6e5e2ee7e"
+      },
+      "knowledge_refs": [
+        "k-12ca60365bb2e0b6"
+      ],
+      "label": "P4",
+      "reasons": [
+        "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+        "real observation satisfies DEPENDENCY_PRECONDITION scenario expectation"
+      ],
+      "rule_id": "dependency_postcondition_after_death",
+      "run_id": "b2bf66a0-f112-4249-9ecf-eed565e62659",
+      "scenario_id": "s-e6eb3fc5c8e82e32",
+      "scenario_type": "DEPENDENCY_PRECONDITION",
+      "statuses": {
+        "attestation_status": "ATTESTED_VERIFIED",
+        "evaluation_status": "VERIFIED_PASS",
+        "evidence_status": "EVIDENCE_VERIFIED",
+        "execution_status": "PASSED",
+        "official_contract_status": "INCOMPLETE",
+        "scenario_evidence_status": "PASS"
+      }
+    }
+  ],
+  "generated_at": "2026-11-06T11:21:22Z",
+  "schema": "scenario_result_analysis",
+  "schema_version": 1,
+  "source": "scenario_results.json",
+  "summary": {
+    "BEHAVIOR_CONFIRMED": 1,
+    "CONTRACT_CONFIRMED": 1,
+    "SOURCE_CONFIRMED": 3
+  }
+}

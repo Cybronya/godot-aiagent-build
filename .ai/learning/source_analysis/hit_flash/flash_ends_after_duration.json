@@ -1,0 +1,75 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "flash_ends_after_duration",
+  "conditions": [
+    {
+      "condition": "if damaged:",
+      "file": "Features/hit_flash/hit_flash.gd",
+      "function": "_on_health_changed",
+      "line": 99
+    }
+  ],
+  "contract_reference": "Features/hit_flash/template.yaml#behavior=flash_ends_after_duration",
+  "contract_version": "db797af8fc1c",
+  "entry_points": [
+    {
+      "emitter": "_health",
+      "file": "Features/hit_flash/hit_flash.gd",
+      "line": 91,
+      "name": "_on_health_changed",
+      "params": "current: int, _amount: int",
+      "returns": "void",
+      "signal": "health_changed",
+      "source_reference": "Features/hit_flash/hit_flash.gd:91#func=_on_health_changed",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [],
+  "failure_paths": [],
+  "feature_id": "hit_flash",
+  "generated_at": "2026-11-06T09:31:33Z",
+  "implementation_references": [
+    "Features/hit_flash/hit_flash.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "HitFlash",
+      "digest": "8498f9b48b7ef1d5bc447a0aea2d05ae74ce9185907bc9c44e2817f24b089ebb",
+      "digest_of": "file_bytes",
+      "path": "Features/hit_flash/hit_flash.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/hit_flash/hit_flash.gd",
+      "initial": "-1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/hit_flash/hit_flash.gd",
+          "function": "_on_health_changed",
+          "line": 97
+        }
+      ],
+      "variable": "_last_health",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/hit_flash/hit_flash.gd",
+          "function": "_on_health_changed",
+          "line": 98
+        }
+      ]
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "Features/hit_flash/hit_flash.gd:100 含动态调用（flash.call_deferred()），静态分析无法确定目标",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

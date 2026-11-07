@@ -1,0 +1,105 @@
+{
+  "actions": [
+    {
+      "params": {
+        "amount": 4
+      },
+      "target": ".",
+      "type": "health.take_damage"
+    },
+    {
+      "params": {
+        "amount": 100
+      },
+      "target": ".",
+      "type": "health.take_damage"
+    },
+    {
+      "params": {
+        "amount": 1
+      },
+      "target": ".",
+      "type": "health.heal"
+    }
+  ],
+  "behavior": "health/damage",
+  "behavior_id": "damage",
+  "cleanup": [
+    "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+  ],
+  "contract_version": "562bbb4f6bd7",
+  "created_at": "2026-11-06T10:37:22Z",
+  "dependency_refs": [],
+  "derivation": "守卫 if _is_dead or _invulnerable or amount <= 0:（Features/health/health.gd:29）在死亡后提前返回；追加致死伤害与治疗后，current 必须为 0、died 恰一次、health_changed 比契约多一次",
+  "environment_requirements": [
+    "Godot 4.7 headless",
+    "behavior_protocol v2",
+    "scene: res://Features/health/Health.tscn"
+  ],
+  "execution_status": "NOT_EXECUTED",
+  "expected_observations": [
+    {
+      "check": "health.current",
+      "equals": 0,
+      "target": "."
+    },
+    {
+      "check": "health.is_dead",
+      "equals": true,
+      "target": "."
+    },
+    {
+      "check": "signal",
+      "count": 2,
+      "entry": "health.health_changed",
+      "target": "."
+    },
+    {
+      "check": "signal",
+      "count": 1,
+      "entry": "health.died",
+      "target": "."
+    }
+  ],
+  "failure_classification_policy": {
+    "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+    "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+    "RESOURCE_FAILURE": "场景/夹具缺失",
+    "RUNNER_FAILURE": "探针或判定器故障",
+    "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+    "UNKNOWN_FAILURE": "证据不足以归类"
+  },
+  "feature_id": "health",
+  "knowledge_refs": [
+    "k-55d8c3b7dea55340"
+  ],
+  "preconditions": [
+    {
+      "check": "health.current",
+      "equals": 5,
+      "target": "."
+    },
+    {
+      "check": "health.is_dead",
+      "equals": false,
+      "target": "."
+    }
+  ],
+  "rule_id": "post_terminal_input_ignored",
+  "scenario_id": "s-7771e41885fcd58e",
+  "scenario_type": "GUARD_TERMINAL_STATE",
+  "scene": "res://Features/health/Health.tscn",
+  "schema": "behavior_test_scenario",
+  "schema_version": 1,
+  "source_refs": [
+    {
+      "file": "Features/health/health.gd",
+      "function": "take_damage",
+      "line": 29
+    }
+  ],
+  "title": "死亡后的伤害与治疗不得改变状态（守卫：if _is_dead or _invulnerable or amount <= 0:）",
+  "validated_at": "",
+  "validation_status": "VALID",
+  "window_frames": 10
+}

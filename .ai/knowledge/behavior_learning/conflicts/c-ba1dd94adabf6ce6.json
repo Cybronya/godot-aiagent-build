@@ -1,0 +1,71 @@
+{
+  "behavior_id": "latch_once",
+  "conflict_id": "c-ba1dd94adabf6ce6",
+  "detected_at": "2026-11-06T09:42:00Z",
+  "feature_id": "trigger_switch",
+  "key": "dependencies",
+  "knowledge_type": "DEPENDENCY_KNOWLEDGE",
+  "note": "双方都保留；不自动选择最新记录作为正确答案",
+  "parties": [
+    {
+      "content": {
+        "count": 1,
+        "edges": [
+          {
+            "confidence": "MEDIUM",
+            "dependency_type": "SHARES_STATE_WITH",
+            "detail": "_triggered,target_group",
+            "evidence_kind": "SOURCE_REFERENCE",
+            "id": "dep-0116",
+            "source_behavior": "trigger_switch/latch_once",
+            "source_reference": "analysis:trigger_switch/latch_once#state=_triggered,target_group",
+            "target_behavior": "trigger_switch/toggle_on_second_contact",
+            "verification_status": "SOURCE_OBSERVED"
+          }
+        ]
+      },
+      "content_digest": "8241fb4f7e1e5d015a100c12e8e6125d9cbdcd167d295d2c905fc12023c4a232",
+      "knowledge_id": "k-fe7ab351e9ff420a",
+      "source_references": [
+        {
+          "kind": "SOURCE_REFERENCE",
+          "reference": "analysis:trigger_switch/latch_once#state=_triggered,target_group"
+        }
+      ],
+      "verification_status": "APPROVED"
+    },
+    {
+      "content": {
+        "count": 1,
+        "edges": [
+          {
+            "confidence": "MEDIUM",
+            "dependency_type": "SHARES_STATE_WITH",
+            "detail": "_triggered,target_group",
+            "evidence_kind": "SOURCE_REFERENCE",
+            "id": "dep-0118",
+            "source_behavior": "trigger_switch/latch_once",
+            "source_reference": "analysis:trigger_switch/latch_once#state=_triggered,target_group",
+            "target_behavior": "trigger_switch/toggle_on_second_contact",
+            "verification_status": "SOURCE_OBSERVED"
+          }
+        ]
+      },
+      "content_digest": "15957197f3044785deeaa575859d4623b4204788e9e5fdc00362620f0702c185",
+      "knowledge_id": "k-d8ac203c2891a339",
+      "source_references": [
+        {
+          "kind": "SOURCE_REFERENCE",
+          "reference": "analysis:trigger_switch/latch_once#state=_triggered,target_group"
+        }
+      ],
+      "verification_status": "PENDING_REVIEW"
+    }
+  ],
+  "resolution": "同一来源在本阶段内重新生成（源码解析修正引入了 static func），审批新记录，旧记录保留为 SUPERSEDED",
+  "resolved_at": "2026-11-06T09:43:33Z",
+  "resolved_by": "phase_1_65_local_review",
+  "schema": "behavior_learning_conflict",
+  "schema_version": 1,
+  "status": "RESOLVED"
+}

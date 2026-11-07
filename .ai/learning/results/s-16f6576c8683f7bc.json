@@ -1,0 +1,30 @@
+{
+  "analyzed_at": "2026-11-06T11:21:22Z",
+  "behavior": "openable_door/open",
+  "classification": "CONTRACT_CONFIRMED",
+  "evidence": {
+    "bundle": ".ai/tmp/p166/evidence/5428-3ce13e58-bundle.json",
+    "bundle_digest": "9301ef3c8d3282a946e9aa4ab8c25f924ad0e9729226ea9f7947e52e2f051ef9",
+    "manifest_digest": "cca3d30f1c14d6fec4a57a79511277613a01e5281709e0bdfedff5da34c656ce"
+  },
+  "knowledge_refs": [
+    "k-071a0c439e08b406"
+  ],
+  "label": "P4",
+  "reasons": [
+    "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+    "real observation satisfies GUARD_IDEMPOTENCE scenario expectation"
+  ],
+  "rule_id": "idempotent_repeat",
+  "run_id": "cbb98cef-d40b-470f-96cb-7e721dd56af6",
+  "scenario_id": "s-16f6576c8683f7bc",
+  "scenario_type": "GUARD_IDEMPOTENCE",
+  "statuses": {
+    "attestation_status": "ATTESTED_VERIFIED",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "execution_status": "PASSED",
+    "official_contract_status": "PASS",
+    "scenario_evidence_status": "PASS"
+  }
+}

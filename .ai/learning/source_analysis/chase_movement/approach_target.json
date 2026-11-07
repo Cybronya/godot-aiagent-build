@@ -1,0 +1,173 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "approach_target",
+  "conditions": [
+    {
+      "condition": "if _target == null or not is_instance_valid(_target):",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_physics_process",
+      "line": 21
+    },
+    {
+      "condition": "if _target == null:",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_physics_process",
+      "line": 23
+    },
+    {
+      "condition": "if target_path.is_empty():",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_resolve_target",
+      "line": 33
+    },
+    {
+      "condition": "return null",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_resolve_target",
+      "line": 34
+    },
+    {
+      "condition": "return get_node_or_null(target_path) as Node2D",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_resolve_target",
+      "line": 35
+    }
+  ],
+  "contract_reference": "Features/chase_movement/template.yaml#behavior=approach_target",
+  "contract_version": "c306bbed97da",
+  "entry_points": [
+    {
+      "file": "Features/chase_movement/chase_movement.gd",
+      "line": 20,
+      "name": "_physics_process",
+      "params": "_delta: float",
+      "returns": "void",
+      "source_reference": "Features/chase_movement/chase_movement.gd:20#func=_physics_process",
+      "trigger": "frame_update"
+    }
+  ],
+  "events": [],
+  "failure_paths": [
+    {
+      "condition": "if _target == null or not is_instance_valid(_target):",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_physics_process",
+      "kind": "null_guard",
+      "line": 21
+    },
+    {
+      "condition": "if _target == null:",
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_physics_process",
+      "kind": "null_guard",
+      "line": 23
+    },
+    {
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_physics_process",
+      "kind": "guard_return",
+      "line": 25,
+      "value": ""
+    },
+    {
+      "file": "Features/chase_movement/chase_movement.gd",
+      "function": "_resolve_target",
+      "kind": "guard_return",
+      "line": 34,
+      "value": ""
+    }
+  ],
+  "feature_id": "chase_movement",
+  "generated_at": "2026-11-06T09:31:24Z",
+  "implementation_references": [
+    "Features/chase_movement/chase_movement.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "ChaseMovement",
+      "digest": "cc88105cdfc255a9d5ac074ef52dc8ecaa019ccf85f8ae8fc5c9efcdf805f020",
+      "digest_of": "file_bytes",
+      "path": "Features/chase_movement/chase_movement.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/chase_movement/chase_movement.gd",
+      "initial": "",
+      "read_count": 3,
+      "reads": [
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_physics_process",
+          "line": 21
+        },
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_physics_process",
+          "line": 23
+        },
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_physics_process",
+          "line": 26
+        }
+      ],
+      "variable": "_target",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_physics_process",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/chase_movement/chase_movement.gd",
+      "initial": "80.0",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_physics_process",
+          "line": 26
+        }
+      ],
+      "variable": "speed",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/chase_movement/chase_movement.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_resolve_target",
+          "line": 33
+        },
+        {
+          "file": "Features/chase_movement/chase_movement.gd",
+          "function": "_resolve_target",
+          "line": 35
+        }
+      ],
+      "variable": "target_path",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约 action 均为 harness 驱动，入口按帧回调 _physics_process 认定（未绑定具体方法）",
+    "契约引用的符号 position 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 displacement 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 exists 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

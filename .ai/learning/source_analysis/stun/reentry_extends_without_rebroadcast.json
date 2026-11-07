@@ -1,0 +1,91 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "F",
+  "behavior_id": "reentry_extends_without_rebroadcast",
+  "conditions": [
+    {
+      "condition": "if damaged:",
+      "file": "Features/stun/stun.gd",
+      "function": "_on_host_health_changed",
+      "line": 88
+    }
+  ],
+  "contract_reference": "Features/stun/template.yaml#behavior=reentry_extends_without_rebroadcast",
+  "contract_version": "ea087c332249",
+  "entry_points": [
+    {
+      "emitter": "_health",
+      "file": "Features/stun/stun.gd",
+      "line": 80,
+      "name": "_on_host_health_changed",
+      "params": "current: int, _amount: int",
+      "returns": "void",
+      "signal": "health_changed",
+      "source_reference": "Features/stun/stun.gd:80#func=_on_host_health_changed",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [],
+  "failure_paths": [],
+  "feature_id": "stun",
+  "generated_at": "2026-11-06T09:31:45Z",
+  "implementation_references": [
+    "Features/stun/stun.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "Stun",
+      "digest": "4ff9bdb59d8ed8f1bfe9da4d51c3ffb05578326deba4a7035486fcc3555adf67",
+      "digest_of": "file_bytes",
+      "path": "Features/stun/stun.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/stun/stun.gd",
+      "initial": "-1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/stun/stun.gd",
+          "function": "_on_host_health_changed",
+          "line": 86
+        }
+      ],
+      "variable": "_last_health",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/stun/stun.gd",
+          "function": "_on_host_health_changed",
+          "line": 87
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/stun/stun.gd",
+      "initial": "0.4",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/stun/stun.gd",
+          "function": "_on_host_health_changed",
+          "line": 89
+        }
+      ],
+      "variable": "stun_duration",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "Features/stun/stun.gd:89 含动态调用（stun.call_deferred(stun_duration)），静态分析无法确定目标",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 displacement 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

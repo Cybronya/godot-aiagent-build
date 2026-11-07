@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-11-07T14:09:39Z",
+  "rejected": [],
+  "review": true,
+  "reviewed": [
+    "k-17b35286b89e4db1",
+    "k-25f1317bccd36c98",
+    "k-368c77eadd2a4074",
+    "k-713a41e2f1c560f9",
+    "k-fc885d0d1b9a89f9"
+  ],
+  "reviewer": "phase_1_66_local_review",
+  "schema": "scenario_knowledge_feedback",
+  "schema_version": 1,
+  "summary": {
+    "candidates": 15,
+    "rejected": 0,
+    "reviewed": 5,
+    "written": 15
+  },
+  "written": [
+    "k-0a2e86256a465c68",
+    "k-17b35286b89e4db1",
+    "k-25f1317bccd36c98",
+    "k-368c77eadd2a4074",
+    "k-4e69a99767708214",
+    "k-56538b8cde95bf87",
+    "k-5cb92a99b51ff5ed",
+    "k-713a41e2f1c560f9",
+    "k-7cd63371a4ed9a69",
+    "k-86788cf516c6d316",
+    "k-99686db134bf38fd",
+    "k-9cbdddcb051061f4",
+    "k-cd6102afb2e194b8",
+    "k-faa55c5fba4ab351",
+    "k-fc885d0d1b9a89f9"
+  ]
+}

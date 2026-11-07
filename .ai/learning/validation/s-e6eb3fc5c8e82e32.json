@@ -1,0 +1,127 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "i_frames/iframes_expire_and_damage_resumes",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=d1cee84ef2fc current=d1cee84ef2fc",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/i_frames/IFramesFixture.tscn contract=res://Features/i_frames/IFramesFixture.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-12ca60365bb2e0b6",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-12ca60365bb2e0b6",
+      "detail": "DEPENDENCY_KNOWLEDGE",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-12ca60365bb2e0b6",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "3 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-12ca60365bb2e0b6",
+      "detail": "Features/i_frames/i_frames.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-12ca60365bb2e0b6",
+      "detail": "Features/i_frames/i_frames.gd",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-12ca60365bb2e0b6",
+      "detail": "Features/i_frames/i_frames.gd:77 (file 87 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-12ca60365bb2e0b6",
+      "detail": "Features/i_frames/i_frames.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-12ca60365bb2e0b6",
+      "detail": "Features/i_frames/i_frames.gd",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-12ca60365bb2e0b6",
+      "detail": "Features/i_frames/i_frames.gd:44 (file 87 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.analysis:k-12ca60365bb2e0b6",
+      "detail": "i_frames/iframes_expire_and_damage_resumes",
+      "ok": true
+    },
+    {
+      "check": "dependency.edge:dep-0057",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/i_frames/IFramesFixture.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "4 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "4 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-e6eb3fc5c8e82e32",
+  "status": "VALID"
+}

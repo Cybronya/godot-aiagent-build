@@ -1,0 +1,106 @@
+{
+  "actions": [
+    {
+      "params": {
+        "amount": 10
+      },
+      "target": "Host/Health",
+      "type": "health.take_damage"
+    },
+    {
+      "params": {
+        "frames": 1
+      },
+      "type": "simulation.advance_frames"
+    },
+    {
+      "params": {
+        "amount": 1
+      },
+      "target": "Host/Health",
+      "type": "health.take_damage"
+    },
+    {
+      "params": {
+        "frames": 1
+      },
+      "type": "simulation.advance_frames"
+    }
+  ],
+  "behavior": "i_frames/iframes_expire_and_damage_resumes",
+  "behavior_id": "iframes_expire_and_damage_resumes",
+  "cleanup": [
+    "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+  ],
+  "contract_version": "d1cee84ef2fc",
+  "created_at": "2026-11-06T10:37:21Z",
+  "dependency_refs": [
+    "dep-0057"
+  ],
+  "derivation": "依赖边 dep-0057（REQUIRES_PRECONDITION）声明该 Behavior 依赖 health 的死亡后置条件；在真实夹具上杀死宿主后继续输入，依赖方不得复活或二次结算",
+  "environment_requirements": [
+    "Godot 4.7 headless",
+    "behavior_protocol v2",
+    "scene: res://Features/i_frames/IFramesFixture.tscn"
+  ],
+  "execution_status": "NOT_EXECUTED",
+  "expected_observations": [
+    {
+      "check": "health.current",
+      "equals": 0,
+      "target": "Host/Health"
+    },
+    {
+      "check": "health.is_dead",
+      "equals": true,
+      "target": "Host/Health"
+    },
+    {
+      "check": "signal",
+      "count": 1,
+      "entry": "health.health_changed",
+      "target": "Host/Health"
+    },
+    {
+      "check": "signal",
+      "count": 1,
+      "entry": "health.died",
+      "target": "Host/Health"
+    }
+  ],
+  "failure_classification_policy": {
+    "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+    "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+    "RESOURCE_FAILURE": "场景/夹具缺失",
+    "RUNNER_FAILURE": "探针或判定器故障",
+    "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+    "UNKNOWN_FAILURE": "证据不足以归类"
+  },
+  "feature_id": "i_frames",
+  "knowledge_refs": [
+    "k-12ca60365bb2e0b6"
+  ],
+  "preconditions": [
+    {
+      "check": "health.current",
+      "equals": 10,
+      "target": "Host/Health"
+    }
+  ],
+  "rule_id": "dependency_postcondition_after_death",
+  "scenario_id": "s-e6eb3fc5c8e82e32",
+  "scenario_type": "DEPENDENCY_PRECONDITION",
+  "scene": "res://Features/i_frames/IFramesFixture.tscn",
+  "schema": "behavior_test_scenario",
+  "schema_version": 1,
+  "source_refs": [
+    {
+      "edge": "dep-0057",
+      "reference": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes.preconditions[health.current]"
+    }
+  ],
+  "title": "依赖 Behavior 的死亡后置条件不得被破坏",
+  "validated_at": "",
+  "validation_status": "VALID",
+  "window_frames": 5
+}

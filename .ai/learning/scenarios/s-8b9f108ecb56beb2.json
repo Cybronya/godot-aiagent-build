@@ -1,0 +1,92 @@
+{
+  "actions": [
+    {
+      "params": {
+        "amount": 2
+      },
+      "target": "World/Player/Health",
+      "type": "health.take_damage"
+    },
+    {
+      "params": {
+        "slot": "p166/invalid:slot"
+      },
+      "target": "Saver",
+      "type": "savegame.save_slot"
+    }
+  ],
+  "behavior": "save_game/save_slot_persists_world_state",
+  "behavior_id": "save_slot_persists_world_state",
+  "cleanup": [
+    "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+  ],
+  "contract_version": "d85d91c73250",
+  "created_at": "2026-11-06T10:37:21Z",
+  "dependency_refs": [],
+  "derivation": "守卫 if not _is_valid_slot_name(slot_name):（Features/save_game/save_game.gd:43）在写入前拒绝非法槽名；用非法槽名替换契约动作后，存档信号必须为 0 次且 last_slot 保持空",
+  "environment_requirements": [
+    "Godot 4.7 headless",
+    "behavior_protocol v2",
+    "scene: res://Features/save_game/SaveGameBehaviorFixture.tscn"
+  ],
+  "execution_status": "NOT_EXECUTED",
+  "expected_observations": [
+    {
+      "check": "health.current",
+      "equals": 3,
+      "target": "World/Player/Health"
+    },
+    {
+      "check": "signal",
+      "count": 0,
+      "entry": "savegame.game_saved",
+      "target": "Saver"
+    },
+    {
+      "check": "savegame.last_slot",
+      "equals": "",
+      "target": "Saver"
+    }
+  ],
+  "failure_classification_policy": {
+    "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+    "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+    "RESOURCE_FAILURE": "场景/夹具缺失",
+    "RUNNER_FAILURE": "探针或判定器故障",
+    "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+    "UNKNOWN_FAILURE": "证据不足以归类"
+  },
+  "feature_id": "save_game",
+  "knowledge_refs": [
+    "k-d617871a3a485ce5"
+  ],
+  "preconditions": [
+    {
+      "check": "health.current",
+      "equals": 5,
+      "target": "World/Player/Health"
+    },
+    {
+      "check": "savegame.last_slot",
+      "equals": "",
+      "target": "Saver"
+    }
+  ],
+  "rule_id": "invalid_slot_rejected",
+  "scenario_id": "s-8b9f108ecb56beb2",
+  "scenario_type": "GUARD_INPUT_VALIDATION",
+  "scene": "res://Features/save_game/SaveGameBehaviorFixture.tscn",
+  "schema": "behavior_test_scenario",
+  "schema_version": 1,
+  "source_refs": [
+    {
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "line": 43
+    }
+  ],
+  "title": "非法槽位名不得写入存档（守卫：if not _is_valid_slot_name(slot_name):）",
+  "validated_at": "",
+  "validation_status": "VALID",
+  "window_frames": 10
+}

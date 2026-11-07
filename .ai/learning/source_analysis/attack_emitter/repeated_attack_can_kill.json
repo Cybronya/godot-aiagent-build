@@ -1,0 +1,145 @@
+{
+  "analysis_status": "SOURCE_ENTRY_AMBIGUOUS",
+  "behavior_category": "A",
+  "behavior_id": "repeated_attack_can_kill",
+  "conditions": [
+    {
+      "condition": "if child is AttackEmitter:",
+      "file": "Features/attack_emitter/attack_emitter.gd",
+      "function": "do_attack",
+      "line": 41
+    },
+    {
+      "condition": "if ray_cast_2d == null:",
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "line": 26
+    },
+    {
+      "condition": "if ray_cast_2d.is_colliding():",
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "line": 32
+    },
+    {
+      "condition": "if collider is Node and collider.has_method(\"take_damage\"):",
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "line": 35
+    },
+    {
+      "condition": "if target.has_method(\"take_damage\"):",
+      "file": "Features/attack_emitter/attack_emitter.gd",
+      "function": "_apply_damage",
+      "line": 55
+    }
+  ],
+  "contract_reference": "Features/attack_emitter/template.yaml#behavior=repeated_attack_can_kill",
+  "contract_version": "71820d16eaa9",
+  "entry_points": [
+    {
+      "file": "Features/attack_emitter/attack_emitter.gd",
+      "line": 39,
+      "name": "do_attack",
+      "params": "",
+      "returns": "void",
+      "source_reference": "Features/attack_emitter/attack_emitter.gd:39#func=do_attack",
+      "trigger": "contract_action"
+    },
+    {
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "line": 24,
+      "name": "do_attack",
+      "params": "",
+      "returns": "void",
+      "source_reference": "Features/attack_emitter/raycast_attack_emitter.gd:24#func=do_attack",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/attack_emitter/attack_emitter.gd",
+      "function": "do_attack",
+      "kind": "emit",
+      "line": 43,
+      "signal": "attacked"
+    },
+    {
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "kind": "emit",
+      "line": 37,
+      "signal": "attack_hit"
+    },
+    {
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "kind": "emit",
+      "line": 38,
+      "signal": "attack_performed"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if ray_cast_2d == null:",
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "kind": "null_guard",
+      "line": 26
+    },
+    {
+      "file": "Features/attack_emitter/raycast_attack_emitter.gd",
+      "function": "do_attack",
+      "kind": "guard_return",
+      "line": 28,
+      "value": ""
+    }
+  ],
+  "feature_id": "attack_emitter",
+  "generated_at": "2026-11-06T09:31:23Z",
+  "implementation_references": [
+    "Features/attack_emitter/attack_emitter.gd",
+    "Features/attack_emitter/raycast_attack_emitter.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "AttackEmitter",
+      "digest": "1ac9da495bcfa3bf7b6de05685c064fba9c7d7e342d0da97927f6733d2ff96ff",
+      "digest_of": "file_bytes",
+      "path": "Features/attack_emitter/attack_emitter.gd"
+    },
+    {
+      "class_name": "RaycastAttackEmitter",
+      "digest": "74a308826ec9131df7f5911d9f7bf34ffccadc6f5318f3732cf2d41f6101c199",
+      "digest_of": "file_bytes",
+      "path": "Features/attack_emitter/raycast_attack_emitter.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/attack_emitter/attack_emitter.gd",
+      "initial": "1:",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/attack_emitter/attack_emitter.gd",
+          "function": "_apply_damage",
+          "line": 56
+        }
+      ],
+      "variable": "damage",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "方法 do_attack 在多个位置定义：Features/attack_emitter/attack_emitter.gd:39, Features/attack_emitter/raycast_attack_emitter.gd:24",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 is_dead 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 died 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

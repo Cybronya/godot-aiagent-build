@@ -1,0 +1,1679 @@
+{
+  "generated_at": "2026-11-06T11:21:15Z",
+  "label": "P4",
+  "note": "execution/attestation/evaluation 三种结论分别记录，不互相替代",
+  "results": [
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "openable_door/open",
+      "behavior_id": "open",
+      "bundle_path": ".ai/tmp/p166/evidence/5428-3ce13e58-bundle.json",
+      "detail": "",
+      "duration_s": 11.75,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "9301ef3c8d3282a946e9aa4ab8c25f924ad0e9729226ea9f7947e52e2f051ef9",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "door.is_open",
+            "entry": "",
+            "expected": {
+              "equals": true
+            },
+            "observed": true,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          },
+          {
+            "check": "signal",
+            "entry": "door.state_changed",
+            "expected": {
+              "count": 1,
+              "last_args": [
+                true
+              ]
+            },
+            "observed": 1,
+            "observed_args": [
+              true
+            ],
+            "state": "MET",
+            "target": "."
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "openable_door",
+      "finished_at": "2026-11-06T11:20:20Z",
+      "knowledge_refs": [
+        "k-071a0c439e08b406"
+      ],
+      "label": "P4",
+      "manifest_digest": "cca3d30f1c14d6fec4a57a79511277613a01e5281709e0bdfedff5da34c656ce",
+      "manifest_valid": true,
+      "official_contract_detail": "recomputed from contract and observations",
+      "official_contract_status": "PASS",
+      "plan": {
+        "behavior_id": "open",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-06T11:20:08Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "7873e2a2d5ceb5a204a6afaa4ecd957b51ed99e47a7109e4d64762ba5f90c9f1",
+        "execution_id": "ce01cfb2-fe12-4fb6-b91f-2a357683e035",
+        "execution_plan_id": "p-ce01cfb2-fe12-4f",
+        "feature_id": "openable_door",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/cbb98cef-d40b-470f-96cb-7e721dd56af6",
+          "user_dir_tag": "p166-s-16f6576c8683f7bc",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P4",
+        "output_root": ".ai/tmp/p166/runs/cbb98cef-d40b-470f-96cb-7e721dd56af6",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/openable_door/OpenableDoor.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "cbb98cef-d40b-470f-96cb-7e721dd56af6",
+        "scenario_id": "s-16f6576c8683f7bc",
+        "source_fingerprint": "f34d2de0dfb463d8a397a58881264580506840c1af6662a3a73e25b2015dae37",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "value": true
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "door.set_open"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "value": true
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "door.set_open"
+              }
+            ],
+            "checks": [
+              {
+                "check": "door.is_open",
+                "entry": "",
+                "expected": true,
+                "first_observed_frame": 0,
+                "observed": true,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "door.state_changed",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [
+                  true
+                ],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "door.is_open",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "cbb98cef-d40b-470f-96cb-7e721dd56af6-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "value": true
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "door.set_open"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "value": true
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "door.set_open"
+              }
+            ],
+            "checks": [
+              {
+                "check": "door.is_open",
+                "entry": "",
+                "expected": true,
+                "first_observed_frame": 0,
+                "observed": true,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "door.state_changed",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [
+                  true
+                ],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "door.is_open",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "cbb98cef-d40b-470f-96cb-7e721dd56af6-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "cbb98cef-d40b-470f-96cb-7e721dd56af6",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-16f6576c8683f7bc",
+      "scenario_type": "GUARD_IDEMPOTENCE",
+      "started_at": "2026-11-06T11:20:08Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "trigger_switch/latch_once",
+      "behavior_id": "latch_once",
+      "bundle_path": ".ai/tmp/p166/evidence/5428-e7f2ec3f-bundle.json",
+      "detail": "",
+      "duration_s": 12.49,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "ee764939aae4fb8fe0b8c64e97928a53c3d11f03cc2fa1c2d56a07e21b9a0a63",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "trigger.is_triggered",
+            "entry": "",
+            "expected": {
+              "equals": false
+            },
+            "observed": false,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          },
+          {
+            "check": "signal",
+            "entry": "trigger.activated",
+            "expected": {
+              "count": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "trigger_switch",
+      "finished_at": "2026-11-06T11:20:34Z",
+      "knowledge_refs": [
+        "k-f26d4a87ed04a064"
+      ],
+      "label": "P4",
+      "manifest_digest": "03fcda0862b420a456449eb97d4df83d728f686570ca0e8c072c7cf38b7fbbd5",
+      "manifest_valid": true,
+      "official_contract_detail": "check[0] trigger.is_triggered@. expected True observed False",
+      "official_contract_status": "FAIL",
+      "plan": {
+        "behavior_id": "latch_once",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-06T11:20:21Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "5bf9616db029ff7972a7a849480b6c7e66b2b30f7177c0d93a8f13afca1ae2db",
+        "execution_id": "88b55a49-c305-41f5-bd1e-3aefec96d053",
+        "execution_plan_id": "p-88b55a49-c305-41",
+        "feature_id": "trigger_switch",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/a39a4ce5-92bd-444f-9bad-a2a1958147e3",
+          "user_dir_tag": "p166-s-37cd4dc9f084950e",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P4",
+        "output_root": ".ai/tmp/p166/runs/a39a4ce5-92bd-444f-9bad-a2a1958147e3",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/trigger_switch/trigger_switch.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "a39a4ce5-92bd-444f-9bad-a2a1958147e3",
+        "scenario_id": "s-37cd4dc9f084950e",
+        "source_fingerprint": "f34d2de0dfb463d8a397a58881264580506840c1af6662a3a73e25b2015dae37",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign"
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 6,
+                "ended_frame": 14,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 6.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 8,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 14,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign"
+                },
+                "started_frame": 14,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 6,
+                "ended_frame": 20,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 6.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 14,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "trigger.is_triggered",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "trigger.activated",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "trigger.is_triggered",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "trigger.activated",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "a39a4ce5-92bd-444f-9bad-a2a1958147e3-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign"
+                },
+                "started_frame": 9,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 6,
+                "ended_frame": 15,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 6.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 15,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign"
+                },
+                "started_frame": 15,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 6,
+                "ended_frame": 21,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 6.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 15,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "trigger.is_triggered",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "trigger.activated",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "trigger.is_triggered",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "trigger.activated",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "a39a4ce5-92bd-444f-9bad-a2a1958147e3-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "a39a4ce5-92bd-444f-9bad-a2a1958147e3",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-37cd4dc9f084950e",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "started_at": "2026-11-06T11:20:21Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "health/damage",
+      "behavior_id": "damage",
+      "bundle_path": ".ai/tmp/p166/evidence/5428-3f4723e0-bundle.json",
+      "detail": "",
+      "duration_s": 11.62,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "9e1ab97607c2947ce52158dc6328091853767b8def33b19810071557648de0cd",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "health.current",
+            "entry": "",
+            "expected": {
+              "equals": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          },
+          {
+            "check": "health.is_dead",
+            "entry": "",
+            "expected": {
+              "equals": true
+            },
+            "observed": true,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          },
+          {
+            "check": "signal",
+            "entry": "health.health_changed",
+            "expected": {
+              "count": 2
+            },
+            "observed": 2,
+            "observed_args": [
+              0,
+              100
+            ],
+            "state": "MET",
+            "target": "."
+          },
+          {
+            "check": "signal",
+            "entry": "health.died",
+            "expected": {
+              "count": 1
+            },
+            "observed": 1,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "health",
+      "finished_at": "2026-11-06T11:20:48Z",
+      "knowledge_refs": [
+        "k-55d8c3b7dea55340"
+      ],
+      "label": "P4",
+      "manifest_digest": "7c32b01a820fd0986a8658c32c9035d32ffb126f348e7e1e687bc3eccd57b3b9",
+      "manifest_valid": true,
+      "official_contract_detail": "observed 4 check(s), contract declares 2",
+      "official_contract_status": "INCOMPLETE",
+      "plan": {
+        "behavior_id": "damage",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-06T11:20:35Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "2449c46055eb364ce1f60f741b2915a42680c041d2e321de15f37457071a44d8",
+        "execution_id": "d9cb052b-b46d-409a-b3a5-af5c8cd88d41",
+        "execution_plan_id": "p-d9cb052b-b46d-40",
+        "feature_id": "health",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/07abd604-4a61-448d-95d5-39310f2f198d",
+          "user_dir_tag": "p166-s-7771e41885fcd58e",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P4",
+        "output_root": ".ai/tmp/p166/runs/07abd604-4a61-448d-95d5-39310f2f198d",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/health/Health.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "07abd604-4a61-448d-95d5-39310f2f198d",
+        "scenario_id": "s-7771e41885fcd58e",
+        "source_fingerprint": "f34d2de0dfb463d8a397a58881264580506840c1af6662a3a73e25b2015dae37",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 4.0
+                },
+                "started_frame": 9,
+                "target": ".",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 100.0
+                },
+                "started_frame": 9,
+                "target": ".",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 1.0
+                },
+                "started_frame": 9,
+                "target": ".",
+                "type": "health.heal"
+              }
+            ],
+            "checks": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 0.0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "health.is_dead",
+                "entry": "",
+                "expected": true,
+                "first_observed_frame": 0,
+                "observed": true,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 2,
+                "first_observed_frame": 0,
+                "observed": 2,
+                "observed_args": [
+                  0,
+                  100
+                ],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "health.died",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 5.0,
+                "first_observed_frame": 0,
+                "observed": 5,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "health.is_dead",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "07abd604-4a61-448d-95d5-39310f2f198d-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 4.0
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 100.0
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 1.0
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "health.heal"
+              }
+            ],
+            "checks": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 0.0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "health.is_dead",
+                "entry": "",
+                "expected": true,
+                "first_observed_frame": 0,
+                "observed": true,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 2,
+                "first_observed_frame": 0,
+                "observed": 2,
+                "observed_args": [
+                  0,
+                  100
+                ],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "health.died",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 5.0,
+                "first_observed_frame": 0,
+                "observed": 5,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "health.is_dead",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "07abd604-4a61-448d-95d5-39310f2f198d-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "07abd604-4a61-448d-95d5-39310f2f198d",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-7771e41885fcd58e",
+      "scenario_type": "GUARD_TERMINAL_STATE",
+      "started_at": "2026-11-06T11:20:35Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "bundle_path": ".ai/tmp/p166/evidence/5428-ac7ca98f-bundle.json",
+      "detail": "",
+      "duration_s": 11.82,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "49077b318526bbc3becc3a8115e42b54617ad25c9dd5d7cc91f89538e43879dd",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "health.current",
+            "entry": "",
+            "expected": {
+              "equals": 3
+            },
+            "observed": 3,
+            "observed_args": [],
+            "state": "MET",
+            "target": "World/Player/Health"
+          },
+          {
+            "check": "signal",
+            "entry": "savegame.game_saved",
+            "expected": {
+              "count": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "Saver"
+          },
+          {
+            "check": "savegame.last_slot",
+            "entry": "",
+            "expected": {
+              "equals": ""
+            },
+            "observed": "",
+            "observed_args": [],
+            "state": "MET",
+            "target": "Saver"
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "save_game",
+      "finished_at": "2026-11-06T11:21:01Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "label": "P4",
+      "manifest_digest": "d7e21b10eb9eb5ccda252d4b713647a32e9cecfee2301d6f3e37fdf9c072d5aa",
+      "manifest_valid": true,
+      "official_contract_detail": "check[0] target mismatch: evidence health.current@World/Player/Health vs contract signal@Saver",
+      "official_contract_status": "FAIL",
+      "plan": {
+        "behavior_id": "save_slot_persists_world_state",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-06T11:20:48Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "1603b7ddba4bfb94e32f079cc437e9d3f93d710aa323f9d7a48e7e01f409f218",
+        "execution_id": "2a59057f-8364-4b2b-8b5e-4d521aba2e31",
+        "execution_plan_id": "p-2a59057f-8364-4b",
+        "feature_id": "save_game",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/083e4b6b-8859-4bb0-b2a5-9660eae3fcee",
+          "user_dir_tag": "p166-s-8b9f108ecb56beb2",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P4",
+        "output_root": ".ai/tmp/p166/runs/083e4b6b-8859-4bb0-b2a5-9660eae3fcee",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/save_game/SaveGameBehaviorFixture.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "083e4b6b-8859-4bb0-b2a5-9660eae3fcee",
+        "scenario_id": "s-8b9f108ecb56beb2",
+        "source_fingerprint": "f34d2de0dfb463d8a397a58881264580506840c1af6662a3a73e25b2015dae37",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 2.0
+                },
+                "started_frame": 9,
+                "target": "World/Player/Health",
+                "type": "health.take_damage"
+              },
+              {
+                "accepted": false,
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "slot": "p166/invalid:slot"
+                },
+                "started_frame": 9,
+                "target": "Saver",
+                "type": "savegame.save_slot"
+              }
+            ],
+            "checks": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 3.0,
+                "first_observed_frame": 0,
+                "observed": 3,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "World/Player/Health"
+              },
+              {
+                "check": "signal",
+                "entry": "savegame.game_saved",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Saver"
+              },
+              {
+                "check": "savegame.last_slot",
+                "entry": "",
+                "expected": "",
+                "first_observed_frame": 0,
+                "observed": "",
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Saver"
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 5.0,
+                "first_observed_frame": 0,
+                "observed": 5,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "World/Player/Health"
+              },
+              {
+                "check": "savegame.last_slot",
+                "entry": "",
+                "expected": "",
+                "first_observed_frame": 0,
+                "observed": "",
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Saver"
+              }
+            ],
+            "reason": "ok",
+            "run_id": "083e4b6b-8859-4bb0-b2a5-9660eae3fcee-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 2.0
+                },
+                "started_frame": 9,
+                "target": "World/Player/Health",
+                "type": "health.take_damage"
+              },
+              {
+                "accepted": false,
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "slot": "p166/invalid:slot"
+                },
+                "started_frame": 9,
+                "target": "Saver",
+                "type": "savegame.save_slot"
+              }
+            ],
+            "checks": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 3.0,
+                "first_observed_frame": 0,
+                "observed": 3,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "World/Player/Health"
+              },
+              {
+                "check": "signal",
+                "entry": "savegame.game_saved",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Saver"
+              },
+              {
+                "check": "savegame.last_slot",
+                "entry": "",
+                "expected": "",
+                "first_observed_frame": 0,
+                "observed": "",
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Saver"
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 5.0,
+                "first_observed_frame": 0,
+                "observed": 5,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "World/Player/Health"
+              },
+              {
+                "check": "savegame.last_slot",
+                "entry": "",
+                "expected": "",
+                "first_observed_frame": 0,
+                "observed": "",
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Saver"
+              }
+            ],
+            "reason": "ok",
+            "run_id": "083e4b6b-8859-4bb0-b2a5-9660eae3fcee-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "083e4b6b-8859-4bb0-b2a5-9660eae3fcee",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-8b9f108ecb56beb2",
+      "scenario_type": "GUARD_INPUT_VALIDATION",
+      "started_at": "2026-11-06T11:20:48Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "bundle_path": ".ai/tmp/p166/evidence/5428-cc9e82ad-bundle.json",
+      "detail": "",
+      "duration_s": 12.16,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "f5a15343b6a5c54652fb748f6e455fbba15d21409abed1e5be2cc99c5c9c48a7",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "health.current",
+            "entry": "",
+            "expected": {
+              "equals": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "Host/Health"
+          },
+          {
+            "check": "health.is_dead",
+            "entry": "",
+            "expected": {
+              "equals": true
+            },
+            "observed": true,
+            "observed_args": [],
+            "state": "MET",
+            "target": "Host/Health"
+          },
+          {
+            "check": "signal",
+            "entry": "health.health_changed",
+            "expected": {
+              "count": 1
+            },
+            "observed": 1,
+            "observed_args": [
+              0,
+              10
+            ],
+            "state": "MET",
+            "target": "Host/Health"
+          },
+          {
+            "check": "signal",
+            "entry": "health.died",
+            "expected": {
+              "count": 1
+            },
+            "observed": 1,
+            "observed_args": [],
+            "state": "MET",
+            "target": "Host/Health"
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "i_frames",
+      "finished_at": "2026-11-06T11:21:15Z",
+      "knowledge_refs": [
+        "k-12ca60365bb2e0b6"
+      ],
+      "label": "P4",
+      "manifest_digest": "4a8740b0da812c734a2074e079fa47c429c01c7d704d9b25f0c7acc6e5e2ee7e",
+      "manifest_valid": true,
+      "official_contract_detail": "observed 4 check(s), contract declares 2",
+      "official_contract_status": "INCOMPLETE",
+      "plan": {
+        "behavior_id": "iframes_expire_and_damage_resumes",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-06T11:21:02Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "883bf7e07be8d6c122b7ff33d80452c01ddaa3273d7c25329d71b49dd46e1593",
+        "execution_id": "ce03bf3c-65a6-496b-8381-4856ffa26779",
+        "execution_plan_id": "p-ce03bf3c-65a6-49",
+        "feature_id": "i_frames",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/b2bf66a0-f112-4249-9ecf-eed565e62659",
+          "user_dir_tag": "p166-s-e6eb3fc5c8e82e32",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P4",
+        "output_root": ".ai/tmp/p166/runs/b2bf66a0-f112-4249-9ecf-eed565e62659",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/i_frames/IFramesFixture.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "b2bf66a0-f112-4249-9ecf-eed565e62659",
+        "scenario_id": "s-e6eb3fc5c8e82e32",
+        "source_fingerprint": "f34d2de0dfb463d8a397a58881264580506840c1af6662a3a73e25b2015dae37",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 10.0
+                },
+                "started_frame": 9,
+                "target": "Host/Health",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 1.0
+                },
+                "started_frame": 10,
+                "target": "Host/Health",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 11,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 10,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 0.0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              },
+              {
+                "check": "health.is_dead",
+                "entry": "",
+                "expected": true,
+                "first_observed_frame": 0,
+                "observed": true,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              },
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [
+                  0,
+                  10
+                ],
+                "status": "PASS",
+                "target": "Host/Health"
+              },
+              {
+                "check": "signal",
+                "entry": "health.died",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 10.0,
+                "first_observed_frame": 0,
+                "observed": 10,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              }
+            ],
+            "reason": "ok",
+            "run_id": "b2bf66a0-f112-4249-9ecf-eed565e62659-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 10.0
+                },
+                "started_frame": 9,
+                "target": "Host/Health",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              },
+              {
+                "advanced_frames": 0,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "amount": 1.0
+                },
+                "started_frame": 10,
+                "target": "Host/Health",
+                "type": "health.take_damage"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 11,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 10,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 0.0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              },
+              {
+                "check": "health.is_dead",
+                "entry": "",
+                "expected": true,
+                "first_observed_frame": 0,
+                "observed": true,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              },
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [
+                  0,
+                  10
+                ],
+                "status": "PASS",
+                "target": "Host/Health"
+              },
+              {
+                "check": "signal",
+                "entry": "health.died",
+                "expected": 1,
+                "first_observed_frame": 0,
+                "observed": 1,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "health.current",
+                "entry": "",
+                "expected": 10.0,
+                "first_observed_frame": 0,
+                "observed": 10,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "Host/Health"
+              }
+            ],
+            "reason": "ok",
+            "run_id": "b2bf66a0-f112-4249-9ecf-eed565e62659-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "b2bf66a0-f112-4249-9ecf-eed565e62659",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-e6eb3fc5c8e82e32",
+      "scenario_type": "DEPENDENCY_PRECONDITION",
+      "started_at": "2026-11-06T11:21:02Z",
+      "validator_status": "VALID"
+    }
+  ],
+  "schema": "scenario_execution_index",
+  "schema_version": 1,
+  "summary": {
+    "attested": 5,
+    "blocked": 0,
+    "evaluated_pass": 5,
+    "executed": 5,
+    "failed": 0,
+    "passed": 5,
+    "scenarios": 5
+  },
+  "trust_level": "LOCAL_ISOLATED"
+}

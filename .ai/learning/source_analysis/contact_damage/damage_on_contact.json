@@ -1,0 +1,177 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "E",
+  "behavior_id": "damage_on_contact",
+  "conditions": [
+    {
+      "condition": "if _cooldown > 0.0:",
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_physics_process",
+      "line": 20
+    },
+    {
+      "condition": "if not node.is_in_group(target_group):",
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_deal_damage_to",
+      "line": 28
+    },
+    {
+      "condition": "if health == null:",
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_deal_damage_to",
+      "line": 31
+    }
+  ],
+  "contract_reference": "Features/contact_damage/template.yaml#behavior=damage_on_contact",
+  "contract_version": "1732981f92b4",
+  "entry_points": [
+    {
+      "file": "Features/contact_damage/contact_damage.gd",
+      "line": 18,
+      "name": "_physics_process",
+      "params": "delta: float",
+      "returns": "void",
+      "source_reference": "Features/contact_damage/contact_damage.gd:18#func=_physics_process",
+      "trigger": "frame_update"
+    }
+  ],
+  "events": [],
+  "failure_paths": [
+    {
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_physics_process",
+      "kind": "guard_return",
+      "line": 21,
+      "value": ""
+    },
+    {
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_deal_damage_to",
+      "kind": "guard_return",
+      "line": 29,
+      "value": ""
+    },
+    {
+      "condition": "if health == null:",
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_deal_damage_to",
+      "kind": "null_guard",
+      "line": 31
+    },
+    {
+      "file": "Features/contact_damage/contact_damage.gd",
+      "function": "_deal_damage_to",
+      "kind": "guard_return",
+      "line": 32,
+      "value": ""
+    }
+  ],
+  "feature_id": "contact_damage",
+  "generated_at": "2026-11-06T09:31:26Z",
+  "implementation_references": [
+    "Features/contact_damage/contact_damage.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "ContactDamage",
+      "digest": "c5ea78843897c2d55b3c6a4e29a5fc52a06b8f937b1622f7c749283c9cf1d3d4",
+      "digest_of": "file_bytes",
+      "path": "Features/contact_damage/contact_damage.gd"
+    }
+  ],
+  "side_effects": [
+    {
+      "file": "Features/contact_damage/contact_damage.gd",
+      "kind": "node_lookup",
+      "line": 30,
+      "path": "Health"
+    }
+  ],
+  "state_variables": [
+    {
+      "declared_in": "Features/contact_damage/contact_damage.gd",
+      "initial": "0.0",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_physics_process",
+          "line": 19
+        },
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_physics_process",
+          "line": 20
+        }
+      ],
+      "variable": "_cooldown",
+      "write_count": 2,
+      "writes": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_physics_process",
+          "line": 19
+        },
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_physics_process",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/contact_damage/contact_damage.gd",
+      "initial": "1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_deal_damage_to",
+          "line": 33
+        }
+      ],
+      "variable": "damage",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/contact_damage/contact_damage.gd",
+      "initial": "\"players\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_deal_damage_to",
+          "line": 28
+        }
+      ],
+      "variable": "target_group",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/contact_damage/contact_damage.gd",
+      "initial": "0.5",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_physics_process",
+          "line": 22
+        }
+      ],
+      "variable": "tick_interval",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约 action 均为 harness 驱动，入口按帧回调 _physics_process 认定（未绑定具体方法）",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

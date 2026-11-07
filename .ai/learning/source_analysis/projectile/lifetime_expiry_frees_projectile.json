@@ -1,0 +1,219 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "D",
+  "behavior_id": "lifetime_expiry_frees_projectile",
+  "conditions": [
+    {
+      "condition": "if _finished or not _launched:",
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "line": 58
+    },
+    {
+      "condition": "if health == null:",
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "line": 61
+    },
+    {
+      "condition": "if max_hits >= 1 and _hit_count >= max_hits:",
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "line": 66
+    },
+    {
+      "condition": "if _finished:",
+      "file": "Features/projectile/projectile.gd",
+      "function": "_finish",
+      "line": 76
+    }
+  ],
+  "contract_reference": "Features/projectile/template.yaml#behavior=lifetime_expiry_frees_projectile",
+  "contract_version": "0fc6da21a3c1",
+  "entry_points": [
+    {
+      "emitter": "self",
+      "file": "Features/projectile/projectile.gd",
+      "line": 57,
+      "name": "_on_body_entered",
+      "params": "body: Node",
+      "returns": "void",
+      "signal": "body_entered",
+      "source_reference": "Features/projectile/projectile.gd:57#func=_on_body_entered",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "kind": "emit",
+      "line": 64,
+      "signal": "hit"
+    },
+    {
+      "file": "Features/projectile/projectile.gd",
+      "function": "_finish",
+      "kind": "emit",
+      "line": 79,
+      "signal": "finished"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 59,
+      "value": ""
+    },
+    {
+      "condition": "if health == null:",
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "kind": "null_guard",
+      "line": 61
+    },
+    {
+      "file": "Features/projectile/projectile.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 62,
+      "value": ""
+    },
+    {
+      "file": "Features/projectile/projectile.gd",
+      "function": "_finish",
+      "kind": "guard_return",
+      "line": 77,
+      "value": ""
+    }
+  ],
+  "feature_id": "projectile",
+  "generated_at": "2026-11-06T09:31:40Z",
+  "implementation_references": [
+    "Features/projectile/projectile.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "Projectile",
+      "digest": "4df25227ae2e6a960de01e5d59f89dd2afc7f86320b8fe49fd86d76e3fccd9a3",
+      "digest_of": "file_bytes",
+      "path": "Features/projectile/projectile.gd"
+    }
+  ],
+  "side_effects": [
+    {
+      "file": "Features/projectile/projectile.gd",
+      "kind": "node_lookup",
+      "line": 60,
+      "path": "Health"
+    }
+  ],
+  "state_variables": [
+    {
+      "declared_in": "Features/projectile/projectile.gd",
+      "initial": "false",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 58
+        },
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_finish",
+          "line": 76
+        }
+      ],
+      "variable": "_finished",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_finish",
+          "line": 78
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/projectile/projectile.gd",
+      "initial": "0",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 65
+        },
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 66
+        }
+      ],
+      "variable": "_hit_count",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 65
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/projectile/projectile.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 58
+        }
+      ],
+      "variable": "_launched",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/projectile/projectile.gd",
+      "initial": "1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 63
+        }
+      ],
+      "variable": "damage",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/projectile/projectile.gd",
+      "initial": "1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/projectile/projectile.gd",
+          "function": "_on_body_entered",
+          "line": 66
+        }
+      ],
+      "variable": "max_hits",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约引用的符号 exists 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

@@ -1,6 +1,293 @@
 # Work State
 
-当前工程状态。（更新于 Phase 1.38 Feature Instance Evidence Reconciliation 之后）
+
+当前工程状态。（最近一次直接更新：Phase 1.64；本文件在 Phase 1.38 之后**未逐阶段回溯**，
+Phase 1.39–1.63 的事实以其审计/完成报告为准，最新见 `PHASE_1_62_COMPLETION.md`、
+`PHASE_1_63_COMPLETION.md` 与 `PHASE_1_64_COMPLETION.md`。）
+
+## Phase 1.66：Knowledge-Driven Test Generation & Execution（已实施并实测，未提交）
+
+- **审计**：HEAD `dd3a0e4` 未变；`git diff --cached` 为空；Godot 4.7-stable console；
+  详见 `PHASE_1_66_AUDIT.md`。
+- **生成**：5 个 Behavior / 4 条规则族，全部 VALID；无硬编码 Behavior 名单，
+  每条场景带 knowledge_refs + source_refs（依赖场景另有 dependency_refs）。
+- **验证**：7 状态验证（VALID/INVALID/INCOMPLETE/ENVIRONMENT_BLOCKED/SOURCE_STALE/
+  KNOWLEDGE_STALE/CONTRACT_MISMATCH），18 项攻击用例。
+- **真实执行**：label `P4`，5/5 真实 Godot（11.6–12.5s/场景），Execution PASSED、
+  Evidence EVIDENCE_VERIFIED、Attestation ATTESTED_VERIFIED（LOCAL_ISOLATED）、
+  Evaluation VERIFIED_PASS；官方契约 PASS 1 / FAIL 2 / INCOMPLETE 2（单独记录，不冒充）。
+- **分析**：CONTRACT_CONFIRMED 1 / SOURCE_CONFIRMED 3 / BEHAVIOR_CONFIRMED 1；无 FAILED。
+- **回流**：15 条候选（场景/执行/行为各 5）全部 APPROVED（`phase_1_66_local_review`，
+  LOCAL_REVIEW）；知识库 71 条（55 APPROVED / 5 SUPERSEDED / 10 ARCHIVED / 1 PENDING）。
+- **计划**：277 → 276（移除 `NO_TEST_SCENARIO` 设计任务），`scenario_evidenced_behaviors=5`；
+  `driven_by_knowledge` 非空任务 1 → 0（唯一一条被真实证据消解，已解释）。
+- **Mutation**：19 候选（17 VALID / 2 INVALID 保留未执行）；`mc-55bda008e9123f41`
+  `MUTANT_KILLED`（control 1 / mutant 2，恢复逐字节一致，repo_guard 265 文件未变），
+  知识 `PENDING_REVIEW`；KILLED 的判定依据是 `INVALID_EVIDENCE`（P2 归因问题，已登记）。
+- **测试**：新增 89/89（6 文件）；1.65 回归 69/69；1.56–1.64 回归 15 文件全过。
+- **修复的真实缺陷**：单场景运行误清 evidence 目录（已改为批次级清理）；
+  归档知识冒充写入（新增 `revive()` + 引用刷新）。
+- **未做**：其余 52 个 Behavior、失败/变异驱动场景模板、1.64 三项技术债、人类审批、
+  全量 `run_tests.py` 重跑（~57 分钟）。
+
+## Phase 1.65：Behavior Learning & Knowledge Expansion（已实施并实测，未提交）
+
+- **审计**：仓库 HEAD 未变；工作区 20 修改 + 33 删除 + 981 未跟踪（删除/修改均来自其他 Agent 的
+  skills 清理等，本阶段未改任何既有文件）。确认只有 1 个 Knowledge Store、无现成 Learning Planner。
+- **Source Analysis**：60/60 分析（5 COMPLETE、50 PARTIAL、5 `SOURCE_ENTRY_AMBIGUOUS`），
+  入口 57 条；每条带 `file:line`，全部 `static_only=true`；契约/源码命名不一致、harness 驱动、
+  动态调用都进 `unresolved_questions`。
+- **Dependency Graph**：60 节点 / 118 边（97 源码 + 21 契约），类型含 EMITS/RECEIVES 各 21、
+  REQUIRES_PRECONDITION 21、SHARES_STATE 50、WRITES_STATE 3、PERSISTS/RESTORES 各 1；
+  2 个 SCC（Health `hub_component`、save `persistence_pair`），1 条未解析契约依赖。
+- **Knowledge**：`.ai/knowledge/behavior_learning/**`（45 条，40 APPROVED + 5 SUPERSEDED，
+  5 冲突已显式解决），门禁：CONTRACT_FACT→Features/、SOURCE→文件+digest、MUTATION→仅 KILLED、
+  INFERENCE→derivations 且不得 VERIFIED、冲突未解决拒绝审批；旧记录/被撤销记录不删除。
+- **Planner**：`priority = 3*severity + risk/2 + upstream + failure_bonus - cost`，任务 277，
+  排除已完成 10，矩阵必须显式给出（不接受默认扫描）。
+- **Pilot**：5 个 Behavior（A/C/F），4 个关联 1.64 真实 Run（签名+attestation+评估均通过），
+  `trigger_switch/latch_once` 无 Run 则保留缺口；12 条候选场景全部 `executed=false`；
+  隔离根演示 287→277 任务、`excluded 0→10`、5/5 行为任务集合变化。
+- **测试**：新增 68 项全过（17+16+20+15）；回归 77 项全过（1.64 knowledge 18、matrix 15、
+  bindings 26、env_paths 18）。**未跑**：`run_tests.py` 全量、新 Godot 采集、mutation 重跑。
+- **未做**：其余 55 条 Behavior 知识、5 条入口歧义、1.64 的 P2/缩进/全量入口三项技术债、
+  候选场景实际执行、人类审批。
+
+## Phase 1.64：系统性扩大 L5 行为覆盖（已实施并实测，未提交）
+
+- **前置修复**：1.62 两个 E2E Runner 的 `_PROJECT_ROOT` 少算一层（得到 `.ai`），Godot 只能靠
+  `GODOT_BIN`。新增 `validator/execution/env_paths.py` 统一解析（GODOT_BIN → 项目配置
+  `runtime_playtest.godot_binary` → 项目相邻目录 → PATH），缺失时明确 `ENVIRONMENT ERROR`；
+  两个 Runner 改用它，check 数量与语义不变。回归：单 Feature 20 checks / 多 Feature 3 条 /
+  1.63 三 Feature 24 checks，全部 0 失败，均未设 `GODOT_BIN`。
+- **分类与计划**：60 条 Behavior 全部有主类/次类/依据（A 27、B 3、C 2、D 4、E 7、F 17），
+  风险分公式写进 `PHASE_1_64_VERIFICATION_PLAN.md`；清单由生成器产出，契约新增未登记行为
+  会让生成器直接失败（不给默认分类）。
+- **Batch 1（3 Feature / 6 Behavior）**：`run_p164_batch.py` 复用 1.63 全链，expected 逐字来自
+  已审批 Binding；真实 Godot（replay=2，per-run `user://`）→ bundle → 签名 → manifest →
+  attestation → 逐 Behavior Evaluation，21 项检查 0 失败，6/6 `VERIFIED_PASS`。
+- **同口径趋势**：Evidence/Signature/Attestation/Evaluation 8→12，Mutation Killed（Behavior）
+  9→10，Fully Covered 0→1（`openable_door/open`）；数字由两次同脚本矩阵快照得出，
+  不使用 1.63 的默认评估扫描（会串批次，审计 P2）。
+- **Mutation**：catalog 10→12（M11 无敌窗口不归还门、M12 门幂等守卫反转），两条真实 KILLED；
+  1.59/1.63 的 10 条全量复现 KILLED；control/recovery 均 PASS、逐字节恢复、`repo_guard.changed=false`。
+- **Knowledge**：`.ai/knowledge/behavior_verification/`，7 条记录（含 `latch_once`），事实分
+  CONTRACT_FACT / TEST_OBSERVATION / MUTATION_OBSERVATION / INFERENCE；store 拒绝未知来源、
+  丢弃旧事实、契约版本静默升级；历史版本追加到 `.history.jsonl`；M04/M06 失败根因保存为 RESOLVED。
+- **全量入口**：`run_tests.py` 跑完 138 个文件 → 133 PASS / 3 FAIL / 2 INCOMPLETE。3 个 FAIL 是
+  `scene_composer` 对 8 个未跟踪、缺 `template.yaml` 的 Feature 脚手架的模板完备性断言；
+  2 个 INCOMPLETE 是 `test_end_to_end_generation.py`（>1800s 超时）与 `test_phase160_e2e.py`
+  （需 `--evidence-dir`，被当单元测试调用）。均非本阶段引入，未修。
+- **未做**：B2–B6 批次、48 条无证据 Behavior、1.63 矩阵评估归因修复。
+
+## Phase 1.63：Behavior Binding Expansion & Coverage Reconciliation（已实施并实测，未提交）
+
+- **Binding 全覆盖**：`validator/binding_candidates.py`——候选生成（expected 只来自契约，
+  缺失即 BLOCKED_MISSING_EXPECTED）→ 显式审批（DRAFT→PENDING_REVIEW→APPROVED，
+  独立登记表 + Ed25519 签名，scope=approve_binding）→ 晋升（旧绑定 SUPERSEDED 不双活）。
+  6→60 条绑定（覆盖整个动态支持集，23F/60B 动态读取）。契约漂移/候选篡改/跳步审批全部拒绝。
+- **M04/M06 根因修复**：M04=探针「满足即停」+ 契约缺尾部帧推进 → latch_once 契约补
+  advance_frames（BND-005 走重审）；M06=user:// 跨 run 残留 → 采集器 per-run
+  `--user-dir-tag` 隔离（缺省不变）。全量 mutation **10/10 KILLED、0 INVALID**
+  （新增 M09 i_frames、M10 contact_damage 同样 KILLED）。
+- **覆盖矩阵**：`evaluation/coverage_matrix.py`——八维独立状态（contract/binding/
+  evidence/signature/attestation/evaluation/holdout/mutation）、动态分母、null 不造假、
+  --strict 退出码 2。快照：Evidence/Signature/Attestation 各 8/60、Holdout 1/60、
+  Mutation Killed 9/60、Fully Covered 0/60（每行带缺失原因与下一步）。
+- **真实 E2E（持久化版）**：`run_p163_e2e.py`——3 Feature（状态转换/事件传播/持久化）
+  全链 24 checks 0 failures，产物（bundle+签名+manifest+attestation）持久化于
+  `.ai/tmp/p163_e2e/`；真实独立信任根（区别于 1.62 的临时信任根）。
+  Holdout：P163-HOLDOUT v2 签名封存。
+- **修复**：trace_bindings 放宽检查的同目标多检查覆盖缺陷（x/y 轴误报）；
+  holdout VALIDATED→VALIDATED 幂等；test_trace_bindings/test_cross_binding 断言改动态口径。
+- 新增测试 41 项全过；回归 519 项全过（1.56–1.62 全套 + validate.py 0e/17w）。
+- 信任边界：审批记录密码学完整性 ✔；**审批者人类身份真实性仍属流程审计**（同权限
+  边界，LOCAL_ISOLATED）。
+- 报告：`PHASE_1_63_COMPLETION.md`、`PHASE_1_63_COVERAGE_REPORT.md`、
+  `PHASE_1_63_ATTACK_TESTS.md`、审计 `PHASE_1_63_AUDIT.md`。
+
+## Phase 1.61：独立信任根与来源签名（已实施并实测，未提交）
+
+- **缺口**：Phase 1.60 之后系统仍无法证明审批者/签发者身份真实性——同权限攻击者可
+  同时改写 Baseline 内容、摘要、审批登记表、Evidence 与 Holdout 封存记录。
+- **做法（全加法）**：新增 `validator/provenance/`（signature_schema / trust_store /
+  key_metadata / signing / verification / provenance_cli）：Ed25519（PyNaCl 1.6.2，
+  不自研原语）detached 规范化封套签名，对象类型/ID/版本/摘要/scope 全部在签名消息内。
+  独立信任根 = **工作区之外**的用户级文件 `~/.provenance_trust/<项目 slug>/`（本机已
+  真实建立，密钥 `PROVKEY-696f89a140eba658`）；信任根路径解析进工作区 → 拒收
+  （fail-closed）。接入：Baseline `use_baseline_trusted()`（登记条目内封套 + 审批元数据
+  交叉核对）、Evidence sidecar `<bundle>.sig.json` + `load_verified(provenance_policy=)`
+  追加门禁（封堵"改内容+重算 integrity 哈希"逃逸路径）、Holdout `seal_dataset_signed()`
+  + 消费前验证（失败细分 holdout_signature_*，验证不过不发生 record_usage）。
+  密钥生命周期 ACTIVE/RETIRED/REVOKED + 轮换 + 撤销（撤销只降级、不可复活）。
+- **实测（2026-11-04，HEAD `dd3a0e4`）**：新增 5 套测试 142 项全过（core 57 + baseline
+  签名 21 + evidence 签名 16 + holdout 签名 16 + 攻击模拟 32）；A01–A18 攻击场景全拒
+  （A16 核心：工作区内伪造公钥/env 指入工作区一律拒收，外部信任根不受影响）；私钥泄露
+  检查 K1–K6 全过。回归 485 项全过（1.60 四套+E2E 97、1.58 四套 124、1.57 34、1.56 54、
+  比较器 100、1.59 两套 66）、validate.py 0 error / 17 warning 不变。真实 Godot 端到端：
+  4 Feature 新鲜采集 → 真实密钥签署 → `--require-signature` E1/E2/E3 全 VERIFIED_PASS/
+  exit 0；篡改副本（重算哈希）→ INVALID_EVIDENCE；真实基线 allow-legacy→LEGACY_APPROVED、
+  require→SIGNATURE_REQUIRED（不伪造升级）。
+- **信任边界**：A 内容完整性 ✔；B 审批流程完整性 ✔；**C 审批者/签发者身份真实性 ✔**
+  （Ed25519 + 外部信任根；签名**不**证明执行过程真实——独立采集器/可信执行环境仍属
+  DEFERRED）。遗留：无 CI/KMS 自动化撤销设施（撤销依赖用户管理信任根文件）；历史数据
+  保持 LEGACY_APPROVED（require 模式如实拒绝）。
+- **报告**：[PHASE_1_61_COMPLETION_REPORT.md](PHASE_1_61_COMPLETION_REPORT.md)、
+  审计 [PHASE_1_61_AUDIT.md](PHASE_1_61_AUDIT.md)。
+
+## Phase 1.60：Golden Trace / Holdout / Baseline 可信绑定（已实施并实测，未提交）
+
+- **缺口**：场景级 Golden Trace ≠ 逐行为 Golden Trace；Baseline 审批后改内容可逃过
+  `baseline_report()` 的结构校验（使用时不重算摘要）；Holdout 无数据集身份与生命周期。
+- **做法（全加法，零重写）**：新增 `validator/baseline_lifecycle.py`（状态机
+  DRAFT/PENDING_REVIEW/APPROVED/REJECTED/SUPERSEDED/REVOKED + 规范化 SHA256 内容摘要
+  + 审批登记表 + 使用时复核）、`validator/trace_bindings.py`（Binding Schema、精确 ID
+  匹配、SCENARIO_ONLY/BEHAVIOR_BOUND/PARTIALLY/UNBOUND、10 类绑定验证状态）、
+  `evaluation/holdout_registry.py`（CREATED/VALIDATED/SEALED/CONSUMED/INVALIDATED +
+  封存摘要 + usage_history + 污染记录）。`evidence_adapter.py` / `evidence_eval.py`
+  加法式集成：任务声明 `expected_source` 时期望取自已验证绑定，缺失绑定 →
+  INCOMPLETE、失效/不可信 Baseline → NOT_EVALUATED；未声明来源的任务保持 1.58 语义。
+- **数据**：4 条既有基线以显式迁移登记入表（内容字节未动）；6 条契约级逐行为绑定
+  （BND-001…006，expected 复制自正式契约，契约摘要为版本）；Holdout 真实数据集
+  EVAL160-HOLDOUT v2/v3（独立批次真实采集 openable_door）。4 条编排场景 Trace 保持
+  SCENARIO_ONLY 不升级。
+- **实测（2026-11-03，HEAD `dd3a0e4`）**：新增 5 套测试 97 项全过（26+28+23+15+5，
+  含真实 Godot 端到端 5 用例：正常链 VERIFIED_PASS/exit 0、篡改证据 INVALID_EVIDENCE/
+  exit 1、绑定缺失 INCOMPLETE、基线篡改 DIGEST_MISMATCH 门禁、Holdout 消费→
+  VERIFIED_PASS、重复消费被拒、缺失 NOT_EVALUATED）；1.56–1.59 回归全过
+  （52+20+24+28+51+15+比较器+1.56 套件）；validate.py 0 error / 17 warning 不变。
+  实施中发现并修复 E5 的 `last_args` 期望缺 `count` 的欠定（首次真实评估即暴露，
+  加严修复）。
+- **信任边界**：A 内容完整性 ✔；B 审批流程完整性 ✔；**C 审批者身份真实性未完成**
+  ——approver 自报、登记表同权限可改，同权限攻击者仍可同时改写内容、摘要与登记；
+  独立签名属后续阶段。
+- **未做**：扩绑定到全部 60 行为（54 个如实未绑定）、签名基础设施、Holdout 来源签名。
+- **报告**：[PHASE_1_60_COMPLETION_REPORT.md](PHASE_1_60_COMPLETION_REPORT.md)、
+  审计 [PHASE_1_60_AUDIT.md](PHASE_1_60_AUDIT.md)。
+
+## Phase 1.59：L5 缺陷注入 harness（已实施并实测，未提交）
+
+- **缺口**：Phase 1.51 的 L5 是「一次性注入脚本」，只覆盖 `health`，不可重复、不可审计、
+  也不区分「检出」「注入无效」「harness 自己跑错」；无法回答「现有链路到底能不能拒绝
+  真实实现缺陷」。
+- **做法（上层工具，不重写任何一侧）**：新增 `evaluation/mutation/`：`catalog.py`（读
+  `mutation_catalog.yaml` + 从 `template.yaml#behavior` 动态取支持集）、`operators.py`
+  （`replace_exact` / `delete_statement`，锚点唯一、空 diff、括号平衡、语句边界全部硬校验）、
+  `workspace.py`（隔离副本 + ownership 标记 + 受限清理 + 快照差异 + 路径/符号链接守卫）、
+  `harness.py`（control → mutant → recovery 三次真实执行 + effectiveness + verdict）、
+  `mutation_eval.py`（CLI + 退出码 + 批次汇总）。
+- **判定**：缺陷注入只发生在 `Features/` 的**副本**里，判定完全交给 Phase 1.56–1.58 的
+  采集器 / Validator / Evaluation；每个 mutation 用一份临时 `tasks.yaml`（**不改**
+  `evidence_tasks.yaml`）。Verdict 独立于 Evaluation 状态：`MUTANT_KILLED` /
+  `MUTANT_SURVIVED` / `INVALID_MUTANT` / `HARNESS_ERROR` / `TIMEOUT` / `NOT_RUN`。
+- **实测（真实 Godot，`--all`）**：8 条注入 → 6 `MUTANT_KILLED`（5 Feature / 6 Behavior）、
+  2 `INVALID_MUTANT`、0 `SURVIVED` / `ERROR` / `TIMEOUT` / `NOT_RUN`；每条 KILLED 都有
+  control `VERIFIED_PASS` + recovery `VERIFIED_PASS`（逐字节恢复），仓库 `Features/**`
+  哈希前后一致。
+- **两条无效注入暴露的缺口**：M04（`trigger_switch/latch_once` 的 Latching 守卫在真实执行里
+  走不到）、M06（`save_game` 的 `user://` last_slot 跨 run 残留），如实记 `INVALID_MUTANT`，
+  不计入分母，保留在 catalog 作为待补探针的凭据。
+- **未做**：扩到全部 23 Feature / 60 Behavior、重写 Validator/Runner、改 Baseline 审批、
+  签名/可信执行、自动改 Feature。
+
+## Phase 1.58：Evaluation 接入已验证证据（已实施并实测，未提交）
+
+- **缺口**：Phase 1.57 让 Validator 能拒绝无效证据，但 Evaluation（`runner.py` +
+  `scoring.py`）完全不读它——评估结论仍然只来自自带探针，「证据有效」与「行为符合需求」
+  两件事没法在一个结论里同时被证明。
+- **做法（Adapter，不重写任何一侧）**：新增 `evaluation/evidence_adapter.py`，调用
+  `check_behavior_evidence.check_evidence()` 取逐行为结论（不解析 CLI 文本、不重实现验证），
+  再用 `expected_holds()` 在**同一批观测**上重算**任务文件**的期望；新增入口
+  `evaluation/evidence_eval.py` 承载 Mode A（存量证据）/ Mode B（本次采集后同一链路复核），
+  任务定义在 `evaluation/evidence_tasks.yaml`（E1–E5：4 个正向 + 1 个 Holdout）。
+- **状态模型**：`VERIFIED_PASS` / `VERIFIED_FAIL` / `INVALID_EVIDENCE` / `INCOMPLETE` /
+  `EVALUATION_ERROR` / `NOT_EVALUATED` 分开统计，转换表写死在 `evaluation_status()`；
+  非法转换与「PASS 但缺期望」一律 `EVALUATION_ERROR`，**Validator PASS ≠ Evaluation PASS**。
+- **包级拒绝传播**：证据包摘要不符 / 过期 / 协议变更会让 Validator 总体 FAIL，但逐条
+  复算可能仍 PASS——此时按包级结论把包内每条 behavior 降为 `FAIL(bundle_rejected)`，
+  不因逐条通过而放行。
+- **Mode C 兼容**：`runner.py` 默认行为与退出码不变；新增可选 `--evidence-report`，接入后
+  旧任务标 `LEGACY_PROBE_ONLY` 且不进 `VERIFIED_*` 统计。
+- **Golden Trace**：`baselines/*.json` 实测只有场景级 `scenario_id` +
+  `approved_behavior_version`，**无 Feature/Behavior 绑定**，因此逐行为比较标
+  `NOT_APPLICABLE(binding: scenario_only)`，不伪造绑定；真实 Expected/Actual 比较走
+  `--trace` + `--baseline`（复用 `trace_baselines.compare`）。未审批 → `BASELINE_UNAPPROVED`，
+  损坏 → `INVALID_BASELINE`。
+- **实测（2026-11-03，HEAD `dd3a0e4`）**：真实采集 collect_pickup / health / save_game
+  （8 行为全 PASS）后 Mode A+B 一次跑通，E1–E3 `VERIFIED_PASS`、E4（Mode B 真实采集
+  trigger_switch）`VERIFIED_PASS`，`behavior_evaluation: VERIFIED_PASS=4`，退出码 0；
+  同批真实证据 + 更严期望 → `VERIFIED_FAIL`（`behavior_mismatch`）退出码 1；
+  真实证据包篡改 → `INVALID_EVIDENCE`（包级 `integrity mismatch`）退出码 1。
+  报告：`.ai/tmp/eval/10856-84242ddd/evidence_report.json`。
+- **测试**：新增 `evaluation/tests/test_evidence_adapter.py`（52 项）与
+  `test_evidence_eval.py`（20 项），共 72 项全过；fixture 用真实契约构造并用
+  `bundle_digest` 签名。
+- **未做**：证据来源真实性（需签名 / 可信执行环境）；逐行为 Golden Trace（仓库无绑定）；
+  Holdout 自动生成与评估的自动化串联（本轮只做隔离判定）。
+- **报告**：[PHASE_1_58_COMPLETION_REPORT.md](PHASE_1_58_COMPLETION_REPORT.md)。
+
+## Phase 1.57：证据 ↔ 执行产物交叉验证（已实施并实测，未提交）
+
+- **缺口**：Phase 1.56 的复核只读证据包。包里的 `action_executed` / `replay_count` /
+  `replay_consistent` 仍是采集侧自报——把证据包写得自洽就能通过。
+- **做法**：新增 `validator/execution_artifacts.py`
+  （`ArtifactResolver` / `parse_execution_record` / `cross_validate`），由 Validator 侧
+  从 `evidence_paths` 指向的**真实 `result.json`**（每次重放一份）重算：执行标识、
+  Feature/Behavior 归属、重放条数与序号、动作是否真的执行、产物观测是否等于证据
+  `actual[]`、重放一致性；采集侧同时记录 `artifact_digests`（每份产物的 sha256）。
+- **路径边界**：只允许 `.ai/tmp/behavior`（或 `--artifact-root` 显式授权）内的
+  `result.json`；解析前 `realpath` 再判归属，拒绝 `../`、越界绝对路径与符号链接、
+  目录、非 `result.json`、以及证据目录自身。
+- **判定**：矛盾 → `FAIL`（`artifact_*_mismatch`、`replay_count_mismatch`、
+  `observation_mismatch`、`artifact_reused`…）；缺产物 / 不可读 / 坏 JSON / 缺摘要 /
+  旧格式无 `evidence_paths` → `INCOMPLETE`。二者不会升级为 PASS。
+- **实测（2026-11-02，HEAD `dd3a0e4`）**：真实采集 23 Feature / 60 行为全 PASS；
+  Validator `PASS (pass=60, artifacts=120, cross_validated=60)`，退出码 0。
+  真实产物篡改测试 9 例：基线 0、改自报 replay_count/consistent→1、改产物内容→1、
+  换用他条产物→1、删产物→2、去摘要→2、跨批次→1；同步改写证据+产物+摘要仍 PASS
+  （已记为信任边界，不算检测成功）。
+- **测试**：新增 `validator/tests/test_evidence_cross_validation.py`（A1–A6 / B1–B15 /
+  C1–C7 / D1–D3，ALL PASS）；1.56 的 `test_behavior_evidence_stage.py` 仍全绿，
+  其中 N14/N15/N16/N19 因交叉验证发现矛盾而从 INCOMPLETE 升级为 FAIL（更严，非遗漏）。
+- **未做**：执行来源真实性（哈希只覆盖内容）；Evaluation 消费证据（Phase 1.58）。
+- **分段回归（2026-11-02，共 121 个测试文件）**：63 Python + 58 Godot 全部执行，
+  118 PASS / 3 FAIL。validator 9/9、feature_registry 4/4、evaluation 2/2、asset_registry 11/11、
+  gameplay_planner 2/2、runtime 3/3、e2e 1/1、Godot Features 31/31、Godot Tests 26/26
+  与生成型探针 1/1 均 PASS；scene_composer 28/31，3 个失败全指向上游 8 个未跟踪 Feature。
+  一次 `run_tests.py Tests` 批次在 Python 阶段被外部终止（`[37/89]`），**未计为通过**。
+- **报告**：[PHASE_1_57_COMPLETION_REPORT.md](PHASE_1_57_COMPLETION_REPORT.md)。
+
+## Phase 1.56：L4 行为证据接入 Validator（已实施并实测，未提交；1.57 在其上增加交叉验证）
+
+- **缺口**：Phase 1.40–1.54 已能产生真实 L4 行为证据（60 条契约、真实 Godot 动作 +
+  重放 2 次），但结论只打印在终端——Validator 与 Evaluation 读不到，也无法拒绝「证据
+  存在但观测不达标」。
+- **做法**：采集侧 `feature_behavior_evidence.py --evidence-out DIR` 落盘
+  `feature_behavior_evidence_bundle`（schema_version 1，`evidence_level: L4`，含每条
+  check 的 expected/observed/observed_args、重放次数与一致性、证据路径、协议版本与
+  协议文件 sha256、`integrity.payload_sha256`）；复核侧新增
+  `validator/check_behavior_evidence.py`，经 `validate.py --behavior-evidence` 显式启用
+  （默认不执行，旧阶段与退出码不变）。
+- **判定纪律**：不采信证据自报 `status`，用 `template.yaml#behavior` 与观测重算；
+  L2/L5 不得冒充 L4；`observed: null` 是「没观测到」→ `INCOMPLETE`（不是违反）；
+  未知 Feature/Behavior、协议版本或内容变化、内容被篡改 → `FAIL`；退出码
+  PASS=0 / FAIL=1 / INCOMPLETE=2 / ERROR=3。
+- **实测（2026-11-01，HEAD `dd3a0e4`）**：采集 23 Feature / 60 行为全 PASS
+  （`pass=60 mismatch=0 insufficient=0 invalid=0`）；Validator 复核
+  `PASS (bundles=1, features=23, pass=60, fail=0, incomplete=0)`、退出码 0；
+  篡改真实观测 → `FAIL integrity mismatch`；删除一条行为记录并重签 →
+  `INCOMPLETE behavior_uncovered`。
+- **测试**：新增 `validator/tests/test_behavior_evidence_stage.py`（P1–P5 / N1–N20 /
+  E1–E2 / C1–C5 / D0–D5，54 处断言，**ALL PASS**），其中 D 段在隔离副本上做真实缺陷注入
+  （基线 PASS → `set_open` 不再改变状态 → 采集器 FAIL、Validator `FAIL
+  contract_violation` → 伪造 PASS 并重签仍被拒 → 逐字节恢复后重新 PASS）。
+- **回归**：`run_tests.py validator` 11/11、`feature_registry` 4/4、`evaluation` 2/2、
+  `e2e` 1/1（29 min）全过；`scene_composer` 28/31，3 个失败全部来自他人未完成的 8 个
+  未跟踪 Feature（缺 `template.yaml` / 能力声明），已登记为上游未完成、未代为补齐；
+  `validate.py` 默认运行仍是 0 error / 17 warning 且不输出 Behavior evidence 行。
+- **未做**：Evaluation 消费证据（留 Phase 1.58）；来源真实性（哈希只证明内容完整）；
+  未新增 Feature、未改协议、未改任何 L2/L3/L5 结论。
+- **报告**：[PHASE_1_56_COMPLETION_REPORT.md](PHASE_1_56_COMPLETION_REPORT.md)。
 
 Git 事实（2026-10-20 实测）：HEAD = `1c30f94`（Phase 1.19–1.25 已提交）；Phase 1.26–1.37
 为**本地未提交增量**（含 Phase 1.30/1.31/1.33/1.36/1.37 审计报告与对应实现/测试）。

@@ -1,0 +1,150 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "F",
+  "behavior_id": "cooldown_blocks_during_window",
+  "conditions": [
+    {
+      "condition": "if d <= 0.0:",
+      "file": "Features/cooldown/cooldown.gd",
+      "function": "start",
+      "line": 39
+    },
+    {
+      "condition": "return false",
+      "file": "Features/cooldown/cooldown.gd",
+      "function": "start",
+      "line": 40
+    },
+    {
+      "condition": "if not _running:",
+      "file": "Features/cooldown/cooldown.gd",
+      "function": "start",
+      "line": 43
+    },
+    {
+      "condition": "return true",
+      "file": "Features/cooldown/cooldown.gd",
+      "function": "start",
+      "line": 46
+    }
+  ],
+  "contract_reference": "Features/cooldown/template.yaml#behavior=cooldown_blocks_during_window",
+  "contract_version": "306d90c22da0",
+  "entry_points": [
+    {
+      "file": "Features/cooldown/cooldown.gd",
+      "line": 37,
+      "name": "start",
+      "params": "override_duration := -1.0",
+      "returns": "bool",
+      "source_reference": "Features/cooldown/cooldown.gd:37#func=start",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/cooldown/cooldown.gd",
+      "function": "start",
+      "kind": "emit",
+      "line": 45,
+      "signal": "cooldown_started"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/cooldown/cooldown.gd",
+      "function": "start",
+      "kind": "early_return",
+      "line": 40,
+      "value": "false"
+    }
+  ],
+  "feature_id": "cooldown",
+  "generated_at": "2026-11-06T09:31:27Z",
+  "implementation_references": [
+    "Features/cooldown/cooldown.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "Cooldown",
+      "digest": "8e3ab875ccfbc26c80faa34307c7efae7ab678fd801c2fac350d8a21a0756ec3",
+      "digest_of": "file_bytes",
+      "path": "Features/cooldown/cooldown.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/cooldown/cooldown.gd",
+      "initial": "0.0",
+      "read_count": 0,
+      "reads": [],
+      "variable": "_peak",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/cooldown/cooldown.gd",
+          "function": "start",
+          "line": 42
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/cooldown/cooldown.gd",
+      "initial": "0.0",
+      "read_count": 0,
+      "reads": [],
+      "variable": "_remaining",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/cooldown/cooldown.gd",
+          "function": "start",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/cooldown/cooldown.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/cooldown/cooldown.gd",
+          "function": "start",
+          "line": 43
+        }
+      ],
+      "variable": "_running",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/cooldown/cooldown.gd",
+          "function": "start",
+          "line": 44
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/cooldown/cooldown.gd",
+      "initial": "1.0",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/cooldown/cooldown.gd",
+          "function": "start",
+          "line": 38
+        }
+      ],
+      "variable": "duration",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的符号 started 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

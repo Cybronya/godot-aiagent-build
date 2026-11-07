@@ -1,0 +1,153 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "transition_to_named_state",
+  "conditions": [
+    {
+      "condition": "if not _active:",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "line": 81
+    },
+    {
+      "condition": "if next_state_name == \"previous\":",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "line": 83
+    },
+    {
+      "condition": "if _history.is_empty():",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "line": 84
+    },
+    {
+      "condition": "if not _states.has(next_state_name):",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "line": 89
+    },
+    {
+      "condition": "if current_state == next_state:",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "_switch_to",
+      "line": 96
+    },
+    {
+      "condition": "if record_history and current_state != null:",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "_switch_to",
+      "line": 98
+    }
+  ],
+  "contract_reference": "Features/state_machine/template.yaml#behavior=transition_to_named_state",
+  "contract_version": "453c6c2c15b0",
+  "entry_points": [
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "line": 80,
+      "name": "transition_to",
+      "params": "next_state_name: String",
+      "returns": "void",
+      "source_reference": "Features/state_machine/state_machine.gd:80#func=transition_to",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "_switch_to",
+      "kind": "emit",
+      "line": 102,
+      "signal": "state_changed"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "kind": "guard_return",
+      "line": 82,
+      "value": ""
+    },
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "kind": "guard_return",
+      "line": 85,
+      "value": ""
+    },
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "kind": "guard_return",
+      "line": 88,
+      "value": ""
+    },
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "transition_to",
+      "kind": "guard_return",
+      "line": 91,
+      "value": ""
+    },
+    {
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "_switch_to",
+      "kind": "guard_return",
+      "line": 97,
+      "value": ""
+    },
+    {
+      "condition": "if record_history and current_state != null:",
+      "file": "Features/state_machine/state_machine.gd",
+      "function": "_switch_to",
+      "kind": "null_guard",
+      "line": 98
+    }
+  ],
+  "feature_id": "state_machine",
+  "generated_at": "2026-11-06T09:31:43Z",
+  "implementation_references": [
+    "Features/state_machine/state_machine.gd",
+    "Features/state_machine/state_node.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "StateMachine",
+      "digest": "d7902f5473ca724f14f2ca106a1fb8a0aaf05527f1359d51db1edab8edeeb930",
+      "digest_of": "file_bytes",
+      "path": "Features/state_machine/state_machine.gd"
+    },
+    {
+      "class_name": "StateNode",
+      "digest": "0d5b77be7af731cd3ba760fda9e66fb1e241dc742aa17966b349a80438d66712",
+      "digest_of": "file_bytes",
+      "path": "Features/state_machine/state_node.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/state_machine/state_machine.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/state_machine/state_machine.gd",
+          "function": "transition_to",
+          "line": 81
+        }
+      ],
+      "variable": "_active",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的符号 current_state_name 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

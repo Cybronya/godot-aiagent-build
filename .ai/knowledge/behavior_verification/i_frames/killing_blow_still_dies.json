@@ -1,0 +1,123 @@
+{
+  "behavior_category": "F",
+  "behavior_id": "killing_blow_still_dies",
+  "change_reason": "Phase 1.64 batch B1 verification",
+  "confidence": "PARTIAL",
+  "contract_version": "09fff396a69c",
+  "dependency_references": [
+    "health",
+    "simulation"
+  ],
+  "evidence_references": [
+    {
+      "attestation": "ATTESTATION_VERIFIED",
+      "bundle": ".ai/tmp/p164/batch1/evidence/11964-c659bb45-bundle.json",
+      "digest": "d55bfd4102590ab56a41545f348a361df58396e36e4dd0a7e621171900e0d132",
+      "run_id": "11964-88067554-killing_blow_still_dies",
+      "signature": "SIGNATURE_VERIFIED"
+    }
+  ],
+  "expected_transitions": [
+    {
+      "check": "health.current",
+      "equals": 0,
+      "target": "Host/Health"
+    },
+    {
+      "check": "health.is_dead",
+      "equals": true,
+      "target": "Host/Health"
+    },
+    {
+      "check": "signal",
+      "count": 1,
+      "entry": "health.died",
+      "target": "Host/Health"
+    }
+  ],
+  "facts": [
+    {
+      "claim": "前置条件：{\"check\": \"health.current\", \"equals\": 10, \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=killing_blow_still_dies.preconditions",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"health.current\", \"equals\": 0, \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=killing_blow_still_dies.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"health.is_dead\", \"equals\": true, \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=killing_blow_still_dies.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"signal\", \"count\": 1, \"entry\": \"health.died\", \"target\": \"Host/Health\"}",
+      "source_ref": "Features/i_frames/template.yaml#behavior=killing_blow_still_dies.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "已审批 Binding 的 expected 与契约一致（binding_id=BND-I_FRAMES-KILLING_BLOW_STILL）",
+      "source_ref": "binding:BND-I_FRAMES-KILLING_BLOW_STILL",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "真实执行证据状态 EVIDENCE_VERIFIED（bundle=.ai/tmp/p164/batch1/evidence/11964-c659bb45-bundle.json）",
+      "source_ref": ".ai/tmp/p164/batch1/evidence/11964-c659bb45-bundle.json",
+      "source_type": "TEST_OBSERVATION"
+    },
+    {
+      "claim": "Evaluation 结论 VERIFIED_PASS（report=.ai/tmp/p164/combined/eval/batch1/evidence_report.json, task=P164-I_FRAMES-KILLING_BLOW_STILL_DIES）",
+      "source_ref": ".ai/tmp/p164/combined/eval/batch1/evidence_report.json",
+      "source_type": "TEST_OBSERVATION"
+    },
+    {
+      "claim": "分类 F（次类 A）；依据：contract: 无敌不豁免致死判定（is_dead=true）",
+      "source_ref": ".ai/context/phase_1_64_behavior_taxonomy.json",
+      "source_type": "INFERENCE"
+    }
+  ],
+  "failure_modes": [],
+  "feature_id": "i_frames",
+  "implementation_references": [
+    "Features/i_frames/i_frames.gd"
+  ],
+  "known_edge_cases": [],
+  "last_verified_run_id": "11964-88067554-killing_blow_still_dies",
+  "mutation_references": [],
+  "observed_transitions": {
+    "attestation_digest": "0bbaa57ccafd5e97f9f6130a2c7d3b40d776559e4a0dacee30f8ca7682a55a9f",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_digest": "d55bfd4102590ab56a41545f348a361df58396e36e4dd0a7e621171900e0d132",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "run_id": "11964-88067554-killing_blow_still_dies"
+  },
+  "preconditions": [
+    {
+      "check": "health.current",
+      "equals": 10,
+      "target": "Host/Health"
+    }
+  ],
+  "schema": "behavior_verification_knowledge",
+  "schema_version": 1,
+  "secondary_categories": [
+    "A"
+  ],
+  "test_scenarios": {
+    "behavior_contract": "Features/i_frames/template.yaml#behavior=killing_blow_still_dies",
+    "existing_tests": [
+      "Features/i_frames/test_i_frames.gd"
+    ],
+    "window_frames": 5
+  },
+  "triggering_conditions": [
+    "health.take_damage",
+    "simulation.advance_frames"
+  ],
+  "unresolved_questions": [
+    "该 Behavior 尚无 L5 mutation 证据，验证体系对其缺陷的分辨力未证明。",
+    "无覆盖该 Behavior 的 Holdout 数据集。"
+  ],
+  "updated_at": "2026-11-04T17:13:55Z"
+}

@@ -1,0 +1,237 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "C",
+  "behavior_id": "save_slot_persists_world_state",
+  "conditions": [
+    {
+      "condition": "if not _is_valid_slot_name(slot_name):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "line": 43
+    },
+    {
+      "condition": "return false",
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "line": 45
+    },
+    {
+      "condition": "if not data.write_to_file(slot_path):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "line": 48
+    },
+    {
+      "condition": "return false",
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "line": 49
+    },
+    {
+      "condition": "return true",
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "line": 53
+    },
+    {
+      "condition": "if slot_name.is_empty():",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "line": 191
+    },
+    {
+      "condition": "return false",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "line": 192
+    },
+    {
+      "condition": "if slot_name.contains(ch):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "line": 194
+    },
+    {
+      "condition": "return false",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "line": 195
+    },
+    {
+      "condition": "return true",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "line": 196
+    },
+    {
+      "condition": "if current_scene != null:",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "line": 67
+    },
+    {
+      "condition": "if player != null and player.has_method(\"get_save_data\"):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "line": 70
+    },
+    {
+      "condition": "if not node.has_method(\"get_save_data\"):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "line": 74
+    },
+    {
+      "condition": "if not node_data.has(SaveData.INSTANCE_UID_KEY):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "line": 77
+    },
+    {
+      "condition": "return data",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "line": 81
+    },
+    {
+      "condition": "if file != null:",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_record_last_slot",
+      "line": 186
+    },
+    {
+      "condition": "if verbose:",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_log",
+      "line": 200
+    }
+  ],
+  "contract_reference": "Features/save_game/template.yaml#behavior=save_slot_persists_world_state",
+  "contract_version": "d85d91c73250",
+  "entry_points": [
+    {
+      "file": "Features/save_game/save_game.gd",
+      "line": 42,
+      "name": "save_to_slot",
+      "params": "slot_name: String",
+      "returns": "bool",
+      "source_reference": "Features/save_game/save_game.gd:42#func=save_to_slot",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "kind": "emit",
+      "line": 52,
+      "signal": "game_saved"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "kind": "early_return",
+      "line": 45,
+      "value": "false"
+    },
+    {
+      "file": "Features/save_game/save_game.gd",
+      "function": "save_to_slot",
+      "kind": "early_return",
+      "line": 49,
+      "value": "false"
+    },
+    {
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "kind": "early_return",
+      "line": 192,
+      "value": "false"
+    },
+    {
+      "file": "Features/save_game/save_game.gd",
+      "function": "_is_valid_slot_name",
+      "kind": "early_return",
+      "line": 195,
+      "value": "false"
+    },
+    {
+      "condition": "if current_scene != null:",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "kind": "null_guard",
+      "line": 67
+    },
+    {
+      "condition": "if player != null and player.has_method(\"get_save_data\"):",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_collect_save_data",
+      "kind": "null_guard",
+      "line": 70
+    },
+    {
+      "condition": "if file != null:",
+      "file": "Features/save_game/save_game.gd",
+      "function": "_record_last_slot",
+      "kind": "null_guard",
+      "line": 186
+    }
+  ],
+  "feature_id": "save_game",
+  "generated_at": "2026-11-06T10:02:18Z",
+  "implementation_references": [
+    "Features/save_game/save_data.gd",
+    "Features/save_game/save_game.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "SaveData",
+      "digest": "17fdebbbb8c0bee5e438ac7155920e8ff3367eb7f1e79406cf961f2bd509a03d",
+      "digest_of": "file_bytes",
+      "path": "Features/save_game/save_data.gd"
+    },
+    {
+      "class_name": "SaveGame",
+      "digest": "9aaa19de77b56fdb00d6bebc8bd448f559444d6eb8963832d1858ecd152fceb5",
+      "digest_of": "file_bytes",
+      "path": "Features/save_game/save_game.gd"
+    }
+  ],
+  "side_effects": [
+    {
+      "file": "Features/save_game/save_game.gd",
+      "kind": "file_access",
+      "line": 185,
+      "mode": "WRITE",
+      "path": "LAST_SLOT_FILE"
+    }
+  ],
+  "state_variables": [
+    {
+      "declared_in": "Features/save_game/save_game.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/save_game/save_game.gd",
+          "function": "_log",
+          "line": 200
+        }
+      ],
+      "variable": "verbose",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约方法 save_slot 在源码中无同名函数，按 token 唯一匹配解析为 save_to_slot（契约/源码命名不一致，需评审）",
+    "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 last_slot 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

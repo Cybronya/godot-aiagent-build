@@ -1,0 +1,33 @@
+{
+  "analysis_status": "SOURCE_ENTRY_AMBIGUOUS",
+  "behavior_category": "F",
+  "behavior_id": "condition_fallback_withdraws_output",
+  "conditions": [],
+  "contract_reference": "Features/condition_gate/template.yaml#behavior=condition_fallback_withdraws_output",
+  "contract_version": "0de0e3512917",
+  "entry_points": [],
+  "events": [],
+  "failure_paths": [],
+  "feature_id": "condition_gate",
+  "generated_at": "2026-11-06T09:31:26Z",
+  "implementation_references": [
+    "Features/condition_gate/condition_gate.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "ConditionGate",
+      "digest": "a72ca024507c46b56c2681817d4f95d95ca1057297b28f065a94b52c4a9763ef",
+      "digest_of": "file_bytes",
+      "path": "Features/condition_gate/condition_gate.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "没有任何可确认入口：契约观测的是组合场景（触发源/门/位置等外部符号），本 Feature 源码不含对应方法，需要跨 Feature 或场景级分析"
+  ]
+}

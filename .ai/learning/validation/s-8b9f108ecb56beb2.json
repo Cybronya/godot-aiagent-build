@@ -1,0 +1,167 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "save_game/save_slot_persists_world_state",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=d85d91c73250 current=d85d91c73250",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/save_game/SaveGameBehaviorFixture.tscn contract=res://Features/save_game/SaveGameBehaviorFixture.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-d617871a3a485ce5",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-d617871a3a485ce5",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-d617871a3a485ce5",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "4 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-d617871a3a485ce5",
+      "detail": "expected=9aaa19de77b5",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd:43 (file 201 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-d617871a3a485ce5",
+      "detail": "expected=9aaa19de77b5",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd:45 (file 201 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-d617871a3a485ce5",
+      "detail": "expected=9aaa19de77b5",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd:48 (file 201 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-d617871a3a485ce5",
+      "detail": "expected=9aaa19de77b5",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-d617871a3a485ce5",
+      "detail": "Features/save_game/save_game.gd:49 (file 201 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/save_game/SaveGameBehaviorFixture.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "2 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "3 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-8b9f108ecb56beb2",
+  "status": "VALID"
+}

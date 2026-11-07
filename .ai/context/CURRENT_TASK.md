@@ -5,6 +5,141 @@
 
 ## 当前状态
 
+Phase 1.65（Behavior Learning & Knowledge Expansion）**已实施并实测**（2026-11-06，HEAD `dd3a0e4`，未提交）：
+首次建立学习链——源码分析（60/60，57 条找到入口，5 条入口歧义如实标记）、依赖图（118 条边，97 源码观察
++ 21 契约推导，2 个 SCC：Health 枢纽 17 节点 + 存取对）、按类型的 Knowledge Store（45 条：40 APPROVED +
+5 SUPERSEDED，带来源门禁/审批/冲突/版本/撤销）、Learning Planner（277 任务，公式逐项可复算）与 5 个
+Behavior 的真实 Pilot（3 类；第二轮计划 287→277，ANALYZE_SOURCE 65→60，5/5 任务集合变化，
+`driven_by_knowledge` 由代码读库生成）。新增 68 项测试 + 77 项回归全过。**未做**：其余 55 条 Behavior
+的知识、5 条入口歧义的解决、候选场景实际执行（本阶段无新 Godot Run）、全量入口重跑。
+报告：`PHASE_1_65_COMPLETION.md`。
+
+Phase 1.64（Systematic L5 Behavioral Coverage Expansion）**已实施并实测**（2026-11-04，HEAD `dd3a0e4`，未提交）：
+在 1.63 的八维体系上做了三件事——(1) 修好 1.62 两个 E2E Runner 的项目根/Godot 解析缺陷（新增
+`execution/env_paths.py`，无 `GODOT_BIN` 也能跑，缺失时返回明确环境错误）；(2) 对 23 Feature / 60 Behavior
+做分类与风险排序（`PHASE_1_64_BEHAVIOR_INVENTORY.md`，依据契约+源码，不是按名字）；(3) 完成第一批真实验证
+（`save_game`/`i_frames`/`openable_door`，6 条 Behavior）：真实 Godot 采集 + Evidence + Ed25519 签名 +
+Manifest + Attestation + 逐 Behavior Evaluation 全 PASS，新增 21 项链路检查 0 失败。矩阵同口径对比：
+Evidence/Signature/Attestation/Evaluation 8 → **12**，Mutation Killed（Behavior）9 → **10**，
+Fully Covered 0 → **1**（`openable_door/open`）。新增 M11（无敌窗口不归还门）、M12（门幂等守卫反转）
+两条真实 KILLED（control/recovery 均 PASS、逐字节恢复、仓库未变）；1.59/1.63 的 10 条全部复现。
+新增 Knowledge 体系（`.ai/knowledge/behavior_verification/`，7 条记录、事实均带来源类型、历史不覆盖、
+含 M04/M06 失败根因），新增测试 36 项全过。全量入口 `run_tests.py` 跑完 138 个文件：
+**133 PASS / 3 FAIL / 2 INCOMPLETE**（3 个失败来自 8 个未跟踪、缺 `template.yaml` 的 Feature 脚手架；
+2 个 INCOMPLETE 为生成链路超时与 1.60 遗留的 `--evidence-dir` 参数要求，均与本阶段改动无关且未修）。
+**未做**：B2–B6 批次、1.63 矩阵评估归因缺陷。报告：`PHASE_1_64_COMPLETION.md`。
+
+Phase 1.63（Behavior Binding Expansion & Coverage Reconciliation）**已完成并实测**
+（2026-11-04，HEAD `dd3a0e4`，未提交）：在 1.60–1.62 之上完成「每一个正式支持的
+Behavior 被验证到什么程度」的统一对账。新增 `validator/binding_candidates.py`
+（候选生成——expected 只来自契约、缺失即 BLOCKED_MISSING_EXPECTED；显式审批
+DRAFT→PENDING_REVIEW→APPROVED，登记表 + Ed25519 签名 scope=approve_binding；
+晋升时旧绑定 SUPERSEDED）与 `evaluation/coverage_matrix.py`（八维独立覆盖矩阵，
+动态分母，--strict）。绑定 6→60 全覆盖（动态支持集 23F/60B）。修复 M04（探针
+满足即停 + 契约缺尾部帧推进 → latch_once 契约补 advance_frames，BND-005 走重审）
+与 M06（user:// 残留 → 采集器 --user-dir-tag 隔离）两个历史 INVALID：全量 mutation
+**10/10 KILLED / 0 INVALID**（新增 M09/M10）。真实 E2E（run_p163_e2e.py，持久化
+产物 + 真实信任根）3 Feature 24 checks 全过；P163-HOLDOUT 签名封存。矩阵快照：
+Evidence/Signature/Attestation 8/60、Evaluation 5/60、Holdout 1/60、Mutation 9/60、
+Fully Covered 0/60（逐行给出缺口与下一步）。新增测试 41 项 + 回归 519 项全过；
+validate.py 0e/17w。**信任边界**：审批记录密码学完整性 ✔；审批者人类身份真实性
+仍是流程审计（同权限边界，LOCAL_ISOLATED ≠ EXTERNAL_TRUSTED_RUNNER）。
+报告：[PHASE_1_63_COMPLETION.md](PHASE_1_63_COMPLETION.md)、
+覆盖：[PHASE_1_63_COVERAGE_REPORT.md](PHASE_1_63_COVERAGE_REPORT.md)、
+攻击：[PHASE_1_63_ATTACK_TESTS.md](PHASE_1_63_ATTACK_TESTS.md)、
+审计：[PHASE_1_63_AUDIT.md](PHASE_1_63_AUDIT.md)。
+
+Phase 1.61（Independent Trust Root & Provenance）**已完成并实测**
+（2026-11-04，HEAD `dd3a0e4`，未提交）：在 Phase 1.60 的 Evidence / Binding / Baseline /
+Holdout 信任体系上建立独立信任根与密码学来源验证。新增 `validator/provenance/`
+（Ed25519 / PyNaCl，detached 规范化封套签名，对象类型/ID/版本/摘要/scope 全在签名消息内；
+独立信任根为**工作区之外**的用户级文件 `~/.provenance_trust/<slug>/`，本机已真实建立；
+工作区内信任根路径一律拒收）。接入：Baseline `use_baseline_trusted`（信任等级
+LEGACY_APPROVED / CRYPTOGRAPHICALLY_VERIFIED / SIGNATURE_REQUIRED / SIGNATURE_INVALID，
+历史 4 条基线保持 Legacy 不伪造不升级）、Evidence sidecar `<bundle>.sig.json` +
+`--require-signature / --allow-legacy` 追加门禁（封堵重算 integrity 哈希逃逸）、
+Holdout `seal_dataset_signed` + 消费前验证（细分 holdout_signature_*，一次性消费语义
+不变）。密钥生命周期 ACTIVE/RETIRED/REVOKED + 轮换/撤销。新增测试 142 项全过
+（含 A01–A18 攻击模拟全拒 + 私钥泄露检查 K1–K6），回归 485 项全过，validate.py
+0 error / 17 warning 不变；真实 Godot 端到端：新鲜采集 → 真实密钥签署 →
+`--require-signature` 全 VERIFIED_PASS，篡改即 INVALID_EVIDENCE。
+**边界**：签名证明"谁签署了什么摘要"，不证明执行过程真实；无 CI/KMS，撤销依赖用户
+管理信任根文件。报告：[PHASE_1_61_COMPLETION_REPORT.md](PHASE_1_61_COMPLETION_REPORT.md)、
+审计：[PHASE_1_61_AUDIT.md](PHASE_1_61_AUDIT.md)。
+
+Phase 1.60（Golden Trace, Holdout & Baseline Trusted Binding）**已完成并实测**
+（2026-11-03，HEAD `dd3a0e4`，未提交）：建立 Golden Trace / Baseline / Holdout 与
+Feature / Behavior Contract 的可审计绑定。新增 `validator/baseline_lifecycle.py`
+（Baseline 状态机 + 规范化 SHA256 内容摘要 + 审批登记表 + **使用时复核**——审批后改
+内容即 DIGEST_MISMATCH 拒绝）、`validator/trace_bindings.py`（逐行为 Binding Schema、
+精确 ID 匹配、SCENARIO_ONLY 不自动升级、10 类验证状态）、
+`evaluation/holdout_registry.py`（Holdout 数据集生命周期 + 封存摘要 + 使用记录 +
+污染/重复消费拒绝）。Evaluation 集成：任务声明 `expected_source` 走绑定门禁
+（缺失 → INCOMPLETE、失效 Baseline → NOT_EVALUATED），未声明任务保持 1.58 语义。
+4 条既有基线显式迁移登记（内容未动）；6 条契约级逐行为绑定（60 行为中 54 个如实
+未绑定）；Holdout 真实数据集（独立批次采集 openable_door）完整生命周期端到端实测
+（封存 → 消费 VERIFIED_PASS → 重复消费被拒）。新增测试 97 项全过，1.56–1.59 回归
+全过，validate.py 0 error / 17 warning 不变。
+**信任边界**：内容完整性与审批流程完整性已交付；审批者身份真实性由 Phase 1.61 交付。
+报告：[PHASE_1_60_COMPLETION_REPORT.md](PHASE_1_60_COMPLETION_REPORT.md)、
+审计：[PHASE_1_60_AUDIT.md](PHASE_1_60_AUDIT.md)。
+
+Phase 1.59（L5 Behavioral Verification Expansion）**已完成并实测**（2026-11-03，HEAD `dd3a0e4`，未提交）：
+L5 从「一次性注入脚本」升级为可重复、可审计的 mutation harness（`.ai/tools/evaluation/mutation/`）。
+每条 mutation 在 `Features/` 的**隔离副本**里注入一处真实缺陷，跑真实采集 → 现有 Validator +
+Evaluation 判定 → 逐字节恢复 → 再跑一次；Verdict（`MUTANT_KILLED` / `MUTANT_SURVIVED` /
+`INVALID_MUTANT` / `HARNESS_ERROR` / `TIMEOUT` / `NOT_RUN`）与 Evaluation 状态分开保留。
+实测 `--all`：8 条注入 → 6 KILLED（5 Feature / 6 Behavior）、2 INVALID_MUTANT、0 SURVIVED /
+0 HARNESS_ERROR / 0 TIMEOUT / 0 NOT_RUN，仓库 `Features/**` 哈希前后一致。
+两条 INVALID_MUTANT（M04 守卫在真实执行里走不到、M06 `user://` 残留）如实登记，**不计入**
+检出分母。新增测试 66 项（51 单元/安全 + 15 真实端到端）全过，既有 evaluation 四套回归 124 项全过。
+**未做**：扩到全部 23 Feature / 60 Behavior、重写 Validator/Runner、改 Baseline 审批、签名/可信执行。
+报告：[PHASE_1_59_COMPLETION_REPORT.md](PHASE_1_59_COMPLETION_REPORT.md)。
+
+Phase 1.58（Evaluation Evidence Integration）**已完成并实测**（2026-11-03，HEAD `dd3a0e4`，未提交）：
+Evaluation 不再只靠自带探针。新入口 `.ai/tools/evaluation/evidence_eval.py` 读 Validator
+独立验证过的证据（Mode A）、或先真实采集再走同一链路（Mode B），用**任务文件**的期望在同一批
+观测上重算，状态分为 `VERIFIED_PASS` / `VERIFIED_FAIL` / `INVALID_EVIDENCE` / `INCOMPLETE` /
+`EVALUATION_ERROR` / `NOT_EVALUATED`，**Validator PASS ≠ Evaluation PASS**；证据包被篡改/过期/
+协议变更等**包级**拒绝会传到包内每一条行为。旧入口 `runner.py` 默认行为与退出码不变，
+仅在显式 `--evidence-report` 时把旧任务标为 `LEGACY_PROBE_ONLY` 且不计入 `VERIFIED_*`。
+实测（真实 Godot 采集 3 Feature / 8 行为）：E1–E4 全 `VERIFIED_PASS`、退出码 0；更严期望 →
+`VERIFIED_FAIL`；篡改证据 → `INVALID_EVIDENCE`。新增 72 项测试全过。
+Golden Trace 的 4 个基线只有场景级绑定（无 Feature/Behavior），逐行为比较如实标 `NOT_APPLICABLE`。
+**未做**：证据来源真实性、逐行为 trace、Holdout 自动串联。
+报告：[PHASE_1_58_COMPLETION_REPORT.md](PHASE_1_58_COMPLETION_REPORT.md)。
+
+Phase 1.57（Evidence Cross-Validation）**已完成并实测**（2026-11-02，HEAD `dd3a0e4`，未提交）：
+Validator 不再只读证据包，而是从 `evidence_paths` 指向的真实 `result.json`
+（`validator/execution_artifacts.py`）重算执行标识、重放条数与序号、动作真实执行与
+重放一致性；路径限制在授权根目录内（`realpath` + 包含判定，拒绝穿越/越界符号链接/
+非 `result.json`/证据目录自身）。实测：真实采集 23 Feature / 60 行为全 PASS，
+Validator `PASS (pass=60, artifacts=120, cross_validated=60)` 退出码 0；真实产物篡改 9 例
+符合预期（7 例被检出、1 例缺失→INCOMPLETE、1 例同步改写=信任边界未检出）。
+新增测试 `test_evidence_cross_validation.py`；1.56 套件仍全绿。
+分段串行回归：**121 个测试文件（63 Python + 58 Godot）全部执行**，118 PASS / 3 FAIL
+（3 项均为 8 个未跟踪上游 Feature 缺 `template.yaml`/能力声明，UPSTREAM_INCOMPLETE）；
+`run_tests.py Tests` 那次全量批次在 Python 阶段被外部终止，**未计为通过**（仅取其中 26 个
+`Tests/*.gd` 的逐项 PASS），如实记录在报告 §16.2。
+**未做**：来源真实性（需签名/可信执行环境）、Evaluation 消费证据（Phase 1.58）。
+报告：[PHASE_1_57_COMPLETION_REPORT.md](PHASE_1_57_COMPLETION_REPORT.md)。
+
+Phase 1.56（Evidence Integration）**已完成并实测**（2026-11-01，HEAD `dd3a0e4`，未提交）：
+L4 行为证据从「只打印」变为「可落盘 + 可复核」——采集侧
+`feature_behavior_evidence.py --evidence-out DIR` 写出带协议版本/内容摘要与
+`integrity.payload_sha256` 的证据包；复核侧新增
+`validator/check_behavior_evidence.py`（`validate.py --behavior-evidence`，默认不执行），
+用 `template.yaml#behavior` 重算观测而不采信自报 `status`。实测：采集 23 Feature / 60 行为
+全 PASS，Validator `PASS (features=23, pass=60)` 且退出码 0；篡改真实观测与删除行为记录
+分别被 `FAIL` 与 `INCOMPLETE` 拦住。新增测试 `test_behavior_evidence_stage.py` 全绿
+（含真实 Godot 缺陷注入）；分段回归 validator 11/11、feature_registry 4/4、evaluation 2/2、
+e2e 1/1（29 min）通过；scene_composer 段 28/31，3 个失败全部指向他人未完成的 8 个
+未跟踪 Feature（缺 `template.yaml` / 能力声明），已登记为上游未完成、未代为补齐。
+**未做**：Evaluation 消费证据（Phase 1.58）、来源可信性（哈希只证明内容完整）。
+报告：[PHASE_1_56_COMPLETION_REPORT.md](PHASE_1_56_COMPLETION_REPORT.md)。
+
+> 以下为 Phase 1.38 及更早阶段的状态记录，保留原文不修改。
+
 Phase 1.38（Feature Instance Evidence Reconciliation）**已完成并实测**：新增
 `.ai/tools/scene_composer/instance_evidence.py`，用真实入口 `.tscn` 核对 `template.yaml#instance`
 （区分声明 / 静态场景 / 运行时 三级证据与 PASS/MISMATCH/INSUFFICIENT/INVALID/NOT_DECLARED），
@@ -354,6 +489,18 @@ Phase 1.25 的实际状态更正：其代码**已随 `5e47bfd` 提交**，此前
    其断言全过）；Godot 八个编排专项全部 exit 0（行为兼容）；unified 36、cross_layer 66、
    composite 17、level_planner 134；
    validate.py 0 error / 17 warning（基线不变）。
+
+## Phase 1.66 状态（Knowledge-Driven Test Generation & Execution）
+
+已完成：只读审计 → 场景生成（5 个 Behavior、4 规则族）→ 7 状态验证 → Execution Planner →
+5 次真实 Godot 执行（Evidence/Attestation/Evaluation 四层齐全）→ 9 分类结果分析 →
+15 条知识回流（已本地审批）→ 第二轮计划 277→276 → 19 个 Mutation 候选与 1 个
+`MUTANT_KILLED` → 新增 89 项测试 + 1.65 回归 69 项 + 1.56–1.64 回归 15 文件。
+详见 `.ai/context/PHASE_1_66_COMPLETION.md`。
+
+未完成/限制：官方契约对扩展场景 FAIL 2 / INCOMPLETE 2（设计差，未改契约）；
+`MUTATION_OBSERVATION` 仍待人工审核；其余 52 个 Behavior 未覆盖；符号链接越界、
+真实超时、外部可信 Runner 未测；1.64 三项技术债仍未处理。
 
 ## 下一阶段方向
 

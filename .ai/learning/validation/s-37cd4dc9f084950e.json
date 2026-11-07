@@ -1,0 +1,147 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "trigger_switch/latch_once",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=4076f02be9eb current=4076f02be9eb",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/trigger_switch/trigger_switch.tscn contract=res://Features/trigger_switch/trigger_switch.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-f26d4a87ed04a064",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-f26d4a87ed04a064",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-f26d4a87ed04a064",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "3 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-f26d4a87ed04a064",
+      "detail": "expected=6efb06505437",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd:37 (file 50 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-f26d4a87ed04a064",
+      "detail": "expected=6efb06505437",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd:39 (file 50 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-f26d4a87ed04a064",
+      "detail": "expected=6efb06505437",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-f26d4a87ed04a064",
+      "detail": "Features/trigger_switch/trigger_switch.gd:41 (file 50 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/trigger_switch/trigger_switch.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "4 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "2 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-37cd4dc9f084950e",
+  "status": "VALID"
+}

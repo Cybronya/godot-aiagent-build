@@ -1,0 +1,62 @@
+{
+  "behavior_id": "save_slot_persists_world_state",
+  "conflict_id": "c-a851277c0b940fd5",
+  "detected_at": "2026-11-06T09:41:59Z",
+  "feature_id": "save_game",
+  "key": "persistence",
+  "knowledge_type": "SOURCE_OBSERVATION",
+  "note": "双方都保留；不自动选择最新记录作为正确答案",
+  "parties": [
+    {
+      "content": {
+        "file_access": [
+          {
+            "file": "Features/save_game/save_game.gd",
+            "kind": "file_access",
+            "line": 185,
+            "path": "LAST_SLOT_FILE"
+          }
+        ],
+        "static_only": true
+      },
+      "content_digest": "34b5c6c6d7e2589ca0f1910c3c7bf64a64a21989f4532629b5191cbbe18bb48b",
+      "knowledge_id": "k-a7025994fddf25b1",
+      "source_references": [
+        {
+          "kind": "SOURCE_REFERENCE",
+          "reference": "Features/save_game/save_game.gd:185"
+        }
+      ],
+      "verification_status": "APPROVED"
+    },
+    {
+      "content": {
+        "file_access": [
+          {
+            "file": "Features/save_game/save_game.gd",
+            "kind": "file_access",
+            "line": 185,
+            "mode": "WRITE",
+            "path": "LAST_SLOT_FILE"
+          }
+        ],
+        "static_only": true
+      },
+      "content_digest": "7e8c1a04325b4d1a0957c343701f7ea2bfc097cd9424c84b9c8a88852120cd03",
+      "knowledge_id": "k-507b298744ce8643",
+      "source_references": [
+        {
+          "kind": "SOURCE_REFERENCE",
+          "reference": "Features/save_game/save_game.gd:185"
+        }
+      ],
+      "verification_status": "PENDING_REVIEW"
+    }
+  ],
+  "resolution": "同一来源在本阶段内重新生成（源码解析修正引入了 static func），审批新记录，旧记录保留为 SUPERSEDED",
+  "resolved_at": "2026-11-06T09:43:33Z",
+  "resolved_by": "phase_1_65_local_review",
+  "schema": "behavior_learning_conflict",
+  "schema_version": 1,
+  "status": "RESOLVED"
+}

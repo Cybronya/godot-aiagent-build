@@ -1,0 +1,248 @@
+{
+  "behavior_category": "F",
+  "behavior_id": "latch_once",
+  "change_reason": "Phase 1.64 batch B1 verification",
+  "confidence": "PARTIAL",
+  "contract_version": "4076f02be9eb",
+  "dependency_references": [
+    "physics",
+    "simulation"
+  ],
+  "evidence_references": [],
+  "expected_transitions": [
+    {
+      "check": "trigger.is_triggered",
+      "equals": true,
+      "target": "."
+    },
+    {
+      "check": "signal",
+      "count": 1,
+      "entry": "trigger.activated",
+      "last_args": [
+        true
+      ],
+      "target": "."
+    }
+  ],
+  "facts": [
+    {
+      "claim": "前置条件：{\"check\": \"trigger.is_triggered\", \"equals\": false, \"target\": \".\"}",
+      "source_ref": "Features/trigger_switch/template.yaml#behavior=latch_once.preconditions",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "前置条件：{\"check\": \"signal\", \"count\": 0, \"entry\": \"trigger.activated\", \"target\": \".\"}",
+      "source_ref": "Features/trigger_switch/template.yaml#behavior=latch_once.preconditions",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"trigger.is_triggered\", \"equals\": true, \"target\": \".\"}",
+      "source_ref": "Features/trigger_switch/template.yaml#behavior=latch_once.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "期望观测：{\"check\": \"signal\", \"count\": 1, \"entry\": \"trigger.activated\", \"last_args\": [true], \"target\": \".\"}",
+      "source_ref": "Features/trigger_switch/template.yaml#behavior=latch_once.expected",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "已审批 Binding 的 expected 与契约一致（binding_id=BND-TRIGGER_SW-LATCH_ONCE）",
+      "source_ref": "binding:BND-TRIGGER_SW-LATCH_ONCE",
+      "source_type": "CONTRACT_FACT"
+    },
+    {
+      "claim": "Mutation M04-trigger-switch-latch-removed 判定 MUTANT_KILLED（effectiveness={\"baseline_holds\": true, \"baseline_predicate\": {\"count\": 1}, \"check\": \"signal\", \"control_observation\": {\"check\": \"signal\", \"entry\": \"trigger.activated\", \"expected\": 1, \"first_observed_frame\": 0, \"observed\": 1, \"observed_args\": [true], \"status\": \"PASS\", \"target\": \".\"}, \"control_record\": {\"reason\": \"ok\", \"status\": \"PASS\"}, \"effective\": true, \"entry\": \"trigger.activated\", \"mutant_holds\": true, \"mutant_observation\": {\"check\": \"signal\", \"entry\": \"trigger.activated\", \"expected\": 1, \"first_observed_frame\": -1, \"observed\": 2, \"observed_args\": [true], \"status\": \"SIGNAL_MISMATCH\", \"target\": \".\"}, \"mutant_predicate\": {\"count\": 2}, \"mutant_record\": {\"reason\": \"signal_mismatch\", \"status\": \"MISMATCH\"}, \"reason\": \"control and mutant observations differ as declared\", \"target\": \".\"}）",
+      "source_ref": ".ai/tmp/p164/mutation/reports/M04-trigger-switch-latch-removed.json",
+      "source_type": "MUTATION_OBSERVATION"
+    },
+    {
+      "claim": "Mutation M08-trigger-switch-state-written-wrong 判定 MUTANT_KILLED（effectiveness={\"baseline_holds\": true, \"baseline_predicate\": {\"equals\": true}, \"check\": \"trigger.is_triggered\", \"control_observation\": {\"check\": \"trigger.is_triggered\", \"entry\": \"\", \"expected\": true, \"first_observed_frame\": 0, \"observed\": true, \"observed_args\": [], \"status\": \"PASS\", \"target\": \".\"}, \"control_record\": {\"reason\": \"ok\", \"status\": \"PASS\"}, \"effective\": true, \"entry\": \"\", \"mutant_holds\": true, \"mutant_observation\": {\"check\": \"trigger.is_triggered\", \"entry\": \"\", \"expected\": true, \"first_observed_frame\": -1, \"observed\": false, \"observed_args\": [], \"status\": \"STATE_MISMATCH\", \"target\": \".\"}, \"mutant_predicate\": {\"equals\": false}, \"mutant_record\": {\"reason\": \"state_mismatch\", \"status\": \"MISMATCH\"}, \"reason\": \"control and mutant observations differ as declared\", \"target\": \".\"}）",
+      "source_ref": ".ai/tmp/p164/mutation/reports/M08-trigger-switch-state-written-wrong.json",
+      "source_type": "MUTATION_OBSERVATION"
+    },
+    {
+      "claim": "分类 F（次类 A,B）；依据：contract: 第一次接触锁存，第二次无新广播",
+      "source_ref": ".ai/context/phase_1_64_behavior_taxonomy.json",
+      "source_type": "INFERENCE"
+    }
+  ],
+  "failure_modes": [
+    {
+      "actual": "control 与 mutant 观测完全相同（count=1）——注入未生效，不是未检出",
+      "artifact": ".ai/tmp/p159/reports/M04-trigger-switch-latch-removed.json",
+      "expected": "第二次接触被锁存守卫拒绝（activated 仅 1 次）",
+      "fix": "契约尾部补 advance_frames(6) 强制物理帧（Features/trigger_switch/template.yaml），重绑 BND-005",
+      "input": "删除 Latching 分支的 `if _triggered: return` 守卫",
+      "kind": "INVALID_MUTANT",
+      "mutation_id": "M04-trigger-switch-latch-removed",
+      "post_fix_verification": "Phase 1.63：M04 MUTANT_KILLED（control count 1 / mutant count 2）",
+      "root_cause": "契约第二次 physics.overlap 不产生第二次 body_entered，守卫在真实执行里走不到",
+      "scenario": "behavior 'latch_once'：两次 physics.overlap + 帧推进",
+      "source_location": "Features/trigger_switch/trigger_switch.gd::_on_body_entered",
+      "source_refs": [
+        ".ai/context/PHASE_1_63_COMPLETION.md",
+        ".ai/tools/evaluation/mutation/mutation_catalog.yaml#M04"
+      ],
+      "status": "RESOLVED"
+    }
+  ],
+  "feature_id": "trigger_switch",
+  "implementation_references": [
+    "Features/trigger_switch/trigger_switch.gd"
+  ],
+  "known_edge_cases": [
+    "M04（删 latch 守卫）曾判 INVALID_MUTANT：契约第二次 physics.overlap 不产生第二次 body_entered，守卫在真实执行里走不到；1.63 已在契约补尾部 advance_frames并重绑 BND-005。当前 M08 为 KILLED。"
+  ],
+  "last_verified_run_id": null,
+  "mutation_references": [
+    {
+      "effectiveness": {
+        "baseline_holds": true,
+        "baseline_predicate": {
+          "count": 1
+        },
+        "check": "signal",
+        "control_observation": {
+          "check": "signal",
+          "entry": "trigger.activated",
+          "expected": 1,
+          "first_observed_frame": 0,
+          "observed": 1,
+          "observed_args": [
+            true
+          ],
+          "status": "PASS",
+          "target": "."
+        },
+        "control_record": {
+          "reason": "ok",
+          "status": "PASS"
+        },
+        "effective": true,
+        "entry": "trigger.activated",
+        "mutant_holds": true,
+        "mutant_observation": {
+          "check": "signal",
+          "entry": "trigger.activated",
+          "expected": 1,
+          "first_observed_frame": -1,
+          "observed": 2,
+          "observed_args": [
+            true
+          ],
+          "status": "SIGNAL_MISMATCH",
+          "target": "."
+        },
+        "mutant_predicate": {
+          "count": 2
+        },
+        "mutant_record": {
+          "reason": "signal_mismatch",
+          "status": "MISMATCH"
+        },
+        "reason": "control and mutant observations differ as declared",
+        "target": "."
+      },
+      "mutation_id": "M04-trigger-switch-latch-removed",
+      "mutation_type": "state_latch_broken",
+      "report": ".ai/tmp/p164/mutation/reports/M04-trigger-switch-latch-removed.json",
+      "target_function": "_on_body_entered",
+      "verdict": "MUTANT_KILLED"
+    },
+    {
+      "effectiveness": {
+        "baseline_holds": true,
+        "baseline_predicate": {
+          "equals": true
+        },
+        "check": "trigger.is_triggered",
+        "control_observation": {
+          "check": "trigger.is_triggered",
+          "entry": "",
+          "expected": true,
+          "first_observed_frame": 0,
+          "observed": true,
+          "observed_args": [],
+          "status": "PASS",
+          "target": "."
+        },
+        "control_record": {
+          "reason": "ok",
+          "status": "PASS"
+        },
+        "effective": true,
+        "entry": "",
+        "mutant_holds": true,
+        "mutant_observation": {
+          "check": "trigger.is_triggered",
+          "entry": "",
+          "expected": true,
+          "first_observed_frame": -1,
+          "observed": false,
+          "observed_args": [],
+          "status": "STATE_MISMATCH",
+          "target": "."
+        },
+        "mutant_predicate": {
+          "equals": false
+        },
+        "mutant_record": {
+          "reason": "state_mismatch",
+          "status": "MISMATCH"
+        },
+        "reason": "control and mutant observations differ as declared",
+        "target": "."
+      },
+      "mutation_id": "M08-trigger-switch-state-written-wrong",
+      "mutation_type": "state_transition_wrong_value",
+      "report": ".ai/tmp/p164/mutation/reports/M08-trigger-switch-state-written-wrong.json",
+      "target_function": "_on_body_entered",
+      "verdict": "MUTANT_KILLED"
+    }
+  ],
+  "observed_transitions": {
+    "attestation_digest": null,
+    "evaluation_status": "NOT_EVALUATED",
+    "evidence_digest": null,
+    "evidence_status": "NO_EVIDENCE",
+    "run_id": null
+  },
+  "preconditions": [
+    {
+      "check": "trigger.is_triggered",
+      "equals": false,
+      "target": "."
+    },
+    {
+      "check": "signal",
+      "count": 0,
+      "entry": "trigger.activated",
+      "target": "."
+    }
+  ],
+  "schema": "behavior_verification_knowledge",
+  "schema_version": 1,
+  "secondary_categories": [
+    "A",
+    "B"
+  ],
+  "test_scenarios": {
+    "behavior_contract": "Features/trigger_switch/template.yaml#behavior=latch_once",
+    "existing_tests": [
+      "Features/trigger_switch/test_trigger_switch.gd"
+    ],
+    "window_frames": 30
+  },
+  "triggering_conditions": [
+    "physics.overlap",
+    "simulation.advance_frames",
+    "physics.overlap",
+    "simulation.advance_frames"
+  ],
+  "unresolved_questions": [
+    "缺少本轮真实证据（矩阵状态 NO_EVIDENCE）。",
+    "无覆盖该 Behavior 的 Holdout 数据集。"
+  ],
+  "updated_at": "2026-11-04T17:13:55Z"
+}

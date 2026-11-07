@@ -1,0 +1,141 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "F",
+  "behavior_id": "overkill_clamps_at_zero",
+  "conditions": [
+    {
+      "condition": "if _is_dead or _invulnerable or amount <= 0:",
+      "file": "Features/health/health.gd",
+      "function": "take_damage",
+      "line": 29
+    },
+    {
+      "condition": "if _current_health == 0:",
+      "file": "Features/health/health.gd",
+      "function": "take_damage",
+      "line": 33
+    }
+  ],
+  "contract_reference": "Features/health/template.yaml#behavior=overkill_clamps_at_zero",
+  "contract_version": "ca77ec16cbe8",
+  "entry_points": [
+    {
+      "file": "Features/health/health.gd",
+      "line": 28,
+      "name": "take_damage",
+      "params": "amount: int",
+      "returns": "void",
+      "source_reference": "Features/health/health.gd:28#func=take_damage",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/health/health.gd",
+      "function": "take_damage",
+      "kind": "emit",
+      "line": 32,
+      "signal": "health_changed"
+    },
+    {
+      "file": "Features/health/health.gd",
+      "function": "take_damage",
+      "kind": "emit",
+      "line": 35,
+      "signal": "died"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/health/health.gd",
+      "function": "take_damage",
+      "kind": "guard_return",
+      "line": 30,
+      "value": ""
+    }
+  ],
+  "feature_id": "health",
+  "generated_at": "2026-11-06T09:31:30Z",
+  "implementation_references": [
+    "Features/health/health.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "Health",
+      "digest": "a436c28bbea1cecafa93cf44249b5a82ef90300c10e8384b4e3508c4ffb7e7b0",
+      "digest_of": "file_bytes",
+      "path": "Features/health/health.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/health/health.gd",
+      "initial": "0",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/health/health.gd",
+          "function": "take_damage",
+          "line": 32
+        },
+        {
+          "file": "Features/health/health.gd",
+          "function": "take_damage",
+          "line": 33
+        }
+      ],
+      "variable": "_current_health",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/health/health.gd",
+          "function": "take_damage",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/health/health.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/health/health.gd",
+          "function": "take_damage",
+          "line": 29
+        }
+      ],
+      "variable": "_invulnerable",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/health/health.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/health/health.gd",
+          "function": "take_damage",
+          "line": 29
+        }
+      ],
+      "variable": "_is_dead",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/health/health.gd",
+          "function": "take_damage",
+          "line": 34
+        }
+      ]
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

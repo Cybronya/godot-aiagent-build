@@ -1,0 +1,357 @@
+{
+  "behaviors": [
+    {
+      "analysis_status": "COMPLETE",
+      "approved": 7,
+      "attestation": "ATTESTATION_VERIFIED",
+      "behavior": "openable_door/open",
+      "candidates": 7,
+      "contract_version": "0550357495e5",
+      "dependency_references": [],
+      "evaluation": "VERIFIED_PASS",
+      "evidence_digest": "c07409026f94725a89dfa8d5e9755f6dfce876d4120905f986914f315bbcabf1",
+      "knowledge_ids": [
+        "k-503b43a405320f1f",
+        "k-1f784fb1640e4490",
+        "k-071a0c439e08b406",
+        "k-65e81d4b22691dcf",
+        "k-11c8c1094704b6bb",
+        "k-6d6bccbf12099075",
+        "k-ed4adc7d809d3361"
+      ],
+      "mutation": "M12-openable-door-open-guard-inverted",
+      "run_id": "11964-ad881e33-open",
+      "signature": "SIGNATURE_VERIFIED",
+      "source_references": [
+        "Features/openable_door/openable_door.gd:32#func=set_open"
+      ],
+      "unresolved_questions": []
+    },
+    {
+      "analysis_status": "PARTIAL",
+      "approved": 8,
+      "attestation": "ATTESTATION_VERIFIED",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "candidates": 8,
+      "contract_version": "d1cee84ef2fc",
+      "dependency_references": [
+        "RECEIVES_EVENT_FROM:health/damage",
+        "REQUIRES_PRECONDITION:health/post_death_guard",
+        "SHARES_STATE_WITH:i_frames/killing_blow_still_dies",
+        "WRITES_STATE_TO:health/damage"
+      ],
+      "evaluation": "VERIFIED_PASS",
+      "evidence_digest": "d55bfd4102590ab56a41545f348a361df58396e36e4dd0a7e621171900e0d132",
+      "knowledge_ids": [
+        "k-aa4f9d0368b5b40a",
+        "k-5cfe3f177070aa4f",
+        "k-937fe9143b0f3900",
+        "k-b489f6d97c4d65a5",
+        "k-12ca60365bb2e0b6",
+        "k-8ab6c2d8f9bae7e0",
+        "k-9aa1d9923ac5d4c5",
+        "k-9b5f2fc7dffc7866"
+      ],
+      "mutation": "M11-i-frames-window-close-not-restored",
+      "run_id": "11964-79c99c5e-iframes_expire_and_damage_resumes",
+      "signature": "SIGNATURE_VERIFIED",
+      "source_references": [
+        "Features/i_frames/i_frames.gd:65#func=_on_health_changed",
+        "Features/i_frames/i_frames.gd:75#func=_on_window_end"
+      ],
+      "unresolved_questions": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "Features/i_frames/i_frames.gd:72 含动态调用（grant.call_deferred()），静态分析无法确定目标",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    },
+    {
+      "analysis_status": "PARTIAL",
+      "approved": 10,
+      "attestation": "ATTESTATION_VERIFIED",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "candidates": 10,
+      "contract_version": "d85d91c73250",
+      "dependency_references": [
+        "PERSISTS_DATA_TO:save_game/load_slot_restores_world_state",
+        "REQUIRES_PRECONDITION:health/post_death_guard"
+      ],
+      "evaluation": "VERIFIED_PASS",
+      "evidence_digest": "5f37e50ee9b67819487cb5df6f21e100ce43607ade4d07e0ee23eda16143fddf",
+      "knowledge_ids": [
+        "k-1953c6af5e262df5",
+        "k-6362c3cc99c8d5a3",
+        "k-d617871a3a485ce5",
+        "k-b146092432b51a56",
+        "k-507b298744ce8643",
+        "k-8bdd846e2e415612",
+        "k-007f292f745326bc",
+        "k-67e905febce7f2dd",
+        "k-0acf2b390ca9ca4d",
+        "k-fcc0a94d1d934d45"
+      ],
+      "mutation": "M06-save-game-last-slot-not-recorded",
+      "run_id": "11964-26505382-save_slot_persists_world_state",
+      "signature": "SIGNATURE_VERIFIED",
+      "source_references": [
+        "Features/save_game/save_game.gd:42#func=save_to_slot"
+      ],
+      "unresolved_questions": [
+        "契约方法 save_slot 在源码中无同名函数，按 token 唯一匹配解析为 save_to_slot（契约/源码命名不一致，需评审）",
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 last_slot 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    },
+    {
+      "analysis_status": "PARTIAL",
+      "approved": 7,
+      "attestation": "NO_ATTESTATION",
+      "behavior": "trigger_switch/latch_once",
+      "candidates": 7,
+      "contract_version": "4076f02be9eb",
+      "dependency_references": [
+        "SHARES_STATE_WITH:trigger_switch/toggle_on_second_contact"
+      ],
+      "evaluation": "NOT_EVALUATED",
+      "evidence_digest": null,
+      "knowledge_ids": [
+        "k-86f9a6b59d47612a",
+        "k-baed5eb2b726195f",
+        "k-f26d4a87ed04a064",
+        "k-470d76268ed2d59f",
+        "k-d8ac203c2891a339",
+        "k-0dd7578179ee5c72",
+        "k-c0a8a61b9041f58a"
+      ],
+      "mutation": "M08-trigger-switch-state-written-wrong",
+      "run_id": null,
+      "signature": "NO_SIGNATURE",
+      "source_references": [
+        "Features/trigger_switch/trigger_switch.gd:36#func=_on_body_entered"
+      ],
+      "unresolved_questions": [
+        "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测"
+      ]
+    },
+    {
+      "analysis_status": "PARTIAL",
+      "approved": 8,
+      "attestation": "ATTESTATION_VERIFIED",
+      "behavior": "health/damage",
+      "candidates": 8,
+      "contract_version": "562bbb4f6bd7",
+      "dependency_references": [
+        "EMITS_EVENT_TO:health_bar/damage_updates_health_bar",
+        "EMITS_EVENT_TO:health_bar/death_empties_health_bar",
+        "EMITS_EVENT_TO:health_bar/healing_updates_health_bar",
+        "EMITS_EVENT_TO:health_bar/initial_health_bar_ratio",
+        "EMITS_EVENT_TO:health_bar/unbound_bar_reports_no_fill",
+        "EMITS_EVENT_TO:hit_flash/flash_ends_after_duration",
+        "EMITS_EVENT_TO:hit_flash/heal_does_not_flash",
+        "EMITS_EVENT_TO:hit_flash/hit_flashes_host",
+        "EMITS_EVENT_TO:i_frames/iframes_block_damage_within_window",
+        "EMITS_EVENT_TO:i_frames/iframes_expire_and_damage_resumes",
+        "EMITS_EVENT_TO:i_frames/killing_blow_still_dies",
+        "EMITS_EVENT_TO:stun/death_guard_rejects_stun",
+        "EMITS_EVENT_TO:stun/heal_does_not_stun",
+        "EMITS_EVENT_TO:stun/hit_stuns_and_freezes_host",
+        "EMITS_EVENT_TO:stun/reentry_extends_without_rebroadcast",
+        "EMITS_EVENT_TO:stun/stun_expires_and_host_resumes",
+        "SHARES_STATE_WITH:health/death",
+        "SHARES_STATE_WITH:health/heal_clamped",
+        "SHARES_STATE_WITH:health/overkill_clamps_at_zero",
+        "SHARES_STATE_WITH:health/post_death_guard"
+      ],
+      "evaluation": "VERIFIED_PASS",
+      "evidence_digest": "3f2b3da3ad8536b34e0034a7e2783eb5d57936122b2da43aa0ef6cc7aa4508c5",
+      "knowledge_ids": [
+        "k-03d9b9ab8a5d4b92",
+        "k-c15e847a8b96603f",
+        "k-55d8c3b7dea55340",
+        "k-7cdddf033c056401",
+        "k-6b1ceb718f070ab0",
+        "k-c4737afc94ae08eb",
+        "k-48d5b5fa8e3e50ea",
+        "k-25a7cd9ac83a715d"
+      ],
+      "mutation": "M01-health-damage-state-update-omitted",
+      "run_id": "11984-263d1383-damage",
+      "signature": "SIGNATURE_VERIFIED",
+      "source_references": [
+        "Features/health/health.gd:28#func=take_damage"
+      ],
+      "unresolved_questions": [
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    }
+  ],
+  "diff": {
+    "changed_behaviors": [
+      {
+        "added": [],
+        "behavior": "trigger_switch/latch_once",
+        "knowledge_driven_tasks": [
+          "T-TRIGGER_SW-LATCH_ONCE-DESIGNTEST"
+        ],
+        "priority_after": {
+          "DESIGN_TEST_SCENARIO": 11.0,
+          "EXECUTE_BEHAVIOR": 12.0
+        },
+        "priority_before": {
+          "DESIGN_TEST_SCENARIO": 11.0,
+          "EXECUTE_BEHAVIOR": 12.0
+        },
+        "removed": [],
+        "tasks_after": [
+          "DESIGN_TEST_SCENARIO",
+          "EXECUTE_BEHAVIOR"
+        ],
+        "tasks_before": [
+          "DESIGN_TEST_SCENARIO",
+          "EXECUTE_BEHAVIOR"
+        ]
+      }
+    ],
+    "generated_at": "2026-11-06T10:01:46Z",
+    "proof": "第二轮计划的任务集合/依据由 Knowledge Store 的已审批记录驱动（driven_by_knowledge 非空），不是手工改写。",
+    "summary_after": {
+      "behaviors_with_tasks": 57,
+      "blocked": 0,
+      "by_status": {
+        "PENDING": 277
+      },
+      "by_type": {
+        "ANALYZE_DEPENDENCIES": 16,
+        "ANALYZE_SOURCE": 60,
+        "DESIGN_MUTATION": 50,
+        "DESIGN_TEST_SCENARIO": 48,
+        "EXECUTE_BEHAVIOR": 48,
+        "UPDATE_KNOWLEDGE": 55
+      },
+      "excluded_completed": 10,
+      "tasks": 277
+    },
+    "summary_before": {
+      "behaviors_with_tasks": 57,
+      "blocked": 0,
+      "by_status": {
+        "PENDING": 277
+      },
+      "by_type": {
+        "ANALYZE_DEPENDENCIES": 16,
+        "ANALYZE_SOURCE": 60,
+        "DESIGN_MUTATION": 50,
+        "DESIGN_TEST_SCENARIO": 48,
+        "EXECUTE_BEHAVIOR": 48,
+        "UPDATE_KNOWLEDGE": 55
+      },
+      "excluded_completed": 10,
+      "tasks": 277
+    },
+    "unchanged_behaviors": [
+      "openable_door/open",
+      "i_frames/iframes_expire_and_damage_resumes",
+      "save_game/save_slot_persists_world_state",
+      "health/damage"
+    ]
+  },
+  "knowledge_summary": {
+    "behaviors_with_knowledge": 5,
+    "by_confidence": {
+      "HIGH": 27,
+      "MEDIUM": 13,
+      "VERIFIED": 5
+    },
+    "by_status": {
+      "APPROVED": 40,
+      "SUPERSEDED": 5
+    },
+    "by_type": {
+      "CONTRACT_FACT": 5,
+      "DEPENDENCY_KNOWLEDGE": 8,
+      "FAILURE_KNOWLEDGE": 2,
+      "MUTATION_OBSERVATION": 5,
+      "RUNTIME_OBSERVATION": 4,
+      "SOURCE_OBSERVATION": 17,
+      "TEST_OBSERVATION": 4
+    },
+    "conflicts_open": 0,
+    "conflicts_total": 5,
+    "records": 45
+  },
+  "label": "P5",
+  "matrix": ".ai/tmp/p164/batch1/matrix_after/coverage_matrix.json",
+  "plan_after": {
+    "behaviors_with_tasks": 57,
+    "blocked": 0,
+    "by_status": {
+      "PENDING": 277
+    },
+    "by_type": {
+      "ANALYZE_DEPENDENCIES": 16,
+      "ANALYZE_SOURCE": 60,
+      "DESIGN_MUTATION": 50,
+      "DESIGN_TEST_SCENARIO": 48,
+      "EXECUTE_BEHAVIOR": 48,
+      "UPDATE_KNOWLEDGE": 55
+    },
+    "excluded_completed": 10,
+    "tasks": 277
+  },
+  "plan_before": {
+    "behaviors_with_tasks": 57,
+    "blocked": 0,
+    "by_status": {
+      "PENDING": 277
+    },
+    "by_type": {
+      "ANALYZE_DEPENDENCIES": 16,
+      "ANALYZE_SOURCE": 60,
+      "DESIGN_MUTATION": 50,
+      "DESIGN_TEST_SCENARIO": 48,
+      "EXECUTE_BEHAVIOR": 48,
+      "UPDATE_KNOWLEDGE": 55
+    },
+    "excluded_completed": 10,
+    "tasks": 277
+  },
+  "selection": [
+    {
+      "behavior": "openable_door/open",
+      "behavior_category": "A",
+      "behavior_id": "open",
+      "feature_id": "openable_door",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "behavior_category": "A",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "feature_id": "i_frames",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_category": "C",
+      "behavior_id": "save_slot_persists_world_state",
+      "feature_id": "save_game",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "trigger_switch/latch_once",
+      "behavior_category": "F",
+      "behavior_id": "latch_once",
+      "feature_id": "trigger_switch",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "health/damage",
+      "behavior_category": "A",
+      "behavior_id": "damage",
+      "feature_id": "health",
+      "reason": "由 Plan v1 的任务优先级产生"
+    }
+  ]
+}

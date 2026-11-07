@@ -1,0 +1,147 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "openable_door/open",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=0550357495e5 current=0550357495e5",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/openable_door/OpenableDoor.tscn contract=res://Features/openable_door/OpenableDoor.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-071a0c439e08b406",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-071a0c439e08b406",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-071a0c439e08b406",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "3 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-071a0c439e08b406",
+      "detail": "expected=8df8e057cac6",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd:33 (file 44 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-071a0c439e08b406",
+      "detail": "expected=8df8e057cac6",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd:40 (file 44 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-071a0c439e08b406",
+      "detail": "expected=8df8e057cac6",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-071a0c439e08b406",
+      "detail": "Features/openable_door/openable_door.gd:42 (file 44 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/openable_door/OpenableDoor.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "2 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "2 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-16f6576c8683f7bc",
+  "status": "VALID"
+}

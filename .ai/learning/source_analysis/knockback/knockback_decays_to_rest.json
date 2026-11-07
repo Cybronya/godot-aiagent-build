@@ -1,0 +1,143 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "knockback_decays_to_rest",
+  "conditions": [
+    {
+      "condition": "if _body == null or force <= 0.0 or direction == Vector2.ZERO:",
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "line": 40
+    },
+    {
+      "condition": "return false",
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "line": 41
+    },
+    {
+      "condition": "if not _active:",
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "line": 43
+    },
+    {
+      "condition": "return true",
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "line": 46
+    }
+  ],
+  "contract_reference": "Features/knockback/template.yaml#behavior=knockback_decays_to_rest",
+  "contract_version": "76615084520d",
+  "entry_points": [
+    {
+      "file": "Features/knockback/knockback.gd",
+      "line": 39,
+      "name": "apply",
+      "params": "direction: Vector2, force: float",
+      "returns": "bool",
+      "source_reference": "Features/knockback/knockback.gd:39#func=apply",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "kind": "emit",
+      "line": 45,
+      "signal": "knockback_changed"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if _body == null or force <= 0.0 or direction == Vector2.ZERO:",
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "kind": "null_guard",
+      "line": 40
+    },
+    {
+      "file": "Features/knockback/knockback.gd",
+      "function": "apply",
+      "kind": "early_return",
+      "line": 41,
+      "value": "false"
+    }
+  ],
+  "feature_id": "knockback",
+  "generated_at": "2026-11-06T09:31:35Z",
+  "implementation_references": [
+    "Features/knockback/knockback.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "Knockback",
+      "digest": "1de9e6a3d2c95d552a08997bddea48608c6485624cfb518516c811cdfc30aecc",
+      "digest_of": "file_bytes",
+      "path": "Features/knockback/knockback.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/knockback/knockback.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/knockback/knockback.gd",
+          "function": "apply",
+          "line": 43
+        }
+      ],
+      "variable": "_active",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/knockback/knockback.gd",
+          "function": "apply",
+          "line": 44
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/knockback/knockback.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/knockback/knockback.gd",
+          "function": "apply",
+          "line": 40
+        }
+      ],
+      "variable": "_body",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/knockback/knockback.gd",
+      "initial": "Vector2.ZERO",
+      "read_count": 0,
+      "reads": [],
+      "variable": "_velocity",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/knockback/knockback.gd",
+          "function": "apply",
+          "line": 42
+        }
+      ]
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的符号 changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 displacement 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

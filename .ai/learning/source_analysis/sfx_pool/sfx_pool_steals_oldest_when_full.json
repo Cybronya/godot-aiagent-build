@@ -1,0 +1,183 @@
+{
+  "analysis_status": "COMPLETE",
+  "behavior_category": "D",
+  "behavior_id": "sfx_pool_steals_oldest_when_full",
+  "conditions": [
+    {
+      "condition": "if stream == null or _players.is_empty():",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "line": 53
+    },
+    {
+      "condition": "return false",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "line": 54
+    },
+    {
+      "condition": "if _busy[idx]:",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "line": 57
+    },
+    {
+      "condition": "return true",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "line": 67
+    },
+    {
+      "condition": "if _busy[idx]:",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "_on_finished",
+      "line": 77
+    }
+  ],
+  "contract_reference": "Features/sfx_pool/template.yaml#behavior=sfx_pool_steals_oldest_when_full",
+  "contract_version": "1ac9403474e5",
+  "entry_points": [
+    {
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "line": 52,
+      "name": "play",
+      "params": "stream: AudioStream",
+      "returns": "bool",
+      "source_reference": "Features/sfx_pool/sfx_pool.gd:52#func=play",
+      "trigger": "contract_action"
+    },
+    {
+      "emitter": "p",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "line": 76,
+      "name": "_on_finished",
+      "params": "idx: int",
+      "returns": "void",
+      "signal": "finished",
+      "source_reference": "Features/sfx_pool/sfx_pool.gd:76#func=_on_finished",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "kind": "emit",
+      "line": 66,
+      "signal": "played"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if stream == null or _players.is_empty():",
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "kind": "null_guard",
+      "line": 53
+    },
+    {
+      "file": "Features/sfx_pool/sfx_pool.gd",
+      "function": "play",
+      "kind": "early_return",
+      "line": 54,
+      "value": "false"
+    }
+  ],
+  "feature_id": "sfx_pool",
+  "generated_at": "2026-11-06T09:31:42Z",
+  "implementation_references": [
+    "Features/sfx_pool/sfx_pool.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "SfxPool",
+      "digest": "3d0775b8aa46697117e3428890ae88e114b8159e7f4d71d988ca9a4b335f182a",
+      "digest_of": "file_bytes",
+      "path": "Features/sfx_pool/sfx_pool.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/sfx_pool/sfx_pool.gd",
+      "initial": "0",
+      "read_count": 3,
+      "reads": [
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 59
+        },
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 65
+        },
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "_on_finished",
+          "line": 79
+        }
+      ],
+      "variable": "_active",
+      "write_count": 3,
+      "writes": [
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 59
+        },
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 65
+        },
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "_on_finished",
+          "line": 79
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/sfx_pool/sfx_pool.gd",
+      "initial": "0",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 55
+        }
+      ],
+      "variable": "_next",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 56
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/sfx_pool/sfx_pool.gd",
+      "initial": "0.1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/sfx_pool/sfx_pool.gd",
+          "function": "play",
+          "line": 62
+        }
+      ],
+      "variable": "pitch_range",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": []
+}

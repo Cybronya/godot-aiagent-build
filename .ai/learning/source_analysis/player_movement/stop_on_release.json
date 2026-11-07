@@ -1,0 +1,120 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "E",
+  "behavior_id": "stop_on_release",
+  "conditions": [],
+  "contract_reference": "Features/player_movement/template.yaml#behavior=stop_on_release",
+  "contract_version": "14d118c11f49",
+  "entry_points": [
+    {
+      "file": "Features/player_movement/player_controller.gd",
+      "line": 16,
+      "name": "_physics_process",
+      "params": "_delta: float",
+      "returns": "void",
+      "source_reference": "Features/player_movement/player_controller.gd:16#func=_physics_process",
+      "trigger": "frame_update"
+    }
+  ],
+  "events": [],
+  "failure_paths": [],
+  "feature_id": "player_movement",
+  "generated_at": "2026-11-06T09:31:39Z",
+  "implementation_references": [
+    "Features/player_movement/player_controller.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "PlayerController",
+      "digest": "61e76a51b5fb81ea4eaed52dba4dcb1c2e3a52b104d4b6563e522fa6f6da5649",
+      "digest_of": "file_bytes",
+      "path": "Features/player_movement/player_controller.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/player_movement/player_controller.gd",
+      "initial": "\"move_down\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/player_movement/player_controller.gd",
+          "function": "_physics_process",
+          "line": 17
+        }
+      ],
+      "variable": "action_down",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/player_movement/player_controller.gd",
+      "initial": "\"move_left\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/player_movement/player_controller.gd",
+          "function": "_physics_process",
+          "line": 17
+        }
+      ],
+      "variable": "action_left",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/player_movement/player_controller.gd",
+      "initial": "\"move_right\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/player_movement/player_controller.gd",
+          "function": "_physics_process",
+          "line": 17
+        }
+      ],
+      "variable": "action_right",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/player_movement/player_controller.gd",
+      "initial": "\"move_up\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/player_movement/player_controller.gd",
+          "function": "_physics_process",
+          "line": 17
+        }
+      ],
+      "variable": "action_up",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/player_movement/player_controller.gd",
+      "initial": "220.0",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/player_movement/player_controller.gd",
+          "function": "_physics_process",
+          "line": 18
+        }
+      ],
+      "variable": "speed",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约 action 均为 harness 驱动，入口按帧回调 _physics_process 认定（未绑定具体方法）",
+    "契约引用的符号 displacement 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

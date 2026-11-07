@@ -1,0 +1,30 @@
+{
+  "analyzed_at": "2026-11-06T11:21:22Z",
+  "behavior": "save_game/save_slot_persists_world_state",
+  "classification": "SOURCE_CONFIRMED",
+  "evidence": {
+    "bundle": ".ai/tmp/p166/evidence/5428-ac7ca98f-bundle.json",
+    "bundle_digest": "49077b318526bbc3becc3a8115e42b54617ad25c9dd5d7cc91f89538e43879dd",
+    "manifest_digest": "d7e21b10eb9eb5ccda252d4b713647a32e9cecfee2301d6f3e37fdf9c072d5aa"
+  },
+  "knowledge_refs": [
+    "k-d617871a3a485ce5"
+  ],
+  "label": "P4",
+  "reasons": [
+    "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+    "real observation satisfies GUARD_INPUT_VALIDATION scenario expectation"
+  ],
+  "rule_id": "invalid_slot_rejected",
+  "run_id": "083e4b6b-8859-4bb0-b2a5-9660eae3fcee",
+  "scenario_id": "s-8b9f108ecb56beb2",
+  "scenario_type": "GUARD_INPUT_VALIDATION",
+  "statuses": {
+    "attestation_status": "ATTESTED_VERIFIED",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "execution_status": "PASSED",
+    "official_contract_status": "FAIL",
+    "scenario_evidence_status": "PASS"
+  }
+}

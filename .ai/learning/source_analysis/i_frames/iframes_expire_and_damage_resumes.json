@@ -1,0 +1,150 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "iframes_expire_and_damage_resumes",
+  "conditions": [
+    {
+      "condition": "if _health != null and _active:",
+      "file": "Features/i_frames/i_frames.gd",
+      "function": "_on_window_end",
+      "line": 76
+    },
+    {
+      "condition": "if damaged:",
+      "file": "Features/i_frames/i_frames.gd",
+      "function": "_on_health_changed",
+      "line": 71
+    }
+  ],
+  "contract_reference": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes",
+  "contract_version": "d1cee84ef2fc",
+  "entry_points": [
+    {
+      "emitter": "_cooldown",
+      "file": "Features/i_frames/i_frames.gd",
+      "line": 75,
+      "name": "_on_window_end",
+      "params": "",
+      "returns": "void",
+      "signal": "cooldown_finished",
+      "source_reference": "Features/i_frames/i_frames.gd:75#func=_on_window_end",
+      "trigger": "signal_handler"
+    },
+    {
+      "emitter": "_health",
+      "file": "Features/i_frames/i_frames.gd",
+      "line": 65,
+      "name": "_on_health_changed",
+      "params": "current: int, _amount: int",
+      "returns": "void",
+      "signal": "health_changed",
+      "source_reference": "Features/i_frames/i_frames.gd:65#func=_on_health_changed",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/i_frames/i_frames.gd",
+      "function": "_on_window_end",
+      "kind": "emit",
+      "line": 79,
+      "signal": "protected"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if _health != null and _active:",
+      "file": "Features/i_frames/i_frames.gd",
+      "function": "_on_window_end",
+      "kind": "null_guard",
+      "line": 76
+    }
+  ],
+  "feature_id": "i_frames",
+  "generated_at": "2026-11-06T10:02:17Z",
+  "implementation_references": [
+    "Features/i_frames/i_frames.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "IFrames",
+      "digest": "bb7416cfd74c7f57d08b1a3488a61135615aec872ce099510b7619d759255847",
+      "digest_of": "file_bytes",
+      "path": "Features/i_frames/i_frames.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/i_frames/i_frames.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/i_frames/i_frames.gd",
+          "function": "_on_window_end",
+          "line": 76
+        }
+      ],
+      "variable": "_active",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/i_frames/i_frames.gd",
+          "function": "_on_window_end",
+          "line": 78
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/i_frames/i_frames.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/i_frames/i_frames.gd",
+          "function": "_on_window_end",
+          "line": 76
+        },
+        {
+          "file": "Features/i_frames/i_frames.gd",
+          "function": "_on_window_end",
+          "line": 77
+        }
+      ],
+      "variable": "_health",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/i_frames/i_frames.gd",
+      "initial": "-1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/i_frames/i_frames.gd",
+          "function": "_on_health_changed",
+          "line": 69
+        }
+      ],
+      "variable": "_last_health",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/i_frames/i_frames.gd",
+          "function": "_on_health_changed",
+          "line": 70
+        }
+      ]
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "Features/i_frames/i_frames.gd:72 含动态调用（grant.call_deferred()），静态分析无法确定目标",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

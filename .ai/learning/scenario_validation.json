@@ -1,0 +1,730 @@
+{
+  "reports": [
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "openable_door/open",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=0550357495e5 current=0550357495e5",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/openable_door/OpenableDoor.tscn contract=res://Features/openable_door/OpenableDoor.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-071a0c439e08b406",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-071a0c439e08b406",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-071a0c439e08b406",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "3 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-071a0c439e08b406",
+          "detail": "expected=8df8e057cac6",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd:33 (file 44 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-071a0c439e08b406",
+          "detail": "expected=8df8e057cac6",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd:40 (file 44 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-071a0c439e08b406",
+          "detail": "expected=8df8e057cac6",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-071a0c439e08b406",
+          "detail": "Features/openable_door/openable_door.gd:42 (file 44 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/openable_door/OpenableDoor.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "2 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "2 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-16f6576c8683f7bc",
+      "scenario_path": ".ai/learning/scenarios/s-16f6576c8683f7bc.json",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "trigger_switch/latch_once",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=4076f02be9eb current=4076f02be9eb",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/trigger_switch/trigger_switch.tscn contract=res://Features/trigger_switch/trigger_switch.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-f26d4a87ed04a064",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-f26d4a87ed04a064",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-f26d4a87ed04a064",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "3 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-f26d4a87ed04a064",
+          "detail": "expected=6efb06505437",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd:37 (file 50 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-f26d4a87ed04a064",
+          "detail": "expected=6efb06505437",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd:39 (file 50 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-f26d4a87ed04a064",
+          "detail": "expected=6efb06505437",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-f26d4a87ed04a064",
+          "detail": "Features/trigger_switch/trigger_switch.gd:41 (file 50 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/trigger_switch/trigger_switch.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "4 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "2 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-37cd4dc9f084950e",
+      "scenario_path": ".ai/learning/scenarios/s-37cd4dc9f084950e.json",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "health/damage",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=562bbb4f6bd7 current=562bbb4f6bd7",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/health/Health.tscn contract=res://Features/health/Health.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-55d8c3b7dea55340",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-55d8c3b7dea55340",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-55d8c3b7dea55340",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "2 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-55d8c3b7dea55340",
+          "detail": "Features/health/health.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-55d8c3b7dea55340",
+          "detail": "Features/health/health.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-55d8c3b7dea55340",
+          "detail": "expected=a436c28bbea1",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-55d8c3b7dea55340",
+          "detail": "Features/health/health.gd:29 (file 58 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-55d8c3b7dea55340",
+          "detail": "Features/health/health.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-55d8c3b7dea55340",
+          "detail": "Features/health/health.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-55d8c3b7dea55340",
+          "detail": "expected=a436c28bbea1",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-55d8c3b7dea55340",
+          "detail": "Features/health/health.gd:33 (file 58 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/health/Health.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "3 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "4 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-7771e41885fcd58e",
+      "scenario_path": ".ai/learning/scenarios/s-7771e41885fcd58e.json",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "save_game/save_slot_persists_world_state",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=d85d91c73250 current=d85d91c73250",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/save_game/SaveGameBehaviorFixture.tscn contract=res://Features/save_game/SaveGameBehaviorFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-d617871a3a485ce5",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-d617871a3a485ce5",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-d617871a3a485ce5",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "4 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-d617871a3a485ce5",
+          "detail": "expected=9aaa19de77b5",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd:43 (file 201 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-d617871a3a485ce5",
+          "detail": "expected=9aaa19de77b5",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd:45 (file 201 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-d617871a3a485ce5",
+          "detail": "expected=9aaa19de77b5",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd:48 (file 201 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-d617871a3a485ce5",
+          "detail": "expected=9aaa19de77b5",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-d617871a3a485ce5",
+          "detail": "Features/save_game/save_game.gd:49 (file 201 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/save_game/SaveGameBehaviorFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "2 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "3 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-8b9f108ecb56beb2",
+      "scenario_path": ".ai/learning/scenarios/s-8b9f108ecb56beb2.json",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "i_frames/iframes_expire_and_damage_resumes",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=d1cee84ef2fc current=d1cee84ef2fc",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/i_frames/IFramesFixture.tscn contract=res://Features/i_frames/IFramesFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-12ca60365bb2e0b6",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-12ca60365bb2e0b6",
+          "detail": "DEPENDENCY_KNOWLEDGE",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-12ca60365bb2e0b6",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "3 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-12ca60365bb2e0b6",
+          "detail": "Features/i_frames/i_frames.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-12ca60365bb2e0b6",
+          "detail": "Features/i_frames/i_frames.gd",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-12ca60365bb2e0b6",
+          "detail": "Features/i_frames/i_frames.gd:77 (file 87 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-12ca60365bb2e0b6",
+          "detail": "Features/i_frames/i_frames.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-12ca60365bb2e0b6",
+          "detail": "Features/i_frames/i_frames.gd",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-12ca60365bb2e0b6",
+          "detail": "Features/i_frames/i_frames.gd:44 (file 87 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.analysis:k-12ca60365bb2e0b6",
+          "detail": "i_frames/iframes_expire_and_damage_resumes",
+          "ok": true
+        },
+        {
+          "check": "dependency.edge:dep-0057",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/i_frames/IFramesFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "4 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "4 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-e6eb3fc5c8e82e32",
+      "scenario_path": ".ai/learning/scenarios/s-e6eb3fc5c8e82e32.json",
+      "status": "VALID"
+    }
+  ],
+  "schema": "scenario_validation_index",
+  "schema_version": 1,
+  "summary": {
+    "total": 5,
+    "valid": 5
+  }
+}

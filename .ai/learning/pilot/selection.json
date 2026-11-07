@@ -1,0 +1,46 @@
+{
+  "criteria": [
+    "Plan v1 优先级",
+    "至少 2 个 Behavior 类型",
+    "至少 1 个已有真实 Evidence",
+    "至少 1 个知识不完整"
+  ],
+  "selected_at": "2026-11-06T10:01:42Z",
+  "selection": [
+    {
+      "behavior": "openable_door/open",
+      "behavior_category": "A",
+      "behavior_id": "open",
+      "feature_id": "openable_door",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "behavior_category": "A",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "feature_id": "i_frames",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_category": "C",
+      "behavior_id": "save_slot_persists_world_state",
+      "feature_id": "save_game",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "trigger_switch/latch_once",
+      "behavior_category": "F",
+      "behavior_id": "latch_once",
+      "feature_id": "trigger_switch",
+      "reason": "由 Plan v1 的任务优先级产生"
+    },
+    {
+      "behavior": "health/damage",
+      "behavior_category": "A",
+      "behavior_id": "damage",
+      "feature_id": "health",
+      "reason": "由 Plan v1 的任务优先级产生"
+    }
+  ]
+}

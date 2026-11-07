@@ -1,0 +1,132 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "E",
+  "behavior_id": "heal_damaged_target",
+  "conditions": [
+    {
+      "condition": "if not body.is_in_group(target_group):",
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "line": 18
+    },
+    {
+      "condition": "if health == null or health.is_dead():",
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "line": 21
+    },
+    {
+      "condition": "if health.get_current_health() >= health.max_health:",
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "line": 23
+    }
+  ],
+  "contract_reference": "Features/heal_pickup/template.yaml#behavior=heal_damaged_target",
+  "contract_version": "9f158fcdec46",
+  "entry_points": [
+    {
+      "emitter": "self",
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "line": 17,
+      "name": "_on_body_entered",
+      "params": "body: Node2D",
+      "returns": "void",
+      "signal": "body_entered",
+      "source_reference": "Features/heal_pickup/heal_pickup.gd:17#func=_on_body_entered",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [],
+  "failure_paths": [
+    {
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 19,
+      "value": ""
+    },
+    {
+      "condition": "if health == null or health.is_dead():",
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "kind": "null_guard",
+      "line": 21
+    },
+    {
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 22,
+      "value": ""
+    },
+    {
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 24,
+      "value": ""
+    }
+  ],
+  "feature_id": "heal_pickup",
+  "generated_at": "2026-11-06T09:31:28Z",
+  "implementation_references": [
+    "Features/heal_pickup/heal_pickup.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "HealPickup",
+      "digest": "b90d7e4e5a2bfa33664ccfa2870b03950b7ebd6230388ea54ebacded616ff04e",
+      "digest_of": "file_bytes",
+      "path": "Features/heal_pickup/heal_pickup.gd"
+    }
+  ],
+  "side_effects": [
+    {
+      "file": "Features/heal_pickup/heal_pickup.gd",
+      "kind": "node_lookup",
+      "line": 20,
+      "path": "Health"
+    }
+  ],
+  "state_variables": [
+    {
+      "declared_in": "Features/heal_pickup/heal_pickup.gd",
+      "initial": "2",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/heal_pickup/heal_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 25
+        }
+      ],
+      "variable": "heal_amount",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/heal_pickup/heal_pickup.gd",
+      "initial": "\"players\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/heal_pickup/heal_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 18
+        }
+      ],
+      "variable": "target_group",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 freed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

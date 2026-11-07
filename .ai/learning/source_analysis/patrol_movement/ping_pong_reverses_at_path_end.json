@@ -1,0 +1,290 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "A",
+  "behavior_id": "ping_pong_reverses_at_path_end",
+  "conditions": [
+    {
+      "condition": "if points.is_empty():",
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_physics_process",
+      "line": 38
+    },
+    {
+      "condition": "if to_target.length() <= step:",
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_physics_process",
+      "line": 42
+    },
+    {
+      "condition": "if _index != _last_emitted:",
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_physics_process",
+      "line": 45
+    },
+    {
+      "condition": "if points.size() < 2:",
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_advance_index",
+      "line": 55
+    },
+    {
+      "condition": "if loop:",
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_advance_index",
+      "line": 57
+    },
+    {
+      "condition": "elif _index + _dir >= points.size() or _index + _dir < 0:",
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_advance_index",
+      "line": 59
+    }
+  ],
+  "contract_reference": "Features/patrol_movement/template.yaml#behavior=ping_pong_reverses_at_path_end",
+  "contract_version": "968ebf2a461f",
+  "entry_points": [
+    {
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "line": 37,
+      "name": "_physics_process",
+      "params": "delta: float",
+      "returns": "void",
+      "source_reference": "Features/patrol_movement/patrol_movement.gd:37#func=_physics_process",
+      "trigger": "frame_update"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_physics_process",
+      "kind": "emit",
+      "line": 47,
+      "signal": "waypoint_reached"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_physics_process",
+      "kind": "guard_return",
+      "line": 39,
+      "value": ""
+    },
+    {
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_physics_process",
+      "kind": "guard_return",
+      "line": 49,
+      "value": ""
+    },
+    {
+      "file": "Features/patrol_movement/patrol_movement.gd",
+      "function": "_advance_index",
+      "kind": "guard_return",
+      "line": 56,
+      "value": ""
+    }
+  ],
+  "feature_id": "patrol_movement",
+  "generated_at": "2026-11-06T09:31:38Z",
+  "implementation_references": [
+    "Features/patrol_movement/patrol_movement.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "PatrolMovement",
+      "digest": "15d43dbd0eddb0f0b0cbe5fc77d7e7b49d92a895cc84348e80cf91cda6bbaf9c",
+      "digest_of": "file_bytes",
+      "path": "Features/patrol_movement/patrol_movement.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "1",
+      "read_count": 3,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 59
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 61
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 63
+        }
+      ],
+      "variable": "_dir",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 60
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "0",
+      "read_count": 7,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 45
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 46
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 47
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 58
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 59
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 61
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 63
+        }
+      ],
+      "variable": "_index",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_to",
+          "line": 67
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "-1",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 45
+        }
+      ],
+      "variable": "_last_emitted",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 46
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "Vector2.ZERO",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_to",
+          "line": 68
+        }
+      ],
+      "variable": "_origin",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "Vector2.ZERO",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 40
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 44
+        }
+      ],
+      "variable": "_target",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_to",
+          "line": 68
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "true",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_advance_index",
+          "line": 57
+        }
+      ],
+      "variable": "loop",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/patrol_movement/patrol_movement.gd",
+      "initial": "60.0",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 41
+        },
+        {
+          "file": "Features/patrol_movement/patrol_movement.gd",
+          "function": "_physics_process",
+          "line": 50
+        }
+      ],
+      "variable": "speed",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约 action 均为 harness 驱动，入口按帧回调 _physics_process 认定（未绑定具体方法）"
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "analysis_status": "COMPLETE",
+  "behavior_category": "B",
+  "behavior_id": "trauma_starts_shake",
+  "conditions": [
+    {
+      "condition": "if _camera == null or amount <= 0.0:",
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "line": 46
+    },
+    {
+      "condition": "return false",
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "line": 47
+    },
+    {
+      "condition": "if not _active:",
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "line": 49
+    },
+    {
+      "condition": "return true",
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "line": 52
+    }
+  ],
+  "contract_reference": "Features/screen_shake/template.yaml#behavior=trauma_starts_shake",
+  "contract_version": "53ce3b1aafb6",
+  "entry_points": [
+    {
+      "file": "Features/screen_shake/screen_shake.gd",
+      "line": 45,
+      "name": "add_trauma",
+      "params": "amount: float",
+      "returns": "bool",
+      "source_reference": "Features/screen_shake/screen_shake.gd:45#func=add_trauma",
+      "trigger": "contract_action"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "kind": "emit",
+      "line": 51,
+      "signal": "shaking"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if _camera == null or amount <= 0.0:",
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "kind": "null_guard",
+      "line": 46
+    },
+    {
+      "file": "Features/screen_shake/screen_shake.gd",
+      "function": "add_trauma",
+      "kind": "early_return",
+      "line": 47,
+      "value": "false"
+    }
+  ],
+  "feature_id": "screen_shake",
+  "generated_at": "2026-11-06T09:31:41Z",
+  "implementation_references": [
+    "Features/screen_shake/screen_shake.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "ScreenShake",
+      "digest": "53796307ba9feceef73160d9e9dad736ab86c07faac07f42f26944dba9d12ede",
+      "digest_of": "file_bytes",
+      "path": "Features/screen_shake/screen_shake.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/screen_shake/screen_shake.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/screen_shake/screen_shake.gd",
+          "function": "add_trauma",
+          "line": 49
+        }
+      ],
+      "variable": "_active",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/screen_shake/screen_shake.gd",
+          "function": "add_trauma",
+          "line": 50
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/screen_shake/screen_shake.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/screen_shake/screen_shake.gd",
+          "function": "add_trauma",
+          "line": 46
+        }
+      ],
+      "variable": "_camera",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/screen_shake/screen_shake.gd",
+      "initial": "0.0",
+      "read_count": 0,
+      "reads": [],
+      "variable": "_trauma",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/screen_shake/screen_shake.gd",
+          "function": "add_trauma",
+          "line": 48
+        }
+      ]
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": []
+}

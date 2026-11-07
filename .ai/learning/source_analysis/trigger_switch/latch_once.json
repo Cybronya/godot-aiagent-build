@@ -1,0 +1,152 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "F",
+  "behavior_id": "latch_once",
+  "conditions": [
+    {
+      "condition": "if not body.is_in_group(target_group):",
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "line": 37
+    },
+    {
+      "condition": "match trigger_mode:",
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "line": 39
+    },
+    {
+      "condition": "if _triggered:",
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "line": 41
+    }
+  ],
+  "contract_reference": "Features/trigger_switch/template.yaml#behavior=latch_once",
+  "contract_version": "4076f02be9eb",
+  "entry_points": [
+    {
+      "emitter": "self",
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "line": 36,
+      "name": "_on_body_entered",
+      "params": "body: Node2D",
+      "returns": "void",
+      "signal": "body_entered",
+      "source_reference": "Features/trigger_switch/trigger_switch.gd:36#func=_on_body_entered",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "kind": "emit",
+      "line": 44,
+      "signal": "activated"
+    },
+    {
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "kind": "emit",
+      "line": 47,
+      "signal": "activated"
+    },
+    {
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "kind": "emit",
+      "line": 50,
+      "signal": "activated"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 38,
+      "value": ""
+    },
+    {
+      "file": "Features/trigger_switch/trigger_switch.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 42,
+      "value": ""
+    }
+  ],
+  "feature_id": "trigger_switch",
+  "generated_at": "2026-11-06T10:02:19Z",
+  "implementation_references": [
+    "Features/trigger_switch/trigger_switch.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "TriggerSwitch",
+      "digest": "6efb0650543712e9d88d30c0572d13ac10496170aef298c52d5ee930730ca5fb",
+      "digest_of": "file_bytes",
+      "path": "Features/trigger_switch/trigger_switch.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/trigger_switch/trigger_switch.gd",
+      "initial": "false",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": "Features/trigger_switch/trigger_switch.gd",
+          "function": "_on_body_entered",
+          "line": 41
+        },
+        {
+          "file": "Features/trigger_switch/trigger_switch.gd",
+          "function": "_on_body_entered",
+          "line": 50
+        }
+      ],
+      "variable": "_triggered",
+      "write_count": 3,
+      "writes": [
+        {
+          "file": "Features/trigger_switch/trigger_switch.gd",
+          "function": "_on_body_entered",
+          "line": 43
+        },
+        {
+          "file": "Features/trigger_switch/trigger_switch.gd",
+          "function": "_on_body_entered",
+          "line": 46
+        },
+        {
+          "file": "Features/trigger_switch/trigger_switch.gd",
+          "function": "_on_body_entered",
+          "line": 49
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/trigger_switch/trigger_switch.gd",
+      "initial": "\"players\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/trigger_switch/trigger_switch.gd",
+          "function": "_on_body_entered",
+          "line": 37
+        }
+      ],
+      "variable": "target_group",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测"
+  ]
+}

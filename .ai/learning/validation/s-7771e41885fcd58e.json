@@ -1,0 +1,127 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "health/damage",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=562bbb4f6bd7 current=562bbb4f6bd7",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/health/Health.tscn contract=res://Features/health/Health.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-55d8c3b7dea55340",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-55d8c3b7dea55340",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-55d8c3b7dea55340",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "2 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-55d8c3b7dea55340",
+      "detail": "Features/health/health.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-55d8c3b7dea55340",
+      "detail": "Features/health/health.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-55d8c3b7dea55340",
+      "detail": "expected=a436c28bbea1",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-55d8c3b7dea55340",
+      "detail": "Features/health/health.gd:29 (file 58 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-55d8c3b7dea55340",
+      "detail": "Features/health/health.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-55d8c3b7dea55340",
+      "detail": "Features/health/health.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-55d8c3b7dea55340",
+      "detail": "expected=a436c28bbea1",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-55d8c3b7dea55340",
+      "detail": "Features/health/health.gd:33 (file 58 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/health/Health.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "3 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "4 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-7771e41885fcd58e",
+  "status": "VALID"
+}

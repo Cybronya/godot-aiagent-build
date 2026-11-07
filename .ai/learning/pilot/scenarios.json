@@ -1,0 +1,138 @@
+{
+  "generated_at": "2026-11-06T10:01:46Z",
+  "note": "候选场景不自动执行；已执行结论只来自真实 Run 关联",
+  "scenarios": [
+    {
+      "behavior": "openable_door/open",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11964-ad881e33-open",
+      "guard": "if _is_open == value:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/openable_door/openable_door.gd:33"
+    },
+    {
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11964-79c99c5e-iframes_expire_and_damage_resumes",
+      "guard": "if _health != null and _active:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/i_frames/i_frames.gd:76"
+    },
+    {
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11964-79c99c5e-iframes_expire_and_damage_resumes",
+      "guard": "if damaged:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/i_frames/i_frames.gd:71"
+    },
+    {
+      "behavior": "save_game/save_slot_persists_world_state",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11964-26505382-save_slot_persists_world_state",
+      "guard": "if not _is_valid_slot_name(slot_name):",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/save_game/save_game.gd:43"
+    },
+    {
+      "behavior": "save_game/save_slot_persists_world_state",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11964-26505382-save_slot_persists_world_state",
+      "guard": "return false",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/save_game/save_game.gd:45"
+    },
+    {
+      "behavior": "save_game/save_slot_persists_world_state",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11964-26505382-save_slot_persists_world_state",
+      "guard": "if not data.write_to_file(slot_path):",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/save_game/save_game.gd:48"
+    },
+    {
+      "behavior": "save_game/save_slot_persists_world_state",
+      "derived_from": "SOURCE_OBSERVATION:persistence",
+      "executed": false,
+      "execution_note": "候选场景；不冒充 Test Observation",
+      "existing_run_id": "11964-26505382-save_slot_persists_world_state",
+      "kind": "persistence_roundtrip",
+      "proposed_action": "写入后在新实例中读取，验证数据与路径解析一致",
+      "source_reference": "Features/save_game/save_game.gd:185",
+      "target": "LAST_SLOT_FILE"
+    },
+    {
+      "behavior": "trigger_switch/latch_once",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "无可用真实 Run：保留为候选场景，等待授权执行",
+      "existing_run_id": null,
+      "guard": "if not body.is_in_group(target_group):",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/trigger_switch/trigger_switch.gd:37"
+    },
+    {
+      "behavior": "trigger_switch/latch_once",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "无可用真实 Run：保留为候选场景，等待授权执行",
+      "existing_run_id": null,
+      "guard": "match trigger_mode:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/trigger_switch/trigger_switch.gd:39"
+    },
+    {
+      "behavior": "trigger_switch/latch_once",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "无可用真实 Run：保留为候选场景，等待授权执行",
+      "existing_run_id": null,
+      "guard": "if _triggered:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/trigger_switch/trigger_switch.gd:41"
+    },
+    {
+      "behavior": "health/damage",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11984-263d1383-damage",
+      "guard": "if _is_dead or _invulnerable or amount <= 0:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/health/health.gd:29"
+    },
+    {
+      "behavior": "health/damage",
+      "derived_from": "SOURCE_OBSERVATION:guards",
+      "executed": false,
+      "execution_note": "Pilot 不新增执行；已有真实 Run 通过 TEST_OBSERVATION 关联",
+      "existing_run_id": "11984-263d1383-damage",
+      "guard": "if _current_health == 0:",
+      "kind": "guard_boundary",
+      "proposed_action": "构造使守卫取反的输入/时序，验证状态与信号是否符合契约",
+      "source_reference": "Features/health/health.gd:33"
+    }
+  ]
+}

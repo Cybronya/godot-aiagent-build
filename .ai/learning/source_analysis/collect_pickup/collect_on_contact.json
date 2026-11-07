@@ -1,0 +1,120 @@
+{
+  "analysis_status": "PARTIAL",
+  "behavior_category": "D",
+  "behavior_id": "collect_on_contact",
+  "conditions": [
+    {
+      "condition": "if _collected or not body.is_in_group(target_group):",
+      "file": "Features/collect_pickup/collect_pickup.gd",
+      "function": "_on_body_entered",
+      "line": 29
+    }
+  ],
+  "contract_reference": "Features/collect_pickup/template.yaml#behavior=collect_on_contact",
+  "contract_version": "723f2167e74c",
+  "entry_points": [
+    {
+      "emitter": "self",
+      "file": "Features/collect_pickup/collect_pickup.gd",
+      "line": 28,
+      "name": "_on_body_entered",
+      "params": "body: Node2D",
+      "returns": "void",
+      "signal": "body_entered",
+      "source_reference": "Features/collect_pickup/collect_pickup.gd:28#func=_on_body_entered",
+      "trigger": "signal_handler"
+    }
+  ],
+  "events": [
+    {
+      "file": "Features/collect_pickup/collect_pickup.gd",
+      "function": "_on_body_entered",
+      "kind": "emit",
+      "line": 32,
+      "signal": "collected"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": "Features/collect_pickup/collect_pickup.gd",
+      "function": "_on_body_entered",
+      "kind": "guard_return",
+      "line": 30,
+      "value": ""
+    }
+  ],
+  "feature_id": "collect_pickup",
+  "generated_at": "2026-11-06T09:31:24Z",
+  "implementation_references": [
+    "Features/collect_pickup/collect_pickup.gd"
+  ],
+  "schema": "behavior_source_analysis",
+  "schema_version": 1,
+  "scripts": [
+    {
+      "class_name": "CollectPickup",
+      "digest": "3c16f890deeebef302be353dff5274c01673ed1ff51d9698354a651008805b7d",
+      "digest_of": "file_bytes",
+      "path": "Features/collect_pickup/collect_pickup.gd"
+    }
+  ],
+  "side_effects": [],
+  "state_variables": [
+    {
+      "declared_in": "Features/collect_pickup/collect_pickup.gd",
+      "initial": "false",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/collect_pickup/collect_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 29
+        }
+      ],
+      "variable": "_collected",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": "Features/collect_pickup/collect_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 31
+        }
+      ]
+    },
+    {
+      "declared_in": "Features/collect_pickup/collect_pickup.gd",
+      "initial": "\"\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/collect_pickup/collect_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 32
+        }
+      ],
+      "variable": "pickup_id",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": "Features/collect_pickup/collect_pickup.gd",
+      "initial": "\"players\"",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": "Features/collect_pickup/collect_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 29
+        }
+      ],
+      "variable": "target_group",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "static_only": true,
+  "unresolved_questions": [
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约引用的符号 freed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ]
+}

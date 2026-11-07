@@ -1,0 +1,70 @@
+{
+  "changed_behaviors": [
+    {
+      "added": [],
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_driven_tasks": [
+        "T-TRIGGER_SW-LATCH_ONCE-DESIGNTEST"
+      ],
+      "priority_after": {
+        "DESIGN_TEST_SCENARIO": 11.0,
+        "EXECUTE_BEHAVIOR": 12.0
+      },
+      "priority_before": {
+        "DESIGN_TEST_SCENARIO": 11.0,
+        "EXECUTE_BEHAVIOR": 12.0
+      },
+      "removed": [],
+      "tasks_after": [
+        "DESIGN_TEST_SCENARIO",
+        "EXECUTE_BEHAVIOR"
+      ],
+      "tasks_before": [
+        "DESIGN_TEST_SCENARIO",
+        "EXECUTE_BEHAVIOR"
+      ]
+    }
+  ],
+  "generated_at": "2026-11-06T10:01:46Z",
+  "proof": "第二轮计划的任务集合/依据由 Knowledge Store 的已审批记录驱动（driven_by_knowledge 非空），不是手工改写。",
+  "summary_after": {
+    "behaviors_with_tasks": 57,
+    "blocked": 0,
+    "by_status": {
+      "PENDING": 277
+    },
+    "by_type": {
+      "ANALYZE_DEPENDENCIES": 16,
+      "ANALYZE_SOURCE": 60,
+      "DESIGN_MUTATION": 50,
+      "DESIGN_TEST_SCENARIO": 48,
+      "EXECUTE_BEHAVIOR": 48,
+      "UPDATE_KNOWLEDGE": 55
+    },
+    "excluded_completed": 10,
+    "tasks": 277
+  },
+  "summary_before": {
+    "behaviors_with_tasks": 57,
+    "blocked": 0,
+    "by_status": {
+      "PENDING": 277
+    },
+    "by_type": {
+      "ANALYZE_DEPENDENCIES": 16,
+      "ANALYZE_SOURCE": 60,
+      "DESIGN_MUTATION": 50,
+      "DESIGN_TEST_SCENARIO": 48,
+      "EXECUTE_BEHAVIOR": 48,
+      "UPDATE_KNOWLEDGE": 55
+    },
+    "excluded_completed": 10,
+    "tasks": 277
+  },
+  "unchanged_behaviors": [
+    "openable_door/open",
+    "i_frames/iframes_expire_and_damage_resumes",
+    "save_game/save_slot_persists_world_state",
+    "health/damage"
+  ]
+}

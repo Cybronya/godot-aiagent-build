@@ -1,0 +1,1361 @@
+{
+  "candidates": [
+    {
+      "anchor": "\tif _is_open == value:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "openable_door/open",
+      "behavior_id": "open",
+      "condition": "if _is_open == value:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-ed4adc7d809d3361",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _is_open == value:` 后，契约期望的终态/信号计数不再成立：door.is_open, signal",
+      "expected_observations": [
+        {
+          "check": "door.is_open",
+          "equals": true,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "door.state_changed",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "openable_door",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-071a0c439e08b406"
+      ],
+      "mutation_candidate_id": "mc-1d5ca8bf44a033c8",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "door.state_changed",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/openable_door/openable_door.gd",
+      "target_line": 33,
+      "target_symbol": "set_open"
+    },
+    {
+      "anchor": "\tif _collision != null:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "openable_door/open",
+      "behavior_id": "open",
+      "condition": "if _collision != null:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-ed4adc7d809d3361",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _collision != null:` 后，契约期望的终态/信号计数不再成立：door.is_open, signal",
+      "expected_observations": [
+        {
+          "check": "door.is_open",
+          "equals": true,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "door.state_changed",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "openable_door",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-071a0c439e08b406"
+      ],
+      "mutation_candidate_id": "mc-b841a81375be5704",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "door.state_changed",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/openable_door/openable_door.gd",
+      "target_line": 40,
+      "target_symbol": "_apply"
+    },
+    {
+      "anchor": "\tif _visual != null:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "openable_door/open",
+      "behavior_id": "open",
+      "condition": "if _visual != null:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-ed4adc7d809d3361",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _visual != null:` 后，契约期望的终态/信号计数不再成立：door.is_open, signal",
+      "expected_observations": [
+        {
+          "check": "door.is_open",
+          "equals": true,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "door.state_changed",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "openable_door",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-071a0c439e08b406"
+      ],
+      "mutation_candidate_id": "mc-bf7d57162c4f731d",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "door.state_changed",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/openable_door/openable_door.gd",
+      "target_line": 42,
+      "target_symbol": "_apply"
+    },
+    {
+      "anchor": "\tif _is_dead or _invulnerable or amount <= 0:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "health/damage",
+      "behavior_id": "damage",
+      "condition": "if _is_dead or _invulnerable or amount <= 0:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-25a7cd9ac83a715d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _is_dead or _invulnerable or amount <= 0:` 后，契约期望的终态/信号计数不再成立：health.current, signal",
+      "expected_observations": [
+        {
+          "check": "health.current",
+          "equals": 1,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "health.health_changed",
+          "last_args": [
+            1,
+            4
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "health",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-55d8c3b7dea55340"
+      ],
+      "mutation_candidate_id": "mc-3df75e2ceec0bde2",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "health.health_changed",
+          "last_args": [
+            1,
+            4
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/health/health.gd",
+      "target_line": 29,
+      "target_symbol": "take_damage"
+    },
+    {
+      "anchor": "\tif _current_health == 0:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "health/damage",
+      "behavior_id": "damage",
+      "condition": "if _current_health == 0:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-25a7cd9ac83a715d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _current_health == 0:` 后，契约期望的终态/信号计数不再成立：health.current, signal",
+      "expected_observations": [
+        {
+          "check": "health.current",
+          "equals": 1,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "health.health_changed",
+          "last_args": [
+            1,
+            4
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "health",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-55d8c3b7dea55340"
+      ],
+      "mutation_candidate_id": "mc-27c95402012edc50",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "health.health_changed",
+          "last_args": [
+            1,
+            4
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/health/health.gd",
+      "target_line": 33,
+      "target_symbol": "take_damage"
+    },
+    {
+      "anchor": "\tif _health != null and _active:\n",
+      "anchor_validation": {
+        "reason": "anchor_not_unique: found 2 occurrence(s), expected exactly 1",
+        "status": "INVALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "condition": "if _health != null and _active:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-9b5f2fc7dffc7866",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _health != null and _active:` 后，契约期望的终态/信号计数不再成立：health.current, signal",
+      "expected_observations": [
+        {
+          "check": "health.current",
+          "equals": 8,
+          "target": "Host/Health"
+        },
+        {
+          "check": "signal",
+          "count": 2,
+          "entry": "health.health_changed",
+          "last_args": [
+            8,
+            1
+          ],
+          "target": "Host/Health"
+        }
+      ],
+      "feature_id": "i_frames",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-937fe9143b0f3900"
+      ],
+      "mutation_candidate_id": "mc-0770404708b8dc44",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 2,
+          "entry": "health.health_changed",
+          "last_args": [
+            8,
+            1
+          ],
+          "target": "Host/Health"
+        }
+      ],
+      "target_file": "Features/i_frames/i_frames.gd",
+      "target_line": 76,
+      "target_symbol": "_on_window_end"
+    },
+    {
+      "anchor": "\tif damaged:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "condition": "if damaged:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-9b5f2fc7dffc7866",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if damaged:` 后，契约期望的终态/信号计数不再成立：health.current, signal",
+      "expected_observations": [
+        {
+          "check": "health.current",
+          "equals": 8,
+          "target": "Host/Health"
+        },
+        {
+          "check": "signal",
+          "count": 2,
+          "entry": "health.health_changed",
+          "last_args": [
+            8,
+            1
+          ],
+          "target": "Host/Health"
+        }
+      ],
+      "feature_id": "i_frames",
+      "generated_at": "2026-11-06T11:08:03Z",
+      "knowledge_refs": [
+        "k-937fe9143b0f3900"
+      ],
+      "mutation_candidate_id": "mc-ca525c7e22299944",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 2,
+          "entry": "health.health_changed",
+          "last_args": [
+            8,
+            1
+          ],
+          "target": "Host/Health"
+        }
+      ],
+      "target_file": "Features/i_frames/i_frames.gd",
+      "target_line": 71,
+      "target_symbol": "_on_health_changed"
+    },
+    {
+      "anchor": "\tif not _is_valid_slot_name(slot_name):\n",
+      "anchor_validation": {
+        "reason": "anchor_not_unique: found 2 occurrence(s), expected exactly 1",
+        "status": "INVALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if not _is_valid_slot_name(slot_name):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if not _is_valid_slot_name(slot_name):` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-72897ae473cc3363",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 43,
+      "target_symbol": "save_to_slot"
+    },
+    {
+      "anchor": "\tif not data.write_to_file(slot_path):\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if not data.write_to_file(slot_path):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if not data.write_to_file(slot_path):` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-4385fc32fa6ab115",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 48,
+      "target_symbol": "save_to_slot"
+    },
+    {
+      "anchor": "\tif slot_name.is_empty():\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if slot_name.is_empty():",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if slot_name.is_empty():` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-0acb1c7650bff796",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 191,
+      "target_symbol": "_is_valid_slot_name"
+    },
+    {
+      "anchor": "\t\tif slot_name.contains(ch):\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if slot_name.contains(ch):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if slot_name.contains(ch):` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-0880902b6b7f2182",
+      "mutation_operator": "replace_exact",
+      "replacement": "\t\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 194,
+      "target_symbol": "_is_valid_slot_name"
+    },
+    {
+      "anchor": "\tif current_scene != null:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if current_scene != null:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if current_scene != null:` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-d8017023f4580192",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 67,
+      "target_symbol": "_collect_save_data"
+    },
+    {
+      "anchor": "\tif player != null and player.has_method(\"get_save_data\"):\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if player != null and player.has_method(\"get_save_data\"):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if player != null and player.has_method(\"get_save_data\"):` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-9e91811552ed9a7e",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 70,
+      "target_symbol": "_collect_save_data"
+    },
+    {
+      "anchor": "\t\tif not node.has_method(\"get_save_data\"):\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if not node.has_method(\"get_save_data\"):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if not node.has_method(\"get_save_data\"):` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-764d6b824030c6da",
+      "mutation_operator": "replace_exact",
+      "replacement": "\t\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 74,
+      "target_symbol": "_collect_save_data"
+    },
+    {
+      "anchor": "\t\tif not node_data.has(SaveData.INSTANCE_UID_KEY):\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if not node_data.has(SaveData.INSTANCE_UID_KEY):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if not node_data.has(SaveData.INSTANCE_UID_KEY):` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-3090ef1059349413",
+      "mutation_operator": "replace_exact",
+      "replacement": "\t\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 77,
+      "target_symbol": "_collect_save_data"
+    },
+    {
+      "anchor": "\tif file != null:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if file != null:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if file != null:` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-54ec08714c2fcfa4",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 186,
+      "target_symbol": "_record_last_slot"
+    },
+    {
+      "anchor": "\tif verbose:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "condition": "if verbose:",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0acf2b390ca9ca4d",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if verbose:` 后，契约期望的终态/信号计数不再成立：health.current, savegame.last_slot, signal",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "behavior_save",
+          "target": "Saver"
+        },
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        }
+      ],
+      "feature_id": "save_game",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "mutation_candidate_id": "mc-9017af839ba9dcef",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        }
+      ],
+      "target_file": "Features/save_game/save_game.gd",
+      "target_line": 200,
+      "target_symbol": "_log"
+    },
+    {
+      "anchor": "\tif not body.is_in_group(target_group):\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "PENDING_APPROVAL",
+      "behavior": "trigger_switch/latch_once",
+      "behavior_id": "latch_once",
+      "condition": "if not body.is_in_group(target_group):",
+      "execution": {},
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0dd7578179ee5c72",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if not body.is_in_group(target_group):` 后，契约期望的终态/信号计数不再成立：signal, trigger.is_triggered",
+      "expected_observations": [
+        {
+          "check": "trigger.is_triggered",
+          "equals": true,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "trigger.activated",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "trigger_switch",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_refs": [
+        "k-f26d4a87ed04a064"
+      ],
+      "mutation_candidate_id": "mc-8086d22e537a4bb6",
+      "mutation_operator": "replace_exact",
+      "replacement": "\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "trigger.activated",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/trigger_switch/trigger_switch.gd",
+      "target_line": 37,
+      "target_symbol": "_on_body_entered"
+    },
+    {
+      "anchor": "\t\t\tif _triggered:\n",
+      "anchor_validation": {
+        "reason": "anchor unique; operator applied on a copy",
+        "status": "VALID"
+      },
+      "approval_status": "EXECUTED",
+      "behavior": "trigger_switch/latch_once",
+      "behavior_id": "latch_once",
+      "condition": "if _triggered:",
+      "execution": {
+        "control_observation": {
+          "check": "signal",
+          "entry": "trigger.activated",
+          "expected": 1,
+          "first_observed_frame": 0,
+          "observed": 1,
+          "observed_args": [
+            true
+          ],
+          "status": "PASS",
+          "target": "."
+        },
+        "executed_at": "2026-11-06T11:11:32Z",
+        "mutant_observation": {
+          "check": "signal",
+          "entry": "trigger.activated",
+          "expected": 1,
+          "first_observed_frame": -1,
+          "observed": 2,
+          "observed_args": [
+            true
+          ],
+          "status": "SIGNAL_MISMATCH",
+          "target": "."
+        },
+        "recovery_verified": true,
+        "repo_guard": {
+          "changed": false,
+          "changes": [],
+          "checked_files": 265
+        },
+        "report": ".ai/tmp/p166/mutations/mc-55bda008e9123f41.json",
+        "restored_byte_for_byte": true,
+        "run_id": "p166-55bda008e9123f41-111034",
+        "verdict": "MUTANT_KILLED",
+        "verdict_reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "execution_requirements": [
+        "真实 Godot",
+        "mutation harness（1.59）",
+        "evaluation.expect 与契约一致"
+      ],
+      "existing_mutation_id": "",
+      "existing_verdict": {
+        "knowledge_id": "k-0dd7578179ee5c72",
+        "verdict": "MUTANT_KILLED"
+      },
+      "expected_failure": "禁用守卫 `if _triggered:` 后，契约期望的终态/信号计数不再成立：signal, trigger.is_triggered",
+      "expected_observations": [
+        {
+          "check": "trigger.is_triggered",
+          "equals": true,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "trigger.activated",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "feature_id": "trigger_switch",
+      "generated_at": "2026-11-06T11:08:04Z",
+      "knowledge_id": "k-7a622665a0db2c8a",
+      "knowledge_refs": [
+        "k-f26d4a87ed04a064"
+      ],
+      "mutation_candidate_id": "mc-55bda008e9123f41",
+      "mutation_operator": "replace_exact",
+      "replacement": "\t\t\tif false:\n",
+      "safety_constraints": [
+        "只在 harness 创建的 Features 副本里修改（require_inside 校验）",
+        "执行前核对 source_sha256；锚点必须恰好出现一次",
+        "Control / Mutation / Recovery 三段真实执行",
+        "Recovery 逐字节恢复校验 + repo_guard 检查仓库未被修改"
+      ],
+      "schema": "knowledge_mutation_candidate",
+      "schema_version": 1,
+      "signal_checks": [
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "trigger.activated",
+          "last_args": [
+            true
+          ],
+          "target": "."
+        }
+      ],
+      "target_file": "Features/trigger_switch/trigger_switch.gd",
+      "target_line": 41,
+      "target_symbol": "_on_body_entered"
+    }
+  ],
+  "generated_at": "2026-11-06T11:08:04Z",
+  "note": "候选不是检出；只有 harness 的 MUTANT_KILLED 才算有效缺陷知识",
+  "schema": "knowledge_mutation_candidates",
+  "schema_version": 1,
+  "summary": {
+    "candidates": 19,
+    "executed": 1,
+    "existing_catalog": 0,
+    "pending": 19
+  }
+}

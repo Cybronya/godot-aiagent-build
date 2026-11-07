@@ -1,0 +1,30 @@
+{
+  "analyzed_at": "2026-11-06T11:21:22Z",
+  "behavior": "health/damage",
+  "classification": "SOURCE_CONFIRMED",
+  "evidence": {
+    "bundle": ".ai/tmp/p166/evidence/5428-3f4723e0-bundle.json",
+    "bundle_digest": "9e1ab97607c2947ce52158dc6328091853767b8def33b19810071557648de0cd",
+    "manifest_digest": "7c32b01a820fd0986a8658c32c9035d32ffb126f348e7e1e687bc3eccd57b3b9"
+  },
+  "knowledge_refs": [
+    "k-55d8c3b7dea55340"
+  ],
+  "label": "P4",
+  "reasons": [
+    "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+    "real observation satisfies GUARD_TERMINAL_STATE scenario expectation"
+  ],
+  "rule_id": "post_terminal_input_ignored",
+  "run_id": "07abd604-4a61-448d-95d5-39310f2f198d",
+  "scenario_id": "s-7771e41885fcd58e",
+  "scenario_type": "GUARD_TERMINAL_STATE",
+  "statuses": {
+    "attestation_status": "ATTESTED_VERIFIED",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "execution_status": "PASSED",
+    "official_contract_status": "INCOMPLETE",
+    "scenario_evidence_status": "PASS"
+  }
+}

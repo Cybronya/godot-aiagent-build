@@ -1,0 +1,368 @@
+{
+  "entries": [
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-503b43a405320f1f",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "CONTRACT_FACT"
+    },
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-1f784fb1640e4490",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-071a0c439e08b406",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-65e81d4b22691dcf",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-11c8c1094704b6bb",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "TEST_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-6d6bccbf12099075",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "RUNTIME_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:20Z",
+      "behavior": "openable_door/open",
+      "knowledge_id": "k-ed4adc7d809d3361",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "MUTATION_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-aa4f9d0368b5b40a",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "CONTRACT_FACT"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-5cfe3f177070aa4f",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-937fe9143b0f3900",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-b489f6d97c4d65a5",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:43:35Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-12ca60365bb2e0b6",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "DEPENDENCY_KNOWLEDGE"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-8ab6c2d8f9bae7e0",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "TEST_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-9aa1d9923ac5d4c5",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "RUNTIME_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:21Z",
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "knowledge_id": "k-9b5f2fc7dffc7866",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "MUTATION_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-1953c6af5e262df5",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "CONTRACT_FACT"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-6362c3cc99c8d5a3",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-d617871a3a485ce5",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-b146092432b51a56",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:43:36Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-507b298744ce8643",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:43:36Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-8bdd846e2e415612",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "DEPENDENCY_KNOWLEDGE"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-007f292f745326bc",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "TEST_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-67e905febce7f2dd",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "RUNTIME_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-0acf2b390ca9ca4d",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "MUTATION_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:22Z",
+      "behavior": "save_game/save_slot_persists_world_state",
+      "knowledge_id": "k-fcc0a94d1d934d45",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "FAILURE_KNOWLEDGE"
+    },
+    {
+      "at": "2026-11-06T09:26:23Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-86f9a6b59d47612a",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "CONTRACT_FACT"
+    },
+    {
+      "at": "2026-11-06T09:26:23Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-baed5eb2b726195f",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:23Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-f26d4a87ed04a064",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:23Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-470d76268ed2d59f",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:43:37Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-d8ac203c2891a339",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "DEPENDENCY_KNOWLEDGE"
+    },
+    {
+      "at": "2026-11-06T09:26:23Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-0dd7578179ee5c72",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "MUTATION_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:23Z",
+      "behavior": "trigger_switch/latch_once",
+      "knowledge_id": "k-c0a8a61b9041f58a",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "FAILURE_KNOWLEDGE"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-03d9b9ab8a5d4b92",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "CONTRACT_FACT"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-c15e847a8b96603f",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-55d8c3b7dea55340",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-7cdddf033c056401",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "SOURCE_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:43:37Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-6b1ceb718f070ab0",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "DEPENDENCY_KNOWLEDGE"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-c4737afc94ae08eb",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "TEST_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-48d5b5fa8e3e50ea",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "RUNTIME_OBSERVATION"
+    },
+    {
+      "at": "2026-11-06T09:26:24Z",
+      "behavior": "health/damage",
+      "knowledge_id": "k-25a7cd9ac83a715d",
+      "reason": "pilot: source/contract/evidence gates passed; local review",
+      "result": "APPROVED_PREVIOUSLY",
+      "reviewer": "phase_1_65_local_review",
+      "type": "MUTATION_OBSERVATION"
+    }
+  ],
+  "note": "本地审批，不代表人类审批者身份已验证",
+  "open_conflicts": [],
+  "reviewer": "phase_1_65_local_review",
+  "scope": "LOCAL_REVIEW"
+}

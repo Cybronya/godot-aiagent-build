@@ -1,0 +1,353 @@
+{
+  "behavior_category": "A",
+  "behavior_id": "damage",
+  "confidence": "HIGH",
+  "conflict_ids": [
+    "c-486a7813881e724e"
+  ],
+  "content": {
+    "count": 25,
+    "edges": [
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0002",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed",
+        "target_behavior": "health_bar/damage_updates_health_bar",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal died",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0004",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:21#connect=_health.died",
+        "target_behavior": "health_bar/damage_updates_health_bar",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0006",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed",
+        "target_behavior": "health_bar/death_empties_health_bar",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal died",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0008",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:21#connect=_health.died",
+        "target_behavior": "health_bar/death_empties_health_bar",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0010",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed",
+        "target_behavior": "health_bar/healing_updates_health_bar",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal died",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0012",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:21#connect=_health.died",
+        "target_behavior": "health_bar/healing_updates_health_bar",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0014",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed",
+        "target_behavior": "health_bar/initial_health_bar_ratio",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal died",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0016",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:21#connect=_health.died",
+        "target_behavior": "health_bar/initial_health_bar_ratio",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0018",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed",
+        "target_behavior": "health_bar/unbound_bar_reports_no_fill",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal died",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0020",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/health_bar/health_bar.gd:21#connect=_health.died",
+        "target_behavior": "health_bar/unbound_bar_reports_no_fill",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0022",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/hit_flash/hit_flash.gd:52#connect=_health.health_changed",
+        "target_behavior": "hit_flash/flash_ends_after_duration",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0024",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/hit_flash/hit_flash.gd:52#connect=_health.health_changed",
+        "target_behavior": "hit_flash/heal_does_not_flash",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0026",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/hit_flash/hit_flash.gd:52#connect=_health.health_changed",
+        "target_behavior": "hit_flash/hit_flashes_host",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0029",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/i_frames/i_frames.gd:44#connect=_health.health_changed",
+        "target_behavior": "i_frames/iframes_block_damage_within_window",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0032",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/i_frames/i_frames.gd:44#connect=_health.health_changed",
+        "target_behavior": "i_frames/iframes_expire_and_damage_resumes",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0035",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/i_frames/i_frames.gd:44#connect=_health.health_changed",
+        "target_behavior": "i_frames/killing_blow_still_dies",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0037",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/stun/stun.gd:35#connect=_health.health_changed",
+        "target_behavior": "stun/death_guard_rejects_stun",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0039",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/stun/stun.gd:35#connect=_health.health_changed",
+        "target_behavior": "stun/heal_does_not_stun",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0041",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/stun/stun.gd:35#connect=_health.health_changed",
+        "target_behavior": "stun/hit_stuns_and_freezes_host",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0043",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/stun/stun.gd:35#connect=_health.health_changed",
+        "target_behavior": "stun/reentry_extends_without_rebroadcast",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "HIGH",
+        "dependency_type": "EMITS_EVENT_TO",
+        "detail": "signal health_changed",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0045",
+        "source_behavior": "health/damage",
+        "source_reference": "Features/stun/stun.gd:35#connect=_health.health_changed",
+        "target_behavior": "stun/stun_expires_and_host_resumes",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "MEDIUM",
+        "dependency_type": "SHARES_STATE_WITH",
+        "detail": "_current_health,_invulnerable,_is_dead",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0077",
+        "source_behavior": "health/damage",
+        "source_reference": "analysis:health/damage#state=_current_health,_invulnerable,_is_dead",
+        "target_behavior": "health/death",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "MEDIUM",
+        "dependency_type": "SHARES_STATE_WITH",
+        "detail": "_current_health,_invulnerable,_is_dead",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0078",
+        "source_behavior": "health/damage",
+        "source_reference": "analysis:health/damage#state=_current_health,_invulnerable,_is_dead",
+        "target_behavior": "health/heal_clamped",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "MEDIUM",
+        "dependency_type": "SHARES_STATE_WITH",
+        "detail": "_current_health,_invulnerable,_is_dead",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0079",
+        "source_behavior": "health/damage",
+        "source_reference": "analysis:health/damage#state=_current_health,_invulnerable,_is_dead",
+        "target_behavior": "health/overkill_clamps_at_zero",
+        "verification_status": "SOURCE_OBSERVED"
+      },
+      {
+        "confidence": "MEDIUM",
+        "dependency_type": "SHARES_STATE_WITH",
+        "detail": "_current_health,_invulnerable,_is_dead",
+        "evidence_kind": "SOURCE_REFERENCE",
+        "id": "dep-0080",
+        "source_behavior": "health/damage",
+        "source_reference": "analysis:health/damage#state=_current_health,_invulnerable,_is_dead",
+        "target_behavior": "health/post_death_guard",
+        "verification_status": "SOURCE_OBSERVED"
+      }
+    ]
+  },
+  "content_digest": "70d2417982bfd9e50c80d81c28c02d9a29c3a2d077b87bc3d525a214af733f5c",
+  "contract_version": "562bbb4f6bd7",
+  "created_at": "2026-11-06T09:42:01Z",
+  "derivations": [],
+  "evidence_digest": "",
+  "feature_id": "health",
+  "implementation_digest": "",
+  "key": "dependencies",
+  "knowledge_id": "k-6b1ceb718f070ab0",
+  "knowledge_type": "DEPENDENCY_KNOWLEDGE",
+  "lifecycle_events": [
+    {
+      "at": "2026-11-06T09:42:01Z",
+      "detail": "generated by learning pipeline",
+      "event": "CREATE"
+    },
+    {
+      "at": "2026-11-06T09:43:37Z",
+      "detail": "pilot: source/contract/evidence gates passed; local review",
+      "event": "APPROVE"
+    }
+  ],
+  "mutation_verdict": "",
+  "reason": "",
+  "review": {
+    "at": "2026-11-06T09:43:37Z",
+    "note": "本地审批，不代表人类审批者身份已验证",
+    "reason": "pilot: source/contract/evidence gates passed; local review",
+    "reviewer": "phase_1_65_local_review",
+    "scope": "LOCAL_REVIEW"
+  },
+  "run_id": "",
+  "schema": "behavior_learning_knowledge",
+  "schema_version": 1,
+  "source_references": [
+    {
+      "kind": "SOURCE_REFERENCE",
+      "reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed"
+    },
+    {
+      "kind": "SOURCE_REFERENCE",
+      "reference": "Features/health_bar/health_bar.gd:21#connect=_health.died"
+    },
+    {
+      "kind": "SOURCE_REFERENCE",
+      "reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed"
+    },
+    {
+      "kind": "SOURCE_REFERENCE",
+      "reference": "Features/health_bar/health_bar.gd:21#connect=_health.died"
+    },
+    {
+      "kind": "SOURCE_REFERENCE",
+      "reference": "Features/health_bar/health_bar.gd:20#connect=_health.health_changed"
+    },
+    {
+      "kind": "SOURCE_REFERENCE",
+      "reference": "Features/health_bar/health_bar.gd:21#connect=_health.died"
+    }
+  ],
+  "superseded_by": "",
+  "supersedes": "k-588f52d86c959c94",
+  "unresolved_questions": [],
+  "updated_at": "2026-11-06T09:43:37Z",
+  "verification_status": "APPROVED"
+}
