@@ -1,0 +1,2116 @@
+{
+  "schema": "behavior_trace_bindings",
+  "schema_version": 1,
+  "note": "Phase 1.60 per-behavior bindings. Expected comes from the formal behavior contract (auditable source #1). The 4 orchestration scenario baselines remain SCENARIO_ONLY and are NOT upgraded.",
+  "bindings": [
+    {
+      "binding_id": "BND-001",
+      "feature_id": "collect_pickup",
+      "behavior_id": "collect_on_contact",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "723f2167e74c",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node.freed",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "pickup.collected",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/collect_pickup/template.yaml#behavior (contract digest 723f2167e74c)",
+      "approved": true,
+      "approval_reference": "formal behavior contract verified by validator chain (Phase 1.56-1.59) and registered in Phase 1.60 binding registration",
+      "created_at": "2026-11-03T12:00:00Z",
+      "updated_at": "2026-11-03T12:00:00Z"
+    },
+    {
+      "binding_id": "BND-002",
+      "feature_id": "health",
+      "behavior_id": "damage",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "562bbb4f6bd7",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": ".",
+          "equals": 1
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "health.health_changed",
+          "count": 1,
+          "last_args": [
+            1,
+            4
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health/template.yaml#behavior (contract digest 562bbb4f6bd7)",
+      "approved": true,
+      "approval_reference": "formal behavior contract verified by validator chain (Phase 1.56-1.59) and registered in Phase 1.60 binding registration",
+      "created_at": "2026-11-03T12:00:00Z",
+      "updated_at": "2026-11-03T12:00:00Z"
+    },
+    {
+      "binding_id": "BND-003",
+      "feature_id": "save_game",
+      "behavior_id": "save_slot_persists_world_state",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "d85d91c73250",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Saver",
+          "entry": "savegame.game_saved",
+          "count": 1
+        },
+        {
+          "check": "savegame.last_slot",
+          "target": "Saver",
+          "equals": "behavior_save"
+        },
+        {
+          "check": "health.current",
+          "target": "World/Player/Health",
+          "equals": 3
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/save_game/template.yaml#behavior (contract digest d85d91c73250)",
+      "approved": true,
+      "approval_reference": "formal behavior contract verified by validator chain (Phase 1.56-1.59) and registered in Phase 1.60 binding registration",
+      "created_at": "2026-11-03T12:00:00Z",
+      "updated_at": "2026-11-03T12:00:00Z"
+    },
+    {
+      "binding_id": "BND-004",
+      "feature_id": "save_game",
+      "behavior_id": "load_slot_restores_world_state",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "5658548584a0",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "World/Player/Health",
+          "equals": 3
+        },
+        {
+          "check": "signal",
+          "target": "Saver",
+          "entry": "savegame.game_loaded",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/save_game/template.yaml#behavior (contract digest 5658548584a0)",
+      "approved": true,
+      "approval_reference": "formal behavior contract verified by validator chain (Phase 1.56-1.59) and registered in Phase 1.60 binding registration",
+      "created_at": "2026-11-03T12:00:00Z",
+      "updated_at": "2026-11-03T12:00:00Z"
+    },
+    {
+      "binding_id": "BND-006",
+      "feature_id": "openable_door",
+      "behavior_id": "open",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "0550357495e5",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "door.is_open",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "door.state_changed",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/openable_door/template.yaml#behavior (contract digest 0550357495e5)",
+      "approved": true,
+      "approval_reference": "formal behavior contract verified by validator chain (Phase 1.56-1.59) and registered in Phase 1.60 binding registration",
+      "created_at": "2026-11-03T12:00:00Z",
+      "updated_at": "2026-11-03T12:00:00Z"
+    },
+    {
+      "binding_id": "BND-ATTACK_EMI-RAYCAST_HIT_DEALS_",
+      "feature_id": "attack_emitter",
+      "behavior_id": "raycast_hit_deals_damage",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "2a1db50e5291",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Target/Health",
+          "equals": 2
+        },
+        {
+          "check": "signal",
+          "target": "Emitter",
+          "entry": "attackemitter.attack_hit",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/attack_emitter/template.yaml#behavior (contract digest 2a1db50e5291)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "d106ff476ca82cd671623ea7afb4f641666c534fa00724dd9cf125efefa6c386",
+      "created_at": "2026-11-04T02:02:52Z",
+      "updated_at": "2026-11-04T02:02:52Z"
+    },
+    {
+      "binding_id": "BND-ATTACK_EMI-REPEATED_ATTACK_CA",
+      "feature_id": "attack_emitter",
+      "behavior_id": "repeated_attack_can_kill",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "71820d16eaa9",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Target/Health",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": "Target/Health",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": "Target/Health",
+          "entry": "health.died",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/attack_emitter/template.yaml#behavior (contract digest 71820d16eaa9)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "84f9b24a57b75dd73eea288a95d5eb26d0d011886f7411de15511a790c7de6f7",
+      "created_at": "2026-11-04T02:03:52Z",
+      "updated_at": "2026-11-04T02:03:52Z"
+    },
+    {
+      "binding_id": "BND-CHASE_MOVE-APPROACH_TARGET",
+      "feature_id": "chase_movement",
+      "behavior_id": "approach_target",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "c306bbed97da",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": "Chaser",
+          "axis": "x",
+          "min": 57.5,
+          "max": 62.5
+        },
+        {
+          "check": "node2d.displacement",
+          "target": "Chaser",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.5
+        },
+        {
+          "check": "node2d.position",
+          "target": "Target",
+          "axis": "x",
+          "equals": 300.0,
+          "tolerance": 0.5
+        },
+        {
+          "check": "node.exists",
+          "target": "Chaser",
+          "equals": true
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/chase_movement/template.yaml#behavior (contract digest c306bbed97da)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "078c770c4ad33bfa1640fda01f4c7b9999550eff970622a75a48919e7bf5d1e7",
+      "created_at": "2026-11-04T02:03:52Z",
+      "updated_at": "2026-11-04T02:03:52Z"
+    },
+    {
+      "binding_id": "BND-CHASE_MOVE-HOLD_WITHOUT_TARGE",
+      "feature_id": "chase_movement",
+      "behavior_id": "hold_without_target",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "ed8038ab54d0",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "equals": 0.0,
+          "tolerance": 0.01
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.01
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/chase_movement/template.yaml#behavior (contract digest ed8038ab54d0)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "8504bea19b0979e7b5e273bc9ff9dbfc8bb0818a5e8382950802708da0aa6483",
+      "created_at": "2026-11-04T02:03:52Z",
+      "updated_at": "2026-11-04T02:03:52Z"
+    },
+    {
+      "binding_id": "BND-CONDITION_-PARTIAL_CONDITIONS",
+      "feature_id": "condition_gate",
+      "behavior_id": "partial_conditions_block_output",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "86e3dcb65ce7",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "trigger.is_triggered",
+          "target": "SwitchA",
+          "equals": true
+        },
+        {
+          "check": "trigger.is_triggered",
+          "target": "SwitchB",
+          "equals": false
+        },
+        {
+          "check": "door.is_open",
+          "target": "Door",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": "Door",
+          "entry": "door.state_changed",
+          "count": 0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/condition_gate/template.yaml#behavior (contract digest 86e3dcb65ce7)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "efd9d9b5d463d2c33db10e65bc38675292f12052deb40d45e4d77b0801814022",
+      "created_at": "2026-11-04T02:03:52Z",
+      "updated_at": "2026-11-04T02:03:52Z"
+    },
+    {
+      "binding_id": "BND-CONDITION_-ALL_CONDITIONS_FUL",
+      "feature_id": "condition_gate",
+      "behavior_id": "all_conditions_fulfill",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "80bf50aa7dbf",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "trigger.is_triggered",
+          "target": "SwitchA",
+          "equals": true
+        },
+        {
+          "check": "trigger.is_triggered",
+          "target": "SwitchB",
+          "equals": true
+        },
+        {
+          "check": "door.is_open",
+          "target": "Door",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": "Door",
+          "entry": "door.state_changed",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/condition_gate/template.yaml#behavior (contract digest 80bf50aa7dbf)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "f1a9834d65e255d6cd4f7b67c36972624d54d1a0c4c0dcdc42ec638f41206700",
+      "created_at": "2026-11-04T02:03:52Z",
+      "updated_at": "2026-11-04T02:03:52Z"
+    },
+    {
+      "binding_id": "BND-CONDITION_-CONDITION_FALLBACK",
+      "feature_id": "condition_gate",
+      "behavior_id": "condition_fallback_withdraws_output",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "0de0e3512917",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "trigger.is_triggered",
+          "target": "SwitchA",
+          "equals": true
+        },
+        {
+          "check": "trigger.is_triggered",
+          "target": "SwitchB",
+          "equals": false
+        },
+        {
+          "check": "door.is_open",
+          "target": "Door",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": "Door",
+          "entry": "door.state_changed",
+          "count": 2,
+          "last_args": [
+            false
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/condition_gate/template.yaml#behavior (contract digest 0de0e3512917)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "983aaf1d76139877488b58a1732a1b61f240a8c7e4a77c23b5dfd2c20aa3f6e2",
+      "created_at": "2026-11-04T02:03:52Z",
+      "updated_at": "2026-11-04T02:03:52Z"
+    },
+    {
+      "binding_id": "BND-CONTACT_DA-DAMAGE_ON_CONTACT",
+      "feature_id": "contact_damage",
+      "behavior_id": "damage_on_contact",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "1732981f92b4",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "@actor/Health",
+          "equals": 4
+        },
+        {
+          "check": "signal",
+          "target": "@actor/Health",
+          "entry": "health.health_changed",
+          "count": 1,
+          "last_args": [
+            4,
+            1
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/contact_damage/template.yaml#behavior (contract digest 1732981f92b4)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "53721c9bc009cb298b149e1765c8ba471d0b0b66e64d2b1ba6aad32e219b5653",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-CONTACT_DA-NO_DAMAGE_WITHOUT_",
+      "feature_id": "contact_damage",
+      "behavior_id": "no_damage_without_contact",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "37b1c673b0be",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "@actor/Health",
+          "equals": 5
+        },
+        {
+          "check": "signal",
+          "target": "@actor/Health",
+          "entry": "health.health_changed",
+          "count": 0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/contact_damage/template.yaml#behavior (contract digest 37b1c673b0be)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "60cf5cf0a6ccb87cb15cc360ac9168a47f07624f0ba72aa34382906909f0c042",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-CONTACT_DA-DAMAGE_AMOUNT_IS_R",
+      "feature_id": "contact_damage",
+      "behavior_id": "damage_amount_is_respected",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "129430fff4c2",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "@actor/Health",
+          "equals": 2
+        },
+        {
+          "check": "signal",
+          "target": "@actor/Health",
+          "entry": "health.health_changed",
+          "count": 1,
+          "last_args": [
+            2,
+            3
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/contact_damage/template.yaml#behavior (contract digest 129430fff4c2)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "b346251b0a7bf67c9f695ef70893df3b9c05c68975c5f4d8032baa1fd9eb3e73",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-COOLDOWN-COOLDOWN_BLOCKS_DU",
+      "feature_id": "cooldown",
+      "behavior_id": "cooldown_blocks_during_window",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "306d90c22da0",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "cooldown.is_ready",
+          "target": ".",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "cooldown.started",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/cooldown/template.yaml#behavior (contract digest 306d90c22da0)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "640cb72f2b27fb5633e84b8488de943a787f6215ed1cfcc2fc3cc5781aedf3fb",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-COOLDOWN-COOLDOWN_EXPIRES_A",
+      "feature_id": "cooldown",
+      "behavior_id": "cooldown_expires_and_notifies",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "4633b8df6a20",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "cooldown.is_ready",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "cooldown.started",
+          "count": 1
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "cooldown.finished",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/cooldown/template.yaml#behavior (contract digest 4633b8df6a20)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "fe7db7574acaff16ff0836179085eec0d5af8f09c143e5447be06fe89297492c",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-COOLDOWN-RESTART_RESETS_REM",
+      "feature_id": "cooldown",
+      "behavior_id": "restart_resets_remaining_window",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "e78d86d00406",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "cooldown.is_ready",
+          "target": ".",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "cooldown.started",
+          "count": 2
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "cooldown.finished",
+          "count": 0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/cooldown/template.yaml#behavior (contract digest e78d86d00406)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "5a6dc0f0f1d9bb268250105560d8daeb4a00691993b912bbb97f1e3ddb331b81",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-HEAL_PICKU-HEAL_DAMAGED_TARGE",
+      "feature_id": "heal_pickup",
+      "behavior_id": "heal_damaged_target",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "9f158fcdec46",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "@actor/Health",
+          "equals": 4
+        },
+        {
+          "check": "node.freed",
+          "target": ".",
+          "equals": true
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/heal_pickup/template.yaml#behavior (contract digest 9f158fcdec46)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "e186b7c76821878ecb52779a9bd6bcace0a5464bbc3f3a2f4901e27729cc1b69",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-HEALTH-HEAL_CLAMPED",
+      "feature_id": "health",
+      "behavior_id": "heal_clamped",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "2ab713269f9e",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": ".",
+          "equals": 5
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "health.health_changed",
+          "count": 2,
+          "last_args": [
+            5,
+            99
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health/template.yaml#behavior (contract digest 2ab713269f9e)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "3aa1f53b2220da3364d87013d192f228e49e6bea718656811655f88ceb329d4f",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-HEALTH-DEATH",
+      "feature_id": "health",
+      "behavior_id": "death",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "a1e1536e3044",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": ".",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "health.died",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health/template.yaml#behavior (contract digest a1e1536e3044)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "84f8a2277c46115daf55c50fb55ddce0d91c320ff51f72358eafa1490f99aeff",
+      "created_at": "2026-11-04T02:03:53Z",
+      "updated_at": "2026-11-04T02:03:53Z"
+    },
+    {
+      "binding_id": "BND-HEALTH-OVERKILL_CLAMPS_AT",
+      "feature_id": "health",
+      "behavior_id": "overkill_clamps_at_zero",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "ca77ec16cbe8",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": ".",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "health.health_changed",
+          "count": 1,
+          "last_args": [
+            0,
+            100
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health/template.yaml#behavior (contract digest ca77ec16cbe8)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "e008b397c06bbf43868e76254fe50953b3f70088d70747c6a8029bc653136d15",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HEALTH-POST_DEATH_GUARD",
+      "feature_id": "health",
+      "behavior_id": "post_death_guard",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "4d36279f1e6b",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": ".",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "health.died",
+          "count": 1
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "health.health_changed",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health/template.yaml#behavior (contract digest 4d36279f1e6b)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "0e8be028806373fd65db1137fdf23f85a50198a2eab16166e01b0bc44d801a88",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HEALTH_BAR-INITIAL_HEALTH_BAR",
+      "feature_id": "health_bar",
+      "behavior_id": "initial_health_bar_ratio",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "4c502f0046fd",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health_bar.ratio",
+          "target": "Host/Bar",
+          "equals": 1.0,
+          "tolerance": 0.0001
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 10
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health_bar/template.yaml#behavior (contract digest 4c502f0046fd)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "39b37a6bd8e69d593f52b56bf9e7faf910ad105b1bca05fa78631513bcb53212",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HEALTH_BAR-DAMAGE_UPDATES_HEA",
+      "feature_id": "health_bar",
+      "behavior_id": "damage_updates_health_bar",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "bf6cdfd528d2",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 6
+        },
+        {
+          "check": "health_bar.ratio",
+          "target": "Host/Bar",
+          "equals": 0.6,
+          "tolerance": 0.0005
+        },
+        {
+          "check": "signal",
+          "target": "Host/Health",
+          "entry": "health.health_changed",
+          "count": 1,
+          "last_args": [
+            6,
+            4
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health_bar/template.yaml#behavior (contract digest bf6cdfd528d2)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "95d763c079365227245321af40a7f9bf3cf71830970182b9d72a13b71b5e2e63",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HEALTH_BAR-HEALING_UPDATES_HE",
+      "feature_id": "health_bar",
+      "behavior_id": "healing_updates_health_bar",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "b7471818c956",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 8
+        },
+        {
+          "check": "health_bar.ratio",
+          "target": "Host/Bar",
+          "equals": 0.8,
+          "tolerance": 0.0005
+        },
+        {
+          "check": "signal",
+          "target": "Host/Health",
+          "entry": "health.health_changed",
+          "count": 2,
+          "last_args": [
+            8,
+            2
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health_bar/template.yaml#behavior (contract digest b7471818c956)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "2581408b87c13c7f004e295dbe82f83d2b07fadccd16f7251480a4caba3edc83",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HEALTH_BAR-DEATH_EMPTIES_HEAL",
+      "feature_id": "health_bar",
+      "behavior_id": "death_empties_health_bar",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "f38b1e0d750d",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": "Host/Health",
+          "equals": true
+        },
+        {
+          "check": "health_bar.ratio",
+          "target": "Host/Bar",
+          "equals": 0.0,
+          "tolerance": 0.0001
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health_bar/template.yaml#behavior (contract digest f38b1e0d750d)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "0ca4d769c6b058c90f81eae8fb872176b704b18bccec1d99631b61d00d905857",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HEALTH_BAR-UNBOUND_BAR_REPORT",
+      "feature_id": "health_bar",
+      "behavior_id": "unbound_bar_reports_no_fill",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "eef10bb2d84f",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health_bar.ratio",
+          "target": "Orphan",
+          "equals": 0.0,
+          "tolerance": 0.0001
+        },
+        {
+          "check": "health_bar.ratio",
+          "target": "Host/Bar",
+          "equals": 1.0,
+          "tolerance": 0.0001
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 10
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/health_bar/template.yaml#behavior (contract digest eef10bb2d84f)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "b8dc2db56a07310b3f928dbcdbd865f991a3bc048efc98b0fb08449374a53859",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HIT_FLASH-HIT_FLASHES_HOST",
+      "feature_id": "hit_flash",
+      "behavior_id": "hit_flashes_host",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "76110ae92fa6",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 9
+        },
+        {
+          "check": "signal",
+          "target": "Host/Flash",
+          "entry": "hitflash.flashing",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/hit_flash/template.yaml#behavior (contract digest 76110ae92fa6)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "98612f795a61776faa87c3f226a6947dd1a16691d3606de5c0965159cca8e8e9",
+      "created_at": "2026-11-04T02:03:54Z",
+      "updated_at": "2026-11-04T02:03:54Z"
+    },
+    {
+      "binding_id": "BND-HIT_FLASH-FLASH_ENDS_AFTER_D",
+      "feature_id": "hit_flash",
+      "behavior_id": "flash_ends_after_duration",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "db797af8fc1c",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Host/Flash",
+          "entry": "hitflash.flashing",
+          "count": 2,
+          "last_args": [
+            false
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/hit_flash/template.yaml#behavior (contract digest db797af8fc1c)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "f03245574f3d09f71ba8ce6eebb17a3e0fda0de39473e26c48c7d950d76c3b05",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-HIT_FLASH-HEAL_DOES_NOT_FLAS",
+      "feature_id": "hit_flash",
+      "behavior_id": "heal_does_not_flash",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "6ff9500f36d7",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 10
+        },
+        {
+          "check": "signal",
+          "target": "Host/Flash",
+          "entry": "hitflash.flashing",
+          "count": 2
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/hit_flash/template.yaml#behavior (contract digest 6ff9500f36d7)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "48388c0ee2a457c6ef3eb0e09a47acd7757a7b092dc391c793ef29ef30dc9a46",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-I_FRAMES-IFRAMES_BLOCK_DAMA",
+      "feature_id": "i_frames",
+      "behavior_id": "iframes_block_damage_within_window",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "08baa1368c21",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 9
+        },
+        {
+          "check": "signal",
+          "target": "Host/Health",
+          "entry": "health.health_changed",
+          "count": 1,
+          "last_args": [
+            9,
+            1
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/i_frames/template.yaml#behavior (contract digest 08baa1368c21)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "6b5982a559031491235c728c23036eadeaf7fdc6c313a028d827de89500dcf26",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-I_FRAMES-IFRAMES_EXPIRE_AND",
+      "feature_id": "i_frames",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "d1cee84ef2fc",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 8
+        },
+        {
+          "check": "signal",
+          "target": "Host/Health",
+          "entry": "health.health_changed",
+          "count": 2,
+          "last_args": [
+            8,
+            1
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/i_frames/template.yaml#behavior (contract digest d1cee84ef2fc)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "5b5b6d4f945fd2aebb5d551a05dbbe07d0dfca354cf92c90da0f584ae285ae9e",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-I_FRAMES-KILLING_BLOW_STILL",
+      "feature_id": "i_frames",
+      "behavior_id": "killing_blow_still_dies",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "09fff396a69c",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": "Host/Health",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": "Host/Health",
+          "entry": "health.died",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/i_frames/template.yaml#behavior (contract digest 09fff396a69c)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "3d50a33c5b079317174572ceec9231f530d98dffb055351772658492c6c25857",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-KNOCKBACK-KNOCKBACK_APPLIES_",
+      "feature_id": "knockback",
+      "behavior_id": "knockback_applies_and_signals",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "72cb4664f5ce",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Knock",
+          "entry": "knockback.changed",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "min": 10.0
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.01
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/knockback/template.yaml#behavior (contract digest 72cb4664f5ce)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "051fb43f5c9ed70a23d20eab4dacc7e7eeff05ee55a2f18bef2f2f4ddfd2090d",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-KNOCKBACK-KNOCKBACK_DECAYS_T",
+      "feature_id": "knockback",
+      "behavior_id": "knockback_decays_to_rest",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "76615084520d",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Knock",
+          "entry": "knockback.changed",
+          "count": 2,
+          "last_args": [
+            false
+          ]
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "equals": 38.0,
+          "tolerance": 1.0
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.01
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/knockback/template.yaml#behavior (contract digest 76615084520d)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "7e2161bd61723fed59b66858a86b1f0c29d3cde7a043e8dc4cf0c264611e2553",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-KNOCKBACK-KNOCKBACK_REJECTS_",
+      "feature_id": "knockback",
+      "behavior_id": "knockback_rejects_invalid",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "d1decff5fd97",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Knock",
+          "entry": "knockback.changed",
+          "count": 0
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "equals": 0.0,
+          "tolerance": 0.01
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/knockback/template.yaml#behavior (contract digest d1decff5fd97)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "6da367b6ed8489353b20d74c3b0bfc1d658f4d103b93d7dbe9cd015ac7300ab6",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-MOVING_PLA-TRAVEL",
+      "feature_id": "moving_platform",
+      "behavior_id": "travel",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "170f8c4753f4",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "min": 98.0,
+          "max": 102.0
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.5
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/moving_platform/template.yaml#behavior (contract digest 170f8c4753f4)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "be15a5ef9f1076ab6e0af5eb3370d1b72764107f230bc0a77436c16af24e221d",
+      "created_at": "2026-11-04T02:03:55Z",
+      "updated_at": "2026-11-04T02:03:55Z"
+    },
+    {
+      "binding_id": "BND-MOVING_PLA-ROUND_TRIP",
+      "feature_id": "moving_platform",
+      "behavior_id": "round_trip",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "a406f3dd7f66",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "equals": 0.0,
+          "tolerance": 2.0
+        },
+        {
+          "check": "node.exists",
+          "target": ".",
+          "equals": true
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/moving_platform/template.yaml#behavior (contract digest a406f3dd7f66)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "276f99bbd50387f3db201e219df280593b4e7db7678db6cf7cc2fbfb9f9da645",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PATROL_MOV-LOOP_PATROL_CYCLES",
+      "feature_id": "patrol_movement",
+      "behavior_id": "loop_patrol_cycles_waypoints",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "cc67a2aaadda",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "patrol.waypoint_reached",
+          "count": 2,
+          "last_args": [
+            1
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/patrol_movement/template.yaml#behavior (contract digest cc67a2aaadda)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "c96faf14633ea9f651ebe41420a3f1ca7768f924fa6eb72e01f65c449e511f70",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PATROL_MOV-OUTBOUND_LEG_MOVES",
+      "feature_id": "patrol_movement",
+      "behavior_id": "outbound_leg_moves_at_constant_speed",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "9bfddb7b9b60",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "equals": 20.0,
+          "tolerance": 2.0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/patrol_movement/template.yaml#behavior (contract digest 9bfddb7b9b60)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "cbb0984ca1ab9dc6af5a88305c6ac05f0e127cf9c05b372f7f44d29fa21c4c13",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PATROL_MOV-PING_PONG_REVERSES",
+      "feature_id": "patrol_movement",
+      "behavior_id": "ping_pong_reverses_at_path_end",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "968ebf2a461f",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "patrol.waypoint_reached",
+          "count": 4,
+          "last_args": [
+            1
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/patrol_movement/template.yaml#behavior (contract digest 968ebf2a461f)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "322b1bff22e0f5b51aeaa25f353dc1954baf77fe0fd74fc9600f32b0a8c41f20",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PLAYER_MOV-MOVE_RIGHT",
+      "feature_id": "player_movement",
+      "behavior_id": "move_right",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "1a4271434268",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "min": 43.5,
+          "max": 44.5
+        },
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.5
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/player_movement/template.yaml#behavior (contract digest 1a4271434268)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "960ca1658e5164c2f35e6fbfd6600884956970922954cb8065bd4d662207e4fd",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PLAYER_MOV-STOP_ON_RELEASE",
+      "feature_id": "player_movement",
+      "behavior_id": "stop_on_release",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "14d118c11f49",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": ".",
+          "axis": "x",
+          "min": 43.5,
+          "max": 44.5
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/player_movement/template.yaml#behavior (contract digest 14d118c11f49)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "04c7855136d7d6ab6b1b7e59acfd2ebc4eb2bb356ac5f01950cd8bc80f5df30d",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PROJECTILE-IN_FLIGHT_MOVES_UN",
+      "feature_id": "projectile",
+      "behavior_id": "in_flight_moves_until_lifetime",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "a82830416842",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node.exists",
+          "target": "Projectile",
+          "equals": true
+        },
+        {
+          "check": "node2d.displacement",
+          "target": "Projectile",
+          "axis": "x",
+          "equals": 50.0,
+          "tolerance": 2.0
+        },
+        {
+          "check": "signal",
+          "target": "Projectile",
+          "entry": "projectile.finished",
+          "count": 0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/projectile/template.yaml#behavior (contract digest a82830416842)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "8a6b8a94c2506eb5990906d2cfb3f40ca0d5121e0a89ede01ac7160a9e42894c",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PROJECTILE-LIFETIME_EXPIRY_FR",
+      "feature_id": "projectile",
+      "behavior_id": "lifetime_expiry_frees_projectile",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "0fc6da21a3c1",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node.exists",
+          "target": "Projectile",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": "Projectile",
+          "entry": "projectile.finished",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/projectile/template.yaml#behavior (contract digest 0fc6da21a3c1)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "3da25ba376fa24985195fef21b88914cc78b7360d06a1ae25e8da04c6b4294da",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-PROJECTILE-HIT_DEALS_DAMAGE_A",
+      "feature_id": "projectile",
+      "behavior_id": "hit_deals_damage_and_expires",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "da2dbbda7bbb",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "health.current",
+          "target": "Target/Health",
+          "equals": 9
+        },
+        {
+          "check": "node.exists",
+          "target": "Projectile",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": "Projectile",
+          "entry": "projectile.finished",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/projectile/template.yaml#behavior (contract digest da2dbbda7bbb)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "689a9e32961f9f5345138ad17cee706c18e2fc3d00e4214b087dbc8d271be523",
+      "created_at": "2026-11-04T02:03:56Z",
+      "updated_at": "2026-11-04T02:03:56Z"
+    },
+    {
+      "binding_id": "BND-SCREEN_SHA-TRAUMA_STARTS_SHAK",
+      "feature_id": "screen_shake",
+      "behavior_id": "trauma_starts_shake",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "53ce3b1aafb6",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Shake",
+          "entry": "screenshake.shaking",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/screen_shake/template.yaml#behavior (contract digest 53ce3b1aafb6)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "70d7540ea30d33678cc2d59e92b040c1efe8c2bc0f0f8f62419e2a462dffe772",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-SCREEN_SHA-SHAKE_STOPS_AFTER_",
+      "feature_id": "screen_shake",
+      "behavior_id": "shake_stops_after_decay",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "d9a0606dc3fa",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": "Shake",
+          "entry": "screenshake.shaking",
+          "count": 2,
+          "last_args": [
+            false
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/screen_shake/template.yaml#behavior (contract digest d9a0606dc3fa)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "64600e27aba6a0275fe86da9c3edef5df955bb3c2c81c4be7b0bd052d867c284",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-SFX_POOL-SFX_PLAY_EMITS_AND",
+      "feature_id": "sfx_pool",
+      "behavior_id": "sfx_play_emits_and_occupies",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "34711e3584b0",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "sfx.played",
+          "count": 1
+        },
+        {
+          "check": "sfx_pool.active_count",
+          "target": ".",
+          "equals": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/sfx_pool/template.yaml#behavior (contract digest 34711e3584b0)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "aed64cf1f762f1708c6b44233d6c96a97547b5b7af6a0eedfc8df5caee915f79",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-SFX_POOL-SFX_POOL_STEALS_OL",
+      "feature_id": "sfx_pool",
+      "behavior_id": "sfx_pool_steals_oldest_when_full",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "1ac9403474e5",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "sfx.played",
+          "count": 9
+        },
+        {
+          "check": "sfx_pool.active_count",
+          "target": ".",
+          "equals": 8
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/sfx_pool/template.yaml#behavior (contract digest 1ac9403474e5)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "8a6978350d4922d85cea7c42c970e4b753d69080ffbed6307b2c09f07e3933c8",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-STATE_MACH-TRANSITION_TO_NAME",
+      "feature_id": "state_machine",
+      "behavior_id": "transition_to_named_state",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "453c6c2c15b0",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "statemachine.current_state_name",
+          "target": "Machine",
+          "equals": "chase"
+        },
+        {
+          "check": "signal",
+          "target": "Machine",
+          "entry": "statemachine.state_changed",
+          "count": 1
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/state_machine/template.yaml#behavior (contract digest 453c6c2c15b0)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "5b84fdb8719d2ec3c1efcc561aa1f31e4d7452271648c2d8487edf02f5dc6ace",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-STATE_MACH-PREVIOUS_BACKTRACK",
+      "feature_id": "state_machine",
+      "behavior_id": "previous_backtracks_via_history",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "5b0f41e7e5a9",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "statemachine.current_state_name",
+          "target": "Machine",
+          "equals": "idle"
+        },
+        {
+          "check": "signal",
+          "target": "Machine",
+          "entry": "statemachine.state_changed",
+          "count": 2
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/state_machine/template.yaml#behavior (contract digest 5b0f41e7e5a9)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "dee452b09696af9fbda1eaa48e83490b2d137aab4b68300e48918d44b4e16fff",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-STUN-HIT_STUNS_AND_FREE",
+      "feature_id": "stun",
+      "behavior_id": "hit_stuns_and_freezes_host",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "7ac692898a40",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": "Host",
+          "axis": "x",
+          "min": -1.0,
+          "max": 8.0
+        },
+        {
+          "check": "node2d.displacement",
+          "target": "Host",
+          "axis": "y",
+          "equals": 0.0,
+          "tolerance": 0.5
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 9
+        },
+        {
+          "check": "signal",
+          "target": "Host/Stun",
+          "entry": "stun.stunned",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/stun/template.yaml#behavior (contract digest 7ac692898a40)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "6393e34266372e15623645f26190c47c7566c7895407b2e051512b4bf4ddf6b9",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-STUN-STUN_EXPIRES_AND_H",
+      "feature_id": "stun",
+      "behavior_id": "stun_expires_and_host_resumes",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "431c6ffb8c3e",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": "Host",
+          "axis": "x",
+          "min": 45.0,
+          "max": 100.0
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 9
+        },
+        {
+          "check": "signal",
+          "target": "Host/Stun",
+          "entry": "stun.stunned",
+          "count": 2,
+          "last_args": [
+            false
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/stun/template.yaml#behavior (contract digest 431c6ffb8c3e)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "226d8bbb2e9baf99d6702ab3d239b3117243d67ad66dd2d0cd49b4b9426543ff",
+      "created_at": "2026-11-04T02:03:57Z",
+      "updated_at": "2026-11-04T02:03:57Z"
+    },
+    {
+      "binding_id": "BND-STUN-HEAL_DOES_NOT_STUN",
+      "feature_id": "stun",
+      "behavior_id": "heal_does_not_stun",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "4eeaccd4e3f5",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": "Host",
+          "axis": "x",
+          "min": 70.0,
+          "max": 95.0
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 10
+        },
+        {
+          "check": "signal",
+          "target": "Host/Stun",
+          "entry": "stun.stunned",
+          "count": 0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/stun/template.yaml#behavior (contract digest 4eeaccd4e3f5)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "6eff982fee496d648515d90b7ae7ec648398c5e126a6c91d7f3ebb4a98bc5ea3",
+      "created_at": "2026-11-04T02:03:58Z",
+      "updated_at": "2026-11-04T02:03:58Z"
+    },
+    {
+      "binding_id": "BND-STUN-DEATH_GUARD_REJECT",
+      "feature_id": "stun",
+      "behavior_id": "death_guard_rejects_stun",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "2034d77bf015",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": "Host",
+          "axis": "x",
+          "min": 60.0,
+          "max": 80.0
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 0
+        },
+        {
+          "check": "health.is_dead",
+          "target": "Host/Health",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": "Host/Stun",
+          "entry": "stun.stunned",
+          "count": 0
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/stun/template.yaml#behavior (contract digest 2034d77bf015)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "518715f71fb2c037335f41b00ee0caa8880fd99f2c44c8b47ddbb840580a13a5",
+      "created_at": "2026-11-04T02:03:58Z",
+      "updated_at": "2026-11-04T02:03:58Z"
+    },
+    {
+      "binding_id": "BND-STUN-REENTRY_EXTENDS_WI",
+      "feature_id": "stun",
+      "behavior_id": "reentry_extends_without_rebroadcast",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "ea087c332249",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "node2d.displacement",
+          "target": "Host",
+          "axis": "x",
+          "min": -1.0,
+          "max": 8.0
+        },
+        {
+          "check": "health.current",
+          "target": "Host/Health",
+          "equals": 8
+        },
+        {
+          "check": "signal",
+          "target": "Host/Stun",
+          "entry": "stun.stunned",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/stun/template.yaml#behavior (contract digest ea087c332249)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "3a34cce15f2410c8570eecb55db543b210c1153fe608f890f87d832a7587f196",
+      "created_at": "2026-11-04T02:03:58Z",
+      "updated_at": "2026-11-04T02:03:58Z"
+    },
+    {
+      "binding_id": "BND-TRIGGER_SW-TOGGLE_ON_SECOND_C",
+      "feature_id": "trigger_switch",
+      "behavior_id": "toggle_on_second_contact",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "2c50fe1dc1a3",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "trigger.is_triggered",
+          "target": ".",
+          "equals": false
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "trigger.activated",
+          "count": 2,
+          "last_args": [
+            false
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/trigger_switch/template.yaml#behavior (contract digest 2c50fe1dc1a3)",
+      "approved": true,
+      "approval_reference": "Phase 1.63 explicit approval: expected copied verbatim from Features contract digest, candidate digest re-verified at approval time, approval record signed with user-managed trust-root key PROVKEY-d865e3d79add3740",
+      "approval_registry_digest": "ae1e49d09d7cb0c458864d021f36c9fac7b20d06a3457320db7917f4ce9c4667",
+      "created_at": "2026-11-04T02:03:58Z",
+      "updated_at": "2026-11-04T02:03:58Z"
+    },
+    {
+      "binding_id": "BND-TRIGGER_SW-LATCH_ONCE",
+      "feature_id": "trigger_switch",
+      "behavior_id": "latch_once",
+      "scenario_id": "",
+      "trace_id": "",
+      "trace_version": "",
+      "contract_version": "4076f02be9eb",
+      "baseline_id": "",
+      "baseline_version": "",
+      "expected": [
+        {
+          "check": "trigger.is_triggered",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "trigger.activated",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "expected_source_ref": "Features/trigger_switch/template.yaml#behavior (contract digest 4076f02be9eb)",
+      "approved": true,
+      "approval_reference": "Rebind after M04 root-cause fix: latch_once contract gained trailing advance_frames so the second body_entered edge is observable; expected unchanged (verified verbatim from contract)",
+      "approval_registry_digest": "2db2da750ad747eb2a8e593310e58cfc07569415aec77a4264505633591a058f",
+      "created_at": "2026-11-04T02:27:11Z",
+      "updated_at": "2026-11-04T02:27:11Z"
+    }
+  ]
+}

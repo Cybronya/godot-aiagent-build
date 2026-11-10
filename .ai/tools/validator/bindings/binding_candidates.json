@@ -1,0 +1,37 @@
+{
+  "schema": "binding_candidates",
+  "schema_version": 1,
+  "generated_at": "2026-11-04T02:27:11Z",
+  "support_source": "Features/*/template.yaml#behavior",
+  "note": "Phase 1.63 candidates. expected is copied verbatim from the formal behavior contract; approval is explicit and separate (never automatic).",
+  "candidates": [
+    {
+      "binding_id": "BND-TRIGGER_SW-LATCH_ONCE",
+      "feature_id": "trigger_switch",
+      "behavior_id": "latch_once",
+      "contract_version": "4076f02be9eb",
+      "expected": [
+        {
+          "check": "trigger.is_triggered",
+          "target": ".",
+          "equals": true
+        },
+        {
+          "check": "signal",
+          "target": ".",
+          "entry": "trigger.activated",
+          "count": 1,
+          "last_args": [
+            true
+          ]
+        }
+      ],
+      "expected_source": "behavior_contract",
+      "source_contract": "Features/trigger_switch/template.yaml#behavior",
+      "source_digest": "",
+      "approval_status": "APPROVED",
+      "generated_at": "2026-11-04T02:27:10Z",
+      "candidate_digest": "2db2da750ad747eb2a8e593310e58cfc07569415aec77a4264505633591a058f"
+    }
+  ]
+}

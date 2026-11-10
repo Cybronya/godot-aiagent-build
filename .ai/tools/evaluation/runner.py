@@ -804,6 +804,30 @@ class EvaluationRun:
 
 # ---------------------------------------------------------------- CLI
 
+def _load_evidence_report(path: str):
+    """读取 Phase 1.58 的证据评估报告（只做摘要引用，不重算其结论）。"""
+    try:
+        document = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(document, dict):
+        return None
+    if (document.get("schema") or {}).get("id") != "evaluation_evidence_report":
+        return None
+    metrics = document.get("metrics") or {}
+    return {
+        "path": path.replace("\\", "/"),
+        "run_token": (document.get("run") or {}).get("token"),
+        "evidence_validation": metrics.get("evidence_validation"),
+        "behavior_evaluation": metrics.get("behavior_evaluation"),
+        "coverage": metrics.get("coverage"),
+        "holdout": metrics.get("holdout"),
+        "tasks": [{key: task.get(key) for key in
+                   ("task_id", "feature_id", "evaluation_status", "execution_id")}
+                  for task in document.get("tasks") or []],
+    }
+
+
 def load_tasks(path: Path) -> dict[str, Any]:
     document = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(document, dict) or not isinstance(document.get("tasks"), list):
@@ -837,6 +861,17 @@ def print_summary(report: dict[str, Any]) -> None:
     changed = report["baselines"]["changed"]
     print("baselines_changed=%s  cleanup_refused=%s  leftovers=%s"
           % (changed, report["cleanup"]["refused"], report["cleanup"]["unexpected"]))
+    attached = report.get("verified_evidence")
+    if attached:
+        evaluation = attached.get("behavior_evaluation") or {}
+        validation = attached.get("evidence_validation") or {}
+        print("verified_evidence: %s  validator=%s(pass=%s fail=%s incomplete=%s)  "
+              "VERIFIED_PASS=%s VERIFIED_FAIL=%s INVALID_EVIDENCE=%s  legacy=%s"
+              % (attached.get("path"), validation.get("status"), validation.get("pass"),
+                 validation.get("fail"), validation.get("incomplete"),
+                 evaluation.get("VERIFIED_PASS", 0), evaluation.get("VERIFIED_FAIL", 0),
+                 evaluation.get("INVALID_EVIDENCE", 0),
+                 attached.get("legacy_probe_only")))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -851,6 +886,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--json", action="store_true", help="print the report as JSON")
     parser.add_argument("--keep", action="store_true",
                         help="keep the run directory (default: keep; evidence must be auditable)")
+    parser.add_argument("--evidence-report", default="",
+                        help="fold a Phase 1.58 evidence evaluation report into this report "
+                             "(default: none; existing tasks are then labelled "
+                             "LEGACY_PROBE_ONLY and stay out of VERIFIED_* statistics)")
     args = parser.parse_args(argv)
 
     document = load_tasks(Path(args.tasks_file))
@@ -877,6 +916,17 @@ def main(argv: list[str] | None = None) -> int:
     run_dir.mkdir(parents=True, exist_ok=False)
     evaluation = EvaluationRun(run_dir, document)
     report = evaluation.run(tasks, human_interventions=args.human_interventions)
+    if args.evidence_report:
+        attachment = _load_evidence_report(args.evidence_report)
+        if attachment is None:
+            print("FAIL: cannot read evidence report: %s" % args.evidence_report,
+                  file=sys.stderr)
+            return 2
+        report["verified_evidence"] = attachment
+        for task in report["tasks"]:
+            # Mode C：这些任务的通过来自自带探针，不是经过证据验证的行为结论。
+            task["evaluation_mode"] = "LEGACY_PROBE_ONLY"
+        attachment["legacy_probe_only"] = len(report["tasks"])
     (run_dir / "report.json").write_text(
         json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 

@@ -1,0 +1,58 @@
+{
+  "schema": "baseline_approval_registry",
+  "schema_version": 1,
+  "registrations": [
+    {
+      "baseline_id": "waves",
+      "baseline_version": "2",
+      "status": "APPROVED",
+      "content_digest": "454545dc5e3e49f80ad7e3381fee0b33cc832f6bf944cb14ca722d89ebb301f7",
+      "digest_scheme": "baseline-content-digest-v1",
+      "approver": "Codebuff (Phase 1.25)",
+      "approved_at": "2026-10-18",
+      "approval_fingerprint": "7ba152f09163cb6041a3ca0363ef9cd0dad81324f4a82cfce3bad2a53e31d075",
+      "basis": "Phase 1.60 explicit migration: baseline was approved via e2e/approve_trace_baselines.py (in-file approval block present, fingerprint verifiable); digest fixed at migration time, any later content change is rejected at use time",
+      "approval_reference": "in-file approval block: approver=Codebuff (Phase 1.25) approved_at=2026-10-18 fingerprint=7ba152f09163cb60",
+      "registered_at": "2026-11-03T12:29:06Z"
+    },
+    {
+      "baseline_id": "holdout",
+      "baseline_version": "2",
+      "status": "APPROVED",
+      "content_digest": "9dfd92f7514f5fd66409863aa34181367a63710d7ac7a7b8a65fd6b4888c5b6b",
+      "digest_scheme": "baseline-content-digest-v1",
+      "approver": "Codebuff (Phase 1.27)",
+      "approved_at": "2026-10-18",
+      "approval_fingerprint": "b62cb26f546dc56f0d1cab389cbdb71ebda2904fc0c6376bcd09c6425eecc577",
+      "basis": "Phase 1.60 explicit migration: baseline was approved via e2e/approve_trace_baselines.py (in-file approval block present, fingerprint verifiable); digest fixed at migration time, any later content change is rejected at use time",
+      "approval_reference": "in-file approval block: approver=Codebuff (Phase 1.27) approved_at=2026-10-18 fingerprint=b62cb26f546dc56f",
+      "registered_at": "2026-11-03T12:29:06Z"
+    },
+    {
+      "baseline_id": "single_stage_boss",
+      "baseline_version": "1",
+      "status": "APPROVED",
+      "content_digest": "e9ff1dc730705b0f1afc40a9b928bca864875c46ba3769036507b66b24a8e4d9",
+      "digest_scheme": "baseline-content-digest-v1",
+      "approver": "Codebuff (Phase 1.23)",
+      "approved_at": "2026-10-17",
+      "approval_fingerprint": "18697dc74f716f4bdd8eb5c0a5c4a16cf272df6ed38d158cb87ae83ea91bf91e",
+      "basis": "Phase 1.60 explicit migration: baseline was approved via e2e/approve_trace_baselines.py (in-file approval block present, fingerprint verifiable); digest fixed at migration time, any later content change is rejected at use time",
+      "approval_reference": "in-file approval block: approver=Codebuff (Phase 1.23) approved_at=2026-10-17 fingerprint=18697dc74f716f4b",
+      "registered_at": "2026-11-03T12:29:06Z"
+    },
+    {
+      "baseline_id": "multi_stage_boss",
+      "baseline_version": "1",
+      "status": "APPROVED",
+      "content_digest": "36b4f577c58b6334b117638ca4b00a69871d9a20f77cae653f319a65ba67a3cd",
+      "digest_scheme": "baseline-content-digest-v1",
+      "approver": "Codebuff (Phase 1.23)",
+      "approved_at": "2026-10-17",
+      "approval_fingerprint": "cb4ff72b5d173e270d4d65b97448ddcb2968604310f9fcf80a6db0189d001fcb",
+      "basis": "Phase 1.60 explicit migration: baseline was approved via e2e/approve_trace_baselines.py (in-file approval block present, fingerprint verifiable); digest fixed at migration time, any later content change is rejected at use time",
+      "approval_reference": "in-file approval block: approver=Codebuff (Phase 1.23) approved_at=2026-10-17 fingerprint=cb4ff72b5d173e27",
+      "registered_at": "2026-11-03T12:29:06Z"
+    }
+  ]
+}

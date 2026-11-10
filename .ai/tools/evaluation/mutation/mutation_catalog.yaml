@@ -1,0 +1,377 @@
+# MUT159 — L5 Mutation Catalog（Phase 1.59）
+#
+# 每条记录都是一个**受控缺陷**：在隔离的 Features 副本里做一次精确锚点替换，然后用
+# 现有采集器（真实 Godot）+ Validator + Evaluation 判断验证链路能否发现它。
+#
+# 冻结规则：
+#   1. `source_sha256` 是锚点所在文件在仓库里的哈希。运行时必须匹配，否则拒绝应用
+#      （说明实现已变化、锚点可能已失效，绝不能"大概改一下"）。
+#   2. `anchor` 必须在文件里**恰好出现一次**；0 次或多次都拒绝。
+#   3. `effectiveness` 不是配置声明，而是**运行时用真实执行结果判定**：
+#      control（未修改副本）与 mutant 的同一条 (check, target, entry) 观测必须不同，
+#      且 mutant 观测必须满足 `mutant` 谓词。做不到就 INVALID_MUTANT。
+#   4. `evaluation.expect` 是 Evaluation 自己的验收标准，与 Feature 契约独立书写
+#      （契约被改宽时这里仍然要求原语义）。它只写进运行目录的临时 tasks 文件，
+#      不改 `evidence_tasks.yaml`。
+#   5. Feature / Behavior 必须存在于当前正式支持集（动态读取 60 条契约），
+#      本文件不枚举、也不扩展支持集。
+#
+# mutation_type 取值：状态更新遗漏 / 生命周期守卫缺失 / 资源释放遗漏 /
+# 状态锁存失效 / 事件发送遗漏 / 持久化记录遗漏。
+
+schema:
+  id: evaluation_mutation_catalog
+  version: 1
+
+defaults:
+  operator: replace_exact
+  evaluation_mode: evidence          # 只用已落盘证据，不在这里重复采集
+  timeout_s: 240
+  replay: 2
+
+mutations:
+  # ------------------------------------------------------------------ 1. 状态更新遗漏
+  - mutation_id: M01-health-damage-state-update-omitted
+    feature_id: health
+    behavior_id: damage
+    mutation_type: state_update_omitted
+    target_file: Features/health/health.gd
+    target_function: take_damage
+    operator: replace_exact
+    source_sha256: a436c28bbea1cecafa93cf44249b5a82ef90300c10e8384b4e3508c4ffb7e7b0
+    anchor: "\t_current_health = max(_current_health - amount, 0)\n"
+    replacement: ""
+    precondition: "take_damage 的守卫与 health_changed.emit 保持不变，只去掉数值更新"
+    expected_behavior_change: "受到 4 点伤害后 current 仍为 5（只发信号、不扣血）"
+    effectiveness:
+      check: health.current
+      target: "."
+      baseline: {equals: 1}
+      mutant: {equals: 5}
+    probe_scenario: "behavior 'damage'（template.yaml#behavior，隔离 Features 副本）"
+    evaluation:
+      expect:
+        - {check: health.current, target: ".", equals: 1}
+        - {check: signal, entry: health.health_changed, target: ".", count: 1, last_args: [1, 4]}
+    risk_level: low
+    status: active
+
+  # ------------------------------------------------------------------ 2. 生命周期守卫缺失
+  - mutation_id: M02-health-post-death-guard-dropped
+    feature_id: health
+    behavior_id: post_death_guard
+    mutation_type: lifecycle_guard_missing
+    target_file: Features/health/health.gd
+    target_function: take_damage
+    operator: replace_exact
+    source_sha256: a436c28bbea1cecafa93cf44249b5a82ef90300c10e8384b4e3508c4ffb7e7b0
+    anchor: "func take_damage(amount: int) -> void:\n\tif _is_dead or _invulnerable or amount <= 0:\n"
+    replacement: "func take_damage(amount: int) -> void:\n\tif _invulnerable or amount <= 0:\n"
+    precondition: "无敌门与其他守卫保留，只去掉死亡守卫"
+    expected_behavior_change: "死亡后再受击仍会广播 health_changed（count 1 -> 2）"
+    effectiveness:
+      check: signal
+      entry: health.health_changed
+      target: "."
+      baseline: {count: 1}
+      mutant: {count: 2}
+    probe_scenario: "behavior 'post_death_guard'（死亡后继续扣血与治疗）"
+    evaluation:
+      expect:
+        - {check: health.current, target: ".", equals: 0}
+        - {check: health.is_dead, target: ".", equals: true}
+        - {check: signal, entry: health.died, target: ".", count: 1}
+        - {check: signal, entry: health.health_changed, target: ".", count: 1}
+    risk_level: medium
+    status: active
+
+  # ------------------------------------------------------------------ 3. 资源释放遗漏
+  - mutation_id: M03-collect-pickup-not-freed
+    feature_id: collect_pickup
+    behavior_id: collect_on_contact
+    mutation_type: resource_release_omitted
+    target_file: Features/collect_pickup/collect_pickup.gd
+    target_function: _on_body_entered
+    operator: delete_statement
+    source_sha256: 3c16f890deeebef302be353dff5274c01673ed1ff51d9698354a651008805b7d
+    anchor: "\tqueue_free()\n"
+    replacement: ""
+    precondition: "_collected 标记与 collected.emit 保留，只去掉 queue_free()"
+    expected_behavior_change: "收集信号照发，但拾取物节点仍留在场景里（node.freed false）"
+    effectiveness:
+      check: node.freed
+      target: "."
+      baseline: {equals: true}
+      mutant: {equals: false}
+    probe_scenario: "behavior 'collect_on_contact'（physics.overlap 接触 players）"
+    evaluation:
+      expect:
+        - {check: node.freed, target: ".", equals: true}
+        - {check: signal, entry: pickup.collected, target: ".", count: 1}
+    risk_level: medium
+    status: active
+
+  # ------------------------------------------------------------------ 4. 状态锁存失效
+  - mutation_id: M04-trigger-switch-latch-removed
+    feature_id: trigger_switch
+    behavior_id: latch_once
+    mutation_type: state_latch_broken
+    target_file: Features/trigger_switch/trigger_switch.gd
+    target_function: _on_body_entered
+    operator: replace_exact
+    source_sha256: 6efb0650543712e9d88d30c0572d13ac10496170aef298c52d5ee930730ca5fb
+    anchor: "\t\t\tif _triggered:\n\t\t\t\treturn\n"
+    replacement: ""
+    precondition: "只去掉 Latching 分支的早退守卫，Repeat/Toggle 不动"
+    expected_behavior_change: "第二次接触再次广播 activated（count 1 -> 2）"
+    effectiveness:
+      check: signal
+      entry: trigger.activated
+      target: "."
+      baseline: {count: 1}
+      mutant: {count: 2}
+    probe_scenario: "behavior 'latch_once'（两次 physics.overlap + 帧推进）"
+    evaluation:
+      expect:
+        - {check: trigger.is_triggered, target: ".", equals: true}
+        - {check: signal, entry: trigger.activated, target: ".", count: 1, last_args: [true]}
+    risk_level: medium
+    status: active
+
+  # ------------------------------------------------------------------ 5. 事件发送遗漏
+  - mutation_id: M05-openable-door-state-signal-dropped
+    feature_id: openable_door
+    behavior_id: open
+    mutation_type: event_emit_omitted
+    target_file: Features/openable_door/openable_door.gd
+    target_function: _apply
+    operator: delete_statement
+    source_sha256: 8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369
+    anchor: "\tstate_changed.emit(value)\n"
+    replacement: ""
+    precondition: "状态与碰撞/视觉照常更新，只去掉 state_changed 广播"
+    expected_behavior_change: "门确实被打开（is_open true），但 state_changed 一次都不发（count 1 -> 0）"
+    effectiveness:
+      check: signal
+      entry: door.state_changed
+      target: "."
+      baseline: {count: 1}
+      mutant: {count: 0}
+    probe_scenario: "behavior 'open'（door.set_open(true)）"
+    evaluation:
+      expect:
+        - {check: door.is_open, target: ".", equals: true}
+        - {check: signal, entry: door.state_changed, target: ".", count: 1, last_args: [true]}
+    risk_level: high
+    status: active
+
+  # ------------------------------------------------------------------ 6. 持久化记录遗漏
+  - mutation_id: M06-save-game-last-slot-not-recorded
+    feature_id: save_game
+    behavior_id: save_slot_persists_world_state
+    mutation_type: persistence_record_omitted
+    target_file: Features/save_game/save_game.gd
+    target_function: save_to_slot
+    operator: delete_statement
+    source_sha256: 9aaa19de77b56fdb00d6bebc8bd448f559444d6eb8963832d1858ecd152fceb5
+    anchor: "\t_record_last_slot(slot_path)\n"
+    replacement: ""
+    precondition: "写盘、日志与 game_saved 广播保留，只去掉 last_slot 记录"
+    expected_behavior_change: "存档仍成功（game_saved 一次），但 last_slot 回读为空"
+    effectiveness:
+      check: savegame.last_slot
+      target: Saver
+      baseline: {equals: "behavior_save"}
+      mutant: {equals: ""}
+    probe_scenario: "behavior 'save_slot_persists_world_state'（SaveGameBehaviorFixture）"
+    evaluation:
+      expect:
+        - {check: signal, entry: savegame.game_saved, target: Saver, count: 1}
+        - {check: savegame.last_slot, target: Saver, equals: "behavior_save"}
+        - {check: health.current, target: World/Player/Health, equals: 3}
+    risk_level: medium
+    status: active
+
+  # ------------------------------------------------------------------ 7. 持久化读取遗漏
+  # M06 的教训：`savegame.last_slot` 读的是 `user://saved_games/_last.txt`，而这个文件
+  # 在多次运行间**不会清空**——control 跑完留下的记录让 mutant 的回读看起来仍然正确，
+  # 于是这条契约对「忘记记录 last_slot」没有分辨力（见报告"未解决问题"）。
+  # 这一条改成在同一 run 内自洽的持久化读取缺陷：写入照常，读回时跳过玩家数据。
+  - mutation_id: M07-save-game-player-data-not-restored
+    feature_id: save_game
+    behavior_id: load_slot_restores_world_state
+    mutation_type: persistence_read_omitted
+    target_file: Features/save_game/save_game.gd
+    target_function: load_from_slot
+    operator: replace_exact
+    source_sha256: 9aaa19de77b56fdb00d6bebc8bd448f559444d6eb8963832d1858ecd152fceb5
+    # 不能用 delete_statement：这一行是 `if` 块里唯一的语句，删掉会变成空块 →
+    # 脚本解析失败（实测 action_unavailable），那是"跑不起来"，不是"行为缺陷"。
+    anchor: "\t\tplayer.load_save_data(data.player_data)\n"
+    replacement: "\t\tpass\n"
+    precondition: "快照读取、last_slot 记录与 game_loaded 广播保留，只跳过玩家数据回填"
+    expected_behavior_change: "读档后玩家血量没有回到保存时刻（3 -> 1），但 game_loaded 照发"
+    effectiveness:
+      check: health.current
+      target: World/Player/Health
+      baseline: {equals: 3}
+      mutant: {equals: 1}
+    probe_scenario: "behavior 'load_slot_restores_world_state'（存档后继续扣血再读档）"
+    evaluation:
+      expect:
+        - {check: health.current, target: World/Player/Health, equals: 3}
+        - {check: signal, entry: savegame.game_loaded, target: Saver, count: 1}
+    risk_level: high
+    status: active
+
+  # ------------------------------------------------------------------ 8. 状态转移写错值
+  # M04（删掉 Latching 的早退守卫）被判定为 INVALID_MUTANT：契约的第二次
+  # `physics.overlap` 不会产生第二次 body_entered，所以那行守卫在真实执行里根本
+  # 没被走到——这是探针/契约的分辨力缺口，不是"没检出"。这一条改成一定可观测的
+  # 错误：触发后把状态写成 false。
+  - mutation_id: M08-trigger-switch-state-written-wrong
+    feature_id: trigger_switch
+    behavior_id: latch_once
+    mutation_type: state_transition_wrong_value
+    target_file: Features/trigger_switch/trigger_switch.gd
+    target_function: _on_body_entered
+    operator: replace_exact
+    source_sha256: 6efb0650543712e9d88d30c0572d13ac10496170aef298c52d5ee930730ca5fb
+    # `_triggered = true` 在 Repeat 分支也出现（同缩进），单行锚点不唯一；
+    # 带上 Latching 独有的 `return` 行才唯一。
+    anchor: "\t\t\t\treturn\n\t\t\t_triggered = true\n"
+    replacement: "\t\t\t\treturn\n\t\t\t_triggered = false\n"
+    precondition: "只改 Latching 分支赋的新值，Repeat/Toggle 分支不动"
+    expected_behavior_change: "接触后 is_triggered 仍为 false（且守卫失效导致 activated 发两次）"
+    effectiveness:
+      check: trigger.is_triggered
+      target: "."
+      baseline: {equals: true}
+      mutant: {equals: false}
+    probe_scenario: "behavior 'latch_once'（两次 physics.overlap + 帧推进）"
+    evaluation:
+      expect:
+        - {check: trigger.is_triggered, target: ".", equals: true}
+        - {check: signal, entry: trigger.activated, target: ".", count: 1, last_args: [true]}
+    risk_level: medium
+    status: active
+
+  # ---------------------------------------------------------------- 9. 生命周期守卫缺失（Phase 1.63 扩展）
+  # iframes 的保护门不在 IFrames 自身而在 Health（invulnerable）。删掉 grant() 里的
+  # set_invulnerable(true) 后，窗口照常开启（protected 照发、计时照走），但门没有
+  # 关上——窗口内第二次受击会真实落到血量上（current 9 -> 8，health_changed 1 -> 2）。
+  - mutation_id: M09-i-frames-invulnerable-gate-dropped
+    feature_id: i_frames
+    behavior_id: iframes_block_damage_within_window
+    mutation_type: lifecycle_guard_missing
+    target_file: Features/i_frames/i_frames.gd
+    target_function: grant
+    operator: replace_exact
+    source_sha256: bb7416cfd74c7f57d08b1a3488a61135615aec872ce099510b7619d759255847
+    anchor: "return false\n\t_health.set_invulnerable(true)\n"
+    replacement: "return false\n"
+    precondition: "窗口开启逻辑（protected 信号、cooldown、_active）保留，只去掉 Health 上的无敌门"
+    expected_behavior_change: "窗口内第二次受击落地：current 9 -> 8，health_changed 1 -> 2"
+    effectiveness:
+      check: health.current
+      target: Host/Health
+      baseline: {equals: 9}
+      mutant: {equals: 8}
+    probe_scenario: "behavior 'iframes_block_damage_within_window'（IFramesFixture，窗口内两次受击）"
+    evaluation:
+      expect:
+        - {check: health.current, target: Host/Health, equals: 9}
+        - {check: signal, entry: health.health_changed, target: Host/Health,
+           count: 1, last_args: [9, 1]}
+    risk_level: high
+    status: active
+
+  # ---------------------------------------------------------------- 10. 状态更新遗漏（Phase 1.63 扩展）
+  # 接触伤害的节拍与组过滤都保留，只删掉 take_damage 调用——重叠发生、冷却照走，
+  # 但伤害永远不会落到目标 Health 上（current 4 -> 5，health_changed 1 -> 0）。
+  - mutation_id: M10-contact-damage-application-omitted
+    feature_id: contact_damage
+    behavior_id: damage_on_contact
+    mutation_type: state_update_omitted
+    target_file: Features/contact_damage/contact_damage.gd
+    target_function: _deal_damage_to
+    operator: delete_statement
+    source_sha256: c5ea78843897c2d55b3c6a4e29a5fc52a06b8f937b1622f7c749283c9cf1d3d4
+    anchor: "\thealth.take_damage(damage)\n"
+    replacement: ""
+    precondition: "组过滤与 Health 查找保留，只去掉伤害应用"
+    expected_behavior_change: "接触发生但目标不掉血：current 4 -> 5，health_changed 1 -> 0"
+    effectiveness:
+      check: health.current
+      target: "@actor/Health"
+      baseline: {equals: 4}
+      mutant: {equals: 5}
+    probe_scenario: "behavior 'damage_on_contact'（ContactDamageFixture，physics.overlap 接触）"
+    evaluation:
+      expect:
+        - {check: health.current, target: "@actor/Health", equals: 4}
+        - {check: signal, entry: health.health_changed, target: "@actor/Health",
+           count: 1, last_args: [4, 1]}
+    risk_level: high
+    status: active
+
+  # ---------------------------------------------------------------- 11. 生命周期归还遗漏（Phase 1.64）
+  # M09 证明「开窗时没关门」会被发现；这一条是它的互补面：窗口到期后**没有归还**
+  # Health 上的无敌门。窗口记账（_active、protected(false)）照常结束，但门仍然关着，
+  # 于是「到期恢复受伤」的契约必须看见第二次伤害被吞。
+  # 注意 `_active = false` 在源文件里是 1 个 tab（不在 if 块内），锚点按原样保留；
+  # 若整行删掉会留下空 if 块导致解析失败（M07 的教训），所以用 pass 占位。
+  - mutation_id: M11-i-frames-window-close-not-restored
+    feature_id: i_frames
+    behavior_id: iframes_expire_and_damage_resumes
+    mutation_type: resource_release_omitted
+    target_file: Features/i_frames/i_frames.gd
+    target_function: _on_window_end
+    operator: replace_exact
+    source_sha256: bb7416cfd74c7f57d08b1a3488a61135615aec872ce099510b7619d759255847
+    anchor: "func _on_window_end() -> void:\n\tif _health != null and _active:\n\t\t_health.set_invulnerable(false)\n\t_active = false\n"
+    replacement: "func _on_window_end() -> void:\n\tif _health != null and _active:\n\t\tpass\n\t_active = false\n"
+    precondition: "窗口计时结束、_active 归位与 protected(false) 广播保留，只去掉 Health 门归还"
+    expected_behavior_change: "无敌到期后仍无法受伤：current 8 -> 9，health_changed 2 -> 1"
+    effectiveness:
+      check: health.current
+      target: Host/Health
+      baseline: {equals: 8}
+      mutant: {equals: 9}
+    probe_scenario: "behavior 'iframes_expire_and_damage_resumes'（窗口 22 帧后再次受击）"
+    evaluation:
+      expect:
+        - {check: health.current, target: Host/Health, equals: 8}
+        - {check: signal, entry: health.health_changed, target: Host/Health,
+           count: 2, last_args: [8, 1]}
+    risk_level: high
+    status: active
+
+  # ---------------------------------------------------------------- 12. 状态守卫条件反转（Phase 1.64）
+  # 门「打开」这条行为只有一个入口 set_open，它靠 `_is_open == value` 的幂等早退
+  # 避免重复 _apply。把条件写成 !=，等于把「同值才早退」反转成「任何变化都早退」，
+  # 于是门永远打不开——但代码结构完全合法、没有任何报错，只有行为观测能发现。
+  - mutation_id: M12-openable-door-open-guard-inverted
+    feature_id: openable_door
+    behavior_id: open
+    mutation_type: state_guard_condition_inverted
+    target_file: Features/openable_door/openable_door.gd
+    target_function: set_open
+    operator: replace_exact
+    source_sha256: 8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369
+    anchor: "\tif _is_open == value:\n\t\treturn\n"
+    replacement: "\tif _is_open != value:\n\t\treturn\n"
+    precondition: "_apply（碰撞/视觉/信号）完全不动，只反转幂等守卫的比较方向"
+    expected_behavior_change: "门打不开：is_open true -> false，state_changed 1 -> 0"
+    effectiveness:
+      check: door.is_open
+      target: "."
+      baseline: {equals: true}
+      mutant: {equals: false}
+    probe_scenario: "behavior 'open'（door.set_open(true)）"
+    evaluation:
+      expect:
+        - {check: door.is_open, target: ".", equals: true}
+        - {check: signal, entry: door.state_changed, target: ".", count: 1, last_args: [true]}
+    risk_level: high
+    status: active

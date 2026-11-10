@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """On-demand validator for the Godot Agent Skill Framework."""
 from __future__ import annotations
-import argparse, re, sys
+import argparse, json, re, sys
 from pathlib import Path
 from typing import Any
 try:
@@ -278,6 +278,59 @@ def parse_skill(skill_dir: Path, r: Reporter):
         if not heading_exists(text,h): r.fail(f"{path}: missing required section {h!r}")
     return {"dir":skill_dir,"file":path,"text":text,"id":skill_id,"name":name,"version":version,"category":category,"load_policy":load_policy,"required":required,"related":related}
 
+def report_behavior_evidence(r: Reporter, prints: list, args) -> dict:
+    """Phase 1.56：行为证据（L4）阶段。opt-in；INCOMPLETE 不得降级为 PASS。
+
+    与静态阶段不同，它在证据目录上重新计算：内容完整性、协议版本、Feature/Behavior
+    关联、以及“契约断言 vs 实际观测”的成立性。证据自报的 status 不作为通过依据。
+    """
+    from validator.check_behavior_evidence import check_evidence
+    try:
+        result = check_evidence(project_root=args.project_root,
+                                evidence_dir=args.evidence_dir or "",
+                                features=args.evidence_feature,
+                                max_age_hours=args.evidence_max_age_hours,
+                                artifact_roots=args.evidence_artifact_root or None)
+    except Exception as exc:                     # 验证器自身异常不得伪装成 PASS
+        r.fail(f"Behavior evidence stage failed: {exc}")
+        prints.append("  Behavior evidence (L4): ERROR")
+        return {"status": "ERROR", "reason": str(exc), "checks": [], "bundles": [],
+                "targets": [], "summary": {"checked": 0}}
+
+    summary = result["summary"]
+    prints.append("  Behavior evidence (L4): %s (bundles=%d, features=%d, pass=%d, "
+                  "fail=%d, incomplete=%d, artifacts=%d, cross_validated=%d)"
+                  % (result["status"], summary["bundles"], summary["features"],
+                     summary["pass"], summary["fail"], summary["incomplete"],
+                     summary.get("artifacts", 0), summary.get("cross_validated", 0)))
+    for item in result["checks"]:
+        if item["validation_status"] == "PASS":
+            continue
+        message = ("Behavior evidence %s/%s: %s %s%s"
+                   % (item["feature"], item["behavior"] or "-",
+                      item["validation_status"], item["validation_reason"],
+                      " (%s)" % item["detail"] if item["detail"] else ""))
+        if item["validation_status"] == "FAIL":
+            r.fail(message)
+        else:
+            r.warn(message)
+    for bundle in result["bundles"]:
+        if bundle["status"] == "FAIL":
+            r.fail("Behavior evidence bundle %s: %s"
+                   % (bundle["bundle"], "; ".join(bundle["reasons"])))
+
+    if args.behavior_evidence_json:
+        try:
+            with open(args.behavior_evidence_json, "w", encoding="utf-8",
+                      newline="\n") as handle:
+                json.dump(result, handle, ensure_ascii=False, indent=2, sort_keys=True)
+                handle.write("\n")
+            prints.append("  Behavior evidence JSON: %s" % args.behavior_evidence_json)
+        except OSError as exc:
+            r.fail(f"Behavior evidence JSON could not be written: {exc}")
+    return result
+
+
 def main():
     p=argparse.ArgumentParser(description="Validate the Godot Agent Skill Framework.")
     p.add_argument("--config-dir",type=Path,default=Path(__file__).resolve().parents[2]/"config")
@@ -307,6 +360,21 @@ def main():
                         "(repeatable; slow, off by default)")
     p.add_argument("--require-runtime", action="store_true",
                    help="treat runtime INSUFFICIENT as failure for --instance-runtime")
+    # Phase 1.56：行为证据（L4）阶段（显式 opt-in；不改变默认 Validator 行为）
+    p.add_argument("--behavior-evidence", action="store_true",
+                   help="validate persisted L4 behavior evidence bundles against the current "
+                        "behavior contracts (off by default)")
+    p.add_argument("--evidence-dir", default="",
+                   help="evidence bundle directory (default: .ai/tmp/behavior_bundles)")
+    p.add_argument("--evidence-feature", action="append", default=[],
+                   help="restrict the evidence stage to these Features (repeatable)")
+    p.add_argument("--evidence-max-age-hours", type=float, default=24.0,
+                   help="max evidence age in hours before it counts as INCOMPLETE")
+    p.add_argument("--behavior-evidence-json", default="",
+                   help="write the machine-readable evidence result to this path")
+    p.add_argument("--evidence-artifact-root", action="append", default=[],
+                   help="authorized execution artifact root for cross-validation "
+                        "(repeatable; default: .ai/tmp/behavior)")
     args=p.parse_args(); config_dir=args.config_dir.resolve(); r=Reporter()
     print("Godot Agent Skill Framework Validator"); print(f"Config: {config_dir}")
     files={k:config_dir/n for k,n in {
@@ -633,6 +701,9 @@ def main():
     report_instance_evidence(r, checks_prints)
     if args.instance_runtime:
         report_instance_runtime(r, checks_prints, args.instance_runtime, args.require_runtime)
+    # Phase 1.56：行为证据阶段在静态阶段之后执行；未传 --behavior-evidence 时完全跳过。
+    behavior_result = report_behavior_evidence(r, checks_prints, args) \
+        if args.behavior_evidence else None
 
     # Phase 1.15：Layer Checks —— Scene / Gameplay / Level / Runtime 编排既有检查器。
     # 各层独立执行（局部失败不阻断其他层）；Runtime 层 Godot 不可用时如实标记
@@ -687,6 +758,19 @@ def main():
     if unavailable:
         print("\nINCOMPLETE: requested layer check(s) unavailable (see above); not treated as PASS")
         exit_code = 1
+    # Phase 1.56：行为证据阶段的退出码（只在本阶段被显式启用时生效）。
+    # FAIL 优先于 INCOMPLETE；INCOMPLETE 不得被当成 PASS（0）。
+    if behavior_result is not None:
+        status = behavior_result.get("status")
+        if status == "ERROR":
+            exit_code = 3
+        elif status == "FAIL":
+            exit_code = 1
+        elif status == "INCOMPLETE":
+            print("\nINCOMPLETE: behavior evidence cannot be fully verified "
+                  "(%s); not treated as PASS" % behavior_result.get("reason"))
+            if not r.failures:
+                exit_code = 2
     return exit_code
 
 if __name__=="__main__": raise SystemExit(main())

@@ -77,6 +77,44 @@ def main() -> int:
     repeated = [item for item in scenarios if item["rule_id"] == "idempotent_repeat"]
     ok("G16: idempotent rule only where a guard exists",
        all("== value" in item["derivation"] for item in repeated))
+    # Phase 1.67.2：foreign_group 的期望全是否定断言，协议要求至少推进一帧；
+    # 契约已有帧推进时不得追加（否则会改变 P4 场景 ID 与证据绑定）。
+    record = {"knowledge_id": "k-synthetic"}
+    condition = {"condition": "if not body.is_in_group(target_group):",
+                 "file": "Features/synthetic/synthetic.gd", "line": 1}
+    base = {
+        "scene": "res://Features/synthetic/Synthetic.tscn",
+        "actions": [{"type": "physics.overlap", "target": ".",
+                     "params": {"group": "players"}}],
+        "preconditions": [],
+        "expected": [{"check": "signal", "target": ".", "entry": "x.hit", "count": 1},
+                     {"check": "node.freed", "target": ".", "equals": True}],
+        "window_frames": 30,
+    }
+    without_frames = gen._rule_foreign_group(base, [], [(record, condition)], {})
+    ok("G17: foreign_group appends one observation frame when none exists",
+       bool(without_frames) and without_frames["actions"][-1]["type"]
+       == "simulation.advance_frames"
+       and without_frames["actions"][-1]["params"] == {"frames": 1},
+       str(without_frames and without_frames["actions"]))
+    ok("G18: appended frame does not change inverted expectations",
+       bool(without_frames)
+       and [check["count"] for check in without_frames["expected"]
+            if check["check"] == "signal"] == [0]
+       and [check["equals"] for check in without_frames["expected"] if "equals" in check]
+       == [False])
+    with_frames = dict(base)
+    with_frames["actions"] = [{"type": "simulation.advance_frames", "params": {"frames": 2}}]
+    with_frames["actions"] += base["actions"]
+    kept = gen._rule_foreign_group(with_frames, [], [(record, condition)], {})
+    ok("G19: foreign_group never appends a second frame action",
+       bool(kept) and sum(1 for action in kept["actions"]
+                          if action["type"] == "simulation.advance_frames") == 1,
+       str(kept and [action["type"] for action in kept["actions"]]))
+    trigger = [item for item in scenarios if item["behavior"] == "trigger_switch/latch_once"]
+    ok("G20: P4 trigger scenario id is unchanged by the fix",
+       len(trigger) == 1 and trigger[0]["scenario_id"] == "s-37cd4dc9f084950e",
+       str([item["scenario_id"] for item in trigger]))
     print("\n===== test_scenario_generator: %d checks, %d failures =====" % (checks, failures))
     return 1 if failures else 0
 

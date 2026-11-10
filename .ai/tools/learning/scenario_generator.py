@@ -179,6 +179,11 @@ def _rule_foreign_group(contract, records, guards, graph):
             params["group"] = FOREIGN_GROUP
             copied["params"] = params
         actions.append(copied)
+    # 否定断言（signal=0 / 布尔 false）必须有真实观测窗口：Phase 1.45 最小证据规则
+    # 要求动作序列至少推进一帧。契约自带帧推进时保持原样，避免改变既有场景输出
+    # （P4 的 trigger_switch/latch_once 契约已含 advance_frames，ID 必须稳定）。
+    if not any(action.get("type") == "simulation.advance_frames" for action in actions):
+        actions.append({"type": "simulation.advance_frames", "params": {"frames": 1}})
     expected = []
     for check in contract["expected"]:
         if check.get("check") == "signal":

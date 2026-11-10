@@ -1132,6 +1132,7 @@ func _evaluate(entries: Array, frame: int, previous: Array) -> Array:
 		var method := str(OBSERVATION_IMPLEMENTATIONS.get(implementation, ""))
 		var status := "PASS"
 		var observed: Variant = null
+		var observed_args: Array = []
 		var expected_value: Variant = null
 		# node.exists 的目标可能已消失：这是真实观测，不是“观测不可用”。
 		# observe_signal 同理：目标可能在评估前被释放（自释放型组件），
@@ -1148,15 +1149,15 @@ func _evaluate(entries: Array, frame: int, previous: Array) -> Array:
 				status = "UNAVAILABLE"
 			else:
 				observed = result.get("observed")
+				# Phase 1.56：把最后一次信号的实参也算作观测证据——Validator 侧
+				# 要能独立复核 last_args，而不是只相任探针的 PASS。
+				observed_args = result.get("observed_args", [])
 				if implementation == "observe_signal":
 					expected_value = int(params.get("count", 0))
 					if int(observed) != int(expected_value):
 						status = "SIGNAL_MISMATCH"
 					elif params.has("last_args"):
-						var events: Array = _signals.get(str(node.get_instance_id()) + "|"
-							+ str(_manifest["signals"][params["entry"]]["signal"]), [])
-						if events.is_empty() or not _args_equal(events[-1]["args"],
-								params["last_args"]):
+						if not _args_equal(observed_args, params["last_args"]):
 							status = "SIGNAL_MISMATCH"
 				else:
 					var verdict := _compare_observation(observed, params)
@@ -1174,6 +1175,7 @@ func _evaluate(entries: Array, frame: int, previous: Array) -> Array:
 			"entry": str(params.get("entry", "")),
 			"expected": expected_value,
 			"observed": observed,
+			"observed_args": observed_args,
 			"status": status,
 			"first_observed_frame": seen,
 		})
@@ -1307,7 +1309,11 @@ func _observe_signal(node: Node, entry: Dictionary) -> Dictionary:
 		watch_key = str(node.get_instance_id()) + "|" + signal_name
 	if not _signals.has(watch_key):
 		return {"available": false}
-	return {"available": true, "observed": _signals[watch_key].size()}
+	var events: Array = _signals[watch_key]
+	var last_args: Array = []
+	if not events.is_empty():
+		last_args = events[-1].get("args", [])
+	return {"available": true, "observed": events.size(), "observed_args": last_args}
 
 
 func _resolve(target: String) -> Node:

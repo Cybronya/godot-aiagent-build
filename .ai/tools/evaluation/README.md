@@ -125,3 +125,217 @@ python .ai/tools/evaluation/runner.py --task all
 3. 至少包含一个受控负向（`negative`），并说明「去掉什么会导致断言失败」。
 4. 产物路径必须可证明归属（标记 + 运行前不存在），清理规则写进任务定义。
 5. 跑 `python .ai/tools/evaluation/runner.py --task <id>`，把首次/最终结果与失败原因写进阶段报告。
+
+## Phase 1.58：证据驱动的评估（Mode A / B / C）
+
+上面那套 `runner.py` 是「自己生成 → 自己用探针看一眼 → 自己判定」，与 Validator 的证据链路
+没有连接。Phase 1.58 增加一条**消费已验证证据**的评估路径：
+
+```
+Features/*/template.yaml#behavior
+   → feature_behavior_evidence.py（真实 Godot，写证据包 + result.json）      [采集]
+   → validator/check_behavior_evidence.py（重算观测 + 交叉验证执行产物）    [验证]
+   → evaluation/evidence_adapter.py（读验证结论，重算任务期望）             [适配]
+   → evaluation/evidence_eval.py（逐行为判定 + 报告）                       [评估]
+```
+
+```bash
+python .ai/tools/evaluation/evidence_eval.py --list
+python .ai/tools/evaluation/evidence_eval.py --evidence-dir .ai/tmp/p158/bundles          # Mode A + B
+python .ai/tools/evaluation/evidence_eval.py --evidence-dir DIR --no-collect              # 禁采集
+python .ai/tools/evaluation/evidence_eval.py --evidence-dir DIR --holdout-dir DIR_HOLDOUT # Holdout
+python .ai/tools/evaluation/runner.py --evidence-report .ai/tmp/eval/<token>/evidence_report.json  # Mode C 接入
+```
+
+### 三种模式
+
+| 模式 | 触发 | 证据来源 | 计入 `VERIFIED_*` |
+| --- | --- | --- | --- |
+| A | 任务文件 `mode: evidence`（默认） | 已有证据包，Validator 复核 | 是 |
+| B | 任务文件 `mode: probe` | 本次真实采集（每 Feature 一次）后同一链路复核 | 是（采集失败则不是） |
+| C | `runner.py`（旧入口） | 自带探针 | **否**，标记 `LEGACY_PROBE_ONLY` |
+
+### 状态模型（`evidence_adapter.evaluation_status`）
+
+`(Validator 结论, 任务期望复算) → 评估结论`，**不允许合并或升级**：
+
+| Validator | 期望满足 | 期望不满足 | 期望无法判定 |
+| --- | --- | --- | --- |
+| PASS | `VERIFIED_PASS` | `VERIFIED_FAIL` | `INCOMPLETE` |
+| FAIL | `INVALID_EVIDENCE` | `INVALID_EVIDENCE` | `INVALID_EVIDENCE` |
+| INCOMPLETE | `INCOMPLETE` | `INCOMPLETE` | `INCOMPLETE` |
+| ERROR | `EVALUATION_ERROR` | `EVALUATION_ERROR` | `EVALUATION_ERROR` |
+
+补充：`INVALID_EVIDENCE` 的子原因（`validator_rejected_evidence` / `bundle_rejected` /
+`unknown_feature` / `unknown_behavior`）只进 `reason`，不改状态；`NOT_EVALUATED` 用于
+「没跑」（`collection_skipped` / `holdout_unavailable`），与 `INCOMPLETE`（跑了但证据不足）分开。
+
+关键点：**Validator PASS 不等于 Evaluation PASS**。期望来自**任务文件**，用同一批真实观测
+重算（`check_behavior_evidence.expected_holds`），不采信采集侧自报的 `status`。
+所以「证据有效但行为不符合需求」会落到 `VERIFIED_FAIL`，而不是被证据包里的 `PASS` 掩盖。
+
+### 报告与退出码
+
+报告 `.ai/tmp/eval/<pid>-<uuid8>/evidence_report.json`（schema `evaluation_evidence_report` v1）
+分块：`run` / `supported` / `evidence`（Validator 原结论 + 包级拒绝）/ `collections`（Mode B 采集命令与退出码）
+/ `tasks` / `holdout` / `golden_trace` / `metrics` / `limitations`。
+`metrics.evidence_validation` 与 `metrics.behavior_evaluation` 是**两个独立计数器**。
+
+退出码：`0` = 全部任务 `VERIFIED_PASS`；`1` = 有 `VERIFIED_FAIL` / `INVALID_EVIDENCE` /
+`EVALUATION_ERROR`；`2` = 有 `INCOMPLETE` / `NOT_EVALUATED`；`3` = 输入/环境错误。
+
+### Golden Trace 与 Holdout
+
+- `baselines/*.json` 只有场景级 `scenario_id` + `approved_behavior_version`，**没有 Feature/Behavior
+  绑定**。因此逐行为 trace 比较标为 `NOT_APPLICABLE`（`binding: scenario_only`），不伪造绑定；
+  真实 Expected/Actual 比较走 `--trace` + `--baseline`（复用 `trace_baselines.compare`）。
+  基线审批状态为 `approved` 才接受，未审批 → `BASELINE_UNAPPROVED`，损坏 → `INVALID_BASELINE`。
+- Holdout 任务独立成块；用 `--holdout-dir` 指向**另一批**证据。与训练批共用 bundle/run_id →
+  `EVALUATION_ERROR` + `violations`；未提供 → `NOT_EVALUATED`（`holdout_unavailable`）。
+
+### 测试
+
+```bash
+python .ai/tools/evaluation/tests/test_evidence_adapter.py   # 52 项：A/B/C/D/F/G 矩阵
+python .ai/tools/evaluation/tests/test_evidence_eval.py      # 20 项：CLI / 退出码 / Holdout / runner 接入
+```
+
+fixture 用**真实契约**（`template.yaml#behavior`）构造证据包与 `result.json`，并用
+`bundle_digest` 签名，因此测的是 Adapter/评估的判定，而不是「fixture 能否过校验」。
+
+## Phase 1.59：L5 Mutation Harness（缺陷注入 → 现有链路判定）
+
+`evaluation/mutation/` 是**上层工具**，不重写 Runner / Validator / Evidence Collector：
+它只做三件事——在 `Features/` 的**隔离副本**里注入一处真实缺陷、跑一次真实采集+评估、
+再逐字节恢复并复跑。判定一律交给 Phase 1.56–1.58 的既有链路。
+
+```bash
+# 列出 catalog（Phase 1.64 起 12 条：M01–M12，覆盖 10 个 Behavior）
+python .ai/tools/evaluation/mutation/mutation_eval.py --list
+# 跑单条 / 跑全部（每条 = control → mutant → recovery 三次真实采集）
+python .ai/tools/evaluation/mutation/mutation_eval.py --mutation M05-openable-door-state-signal-dropped
+python .ai/tools/evaluation/mutation/mutation_eval.py --all
+```
+
+| 产物 | 位置 |
+| --- | --- |
+| 逐条报告（含 Verdict / effectiveness 观测 / Validator / Evaluation / recovery） | `.ai/tmp/p159/reports/<mutation>.json` |
+| 批次汇总（`summary-<id>.json`，退出码据此判定） | `.ai/tmp/p159/reports/` |
+| 隔离副本、证据、评估输出 | `.ai/tmp/p159/runs/<mutation>-<runid>/`（默认保留，`--clean` 只删自己的目录） |
+
+**Verdict 与 Evaluation 状态是两个独立字段**：`MUTANT_KILLED` 表示「注入的缺陷被执行链路
+拒绝」，`MUTANT_SURVIVED` 表示「注入生效但链路仍然 PASS」，`INVALID_MUTANT` 表示「注入没造成
+预期行为变化（探针/契约无分辨力或注入被真实执行绕过）」，`HARNESS_ERROR` / `TIMEOUT` /
+`NOT_RUN` 表示这次运行本身不成立。**INVALID_MUTANT 不计入 killed/survived 分母**，
+也不能被写成「检出」。
+
+Phase 1.64 新增的两条（追加在 M01–M10 之后，源哈希与锚点唯一性均已核）：
+
+| Mutation | Behavior | 缺陷模型 | 真实触发证据 |
+| --- | --- | --- | --- |
+| `M11-i-frames-window-close-not-restored` | `i_frames/iframes_expire_and_damage_resumes` | 无敌窗口到期不归还 Health 门（`_on_window_end` 里的 `set_invulnerable(false)` 换成 `pass`） | control `health.current=8` → mutant `9` |
+| `M12-openable-door-open-guard-inverted` | `openable_door/open` | 幂等守卫 `==` → `!=`（门永远打不开） | control `door.is_open=true` → mutant `false` |
+
+两条均 `MUTANT_KILLED`（control/recovery 都 `VERIFIED_PASS`、`restored_byte_for_byte=true`、`repo_guard.changed=false`）。
+报告目录：`.ai/tmp/p164/mutation2/reports/`（批次汇总 `summary-3de41ad2.json`）。
+
+退出码：`0` 全部 KILLED；`1` 有 SURVIVED / INVALID / ERROR / TIMEOUT；`2` 有 NOT_RUN（前置条件
+不成立，如源文件哈希已过期）；`3` 输入/环境错误。
+
+安全边界（`workspace.py` + `harness.py`）：只改副本里的**目标文件**（快照差异必须恰好一个文件）、
+锚点必须唯一、源哈希必须匹配 catalog、括号平衡不变、路径不得逃逸 run 目录、拒绝符号链接、
+清理只删带自己 ownership 标记的目录；仓库 `Features/**` 全程只读，跑完再比对哈希。
+每一次 run 都记录 `repo_guard.changed`，为真直接判 `HARNESS_ERROR`。
+
+测试：
+
+```bash
+python .ai/tools/evaluation/mutation/tests/test_mutation_harness.py      # 51 项：算子/副本/目录/verdict/清理
+python .ai/tools/evaluation/mutation/tests/test_mutation_integration.py  # 15 项：真实 Godot，2 个 Feature 端到端
+```
+
+## Trace / Behavior 绑定 / Baseline 可信门禁 / Holdout 生命周期（Phase 1.60）
+
+`evidence_eval.py` 在 1.58 语义之上叠加三层可信门禁（全部加法式，缺省行为不变）：
+
+1. **绑定诊断**：缺省自动加载 `validator/bindings/behavior_bindings.json`（可用
+   `--bindings` 显式指定）。每个任务记录 `binding_status` 诊断字段；未声明
+   `expected_source` 的任务不受门禁影响（1.58 兼容）。
+2. **期望来源门禁**：任务声明 `expected_source: behavior_contract | golden_trace |
+   approved_baseline | combined_approved` 时，期望取自已验证绑定；缺失绑定 →
+   `INCOMPLETE(binding_missing)`；失效 / 不可信 Baseline → `NOT_EVALUATED
+   (baseline_unapproved / baseline_revoked / baseline_digest_mismatch /
+   baseline_approval_mismatch / binding_stale / binding_scenario_mismatch /
+   binding_contract_mismatch / binding_invalid)`。声明了来源就绝不静默回落到任务
+   自带 expect。
+3. **Baseline 使用时复核**：`baseline_report()` 重算内容摘要并与
+   `validator/baselines/approval_registry.json` 的登记比对；未登记 / 被撤回 /
+   摘要失配的基线不再判 PASS。
+
+**Holdout 数据集生命周期**（`evaluation/holdout_registry.py` +
+`evaluation/holdout/holdout_datasets.json`）：Holdout 任务可声明
+`holdout_id` / `holdout_dataset_version`——使用前查登记、复核（SEALED + 摘要一致 +
+无污染 + 非训练/调优数据），通过后登记消费（SEALED → CONSUMED）。重复使用同一
+数据集会被拒绝（需显式封存新版本）；缺失时保留 1.58 的
+`NOT_EVALUATED(holdout_unavailable)`，不降级为 VERIFIED_PASS。
+
+报告新增 `binding_reconciliation` 块：正式支持集动态读取，逐场景 Trace 绑定状态、
+已绑定 / 未绑定行为、Baseline 覆盖对账。
+
+```bash
+python .ai/tools/evaluation/evidence_eval.py --task E1 E2 E3   # 绑定诊断 + 基线复核
+python .ai/tools/evaluation/evidence_eval.py --task E5 --holdout-dir <dir> \
+    # E5 声明 holdout_id 时走数据集生命周期
+```
+
+测试：`evaluation/tests/test_cross_binding.py`（15 项）、
+`evaluation/tests/test_holdout_registry.py`（23 项）、
+`evaluation/tests/test_phase160_e2e.py`（5 项，真实 Godot 证据，需先采集：
+`--evidence-dir .ai/tmp/p160_e2e/evidence`）。
+
+## Provenance 集成（Phase 1.61）
+
+`evidence_eval.py` 新增签名门禁参数（缺省不启用 = 1.58/1.60 语义不变）：
+
+```bash
+python .ai/tools/evaluation/evidence_eval.py --task E1 E2 E3 \
+    --evidence-dir <dir> --require-signature          # 安全模式：缺签名/无效签名/信任根缺失一律拒绝
+python .ai/tools/evaluation/evidence_eval.py --task E1 E2 E3 \
+    --evidence-dir <dir> --allow-legacy [--trust-root <path>]  # 诊断模式：无效签名拒绝，缺签名标 LEGACY
+```
+
+- Evidence：逐 bundle 重算摘要并验证 sidecar `<bundle>.sig.json`；是 1.56 Integrity 与
+  1.57 Artifact Cross-Validation 之后的**追加**门禁。改内容 + 重算 `payload_sha256`
+  的逃逸路径被签名层封堵（require 模式 `bundle_rejected`）。
+- Holdout：`holdout_registry.seal_dataset_signed()` 封存签名；消费前验证，失败细分
+  `holdout_signature_missing / holdout_signature_invalid / holdout_signer_untrusted /
+  holdout_digest_mismatch / holdout_revoked`（一律 NOT_EVALUATED，不伪装普通缺口），
+  验证通过才 `record_usage`（一次性消费语义不变）。
+- Baseline：门禁开启时 `baseline_report()` 走 `use_baseline_trusted()`，信任等级
+  `LEGACY_APPROVED / CRYPTOGRAPHICALLY_VERIFIED / SIGNATURE_REQUIRED / SIGNATURE_INVALID`。
+- 签名不证明执行真实性；签名者与采集器同权限时证明力等同采集器自报。
+- 测试：`evaluation/tests/test_evidence_signature.py`（16）、
+  `evaluation/tests/test_holdout_signature.py`（16）。
+
+## Coverage Matrix（Phase 1.63）
+
+```bash
+python .ai/tools/evaluation/coverage_matrix.py                 # 报告成功即可存在缺口（exit 0）
+python .ai/tools/evaluation/coverage_matrix.py --strict        # 有缺口 -> exit 2
+python .ai/tools/evaluation/coverage_matrix.py --feature health --behavior damage
+python .ai/tools/evaluation/coverage_matrix.py --include-legacy # legacy 证据计入 Evidence（仍不计 Signature）
+```
+
+八维独立状态（contract / binding / evidence / signature / attestation / evaluation /
+holdout / mutation），分母 = 动态正式支持集；缺失数据用 NO_* 状态与 null，绝不编造；
+INVALID Mutation 永不计入 KILLED。输出 `.ai/context/coverage_matrix.{json,md}`，
+每行带 `missing_requirements` 与 `next_recommended_action`。
+测试：`evaluation/tests/test_coverage_matrix.py`（15 项）。
+
+### Phase 1.63 其余变更
+
+- Mutation harness：每次采集用隔离 `user://` 目录（M06 修复）；catalog +M09/M10，
+  全量 10/10 KILLED、0 INVALID。
+- Holdout：`VALIDATED→VALIDATED` 幂等修复；`P163-HOLDOUT` 签名封存可用。
+- 1.63 全链 E2E：`python .ai/tools/validator/execution/run_p163_e2e.py`
+  （持久化 bundle/签名/manifest/attestation 于 `.ai/tmp/p163_e2e/`）。

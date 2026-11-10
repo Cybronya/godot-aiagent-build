@@ -1,0 +1,101 @@
+# EVAL158 — Evidence-backed Evaluation 任务集（Phase 1.58）
+#
+# 与 `tasks.yaml`（EVAL136，Probe-only 端到端能力评估）并列，互不影响：
+#   tasks.yaml          -> runner.py（Mode C: LEGACY_PROBE_ONLY，行为断言来自自带探针）
+#   evidence_tasks.yaml -> evidence_eval.py（Mode A: 消费已落盘证据；Mode B: 先采集再评估）
+#
+# 冻结规则（与 tasks.yaml 同源）：
+#   1. `expect` 是 **Evaluation 自己** 的验收标准，独立于 Feature 契约；改宽它就等于降标准。
+#   2. 任务只映射「正式支持集」里的 (Feature, Behavior)：该集合由
+#      `template.yaml#behavior` 动态读取，不在本文件里枚举。
+#   3. 同一 (Feature, Behavior) 只能被一个任务映射（重复会重复统计，adapter 会拒绝）。
+#   4. `holdout: true` 的任务只从 `--holdout-dir` 读取证据，与训练证据做批次隔离检查。
+#   5. 本文件不声明任何「预期通过」结论：判定来自 Validator + 同批观察值。
+#
+# 映射字段：
+#   feature / behavior        单行为任务
+#   behaviors[]               多行为任务（每项可用自己的 expect 覆盖任务级 expect）
+#   mode: evidence | probe    Mode A（消费既有证据）/ Mode B（先跑采集器再验证）
+#   trace: {scenario}         引用已批准的 Golden Trace Baseline（仅元数据与版本，见报告）
+#   holdout: true             Holdout 任务（独立目录 + 独立统计）
+
+schema:
+  id: evaluation_evidence_tasks
+  version: 1
+
+run:
+  evidence_dir: .ai/tmp/behavior_bundles
+  max_age_hours: 24
+  # Mode B 的采集器（真实 Godot，单 Feature）与校验根目录
+  collector: scene_composer/feature_behavior_evidence.py
+  artifact_root: .ai/tmp/behavior
+
+tasks:
+  # ------------------------------------------------------------------ E1 交互类
+  - id: E1
+    title: 拾取物接触玩家后消失并发出一次 collected 信号
+    requirement: a collectible key that disappears when picked up
+    mode: evidence
+    feature: collect_pickup
+    behavior: collect_on_contact
+    # 期望与契约同向但独立声明：即使契约被改宽，这里仍然要求「节点真的被释放」。
+    expect:
+      - {check: node.freed, target: ".", equals: true}
+      - {check: signal, entry: pickup.collected, target: ".", count: 1}
+    trace:
+      scenario: waves
+
+  # ------------------------------------------------------------------ E2 状态变化类
+  - id: E2
+    title: 受到伤害后生命值下降，并恰好广播一次 health_changed
+    requirement: the host loses health on damage
+    mode: evidence
+    feature: health
+    behavior: damage
+    expect:
+      - {check: health.current, target: ".", equals: 1}
+      - {check: signal, entry: health.health_changed, target: ".", count: 1}
+
+  # ------------------------------------------------------------------ E3 存档 / 多行为
+  - id: E3
+    title: 存档写入槽位并可回读世界状态（一个 Feature 两条行为）
+    requirement: save the world state to a slot and restore it
+    mode: evidence
+    feature: save_game
+    behaviors:
+      - behavior: save_slot_persists_world_state
+        expect:
+          # target 是采集时契约声明的观测节点（显式写出来，不用 "." 糊掉映射）
+          - {check: signal, entry: savegame.game_saved, target: Saver, count: 1}
+          - {check: savegame.last_slot, target: Saver, equals: behavior_save}
+          - {check: health.current, target: World/Player/Health, equals: 3}
+      - behavior: load_slot_restores_world_state
+        expect:
+          - {check: health.current, target: World/Player/Health, equals: 3}
+          - {check: signal, entry: savegame.game_loaded, target: Saver, count: 1}
+
+  # ------------------------------------------------------------------ E4 Mode B：先采集再评估
+  - id: E4
+    title: 触发开关首次接触后锁存（Probe 生成证据后由 Validator 复核）
+    requirement: a trigger that latches once on first contact
+    mode: probe
+    feature: trigger_switch
+    behavior: latch_once
+    expect:
+      - {check: trigger.is_triggered, target: ".", equals: true}
+      - {check: signal, entry: trigger.activated, target: ".", count: 1}
+
+  # ------------------------------------------------------------------ E5 Holdout（独立批次）
+  - id: E5
+    title: "[Holdout] 门被打开且状态变化信号只发一次"
+    requirement: a door that opens on request
+    mode: evidence
+    holdout: true
+    feature: openable_door
+    behavior: open
+    expect:
+      - {check: door.is_open, target: ".", equals: true}
+      - {check: signal, entry: door.state_changed, target: ".", count: 1}
+      # last_args 与 count 同键合并为一条：signal 期望缺 count 会被按 0 拒绝
+      # （expected_holds 语义），这里显式要求「恰好一次且末次参数为 true」。
+      - {check: signal, entry: door.state_changed, target: ".", count: 1, last_args: [true]}

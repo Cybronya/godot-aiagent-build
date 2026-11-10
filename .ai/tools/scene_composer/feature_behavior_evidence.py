@@ -75,6 +75,7 @@ Phase 1.42 新增能力（均来自同一份协议）：
 """
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -83,6 +84,7 @@ import sys
 import tempfile
 import time
 import uuid
+from datetime import datetime, timezone
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _TOOLS = os.path.dirname(_HERE)
@@ -111,6 +113,10 @@ STATUS_INVALID = instance_evidence.STATUS_INVALID
 STATUS_NOT_DECLARED = instance_evidence.STATUS_NOT_DECLARED
 
 EVIDENCE_BEHAVIOR = "godot_behavior"
+# Phase 1.56：可持久化证据包（Validator 独立消费）。
+BUNDLE_SCHEMA = "feature_behavior_evidence_bundle"
+BUNDLE_SCHEMA_VERSION = 1
+EVIDENCE_LEVEL = "L4"
 DEFAULT_REPLAYS = 2
 MAX_REPLAYS = 5
 DEFAULT_WINDOW_FRAMES = 30
@@ -207,6 +213,9 @@ class BehaviorReport:
         self.replay_consistent = False
         self.runs = []
         self.evidence = {}
+        # Phase 1.57：每次重放产物的内容摘要（run_id -> {artifact: sha256}），
+        # 让 Validator 能发现“证据包未动、但 result.json 被改写”。
+        self.artifact_digests = {}
 
     def to_dict(self) -> dict:
         return {
@@ -230,6 +239,8 @@ class BehaviorReport:
             "replay_consistent": self.replay_consistent,
             "runs": list(self.runs),
             "evidence_paths": dict(self.evidence),
+            "artifact_digests": {key: dict(value)
+                                 for key, value in self.artifact_digests.items()},
         }
 
 
@@ -496,12 +507,16 @@ class BehaviorWorkspace:
     """本次 CLI 调用拥有的隔离 Godot 项目（复制 Features + 探针）。"""
 
     def __init__(self, features_dir: str, godot: str, timeout_s: int = 120,
-                 source_project: str = ""):
+                 source_project: str = "", user_dir_tag: str = ""):
         os.makedirs(EVIDENCE_ROOT, exist_ok=True)
         self.root = tempfile.mkdtemp(prefix="workspace-", dir=EVIDENCE_ROOT)
         self.project = os.path.join(self.root, "project")
         self.import_log = ""
         self.import_ok = False
+        # Phase 1.63（M06 根因修复）：user:// 隔离。缺省（无 tag）行为与历史一致——
+        # 共享 user:// 目录；显式传入唯一 tag 时，本次 workspace 的所有 probe 运行
+        # 使用独立 user 目录（use_custom_user_dir），跨 run 不残留、互不污染。
+        self.user_dir_tag = str(user_dir_tag or "").strip()
         os.makedirs(self.project, exist_ok=True)
         shutil.copytree(features_dir, os.path.join(self.project, "Features"))
         probe_target = os.path.join(self.project, ".ai", "tools", "scene_composer", "probes",
@@ -519,9 +534,38 @@ class BehaviorWorkspace:
                   newline="\n") as handle:
             handle.write("config_version=5\n\n[application]\n"
                          "config/name=\"feature-behavior-evidence\"\n")
+            if self.user_dir_tag:
+                handle.write("config/use_custom_user_dir=true\n")
+                handle.write("config/custom_user_dir_name=\"%s\"\n" % self.user_dir_tag)
             handle.write(_project_sections(os.path.join(source, "project.godot")))
         if godot:
             self.import_ok = self._import(godot, timeout_s)
+
+    @staticmethod
+    def custom_user_dir(tag: str) -> str:
+        """custom_user_dir_name 对应的真实 user:// 目录（存在才返回路径）。"""
+        tag = str(tag or "").strip()
+        if not tag:
+            return ""
+        home = os.path.expanduser("~")
+        candidates = [
+            os.path.join(os.environ.get("APPDATA", ""), tag),          # Windows
+            os.path.join(home, ".local", "share", tag),                # Linux
+            os.path.join(home, "Library", "Application Support", tag),  # macOS
+        ]
+        for candidate in candidates:
+            if candidate and os.path.isdir(candidate):
+                return candidate
+        return ""
+
+    @staticmethod
+    def remove_user_dir(tag: str) -> bool:
+        """清理指定 tag 的隔离 user 目录（只删 basename == tag 的那一个）。"""
+        directory = BehaviorWorkspace.custom_user_dir(tag)
+        if directory and os.path.basename(directory) == str(tag).strip():
+            shutil.rmtree(directory, ignore_errors=True)
+            return True
+        return False
 
     def _import(self, godot: str, timeout_s: int) -> bool:
         try:
@@ -728,6 +772,10 @@ def verify_contract(contract: dict, project: str, godot: str = "",
          if isinstance(check.get("first_observed_frame"), int)
          and check.get("first_observed_frame") >= 0], default=None)
     report.evidence = {run.run_id: dict(run.artifacts) for run in runs}
+    report.artifact_digests = {
+        run.run_id: {name: _sha256_file(path)
+                     for name, path in sorted((run.artifacts or {}).items())}
+        for run in runs}
 
     if base.status == STATUS_PASS and not report.replay_consistent:
         report.status = STATUS_INSUFFICIENT
@@ -740,7 +788,8 @@ def verify_feature(feature: str, features_dir: str = instance_evidence.FEATURES_
                    project_root: str = "", godot: str = "",
                    replay: int = DEFAULT_REPLAYS, timeout_s: int = DEFAULT_PROCESS_TIMEOUT,
                    runner=None, workspace=None, protocol=None,
-                   protocol_path: str = "", manifest_path="") -> list:
+                   protocol_path: str = "", manifest_path: str = "",
+                   user_dir_tag: str = "") -> list:
     """Feature -> behavior 报告列表（每个声明的 behavior 一份）。"""
     if protocol is None:
         try:
@@ -785,7 +834,7 @@ def verify_feature(feature: str, features_dir: str = instance_evidence.FEATURES_
 
     owns_workspace = workspace is None
     if owns_workspace:
-        workspace = BehaviorWorkspace(features_dir, binary)
+        workspace = BehaviorWorkspace(features_dir, binary, user_dir_tag=user_dir_tag)
     try:
         for contract in contracts:
             reports.append(verify_contract(contract, workspace.project, binary, replay,
@@ -794,6 +843,92 @@ def verify_feature(feature: str, features_dir: str = instance_evidence.FEATURES_
         if owns_workspace:
             workspace.close()
     return reports
+
+
+def canonical_json(document) -> str:
+    """规范化序列化：排序键 + 固定分隔符，供完整性哈希与跨工具比较使用。"""
+    return json.dumps(document, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def _sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _sha256_file(path: str) -> str:
+    try:
+        with open(path, "rb") as handle:
+            return _sha256_bytes(handle.read())
+    except OSError:
+        return ""
+
+
+def bundle_payload(document: dict) -> dict:
+    """参与完整性哈希的内容：除 `integrity` 本身以外的全部字段。"""
+    return {key: value for key, value in document.items() if key != "integrity"}
+
+
+def bundle_digest(document: dict) -> str:
+    return _sha256_bytes(canonical_json(bundle_payload(document)).encode("utf-8"))
+
+
+def git_head(project_root: str = "") -> str:
+    try:
+        proc = subprocess.run(["git", "rev-parse", "HEAD"],
+                              cwd=project_root or PROJECT_ROOT,
+                              capture_output=True, text=True, encoding="utf-8",
+                              errors="replace", timeout=15,
+                              stdin=subprocess.DEVNULL)
+    except (OSError, subprocess.SubprocessError):
+        return ""
+    return (proc.stdout or "").strip() if proc.returncode == 0 else ""
+
+
+def build_bundle(reports, protocol, protocol_path: str = "",
+                 project_root: str = "", bundle_id: str = "") -> dict:
+    """行为报告 -> 可持久化证据包（含内容完整性摘要）。
+
+    证据包只记录**本次真实执行的观测**：状态/原因/逐条 check 的 expected+observed+
+    observed_args、重放次数与一致性、证据路径。它不自称“已验证”；验证责任在
+    Validator 侧（`.ai/tools/validator/check_behavior_evidence.py`），后者不信任
+    这里的 `status`，而是基于契约与观测重算。
+    """
+    grouped = {}
+    order = []
+    for report in reports:
+        record = report.to_dict()
+        feature = record.get("feature", "")
+        if feature not in grouped:
+            grouped[feature] = {"feature": feature, "evidence_level": EVIDENCE_LEVEL,
+                                "behaviors": []}
+            order.append(feature)
+        grouped[feature]["behaviors"].append(record)
+    document = {
+        "schema": BUNDLE_SCHEMA,
+        "schema_version": BUNDLE_SCHEMA_VERSION,
+        "bundle_id": bundle_id or _new_run_id("bundle"),
+        "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "git_head": git_head(project_root),
+        "tool": {"module": "feature_behavior_evidence", "module_version": MODULE_VERSION},
+        "protocol": {
+            "protocol_version": getattr(protocol, "version", None),
+            "sha256": _sha256_file(protocol_path or getattr(protocol, "path", "")),
+        },
+        "evidence_level": EVIDENCE_LEVEL,
+        "summary": summarize(reports),
+        "features": [grouped[name] for name in order],
+    }
+    document["integrity"] = {"algorithm": "sha256",
+                             "payload_sha256": bundle_digest(document)}
+    return document
+
+
+def write_bundle(document: dict, directory: str) -> str:
+    os.makedirs(directory, exist_ok=True)
+    path = os.path.join(directory, "%s.json" % document["bundle_id"])
+    with open(path, "w", encoding="utf-8", newline="\n") as handle:
+        json.dump(document, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        handle.write("\n")
+    return path
 
 
 def summarize(reports) -> dict:
@@ -822,10 +957,18 @@ def main(argv=None) -> int:
     parser.add_argument("--replay", type=int, default=DEFAULT_REPLAYS,
                         help="replays per behavior (2..%d)" % MAX_REPLAYS)
     parser.add_argument("--features-dir", default=instance_evidence.FEATURES_DIR)
+    parser.add_argument("--user-dir-tag", default="",
+                        help="Phase 1.63: unique tag -> isolated user:// dir for this "
+                             "run (use_custom_user_dir); default keeps shared dir")
     parser.add_argument("--protocol", default=behavior_protocol.PROTOCOL_PATH)
     parser.add_argument("--project-root", default="")
     parser.add_argument("--godot", default="")
     parser.add_argument("--timeout", type=int, default=DEFAULT_PROCESS_TIMEOUT)
+    parser.add_argument("--evidence-out", default="",
+                        help="write a versioned evidence bundle (JSON) into this directory; "
+                             "the Validator --behavior-evidence stage consumes it")
+    parser.add_argument("--bundle-id", default="",
+                        help="explicit evidence bundle id (default: pid-uuid8)")
     args = parser.parse_args(argv)
 
     if not os.path.isdir(args.features_dir):
@@ -852,7 +995,8 @@ def main(argv=None) -> int:
     binary = args.godot or runtime_evidence.find_godot(root)
     reports = []
     if binary:
-        workspace = BehaviorWorkspace(args.features_dir, binary)
+        workspace = BehaviorWorkspace(args.features_dir, binary,
+                                      user_dir_tag=args.user_dir_tag)
         try:
             for feature in targets:
                 reports.extend(verify_feature(
@@ -887,6 +1031,20 @@ def main(argv=None) -> int:
             summary["pass"], summary["mismatch"], summary["insufficient"],
             summary["invalid"], summary["not_declared"]))
         print("  evidence: %s" % EVIDENCE_ROOT)
+
+    if args.evidence_out:
+        try:
+            bundle = build_bundle(reports, protocol, args.protocol,
+                                  args.project_root or PROJECT_ROOT, args.bundle_id)
+            path = write_bundle(bundle, args.evidence_out)
+        except OSError as exc:
+            print("FAIL: cannot write evidence bundle: %s" % exc)
+            return 2
+        if args.json:
+            pass  # JSON 模式已输出报告；路径单独打到 stderr，保持 stdout 可解析
+        else:
+            print("  bundle: %s (integrity sha256 %s)"
+                  % (path, bundle["integrity"]["payload_sha256"][:16]))
 
     failed = [report for report in reports
               if report.status in (STATUS_MISMATCH, STATUS_INVALID)

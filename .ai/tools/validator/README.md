@@ -149,6 +149,79 @@ trace JSON   ──► trace_replay.load_trace ─► replay() ─┐
 - Collaboration 中的重复 canonical metadata
 - Framework 内部路径的 root-independent 约束
 
+## Behavior Evidence 阶段（Phase 1.56）
+
+把 Phase 1.40–1.54 产生的**真实执行**行为证据（L4）接到 Validator 上。默认不执行；
+只有显式传 `--behavior-evidence` 才运行，旧调用方式与旧的七/八阶段结果完全不变。
+
+```bash
+# 1) 采集真实行为证据（真实 Godot 动作 + 重放 2 次）并落盘为证据包
+python .ai/tools/scene_composer/feature_behavior_evidence.py --all \
+    --evidence-out .ai/tmp/behavior_bundles --replay 2
+
+# 2) 由 Validator 独立复核证据包（默认目录 .ai/tmp/behavior_bundles，默认有效期 24h）
+python .ai/tools/validator/validate.py --behavior-evidence
+python .ai/tools/validator/validate.py --behavior-evidence \
+    --evidence-dir .ai/tmp/behavior_bundles --evidence-feature health
+python .ai/tools/validator/validate.py --behavior-evidence --behavior-evidence-json report.json
+```
+
+实现分两件：`scene_composer/feature_behavior_evidence.py#build_bundle` 负责**记录观测**，
+`validator/check_behavior_evidence.py#check_evidence` 负责**独立判定**。分成两件是刻意的：
+采集侧不自证成功。
+
+| 结论 | 含义 | 退出码 |
+| --- | --- | --- |
+| `PASS` | 每条被请求的 behavior 都有可复核观测，且**由契约重算**成立 | 0 |
+| `FAIL` | 内容被篡改 / 协议不兼容 / 等级冒充 / 未知 Feature·Behavior / 观测违反契约 | 1 |
+| `INCOMPLETE` | 证据缺失、过期、观测不足、重放不足、目标 Feature 无证据 | 2 |
+| `ERROR` | 协议非法或验证器自身异常 | 3 |
+
+判定规则（细节见模块 docstring 与 `PHASE_1_56_COMPLETION_REPORT.md`）：
+
+- **不信任证据自报的 `status`**：用 `template.yaml#behavior` 的 `expected` 与证据里的
+  `observed` / `observed_args` 重算；`status: PASS` 不能替代观测。
+- **等级不互相冒充**：本阶段只复核 `evidence_level: L4`。L2 归 `check_instance_evidence`，
+  L5 需要缺陷注入证明，这里不代其声明。
+- **`observed: null` 是「没观测到」而不是「违反」** → `INCOMPLETE`（`observation_insufficient`）。
+- **重放**：`replay_count >= 2` 且 `replay_consistent == true`，否则 `INCOMPLETE`。
+- **`--evidence-feature` 是范围**：只验证被请求的 Feature，同一证据包里其他 Feature 的
+  记录记入 `summary.skipped_features`（不连坐为失败）；指向不存在 Feature 的证据仍拒绝。
+
+协议与完整性：证据包携带 `protocol.protocol_version` 与协议文件 `sha256`，版本或内容
+不符即 `FAIL`；`integrity.payload_sha256` 覆盖除 `integrity` 外的全部字段（规范化 JSON），
+Validator 端**重新计算**而不采信声明值，因此能发现「生成后被改动」。
+
+**信任边界（未解决）**：哈希只证明内容完整，不证明来源可信——能同时改实现并重签的人仍可
+伪造证据包。真正的来源可信需要外部签名/可信执行环境，当前架构不具备，本阶段不声称具备。
+
+### 执行产物交叉验证（Phase 1.57）
+
+Phase 1.56 的复核只能读证据包本身，而 `action_executed` / `replay_count` /
+`replay_consistent` 都是**采集侧自报**。Phase 1.57 起，Validator 还会打开
+`evidence_paths` 指向的**真实执行产物**（每次重放一份 `result.json`，由 Godot 探针写出），
+在验证器侧重新计算：
+
+| 检查 | 矛盾时的结论 |
+| --- | --- |
+| 产物存在 / 可读 / 合法 JSON / 字段齐全 | `INCOMPLETE`（`artifact_missing`、`artifact_invalid_json`、`artifact_invalid_schema`） |
+| `evidence_paths` 键 = 产物 `run_id`，且属于证据的执行批次 | `FAIL artifact_run_mismatch` |
+| 产物 `feature` / `behavior` = 证据归属 | `FAIL artifact_feature_mismatch` / `artifact_behavior_mismatch` |
+| 产物条数 = `replay_count`，序号 = 1..N | `FAIL replay_count_mismatch` / `replay_index_mismatch` |
+| 产物 `checks` 与证据 `actual[]` 逐项一致 | `FAIL observation_mismatch` |
+| 由产物重算的重放一致性与自报值一致 | `FAIL replay_consistency_mismatch` |
+| 动作确有执行记录，且序列与契约一致 | `FAIL action_not_executed` / `action_sequence_mismatch` |
+| 产物 sha256 = 证据记录的 `artifact_digests` | `FAIL artifact_digest_mismatch` |
+| 同一产物不被另一条记录引用 | `FAIL artifact_reused` |
+
+路径安全：只读授权根目录（默认 `.ai/tmp/behavior`，可用 `--artifact-root` /`--evidence-artifact-root` 追加）内的 `result.json`；解析先做 `realpath`
+（跟随符号链接）再判包含关系，拒绝 `../`、越界绝对路径、越界符号链接、目录、非
+`result.json`、以及证据目录自身。缺少 `evidence_paths` 的旧格式证据包一律
+`INCOMPLETE execution_paths_missing`，**不会**因为“读不到”而 PASS。
+
+仍未解决的是**来源真实性**：改实现、改产物、改证据包并重算全部摘要的人依然能构造出自洽的
+证据（回归测试 D3 明确记录该边界，不算检测成功）。
+
 ## Layer Checks（Phase 1.15）
 
 在 Framework 静态检查之外，validate.py 可以**编排既有检查器**执行分层校验（缺省不执行，
@@ -268,6 +341,21 @@ Runtime 检查缺失永远不会被伪装成通过。耗时的 Runtime 探针为
 - **e2e 所有权**：`validator/tests/test_e2e_ownership.py`（E1–E4）只替换 e2e 的
   「清单 / 签名判定 / 删除原语」三个接缝，覆盖「扫描期回收的残留重新登记」
   「外来文件拒绝删除」「清理前被改写则拒删」。
+
+## 下游消费方：Evaluation（Phase 1.58）
+
+本 Validator 的行为证据结论现在被评估器直接消费，不再只看终端输出：
+
+```bash
+python .ai/tools/evaluation/evidence_eval.py --evidence-dir .ai/tmp/p158/bundles
+```
+
+`evaluation/evidence_adapter.py` 调用本目录的 `check_behavior_evidence.check_evidence()`
+取得逐行为结论（不解析 CLI 文本），再用 `expected_holds()` 在**同一批观测**上重算任务期望。
+口径约定：Validator `FAIL` → 评估 `INVALID_EVIDENCE`；`VERIFIED_FAIL` 只能由
+「Validator PASS + 任务期望不满足」产生；包级拒绝（`integrity mismatch` / 过期 /
+协议变更）会传到该包内**每一条** behavior，哪怕逐条复算仍然是 PASS。
+从证据包读出的 `run_id` / `artifact_digests` / `evidence_paths` 只作用在报告的可追溯字段。
 - **忽略**：`.gitignore` 新增 `.ai/tmp/`（只覆盖易失运行工作区；`git ls-files .ai/tmp` = 0）。
 - **F4-B（Phase 1.33）**：e2e 固定名产物采用「显式清单 + 启动期内容签名 + 本次运行缺席证明」
   （生产解析约定要求 `Scenes/<Pascal>.tscn`，不能迁入运行根）；6 个 GDScript 测试各自创建
@@ -275,3 +363,114 @@ Runtime 检查缺失永远不会被伪装成通过。耗时的 Runtime 探针为
   本运行自有文件，共享目录残留只报告；e2e 串行锁 `.ai/tmp/runs/e2e.lock`（`O_EXCL` +
   持有者可证死亡才回收）。`user://` 引擎日志 / MCP 配置 / Phase 1.6 夹具目录一律不清理
   （所有权不可证）。详见 `.ai/context/PHASE_1_33_AUDIT.md`；F5 与 janitor 未实施。
+
+## Baseline 生命周期与逐行为绑定（Phase 1.60）
+
+**审批之后不等于永远可信**：使用基线时必须重算内容摘要并与审批登记比对
+（`validator/baseline_lifecycle.py` + `baselines/approval_registry.json`）。
+
+- 状态机：`DRAFT → PENDING_REVIEW → APPROVED`；`APPROVED → SUPERSEDED / REVOKED`；
+  跳步与终态转换被拒。只有 APPROVED 可用于正式评估。
+- 摘要（`baseline-content-digest-v1`）：规范化 JSON（sort_keys + 紧凑分隔符）的 SHA256，
+  覆盖全部评估相关载荷（events / comparison_policy / expected_final_state /
+  scenario_id / schema 版本 / approved_behavior_version / coverage）；不含 approval 块
+  （合法的 coverage 修订先例）与 scenario_description——这两者由登记时固化的
+  approver / approved_at / 指纹一致性核对覆盖。
+- 使用时复核 `use_baseline()`：`APPROVED_OK / DIGEST_MISMATCH / UNAPPROVED /
+  MISSING_REGISTRATION / REVOKED / SUPERSEDED / APPROVAL_MISMATCH / INVALID_BASELINE`。
+  基线内容变化 → 旧审批失效；自报 `approved=true` 不能绕过登记。
+- 4 条既有基线已**显式迁移登记**（依据 = 文件内审批块 + 指纹可复算；内容字节未动）。
+  新基线走 `e2e/approve_trace_baselines.py` 批准后**必须**在登记表注册才能被
+  Evaluation 使用。
+- 逐行为绑定：`validator/bindings/behavior_bindings.json`（schema 见
+  `validator/trace_bindings.py`）。精确 ID 匹配；绑定 expected 不得宽于当前契约
+  （契约内容摘要即版本）；编排场景 Trace 保持 `SCENARIO_ONLY`，不自动升级为逐行为
+  Golden Trace。验证状态：`VALID_BINDING / MISSING_BINDING / STALE_BINDING /
+  INVALID_BINDING / UNAPPROVED_BASELINE / REVOKED_BASELINE / DIGEST_MISMATCH /
+  CONTRACT_MISMATCH / SCENARIO_MISMATCH / NOT_APPLICABLE`。
+- 信任边界（Phase 1.60 §16）：内容完整性与审批流程完整性已交付；**审批者身份真实性
+  未交付**——同权限攻击者仍可同时改写内容、摘要与登记记录，独立签名属后续阶段。
+- 测试：`validator/tests/test_baseline_lifecycle.py`（26 项）、
+  `validator/tests/test_trace_bindings.py`（28 项）。
+
+## Provenance：独立信任根与来源签名（Phase 1.61）
+
+`validator/provenance/`：Ed25519（PyNaCl/libsodium，不自研密码学原语）来源签名验证，
+信任根来自**项目工作区写权限边界之外**的用户级文件
+（`~/.provenance_trust/<项目 slug>/trust_root.json`，或 `$PROVENANCE_TRUST_ROOT`）。
+信任根路径解析到工作区内 → 拒收（fail-closed）；工作区内的自报公钥/撤销记录一律无效。
+
+```bash
+python .ai/tools/validator/provenance/provenance_cli.py keygen \
+    --subject "release-manager" --scopes approve_baseline,issue_evidence,seal_holdout
+python .ai/tools/validator/provenance/provenance_cli.py status
+python .ai/tools/validator/provenance/provenance_cli.py sign baseline \
+    --baseline-id waves --baseline-version 2 --key-id PROVKEY-xxx
+python .ai/tools/validator/provenance/provenance_cli.py verify baseline \
+    --baseline-id waves --baseline-version 2 [--require-signature]
+```
+
+- 私钥种子只存 `~/.provenance_trust/<slug>/keys/`（0600），永不入仓/入日志/入报告。
+- 密钥生命周期：`ACTIVE`（可签发）/ `RETIRED`（不可签发，历史签名可验）/ `REVOKED`
+  （按撤销策略拒绝，终态）。轮换 = 新 ACTIVE + 旧 RETIRED，历史签名不受影响。
+- 签名封套绑定对象类型/ID/版本/内容摘要/scope（全部在签名消息内）→ 跨对象/跨类型/
+  跨版本/跨 scope 复用必然失败。
+- **边界**：签名证明"谁签署了什么摘要"，不证明执行过程真实；Baseline 登记条目、
+  Evidence sidecar（`<bundle>.sig.json`）、Holdout 登记记录各自承载封套。
+- 历史 4 条基线保持 `LEGACY_APPROVED`，不伪造签名、不自动升级；require 模式下
+  无签名对象一律拒绝。
+- 测试：`provenance/tests/test_provenance_core.py`（57）、
+  `provenance/tests/test_provenance_attacks.py`（32，A01–A18 + 私钥泄露检查）、
+  `validator/tests/test_baseline_signature.py`（21）。
+
+## Binding 候选生成与显式审批（Phase 1.63）
+
+```bash
+python .ai/tools/validator/binding_candidates.py inventory --out .ai/context/phase_1_63_support_inventory.json
+python .ai/tools/validator/binding_candidates.py generate            # 生成/刷新候选（永不自动批准）
+python .ai/tools/validator/binding_candidates.py submit   --binding-id BND-XXX
+python .ai/tools/validator/binding_candidates.py approve  --binding-id BND-XXX --reviewer <人> \
+    --reference "<依据>" [--key-id PROVKEY-...]                      # 重核候选+契约摘要，可选签名
+python .ai/tools/validator/binding_candidates.py promote  --binding-id BND-XXX   # 写入正式绑定库，旧绑定 SUPERSEDED
+python .ai/tools/validator/binding_candidates.py gate --feature health --behavior damage
+```
+
+- expected 只能**逐字复制**自契约；契约缺 expected → `BLOCKED_MISSING_EXPECTED`，永不猜测填充。
+- 审批时重算候选摘要与契约摘要：候选被改或契约漂移 → 拒绝并退回 DRAFT。
+- 登记表：`validator/bindings/approval_registry.json`（每条记录含签名封套，scope=approve_binding）。
+- 门禁状态：NO_BINDING / DRAFT_BINDING / PENDING_REVIEW / APPROVED_BINDING / BINDING_REVOKED / CONTRACT_MISMATCH / BINDING_INVALID（精确 ID 匹配，无子串）。
+- 测试：`validator/tests/test_binding_candidates.py`（26 项，含篡改/漂移/跳步/撤销攻击）。
+
+## 运行时路径解析与分批验证（Phase 1.64）
+
+`execution/env_paths.py` 是唯一的 Godot 定位入口，1.62 的两个 E2E Runner 已改用它：
+
+```bash
+python .ai/tools/validator/execution/env_paths.py        # 打印解析结果（项目根 / Godot / 来源）
+python .ai/tools/validator/execution/run_execution_e2e.py          # 单 Feature 全链（20 checks）
+python .ai/tools/validator/execution/run_multi_feature_e2e.py      # 多 Feature（3 attestations）
+python .ai/tools/validator/execution/run_p163_full_chain.py        # 1.63 三 Feature（24 checks）
+```
+
+解析优先级：`GODOT_BIN` → `.ai/config/runtime-playtest.yaml#runtime_playtest.godot_binary` →
+项目相邻的 `../Godot_v*_console.exe` → `PATH`。全部失败时打印 `ENVIRONMENT ERROR` 并 `exit 2`
+（不再抛 `FileNotFoundError` 或静默跳过采集）。**不需要导出 `GODOT_BIN`。**
+
+分批验证（Phase 1.64 引入，按已审批 Binding 逐 Behavior 出 Evaluation）：
+
+```bash
+python .ai/tools/validator/execution/run_p164_batch.py \
+  --label B1 --features save_game,i_frames,openable_door \
+  --out-root .ai/tmp/p164/batch1 --replay 2
+```
+
+| 产物 | 位置 |
+| --- | --- |
+| 证据 bundle / 签名 / manifest / attestation | `<out-root>/evidence/<feature>/<run-id>/` |
+| 采集 runs（隔离工作区） | `<out-root>/runs/<run-id>/` |
+| 逐 Behavior Evaluation | `<out-root>/evaluation/<feature>/<behavior>/evidence_report.json` |
+| 批次汇总（每 Behavior 的 evaluation_status / 失败原因） | `<out-root>/summary.json` |
+
+`expected` 逐字取自 `validator/bindings` 的已审批记录（不是硬编码），因此契约或绑定被改会直接
+`CONTRACT_MISMATCH` 而不是悄悄通过。评估报告**必须**放在运行目录的子目录里，矩阵的
+`evaluation_dimension` 用 `<dir>/*/evidence_report.json` 收集；直接用某个 run 目录会收集不到。
