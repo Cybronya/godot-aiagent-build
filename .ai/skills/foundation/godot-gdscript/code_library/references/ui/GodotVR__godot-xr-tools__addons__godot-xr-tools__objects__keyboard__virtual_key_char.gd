@@ -1,0 +1,49 @@
+# Source:  https://github.com/GodotVR/godot-xr-tools/blob/master/addons/godot-xr-tools/objects/keyboard/virtual_key_char.gd
+# Repo:    GodotVR/godot-xr-tools (star 740) | License: MIT | Collected: 2026-10-31
+# Commit:  6c6189bdfcdf
+@tool
+class_name XRToolsVirtualKeyChar
+extends XRToolsVirtualKey
+
+
+## Godot scan-code text
+@export var scan_code_text := ""
+
+## Unicode character
+@export var unicode := 0
+
+## Shift modifier
+@export var shift_modifier := false
+
+
+# Keyboard associated with this button
+var _keyboard: XRToolsVirtualKeyboard2D
+
+
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
+	# Call the base
+	super()
+
+	# Find the keyboard
+	_keyboard = XRTools.find_xr_ancestor(
+			self,
+			"*",
+			"XRToolsVirtualKeyboard2D",
+	)
+
+	# Handle button presses
+	pressed.connect(_on_pressed)
+	released.connect(_on_released)
+
+
+# When a button is pressed down
+func _on_pressed() -> void:
+	highlighted = true
+	if _keyboard:
+		_keyboard.on_key_pressed(scan_code_text, unicode, shift_modifier)
+
+
+# When a button is released
+func _on_released() -> void:
+	highlighted = false
