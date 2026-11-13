@@ -1,0 +1,22 @@
+{
+  "full_name": "MakovWait/godots",
+  "stars": 816,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Ultimate go-to hub for managing your Godot versions and projects!",
+  "default_branch": "main",
+  "pushed_at": "2026-06-06T11:43:58Z",
+  "topics": [
+    "gdscript",
+    "godot",
+    "godot-engine",
+    "godot-engine-4",
+    "godot4"
+  ],
+  "html_url": "https://github.com/MakovWait/godots",
+  "branch": "main",
+  "commit_sha": "8e4eb2baa050",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 143,
+  "slug": "MakovWait__godots"
+}

@@ -1,0 +1,22 @@
+{
+  "full_name": "GodotVR/godot-xr-tools",
+  "stars": 740,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Support scenes for AR and VR in Godot",
+  "default_branch": "master",
+  "pushed_at": "2026-10-10T11:31:56Z",
+  "topics": [
+    "godot",
+    "toolkit",
+    "xr"
+  ],
+  "html_url": "https://github.com/GodotVR/godot-xr-tools",
+  "branch": "master",
+  "commit_sha": "6c6189bdfcdf",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 146,
+  "slug": "GodotVR__godot-xr-tools",
+  "commit_sha_full": "6c6189bdfcdf855052ef1aeb9f3e0ec4c7a7eb60",
+  "backfilled_at": "2026-10-31"
+}

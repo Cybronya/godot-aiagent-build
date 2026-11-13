@@ -1,0 +1,26 @@
+{
+  "full_name": "fenix-hub/godot-engine.easy-charts",
+  "stars": 787,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A Godot Engine addon for plotting general purpose charts. A collection of Control, 2D and 3D Nodes to plot every chart possible.",
+  "default_branch": "main",
+  "pushed_at": "2026-10-10T13:33:44Z",
+  "topics": [
+    "addon",
+    "charts",
+    "easy-charts",
+    "godot-engine",
+    "hacktoberfest",
+    "plot",
+    "plot-charts",
+    "plugin",
+    "tool"
+  ],
+  "html_url": "https://github.com/fenix-hub/godot-engine.easy-charts",
+  "branch": "main",
+  "commit_sha": "860b256ce980",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 37,
+  "slug": "fenix-hub__godot-engine.easy-charts"
+}

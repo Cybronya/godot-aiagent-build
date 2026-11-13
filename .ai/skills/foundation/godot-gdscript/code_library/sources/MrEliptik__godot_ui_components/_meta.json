@@ -1,0 +1,21 @@
+{
+  "full_name": "MrEliptik/godot_ui_components",
+  "stars": 777,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A collection of UI designs implemented in Godot 4",
+  "default_branch": "main",
+  "pushed_at": "2024-04-27T17:09:25Z",
+  "topics": [
+    "godot",
+    "godot4",
+    "ui",
+    "ux"
+  ],
+  "html_url": "https://github.com/MrEliptik/godot_ui_components",
+  "branch": "main",
+  "commit_sha": "22d235569061",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 24,
+  "slug": "MrEliptik__godot_ui_components"
+}

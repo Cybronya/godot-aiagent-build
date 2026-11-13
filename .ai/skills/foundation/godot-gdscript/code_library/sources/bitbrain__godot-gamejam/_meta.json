@@ -1,0 +1,21 @@
+{
+  "full_name": "bitbrain/godot-gamejam",
+  "stars": 815,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "🤖 Godot Engine 4 template to better get started for gamejams with your 2D or 3D game!",
+  "default_branch": "main",
+  "pushed_at": "2026-08-19T18:43:45Z",
+  "topics": [
+    "godot",
+    "godot-engine",
+    "godot4",
+    "godotengine"
+  ],
+  "html_url": "https://github.com/bitbrain/godot-gamejam",
+  "branch": "main",
+  "commit_sha": "159f2c47196a",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 12,
+  "slug": "bitbrain__godot-gamejam"
+}

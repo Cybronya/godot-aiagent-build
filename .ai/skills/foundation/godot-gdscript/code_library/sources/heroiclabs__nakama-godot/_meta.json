@@ -1,0 +1,31 @@
+{
+  "full_name": "heroiclabs/nakama-godot",
+  "stars": 783,
+  "license": "Apache-2.0",
+  "license_ok": true,
+  "description": "Nakama Godot Client SDK",
+  "default_branch": "master",
+  "pushed_at": "2026-09-21T22:40:29Z",
+  "topics": [
+    "chat",
+    "client",
+    "game",
+    "gamedev",
+    "gdscript",
+    "godot",
+    "godot-engine",
+    "matchmaking",
+    "multiplayer",
+    "nakama",
+    "nakama-sdk",
+    "nakama-server",
+    "realtime",
+    "social"
+  ],
+  "html_url": "https://github.com/heroiclabs/nakama-godot",
+  "branch": "master",
+  "commit_sha": "6dc7b3951d98",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 43,
+  "slug": "heroiclabs__nakama-godot"
+}

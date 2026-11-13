@@ -1,0 +1,23 @@
+{
+  "full_name": "nathanhoad/godot_sound_manager",
+  "stars": 830,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "A simple music and sound effect player for the Godot Engine",
+  "default_branch": "main",
+  "pushed_at": "2026-03-29T03:06:13Z",
+  "topics": [
+    "addon",
+    "audio",
+    "csharp",
+    "godot",
+    "godot4",
+    "music"
+  ],
+  "html_url": "https://github.com/nathanhoad/godot_sound_manager",
+  "branch": "main",
+  "commit_sha": "1c041582db80",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 6,
+  "slug": "nathanhoad__godot_sound_manager"
+}

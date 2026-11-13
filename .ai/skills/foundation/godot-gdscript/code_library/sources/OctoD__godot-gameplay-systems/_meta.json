@@ -1,0 +1,25 @@
+{
+  "full_name": "OctoD/godot-gameplay-systems",
+  "stars": 746,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "⚔️ A plugin for Godot to create your gameplay systems in a Godot way.",
+  "default_branch": "main",
+  "pushed_at": "2025-06-06T10:03:18Z",
+  "topics": [
+    "attributes",
+    "gameplay",
+    "gameplay-attributes",
+    "godot",
+    "godot-addon",
+    "godot-editor",
+    "godot-engine",
+    "rpg"
+  ],
+  "html_url": "https://github.com/OctoD/godot-gameplay-systems",
+  "branch": "main",
+  "commit_sha": "9349931cc7a5",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 56,
+  "slug": "OctoD__godot-gameplay-systems"
+}

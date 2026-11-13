@@ -1,0 +1,156 @@
+#+TITLE: Godot Open 2D Platformer
+#+DESCRIPTION: A short platform/adventure demo project to teach how to create similar 2d games
+
+[[./img/banner.png]]
+
+A course based on a *short 2d game demo inspired by metroidvanias* split into a Free, beginner-friendly series and a paid, intermediate-level series that builds upon the Free one.
+
+➡ Follow us on [[https://twitter.com/NathanGDQuest ][Twitter]] and [[https://www.youtube.com/c/gdquest/][YouTube]] for free game creation tutorials, tips, and news! Get one of our [[https://gdquest.mavenseed.com/][Godot game creation courses]] to support our work on Free Software.
+
+* Our mission
+   
+  # - Note taken on [2019-04-29 lun. 09:02] \\
+  #   Copy of the main Mission node for the entire project
+     
+  - Help newcomers and Godot users alike to create games with Godot
+  - Help people to go beyond step-by-step content, to practice and learn transferable gamedev techniques
+  - Get people to work together and become contributors to open source project
+
+* Target
+
+  A game demo that offers a few minutes of gameplay, a small world composed of several interconnected rooms.
+  The base target is about *15 videos* for the Free series, *25* for the premium course. 40 in total.
+   
+  For each topic we cover, the Free course should cover the foundations, and the paid course should build upon them.
+
+  /For example, with the platforming mechanics:/
+
+  1. In free tutorials, cover ~KinematicBody2D~, setting up collisions, input, and simple motions up to jump and air control. Also, the foundations of a mechanic that's unique to the final game, e.g. simple wall jump.
+  2. In the paid course, show how to improve the moves, e.g. adding jump input detection before landing, the ability to jump soon after starting to fall, handling slopes, tightening the controls, adding the ability to combine wall jumps with wall run.
+   
+* Philosophy for the course
+   
+  The Kickstarter campaign promised a Metroidvania. Some backers are likely to expect design decisions that are specific to what is considered traditional or essential in Metroidvanias: level design that works both through its world architecture and at a local level, with each room or area. Also, platforming and combat mechanics.
+   
+  #+caption: Flinthook offers a great reference for platforming controls
+  [[file:img/flinthook-4.png]]
+   
+  I would like the course to focus more on design and less on code than the previous one. Let's avoid complex UI or extras such as refined inventory and leveling systems. The game doesn't have to be a complete metroidvania: it would take too much time to develop a satisfying demo, while *our top priority is education*. Let's not get caught up creating a great, full game, as we have a lot on our plates.
+   
+** Keep It Short and Sweet
+    
+   We have limited time and money to produce the course. Also, *our priority is education*.
+    
+   The game should be as good as possible in hand and as far as its code is concerned. But it should not get big in scope or feature many different mechanics: content and feature creep are the best way to lengthen the project and lower the quality of our output.
+
+   Think of this game demo as a portfolio piece. A recruiter would take but a few seconds to look at each project you've worked on and judge your abilities based on that. So will the community.
+
+** The cornerstones of Metroidvanias
+
+   Metroidvanias are platform games with non-linear interconnected maps or worlds that guide the player towards his goal, typically blocking the player's progression at times until they unlocked new abilities.
+
+   I see two main characteristics in them:
+
+   1. *They're platform-adventure games*. The focus is on exploration and possibly telling a story through the world's design. They can have combat mechanics or leveling systems, but these aren't mandatory.
+   2. *The world's design is central to the game experience*. Metroidvanias tend to give the illusion of freedom through looping and interconnected paths. The areas can be fairly linear and guide the player through the level design.
+
+   We don't have the time to build a large, interconnected world, and to produce great levels at the same time. As such, we should focus our attention on the controls first and foremost, and design a small playable area with a few frames later.
+    
+   #+caption: Hollow Knight's combat mechanics are to the point: one melee attack that you can aim in 4 directions
+   [[file:img/hollow-knight-3.png]]
+   /Reference game: Hollow Knight's combat mechanics are to the point: one melee attack that you can aim in 4 directions/
+
+
+   Watch this [[https://www.youtube.com/watch?v=NcbB09mjMGk][discussion on good Metroidvanias]] for more insights. Mark Brown (Game Maker's Toolkit) also has some great videos on the topic, although more focused on world design.
+
+   #+caption: Unlocking abilities to be able to further explore the worlds is a common pattern in Metroidvanias
+   [[./img/ori-2.png]]
+   /Unlocking abilities to be able to further explore the worlds is a common pattern in Metroidvanias/
+   
+** Open source from the start
+    
+   We're going to build the project Open Source from start to finish. The community can see our progress and contribute feedback, code... Part of our role will be to guide them and make it so everyone works towards the same goal: producing an excellent example of how to set up a Godot game project.
+
+   *All new features and sizeable tasks should be ticketed*: open an issue first, add it to the project board, and assign yourself to it before pushing a PR or a big commit. This is so the team and community members can see what's already in progress.
+    
+* Project organization
+   
+  /Roles and broad steps to build the project./
+   
+** Pre-production
+   
+   1. Share a form to get the students' feedback based on the jam. Offer a range of topics for the backers to vote on, and ask for qualitative feedback. /We will use their feedback and requests to complement the project./
+   2. Create and iterate over the game prototype.
+   3. Produce videos related to prototyping and the game creation process.
+   4. Outline and detail the topics covered in each course, create tasks.
+   
+** TODO Production
+    
+   - Note taken on [2019-04-29 lun. 07:51] \\
+     Fill at the end of pre-production
+      
+* The team
+    
+  On top of the roles below, everyone can do tutoring work for their respective area of expertise.
+   
+** Lead development: Razvan
+   
+   Responsible for the code structure and code quality, as well as the consistency of the codebase.
+   Tasks can include general programming, system design, code reviews, refactoring, as well as defining related tasks.
+
+** Game development: Guilherme
+     
+   Responsible for general development work, programming game mechanics and various systems.
+
+** Tool development and design: Henrique
+     
+   Responsible for the design and implementation of tools to help create the game more efficiently and/or comfortably. Also, responsible for assisting with game and world design work.
+     
+** Project management and design direction: Nathan
+     
+   Responsible for organizing the project, design decisions to ensure the project stays coherent, moves in a clear direction, and that the game provides the necessary foundations to teach the topics we aim to cover.
+    
+* Audience and pre-requisites
+   
+  - *List the resources* the students can use to get from ~0 to fitting the pre-requisites for the course.
+  - List the companion resources students can follow for each video that covers a given concept. E.g. the intro to signals, assignments, etc.
+     
+** Free series
+     
+   The Free courses are for what I would call /beginners-plus/: amateurs, young programming students, or developers in another domain, e.g. software developers, who have learned the basics of Godot, the basics of GDScript, and put all that in practice in a personal project. The viewer understands basic programming concepts up to what classes and objects are, what a node is at a basic level, and the viewer knows its way around the main areas of the interface.
+   
+   Although we'll do our best to help strengthen or push the student's understanding of basic concepts, we will focus on game design, implementing mechanics, programming patterns... our role is to help the students go beyond the basics, on their way to being independent developers.
+   
+** Premium courses
+   
+   The premium courses are for learners who want to go further, to acquire techniques on their path to working like professionals.
+
+   Persona: the learners of the premium course don't want to be spoon-fed ready-made solutions. They enjoy learning and are ready to put in some efforts to improve. They go further than watching the lessons, putting what they learned in practice. They expect quality learning material.
+    
+* Building the C++ Heatmap GDNative binary
+   
+   The GDNative folder is a git submodule pointing to the godot-cpp project (pointing to the latest commits as of October 4th) for Godot 3.1. As a result, after cloning, it should be initialized with something like `git submodule update --init --recursive`, or this repo cloned with `--recursive`.
+   
+   Bindings for your OS should be generated according to https://docs.godotengine.org/en/3.1/tutorials/plugins/gdnative/gdnative-cpp-example.html
+   
+** Windows
+   
+   Requirements: Visual Studio Community 20xx with C++, `libgodot-cpp.windows.xxxxx.64.lib` files for GDNative C++ in `GDNative/bin/`, and GDNative bindings in `GDNative/include/gen/`
+   
+   Building the godot bindings:
+   1. Open the `x64 Native Tools Command Prompt for VS 20xx`.
+   2. CD into `/GDNative`
+   3. Run `scons platform=windows target=release bits=64 generate_bindings=yes`
+   
+*** Building and Debugging using Visual Studio Community 20xx
+   
+   If `Godot.exe` is in the `PATH` environment variable, the .lib files are built and located in `GDNative/bin/` and bindings in `GDNative/include/gen/`, then the Heatmap project is already configured for Godot building and debugging.
+   
+   Building will build the DLL in debug or release mode and put in `assets/libraries/win64`, and debugging the solution in debug mode will launch the project in godot and allow for breakpoints in the C++ code.
+   
+*** Scons without opening Visual Studio
+   
+   1. Open the `x64 Native Tools Command Prompt for VS 20xx`.
+   2. CD into the Heatmap source (`cd game/src/Native/Heatmap`)
+   3. `scons platform=windows bits=64 target=release`
+   4. If successful, `libheatmap.DLL` will be built into `assets/libraries/win64`

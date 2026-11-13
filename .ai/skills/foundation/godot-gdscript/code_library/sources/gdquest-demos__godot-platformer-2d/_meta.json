@@ -1,0 +1,27 @@
+{
+  "full_name": "gdquest-demos/godot-platformer-2d",
+  "stars": 815,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "2d Metroidvania-inspired game for the 2019 GDquest Godot Kickstarter course project.",
+  "default_branch": "master",
+  "pushed_at": "2022-04-13T13:48:15Z",
+  "topics": [
+    "2d",
+    "2d-game",
+    "game",
+    "godot",
+    "godot-engine",
+    "godot-game",
+    "metroidvania",
+    "mit",
+    "platform-game",
+    "platformer"
+  ],
+  "html_url": "https://github.com/gdquest-demos/godot-platformer-2d",
+  "branch": "master",
+  "commit_sha": "0ea6cb6056dc",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 86,
+  "slug": "gdquest-demos__godot-platformer-2d"
+}

@@ -1,0 +1,25 @@
+{
+  "full_name": "bukkbeek/GodotPixelRenderer",
+  "stars": 802,
+  "license": "MIT",
+  "license_ok": true,
+  "description": "Complete 3D to Pixel Toolkit [Built using Godot Engine]",
+  "default_branch": "main",
+  "pushed_at": "2026-04-29T19:00:57Z",
+  "topics": [
+    "3dto2d",
+    "gamedev-tool",
+    "gamedevelopment",
+    "godot",
+    "godot-engine",
+    "indiedev",
+    "open-source",
+    "pixelart"
+  ],
+  "html_url": "https://github.com/bukkbeek/GodotPixelRenderer",
+  "branch": "main",
+  "commit_sha": "078f2078fb9e",
+  "fetched_at": "2026-10-31",
+  "gd_file_count": 15,
+  "slug": "bukkbeek__GodotPixelRenderer"
+}
