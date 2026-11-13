@@ -296,74 +296,267 @@ def _yaml_str(s: str) -> str:
     return json.dumps(s, ensure_ascii=False)
 
 
-def cmd_catalog(args: argparse.Namespace) -> None:
-    _rmtree_force(REFERENCES_DIR)
-    REFERENCES_DIR.mkdir(parents=True, exist_ok=True)
-    entries, seen_hashes, seen_names = [], {}, {}
-    repos = sorted(p for p in SOURCES_DIR.iterdir() if p.is_dir())
+class CatalogCommitError(RuntimeError):
+    """正式替换失败，且无法确认是否已完全回滚。"""
+
+    def __init__(self, message: str, *, preserve_stage: bool = False) -> None:
+        super().__init__(message)
+        self.preserve_stage = preserve_stage
+
+
+def _catalog_fail(message: str) -> None:
+    raise SystemExit(f"[catalog] ERROR: {message}")
+
+
+def _load_repo_meta(repo_dir: Path) -> dict:
+    meta_path = repo_dir / "_meta.json"
+    if not meta_path.is_file():
+        _catalog_fail(f"缺少 _meta.json: {meta_path}")
+    try:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        _catalog_fail(f"无法读取 _meta.json: {meta_path}: {exc}")
+    if not isinstance(meta, dict):
+        _catalog_fail(f"_meta.json 不是对象: {meta_path}")
+    for key in ("full_name", "slug", "commit_sha"):
+        if not str(meta.get(key) or "").strip():
+            _catalog_fail(f"_meta.json 缺少必要字段 {key}: {meta_path}")
+    return meta
+
+
+def _candidate_files(repo_dir: Path) -> list[Path]:
+    gd_dir = repo_dir / "gd"
+    if not gd_dir.is_dir():
+        return []
+    return [f for f in sorted(gd_dir.rglob("*"))
+            if f.is_file() and f.suffix.lower() in GD_SUFFIXES]
+
+
+def _preflight_sources(sources_dir: Path) -> list[tuple[Path, dict, list[Path]]]:
+    """在任何写入前完成 sources 与 metadata 检查。"""
+    if not sources_dir.is_dir():
+        _catalog_fail(f"Sources 目录不存在: {sources_dir}")
+    repos = sorted(p for p in sources_dir.iterdir() if p.is_dir())
+    if not repos:
+        _catalog_fail(f"Sources 目录为空: {sources_dir}")
+    prepared = []
+    candidate_count = 0
     for repo_dir in repos:
-        meta = json.loads((repo_dir / "_meta.json").read_text(encoding="utf-8"))
-        for f in sorted((repo_dir / "gd").rglob("*")):
-            if not f.is_file():
-                continue  # 跳过以 .gd 结尾的目录等非文件条目
-            if f.suffix.lower() not in GD_SUFFIXES:
-                continue
-            rel = f.relative_to(repo_dir / "gd")
-            raw = f.read_bytes()
-            if len(raw) > MAX_FILE_BYTES:
-                continue
-            content_hash = hashlib.sha256(raw).hexdigest()
-            # flat id 先算：duplicate_of 直接指向**保留条目的 catalog id**，
-            # 检索/promote 时可反查到 references/ 里的那份文件。
-            flat = (f"{meta['slug']}__"
-                    f"{rel.with_suffix('').as_posix().replace('/', '__')}{f.suffix}")
-            dup_of = seen_hashes.get(content_hash)
-            seen_hashes.setdefault(content_hash, flat)
-            text = raw.decode("utf-8", errors="replace")
-            domain = classify(rel, text)
-            lines = text.count("\n") + 1
-            name_owner = seen_names.get(flat)
-            if name_owner and not dup_of:
-                dup_of = name_owner  # 扁平化同名冲突视为重复
-            entry = {
-                "id": flat,
-                "repo": meta["full_name"],
-                "repo_slug": meta["slug"],
-                "repo_path": rel.as_posix(),
-                "domain": domain,
-                "license": meta.get("license", "unknown"),
-                "stars": meta.get("stars", 0),
-                "lines": lines,
-                "sha256": content_hash[:12],
-                "duplicate_of": dup_of,
-                "commit_sha": meta.get("commit_sha", ""),
-                "source_url": f"https://github.com/{meta['full_name']}/blob/"
-                              f"{meta.get('branch', 'main')}/{rel.as_posix()}",
-                "collected_at": meta.get("fetched_at", _now()),
-                "parse_status": ("duplicate" if dup_of else
-                                 "skipped_shader" if f.suffix.lower() == ".gdshader"
-                                 else "unchecked"),
-            }
-            entries.append(entry)
-            if dup_of:
-                continue
-            seen_names[flat] = flat
-            header = (
-                f"# Source:  {entry['source_url']}\n"
-                f"# Repo:    {meta['full_name']} (star {entry['stars']}) | "
-                f"License: {entry['license']} | Collected: {entry['collected_at']}\n"
-                f"# Commit:  {entry['commit_sha']}\n"
-            )
-            out = REFERENCES_DIR / domain / flat
-            out.parent.mkdir(parents=True, exist_ok=True)
-            out.write_text(header + text, encoding="utf-8")
-    _write_catalog_yaml(entries)
-    _write_index_md(entries)
-    print(f"[catalog] {len(entries)} 条目, "
-          f"{sum(1 for e in entries if not e['duplicate_of'])} 个去重片段 -> references/")
+        meta = _load_repo_meta(repo_dir)
+        files = _candidate_files(repo_dir)
+        candidate_count += len(files)
+        prepared.append((repo_dir, meta, files))
+    if candidate_count == 0:
+        _catalog_fail("Sources 中没有任何 .gd/.gdshader 候选文件")
+    return prepared
 
 
-def _write_catalog_yaml(entries: list[dict]) -> None:
+def _validate_catalog_output(entries: list[dict], refs_dir: Path,
+                             catalog_path: Path, index_path: Path) -> None:
+    if not entries:
+        _catalog_fail("生成结果没有有效 Catalog entries")
+    ids: set[str] = set()
+    required = ("id", "repo", "repo_slug", "repo_path", "domain", "license",
+                "sha256", "commit_sha", "source_url", "parse_status")
+    for entry in entries:
+        eid = entry.get("id")
+        if not eid or eid in ids:
+            _catalog_fail(f"Catalog ID 为空或重复: {eid!r}")
+        ids.add(eid)
+        for key in required:
+            if entry.get(key) in (None, ""):
+                _catalog_fail(f"Catalog entry {eid} 缺少字段: {key}")
+    for entry in entries:
+        eid, dup = entry["id"], entry.get("duplicate_of")
+        if dup:
+            if dup not in ids:
+                _catalog_fail(f"duplicate_of 指向不存在的 ID: {eid} -> {dup}")
+        elif not (refs_dir / entry["domain"] / eid).is_file():
+            _catalog_fail(f"唯一片段缺少 reference 文件: {eid}")
+    parsed = _read_catalog_entries(catalog_path)
+    if len(parsed) != len(entries) or not parsed:
+        _catalog_fail("临时 Catalog 解析后的条目数不匹配")
+    if not index_path.is_file() or index_path.stat().st_size == 0:
+        _catalog_fail("临时 INDEX.md 为空或不存在")
+    unique = sum(1 for e in entries if not e.get("duplicate_of"))
+    if unique == 0:
+        _catalog_fail("生成结果没有去重后的有效片段")
+
+
+def _remove_path(path: Path) -> None:
+    if path.is_dir():
+        shutil.rmtree(path)
+    elif path.exists():
+        path.unlink()
+
+
+def _commit_catalog_stage(stage_refs: Path, stage_catalog: Path,
+                          stage_index: Path, references_dir: Path,
+                          catalog_path: Path, index_path: Path,
+                          stage_dir: Path) -> None:
+    """替换三个目标；任一失败则回滚已替换的目标。"""
+    backup_dir = stage_dir / "rollback"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    installed: list[tuple[str, Path, Path | None]] = []
+
+    def install(staged: Path, target: Path, name: str) -> None:
+        backup = backup_dir / f"{name}.old"
+        had_target = target.exists()
+        if had_target:
+            os.replace(target, backup)
+        try:
+            os.replace(staged, target)
+        except Exception as exc:  # noqa: BLE001
+            if had_target and backup.exists():
+                try:
+                    os.replace(backup, target)
+                except Exception as restore_exc:  # noqa: BLE001
+                    raise CatalogCommitError(
+                        f"{name} 替换失败且无法恢复原数据: {restore_exc}; "
+                        f"原数据保留于 {backup}",
+                        preserve_stage=True,
+                    ) from restore_exc
+            raise exc
+        installed.append((name, target, backup if had_target else None))
+
+    try:
+        install(stage_refs, references_dir, "references")
+        install(stage_catalog, catalog_path, "catalog")
+        install(stage_index, index_path, "index")
+    except Exception as exc:  # noqa: BLE001
+        needs_stage = isinstance(exc, CatalogCommitError) and exc.preserve_stage
+        rollback_errors = []
+        for name, target, backup in reversed(installed):
+            try:
+                failed = backup_dir / f"{name}.failed"
+                if target.exists():
+                    os.replace(target, failed)
+                if backup is not None and backup.exists():
+                    os.replace(backup, target)
+            except Exception as rollback_exc:  # noqa: BLE001
+                rollback_errors.append(f"{name}: {rollback_exc}")
+        if rollback_errors or needs_stage:
+            raise CatalogCommitError(
+                f"替换失败: {exc}; 回滚失败: {'; '.join(rollback_errors) or '见上'}; "
+                f"临时备份保留于 {stage_dir}",
+                preserve_stage=True,
+            ) from exc
+        raise CatalogCommitError(f"替换失败，已回滚: {exc}") from exc
+
+    for _, _, backup in installed:
+        if backup is not None and backup.exists():
+            try:
+                _remove_path(backup)
+            except OSError as exc:  # noqa: BLE001
+                print(f"[catalog] WARN 无法清理旧备份 {backup}: {exc}")
+
+
+def cmd_catalog(args: argparse.Namespace, *, sources_dir: Path | None = None,
+                references_dir: Path | None = None,
+                catalog_path: Path | None = None,
+                index_path: Path | None = None) -> None:
+    """预检 → 临时生成 → 验证 → 可回滚替换。
+
+    现有 CLI 仍调用 cmd_catalog(args)；测试可显式传入临时路径，
+    从而不会触碰真实 code_library。
+    """
+    sources_dir = Path(sources_dir) if sources_dir else SOURCES_DIR
+    references_dir = Path(references_dir) if references_dir else REFERENCES_DIR
+    catalog_path = Path(catalog_path) if catalog_path else CATALOG_YAML
+    index_path = Path(index_path) if index_path else INDEX_MD
+    stage_dir: Path | None = None
+    preserve_stage = False
+
+    try:
+        prepared = _preflight_sources(sources_dir)
+        stage_parent = references_dir.parent
+        if not stage_parent.is_dir():
+            _catalog_fail(f"临时目录父目录不存在: {stage_parent}")
+        stage_dir = Path(tempfile.mkdtemp(prefix=".catalog-stage-",
+                                          dir=str(stage_parent)))
+        stage_refs = stage_dir / "references"
+        stage_catalog = stage_dir / "catalog.yaml"
+        stage_index = stage_dir / "INDEX.md"
+        stage_refs.mkdir(parents=True, exist_ok=True)
+
+        entries, seen_hashes, seen_names = [], {}, {}
+        filtered = 0
+        for repo_dir, meta, files in prepared:
+            for f in files:
+                raw = f.read_bytes()
+                if len(raw) > MAX_FILE_BYTES:
+                    filtered += 1
+                    continue
+                content_hash = hashlib.sha256(raw).hexdigest()
+                rel = f.relative_to(repo_dir / "gd")
+                # flat id 先算：duplicate_of 直接指向保留条目的 catalog id。
+                flat = (f"{meta['slug']}__"
+                        f"{rel.with_suffix('').as_posix().replace('/', '__')}{f.suffix}")
+                dup_of = seen_hashes.get(content_hash)
+                seen_hashes.setdefault(content_hash, flat)
+                text = raw.decode("utf-8", errors="replace")
+                domain = classify(rel, text)
+                lines = text.count("\n") + 1
+                name_owner = seen_names.get(flat)
+                if name_owner and not dup_of:
+                    dup_of = name_owner  # 扁平化同名冲突视为重复
+                entry = {
+                    "id": flat,
+                    "repo": meta["full_name"],
+                    "repo_slug": meta["slug"],
+                    "repo_path": rel.as_posix(),
+                    "domain": domain,
+                    "license": meta.get("license", "unknown"),
+                    "stars": meta.get("stars", 0),
+                    "lines": lines,
+                    "sha256": content_hash[:12],
+                    "duplicate_of": dup_of,
+                    "commit_sha": meta["commit_sha"],
+                    "source_url": f"https://github.com/{meta['full_name']}/blob/"
+                                  f"{meta.get('branch', 'main')}/{rel.as_posix()}",
+                    "collected_at": meta.get("fetched_at", _now()),
+                    "parse_status": ("duplicate" if dup_of else
+                                     "skipped_shader" if f.suffix.lower() == ".gdshader"
+                                     else "unchecked"),
+                }
+                entries.append(entry)
+                if dup_of:
+                    continue
+                seen_names[flat] = flat
+                header = (
+                    f"# Source:  {entry['source_url']}\n"
+                    f"# Repo:    {meta['full_name']} (star {entry['stars']}) | "
+                    f"License: {entry['license']} | Collected: {entry['collected_at']}\n"
+                    f"# Commit:  {entry['commit_sha']}\n"
+                )
+                out = stage_refs / domain / flat
+                out.parent.mkdir(parents=True, exist_ok=True)
+                out.write_text(header + text, encoding="utf-8")
+
+        if filtered and not entries:
+            _catalog_fail(f"所有候选文件均被过滤（{filtered} 个文件超过大小限制）")
+        if not entries:
+            _catalog_fail("生成结果没有有效 Catalog entries")
+        _write_catalog_yaml(entries, stage_catalog)
+        _write_index_md(entries, stage_index)
+        _validate_catalog_output(entries, stage_refs, stage_catalog, stage_index)
+        try:
+            _commit_catalog_stage(stage_refs, stage_catalog, stage_index,
+                                  references_dir, catalog_path, index_path,
+                                  stage_dir)
+        except CatalogCommitError as exc:
+            preserve_stage = exc.preserve_stage
+            print(f"[catalog] ERROR: {exc}", file=sys.stderr)
+            raise SystemExit(1) from exc
+        print(f"[catalog] {len(entries)} 条目, "
+              f"{sum(1 for e in entries if not e['duplicate_of'])} 个去重片段 -> references/")
+    finally:
+        if stage_dir is not None and stage_dir.exists() and not preserve_stage:
+            shutil.rmtree(stage_dir, ignore_errors=True)
+
+
+def _write_catalog_yaml(entries: list[dict], path: Path | None = None) -> None:
+    target = Path(path) if path is not None else CATALOG_YAML
     unique = sum(1 for e in entries if not e.get("duplicate_of"))
     out = ["# AUTO-GENERATED by github_collector.py catalog - 请勿手工编辑",
            "version: 1",
@@ -377,10 +570,11 @@ def _write_catalog_yaml(entries: list[dict]) -> None:
                   "stars", "lines", "sha256", "duplicate_of", "commit_sha",
                   "source_url", "collected_at", "parse_status"):
             out.append(f"    {k}: {_yaml_str(str(e[k]))}")
-    CATALOG_YAML.write_text("\n".join(out) + "\n", encoding="utf-8")
+    target.write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
-def _write_index_md(entries: list[dict]) -> None:
+def _write_index_md(entries: list[dict], path: Path | None = None) -> None:
+    target = Path(path) if path is not None else INDEX_MD
     domains: dict[str, list[dict]] = {}
     for e in entries:
         domains.setdefault(e["domain"], []).append(e)
@@ -429,7 +623,7 @@ def _write_index_md(entries: list[dict]) -> None:
             lines.append(f"| `{e['id']}` | {e['lines']} | {e['stars']} | "
                          f"{e['license']} | [{repo}]({e['source_url']}) |")
         lines.append("")
-    INDEX_MD.write_text("\n".join(lines), encoding="utf-8")
+    target.write_text("\n".join(lines), encoding="utf-8")
 
 
 # ───────────────────────────── check ──────────────────────────────
@@ -548,9 +742,10 @@ def cmd_check(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
-def _read_catalog_entries() -> list[dict]:
+def _read_catalog_entries(path: Path | None = None) -> list[dict]:
+    target = Path(path) if path is not None else CATALOG_YAML
     entries, cur = [], None
-    for line in CATALOG_YAML.read_text(encoding="utf-8").splitlines():
+    for line in target.read_text(encoding="utf-8").splitlines():
         if line.startswith("  - id: "):
             if cur:
                 entries.append(cur)
