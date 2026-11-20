@@ -32,6 +32,7 @@ Thumbs.db
 
 # 测试运行工作区（Phase 1.32）：每次运行专属、所有权验证后清理；不承载任何源码/文档
 .ai/tmp/
+.ai/tools/gh/
 
 # godot-official-docs: local read-only official docs source snapshot (244MB)
 # The navigation layer (references/4.7/) IS tracked; only the raw Source is ignored.
