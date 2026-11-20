@@ -16,6 +16,16 @@ set -euo pipefail
 GODOT_VERSION="${GODOT_VERSION:-4.7-stable}"
 GODOT_DIR="${GODOT_DIR:-$HOME/.local/godot}"
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# 项目约定（.ai/tools/validator/tests/test_env_paths.py E8b）：Godot 二进制与仓库同级，
+# 而不是塞在 $HOME 下 —— 校验器断言「解析到的二进制目录 == 仓库父目录」。
+PROJECT_PARENT="$(cd "$PROJECT_DIR/.." && pwd)"
+if [ -w "$PROJECT_PARENT" ]; then
+  FINAL_BIN="$PROJECT_PARENT/godot"
+else
+  FINAL_BIN="$HOME/.local/bin/godot"
+fi
+
 GODOT_URL="${GODOT_URL:-https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip}"
 
 log() { printf '[setup-godot] %s\n' "$*"; }
@@ -34,7 +44,8 @@ fi
 
 # ---------- 2. 下载并解压 Godot ----------
 godot_bin="$GODOT_DIR/godot"
-if [ -x "$godot_bin" ]; then
+if [ -x "$FINAL_BIN" ]; then
+  godot_bin="$FINAL_BIN"
   log "已存在: $("$godot_bin" --version || true)"
 else
   mkdir -p "$GODOT_DIR"
@@ -57,16 +68,22 @@ else
   log "已安装: $("$godot_bin" --version)"
 fi
 
+# ---------- 2b. 放到仓库同级目录（项目约定，见 test_env_paths E8b） ----------
+if [ "$FINAL_BIN" != "$godot_bin" ]; then
+  install -m 755 "$godot_bin" "$FINAL_BIN"
+  log "已放置: $FINAL_BIN"
+fi
+
 # ---------- 3. 放进 PATH ----------
 if sudo -n true 2>/dev/null; then
-  sudo ln -sf "$godot_bin" /usr/local/bin/godot
-  log "已链接 /usr/local/bin/godot"
+  sudo ln -sf "$FINAL_BIN" /usr/local/bin/godot
+  log "已链接 /usr/local/bin/godot -> $FINAL_BIN"
 elif [ -w /usr/local/bin ]; then
-  ln -sf "$godot_bin" /usr/local/bin/godot
-  log "已链接 /usr/local/bin/godot"
+  ln -sf "$FINAL_BIN" /usr/local/bin/godot
+  log "已链接 /usr/local/bin/godot -> $FINAL_BIN"
 else
   mkdir -p "$HOME/.local/bin"
-  ln -sf "$godot_bin" "$HOME/.local/bin/godot"
+  ln -sf "$FINAL_BIN" "$HOME/.local/bin/godot"
   if ! grep -qs 'HOME/.local/bin' "$HOME/.bashrc"; then
     printf '\nexport PATH="$HOME/.local/bin:$PATH"\n' >> "$HOME/.bashrc"
   fi
