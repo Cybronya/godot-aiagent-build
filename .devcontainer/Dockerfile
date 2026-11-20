@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates curl git unzip \
-        python3 python3-venv python3-pip python3-yaml \
+        python3 python3-venv python3-pip python3-yaml python3-nacl \
         sudo procps less \
     && rm -rf /var/lib/apt/lists/*
 
