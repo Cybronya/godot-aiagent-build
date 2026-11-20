@@ -1,3 +1,5 @@
 # 容器/云端脚本必须是 LF：Windows 上 core.autocrlf=true 会让它们被检出成 CRLF，
 # 导致容器内 `bash x.sh` 报 "$'\r': command not found"。
 *.sh text eol=lf
+Dockerfile text eol=lf
+.devcontainer/Dockerfile text eol=lf
