@@ -1,0 +1,163 @@
+{
+  "analysis_id": "ext-bfe9b7e6dbebbfae",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "ea41feaab5dd",
+  "commit_sha_full": "ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2",
+  "conditions": [
+    {
+      "condition": "return center",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+      "function": "calc_pivot_of_blocks",
+      "line": 57
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+      "line": 38,
+      "name": "invoke",
+      "params": "context:CyclopsOperatorContext, event:InputEvent",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd:38#func=invoke",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+      "line": 46,
+      "name": "calc_pivot_of_blocks",
+      "params": "blocks:Array[CyclopsBlock], plugin:CyclopsLevelBuilder",
+      "returns": "Vector3",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd:46#func=calc_pivot_of_blocks",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "6e15f9a7619a37737b44bed3b1d375a7c8837ef526b30a1cd28d4fccabd1fdce",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference",
+    "annotation_not_fully_interpreted:line=27",
+    "annotation_not_fully_interpreted:line=28"
+  ],
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "ea41feaab5dd",
+    "commit_sha_full": "ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "blackears/cyclopsLevelBuilder",
+    "source_path": "godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+    "source_url": "https://github.com/blackears/cyclopsLevelBuilder/blob/ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2/godot/addons/cyclops_level_builder/actions/cyclops_action.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+  "repo": "blackears/cyclopsLevelBuilder",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "2a323c4f422ddccc78fe53768ce62c3fbf1f2fb39147e5c0c5e47a8b5ac2bcd0",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\blackears__cyclopsLevelBuilder\\gd\\godot\\addons\\cyclops_level_builder\\actions\\cyclops_action.gd",
+  "source_path": "godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+  "source_url": "https://github.com/blackears/cyclopsLevelBuilder/blob/ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2/godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "calc_pivot_of_blocks",
+        "line": 47,
+        "method": "calc_snap_to_grid_util",
+        "receiver": "plugin"
+      },
+      {
+        "function": "calc_pivot_of_blocks",
+        "line": 50,
+        "method": "size",
+        "receiver": "blocks"
+      },
+      {
+        "function": "calc_pivot_of_blocks",
+        "line": 52,
+        "method": "merge",
+        "receiver": "bounds"
+      },
+      {
+        "function": "calc_pivot_of_blocks",
+        "line": 54,
+        "method": "get_center",
+        "receiver": "bounds"
+      },
+      {
+        "function": "calc_pivot_of_blocks",
+        "line": 55,
+        "method": "snap_point",
+        "receiver": "snap_to_grid_util"
+      }
+    ],
+    "class_name": "CyclopsAction",
+    "connections": [],
+    "constants": [],
+    "exports": [
+      {
+        "line": 32,
+        "name": "hotkey",
+        "type": "ActionKeypress",
+        "value": ""
+      }
+    ],
+    "extends": "Node",
+    "functions": [
+      {
+        "end_line": 37,
+        "line": 35,
+        "name": "_get_action_id",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 41,
+        "line": 38,
+        "name": "invoke",
+        "params": "context:CyclopsOperatorContext, event:InputEvent",
+        "returns": ""
+      },
+      {
+        "end_line": 45,
+        "line": 42,
+        "name": "_execute",
+        "params": "event:CyclopsActionEvent",
+        "returns": ""
+      },
+      {
+        "end_line": 58,
+        "line": 46,
+        "name": "calc_pivot_of_blocks",
+        "params": "blocks:Array[CyclopsBlock], plugin:CyclopsLevelBuilder",
+        "returns": "Vector3"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

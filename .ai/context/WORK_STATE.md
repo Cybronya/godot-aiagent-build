@@ -19,7 +19,36 @@ Phase 1.39–1.63 的事实以其审计/完成报告为准，最新见 `PHASE_1_
 - **关闭**：技术回归已完成并正式关闭；未执行测试、未清理 Runtime、未修改受保护文件、
   未提交/推送 Git、未进入下一 Phase。详见 `PHASE_1_68_3_1_PHASE_5_FINAL_CLOSURE.md`。
 
-## Phase 1.66：Knowledge-Driven Test Generation & Execution（已实施并实测，未提交）
+## Phase 1.67.2：P5 低风险 Behavior 接入（已完成，未提交）
+
+- **结果**：4/4 场景真实执行 PASSED；Evidence/Attestation 全部验证；场景 Evaluation
+  `VERIFIED_PASS`。官方契约 1 FAIL（collect_pickup 的 freed 反转）与 3 INCOMPLETE
+  （证据只含场景检查，缺 `health.current`），**不计入覆盖**；官方 Fully Covered 仍 0/60，
+  场景链 5/60 → 9/60。
+- **知识**：extract 19 条候选，仅 4 条 guards 获 `user:p167` 审批；反馈新增 12 条候选；
+  28 条 PENDING_REVIEW，0 OPEN 冲突。审批仅记录字符串身份，机制缺口已记录。
+- **生成器**：`_rule_foreign_group` 在无帧推进时补 1 帧（授权的最小修复），
+  P4 `s-37cd4dc9f084950e` ID 不变；新增 G17–G20，生成器测试 20/20。
+- **回归**：学习链 113 checks 全过；9/9 场景 VALID；validate.py 0 error/17 warning；
+  P4 执行记录/索引/证据均保留且复验通过。
+- **未做**：未进入 P6、未接入 B2、未扩展规则族；未改契约/产品源码/Validator/Evaluation；
+  未 commit/push/reset/clean。P5 Planner 对照因矩阵 evaluation 维度失真，正式 plan 保留 P4 版本。
+
+## Phase 1.67.1：Behavior Coverage Audit（只读审计，已完成，未提交）
+
+- **基线**：HEAD `54169659`（1.66 已提交）；真实 Behavior **60**，非任务书假设的 52。
+- **覆盖**：场景链 5/60；未覆盖 55 = 可接入 11（B1 成员过滤 6、B2 状态守卫 5）
+  + 规则族缺口 44（其中 2 个有 1.62/1.63 历史证据）。
+- **瓶颈**：仅 5/60 有已审批知识（知识库 71 条、OPEN 冲突 0）；5 条生成规则
+  只能驱动这 5 个场景；依赖规则因要求 `Host/Health` target 无法扩展到其他 Behavior。
+- **完整性**：场景 ID 唯一、无重复 (behavior, rule)、5/5 knowledge_refs 均 APPROVED、
+  历史 bundle 6/6 存在、60/60 契约场景可定位；发现索引 `PENDING` 与单文件 `VALID`
+  不一致（P3，未修）。
+- **风险**：终态规则对 `health/death`/`overkill`/`post_death_guard`、非法槽规则对
+  `load_slot` 存在预期推导不成立的风险；多 overlap 契约会被整体反转。
+- **未做**：未生成/执行场景、未写知识、未跑测试、未 Git 操作；等待 §8 决策确认。
+
+## Phase 1.66：Knowledge-Driven Test Generation & Execution（已实施并实测，已提交 54169659）
 
 - **审计**：HEAD `dd3a0e4` 未变；`git diff --cached` 为空；Godot 4.7-stable console；
   详见 `PHASE_1_66_AUDIT.md`。

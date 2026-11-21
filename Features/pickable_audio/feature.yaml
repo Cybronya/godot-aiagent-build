@@ -1,0 +1,64 @@
+# Feature Metadata: pickable_audio
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: pickable_audio
+version: 1
+category: audio
+
+summary: 3D 交互音效——在交互事件（拿起/放下/碰撞）时播放不同音效，音量随速度衰减。
+
+provides:
+  - 3d_spatial_audio
+  - interaction_sound
+  - velocity_volume_attenuation
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - on_picked_up() -> void
+    - on_dropped() -> void
+    - 'on_body_entered(body: Node) -> void'
+    - is_picked_up() -> bool
+  signals: []
+  exports:
+    - grab_sound: AudioStream
+    - drop_sound: AudioStream
+    - hit_sound: AudioStream
+    - velocity_attenuation: float
+    - move_velocity: Vector3
+
+ownership:
+  state: []
+  rules:
+    - 去掉 XRToolsPickable 依赖，改为信号驱动
+    - 保留核心：碰撞/拿起/放下触发音效 + 速度衰减
+    - 高速(>5)音量=0，低速音量衰减
+    - is_picked_up 默认 false，子类或外部可覆盖
+
+composition:
+  entry_scene: ""    # 作为 AudioStreamPlayer3D 挂载到交互对象
+  usage: "var audio = InteractionAudio3D.new(); audio.grab_sound = grab_wav; audio.on_picked_up()"
+  related_features:
+    - audio_player_pool
+
+validation:
+  self_test: test_pickable_audio.gd
+  command: godot --headless --path . -s res://Features/pickable_audio/test_pickable_audio.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - audio_player_pool
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: GodotVR__godot-xr-tools__addons__godot-xr-tools__audio__pickable_audio.gd
+#   source_url: https://github.com/GodotVR/godot-xr-tools/blob/master/addons/godot-xr-tools/audio/pickable_audio.gd
+#   repo: GodotVR/godot-xr-tools (star 740) | License: MIT

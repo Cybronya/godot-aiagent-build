@@ -47,6 +47,7 @@ import scene_intent                                            # noqa: E402
 import scene_validator                                         # noqa: E402
 import template_loader                                         # noqa: E402
 import test_scene_builder_intent_input as goldens              # noqa: E402
+import test_scene_composer as eligibility                      # noqa: E402
 
 _failures = []
 
@@ -137,11 +138,11 @@ def run() -> int:
            feature_capabilities.feature_capabilities({"id": "x"}) == {"required": []})
         ok("case1: reader returns [] for the fixture 'legacy' (no declaration)",
            feature_capabilities.capabilities_for_feature("legacy", features_dir) == [])
-        # Phase 1.8.12（Feature Data Migration）：项目 Feature 已开始声明能力，
-        # 故不再断言「真实 Feature 一律为 []」，而是校验「读取器输出 == 该 Feature
-        # 自己 metadata 中的声明」且每个真实 Feature 均已声明（非空）。
-        real_features = sorted(name for name in os.listdir(template_loader.FEATURES_DIR)
-                               if os.path.isdir(os.path.join(template_loader.FEATURES_DIR, name)))
+        # Phase 4：正式候选集合 = Scene Composer Eligible（有 feature.yaml、
+        # template.yaml 且入口场景存在）。Registry 中无模板的 INCOMPLETE 脚手架
+        # 不属于 Capability Pipeline 的正式支持集。
+        # 在该集合内仍校验「读取器输出 == 自身 metadata 声明」且均已 adoption（非空）。
+        real_features = eligibility.scene_composer_eligible_ids(template_loader.FEATURES_DIR)
         declared_map = {
             fid: feature_capabilities.feature_capabilities(
                 feature_capabilities.load_feature_definition(fid) or {})["required"]

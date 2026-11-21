@@ -1,0 +1,147 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "heal_pickup/heal_damaged_target",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=9f158fcdec46 current=9f158fcdec46",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/heal_pickup/HealPickup.tscn contract=res://Features/heal_pickup/HealPickup.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-e219d71a96f8bd0d",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-e219d71a96f8bd0d",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-e219d71a96f8bd0d",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "3 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-e219d71a96f8bd0d",
+      "detail": "expected=b90d7e4e5a2b",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd:18 (file 26 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-e219d71a96f8bd0d",
+      "detail": "expected=b90d7e4e5a2b",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd:21 (file 26 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-e219d71a96f8bd0d",
+      "detail": "expected=b90d7e4e5a2b",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-e219d71a96f8bd0d",
+      "detail": "Features/heal_pickup/heal_pickup.gd:23 (file 26 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/heal_pickup/HealPickup.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "2 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "1 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-9efdc90351f7112e",
+  "status": "VALID"
+}

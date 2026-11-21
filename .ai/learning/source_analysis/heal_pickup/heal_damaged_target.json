@@ -69,7 +69,7 @@
     }
   ],
   "feature_id": "heal_pickup",
-  "generated_at": "2026-11-06T09:31:28Z",
+  "generated_at": "2026-11-07T15:33:48Z",
   "implementation_references": [
     "Features/heal_pickup/heal_pickup.gd"
   ],

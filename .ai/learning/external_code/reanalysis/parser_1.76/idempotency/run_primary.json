@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-11-16T18:01:37Z",
+  "records": 34,
+  "run": "primary",
+  "statuses": {
+    "NOT_APPLICABLE": 1,
+    "REANALYZED_AND_VALIDATED": 29,
+    "REUSED_PHASE_1_75": 4
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "analysis_id": "ext-55aef2d453370c1b",
+  "checks": {
+    "deterministic": true,
+    "license": true,
+    "locations": true,
+    "no_unexplained_removals": true,
+    "not_parser_defect": true,
+    "provenance": true
+  },
+  "determinism": {
+    "differing_fields": [],
+    "identical": true,
+    "run1_digest": "e0264c3bd6f15e86367a2fb719cce3c5375f751a1c5a1320dcade801080a8d94",
+    "run2_digest": "e0264c3bd6f15e86367a2fb719cce3c5375f751a1c5a1320dcade801080a8d94"
+  },
+  "location_problems": [],
+  "offset": 3,
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-b3a3bfd8d4a7e1e2",
+  "status": "REANALYZED_AND_VALIDATED",
+  "stopped": null,
+  "symbols_checked": 7,
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [
+    {
+      "code": "ENUM_NOT_INTERPRETED",
+      "line": 10,
+      "name": "Operators"
+    }
+  ]
+}

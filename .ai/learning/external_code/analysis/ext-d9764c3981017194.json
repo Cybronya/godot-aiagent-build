@@ -1,0 +1,162 @@
+{
+  "analysis_id": "ext-d9764c3981017194",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "7290681309ff",
+  "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+  "conditions": [
+    {
+      "condition": "return string",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "function": "as_string",
+      "line": 44
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:44Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "line": 34,
+      "name": "add",
+      "params": "id, status",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd:34#func=add",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "line": 37,
+      "name": "remove",
+      "params": "id",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd:37#func=remove",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "line": 40,
+      "name": "as_string",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd:40#func=as_string",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "8736f3f9904f0ee71ed6b3b8eca8399055895f5819aef46ababb0694923e77d3",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "7290681309ff",
+    "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-make-pro-2d-games",
+    "source_path": "actors/health/Status.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Status.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+  "repo": "gdquest-demos/godot-make-pro-2d-games",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "40c1a1b6c64fe7277cc42d2594460ed4f21207eacf30808ceebfaa9ad1ab0175",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-make-pro-2d-games\\gd\\actors\\health\\Status.gd",
+  "source_path": "actors/health/Status.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Status.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "remove",
+        "line": 38,
+        "method": "erase",
+        "receiver": "statuses_active"
+      },
+      {
+        "function": "as_string",
+        "line": 42,
+        "method": "values",
+        "receiver": "statuses_active"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [
+      {
+        "line": 12,
+        "name": "POISON",
+        "value": "{"
+      },
+      {
+        "line": 22,
+        "name": "INVINCIBLE",
+        "value": "{"
+      }
+    ],
+    "exports": [],
+    "extends": "Node",
+    "functions": [
+      {
+        "end_line": 36,
+        "line": 34,
+        "name": "add",
+        "params": "id, status",
+        "returns": ""
+      },
+      {
+        "end_line": 39,
+        "line": 37,
+        "name": "remove",
+        "params": "id",
+        "returns": ""
+      },
+      {
+        "end_line": 44,
+        "line": 40,
+        "name": "as_string",
+        "params": "",
+        "returns": ""
+      }
+    ],
+    "signals": [
+      {
+        "line": 6,
+        "name": "added",
+        "params": "status"
+      },
+      {
+        "line": 7,
+        "name": "removed",
+        "params": "status"
+      }
+    ],
+    "variables": []
+  },
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd 没有 class_name（跨类依赖无法静态归属）"
+  ]
+}

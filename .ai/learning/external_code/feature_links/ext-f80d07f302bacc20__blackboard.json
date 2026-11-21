@@ -1,0 +1,206 @@
+{
+  "analysis_id": "ext-f80d07f302bacc20",
+  "evidence_items": [
+    {
+      "evidence_id": "lnk-eab51734b592bcfd:ev:01",
+      "evidence_role": "PAIR_EVALUATION",
+      "evidence_status": "MISSING",
+      "evidence_type": "NONE",
+      "explanation": "compared 3 external symbols (EffectParameters, get_random_vector) against 9 Feature source symbols and 9 Feature declared symbols; no exact identifier match, no declared external-source relation and no shared significant token were found",
+      "line_reference": null,
+      "matched_value": "",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-f80d07f302bacc20.json",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+      "source_side": "BOTH",
+      "symbol_name": ""
+    }
+  ],
+  "evidence_limitations": {
+    "ambiguity_reasons": [],
+    "analysis_status": "analysis_complete",
+    "missing_evidence": [
+      "no exact shared identifier between external symbols and Feature symbols",
+      "no declared external-source relation in Feature metadata",
+      "no shared significant token between the two symbol sets"
+    ],
+    "parser_limitations": [
+      "regex_parser_without_ast_or_type_inference"
+    ],
+    "projection_status": "COMPLETE",
+    "provenance_limitations": [
+      "provenance_status=complete",
+      "full commit SHA is recorded"
+    ],
+    "unsupported_content": [],
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "external_analysis": {
+    "analysis_record_digest": "498fc59ecc8d06b44d4731819f2630f6a73bab72ab3f0eed27a2a410b722b80e",
+    "analysis_record_path": ".ai/learning/external_code/analysis/ext-f80d07f302bacc20.json",
+    "analysis_status": "analysis_complete",
+    "file_type": "gdscript",
+    "parse_status": "parsed",
+    "provenance_status": "complete",
+    "source_commit": "673dc09d9132588da04f3ede2a194f1be40fafd0",
+    "source_digest": "a34a997d42f27cbd4ffc32dcf4c200da8546668f4f6548c81947f8ae304a5ca3",
+    "source_path": "Scenes/EffectParameterSelector/EffectParameterSelector.gd",
+    "source_repository": "cis-ash/TEXTREME",
+    "source_url": "https://github.com/cis-ash/TEXTREME/blob/673dc09d9132588da04f3ede2a194f1be40fafd0/Scenes/EffectParameterSelector/EffectParameterSelector.gd"
+  },
+  "feature_id": "blackboard",
+  "feature_name": "blackboard",
+  "feature_projection": {
+    "feature_analysis_references": [],
+    "feature_path": "Features/blackboard/feature.yaml",
+    "feature_projection_digest": "f61c08b132256db26eb1e21a2005b1c8a93d7e24cd39609e3608ec3cb14e8b5a",
+    "feature_projection_path": ".ai/learning/feature_evidence/blackboard.json",
+    "feature_source_references": [
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/feature.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\feature.yaml",
+        "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+        "source_path": "Features/blackboard/feature.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_METADATA"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_index.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_path": ".ai/context/feature_index.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_INDEX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_graph.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_path": ".ai/context/feature_graph.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_GRAPH"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/coverage_matrix.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_path": ".ai/context/coverage_matrix.json",
+        "source_status": "FOUND",
+        "source_type": "COVERAGE_MATRIX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/blackboard.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_path": "Features/blackboard/blackboard.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/test_blackboard.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\test_blackboard.gd",
+        "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+        "source_path": "Features/blackboard/test_blackboard.gd",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEST"
+      }
+    ],
+    "projection_status": "COMPLETE",
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "generated_at": "2026-11-15T15:16:41Z",
+  "generator": {
+    "classifier": "deterministic_symbol_and_declaration_matching",
+    "name": "feature_linkage",
+    "version": "phase-1.73-b/1"
+  },
+  "limitations": [
+    "evidence type only; not a similarity, quality, admission or promotion judgement",
+    "analysis_status=analysis_complete",
+    "projection_status=COMPLETE"
+  ],
+  "linkage_classification": "NO_SUPPORTED_LINK",
+  "linkage_id": "lnk-eab51734b592bcfd",
+  "linkage_outcome": "NOT_LINKED",
+  "pair_evaluation": {
+    "declared_relation": "",
+    "external_symbol_count": 3,
+    "external_symbols": [
+      "EffectParameters",
+      "get_random_vector"
+    ],
+    "feature_declared_symbol_count": 9,
+    "feature_source_symbol_count": 9,
+    "matched_symbols": [],
+    "shared_tokens": []
+  },
+  "schema": "external_analysis_feature_linkage",
+  "schema_version": 1,
+  "snippet_id": "cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+  "source_verification": {
+    "analysis_record": {
+      "digest": "498fc59ecc8d06b44d4731819f2630f6a73bab72ab3f0eed27a2a410b722b80e",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/external_code/analysis/ext-f80d07f302bacc20.json"
+    },
+    "external_source_file": {
+      "digest_status": "MATCHED",
+      "path": ".ai/skills/foundation/godot-gdscript/code_library/sources/cis-ash__TEXTREME/gd/Scenes/EffectParameterSelector/EffectParameterSelector.gd",
+      "recorded_digest": "a34a997d42f27cbd4ffc32dcf4c200da8546668f4f6548c81947f8ae304a5ca3"
+    },
+    "feature_projection": {
+      "digest": "f61c08b132256db26eb1e21a2005b1c8a93d7e24cd39609e3608ec3cb14e8b5a",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/feature_evidence/blackboard.json"
+    },
+    "feature_sources": [
+      {
+        "path": "Features/blackboard/feature.yaml",
+        "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/blackboard/blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/blackboard/test_blackboard.gd",
+        "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+        "source_status": "FOUND"
+      }
+    ]
+  }
+}

@@ -13,7 +13,7 @@
     Case 4  Feature A: Node + Feature B: Sprite → Intent 去重为 [Node, Sprite]
     Case 5  非法能力（UnknownCapability）→ Gate BLOCKED 且零 .tscn 产物
     Case 6  真实 Feature 生成链：迁移后 .tscn / .gd 与既有产物逐字节相同
-    附件    Feature 数据审计：12 个真实 Feature 的声明与自身场景/契约一致，且全链 Gate PASS
+    附件    Scene Composer Eligible Feature 数据审计：声明与自身场景/契约一致，且全链 Gate PASS
 
 Case 1–5 用**临时 Features 目录 + 临时索引**驱动真实 compose()，不改动项目 Feature。
 只读项目文件、只写临时目录；不生成仓库内 .tscn、不启动 Godot。
@@ -53,6 +53,7 @@ import scene_composer                                          # noqa: E402
 import scene_intent                                            # noqa: E402
 import template_loader                                         # noqa: E402
 import test_scene_builder_intent_input as goldens              # noqa: E402
+import test_scene_composer as eligibility                      # noqa: E402
 
 _failures = []
 
@@ -125,9 +126,8 @@ def scene_blueprint(feature_ids, nodes=(), root_type: str = "CharacterBody2D",
 
 
 def real_feature_ids() -> list:
-    base = template_loader.FEATURES_DIR
-    return sorted(name for name in os.listdir(base)
-                  if os.path.isdir(os.path.join(base, name)))
+    """Scene Composer Eligible 的真实 Feature（模板 + 入口场景存在）。"""
+    return eligibility.scene_composer_eligible_ids(template_loader.FEATURES_DIR)
 
 
 def scene_node_types(feature_id: str) -> list:

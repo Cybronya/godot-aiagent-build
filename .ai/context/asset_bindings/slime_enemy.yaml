@@ -1,0 +1,141 @@
+schema_version: 2
+binding:
+  entity: slime_enemy
+  role: enemy
+  subject: slime
+  features:
+  - chase_movement
+  - contact_damage
+  - health
+  required_declared: true
+  bindings:
+  - feature: ''
+    role: idle
+    asset: slime_frames
+    path: res://Assets/characters/enemy/slime/slime_frames.tres
+    type: sprite_frames
+    node:
+      name: SlimeAnim
+      type: AnimatedSprite2D
+      property: sprite_frames
+      path: res://Assets/characters/enemy/slime/slime_frames.tres
+      roles:
+      - idle
+      - move
+      - attack
+      - hurt
+      animation: idle
+      merged_from:
+      - slime_frames
+      - slime_frames
+      - slime_frames
+      - slime_frames
+    compatibility: COMPATIBLE
+    resolved_from: index
+    confidence: high
+    runners_up:
+    - slime_idle
+    - player_frames
+    - player_idle
+  - feature: chase_movement
+    role: move
+    asset: slime_frames
+    path: res://Assets/characters/enemy/slime/slime_frames.tres
+    type: sprite_frames
+    node:
+      name: SlimeAnim
+      type: AnimatedSprite2D
+      property: sprite_frames
+      path: res://Assets/characters/enemy/slime/slime_frames.tres
+      roles:
+      - idle
+      - move
+      - attack
+      - hurt
+      animation: idle
+      merged_from:
+      - slime_frames
+      - slime_frames
+      - slime_frames
+      - slime_frames
+    compatibility: COMPATIBLE
+    resolved_from: index
+    confidence: high
+    runners_up:
+    - slime_move
+    - player_frames
+    - player_run
+  - feature: contact_damage
+    role: attack
+    asset: slime_frames
+    path: res://Assets/characters/enemy/slime/slime_frames.tres
+    type: sprite_frames
+    node:
+      name: SlimeAnim
+      type: AnimatedSprite2D
+      property: sprite_frames
+      path: res://Assets/characters/enemy/slime/slime_frames.tres
+      roles:
+      - idle
+      - move
+      - attack
+      - hurt
+      animation: idle
+      merged_from:
+      - slime_frames
+      - slime_frames
+      - slime_frames
+      - slime_frames
+    compatibility: COMPATIBLE
+    resolved_from: index
+    confidence: high
+    runners_up:
+    - slime_attack_animation
+    - player_frames
+    - player_attack
+  - feature: health
+    role: hurt
+    asset: slime_frames
+    path: res://Assets/characters/enemy/slime/slime_frames.tres
+    type: sprite_frames
+    node:
+      name: SlimeAnim
+      type: AnimatedSprite2D
+      property: sprite_frames
+      path: res://Assets/characters/enemy/slime/slime_frames.tres
+      roles:
+      - idle
+      - move
+      - attack
+      - hurt
+      animation: idle
+      merged_from:
+      - slime_frames
+      - slime_frames
+      - slime_frames
+      - slime_frames
+    compatibility: COMPATIBLE
+    resolved_from: index
+    confidence: high
+    runners_up:
+    - slime_hurt
+    - player_frames
+    - player_hurt
+  - feature: health
+    role: hurt_sfx
+    asset: slime_hurt_sfx
+    path: res://Assets/audio/slime/hurt.wav
+    type: audio
+    node:
+      name: SlimeHurtSfx
+      type: AudioStreamPlayer
+      property: stream
+      path: res://Assets/audio/slime/hurt.wav
+      roles:
+      - hurt_sfx
+    compatibility: COMPATIBLE
+    resolved_from: index
+    confidence: high
+  missing: []
+  optional_missing: []
+  source: entity_blueprint

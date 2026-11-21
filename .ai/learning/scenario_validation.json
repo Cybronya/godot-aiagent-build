@@ -596,6 +596,447 @@
       "checks": [
         {
           "check": "contract.behavior_exists",
+          "detail": "heal_pickup/heal_damaged_target",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=9f158fcdec46 current=9f158fcdec46",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/heal_pickup/HealPickup.tscn contract=res://Features/heal_pickup/HealPickup.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-e219d71a96f8bd0d",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-e219d71a96f8bd0d",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-e219d71a96f8bd0d",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "3 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-e219d71a96f8bd0d",
+          "detail": "expected=b90d7e4e5a2b",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd:18 (file 26 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-e219d71a96f8bd0d",
+          "detail": "expected=b90d7e4e5a2b",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd:21 (file 26 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-e219d71a96f8bd0d",
+          "detail": "expected=b90d7e4e5a2b",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-e219d71a96f8bd0d",
+          "detail": "Features/heal_pickup/heal_pickup.gd:23 (file 26 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/heal_pickup/HealPickup.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "2 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "1 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-9efdc90351f7112e",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "contact_damage/damage_on_contact",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=1732981f92b4 current=1732981f92b4",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/contact_damage/ContactDamageFixture.tscn contract=res://Features/contact_damage/ContactDamageFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-af3decf8ebc135bd",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-af3decf8ebc135bd",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-af3decf8ebc135bd",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "3 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-af3decf8ebc135bd",
+          "detail": "expected=c5ea78843897",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd:20 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-af3decf8ebc135bd",
+          "detail": "expected=c5ea78843897",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd:28 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-af3decf8ebc135bd",
+          "detail": "expected=c5ea78843897",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-af3decf8ebc135bd",
+          "detail": "Features/contact_damage/contact_damage.gd:31 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/contact_damage/ContactDamageFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "2 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "1 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-d2fe30d380537d07",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "contact_damage/damage_amount_is_respected",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=129430fff4c2 current=129430fff4c2",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/contact_damage/ContactDamageFixture.tscn contract=res://Features/contact_damage/ContactDamageFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-8423097baa8ec620",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-8423097baa8ec620",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-8423097baa8ec620",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "3 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-8423097baa8ec620",
+          "detail": "expected=c5ea78843897",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd:20 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-8423097baa8ec620",
+          "detail": "expected=c5ea78843897",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd:28 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-8423097baa8ec620",
+          "detail": "expected=c5ea78843897",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-8423097baa8ec620",
+          "detail": "Features/contact_damage/contact_damage.gd:31 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/contact_damage/ContactDamageFixture.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "2 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "1 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-d503c62564c391ef",
+      "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
           "detail": "i_frames/iframes_expire_and_damage_resumes",
           "ok": true
         },
@@ -719,12 +1160,119 @@
       "scenario_id": "s-e6eb3fc5c8e82e32",
       "scenario_path": ".ai/learning/scenarios/s-e6eb3fc5c8e82e32.json",
       "status": "VALID"
+    },
+    {
+      "checks": [
+        {
+          "check": "contract.behavior_exists",
+          "detail": "collect_pickup/collect_on_contact",
+          "ok": true
+        },
+        {
+          "check": "contract.version",
+          "detail": "scenario=723f2167e74c current=723f2167e74c",
+          "ok": true
+        },
+        {
+          "check": "contract.scene",
+          "detail": "scenario=res://Features/collect_pickup/CollectPickup.tscn contract=res://Features/collect_pickup/CollectPickup.tscn",
+          "ok": true
+        },
+        {
+          "check": "contract.protocol",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "knowledge.refs_present",
+          "detail": "1 refs",
+          "ok": true
+        },
+        {
+          "check": "knowledge.approved:k-875dbe2de3b9fca9",
+          "detail": "APPROVED",
+          "ok": true
+        },
+        {
+          "check": "knowledge.type:k-875dbe2de3b9fca9",
+          "detail": "SOURCE_OBSERVATION",
+          "ok": true
+        },
+        {
+          "check": "knowledge.fresh:k-875dbe2de3b9fca9",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "source.references_present",
+          "detail": "1 source refs",
+          "ok": true
+        },
+        {
+          "check": "source.exists:k-875dbe2de3b9fca9",
+          "detail": "Features/collect_pickup/collect_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.inside_features:k-875dbe2de3b9fca9",
+          "detail": "Features/collect_pickup/collect_pickup.gd",
+          "ok": true
+        },
+        {
+          "check": "source.digest:k-875dbe2de3b9fca9",
+          "detail": "expected=3c16f890deee",
+          "ok": true
+        },
+        {
+          "check": "source.line:k-875dbe2de3b9fca9",
+          "detail": "Features/collect_pickup/collect_pickup.gd:29 (file 33 lines)",
+          "ok": true
+        },
+        {
+          "check": "feasibility.scene",
+          "detail": "res://Features/collect_pickup/CollectPickup.tscn",
+          "ok": true
+        },
+        {
+          "check": "feasibility.actions",
+          "detail": "2 actions",
+          "ok": true
+        },
+        {
+          "check": "feasibility.expected",
+          "detail": "2 checks",
+          "ok": true
+        },
+        {
+          "check": "feasibility.cleanup",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.godot",
+          "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+          "ok": true
+        },
+        {
+          "check": "environment.probe",
+          "detail": "",
+          "ok": true
+        },
+        {
+          "check": "environment.protocol",
+          "detail": "",
+          "ok": true
+        }
+      ],
+      "reasons": [],
+      "scenario_id": "s-eef9972034da734b",
+      "status": "VALID"
     }
   ],
   "schema": "scenario_validation_index",
   "schema_version": 1,
   "summary": {
-    "total": 5,
-    "valid": 5
+    "total": 9,
+    "valid": 9
   }
 }

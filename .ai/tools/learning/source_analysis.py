@@ -40,6 +40,15 @@ HARNESS_PREFIXES = ("physics", "simulation", "input", "scene", "node", "time", "
 def _now() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
+def _safe_rel(path: str) -> str:
+    """Relative to project when possible; absolute POSIX path across drives."""
+    try:
+        return paths.rel(path)
+    except ValueError:
+        return os.path.abspath(path).replace("\\", "/")
+
+
+
 
 def _action_methods(behavior: dict) -> list[str]:
     """契约 action 里真正调用的方法名（`door.set_open` → `set_open`）。"""
@@ -160,6 +169,171 @@ def _collect(entries: list[tuple[gd_parse.Script, gd_parse.Function]],
     return collected
 
 
+def _extract_evidence(scripts: list[gd_parse.Script],
+                      covered: list[tuple[gd_parse.Script, gd_parse.Function]],
+                      unresolved: list[str]) -> dict:
+    """Extract static state/events/effects from already-selected functions.
+
+    Shared by Feature Source Analysis and the external-code adapter. It does not
+    resolve entries or read Feature contracts.
+    """
+    declared = {}
+    for script in scripts:
+        for item in script.variables + script.exports:
+            declared.setdefault(item["name"], {
+                "initial": item.get("value") or "",
+                "declared_in": _safe_rel(script.path),
+                "declared_at_line": item["line"],
+            })
+    known = set(declared)
+    state: dict[str, dict] = {}
+    for script, function in covered:
+        for read in gd_parse.state_reads(function, known):
+            entry = state.setdefault(read["variable"], {
+                "variable": read["variable"], "reads": [], "writes": [],
+                "initial": declared[read["variable"]]["initial"],
+                "declared_in": declared[read["variable"]]["declared_in"],
+            })
+            entry["reads"].append({"file": _safe_rel(script.path),
+                                   "line": read["line"], "function": function.name})
+        for write in gd_parse.state_writes(function, known):
+            entry = state.setdefault(write["variable"], {
+                "variable": write["variable"], "reads": [], "writes": [],
+                "initial": declared[write["variable"]]["initial"],
+                "declared_in": declared[write["variable"]]["declared_in"],
+            })
+            entry["writes"].append({"file": _safe_rel(script.path),
+                                    "line": write["line"], "function": function.name})
+    for item in state.values():
+        item["read_count"] = len(item["reads"])
+        item["write_count"] = len(item["writes"])
+
+    evidence = {"state_variables": [state[key] for key in sorted(state)],
+                "conditions": [], "events": [], "side_effects": [],
+                "failure_paths": []}
+    for script, function in covered:
+        for guard in gd_parse.guards(function):
+            evidence["conditions"].append({
+                "condition": guard["condition"], "file": _safe_rel(script.path),
+                "line": guard["line"], "function": function.name})
+        for emit in gd_parse.emits(function):
+            evidence["events"].append({
+                "kind": "emit", "signal": emit["signal"],
+                "file": _safe_rel(script.path), "line": emit["line"],
+                "function": function.name})
+        for conn in gd_parse.connects(function):
+            evidence["events"].append({
+                "kind": "connect", "signal": conn["signal"],
+                "emitter": conn["emitter"], "handler": conn["handler"],
+                "file": _safe_rel(script.path), "line": conn["line"],
+                "function": function.name})
+        for write in gd_parse.set_deferred(function):
+            evidence["side_effects"].append({
+                "kind": "deferred_property_write", "object": write["object"],
+                "attribute": write["attribute"], "value": write["value"],
+                "file": _safe_rel(script.path), "line": write["line"]})
+        for access in gd_parse.file_access(function):
+            evidence["side_effects"].append({
+                "kind": "file_access", "path": access["path"],
+                "mode": access.get("mode", "READ"),
+                "file": _safe_rel(script.path), "line": access["line"]})
+        for resource in gd_parse.resources(function):
+            evidence["side_effects"].append({
+                "kind": "resource_load", "path": resource["path"],
+                "file": _safe_rel(script.path), "line": resource["line"]})
+        for node in gd_parse.nodes(function):
+            evidence["side_effects"].append({
+                "kind": "node_lookup", "path": node["path"],
+                "file": _safe_rel(script.path), "line": node["line"]})
+        for dynamic in gd_parse.dynamic_calls(function):
+            unresolved.append("%s:%d 含动态调用（%s），静态分析无法确定目标"
+                              % (_safe_rel(script.path), dynamic["line"],
+                                 dynamic["text"]))
+
+    for script, function in covered:
+        for number, line in function.body:
+            stripped = line.strip()
+            if stripped in ("return", "return null"):
+                evidence["failure_paths"].append({
+                    "kind": "guard_return", "value": "",
+                    "file": _safe_rel(script.path), "line": number,
+                    "function": function.name})
+            elif re.match(r"^return\s+(false|0|null|\[\]|\"\")", stripped):
+                evidence["failure_paths"].append({
+                    "kind": "early_return", "value": stripped.split(None, 1)[1],
+                    "file": _safe_rel(script.path), "line": number,
+                    "function": function.name})
+            elif re.match(r"^if\s+.*(==\s*null|!=\s*null).*:$", stripped):
+                evidence["failure_paths"].append({
+                    "kind": "null_guard", "condition": stripped,
+                    "file": _safe_rel(script.path), "line": number,
+                    "function": function.name})
+    return evidence
+
+
+def external_entry_names(scripts: list[gd_parse.Script]) -> list[str]:
+    """Choose deterministic entry points without inventing a Feature contract."""
+    names: list[str] = []
+    for script in scripts:
+        for function in script.functions:
+            is_lifecycle = function.name in TRIGGER_KEYWORDS or function.name in (
+                "_enter_tree", "_exit_tree", "_notification")
+            is_public = not function.name.startswith("_")
+            if (is_lifecycle or is_public) and function.name not in names:
+                names.append(function.name)
+    if not names:
+        names = [function.name for script in scripts for function in script.functions]
+    return names
+
+
+def analyze_external_scripts(scripts: list[gd_parse.Script], *,
+                             entry_names: list[str] | None = None) -> dict:
+    """Analyze standalone scripts through the same collector/evidence helpers."""
+    unresolved: list[str] = []
+    mapping = _callee_map(scripts)
+    class_calls: dict[str, dict[str, tuple[gd_parse.Script, gd_parse.Function]]] = {}
+    for script in scripts:
+        if script.class_name:
+            class_calls.setdefault(script.class_name, {}).update(
+                {function.name: (script, function) for function in script.functions})
+    names = entry_names if entry_names is not None else external_entry_names(scripts)
+    entries: list[tuple[gd_parse.Script, gd_parse.Function]] = []
+    entry_points = []
+    for name in names:
+        targets = mapping.get(name) or []
+        if len(targets) != 1:
+            if len(targets) > 1:
+                unresolved.append("入口 %s 在多个位置定义，无法确定唯一目标" % name)
+            continue
+        script, function = targets[0]
+        entries.append((script, function))
+        entry_points.append({
+            "name": function.name, "trigger": "external_entry",
+            "file": _safe_rel(script.path), "line": function.start_line,
+            "params": function.params, "returns": function.returns,
+            "source_reference": "%s:%d#func=%s" % (
+                _safe_rel(script.path), function.start_line, function.name),
+        })
+    if not entries:
+        unresolved.append("没有可确认的外部代码入口")
+    covered = entries + [(script, function)
+                         for script, function in _collect(entries, mapping, class_calls)]
+    evidence = _extract_evidence(scripts, covered, unresolved)
+    if not entries:
+        evidence = {"state_variables": [], "conditions": [], "events": [],
+                    "side_effects": [], "failure_paths": []}
+    for script in scripts:
+        if not script.class_name:
+            unresolved.append("%s 没有 class_name（跨类依赖无法静态归属）"
+                              % _safe_rel(script.path))
+    return {
+        "entry_points": entry_points,
+        "functions_analyzed": len(covered),
+        "unresolved_questions": unresolved,
+        **evidence,
+    }
+
+
 def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
             contract_path: str = "", version: str = "") -> dict:
     behavior = behavior or next(
@@ -179,7 +353,7 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
         "behavior_category": paths.category_of(feature_id, behavior_id),
         "contract_version": version or paths.contract_version(feature_id, behavior_id),
         "contract_reference": "%s#behavior=%s" % (contract_rel, behavior_id),
-        "implementation_references": [paths.rel(path) for path in files],
+        "implementation_references": [_safe_rel(path) for path in files],
         "scripts": [],
         "entry_points": [],
         "state_variables": [],
@@ -199,7 +373,7 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
 
     scripts = [gd_parse.parse_file(path) for path in files]
     for script in scripts:
-        record["scripts"].append({"path": paths.rel(script.path), "digest": script.digest,
+        record["scripts"].append({"path": _safe_rel(script.path), "digest": script.digest,
                                   "class_name": script.class_name, "digest_of": "file_bytes"})
     mapping = _callee_map(scripts)
     class_calls: dict[str, dict[str, tuple[gd_parse.Script, gd_parse.Function]]] = {}
@@ -225,17 +399,17 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
         if len({script.path for script, _ in targets}) > 1 or len(targets) > 1:
             record["analysis_status"] = "SOURCE_ENTRY_AMBIGUOUS"
             unresolved.append("方法 %s 在多个位置定义：%s" % (
-                name, ", ".join("%s:%d" % (paths.rel(s.path), f.start_line) for s, f in targets)))
+                name, ", ".join("%s:%d" % (_safe_rel(s.path), f.start_line) for s, f in targets)))
         for script, function in targets:
             entries.append((script, function))
             record["entry_points"].append({
                 "name": function.name,
                 "trigger": "contract_action",
-                "file": paths.rel(script.path),
+                "file": _safe_rel(script.path),
                 "line": function.start_line,
                 "params": function.params,
                 "returns": function.returns,
-                "source_reference": "%s:%d#func=%s" % (paths.rel(script.path),
+                "source_reference": "%s:%d#func=%s" % (_safe_rel(script.path),
                                                        function.start_line, function.name),
             })
 
@@ -248,10 +422,10 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
             handler = script.function(conn["handler"])
             if handler is None:
                 unresolved.append("%s:%d 连接了 %s.%s 但找不到处理函数 %s"
-                                  % (paths.rel(script.path), conn["line"], conn["emitter"],
+                                  % (_safe_rel(script.path), conn["line"], conn["emitter"],
                                      conn["signal"], conn["handler"]))
                 continue
-            reference = "%s:%d#func=%s" % (paths.rel(script.path), handler.start_line,
+            reference = "%s:%d#func=%s" % (_safe_rel(script.path), handler.start_line,
                                            handler.name)
             if any(item["source_reference"] == reference for item in record["entry_points"]):
                 continue
@@ -261,7 +435,7 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
                 "trigger": "signal_handler",
                 "signal": conn["signal"],
                 "emitter": conn["emitter"],
-                "file": paths.rel(script.path),
+                "file": _safe_rel(script.path),
                 "line": handler.start_line,
                 "params": handler.params,
                 "returns": handler.returns,
@@ -278,9 +452,9 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
                 entries.append((script, function))
                 record["entry_points"].append({
                     "name": function.name, "trigger": "contract_probe",
-                    "file": paths.rel(script.path), "line": function.start_line,
+                    "file": _safe_rel(script.path), "line": function.start_line,
                     "params": function.params, "returns": function.returns,
-                    "source_reference": "%s:%d#func=%s" % (paths.rel(script.path),
+                    "source_reference": "%s:%d#func=%s" % (_safe_rel(script.path),
                                                            function.start_line, function.name)})
                 unresolved.append("契约 action 没有对应函数（%s 由 harness 驱动），入口按契约探测方法 %s 认定"
                                   % (", ".join(missing_actions) or "无", symbol))
@@ -294,9 +468,9 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
                 entries.append((script, function))
                 record["entry_points"].append({
                     "name": function.name, "trigger": "frame_update",
-                    "file": paths.rel(script.path), "line": function.start_line,
+                    "file": _safe_rel(script.path), "line": function.start_line,
                     "params": function.params, "returns": function.returns,
-                    "source_reference": "%s:%d#func=%s" % (paths.rel(script.path),
+                    "source_reference": "%s:%d#func=%s" % (_safe_rel(script.path),
                                                            function.start_line, function.name)})
                 unresolved.append("契约 action 均为 harness 驱动，入口按帧回调 %s 认定（未绑定具体方法）"
                                   % frame_name)
@@ -317,94 +491,11 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
     callees = _collect(entries, mapping, class_calls)
     covered = entries + [(script, function) for script, function in callees]
 
-    # ---- 状态变量 -------------------------------------------------------
-    declared = {}
-    for script in scripts:
-        for item in script.variables + script.exports:
-            declared.setdefault(item["name"], {"initial": item.get("value") or "",
-                                               "declared_in": paths.rel(script.path),
-                                               "declared_at_line": item["line"]})
-    known = set(declared)
-    state: dict[str, dict] = {}
-    for script, function in covered:
-        for read in gd_parse.state_reads(function, known):
-            entry = state.setdefault(read["variable"], {
-                "variable": read["variable"], "reads": [], "writes": [],
-                "initial": declared[read["variable"]]["initial"],
-                "declared_in": declared[read["variable"]]["declared_in"]})
-            entry["reads"].append({"file": paths.rel(script.path), "line": read["line"],
-                                   "function": function.name})
-        for write in gd_parse.state_writes(function, known):
-            entry = state.setdefault(write["variable"], {
-                "variable": write["variable"], "reads": [], "writes": [],
-                "initial": declared[write["variable"]]["initial"],
-                "declared_in": declared[write["variable"]]["declared_in"]})
-            entry["writes"].append({"file": paths.rel(script.path), "line": write["line"],
-                                    "function": function.name})
-    for item in state.values():
-        item["read_count"] = len(item["reads"])
-        item["write_count"] = len(item["writes"])
-    record["state_variables"] = [state[key] for key in sorted(state)]
-
-    # ---- 条件 / 事件 / 副作用 / 失败路径 --------------------------------
-    for script, function in covered:
-        for guard in gd_parse.guards(function):
-            record["conditions"].append({"condition": guard["condition"],
-                                         "file": paths.rel(script.path),
-                                         "line": guard["line"], "function": function.name})
-        for emit in gd_parse.emits(function):
-            record["events"].append({"kind": "emit", "signal": emit["signal"],
-                                     "file": paths.rel(script.path),
-                                     "line": emit["line"], "function": function.name})
-        for conn in gd_parse.connects(function):
-            record["events"].append({"kind": "connect", "signal": conn["signal"],
-                                     "emitter": conn["emitter"],
-                                     "handler": conn["handler"],
-                                     "file": paths.rel(script.path),
-                                     "line": conn["line"], "function": function.name})
-        for write in gd_parse.set_deferred(function):
-            record["side_effects"].append({"kind": "deferred_property_write",
-                                           "object": write["object"],
-                                           "attribute": write["attribute"],
-                                           "value": write["value"],
-                                           "file": paths.rel(script.path),
-                                           "line": write["line"]})
-        for access in gd_parse.file_access(function):
-            record["side_effects"].append({"kind": "file_access", "path": access["path"],
-                                           "mode": access.get("mode", "READ"),
-                                           "file": paths.rel(script.path),
-                                           "line": access["line"]})
-        for resource in gd_parse.resources(function):
-            record["side_effects"].append({"kind": "resource_load", "path": resource["path"],
-                                           "file": paths.rel(script.path),
-                                           "line": resource["line"]})
-        for node in gd_parse.nodes(function):
-            record["side_effects"].append({"kind": "node_lookup", "path": node["path"],
-                                           "file": paths.rel(script.path),
-                                           "line": node["line"]})
-        for dynamic in gd_parse.dynamic_calls(function):
-            unresolved.append("%s:%d 含动态调用（%s），静态分析无法确定目标"
-                              % (paths.rel(script.path), dynamic["line"], dynamic["text"]))
-
-    for script, function in covered:
-        for number, line in function.body:
-            stripped = line.strip()
-            if stripped in ("return", "return null"):
-                record["failure_paths"].append({"kind": "guard_return", "value": "",
-                                                "file": paths.rel(script.path),
-                                                "line": number, "function": function.name})
-            elif re.match(r"^return\s+(false|0|null|\[\]|\"\")", stripped):
-                record["failure_paths"].append({"kind": "early_return",
-                                                "value": stripped.split(None, 1)[1],
-                                                "file": paths.rel(script.path),
-                                                "line": number, "function": function.name})
-            elif re.match(r"^if\s+.*(==\s*null|!=\s*null).*:$", stripped):
-                record["failure_paths"].append({"kind": "null_guard",
-                                                "condition": stripped,
-                                                "file": paths.rel(script.path),
-                                                "line": number, "function": function.name})
+    record.update(_extract_evidence(scripts, covered, unresolved))
 
     # 契约里引用但源码观测不到的符号：显式记为未解决，不替契约圆场
+    declared = {item["name"] for script in scripts
+                for item in script.variables + script.exports}
     observed_names = {item["name"] for item in record["entry_points"]}
     declared_signals = {signal["name"] for script in scripts for signal in script.signals}
     for symbol in _check_symbols(behavior):
@@ -419,7 +510,7 @@ def analyze(feature_id: str, behavior_id: str, *, behavior: dict | None = None,
     for script in scripts:
         if not script.class_name:
             unresolved.append("%s 没有 class_name（跨类依赖无法静态归属）"
-                              % paths.rel(script.path))
+                              % _safe_rel(script.path))
     return record
 
 

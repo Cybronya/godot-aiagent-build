@@ -1,0 +1,26 @@
+{
+  "analysis_id": "ext-2a4f612899a6b6a5",
+  "checks": {
+    "deterministic": true,
+    "license": true,
+    "locations": true,
+    "no_unexplained_removals": true,
+    "not_parser_defect": true,
+    "provenance": true
+  },
+  "determinism": {
+    "differing_fields": [],
+    "identical": true,
+    "run1_digest": "4b869e19694b944063ffa98f8ec7b07e56eda87e5086b387e72da4fae4e2ba66",
+    "run2_digest": "4b869e19694b944063ffa98f8ec7b07e56eda87e5086b387e72da4fae4e2ba66"
+  },
+  "location_problems": [],
+  "offset": 3,
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-26ad4746ab9aa96e",
+  "status": "REANALYZED_AND_VALIDATED",
+  "stopped": null,
+  "symbols_checked": 3,
+  "unrecognized_declarations": [],
+  "unsupported_constructs": []
+}

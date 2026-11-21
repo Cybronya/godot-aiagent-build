@@ -1,0 +1,109 @@
+{
+  "analysis_id": "ext-56ca48126ec8514d",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "4458a143644f",
+  "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "general",
+  "entry_points": [],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "input_digest": "69135bb1987b2e4081043178e106a029eedf0566d974e9cf0289dc2ee3a46fde",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "4458a143644f",
+    "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "alfredbaudisch/Godello",
+    "source_path": "scripts/events.gd",
+    "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/events.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\alfredbaudisch__Godello__scripts__events.gd",
+  "repo": "alfredbaudisch/Godello",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "alfredbaudisch__Godello__scripts__events.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "819b9f1e9dd37a0f019d26656ddb48d34bcd139789ba33daa9e816cc0c214aff",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\alfredbaudisch__Godello\\gd\\scripts\\events.gd",
+  "source_path": "scripts/events.gd",
+  "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/events.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "Node",
+    "functions": [],
+    "signals": [
+      {
+        "line": 8,
+        "name": "user_logged_in",
+        "params": "user"
+      },
+      {
+        "line": 9,
+        "name": "user_logged_out",
+        "params": "user"
+      },
+      {
+        "line": 11,
+        "name": "card_clicked",
+        "params": "model"
+      },
+      {
+        "line": 12,
+        "name": "card_dragged",
+        "params": "node, model"
+      },
+      {
+        "line": 13,
+        "name": "card_dropped",
+        "params": "drop_data, into_list"
+      },
+      {
+        "line": 15,
+        "name": "list_dragged",
+        "params": "node, model"
+      },
+      {
+        "line": 16,
+        "name": "list_dropped",
+        "params": "drop_data"
+      },
+      {
+        "line": 17,
+        "name": "add_card_clicked",
+        "params": "list"
+      }
+    ],
+    "variables": []
+  },
+  "unresolved_questions": [
+    "no functions found by the regex parser"
+  ]
+}

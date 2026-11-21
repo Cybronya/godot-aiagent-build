@@ -1,0 +1,156 @@
+{
+  "analysis_id": "ext-55aef2d453370c1b",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "fe589153fa78",
+  "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+  "conditions": [
+    {
+      "condition": "if _left_expression.has_execute_failed():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "function": "tick",
+      "line": 39
+    },
+    {
+      "condition": "return FAILURE",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "function": "tick",
+      "line": 40
+    },
+    {
+      "condition": "if _right_expression.has_execute_failed():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "function": "tick",
+      "line": 44
+    },
+    {
+      "condition": "return FAILURE",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "function": "tick",
+      "line": 45
+    },
+    {
+      "condition": "match operator:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "function": "tick",
+      "line": 49
+    },
+    {
+      "condition": "return SUCCESS if result else FAILURE",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "function": "tick",
+      "line": 63
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:47Z",
+  "domain": "general",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "line": 36,
+      "name": "tick",
+      "params": "actor: Node, blackboard: Blackboard",
+      "returns": "int",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd:36#func=tick",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "c7fd6b8709fcec9a33cc336b9f6b33c21703415924081bd33cc4c950d6a9c078",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_existing_policy",
+  "license_risk": "local_license_text_missing",
+  "license_source": "github_api_spdx",
+  "license_status": "license_text_missing",
+  "license_text_present": false,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference",
+    "annotation_not_fully_interpreted:line=7"
+  ],
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "fe589153fa78",
+    "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "bitbrain/beehave",
+    "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+    "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/nodes/leaves/blackboard_compare.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+  "repo": "bitbrain/beehave",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "cd7008ea7deb939071a57b1765803a1614be43cc1ef5aa112cff2f160523df75",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\bitbrain__beehave\\gd\\addons\\beehave\\nodes\\leaves\\blackboard_compare.gd",
+  "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+  "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/nodes/leaves/blackboard_compare.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "tick",
+        "line": 37,
+        "method": "execute",
+        "receiver": "_left_expression"
+      },
+      {
+        "function": "tick",
+        "line": 39,
+        "method": "has_execute_failed",
+        "receiver": "_left_expression"
+      },
+      {
+        "function": "tick",
+        "line": 42,
+        "method": "execute",
+        "receiver": "_right_expression"
+      },
+      {
+        "function": "tick",
+        "line": 44,
+        "method": "has_execute_failed",
+        "receiver": "_right_expression"
+      }
+    ],
+    "class_name": "BlackboardCompareCondition",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "end_line": 65,
+        "line": 36,
+        "name": "tick",
+        "params": "actor: Node, blackboard: Blackboard",
+        "returns": "int"
+      },
+      {
+        "end_line": 67,
+        "line": 66,
+        "name": "_get_expression_sources",
+        "params": "",
+        "returns": "Array[String]"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

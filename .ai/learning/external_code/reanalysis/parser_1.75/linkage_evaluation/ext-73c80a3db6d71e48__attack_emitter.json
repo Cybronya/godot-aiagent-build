@@ -1,0 +1,19 @@
+{
+  "analysis_id": "ext-73c80a3db6d71e48",
+  "changed": false,
+  "feature_id": "attack_emitter",
+  "label": "HealthResource.gd",
+  "old_to_new": {
+    "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+    "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+    "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+    "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+  },
+  "original_classification": "INDIRECT_EVIDENCE",
+  "original_linkage_id": "lnk-a099657ab3c9930c",
+  "original_symbols": [],
+  "reanalysis_id": "ext-8759bb47cb020625",
+  "reevaluated_classification": "INDIRECT_EVIDENCE",
+  "reevaluated_symbols": [],
+  "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+}

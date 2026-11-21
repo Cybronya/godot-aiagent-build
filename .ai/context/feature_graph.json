@@ -1,11 +1,17 @@
 {
   "nodes": [
+    "anima_behaviour",
     "attack_emitter",
+    "attribute_editor",
+    "audio_player_pool",
+    "blackboard",
     "chase_movement",
+    "clean_copy",
     "collect_pickup",
     "condition_gate",
     "contact_damage",
     "cooldown",
+    "flying_letter",
     "heal_pickup",
     "health",
     "health_bar",
@@ -15,6 +21,8 @@
     "moving_platform",
     "openable_door",
     "patrol_movement",
+    "pedestal_interaction",
+    "pickable_audio",
     "player_movement",
     "projectile",
     "save_game",
@@ -48,6 +56,16 @@
     {
       "from": "attack_emitter",
       "to": "hit_flash",
+      "type": "commonly_used_with"
+    },
+    {
+      "from": "audio_player_pool",
+      "to": "sfx_pool",
+      "type": "works_with"
+    },
+    {
+      "from": "audio_player_pool",
+      "to": "sfx_pool",
       "type": "commonly_used_with"
     },
     {
@@ -264,6 +282,11 @@
       "from": "patrol_movement",
       "to": "stun",
       "type": "commonly_used_with"
+    },
+    {
+      "from": "pickable_audio",
+      "to": "audio_player_pool",
+      "type": "works_with"
     },
     {
       "from": "player_movement",

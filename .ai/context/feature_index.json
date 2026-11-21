@@ -1,7 +1,30 @@
 {
   "registry_version": 2,
-  "generated_at": "2026-10-30T14:48:44Z",
+  "generated_at": "2026-10-31T13:29:04Z",
   "features": [
+    {
+      "id": "anima_behaviour",
+      "version": "1",
+      "category": "animation",
+      "provides": [
+        "animation_trigger",
+        "motion_entry_exit",
+        "auto_animation_playback"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/anima_behaviour/test_anima_behaviour.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
     {
       "id": "attack_emitter",
       "version": "1",
@@ -49,6 +72,78 @@
       }
     },
     {
+      "id": "attribute_editor",
+      "version": "1",
+      "category": "combat",
+      "provides": [
+        "gameplay_attributes",
+        "stat_management",
+        "attribute_validation"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/attribute_editor/test_attribute_editor.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
+      "id": "audio_player_pool",
+      "version": "1",
+      "category": "audio",
+      "provides": [
+        "audio_pool",
+        "sfx_playback",
+        "volume_fade"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/audio_player_pool/test_audio_player_pool.gd"
+      },
+      "relations": {
+        "works_with": [
+          "sfx_pool"
+        ],
+        "commonly_used_with": [
+          "sfx_pool"
+        ],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
+      "id": "blackboard",
+      "version": "1",
+      "category": "ai",
+      "provides": [
+        "behavior_tree_blackboard",
+        "shared_data_store"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/blackboard/test_blackboard.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
       "id": "chase_movement",
       "version": "1",
       "category": "behavior",
@@ -77,6 +172,29 @@
         "entity_roles": [
           "enemy"
         ],
+        "requires": []
+      }
+    },
+    {
+      "id": "clean_copy",
+      "version": "1",
+      "category": "general",
+      "provides": [
+        "project_settings_registry",
+        "path_list_management",
+        "string_replacement_map"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/clean_copy/test_clean_copy.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
         "requires": []
       }
     },
@@ -235,6 +353,29 @@
           "player",
           "trap"
         ],
+        "requires": []
+      }
+    },
+    {
+      "id": "flying_letter",
+      "version": "1",
+      "category": "animation",
+      "provides": [
+        "floating_text",
+        "damage_number",
+        "experience_popup"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/flying_letter/test_flying_letter.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
         "requires": []
       }
     },
@@ -592,6 +733,54 @@
         "entity_roles": [
           "enemy"
         ],
+        "requires": []
+      }
+    },
+    {
+      "id": "pedestal_interaction",
+      "version": "1",
+      "category": "ui",
+      "provides": [
+        "puzzle_interaction",
+        "item_placement",
+        "puzzle_group_coordinator"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/pedestal_interaction/test_pedestal_interaction.gd"
+      },
+      "relations": {
+        "works_with": [],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
+        "requires": []
+      }
+    },
+    {
+      "id": "pickable_audio",
+      "version": "1",
+      "category": "audio",
+      "provides": [
+        "3d_spatial_audio",
+        "interaction_sound",
+        "velocity_volume_attenuation"
+      ],
+      "requires": [],
+      "interfaces": [],
+      "signals": [],
+      "validation": {
+        "test_path": "F:/Godot_v4.7-stable/game/Features/pickable_audio/test_pickable_audio.gd"
+      },
+      "relations": {
+        "works_with": [
+          "audio_player_pool"
+        ],
+        "commonly_used_with": [],
+        "conflicts": [],
+        "entity_roles": [],
         "requires": []
       }
     },

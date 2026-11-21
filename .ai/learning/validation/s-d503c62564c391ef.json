@@ -1,0 +1,147 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "contact_damage/damage_amount_is_respected",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=129430fff4c2 current=129430fff4c2",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/contact_damage/ContactDamageFixture.tscn contract=res://Features/contact_damage/ContactDamageFixture.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-8423097baa8ec620",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-8423097baa8ec620",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-8423097baa8ec620",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "3 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-8423097baa8ec620",
+      "detail": "expected=c5ea78843897",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd:20 (file 33 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-8423097baa8ec620",
+      "detail": "expected=c5ea78843897",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd:28 (file 33 lines)",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-8423097baa8ec620",
+      "detail": "expected=c5ea78843897",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-8423097baa8ec620",
+      "detail": "Features/contact_damage/contact_damage.gd:31 (file 33 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/contact_damage/ContactDamageFixture.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "2 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "1 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-d503c62564c391ef",
+  "status": "VALID"
+}

@@ -1,0 +1,101 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-fe3acf782b88edda",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-69cf571d4afa98ce",
+  "source_identity": {
+    "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+    "input_digest": "eade55ea9ba7aef74662c26019ba95187665ec3b927a4d77f29a1bab2452b1f8",
+    "repository": "Ark2000/PankuConsole",
+    "source_digest": "94dc2c7c50c406cb712f59d1d8f8dcc9e1f2db4540cbb0e5d3a08cf07abfc107",
+    "source_path": "addons/panku_console/modules/history_manager/env.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 1,
+      "properties": 0,
+      "signals": 0,
+      "variables": 1
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 1,
+      "properties": 0,
+      "signals": 0,
+      "variables": 1
+    }
+  },
+  "symbols_added": [],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:open"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 4,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:_module"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

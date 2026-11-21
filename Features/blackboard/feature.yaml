@@ -1,0 +1,60 @@
+# Feature Metadata: blackboard
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: blackboard
+version: 1
+category: ai
+
+summary: 行为树黑板——存储多个命名数据表，行为树节点间共享数据，支持 set/get/has/erase。
+
+provides:
+  - behavior_tree_blackboard
+  - shared_data_store
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - 'set_value(key: Variant, value: Variant, blackboard_name: String = "default") -> void'
+    - 'get_value(key: Variant, default_value: Variant = null, blackboard_name: String = "default") -> Variant'
+    - 'has_value(key: Variant, blackboard_name: String = "default") -> bool'
+    - 'erase_value(key: Variant, blackboard_name: String = "default") -> void'
+    - keys() -> Array[String]
+    - get_blackboard_names() -> Array[String]
+    - 'get_blackboard(name: String = "default") -> Dictionary'
+  signals: []
+  exports:
+    - blackboard: Dictionary
+
+ownership:
+  state:
+    - _data: Dictionary
+  rules:
+    - setter duplicate 防止引用共享
+    - 实例隔离：每个节点独立存储
+    - null 值视为不存在（has_value 返回 false）
+
+composition:
+  entry_scene: ""    # 作为 Node 挂载到行为树根节点
+  usage: "var bb = Blackboard.new(); bb.set_value(\"target\", node); var target = bb.get_value(\"target\")"
+  related_features: []
+
+validation:
+  self_test: test_blackboard.gd
+  command: godot --headless --path . -s res://Features/blackboard/test_blackboard.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: bitbrain__beehave__addons__beehave__blackboard.gd
+#   source_url: https://github.com/bitbrain/beehave/blob/godot-4.x/addons/beehave/blackboard.gd
+#   repo: bitbrain/beehave (star 3312) | License: MIT

@@ -1,0 +1,46 @@
+{
+  "schema": "candidate_workspace",
+  "schema_version": 1,
+  "workspace_id": "ws-7181d8ccc758",
+  "policy_version": "phase-1.74-c/1",
+  "policy_source": ".ai/context/PHASE_1_73_B2_EVIDENCE_READINESS_SEED_QUALIFICATION.md",
+  "generated_at": "2026-11-15T17:21:41Z",
+  "candidates": [
+    {
+      "candidate_id": "cand-7f52cb8f583124db",
+      "feature_id": "blackboard",
+      "candidate_status": "NEEDS_REVIEW",
+      "seed_count": 1,
+      "context_count": 0,
+      "content_digest": "5ed73359a39023cdaf31d3bca3991178940b012a3f798b541fc6ef6cae51c39b"
+    },
+    {
+      "candidate_id": "cand-08fdc0b10a112ecf",
+      "feature_id": "health",
+      "candidate_status": "NEEDS_REVIEW",
+      "seed_count": 2,
+      "context_count": 1,
+      "content_digest": "da765709fd687426c94f28c63c953870118a6b00f6dc5e1bfe5b1e839990b666"
+    }
+  ],
+  "excluded_features": [
+    {
+      "feature_id": "health_bar",
+      "reason_code": "NO_QUALIFIED_SEED",
+      "reason": "no seed passed Stage B.2 review: 3 POTENTIAL_RELEVANCE + 2 AMBIGUOUS only, and the external hp/max_hp fields are not captured by the parser",
+      "reference": ".ai/context/PHASE_1_73_B2_SYMBOL_EQUIVALENCE_ASSESSMENT.md"
+    },
+    {
+      "feature_id": "openable_door",
+      "reason_code": "NO_QUALIFIED_SEED",
+      "reason": "no seed passed Stage B.2 review: 2 POTENTIAL_RELEVANCE + 2 AMBIGUOUS only; external door API (open/is_locked) shares no identifier with set_open/is_open",
+      "reference": ".ai/context/PHASE_1_73_B2_SEED_ELIGIBILITY.md"
+    }
+  ],
+  "not_in_scope": {
+    "graph_derived_seeds": "graph-derived relations are context only",
+    "similarity": "not implemented in this stage",
+    "admission": "not implemented in this stage",
+    "promotion": "not implemented in this stage"
+  }
+}

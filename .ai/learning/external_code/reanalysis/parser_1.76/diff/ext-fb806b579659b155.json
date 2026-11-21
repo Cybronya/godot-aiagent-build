@@ -1,0 +1,155 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-fb806b579659b155",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-cbf8fc1db865a201",
+  "source_identity": {
+    "full_commit_sha": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+    "input_digest": "890b98d28c6fa383572ebceeeb79ffb9f06eaa9db890eba83929479945b3bebf",
+    "repository": "foxssake/netfox",
+    "source_digest": "be4e79427622281997462f20bdf3bf42e91210dad39f59b8364d6d58e46fb3c4",
+    "source_path": "examples/multiplayer-state-machine/scripts/character-states/Idle.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 2,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    },
+    "before": {
+      "constants": 0,
+      "exports": 2,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [],
+  "symbols_changed": [
+    {
+      "fields": {
+        "annotations": {
+          "new": [
+            "export"
+          ],
+          "old": []
+        },
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 6,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": true,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "exports:character"
+    },
+    {
+      "fields": {
+        "annotations": {
+          "new": [
+            "export"
+          ],
+          "old": []
+        },
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 7,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": true,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "exports:input"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:display_enter"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:tick"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

@@ -1,0 +1,183 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-31b51d9bc05a4a1e",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "4458a143644f",
+  "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:35Z",
+  "domain": "general",
+  "entry_points": [],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "input_digest": "69135bb1987b2e4081043178e106a029eedf0566d974e9cf0289dc2ee3a46fde",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "4458a143644f",
+    "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "alfredbaudisch/Godello",
+    "source_path": "scripts/events.gd",
+    "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/events.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\alfredbaudisch__Godello__scripts__events.gd",
+  "repo": "alfredbaudisch/Godello",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "alfredbaudisch__Godello__scripts__events.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "819b9f1e9dd37a0f019d26656ddb48d34bcd139789ba33daa9e816cc0c214aff",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\alfredbaudisch__Godello\\gd\\scripts\\events.gd",
+  "source_path": "scripts/events.gd",
+  "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/events.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 8,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 8,
+        "name": "user_logged_in",
+        "params": "user"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 9,
+        "name": "user_logged_out",
+        "params": "user"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 11,
+        "name": "card_clicked",
+        "params": "model"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 12,
+        "name": "card_dragged",
+        "params": "node, model"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 13,
+        "name": "card_dropped",
+        "params": "drop_data, into_list"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 15,
+        "name": "list_dragged",
+        "params": "node, model"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 16,
+        "name": "list_dropped",
+        "params": "drop_data"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 17,
+        "name": "add_card_clicked",
+        "params": "list"
+      }
+    ],
+    "exports": [],
+    "extends": "Node",
+    "functions": [],
+    "properties": [],
+    "signals": [
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 8,
+        "name": "user_logged_in",
+        "params": "user"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 9,
+        "name": "user_logged_out",
+        "params": "user"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 11,
+        "name": "card_clicked",
+        "params": "model"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 12,
+        "name": "card_dragged",
+        "params": "node, model"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 13,
+        "name": "card_dropped",
+        "params": "drop_data, into_list"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 15,
+        "name": "list_dragged",
+        "params": "node, model"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 16,
+        "name": "list_dropped",
+        "params": "drop_data"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 17,
+        "name": "add_card_clicked",
+        "params": "list"
+      }
+    ],
+    "variables": []
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    "no functions found by the regex parser"
+  ],
+  "unsupported_constructs": []
+}

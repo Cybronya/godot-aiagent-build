@@ -1,0 +1,542 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-af11ad04d85c2897",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "d59f2f71bc04",
+  "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+      "line": 54,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd:54#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+      "line": 61,
+      "name": "setup",
+      "params": "battler_name: String, max_hp: int, start_hp: int",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd:61#func=setup",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "cb17e182476f3beb377a1e060382bcd8550726697480919a8184b1981784f5b1",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "d59f2f71bc04",
+    "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-open-rpg",
+    "source_path": "src/combat/ui/battler_entry/ui_life_bar.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/combat/ui/battler_entry/ui_life_bar.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+  "repo": "gdquest-demos/godot-open-rpg",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "38a36c53f2429cad49e447d9a3a4222df1547d6d749b48237c7f1c06f0e57e19",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-open-rpg\\gd\\src\\combat\\ui\\battler_entry\\ui_life_bar.gd",
+  "source_path": "src/combat/ui/battler_entry/ui_life_bar.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/combat/ui/battler_entry/ui_life_bar.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+      "initial": "$MarginContainer/HBoxContainer/Name as Label",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+          "function": "setup",
+          "line": 62
+        }
+      ],
+      "variable": "_name_label",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+      "initial": "$MarginContainer/HBoxContainer/Value as Label",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+          "function": "_ready",
+          "line": 57
+        }
+      ],
+      "variable": "_value_label",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [],
+    "class_name": "UIBattlerLifeBar",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 11,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": true,
+        "initializer_kind": "INFERRED",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "fill_rate",
+        "type": "",
+        "value": "0.5"
+      },
+      {
+        "annotations": [
+          {
+            "args": "0, 1.0",
+            "interpreted": true,
+            "name": "export_range"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 14,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 14,
+        "name": "danger_cutoff",
+        "type": "",
+        "value": "0.2"
+      },
+      {
+        "accessors": [
+          {
+            "end_line": 37,
+            "kind": "set",
+            "line": 19,
+            "param": "new_value"
+          }
+        ],
+        "annotations": [],
+        "declaration_kind": "PROPERTY",
+        "end_line": 18,
+        "has_getter": false,
+        "has_initializer": true,
+        "has_setter": true,
+        "initializer_kind": "INFERRED",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 18,
+        "name": "target_value",
+        "type": "",
+        "value": "0.0"
+      },
+      {
+        "accessors": [
+          {
+            "end_line": 45,
+            "kind": "set",
+            "line": 39,
+            "param": "value"
+          }
+        ],
+        "annotations": [],
+        "declaration_kind": "PROPERTY",
+        "end_line": 38,
+        "has_getter": false,
+        "has_initializer": true,
+        "has_setter": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 38,
+        "name": "is_highlighted",
+        "type": "",
+        "value": "false"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 46,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 46,
+        "name": "_tween",
+        "type": "Tween",
+        "value": "null"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 48,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 48,
+        "name": "_bar_anim",
+        "type": "",
+        "value": "$BarAnimation as AnimationPlayer"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 49,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 49,
+        "name": "_name_label",
+        "type": "",
+        "value": "$MarginContainer/HBoxContainer/Name as Label"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 50,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 50,
+        "name": "_text_anim",
+        "type": "",
+        "value": "$MarginContainer/HBoxContainer/TextAnimation as AnimationPlayer"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 51,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 51,
+        "name": "_value_label",
+        "type": "",
+        "value": "$MarginContainer/HBoxContainer/Value as Label"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 54,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 54,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 61,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 61,
+        "name": "setup",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": true,
+        "initializer_kind": "INFERRED",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "fill_rate",
+        "type": "",
+        "value": "0.5"
+      },
+      {
+        "annotations": [
+          {
+            "args": "0, 1.0",
+            "interpreted": true,
+            "name": "export_range"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 14,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 14,
+        "name": "danger_cutoff",
+        "type": "",
+        "value": "0.2"
+      }
+    ],
+    "extends": "",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 60,
+        "line": 54,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 65,
+        "line": 61,
+        "name": "setup",
+        "params": "battler_name: String, max_hp: int, start_hp: int",
+        "returns": "void"
+      }
+    ],
+    "properties": [
+      {
+        "accessors": [
+          {
+            "end_line": 37,
+            "kind": "set",
+            "line": 19,
+            "param": "new_value"
+          }
+        ],
+        "annotations": [],
+        "declaration_kind": "PROPERTY",
+        "end_line": 18,
+        "has_getter": false,
+        "has_initializer": true,
+        "has_setter": true,
+        "initializer_kind": "INFERRED",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 18,
+        "name": "target_value",
+        "type": "",
+        "value": "0.0"
+      },
+      {
+        "accessors": [
+          {
+            "end_line": 45,
+            "kind": "set",
+            "line": 39,
+            "param": "value"
+          }
+        ],
+        "annotations": [],
+        "declaration_kind": "PROPERTY",
+        "end_line": 38,
+        "has_getter": false,
+        "has_initializer": true,
+        "has_setter": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 38,
+        "name": "is_highlighted",
+        "type": "",
+        "value": "false"
+      }
+    ],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 46,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 46,
+        "name": "_tween",
+        "type": "Tween",
+        "value": "null"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 48,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 48,
+        "name": "_bar_anim",
+        "type": "",
+        "value": "$BarAnimation as AnimationPlayer"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 49,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 49,
+        "name": "_name_label",
+        "type": "",
+        "value": "$MarginContainer/HBoxContainer/Name as Label"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 50,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 50,
+        "name": "_text_anim",
+        "type": "",
+        "value": "$MarginContainer/HBoxContainer/TextAnimation as AnimationPlayer"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 51,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 51,
+        "name": "_value_label",
+        "type": "",
+        "value": "$MarginContainer/HBoxContainer/Value as Label"
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [],
+  "unsupported_constructs": []
+}

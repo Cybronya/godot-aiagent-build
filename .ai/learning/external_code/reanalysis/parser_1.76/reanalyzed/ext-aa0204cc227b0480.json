@@ -1,0 +1,394 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-146da1f90d166f0f",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "76d226a3efac",
+  "commit_sha_full": "76d226a3efac66a72aea825382b320c94808f409",
+  "conditions": [
+    {
+      "condition": "if Engine.is_editor_hint():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "function": "_ready",
+      "line": 25
+    },
+    {
+      "condition": "if is_instance_valid(the_tree):",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "function": "_ready",
+      "line": 33
+    },
+    {
+      "condition": "if state_machine is AnimationNodeStateMachinePlayback:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "function": "_ready",
+      "line": 35
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "state_machine",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "line": 24,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd:24#func=_ready",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "function": "_ready",
+      "kind": "guard_return",
+      "line": 26,
+      "value": ""
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "44407e83b0bc9ba19bc7aabfd4d5858850d479240730b2968c588c9eae6bcdbd",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_existing_policy",
+  "license_risk": "local_license_text_missing",
+  "license_source": "github_api_spdx",
+  "license_status": "license_text_missing",
+  "license_text_present": false,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "76d226a3efac",
+    "commit_sha_full": "76d226a3efac66a72aea825382b320c94808f409",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "derkork/godot-statecharts",
+    "source_path": "addons/godot_state_charts/animation_tree_state.gd",
+    "source_url": "https://github.com/derkork/godot-statecharts/blob/76d226a3efac66a72aea825382b320c94808f409/addons/godot_state_charts/animation_tree_state.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\state_machine\\derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+  "repo": "derkork/godot-statecharts",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "4cc0d9a64c00a7848379836bfafc04b5aea07730c598259fb1282a19fe37acc4",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\derkork__godot-statecharts\\gd\\addons\\godot_state_charts\\animation_tree_state.gd",
+  "source_path": "addons/godot_state_charts/animation_tree_state.gd",
+  "source_url": "https://github.com/derkork/godot-statecharts/blob/76d226a3efac66a72aea825382b320c94808f409/addons/godot_state_charts/animation_tree_state.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "initial": "",
+      "read_count": 0,
+      "reads": [],
+      "variable": "_animation_tree_state_machine",
+      "write_count": 2,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+          "function": "_ready",
+          "line": 30
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+          "function": "_ready",
+          "line": 36
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_ready",
+        "line": 25,
+        "method": "is_editor_hint",
+        "receiver": "Engine"
+      },
+      {
+        "function": "_ready",
+        "line": 28,
+        "method": "_ready",
+        "receiver": "super"
+      },
+      {
+        "function": "_ready",
+        "line": 34,
+        "method": "get",
+        "receiver": "the_tree"
+      },
+      {
+        "function": "_state_enter",
+        "line": 44,
+        "method": "_state_enter",
+        "receiver": "super"
+      },
+      {
+        "function": "_state_enter",
+        "line": 54,
+        "method": "travel",
+        "receiver": "_animation_tree_state_machine"
+      },
+      {
+        "function": "_get_configuration_warnings",
+        "line": 58,
+        "method": "_get_configuration_warnings",
+        "receiver": "super"
+      },
+      {
+        "function": "_get_configuration_warnings",
+        "line": 59,
+        "method": "append",
+        "receiver": "warnings"
+      },
+      {
+        "function": "_get_configuration_warnings",
+        "line": 61,
+        "method": "is_empty",
+        "receiver": "animation_tree"
+      },
+      {
+        "function": "_get_configuration_warnings",
+        "line": 62,
+        "method": "append",
+        "receiver": "warnings"
+      },
+      {
+        "function": "_get_configuration_warnings",
+        "line": 64,
+        "method": "append",
+        "receiver": "warnings"
+      }
+    ],
+    "class_name": "AnimationTreeState",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 6,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "accessors": [
+          {
+            "end_line": 18,
+            "kind": "set",
+            "line": 12,
+            "param": "value"
+          }
+        ],
+        "annotations": [
+          {
+            "args": "\"AnimationTree\"",
+            "interpreted": true,
+            "name": "export_node_path"
+          }
+        ],
+        "declaration_kind": "PROPERTY",
+        "end_line": 11,
+        "has_getter": false,
+        "has_initializer": false,
+        "has_setter": true,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 11,
+        "name": "animation_tree",
+        "type": "NodePath",
+        "value": ""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 19,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 19,
+        "name": "state_name",
+        "type": "StringName",
+        "value": "\"\""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 22,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 22,
+        "name": "_animation_tree_state_machine",
+        "type": "AnimationNodeStateMachinePlayback",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 24,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 24,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 43,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 43,
+        "name": "_state_enter",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 57,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 57,
+        "name": "_get_configuration_warnings",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 19,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 19,
+        "name": "state_name",
+        "type": "StringName",
+        "value": "\"\""
+      }
+    ],
+    "extends": "AtomicState",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 42,
+        "line": 24,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 56,
+        "line": 43,
+        "name": "_state_enter",
+        "params": "transition_target:StateChartState",
+        "returns": "void"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 66,
+        "line": 57,
+        "name": "_get_configuration_warnings",
+        "params": "",
+        "returns": "PackedStringArray"
+      }
+    ],
+    "properties": [
+      {
+        "accessors": [
+          {
+            "end_line": 18,
+            "kind": "set",
+            "line": 12,
+            "param": "value"
+          }
+        ],
+        "annotations": [
+          {
+            "args": "\"AnimationTree\"",
+            "interpreted": true,
+            "name": "export_node_path"
+          }
+        ],
+        "declaration_kind": "PROPERTY",
+        "end_line": 11,
+        "has_getter": false,
+        "has_initializer": false,
+        "has_setter": true,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 11,
+        "name": "animation_tree",
+        "type": "NodePath",
+        "value": ""
+      }
+    ],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 22,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 22,
+        "name": "_animation_tree_state_machine",
+        "type": "AnimationNodeStateMachinePlayback",
+        "value": ""
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [],
+  "unsupported_constructs": []
+}

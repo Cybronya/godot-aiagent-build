@@ -1,0 +1,201 @@
+{
+  "schema": "candidate_workspace_draft",
+  "schema_version": 1,
+  "candidate_id": "cand-7f52cb8f583124db",
+  "feature_id": "blackboard",
+  "feature_name": "blackboard",
+  "candidate_status": "NEEDS_REVIEW",
+  "workspace_id": "ws-7181d8ccc758",
+  "created_at": "2026-11-15T17:21:10Z",
+  "updated_at": "2026-11-15T17:21:10Z",
+  "policy_version": "phase-1.74-c/1",
+  "evidence_refs": [
+    {
+      "linkage_id": "lnk-7084dc8999c2182b",
+      "feature_id": "blackboard",
+      "classification": "DIRECT_EVIDENCE",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "seed_eligibility": "QUALIFIED_DIRECT",
+      "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+      "independence": "NOT_INDEPENDENT",
+      "independence_reason": "Features/blackboard/blackboard.gd states it was abstracted from bitbrain/beehave (MIT); the external source and the internal Feature are not independent implementations",
+      "derivation_type": null,
+      "architecture": "Node storing named Dictionary boards with set/get/has/erase and a default board",
+      "qualification_reason": "Stage B.2 B.2: five exact identifiers with real multi-board read/write logic; acknowledged upstream of the internal Feature",
+      "source_repository": "bitbrain/beehave",
+      "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+      "immutable_source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd",
+      "source_consistent": true,
+      "analysis_id": "ext-23949c1378c49203",
+      "analysis_record_path": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json",
+      "analysis_record_digest": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+      "linkage_record_path": ".ai/learning/external_code/feature_links/ext-23949c1378c49203__blackboard.json",
+      "linkage_record_digest": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+      "evidence_location": {
+        "record_line": 24,
+        "commit_line": 21,
+        "source_path": "addons/beehave/blackboard.gd",
+        "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+        "location_basis": "record carries no line for this item; no commit line can be derived without guessing",
+        "offset_applied": 3,
+        "offset_verified": true,
+        "location_integrity": "INCOMPLETE",
+        "source_lookup_allowed": false
+      },
+      "evidence_item_refs": [
+        {
+          "evidence_id": "lnk-7084dc8999c2182b:ev:01",
+          "symbol_name": "Blackboard",
+          "evidence_type": "SYMBOL_EXACT_MATCH",
+          "evidence_status": "EXTRACTED",
+          "evidence_role": "LINKAGE_EVIDENCE",
+          "matched_value": "Blackboard",
+          "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:class",
+          "feature_source_path": "Features/blackboard/blackboard.gd",
+          "feature_source_line": null,
+          "record_line": null,
+          "commit_line": null,
+          "location_integrity": "INCOMPLETE",
+          "symbol_at_commit_line": "UNKNOWN",
+          "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#Blackboard"
+        },
+        {
+          "evidence_id": "lnk-7084dc8999c2182b:ev:02",
+          "symbol_name": "keys",
+          "evidence_type": "SYMBOL_EXACT_MATCH",
+          "evidence_status": "EXTRACTED",
+          "evidence_role": "LINKAGE_EVIDENCE",
+          "matched_value": "keys",
+          "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:keys:26",
+          "feature_source_path": "Features/blackboard/blackboard.gd",
+          "feature_source_line": 26,
+          "record_line": 24,
+          "commit_line": 21,
+          "location_integrity": "COMPLETE",
+          "symbol_at_commit_line": "VERIFIED",
+          "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#keys"
+        },
+        {
+          "evidence_id": "lnk-7084dc8999c2182b:ev:03",
+          "symbol_name": "set_value",
+          "evidence_type": "SYMBOL_EXACT_MATCH",
+          "evidence_status": "EXTRACTED",
+          "evidence_role": "LINKAGE_EVIDENCE",
+          "matched_value": "set_value",
+          "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:set_value:30",
+          "feature_source_path": "Features/blackboard/blackboard.gd",
+          "feature_source_line": 30,
+          "record_line": 30,
+          "commit_line": 27,
+          "location_integrity": "COMPLETE",
+          "symbol_at_commit_line": "VERIFIED",
+          "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#set_value"
+        },
+        {
+          "evidence_id": "lnk-7084dc8999c2182b:ev:04",
+          "symbol_name": "has_value",
+          "evidence_type": "SYMBOL_EXACT_MATCH",
+          "evidence_status": "EXTRACTED",
+          "evidence_role": "LINKAGE_EVIDENCE",
+          "matched_value": "has_value",
+          "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:has_value:42",
+          "feature_source_path": "Features/blackboard/blackboard.gd",
+          "feature_source_line": 42,
+          "record_line": 45,
+          "commit_line": 42,
+          "location_integrity": "COMPLETE",
+          "symbol_at_commit_line": "VERIFIED",
+          "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#has_value"
+        },
+        {
+          "evidence_id": "lnk-7084dc8999c2182b:ev:05",
+          "symbol_name": "erase_value",
+          "evidence_type": "SYMBOL_EXACT_MATCH",
+          "evidence_status": "EXTRACTED",
+          "evidence_role": "LINKAGE_EVIDENCE",
+          "matched_value": "erase_value",
+          "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:erase_value:50",
+          "feature_source_path": "Features/blackboard/blackboard.gd",
+          "feature_source_line": 50,
+          "record_line": 53,
+          "commit_line": 50,
+          "location_integrity": "COMPLETE",
+          "symbol_at_commit_line": "VERIFIED",
+          "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#erase_value"
+        }
+      ],
+      "limitations": [
+        "NOT_INDEPENDENT: derived-from relationship with the internal Feature, so this is corroboration, not independent external cross-validation",
+        "feature uses duplicate(true) (deep) where the external setter uses duplicate() (shallow)",
+        "analysis_status=analysis_partial (@icon annotation not interpreted)",
+        "the class_name evidence item has no match line, so its source location is single-coordinate"
+      ],
+      "symbol_notes": [],
+      "verification_status": {
+        "eligibility_status": "QUALIFIED_DIRECT",
+        "test_execution_status": "NOT_RUN",
+        "runtime_verification_status": "NOT_VERIFIED",
+        "behavior_verification_status": "NOT_VERIFIED",
+        "feature_verification_status": "NOT_VERIFIED"
+      }
+    }
+  ],
+  "context_refs": [],
+  "excluded_evidence": [],
+  "eligibility_summary": {
+    "seed_count": 1,
+    "seed_eligibility_counts": {
+      "QUALIFIED_DIRECT": 1
+    },
+    "independent_seed_count": 0,
+    "not_independent_seed_count": 1,
+    "location_integrity_counts": {
+      "INCOMPLETE": 1
+    },
+    "context_count": 0,
+    "excluded_count": 0,
+    "feature_scope": [
+      "health",
+      "blackboard"
+    ],
+    "excluded_features": [
+      "health_bar",
+      "openable_door"
+    ]
+  },
+  "verification_status": {
+    "eligibility_status": "CONDITIONAL",
+    "test_execution_status": "NOT_RUN",
+    "runtime_verification_status": "NOT_VERIFIED",
+    "behavior_verification_status": "NOT_VERIFIED",
+    "feature_verification_status": "NOT_VERIFIED",
+    "basis": "NO_EXECUTION_EVIDENCE"
+  },
+  "limitations": [
+    "a candidate draft is evidence grouping, not Feature verification, admission, promotion or similarity",
+    "every referenced evidence keeps its original linkage record as the source of truth",
+    "evidence lnk-7084dc8999c2182b is NOT_INDEPENDENT: Features/blackboard/blackboard.gd states it was abstracted from bitbrain/beehave (MIT); the external source and the internal Feature are not independent implementations",
+    "evidence lnk-7084dc8999c2182b has location_integrity=INCOMPLETE; source line lookup is disabled for at least one item"
+  ],
+  "source_snapshot": {
+    "observed_at": "2026-11-15T17:21:10Z",
+    "policy_version": "phase-1.74-c/1",
+    "policy_source": ".ai/context/PHASE_1_73_B2_EVIDENCE_READINESS_SEED_QUALIFICATION.md",
+    "repositories": [
+      {
+        "linkage_id": "lnk-7084dc8999c2182b",
+        "analysis_id": "ext-23949c1378c49203",
+        "repository": "bitbrain/beehave",
+        "commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+        "source_path": "addons/beehave/blackboard.gd",
+        "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+        "immutable_source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd",
+        "analysis_record_digest": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+        "linkage_record_digest": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861"
+      }
+    ],
+    "context_sources": []
+  },
+  "content_digest": "5ed73359a39023cdaf31d3bca3991178940b012a3f798b541fc6ef6cae51c39b"
+}

@@ -30,6 +30,7 @@ from github_collector import CATALOG_YAML, _read_catalog_entries  # noqa: E402
 
 LIBRARY_ROOT = (AI_ROOT / "skills" / "foundation" / "godot-gdscript"
                 / "code_library")
+ANALYSIS_INDEX = AI_ROOT / "learning" / "external_code" / "index.json"
 REFERENCE_FIELDS = {
     "id", "domain", "repo", "repo_path", "license", "source_url",
     "commit_sha", "parse_status",
@@ -150,11 +151,51 @@ def search_features(query: str, limit: int,
     ]
 
 
+def _load_analysis_index(index_path: Path | None = None) -> dict:
+    target = Path(index_path) if index_path is not None else ANALYSIS_INDEX
+    if not target.exists():
+        raise SearchSystemError(f"Analysis Index Missing: {target}")
+    try:
+        data = json.loads(target.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        raise SearchSystemError(
+            f"Analysis Index Invalid: cannot parse {target}: {exc}") from exc
+    if not isinstance(data, dict) or not isinstance(data.get("analyses"), list):
+        raise SearchSystemError(f"Analysis Index Invalid: missing analyses: {target}")
+    return {str(item.get("snippet_id") or item.get("analysis_id")): item
+            for item in data["analyses"] if isinstance(item, dict)}
+
+
+def _analysis_symbols(analysis: dict) -> list[str]:
+    symbols = analysis.get("symbols") or {}
+    names = []
+    if isinstance(symbols, dict):
+        for key in ("class_name", "extends"):
+            if symbols.get(key):
+                names.append(str(symbols[key]))
+        for key in ("functions", "signals", "exports", "variables", "constants"):
+            for item in symbols.get(key) or []:
+                if isinstance(item, dict) and item.get("name"):
+                    names.append(str(item["name"]))
+    for entry in analysis.get("entry_points") or []:
+        if entry.get("name"):
+            names.append(str(entry["name"]))
+    return names
+
+
 def search_snippets(query: str, domain: str | None, limit: int,
                     include_all: bool,
-                    catalog_path: Path | None = None) -> list[dict]:
+                    catalog_path: Path | None = None, *,
+                    analysis_index: Path | None = None,
+                    symbols: str | None = None,
+                    analysis_status: str | None = None,
+                    include_analysis: bool = False) -> list[dict]:
     entries = _load_catalog_entries(catalog_path)
     tokens = _tokens(query)
+    symbol_tokens = _tokens(symbols or "")
+    analyses = None
+    if analysis_index is not None or include_analysis or symbol_tokens or analysis_status:
+        analyses = _load_analysis_index(analysis_index)
     scored = []
     for s in entries:
         if not include_all:
@@ -164,17 +205,30 @@ def search_snippets(query: str, domain: str | None, limit: int,
                 continue
         if domain and s.get("domain") != domain:
             continue
+        analysis = (analyses or {}).get(str(s.get("id"))) if analyses is not None else None
+        if analysis_status:
+            if not analysis or analysis.get("analysis_status") != analysis_status:
+                continue
+        if symbol_tokens:
+            if not analysis:
+                continue
+            haystack = " ".join(_analysis_symbols(analysis)).lower()
+            if not all(token in haystack for token in symbol_tokens):
+                continue
         score = sum(_hit(_snippet_fields(s), t) for t in tokens)
-        if score > 0:
-            scored.append((score + s.get("stars", 0) / 10000.0, s))
+        if symbol_tokens:
+            score += 2 * sum(1 for t in symbol_tokens
+                             if t in " ".join(_analysis_symbols(analysis or {})).lower())
+        if score > 0 or symbol_tokens or analysis_status:
+            scored.append((score + s.get("stars", 0) / 10000.0, s, analysis))
     scored.sort(key=lambda x: (-x[0], x[1].get("id", "")))
     results = []
-    for s, e in scored[:limit]:
+    for s, e, analysis in scored[:limit]:
         reference_path = None
         if not e.get("duplicate_of"):
             reference_path = str(LIBRARY_ROOT / "references" /
                                  str(e.get("domain")) / str(e.get("id")))
-        results.append({
+        row = {
             "score": round(s, 2),
             "id": e.get("id"),
             "domain": e.get("domain"),
@@ -189,7 +243,11 @@ def search_snippets(query: str, domain: str | None, limit: int,
             "file": reference_path,
             "parse_status": e.get("parse_status"),
             "duplicate_of": e.get("duplicate_of"),
-        })
+            "analysis_status": (analysis or {}).get("analysis_status") if analyses is not None else None,
+            "analysis_id": (analysis or {}).get("analysis_id") if analyses is not None else None,
+            "analysis_record": analysis if include_analysis else None,
+        }
+        results.append(row)
     return results
 
 
@@ -201,20 +259,32 @@ def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     p = argparse.ArgumentParser(description="统一资产搜索（Features + 片段库）")
-    p.add_argument("--query", required=True, help="空格分隔关键词")
+    p.add_argument("--query", default="", help="空格分隔关键词（--symbols/--analysis-status 时可省略）")
     p.add_argument("--kind", choices=["all", "feature", "snippet"], default="all")
     p.add_argument("--domain", default=None, help="仅片段：按 domain 过滤")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--all", action="store_true",
                    help="返回全部 Catalog 记录（含 duplicate 与不同 parse_status）")
+    p.add_argument("--analysis", action="store_true",
+                   help="附加 External Code Analysis Record")
+    p.add_argument("--symbols", default=None,
+                   help="仅返回 Analysis 中命中的函数/类/信号/变量符号")
+    p.add_argument("--analysis-status", default=None,
+                   help="按 analysis_status 过滤，如 analysis_complete")
+    p.add_argument("--analysis-index", default=None,
+                   help="External Code Analysis Index 路径（测试/自定义）")
     p.add_argument("--json", action="store_true", help="机器可读输出")
     a = p.parse_args()
 
     try:
         feats = (search_features(a.query, a.limit)
                  if a.kind in ("all", "feature") else [])
-        snips = (search_snippets(a.query, a.domain, a.limit, a.all)
-                 if a.kind in ("all", "snippet") else [])
+        snips = (search_snippets(
+            a.query, a.domain, a.limit, a.all,
+            analysis_index=Path(a.analysis_index) if a.analysis_index else None,
+            symbols=a.symbols, analysis_status=a.analysis_status,
+            include_analysis=a.analysis or bool(a.symbols) or bool(a.analysis_status),
+        ) if a.kind in ("all", "snippet") else [])
     except SearchSystemError as exc:
         _print_error(str(exc))
         raise SystemExit(2) from exc
@@ -235,6 +305,8 @@ def main() -> None:
         print(f"       repo={s['repo']} license={s['license']} "
               f"commit_sha={s['commit_sha']}")
         print(f"       source_url={s['source_url']}")
+        if s.get("analysis_status"):
+            print(f"       analysis={s['analysis_status']} analysis_id={s['analysis_id']}")
         if s.get("duplicate_of"):
             print(f"       duplicate_of={s['duplicate_of']}")
     if not feats and not snips:

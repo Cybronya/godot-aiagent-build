@@ -1,0 +1,2114 @@
+{
+  "analysis_references": [
+    {
+      "analysis_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+      "analysis_record_path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+      "analysis_status": "PARTIAL",
+      "analyzed_source_files": [
+        "Features/health_bar/health_bar.gd"
+      ],
+      "limitations": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    },
+    {
+      "analysis_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+      "analysis_record_path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+      "analysis_status": "PARTIAL",
+      "analyzed_source_files": [
+        "Features/health_bar/health_bar.gd"
+      ],
+      "limitations": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 is_dead 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    },
+    {
+      "analysis_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+      "analysis_record_path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+      "analysis_status": "PARTIAL",
+      "analyzed_source_files": [
+        "Features/health_bar/health_bar.gd"
+      ],
+      "limitations": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的方法 heal 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    },
+    {
+      "analysis_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+      "analysis_record_path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+      "analysis_status": "PARTIAL",
+      "analyzed_source_files": [
+        "Features/health_bar/health_bar.gd"
+      ],
+      "limitations": [
+        "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    },
+    {
+      "analysis_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+      "analysis_record_path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+      "analysis_status": "PARTIAL",
+      "analyzed_source_files": [
+        "Features/health_bar/health_bar.gd"
+      ],
+      "limitations": [
+        "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ]
+    }
+  ],
+  "behavior_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:health_bar:initial_health_bar_ratio",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "PARTIAL",
+      "limitations": [
+        "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ],
+      "provenance": {
+        "analysis_record_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ]
+      },
+      "reliability": "LOW",
+      "source_file": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "PARTIAL",
+        "behavior_id": "initial_health_bar_ratio",
+        "contract_version": "4c502f0046fd",
+        "coverage_contract_version": "4c502f0046fd",
+        "static_only": true
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:health_bar:damage_updates_health_bar",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "PARTIAL",
+      "limitations": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ],
+      "provenance": {
+        "analysis_record_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ]
+      },
+      "reliability": "LOW",
+      "source_file": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "PARTIAL",
+        "behavior_id": "damage_updates_health_bar",
+        "contract_version": "bf6cdfd528d2",
+        "coverage_contract_version": "bf6cdfd528d2",
+        "static_only": true
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:health_bar:healing_updates_health_bar",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "PARTIAL",
+      "limitations": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的方法 heal 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ],
+      "provenance": {
+        "analysis_record_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ]
+      },
+      "reliability": "LOW",
+      "source_file": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "PARTIAL",
+        "behavior_id": "healing_updates_health_bar",
+        "contract_version": "b7471818c956",
+        "coverage_contract_version": "b7471818c956",
+        "static_only": true
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:health_bar:death_empties_health_bar",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "PARTIAL",
+      "limitations": [
+        "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 is_dead 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ],
+      "provenance": {
+        "analysis_record_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ]
+      },
+      "reliability": "LOW",
+      "source_file": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "PARTIAL",
+        "behavior_id": "death_empties_health_bar",
+        "contract_version": "f38b1e0d750d",
+        "coverage_contract_version": "f38b1e0d750d",
+        "static_only": true
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:health_bar:unbound_bar_reports_no_fill",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "PARTIAL",
+      "limitations": [
+        "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+        "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+        "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+      ],
+      "provenance": {
+        "analysis_record_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ]
+      },
+      "reliability": "LOW",
+      "source_file": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "PARTIAL",
+        "behavior_id": "unbound_bar_reports_no_fill",
+        "contract_version": "eef10bb2d84f",
+        "coverage_contract_version": "eef10bb2d84f",
+        "static_only": true
+      }
+    }
+  ],
+  "capability_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:health_bar:provides:0:health_display",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "health_display",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:health_bar:provides:1:health_visualization",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "health_visualization",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:health_bar:scene:0:Node",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "Scene capability requirement; not a semantic capability extraction"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "Node",
+        "scope": "SCENE_REQUIREMENT",
+        "validation": "HUMAN_DECLARED"
+      }
+    }
+  ],
+  "content_digest": "3f64f4295d7094aa13b97ef3e3d845c9007b2da47a0521e584278f5343c13381",
+  "declared_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:health_bar:name",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "name": "health_bar"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:health_bar:summary",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "summary": "血条显示组件：绑定宿主 Health，按当前/最大生命值比例绘制双色血条；纯显示、只读。"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:health_bar:category",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "category": "component"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:health_bar:provides:0:health_display",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "health_display",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:health_bar:provides:1:health_visualization",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "health_visualization",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:health_bar:scene:0:Node",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "Scene capability requirement; not a semantic capability extraction"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "Node",
+        "scope": "SCENE_REQUIREMENT",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:method:0:get_ratio",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "查询当前生命值比例（0.0 ~ 1.0）",
+        "kind": "method",
+        "name": "get_ratio",
+        "signature": "get_ratio() -> float",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:0:health_path",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "绑定的 Health 组件路径",
+        "kind": "export",
+        "name": "health_path",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "NodePath"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:1:bar_size",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Vector2(32.0, 4.0)",
+        "description": "血条尺寸（像素）",
+        "kind": "export",
+        "name": "bar_size",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Vector2"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:2:back_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.6, 0.1, 0.1, 0.9)",
+        "description": "底色",
+        "kind": "export",
+        "name": "back_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:3:fill_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.25, 0.85, 0.3, 1.0)",
+        "description": "前景色",
+        "kind": "export",
+        "name": "fill_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:requires:health_state",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "requires",
+        "target": "health_state"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:relations_requires:health_state",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "relations_requires",
+        "target": "health_state"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:commonly_used_with:health",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "commonly_used_with",
+        "target": "health"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:graph_commonly_used_with:health",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_commonly_used_with",
+        "target": "health"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "test:health_bar:file",
+      "evidence_type": "TEST",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "test file existence is not test execution; test status is NOT_RUN"
+      ],
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/health_bar/test_health_bar.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\test_health_bar.gd",
+      "provenance": {
+        "test_sha256": "6c55cd3d53074d304f6324da879e6aa570e70a8677010f627691b5a9fb0ae51f"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/test_health_bar.gd",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "execution_status": "NOT_RUN",
+        "file_exists": true,
+        "path_form": "CONVERTED",
+        "test_path": "Features/health_bar/test_health_bar.gd"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "validation:health_bar:test_command",
+      "evidence_type": "VALIDATION",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "validation command was not executed in Batch A"
+      ],
+      "provenance": {},
+      "reliability": "LOW",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "command": "godot --headless --path . -s res://Features/health_bar/test_health_bar.gd",
+        "execution_status": "NOT_RUN",
+        "validation_type": "TEST_CONTRACT"
+      }
+    }
+  ],
+  "dependency_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:requires:health_state",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "requires",
+        "target": "health_state"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:relations_requires:health_state",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "relations_requires",
+        "target": "health_state"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:commonly_used_with:health",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "commonly_used_with",
+        "target": "health"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:health_bar:graph_commonly_used_with:health",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_commonly_used_with",
+        "target": "health"
+      }
+    }
+  ],
+  "descriptive_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:health_bar:name",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "name": "health_bar"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:health_bar:summary",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "summary": "血条显示组件：绑定宿主 Health，按当前/最大生命值比例绘制双色血条；纯显示、只读。"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:health_bar:category",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "category": "component"
+      }
+    }
+  ],
+  "evidence_counts": {
+    "CONFLICTED": 0,
+    "DECLARED": 17,
+    "EXTRACTED": 14,
+    "MISSING": 0,
+    "NOT_APPLICABLE": 0,
+    "PARTIAL": 5,
+    "UNSUPPORTED": 0
+  },
+  "extracted_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:class",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "HealthBar",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "class_name",
+        "name": "HealthBar"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:extends",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "Node2D",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "extends",
+        "name": "Node2D"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_ready:16",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 24,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 16
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 16,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_ready",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_ready",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:get_ratio:25",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 30,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 25
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 25,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "get_ratio",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_ratio",
+        "params": "",
+        "public": true,
+        "returns": "float"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_draw:31",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 38,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 31
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 31,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_draw",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_draw",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_on_health_changed:39",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 42,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 39
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 39,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_on_health_changed",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_on_health_changed",
+        "params": "_current: int, _amount: int",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_on_died:43",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 44,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 43
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 43,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_on_died",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_on_died",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:health_path:8",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 8
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 8,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "health_path",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "health_path",
+        "type": "NodePath",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:bar_size:9",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 9
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 9,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "bar_size",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "bar_size",
+        "type": "",
+        "value": "Vector2(32.0, 4.0)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:back_color:10",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 10
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 10,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "back_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "back_color",
+        "type": "",
+        "value": "Color(0.6, 0.1, 0.1, 0.9)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:fill_color:11",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 11
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 11,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "fill_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "fill_color",
+        "type": "",
+        "value": "Color(0.25, 0.85, 0.3, 1.0)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:var:_health:13",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 13
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 13,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_health",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_health",
+        "type": "Health",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "provenance:health_bar:metadata_digest",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "sha256",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "Feature metadata does not define structured upstream provenance"
+      ],
+      "provenance": {
+        "metadata_sha256": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "metadata_path": "Features/health_bar/feature.yaml",
+        "metadata_sha256": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "index:health_bar:consistency",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "build_feature_index projection comparison",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {},
+      "reliability": "HIGH",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_INDEX",
+      "value": {
+        "consistent": true,
+        "path_form": "SAME"
+      }
+    }
+  ],
+  "extractor_version": "phase-1.73-a1/1",
+  "feature_id": "health_bar",
+  "feature_name": "health_bar",
+  "feature_path": "Features/health_bar/feature.yaml",
+  "generated_at": "2026-11-15T11:52:30Z",
+  "interface_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:method:0:get_ratio",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "查询当前生命值比例（0.0 ~ 1.0）",
+        "kind": "method",
+        "name": "get_ratio",
+        "signature": "get_ratio() -> float",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:0:health_path",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "绑定的 Health 组件路径",
+        "kind": "export",
+        "name": "health_path",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "NodePath"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:1:bar_size",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Vector2(32.0, 4.0)",
+        "description": "血条尺寸（像素）",
+        "kind": "export",
+        "name": "bar_size",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Vector2"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:2:back_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.6, 0.1, 0.1, 0.9)",
+        "description": "底色",
+        "kind": "export",
+        "name": "back_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:health_bar:export:3:fill_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "aa1e2dacec038fb96a111cbe62d03ffc2ba17540991381a39927d50aeeb0e785",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.25, 0.85, 0.3, 1.0)",
+        "description": "前景色",
+        "kind": "export",
+        "name": "fill_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    }
+  ],
+  "limitations": [
+    "Feature metadata does not define structured upstream provenance",
+    "Scene capability requirement; not a semantic capability extraction",
+    "provides is a human declaration, not source-verified capability",
+    "regex_parser_without_ast_or_type_inference",
+    "relationship is declared metadata/graph evidence; it is not source-verified",
+    "test file existence is not test execution; test status is NOT_RUN",
+    "validation command was not executed in Batch A",
+    "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+    "契约引用的方法 heal 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+    "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 is_dead 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+    "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+  ],
+  "path_normalization": {
+    "CONVERTED": 11,
+    "MISSING": 0,
+    "OUTSIDE_PROJECT": 0,
+    "RELATIVE": 1,
+    "RELATIVE_NORMALIZED": 0,
+    "UNRESOLVED": 0
+  },
+  "projection_id": "fep-3f64f4295d7094aa",
+  "projection_status": "PARTIAL",
+  "provenance_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "provenance:health_bar:metadata_digest",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "sha256",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "Feature metadata does not define structured upstream provenance"
+      ],
+      "provenance": {
+        "metadata_sha256": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "metadata_path": "Features/health_bar/feature.yaml",
+        "metadata_sha256": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "index:health_bar:consistency",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "build_feature_index projection comparison",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {},
+      "reliability": "HIGH",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_INDEX",
+      "value": {
+        "consistent": true,
+        "path_form": "SAME"
+      }
+    }
+  ],
+  "schema": "feature_evidence_projection",
+  "schema_version": 1,
+  "source_identity": {
+    "graph_path": ".ai/context/feature_graph.json",
+    "graph_sha256": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+    "index_path": ".ai/context/feature_index.json",
+    "index_sha256": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+    "metadata_path": "Features/health_bar/feature.yaml",
+    "metadata_sha256": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9",
+    "source_analysis_records": [
+      {
+        "analysis_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+        "analysis_status": "PARTIAL",
+        "contract_version": "bf6cdfd528d2",
+        "path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+        "script_digests": [
+          {
+            "digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+            "path": "Features/health_bar/health_bar.gd"
+          }
+        ]
+      },
+      {
+        "analysis_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+        "analysis_status": "PARTIAL",
+        "contract_version": "f38b1e0d750d",
+        "path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+        "script_digests": [
+          {
+            "digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+            "path": "Features/health_bar/health_bar.gd"
+          }
+        ]
+      },
+      {
+        "analysis_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+        "analysis_status": "PARTIAL",
+        "contract_version": "b7471818c956",
+        "path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+        "script_digests": [
+          {
+            "digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+            "path": "Features/health_bar/health_bar.gd"
+          }
+        ]
+      },
+      {
+        "analysis_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+        "analysis_status": "PARTIAL",
+        "contract_version": "4c502f0046fd",
+        "path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+        "script_digests": [
+          {
+            "digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+            "path": "Features/health_bar/health_bar.gd"
+          }
+        ]
+      },
+      {
+        "analysis_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+        "analysis_status": "PARTIAL",
+        "contract_version": "eef10bb2d84f",
+        "path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+        "script_digests": [
+          {
+            "digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+            "path": "Features/health_bar/health_bar.gd"
+          }
+        ]
+      }
+    ],
+    "source_files": [
+      {
+        "path": "Features/health_bar/health_bar.gd",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_status": "FOUND"
+      }
+    ],
+    "source_reference_count": 12
+  },
+  "source_references": [
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/health_bar/feature.yaml",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\feature.yaml",
+      "source_digest": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9",
+      "source_path": "Features/health_bar/feature.yaml",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_METADATA"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/feature_index.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+      "source_path": ".ai/context/feature_index.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_INDEX"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/feature_graph.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+      "source_path": ".ai/context/feature_graph.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_GRAPH"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/coverage_matrix.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+      "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+      "source_path": ".ai/context/coverage_matrix.json",
+      "source_status": "FOUND",
+      "source_type": "COVERAGE_MATRIX"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/health_bar/template.yaml",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\template.yaml",
+      "source_digest": "8280c691a2188a32b714be919fbb486868b938fc18a9d9668e2ff7d0fe59edbf",
+      "source_path": "Features/health_bar/template.yaml",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_TEMPLATE"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\damage_updates_health_bar.json",
+      "source_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+      "source_path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_SOURCE_ANALYSIS"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\death_empties_health_bar.json",
+      "source_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+      "source_path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_SOURCE_ANALYSIS"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\healing_updates_health_bar.json",
+      "source_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+      "source_path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_SOURCE_ANALYSIS"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\initial_health_bar_ratio.json",
+      "source_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+      "source_path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_SOURCE_ANALYSIS"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\unbound_bar_reports_no_fill.json",
+      "source_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+      "source_path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_SOURCE_ANALYSIS"
+    },
+    {
+      "normalization_status": "RELATIVE",
+      "normalized_path": "Features/health_bar/health_bar.gd",
+      "original_path": "Features/health_bar/health_bar.gd",
+      "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+      "source_path": "Features/health_bar/health_bar.gd",
+      "source_status": "FOUND",
+      "source_type": "GDSCRIPT_SOURCE"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/health_bar/test_health_bar.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\test_health_bar.gd",
+      "source_digest": "6c55cd3d53074d304f6324da879e6aa570e70a8677010f627691b5a9fb0ae51f",
+      "source_path": "Features/health_bar/test_health_bar.gd",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_TEST"
+    }
+  ],
+  "symbol_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:class",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "HealthBar",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "class_name",
+        "name": "HealthBar"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:extends",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "Node2D",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "extends",
+        "name": "Node2D"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_ready:16",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 24,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 16
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 16,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_ready",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_ready",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:get_ratio:25",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 30,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 25
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 25,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "get_ratio",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_ratio",
+        "params": "",
+        "public": true,
+        "returns": "float"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_draw:31",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 38,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 31
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 31,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_draw",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_draw",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_on_health_changed:39",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 42,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 39
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 39,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_on_health_changed",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_on_health_changed",
+        "params": "_current: int, _amount: int",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:func:_on_died:43",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 44,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 43
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 43,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_on_died",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_on_died",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:health_path:8",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 8
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 8,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "health_path",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "health_path",
+        "type": "NodePath",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:bar_size:9",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 9
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 9,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "bar_size",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "bar_size",
+        "type": "",
+        "value": "Vector2(32.0, 4.0)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:back_color:10",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 10
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 10,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "back_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "back_color",
+        "type": "",
+        "value": "Color(0.6, 0.1, 0.1, 0.9)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:export:fill_color:11",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 11
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 11,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "fill_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "fill_color",
+        "type": "",
+        "value": "Color(0.25, 0.85, 0.3, 1.0)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:health_bar:Features/health_bar/health_bar.gd:var:_health:13",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_line": 13
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/health_bar.gd",
+      "source_line": 13,
+      "source_record_id": "Features/health_bar/health_bar.gd",
+      "source_symbol": "_health",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_health",
+        "type": "Health",
+        "value": ""
+      }
+    }
+  ],
+  "test_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "test:health_bar:file",
+      "evidence_type": "TEST",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "test file existence is not test execution; test status is NOT_RUN"
+      ],
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/health_bar/test_health_bar.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\test_health_bar.gd",
+      "provenance": {
+        "test_sha256": "6c55cd3d53074d304f6324da879e6aa570e70a8677010f627691b5a9fb0ae51f"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/health_bar/test_health_bar.gd",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "execution_status": "NOT_RUN",
+        "file_exists": true,
+        "path_form": "CONVERTED",
+        "test_path": "Features/health_bar/test_health_bar.gd"
+      }
+    }
+  ],
+  "validation_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "validation:health_bar:test_command",
+      "evidence_type": "VALIDATION",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "validation command was not executed in Batch A"
+      ],
+      "provenance": {},
+      "reliability": "LOW",
+      "source_file": "Features/health_bar/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/health_bar/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "command": "godot --headless --path . -s res://Features/health_bar/test_health_bar.gd",
+        "execution_status": "NOT_RUN",
+        "validation_type": "TEST_CONTRACT"
+      }
+    }
+  ],
+  "verification_status": {
+    "basis": "NO_EXECUTION_EVIDENCE",
+    "behavior_verification_status": "NOT_VERIFIED",
+    "feature_verification_status": "NOT_VERIFIED",
+    "runtime_verification_status": "NOT_VERIFIED",
+    "test_execution_status": "NOT_RUN"
+  }
+}

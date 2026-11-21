@@ -1,0 +1,6 @@
+[
+  {
+    "analysis_id": "ext-80c1104f5262a6ee",
+    "reason": "file_type=gdshader is outside the GDScript parser scope"
+  }
+]

@@ -1,0 +1,179 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "PARTIAL"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-9e62ed2e3dec8164",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-c83a08c68cbe31fc",
+  "source_identity": {
+    "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "input_digest": "9f7a6900086343ee90b623466264dc420175ba0b4e33b1db6b49dc57d4e5f561",
+    "repository": "alfredbaudisch/Godello",
+    "source_digest": "540fdf1f898b8909b51cf68fe501aa370bba25b069653ab2135556b34038bc75",
+    "source_path": "scripts/board_member_button.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 7,
+      "properties": 0,
+      "signals": 0,
+      "variables": 3
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 7,
+      "properties": 0,
+      "signals": 0,
+      "variables": 1
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 10,
+      "name": "board",
+      "type": "BoardModel setget set_board"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 9,
+      "name": "model",
+      "type": "UserModel setget set_model"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_BoardMemberButton_pressed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_BoardOwnerButton_gui_input"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_Timer_timeout"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_delete_confirmed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_board"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_model"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 11,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:normal_text"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 9
+    },
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 10
+    }
+  ],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

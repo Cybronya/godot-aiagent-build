@@ -1,0 +1,181 @@
+{
+  "analysis_id": "ext-51d46c1b4943a254",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "d59f2f71bc04",
+  "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+  "conditions": [
+    {
+      "condition": "if not _closed_door.visible:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "function": "open",
+      "line": 44
+    },
+    {
+      "condition": "elif is_locked:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "function": "open",
+      "line": 47
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:47Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "line": 38,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd:38#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "line": 42,
+      "name": "open",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd:42#func=open",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "function": "open",
+      "kind": "guard_return",
+      "line": 45,
+      "value": ""
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "dba0a65d69ff4c98915c7a6614ceb31a37f81803b09392223f6231983af3f982",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference",
+    "annotation_not_fully_interpreted:line=4"
+  ],
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "d59f2f71bc04",
+    "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-open-rpg",
+    "source_path": "src/field/cutscenes/templates/doors/door.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/field/cutscenes/templates/doors/door.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+  "repo": "gdquest-demos/godot-open-rpg",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "f4df1c3da5f5216716cc6d46105bd9f85ed5b9b3523a8cea99b8d4ae3f92c478",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-open-rpg\\gd\\src\\field\\cutscenes\\templates\\doors\\door.gd",
+  "source_path": "src/field/cutscenes/templates/doors/door.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/field/cutscenes/templates/doors/door.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_ready",
+        "line": 39,
+        "method": "_ready",
+        "receiver": "super"
+      },
+      {
+        "function": "open",
+        "line": 48,
+        "method": "play",
+        "receiver": "_anim"
+      },
+      {
+        "function": "open",
+        "line": 51,
+        "method": "play",
+        "receiver": "_anim"
+      },
+      {
+        "function": "_on_area_entered",
+        "line": 58,
+        "method": "play",
+        "receiver": "_anim"
+      },
+      {
+        "function": "_on_area_entered",
+        "line": 60,
+        "method": "_on_area_entered",
+        "receiver": "super"
+      },
+      {
+        "function": "_on_blackout",
+        "line": 64,
+        "method": "_on_blackout",
+        "receiver": "super"
+      },
+      {
+        "function": "_on_blackout",
+        "line": 67,
+        "method": "play",
+        "receiver": "_anim"
+      }
+    ],
+    "class_name": "Door",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "end_line": 41,
+        "line": 38,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 54,
+        "line": 42,
+        "name": "open",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 62,
+        "line": 55,
+        "name": "_on_area_entered",
+        "params": "area: Area2D",
+        "returns": "void"
+      },
+      {
+        "end_line": 67,
+        "line": 63,
+        "name": "_on_blackout",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

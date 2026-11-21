@@ -1,0 +1,110 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-9f0aad5e01dd71f7",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-169c71896a3f1829",
+  "source_identity": {
+    "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "input_digest": "feef8be286ae91dac5ef17e1f5ad3ae3e6ddb7d9e4bd69288bbf9a41ba87f35b",
+    "repository": "gdquest-demos/godot-make-pro-2d-games",
+    "source_digest": "e032da8e7dfa0f97d2892441329da8fc966febc9d3b388e498df441981e56e5a",
+    "source_path": "interface/gui/player/life_bar/Lifebar.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 1,
+      "variables": 2
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 1,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 9,
+      "name": "current_health",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 8,
+      "name": "maximum",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_Player_Health_health_changed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:animate_bar"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:initialize"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:maximum_changed"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

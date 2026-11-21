@@ -1,0 +1,750 @@
+{
+  "_generated": true,
+  "_note": "Generated Cache — 由 .ai/tools/asset_registry/build_asset_index.py 生成，请勿手工维护。",
+  "schema_version": 1,
+  "generated_at": "2026-10-11T12:18:18+00:00",
+  "project": "F:\\Godot_v4.7-stable\\game",
+  "roots": [
+    "F:\\Godot_v4.7-stable\\game\\Assets"
+  ],
+  "counts": {
+    "audio": 2,
+    "sprite_frames": 2,
+    "texture": 2,
+    "tileset": 1,
+    "animation": 9
+  },
+  "total": 16,
+  "assets": [
+    {
+      "path": "res://Assets/environment/tiles/ground.png",
+      "type": "texture",
+      "format": "png",
+      "category": "environment",
+      "subject": "",
+      "role": "",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "environment",
+        "texture",
+        "png",
+        "tiles",
+        "ground"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 1,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/environment/tilesets/ground_tileset.tres"
+      ],
+      "compatible_features": [],
+      "compatible_entities": [],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {
+        "mode": 0
+      },
+      "id": "ground"
+    },
+    {
+      "path": "res://Assets/environment/tilesets/ground_tileset.tres",
+      "type": "tileset",
+      "format": "tres",
+      "category": "environment",
+      "subject": "",
+      "role": "",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "environment",
+        "tileset",
+        "tres",
+        "tilesets",
+        "ground"
+      ],
+      "dimensions": {
+        "width": null,
+        "height": null
+      },
+      "frame_count": null,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [],
+      "dependencies": [
+        "res://Assets/environment/tiles/ground.png"
+      ],
+      "used_by": [
+        "res://Scenes/AssetTilemapTest.tscn"
+      ],
+      "compatible_features": [],
+      "compatible_entities": [],
+      "compatible_scenes": [
+        "res://Scenes/AssetTilemapTest.tscn"
+      ],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "ground_tileset"
+    },
+    {
+      "path": "res://Assets/ui/icons/health_icon.png",
+      "type": "texture",
+      "format": "png",
+      "category": "ui",
+      "subject": "",
+      "role": "",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "ui",
+        "texture",
+        "png",
+        "icons",
+        "health",
+        "icon"
+      ],
+      "dimensions": {
+        "width": 16,
+        "height": 16
+      },
+      "frame_count": 1,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [],
+      "dependencies": [],
+      "used_by": [],
+      "compatible_features": [],
+      "compatible_entities": [],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {
+        "mode": 0
+      },
+      "id": "health_icon"
+    },
+    {
+      "path": "res://Assets/characters/player/attack/",
+      "type": "animation",
+      "format": "png",
+      "category": "player",
+      "subject": "player",
+      "role": "attack",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "attack",
+        "characters",
+        "player",
+        "png",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 1,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/player/attack/player_attack_00.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/player/player_frames.tres"
+      ],
+      "compatible_features": [],
+      "compatible_entities": [
+        "player"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "player_attack"
+    },
+    {
+      "path": "res://Assets/characters/player/player_frames.tres",
+      "type": "sprite_frames",
+      "format": "tres",
+      "category": "player",
+      "subject": "player",
+      "role": "",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "player",
+        "sprite_frames",
+        "tres",
+        "characters",
+        "frames"
+      ],
+      "dimensions": {
+        "width": null,
+        "height": null
+      },
+      "frame_count": 6,
+      "fps": null,
+      "duration": null,
+      "animations": [
+        "idle",
+        "run",
+        "attack",
+        "hurt"
+      ],
+      "frames": [],
+      "dependencies": [
+        "res://Assets/characters/player/attack/player_attack_00.png",
+        "res://Assets/characters/player/hurt/player_hurt_00.png",
+        "res://Assets/characters/player/idle/player_idle_00.png",
+        "res://Assets/characters/player/idle/player_idle_01.png",
+        "res://Assets/characters/player/run/player_run_00.png",
+        "res://Assets/characters/player/run/player_run_01.png"
+      ],
+      "used_by": [],
+      "compatible_features": [
+        "health",
+        "health_bar",
+        "player_movement",
+        "stun"
+      ],
+      "compatible_entities": [
+        "player"
+      ],
+      "compatible_scenes": [],
+      "confirmed": true,
+      "source": "manifest",
+      "import_sidecar": {},
+      "id": "player_frames",
+      "human_type": "sprite_frames",
+      "notes": "玩家 4 个动画（idle/run/attack/hurt）；占位帧，分类经确认",
+      "human_status": "approved"
+    },
+    {
+      "path": "res://Assets/characters/player/hurt/",
+      "type": "animation",
+      "format": "png",
+      "category": "player",
+      "subject": "player",
+      "role": "hurt",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "hurt",
+        "player",
+        "png",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 1,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/player/hurt/player_hurt_00.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/player/player_frames.tres"
+      ],
+      "compatible_features": [
+        "health"
+      ],
+      "compatible_entities": [
+        "player"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "player_hurt"
+    },
+    {
+      "path": "res://Assets/characters/player/idle/",
+      "type": "animation",
+      "format": "png",
+      "category": "player",
+      "subject": "player",
+      "role": "idle",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "idle",
+        "player",
+        "png",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 2,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/player/idle/player_idle_00.png",
+        "res://Assets/characters/player/idle/player_idle_01.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/player/player_frames.tres"
+      ],
+      "compatible_features": [
+        "health",
+        "health_bar",
+        "player_movement",
+        "stun"
+      ],
+      "compatible_entities": [
+        "player"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "player_idle"
+    },
+    {
+      "path": "res://Assets/characters/player/run/",
+      "type": "animation",
+      "format": "png",
+      "category": "player",
+      "subject": "player",
+      "role": "run",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "player",
+        "png",
+        "run",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 2,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/player/run/player_run_00.png",
+        "res://Assets/characters/player/run/player_run_01.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/player/player_frames.tres"
+      ],
+      "compatible_features": [
+        "player_movement"
+      ],
+      "compatible_entities": [
+        "player"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "player_run"
+    },
+    {
+      "path": "res://Assets/characters/enemy/slime/attack/",
+      "type": "animation",
+      "format": "png",
+      "category": "enemy",
+      "subject": "slime",
+      "role": "attack",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "attack",
+        "characters",
+        "enemy",
+        "png",
+        "slime",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 2,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/enemy/slime/attack/slime_attack_00.png",
+        "res://Assets/characters/enemy/slime/attack/slime_attack_01.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/enemy/slime/slime_frames.tres"
+      ],
+      "compatible_features": [
+        "contact_damage"
+      ],
+      "compatible_entities": [
+        "enemy"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "slime_attack_animation"
+    },
+    {
+      "path": "res://Assets/audio/slime/attack.wav",
+      "type": "audio",
+      "format": "wav",
+      "category": "audio",
+      "subject": "slime",
+      "role": "attack",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "audio",
+        "slime",
+        "attack",
+        "wav"
+      ],
+      "dimensions": {
+        "width": null,
+        "height": null
+      },
+      "frame_count": null,
+      "fps": null,
+      "duration": 0.2,
+      "animations": [],
+      "frames": [],
+      "dependencies": [],
+      "used_by": [],
+      "compatible_features": [],
+      "compatible_entities": [],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {
+        "mode": 2
+      },
+      "id": "slime_attack_audio"
+    },
+    {
+      "path": "res://Assets/characters/enemy/slime/death/",
+      "type": "animation",
+      "format": "png",
+      "category": "enemy",
+      "subject": "slime",
+      "role": "death",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "death",
+        "enemy",
+        "png",
+        "slime",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 1,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/enemy/slime/death/slime_death_00.png"
+      ],
+      "dependencies": [],
+      "used_by": [],
+      "compatible_features": [
+        "health"
+      ],
+      "compatible_entities": [
+        "enemy"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "slime_death"
+    },
+    {
+      "path": "res://Assets/characters/enemy/slime/slime_frames.tres",
+      "type": "sprite_frames",
+      "format": "tres",
+      "category": "enemy",
+      "subject": "slime",
+      "role": "",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "enemy",
+        "slime",
+        "sprite_frames",
+        "tres",
+        "characters",
+        "frames"
+      ],
+      "dimensions": {
+        "width": null,
+        "height": null
+      },
+      "frame_count": 8,
+      "fps": null,
+      "duration": null,
+      "animations": [
+        "idle",
+        "move",
+        "attack",
+        "hurt"
+      ],
+      "frames": [],
+      "dependencies": [
+        "res://Assets/characters/enemy/slime/attack/slime_attack_00.png",
+        "res://Assets/characters/enemy/slime/attack/slime_attack_01.png",
+        "res://Assets/characters/enemy/slime/hurt/slime_hurt_00.png",
+        "res://Assets/characters/enemy/slime/idle/slime_idle_00.png",
+        "res://Assets/characters/enemy/slime/idle/slime_idle_01.png",
+        "res://Assets/characters/enemy/slime/move/slime_move_00.png",
+        "res://Assets/characters/enemy/slime/move/slime_move_01.png",
+        "res://Assets/characters/enemy/slime/move/slime_move_02.png"
+      ],
+      "used_by": [
+        "res://Scenes/SlimeEnemy.tscn"
+      ],
+      "compatible_features": [
+        "chase_movement",
+        "contact_damage",
+        "health",
+        "health_bar",
+        "stun"
+      ],
+      "compatible_entities": [
+        "enemy"
+      ],
+      "compatible_scenes": [
+        "res://Scenes/SlimeEnemy.tscn"
+      ],
+      "confirmed": true,
+      "source": "manifest",
+      "import_sidecar": {},
+      "id": "slime_frames",
+      "human_type": "sprite_frames",
+      "notes": "史莱姆 4 个动画（idle/move/attack/hurt）；占位帧，分类经确认",
+      "human_status": "approved"
+    },
+    {
+      "path": "res://Assets/characters/enemy/slime/hurt/",
+      "type": "animation",
+      "format": "png",
+      "category": "enemy",
+      "subject": "slime",
+      "role": "hurt",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "enemy",
+        "hurt",
+        "png",
+        "slime",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 1,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/enemy/slime/hurt/slime_hurt_00.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/enemy/slime/slime_frames.tres"
+      ],
+      "compatible_features": [
+        "health"
+      ],
+      "compatible_entities": [
+        "enemy"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "slime_hurt"
+    },
+    {
+      "path": "res://Assets/audio/slime/hurt.wav",
+      "type": "audio",
+      "format": "wav",
+      "category": "audio",
+      "subject": "slime",
+      "role": "hurt",
+      "direction": "",
+      "frame": null,
+      "tags": [
+        "audio",
+        "slime",
+        "hurt",
+        "wav",
+        "sfx"
+      ],
+      "dimensions": {
+        "width": null,
+        "height": null
+      },
+      "frame_count": null,
+      "fps": null,
+      "duration": 0.2,
+      "animations": [],
+      "frames": [],
+      "dependencies": [],
+      "used_by": [
+        "res://Scenes/SlimeEnemy.tscn"
+      ],
+      "compatible_features": [],
+      "compatible_entities": [],
+      "compatible_scenes": [
+        "res://Scenes/SlimeEnemy.tscn"
+      ],
+      "confirmed": true,
+      "source": "manifest",
+      "import_sidecar": {
+        "mode": 2
+      },
+      "id": "slime_hurt_sfx",
+      "human_type": "audio",
+      "notes": "史莱姆受击音效（占位正弦波）",
+      "human_status": "approved"
+    },
+    {
+      "path": "res://Assets/characters/enemy/slime/idle/",
+      "type": "animation",
+      "format": "png",
+      "category": "enemy",
+      "subject": "slime",
+      "role": "idle",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "enemy",
+        "idle",
+        "png",
+        "slime",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 2,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/enemy/slime/idle/slime_idle_00.png",
+        "res://Assets/characters/enemy/slime/idle/slime_idle_01.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/enemy/slime/slime_frames.tres"
+      ],
+      "compatible_features": [
+        "chase_movement",
+        "contact_damage",
+        "health",
+        "health_bar",
+        "stun"
+      ],
+      "compatible_entities": [
+        "enemy"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "slime_idle"
+    },
+    {
+      "path": "res://Assets/characters/enemy/slime/move/",
+      "type": "animation",
+      "format": "png",
+      "category": "enemy",
+      "subject": "slime",
+      "role": "move",
+      "direction": "",
+      "frame": 0,
+      "tags": [
+        "animation",
+        "characters",
+        "enemy",
+        "move",
+        "png",
+        "slime",
+        "texture"
+      ],
+      "dimensions": {
+        "width": 32,
+        "height": 32
+      },
+      "frame_count": 3,
+      "fps": null,
+      "duration": null,
+      "animations": [],
+      "frames": [
+        "res://Assets/characters/enemy/slime/move/slime_move_00.png",
+        "res://Assets/characters/enemy/slime/move/slime_move_01.png",
+        "res://Assets/characters/enemy/slime/move/slime_move_02.png"
+      ],
+      "dependencies": [],
+      "used_by": [
+        "res://Assets/characters/enemy/slime/slime_frames.tres"
+      ],
+      "compatible_features": [
+        "chase_movement"
+      ],
+      "compatible_entities": [
+        "enemy"
+      ],
+      "compatible_scenes": [],
+      "confirmed": false,
+      "source": "scanner",
+      "import_sidecar": {},
+      "id": "slime_move"
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "analysis_id": "ext-51fbb1e2b03c3f67",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "f4a454ebd4d5",
+  "commit_sha_full": "f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80",
+  "conditions": [
+    {
+      "condition": "if _child_instances.is_empty():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "line": 26
+    },
+    {
+      "condition": "return true",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "line": 27
+    },
+    {
+      "condition": "if not _child_finished[i]:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "line": 30
+    },
+    {
+      "condition": "if finished:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "line": 34
+    },
+    {
+      "condition": "return true",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "line": 35
+    },
+    {
+      "condition": "return false",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "line": 36
+    },
+    {
+      "condition": "if _child_instances.is_empty():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "force_complete",
+      "line": 50
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "input",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "line": 25,
+      "name": "advance",
+      "params": "target: Node, delta: float",
+      "returns": "bool",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd:25#func=advance",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "line": 40,
+      "name": "restore_initial",
+      "params": "target: Node",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd:40#func=restore_initial",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "line": 49,
+      "name": "force_complete",
+      "params": "target: Node",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd:49#func=force_complete",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "advance",
+      "kind": "early_return",
+      "line": 36,
+      "value": "false"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "function": "force_complete",
+      "kind": "guard_return",
+      "line": 51,
+      "value": ""
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "36564ac3ecc4914f01150c8ec949047d79bf82ee44e204f2035d533b5aa32bdd",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "f4a454ebd4d5",
+    "commit_sha_full": "f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "ceceppa/anima",
+    "source_path": "addons/anima/motion/runtime/anima_race_instance.gd",
+    "source_url": "https://github.com/ceceppa/anima/blob/f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80/addons/anima/motion/runtime/anima_race_instance.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\input\\ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+  "repo": "ceceppa/anima",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "050613ecec7f0c63bad675a2137c76958d74a4d2e9bd3882985f80fe51d7923f",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\ceceppa__anima\\gd\\addons\\anima\\motion\\runtime\\anima_race_instance.gd",
+  "source_path": "addons/anima/motion/runtime/anima_race_instance.gd",
+  "source_url": "https://github.com/ceceppa/anima/blob/f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80/addons/anima/motion/runtime/anima_race_instance.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_init",
+        "line": 13,
+        "method": "_init",
+        "receiver": "super"
+      },
+      {
+        "function": "_init",
+        "line": 19,
+        "method": "append",
+        "receiver": "_child_instances"
+      },
+      {
+        "function": "_init",
+        "line": 19,
+        "method": "create_runtime",
+        "receiver": "child"
+      },
+      {
+        "function": "_init",
+        "line": 20,
+        "method": "append",
+        "receiver": "_child_finished"
+      },
+      {
+        "function": "advance",
+        "line": 26,
+        "method": "is_empty",
+        "receiver": "_child_instances"
+      },
+      {
+        "function": "advance",
+        "line": 29,
+        "method": "size",
+        "receiver": "_child_instances"
+      },
+      {
+        "function": "restore_initial",
+        "line": 42,
+        "method": "restore_initial",
+        "receiver": "child_instance"
+      },
+      {
+        "function": "force_complete",
+        "line": 50,
+        "method": "is_empty",
+        "receiver": "_child_instances"
+      }
+    ],
+    "class_name": "AnimaRaceInstance",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "AnimaMotionInstance",
+    "functions": [
+      {
+        "end_line": 24,
+        "line": 12,
+        "name": "_init",
+        "params": "p_motion: AnimaMotion, p_value_context: AnimaValueContext = null",
+        "returns": "void"
+      },
+      {
+        "end_line": 39,
+        "line": 25,
+        "name": "advance",
+        "params": "target: Node, delta: float",
+        "returns": "bool"
+      },
+      {
+        "end_line": 48,
+        "line": 40,
+        "name": "restore_initial",
+        "params": "target: Node",
+        "returns": "void"
+      },
+      {
+        "end_line": 53,
+        "line": 49,
+        "name": "force_complete",
+        "params": "target: Node",
+        "returns": "void"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

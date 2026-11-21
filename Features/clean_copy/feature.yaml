@@ -1,0 +1,61 @@
+# Feature Metadata: clean_copy
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: clean_copy
+version: 1
+category: general
+
+summary: 路径注册表——管理命名路径列表和替换字符串映射，持久化到 ProjectSettings。
+
+provides:
+  - project_settings_registry
+  - path_list_management
+  - string_replacement_map
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - 'get_paths(name: String) -> Array[String]'
+    - 'set_paths(name: String, paths: Array[String]) -> void'
+    - 'add_path(name: String, path: String) -> void'
+    - 'remove_path(name: String, path: String) -> void'
+    - 'has_path(name: String, path: String) -> bool'
+    - get_replace_strings() -> Dictionary
+    - 'set_replace_string(find: String, replace: String) -> void'
+    - 'remove_replace_string(find: String) -> void'
+  signals: []
+  exports: []
+
+ownership:
+  state: []
+  rules:
+    - 去掉编辑器文件复制/清理逻辑（编辑器专用）
+    - 保留核心：路径列表管理 + 替换字符串映射 + ProjectSettings 持久化
+    - 静态 API，无需实例化
+    - 路径自动去重
+
+composition:
+  entry_scene: ""    # 静态类，无需挂载
+  usage: "PathRegistry.add_path(\"levels\", \"res://levels/forest\"); var paths = PathRegistry.get_paths(\"levels\")"
+  related_features: []
+
+validation:
+  self_test: test_clean_copy.gd
+  command: godot --headless --path . -s res://Features/clean_copy/test_clean_copy.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: Maaack__Godot-Game-Template__addons__clean_copy_examples__class.gd
+#   source_url: https://github.com/Maaack/Godot-Game-Template/blob/main/addons/clean_copy_examples/class.gd
+#   repo: Maaack/Godot-Game-Template (star 1709) | License: MIT

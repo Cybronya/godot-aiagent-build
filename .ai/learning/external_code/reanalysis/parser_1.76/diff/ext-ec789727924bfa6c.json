@@ -1,0 +1,92 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_complete"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-ec789727924bfa6c",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-00f92d43e766b0ec",
+  "source_identity": {
+    "full_commit_sha": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+    "input_digest": "edb5c58d70eacfb1816f508815dedf086d80e40ecd63f4d3ffad3aa3ef3a7d56",
+    "repository": "foxssake/netfox",
+    "source_digest": "0aa48f82404b3cd508ab10e7138dc734c8b53f6895632c4362ffa973eded98a8",
+    "source_path": "examples/forest-brawl/scripts/play-random-3d.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 1,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 1
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 7,
+      "name": "sounds",
+      "type": "Array[AudioStream]"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 9,
+      "name": "idx",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:play_random"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

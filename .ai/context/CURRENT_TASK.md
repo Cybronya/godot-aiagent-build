@@ -490,6 +490,25 @@ Phase 1.25 的实际状态更正：其代码**已随 `5e47bfd` 提交**，此前
    composite 17、level_planner 134；
    validate.py 0 error / 17 warning（基线不变）。
 
+## Phase 1.67.2 P5 状态（已完成，未提交，等待下一阶段授权）
+
+4 个目标（collect_pickup、contact_damage×2、heal_pickup）各生成 1 条知识驱动场景：
+**4/4 真实 Godot PASS、Evidence/Attestation 验证通过、场景 Evaluation VERIFIED_PASS**；
+但官方契约 1 FAIL / 3 INCOMPLETE（场景证据未采集官方检查），**官方覆盖仍为 0/60**，
+场景链覆盖 5/60 → 9/60。生成器仅做一处受限修复（foreign_group 缺帧时补 1 帧，
+P4 场景 ID 不变），新增 G17–G20；学习链回归 113 项全过。4 条 guards 经 `user:p167`
+显式审批；12 条反馈候选保持 PENDING_REVIEW。详见
+`.ai/context/PHASE_1_67_2_P5_EXECUTION_REPORT.md`。未进入 P6，未 Git 写操作。
+
+## Phase 1.67.1 状态（Behavior Coverage Audit，已暂停等待确认）
+
+已完成只读审计：真实 Registry 为 **60 个 Behavior**（非任务书的 52），场景链已覆盖 5；
+未覆盖 55 = 可接入 11（B1 6 + B2 5，其中 7 个需先修生成模板）+ 规则族缺口 44
+（含 2 个仅有历史证据）。知识库 71 条、仅 5 个 Behavior 有已审批知识，是首要瓶颈。
+审计另发现索引/场景文件状态未回写（P3）与终态/非法槽规则迁移语义风险。
+详见 `.ai/context/PHASE_1_67_1_BEHAVIOR_COVERAGE_AUDIT.md`。
+**未进入 1.67.2，未改代码，未执行 Git 操作**；启动前需确认审计 §8 的 5 项决策。
+
 ## Phase 1.66 状态（Knowledge-Driven Test Generation & Execution）
 
 已完成：只读审计 → 场景生成（5 个 Behavior、4 规则族）→ 7 状态验证 → Execution Planner →

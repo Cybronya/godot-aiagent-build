@@ -1,0 +1,65 @@
+# Feature Metadata: flying_letter
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: flying_letter
+version: 1
+category: animation
+
+summary: 浮动文字效果——文字向上飘飞，带重力下落和旋转，常用于伤害数字/经验提示。
+
+provides:
+  - floating_text
+  - damage_number
+  - experience_popup
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - 'setup(text: String, position: Vector2, font: Font = null) -> void'
+    - get_label() -> Label
+  signals:
+    - letter_finished
+  exports:
+    - 'x_speed_min/max: float'
+    - 'y_speed_min/max: float'
+    - 'gravity_min/max: float'
+    - 'rotations_per_s_min/max: float'
+    - lifetime: float
+
+ownership:
+  state:
+    - _label: Label
+    - _velocity: Vector2
+    - _angular_velocity: float
+    - _gravity: float
+    - _elapsed: float
+  rules:
+    - 去掉 Effect 父类依赖，自建 Label 子节点
+    - lifetime 到期后自动 queue_free
+    - x 速度向左(负)，y 速度向上(负)
+
+composition:
+  entry_scene: ""    # 作为 Node2D 挂载到场景
+  usage: "var f = FlyingLetter.new(); f.setup(\"100\", Vector2(100,100)); add_child(f)"
+  related_features: []
+
+validation:
+  self_test: test_flying_letter.gd
+  command: godot --headless --path . -s res://Features/flying_letter/test_flying_letter.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: cis-ash__TEXTREME__Effects__FlyingLetter__Letter.gd
+#   source_url: https://github.com/cis-ash/TEXTREME/blob/master/Effects/FlyingLetter/Letter.gd
+#   repo: cis-ash/TEXTREME (star 801) | License: MIT

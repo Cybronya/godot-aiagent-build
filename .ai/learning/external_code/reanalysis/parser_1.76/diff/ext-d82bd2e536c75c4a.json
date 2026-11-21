@@ -1,0 +1,361 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_complete"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-d82bd2e536c75c4a",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-46cb57ca712ba19b",
+  "source_identity": {
+    "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "input_digest": "26a69b102c0c4db8824d7b77b93ca364559857e95763b4d6494955ef85530cd6",
+    "repository": "nezvers/Godot-GameTemplate",
+    "source_digest": "e04c3a2983c9f1de11d42cb9c7dce85919f860f44c4bbb819f0cc8e744ab78da",
+    "source_path": "addons/top_down/scripts/ui/game_screen/HealthPanel.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 4,
+      "functions": 5,
+      "properties": 0,
+      "signals": 0,
+      "variables": 4
+    },
+    "before": {
+      "constants": 0,
+      "exports": 3,
+      "functions": 5,
+      "properties": 0,
+      "signals": 0,
+      "variables": 4
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 13,
+      "name": "tween_time",
+      "type": "float"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "annotations": {
+          "new": [
+            "export"
+          ],
+          "old": []
+        },
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 7,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": true,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "exports:health_resource"
+    },
+    {
+      "fields": {
+        "annotations": {
+          "new": [
+            "export"
+          ],
+          "old": []
+        },
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 9,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": true,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "exports:label"
+    },
+    {
+      "fields": {
+        "annotations": {
+          "new": [
+            "export"
+          ],
+          "old": []
+        },
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 11,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": true,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "exports:progress_shader"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_reset"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_tween_front"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_tween_middle"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_update"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 15,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:tween_front"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 16,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:tween_midle"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 18,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:value_front"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 19,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:value_middle"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

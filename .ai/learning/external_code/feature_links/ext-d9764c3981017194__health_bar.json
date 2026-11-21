@@ -1,0 +1,364 @@
+{
+  "analysis_id": "ext-d9764c3981017194",
+  "evidence_items": [
+    {
+      "evidence_id": "lnk-78149d95a7f4d247:ev:01",
+      "evidence_role": "PAIR_EVALUATION",
+      "evidence_status": "MISSING",
+      "evidence_type": "NONE",
+      "explanation": "compared 4 external symbols (added, as_string, removed) against 7 Feature source symbols and 8 Feature declared symbols; no exact identifier match, no declared external-source relation and no shared significant token were found",
+      "line_reference": null,
+      "matched_value": "",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-d9764c3981017194.json",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "source_side": "BOTH",
+      "symbol_name": ""
+    }
+  ],
+  "evidence_limitations": {
+    "ambiguity_reasons": [],
+    "analysis_status": "analysis_partial",
+    "missing_evidence": [
+      "no exact shared identifier between external symbols and Feature symbols",
+      "no declared external-source relation in Feature metadata",
+      "no shared significant token between the two symbol sets"
+    ],
+    "parser_limitations": [
+      "regex_parser_without_ast_or_type_inference",
+      "unresolved: .ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd 没有 class_name（跨类依赖无法静态归属）"
+    ],
+    "projection_status": "PARTIAL",
+    "provenance_limitations": [
+      "provenance_status=complete",
+      "full commit SHA is recorded"
+    ],
+    "unsupported_content": [],
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "external_analysis": {
+    "analysis_record_digest": "a2a4ad967ea1feb45da079759ffb3a3ee1f9d06aa190a3f202c4715895d683f1",
+    "analysis_record_path": ".ai/learning/external_code/analysis/ext-d9764c3981017194.json",
+    "analysis_status": "analysis_partial",
+    "file_type": "gdscript",
+    "parse_status": "parsed",
+    "provenance_status": "complete",
+    "source_commit": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "source_digest": "40c1a1b6c64fe7277cc42d2594460ed4f21207eacf30808ceebfaa9ad1ab0175",
+    "source_path": "actors/health/Status.gd",
+    "source_repository": "gdquest-demos/godot-make-pro-2d-games",
+    "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Status.gd"
+  },
+  "feature_id": "health_bar",
+  "feature_name": "health_bar",
+  "feature_projection": {
+    "feature_analysis_references": [
+      {
+        "analysis_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+        "analysis_record_path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+        "analysis_status": "PARTIAL",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ],
+        "limitations": [
+          "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      },
+      {
+        "analysis_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+        "analysis_record_path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+        "analysis_status": "PARTIAL",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ],
+        "limitations": [
+          "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 is_dead 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      },
+      {
+        "analysis_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+        "analysis_record_path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+        "analysis_status": "PARTIAL",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ],
+        "limitations": [
+          "契约引用的方法 take_damage 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+          "契约引用的方法 heal 不在实现文件，也不在信号处理入口（由 harness/组合层驱动）",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 health_changed 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      },
+      {
+        "analysis_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+        "analysis_record_path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+        "analysis_status": "PARTIAL",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ],
+        "limitations": [
+          "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      },
+      {
+        "analysis_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+        "analysis_record_path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+        "analysis_status": "PARTIAL",
+        "analyzed_source_files": [
+          "Features/health_bar/health_bar.gd"
+        ],
+        "limitations": [
+          "契约 action 里没有可识别的方法（只有 harness 动词），入口依赖信号连接或契约探测",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 ratio 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      }
+    ],
+    "feature_path": "Features/health_bar/feature.yaml",
+    "feature_projection_digest": "135889ecf590ffaa4aa53dbca20b42aad50c1a9d31c7c5a933a9821f65134130",
+    "feature_projection_path": ".ai/learning/feature_evidence/health_bar.json",
+    "feature_source_references": [
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/health_bar/feature.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\feature.yaml",
+        "source_digest": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9",
+        "source_path": "Features/health_bar/feature.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_METADATA"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_index.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_path": ".ai/context/feature_index.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_INDEX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_graph.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_path": ".ai/context/feature_graph.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_GRAPH"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/coverage_matrix.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_path": ".ai/context/coverage_matrix.json",
+        "source_status": "FOUND",
+        "source_type": "COVERAGE_MATRIX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/health_bar/template.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\template.yaml",
+        "source_digest": "8280c691a2188a32b714be919fbb486868b938fc18a9d9668e2ff7d0fe59edbf",
+        "source_path": "Features/health_bar/template.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEMPLATE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\damage_updates_health_bar.json",
+        "source_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+        "source_path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\death_empties_health_bar.json",
+        "source_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+        "source_path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\healing_updates_health_bar.json",
+        "source_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+        "source_path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\initial_health_bar_ratio.json",
+        "source_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+        "source_path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\health_bar\\unbound_bar_reports_no_fill.json",
+        "source_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+        "source_path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "RELATIVE",
+        "normalized_path": "Features/health_bar/health_bar.gd",
+        "original_path": "Features/health_bar/health_bar.gd",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_path": "Features/health_bar/health_bar.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/health_bar/test_health_bar.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\health_bar\\test_health_bar.gd",
+        "source_digest": "6c55cd3d53074d304f6324da879e6aa570e70a8677010f627691b5a9fb0ae51f",
+        "source_path": "Features/health_bar/test_health_bar.gd",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEST"
+      }
+    ],
+    "projection_status": "PARTIAL",
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "generated_at": "2026-11-15T15:16:41Z",
+  "generator": {
+    "classifier": "deterministic_symbol_and_declaration_matching",
+    "name": "feature_linkage",
+    "version": "phase-1.73-b/1"
+  },
+  "limitations": [
+    "evidence type only; not a similarity, quality, admission or promotion judgement",
+    "analysis_status=analysis_partial",
+    "projection_status=PARTIAL",
+    "external analysis is not complete; its symbols are partial evidence",
+    "feature projection is not complete; coverage of Feature evidence is partial"
+  ],
+  "linkage_classification": "NO_SUPPORTED_LINK",
+  "linkage_id": "lnk-78149d95a7f4d247",
+  "linkage_outcome": "NOT_LINKED",
+  "pair_evaluation": {
+    "declared_relation": "",
+    "external_symbol_count": 4,
+    "external_symbols": [
+      "added",
+      "as_string",
+      "removed"
+    ],
+    "feature_declared_symbol_count": 8,
+    "feature_source_symbol_count": 7,
+    "matched_symbols": [],
+    "shared_tokens": []
+  },
+  "schema": "external_analysis_feature_linkage",
+  "schema_version": 1,
+  "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+  "source_verification": {
+    "analysis_record": {
+      "digest": "a2a4ad967ea1feb45da079759ffb3a3ee1f9d06aa190a3f202c4715895d683f1",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/external_code/analysis/ext-d9764c3981017194.json"
+    },
+    "external_source_file": {
+      "digest_status": "MATCHED",
+      "path": ".ai/skills/foundation/godot-gdscript/code_library/sources/gdquest-demos__godot-make-pro-2d-games/gd/actors/health/Status.gd",
+      "recorded_digest": "40c1a1b6c64fe7277cc42d2594460ed4f21207eacf30808ceebfaa9ad1ab0175"
+    },
+    "feature_projection": {
+      "digest": "135889ecf590ffaa4aa53dbca20b42aad50c1a9d31c7c5a933a9821f65134130",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/feature_evidence/health_bar.json"
+    },
+    "feature_sources": [
+      {
+        "path": "Features/health_bar/feature.yaml",
+        "source_digest": "37e3ee7544f80efecf8b7e185fb5fa762153da5b46d80b4be7b51639d1e3f0d9",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/health_bar/template.yaml",
+        "source_digest": "8280c691a2188a32b714be919fbb486868b938fc18a9d9668e2ff7d0fe59edbf",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/health_bar/damage_updates_health_bar.json",
+        "source_digest": "28fc759f4e5b8ab3231b53015f0009e9f0c318c61b74a4d20c9084a4020a0c09",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/health_bar/death_empties_health_bar.json",
+        "source_digest": "ed67f60b65fe332f430030991938664acc99cd4102b2a93d5124da7a6f8ad323",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/health_bar/healing_updates_health_bar.json",
+        "source_digest": "ef3632ac5ca6d991f9e37ada1ea88180065bb072d540d85e2f11648ceb4949de",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/health_bar/initial_health_bar_ratio.json",
+        "source_digest": "ba55889d37620bddf3c36310fb2cd326077f100f960bf73712940d895d33bdf9",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/health_bar/unbound_bar_reports_no_fill.json",
+        "source_digest": "6649cea273615f45a09ed9c03bde69942d40248366adcde7919caaf5096ddfc7",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/health_bar/health_bar.gd",
+        "source_digest": "a8583ec29be72edcbb954b4a43d34250faaa9d30e9b8507215dddbb9f4dd9fec",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/health_bar/test_health_bar.gd",
+        "source_digest": "6c55cd3d53074d304f6324da879e6aa570e70a8677010f627691b5a9fb0ae51f",
+        "source_status": "FOUND"
+      }
+    ]
+  }
+}

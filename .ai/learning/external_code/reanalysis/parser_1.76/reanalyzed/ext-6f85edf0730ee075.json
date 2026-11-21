@@ -1,0 +1,207 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-1c7f8f02566c941d",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "7290681309ff",
+  "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+      "line": 13,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd:13#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+      "line": 22,
+      "name": "set_active",
+      "params": "value",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd:22#func=set_active",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "5fc9adb95e73ed580186580e76ae4b2ca88126daacf0eccda820aa1b4479863b",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "7290681309ff",
+    "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-make-pro-2d-games",
+    "source_path": "core/world/Door.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/core/world/Door.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+  "repo": "gdquest-demos/godot-make-pro-2d-games",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "5d1f00befa4ead8c8321a710dfe8832bb1f66ac064ec0710a990d30da5920a0c",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-make-pro-2d-games\\gd\\core\\world\\Door.gd",
+  "source_path": "core/world/Door.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/core/world/Door.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 5,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 6,
+        "name": "player_entered",
+        "params": "map_path"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 9,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 9,
+        "name": "PlayerController",
+        "type": "",
+        "value": "preload(\"res://actors/player/PlayerController.gd\")"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 13,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 13,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 17,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 17,
+        "name": "_on_body_entered",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 22,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 22,
+        "name": "set_active",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [],
+    "extends": "Area2D",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 16,
+        "line": 13,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 21,
+        "line": 17,
+        "name": "_on_body_entered",
+        "params": "body",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 24,
+        "line": 22,
+        "name": "set_active",
+        "params": "value",
+        "returns": ""
+      }
+    ],
+    "properties": [],
+    "signals": [
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 6,
+        "name": "player_entered",
+        "params": "map_path"
+      }
+    ],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 9,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 9,
+        "name": "PlayerController",
+        "type": "",
+        "value": "preload(\"res://actors/player/PlayerController.gd\")"
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd 没有 class_name（跨类依赖无法静态归属）"
+  ],
+  "unsupported_constructs": []
+}

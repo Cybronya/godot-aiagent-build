@@ -1,0 +1,92 @@
+{
+  "schema": "candidate_seed_policy",
+  "schema_version": 1,
+  "policy_version": "phase-1.74-c/1",
+  "review_source": ".ai/context/PHASE_1_73_B2_EVIDENCE_READINESS_SEED_QUALIFICATION.md",
+  "review_stages": [
+    ".ai/context/PHASE_1_73_B2_DIRECT_EVIDENCE_AUDIT.md",
+    ".ai/context/PHASE_1_73_B2_INDIRECT_EVIDENCE_AUDIT.md",
+    ".ai/context/PHASE_1_73_B2_SEED_ELIGIBILITY.md",
+    ".ai/context/PHASE_1_73_B2_BATCH_C_READINESS.md"
+  ],
+  "feature_scope": ["health", "blackboard"],
+  "context_features": ["attack_emitter"],
+  "excluded_features": {
+    "health_bar": {
+      "reason_code": "NO_QUALIFIED_SEED",
+      "reason": "no seed passed Stage B.2 review: 3 POTENTIAL_RELEVANCE + 2 AMBIGUOUS only, and the external hp/max_hp fields are not captured by the parser",
+      "reference": ".ai/context/PHASE_1_73_B2_SYMBOL_EQUIVALENCE_ASSESSMENT.md"
+    },
+    "openable_door": {
+      "reason_code": "NO_QUALIFIED_SEED",
+      "reason": "no seed passed Stage B.2 review: 2 POTENTIAL_RELEVANCE + 2 AMBIGUOUS only; external door API (open/is_locked) shares no identifier with set_open/is_open",
+      "reference": ".ai/context/PHASE_1_73_B2_SEED_ELIGIBILITY.md"
+    }
+  },
+  "seeds": [
+    {
+      "linkage_id": "lnk-d2d95d8162be1592",
+      "feature_id": "health",
+      "qualification_status": "QUALIFIED_DIRECT",
+      "independence": "INDEPENDENT",
+      "architecture": "Node + signals: a Node holding current health, damage/heal mutators that clamp and emit health_changed/health_depleted",
+      "qualification_reason": "Stage B.2 B.1: three exact identifiers (take_damage, heal, health_changed) with real in-file data flow, commit-pinned digest verified",
+      "symbol_notes": [],
+      "limitations": [
+        "external heal clamps with max(health, max_health) (effectively a full heal) while the Feature uses min(...)+max_health",
+        "external death is signalled by health_depleted, not by the Feature's died signal",
+        "health_changed arity differs: (new_health) external vs (current, amount) internal",
+        "analysis_status=analysis_partial (no class_name); feature projection_status=PARTIAL",
+        "line_reference indexes the references copy (commit copy + 3 header lines)"
+      ]
+    },
+    {
+      "linkage_id": "lnk-6fff3ce176bd5813",
+      "feature_id": "health",
+      "qualification_status": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+      "independence": "INDEPENDENT",
+      "architecture": "Resource + exported state: a saveable Resource with @export hp/max_hp/is_dead, clamped add_hp and dead/full signals",
+      "qualification_reason": "Stage B.2 B.3: is_dead is real health state (set when hp==0) but is an exported property matching an internal function; narrow claim only",
+      "symbol_notes": [
+        "external is_dead is @export var is_dead: bool (property, commit line 16); internal is func is_dead() -> bool (line 57) - same identifier, different symbol kind, not the same Symbol"
+      ],
+      "limitations": [
+        "property-vs-function symbol kind mismatch for is_dead",
+        "single matched identifier out of 20 external symbols",
+        "parser captured 1 of 5 @export vars, so hp/max_hp/reset_hp/reset_max_hp are absent from the analysis despite analysis_complete",
+        "claim limited to: a death flag derived from clamped HP; must not be used for health display or attack claims",
+        "line_reference indexes the references copy (commit copy + 3 header lines)"
+      ]
+    },
+    {
+      "linkage_id": "lnk-7084dc8999c2182b",
+      "feature_id": "blackboard",
+      "qualification_status": "QUALIFIED_DIRECT",
+      "independence": "NOT_INDEPENDENT",
+      "architecture": "Node storing named Dictionary boards with set/get/has/erase and a default board",
+      "qualification_reason": "Stage B.2 B.2: five exact identifiers with real multi-board read/write logic; acknowledged upstream of the internal Feature",
+      "independence_reason": "Features/blackboard/blackboard.gd states it was abstracted from bitbrain/beehave (MIT); the external source and the internal Feature are not independent implementations",
+      "symbol_notes": [],
+      "limitations": [
+        "NOT_INDEPENDENT: derived-from relationship with the internal Feature, so this is corroboration, not independent external cross-validation",
+        "feature uses duplicate(true) (deep) where the external setter uses duplicate() (shallow)",
+        "analysis_status=analysis_partial (@icon annotation not interpreted)",
+        "the class_name evidence item has no match line, so its source location is single-coordinate"
+      ]
+    }
+  ],
+  "context_relations": [
+    {
+      "linkage_id": "lnk-a099657ab3c9930c",
+      "feature_id": "attack_emitter",
+      "attach_to_feature": "health",
+      "evidence_kind": "GRAPH_DERIVED_RELATION",
+      "derivation_type": "FEATURE_GRAPH_NEIGHBOUR",
+      "intermediate_feature_ids": ["health"],
+      "derivation_path": ["attack_emitter", "works_with", "health"],
+      "graph_edge_reference": "feature_graph.json#attack_emitter-works_with-health",
+      "graph_declaration_origin": "Features/attack_emitter/feature.yaml:68",
+      "reason": "Stage B.2 Stage C: the external file implements health only; attack_emitter comes from the internal graph relation and is context, never an implementation seed"
+    }
+  ]
+}

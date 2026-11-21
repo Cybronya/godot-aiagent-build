@@ -1,0 +1,2430 @@
+{
+  "generated_at": "2026-11-16T15:37:01Z",
+  "parser_build_identity": {
+    "adapter_sha256": "30b9efcc55e17b0e90d3c6c31e92f42060628b7956f48dcf49ef428c564adfbe",
+    "coverage_fields": [
+      "parse_execution_status",
+      "syntax_coverage_status",
+      "analysis_completeness",
+      "unsupported_constructs",
+      "unrecognized_declarations",
+      "source_coordinates"
+    ],
+    "declaration_kinds": [
+      "VARIABLE",
+      "PROPERTY",
+      "FUNCTION",
+      "CONSTANT",
+      "SIGNAL"
+    ],
+    "declared_parser_version": "1.75",
+    "gd_parse_sha256": "d7593797923f2302ba01909da8d1a9e55e4aae3c3aa32dfbd2a99937a0a01485",
+    "identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+    "identity_sha256": "6b74a6cd20a06033e1227d8cec5145202e234b51744ced740727ffc12d451221",
+    "identity_source": "sha256(gd_parse.py bytes || 0x00 || external_code_understanding.py bytes)",
+    "kind": "content-digest",
+    "known_annotations": 24,
+    "parser_name": "gd_parse",
+    "schema_version": 1
+  },
+  "phase": "1.76-A",
+  "phase_1_75_workspace": {
+    "baseline_file_count": 188,
+    "generated_with_parser": "1.75",
+    "official_analysis_overwritten": false,
+    "present": true,
+    "records": {
+      "ext-1d204b35464cf388": {
+        "location_checks": 11,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_partial",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "partial",
+            "old": "parsed"
+          },
+          "syntax_coverage_status": {
+            "new": "PARTIAL",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 2,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "ext-23949c1378c49203": {
+        "location_checks": 11,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_complete",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "partial"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 3,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "ext-73c80a3db6d71e48": {
+        "location_checks": 17,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_complete",
+            "old": "analysis_complete"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "parsed"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 4,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "ext-ab693f3d6ef9439c": {
+        "location_checks": 13,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_partial",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "partial"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 5,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      }
+    }
+  },
+  "records": [
+    {
+      "analysis_id": "ext-1d204b35464cf388",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REANALYZED_VALID",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-1d204b35464cf388__attack_emitter.json",
+        "ext-1d204b35464cf388__blackboard.json",
+        "ext-1d204b35464cf388__health.json",
+        "ext-1d204b35464cf388__health_bar.json",
+        "ext-1d204b35464cf388__openable_door.json"
+      ],
+      "file": "ext-1d204b35464cf388.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "b917b0bd4f2e87affdafae538e1bf2005549c632bcbff58a9718c270f7c891c1",
+      "license_status": "eligible",
+      "location": {
+        "checked": 9,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": {
+        "location_checks": 11,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_partial",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "partial",
+            "old": "parsed"
+          },
+          "syntax_coverage_status": {
+            "new": "PARTIAL",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 2,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "provenance_status": "complete",
+      "reanalysis_candidate": false,
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "7290681309ff",
+      "source_analysis_status": "partial",
+      "source_digest": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+      "source_path": "actors/health/Stats.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Stats.gd",
+      "symbol_count": 9,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 6,
+        "properties": 0,
+        "signals": 3,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-23949c1378c49203",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REANALYZED_VALID",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-23949c1378c49203__attack_emitter.json",
+        "ext-23949c1378c49203__blackboard.json",
+        "ext-23949c1378c49203__health.json",
+        "ext-23949c1378c49203__health_bar.json",
+        "ext-23949c1378c49203__openable_door.json"
+      ],
+      "file": "ext-23949c1378c49203.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "input_digest": "60283e7619837fecc55a4cbef252f870993700611fa579264bf86adae07694f5",
+      "license_status": "license_text_missing",
+      "location": {
+        "checked": 8,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": {
+        "location_checks": 11,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_complete",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "partial"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 3,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "provenance_status": "complete",
+      "reanalysis_candidate": false,
+      "repository": "bitbrain/beehave",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "fe589153fa78",
+      "source_analysis_status": "partial",
+      "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+      "source_path": "addons/beehave/blackboard.gd",
+      "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd",
+      "symbol_count": 8,
+      "symbol_counts": {
+        "constants": 1,
+        "exports": 0,
+        "functions": 7,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-27ddd863881677d7",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-27ddd863881677d7__attack_emitter.json",
+        "ext-27ddd863881677d7__blackboard.json",
+        "ext-27ddd863881677d7__health.json",
+        "ext-27ddd863881677d7__health_bar.json",
+        "ext-27ddd863881677d7__openable_door.json"
+      ],
+      "file": "ext-27ddd863881677d7.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "input_digest": "11705eb50ed87f018e3a2371e137e5cd6eb25186fd8b574c43d2bd7914e146e7",
+      "license_status": "license_text_missing",
+      "location": {
+        "checked": 2,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "bitbrain/beehave",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "fe589153fa78",
+      "source_analysis_status": "partial",
+      "source_digest": "fb4fc4dde707ecf1d20998cb6d6da6d9568b73af060ecfa7e1aeb337453410e0",
+      "source_path": "addons/beehave/nodes/leaves/blackboard_set.gd",
+      "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/nodes/leaves/blackboard_set.gd",
+      "symbol_count": 2,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-2a4f612899a6b6a5",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-2a4f612899a6b6a5__attack_emitter.json",
+        "ext-2a4f612899a6b6a5__blackboard.json",
+        "ext-2a4f612899a6b6a5__health.json",
+        "ext-2a4f612899a6b6a5__health_bar.json",
+        "ext-2a4f612899a6b6a5__openable_door.json"
+      ],
+      "file": "ext-2a4f612899a6b6a5.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "1b669a88b4788d23260a1d5e795735bfc6833fb137289e82ab49a6fb048f0c0b",
+      "license_status": "eligible",
+      "location": {
+        "checked": 3,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "7290681309ff",
+      "source_analysis_status": "partial",
+      "source_digest": "2332e1243f82798e8ad9cf85ec979d8e5a765c50fd589b6214a935bb044b9e1e",
+      "source_path": "actors/hit_box/HitBox.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/hit_box/HitBox.gd",
+      "symbol_count": 3,
+      "symbol_counts": {
+        "constants": 1,
+        "exports": 0,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-409141da889d20af",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-409141da889d20af__attack_emitter.json",
+        "ext-409141da889d20af__blackboard.json",
+        "ext-409141da889d20af__health.json",
+        "ext-409141da889d20af__health_bar.json",
+        "ext-409141da889d20af__openable_door.json"
+      ],
+      "file": "ext-409141da889d20af.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "1a418ef366dce22010fb9e33be38e8c70e652c0eb3faee2898f55109ecfca296",
+      "license_status": "eligible",
+      "location": {
+        "checked": 12,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "nezvers/Godot-GameTemplate",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d5d8d1588742",
+      "source_analysis_status": "complete",
+      "source_digest": "dc8a87b32fd12e4b17413ec199cc8821cfe95fdc55d02e337e29769469386e06",
+      "source_path": "addons/top_down/scripts/damage/ActorDamage.gd",
+      "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/ActorDamage.gd",
+      "symbol_count": 12,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 7,
+        "functions": 4,
+        "properties": 0,
+        "signals": 1,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-40ab1c0330e01d7f",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-40ab1c0330e01d7f__attack_emitter.json",
+        "ext-40ab1c0330e01d7f__blackboard.json",
+        "ext-40ab1c0330e01d7f__health.json",
+        "ext-40ab1c0330e01d7f__health_bar.json",
+        "ext-40ab1c0330e01d7f__openable_door.json"
+      ],
+      "file": "ext-40ab1c0330e01d7f.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "e30074803675a0fef98cd1e86eba29429bd2964ff4b2c04db2ed6c3acc432322",
+      "license_status": "eligible",
+      "location": {
+        "checked": 3,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "alfredbaudisch/Godello",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "4458a143644f",
+      "source_analysis_status": "complete",
+      "source_digest": "abd80468ed0754bdfa6d4ce14b02c2237910bf055fbe93e3b806d86d354ccdd1",
+      "source_path": "scripts/drag_utils.gd",
+      "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/drag_utils.gd",
+      "symbol_count": 3,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 3,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-43748f09c01294f9",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 0,
+      "existing_linkage_files": [],
+      "file": "ext-43748f09c01294f9.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "f88a3fc4a22908a86e3ee8131814c23387bcfe598ffa3fe6b53f309208772c77",
+      "license_status": "eligible",
+      "location": {
+        "checked": 3,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-open-rpg",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d59f2f71bc04",
+      "source_analysis_status": "partial",
+      "source_digest": "4c68056c9c1c3d7cd713ef237b7e5792c81226fa5cde50774df5138fd9427c32",
+      "source_path": "src/field/cutscenes/templates/doors/door_trigger.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/field/cutscenes/templates/doors/door_trigger.gd",
+      "symbol_count": 3,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 1,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-4b7782ce66be92a7",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-4b7782ce66be92a7__attack_emitter.json",
+        "ext-4b7782ce66be92a7__blackboard.json",
+        "ext-4b7782ce66be92a7__health.json",
+        "ext-4b7782ce66be92a7__health_bar.json",
+        "ext-4b7782ce66be92a7__openable_door.json"
+      ],
+      "file": "ext-4b7782ce66be92a7.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "20989e9ea6e2c0a8b9d8c2c8a467c3bd0efa86cb0121cdd5cf31abf5ea1e8c8b",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "alfredbaudisch/Godello",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "4458a143644f",
+      "source_analysis_status": "complete",
+      "source_digest": "87db22e8a2ace83ec97108cab65d4c348c13f85600082d578cd4adfcdfdbb96c",
+      "source_path": "addons/uuid/uuid.gd",
+      "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/addons/uuid/uuid.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-51d46c1b4943a254",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-51d46c1b4943a254__attack_emitter.json",
+        "ext-51d46c1b4943a254__blackboard.json",
+        "ext-51d46c1b4943a254__health.json",
+        "ext-51d46c1b4943a254__health_bar.json",
+        "ext-51d46c1b4943a254__openable_door.json"
+      ],
+      "file": "ext-51d46c1b4943a254.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "dba0a65d69ff4c98915c7a6614ceb31a37f81803b09392223f6231983af3f982",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-open-rpg",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d59f2f71bc04",
+      "source_analysis_status": "partial",
+      "source_digest": "f4df1c3da5f5216716cc6d46105bd9f85ed5b9b3523a8cea99b8d4ae3f92c478",
+      "source_path": "src/field/cutscenes/templates/doors/door.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/field/cutscenes/templates/doors/door.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-51fbb1e2b03c3f67",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-51fbb1e2b03c3f67__attack_emitter.json",
+        "ext-51fbb1e2b03c3f67__blackboard.json",
+        "ext-51fbb1e2b03c3f67__health.json",
+        "ext-51fbb1e2b03c3f67__health_bar.json",
+        "ext-51fbb1e2b03c3f67__openable_door.json"
+      ],
+      "file": "ext-51fbb1e2b03c3f67.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80",
+      "input_digest": "36564ac3ecc4914f01150c8ec949047d79bf82ee44e204f2035d533b5aa32bdd",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "ceceppa/anima",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "f4a454ebd4d5",
+      "source_analysis_status": "complete",
+      "source_digest": "050613ecec7f0c63bad675a2137c76958d74a4d2e9bd3882985f80fe51d7923f",
+      "source_path": "addons/anima/motion/runtime/anima_race_instance.gd",
+      "source_url": "https://github.com/ceceppa/anima/blob/f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80/addons/anima/motion/runtime/anima_race_instance.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-55aef2d453370c1b",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-55aef2d453370c1b__attack_emitter.json",
+        "ext-55aef2d453370c1b__blackboard.json",
+        "ext-55aef2d453370c1b__health.json",
+        "ext-55aef2d453370c1b__health_bar.json",
+        "ext-55aef2d453370c1b__openable_door.json"
+      ],
+      "file": "ext-55aef2d453370c1b.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "input_digest": "c7fd6b8709fcec9a33cc336b9f6b33c21703415924081bd33cc4c950d6a9c078",
+      "license_status": "license_text_missing",
+      "location": {
+        "checked": 2,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "bitbrain/beehave",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "fe589153fa78",
+      "source_analysis_status": "partial",
+      "source_digest": "cd7008ea7deb939071a57b1765803a1614be43cc1ef5aa112cff2f160523df75",
+      "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+      "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/nodes/leaves/blackboard_compare.gd",
+      "symbol_count": 2,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-56ca48126ec8514d",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-56ca48126ec8514d__attack_emitter.json",
+        "ext-56ca48126ec8514d__blackboard.json",
+        "ext-56ca48126ec8514d__health.json",
+        "ext-56ca48126ec8514d__health_bar.json",
+        "ext-56ca48126ec8514d__openable_door.json"
+      ],
+      "file": "ext-56ca48126ec8514d.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "69135bb1987b2e4081043178e106a029eedf0566d974e9cf0289dc2ee3a46fde",
+      "license_status": "eligible",
+      "location": {
+        "checked": 8,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "alfredbaudisch/Godello",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "4458a143644f",
+      "source_analysis_status": "partial",
+      "source_digest": "819b9f1e9dd37a0f019d26656ddb48d34bcd139789ba33daa9e816cc0c214aff",
+      "source_path": "scripts/events.gd",
+      "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/events.gd",
+      "symbol_count": 8,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 0,
+        "properties": 0,
+        "signals": 8,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-5a8d53c7f530e4af",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 0,
+      "existing_linkage_files": [],
+      "file": "ext-5a8d53c7f530e4af.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "c45e9de2e9f4bcc6b3ee1223209f2dbedc39c6f25188a16dc78d7307f3d73d4f",
+      "license_status": "eligible",
+      "location": {
+        "checked": 1,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-open-rpg",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d59f2f71bc04",
+      "source_analysis_status": "partial",
+      "source_digest": "8573670e7381df7c2f9cb36a6fc06307bccc753bc865664a23fb49595e22dade",
+      "source_path": "overworld/maps/town/door_unlock_interaction.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/overworld/maps/town/door_unlock_interaction.gd",
+      "symbol_count": 1,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 1,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-5adc6644d3347390",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-5adc6644d3347390__attack_emitter.json",
+        "ext-5adc6644d3347390__blackboard.json",
+        "ext-5adc6644d3347390__health.json",
+        "ext-5adc6644d3347390__health_bar.json",
+        "ext-5adc6644d3347390__openable_door.json"
+      ],
+      "file": "ext-5adc6644d3347390.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "input_digest": "371602dcdb00cbc5d9a2636c94ad63e64b707cbbc5fdafa2582191d8b4412a15",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "Ark2000/PankuConsole",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "863324dfb752",
+      "source_analysis_status": "partial",
+      "source_digest": "ad826b6ca230d9ca13e3968ce03da2d6a5bf3c05ebed271b909b7ad7f52539ac",
+      "source_path": "addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+      "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 2,
+        "functions": 1,
+        "properties": 0,
+        "signals": 0,
+        "variables": 1
+      }
+    },
+    {
+      "analysis_id": "ext-6f85edf0730ee075",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-6f85edf0730ee075__attack_emitter.json",
+        "ext-6f85edf0730ee075__blackboard.json",
+        "ext-6f85edf0730ee075__health.json",
+        "ext-6f85edf0730ee075__health_bar.json",
+        "ext-6f85edf0730ee075__openable_door.json"
+      ],
+      "file": "ext-6f85edf0730ee075.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "5fc9adb95e73ed580186580e76ae4b2ca88126daacf0eccda820aa1b4479863b",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "7290681309ff",
+      "source_analysis_status": "partial",
+      "source_digest": "5d1f00befa4ead8c8321a710dfe8832bb1f66ac064ec0710a990d30da5920a0c",
+      "source_path": "core/world/Door.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/core/world/Door.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 3,
+        "properties": 0,
+        "signals": 1,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-73c80a3db6d71e48",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REANALYZED_VALID",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-73c80a3db6d71e48__attack_emitter.json",
+        "ext-73c80a3db6d71e48__blackboard.json",
+        "ext-73c80a3db6d71e48__health.json",
+        "ext-73c80a3db6d71e48__health_bar.json",
+        "ext-73c80a3db6d71e48__openable_door.json"
+      ],
+      "file": "ext-73c80a3db6d71e48.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "f2750ac9f19a44df0ef7c1e55642f7895cebfd85912911048d9283a34af464d5",
+      "license_status": "eligible",
+      "location": {
+        "checked": 13,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": {
+        "location_checks": 17,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_complete",
+            "old": "analysis_complete"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "parsed"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 4,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "provenance_status": "complete",
+      "reanalysis_candidate": false,
+      "repository": "nezvers/Godot-GameTemplate",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d5d8d1588742",
+      "source_analysis_status": "complete",
+      "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+      "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+      "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd",
+      "symbol_count": 13,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 1,
+        "functions": 6,
+        "properties": 0,
+        "signals": 6,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-7973e94ee75e2819",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-7973e94ee75e2819__attack_emitter.json",
+        "ext-7973e94ee75e2819__blackboard.json",
+        "ext-7973e94ee75e2819__health.json",
+        "ext-7973e94ee75e2819__health_bar.json",
+        "ext-7973e94ee75e2819__openable_door.json"
+      ],
+      "file": "ext-7973e94ee75e2819.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "6e87f2fe51369d50a798be9742489f1b781023d7fb9787c4b54abd7f95c867f4",
+      "license_status": "eligible",
+      "location": {
+        "checked": 8,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "nezvers/Godot-GameTemplate",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d5d8d1588742",
+      "source_analysis_status": "complete",
+      "source_digest": "a649943fbcd40d6e92aa6a2e3f610ad46b7811c709b75c1ef1f05ce1ce96e20b",
+      "source_path": "addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+      "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+      "symbol_count": 8,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 2,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 2
+      }
+    },
+    {
+      "analysis_id": "ext-7d7933a2343f52d0",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-7d7933a2343f52d0__attack_emitter.json",
+        "ext-7d7933a2343f52d0__blackboard.json",
+        "ext-7d7933a2343f52d0__health.json",
+        "ext-7d7933a2343f52d0__health_bar.json",
+        "ext-7d7933a2343f52d0__openable_door.json"
+      ],
+      "file": "ext-7d7933a2343f52d0.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "cb17e182476f3beb377a1e060382bcd8550726697480919a8184b1981784f5b1",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-open-rpg",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d59f2f71bc04",
+      "source_analysis_status": "complete",
+      "source_digest": "38a36c53f2429cad49e447d9a3a4222df1547d6d749b48237c7f1c06f0e57e19",
+      "source_path": "src/combat/ui/battler_entry/ui_life_bar.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/combat/ui/battler_entry/ui_life_bar.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 1,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 1
+      }
+    },
+    {
+      "analysis_id": "ext-80c1104f5262a6ee",
+      "analysis_status": "unsupported_shader",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "NOT_APPLICABLE",
+      "existing_linkage_count": 0,
+      "existing_linkage_files": [],
+      "file": "ext-80c1104f5262a6ee.json",
+      "file_type": "gdshader",
+      "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "input_digest": "13ec5fe16a8f2a8f860317cde3c24a640d2b4ba2d9f093d064a9065c44e10977",
+      "license_status": "eligible",
+      "location": {
+        "checked": 0,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "unsupported_shader",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": false,
+      "repository": "Ark2000/PankuConsole",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "863324dfb752",
+      "source_analysis_status": "skipped",
+      "source_digest": "769a725132834903502f5cff79731256e9ef8c654ae2efbca68bfacc995c3e60",
+      "source_path": "addons/panku_console/res/shader/simple_fast_blur.gdshader",
+      "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/res/shader/simple_fast_blur.gdshader",
+      "symbol_count": 0,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 0,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-9e62ed2e3dec8164",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-9e62ed2e3dec8164__attack_emitter.json",
+        "ext-9e62ed2e3dec8164__blackboard.json",
+        "ext-9e62ed2e3dec8164__health.json",
+        "ext-9e62ed2e3dec8164__health_bar.json",
+        "ext-9e62ed2e3dec8164__openable_door.json"
+      ],
+      "file": "ext-9e62ed2e3dec8164.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "9f7a6900086343ee90b623466264dc420175ba0b4e33b1db6b49dc57d4e5f561",
+      "license_status": "eligible",
+      "location": {
+        "checked": 8,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "alfredbaudisch/Godello",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "4458a143644f",
+      "source_analysis_status": "partial",
+      "source_digest": "540fdf1f898b8909b51cf68fe501aa370bba25b069653ab2135556b34038bc75",
+      "source_path": "scripts/board_member_button.gd",
+      "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/board_member_button.gd",
+      "symbol_count": 8,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 7,
+        "properties": 0,
+        "signals": 0,
+        "variables": 1
+      }
+    },
+    {
+      "analysis_id": "ext-9f0aad5e01dd71f7",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-9f0aad5e01dd71f7__attack_emitter.json",
+        "ext-9f0aad5e01dd71f7__blackboard.json",
+        "ext-9f0aad5e01dd71f7__health.json",
+        "ext-9f0aad5e01dd71f7__health_bar.json",
+        "ext-9f0aad5e01dd71f7__openable_door.json"
+      ],
+      "file": "ext-9f0aad5e01dd71f7.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "feef8be286ae91dac5ef17e1f5ad3ae3e6ddb7d9e4bd69288bbf9a41ba87f35b",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "7290681309ff",
+      "source_analysis_status": "partial",
+      "source_digest": "e032da8e7dfa0f97d2892441329da8fc966febc9d3b388e498df441981e56e5a",
+      "source_path": "interface/gui/player/life_bar/Lifebar.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/interface/gui/player/life_bar/Lifebar.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 3,
+        "properties": 0,
+        "signals": 1,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-aa0204cc227b0480",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-aa0204cc227b0480__attack_emitter.json",
+        "ext-aa0204cc227b0480__blackboard.json",
+        "ext-aa0204cc227b0480__health.json",
+        "ext-aa0204cc227b0480__health_bar.json",
+        "ext-aa0204cc227b0480__openable_door.json"
+      ],
+      "file": "ext-aa0204cc227b0480.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "76d226a3efac66a72aea825382b320c94808f409",
+      "input_digest": "44407e83b0bc9ba19bc7aabfd4d5858850d479240730b2968c588c9eae6bcdbd",
+      "license_status": "license_text_missing",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "derkork/godot-statecharts",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "76d226a3efac",
+      "source_analysis_status": "partial",
+      "source_digest": "4cc0d9a64c00a7848379836bfafc04b5aea07730c598259fb1282a19fe37acc4",
+      "source_path": "addons/godot_state_charts/animation_tree_state.gd",
+      "source_url": "https://github.com/derkork/godot-statecharts/blob/76d226a3efac66a72aea825382b320c94808f409/addons/godot_state_charts/animation_tree_state.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 3,
+        "properties": 0,
+        "signals": 0,
+        "variables": 1
+      }
+    },
+    {
+      "analysis_id": "ext-ab693f3d6ef9439c",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REANALYZED_VALID",
+      "existing_linkage_count": 0,
+      "existing_linkage_files": [],
+      "file": "ext-ab693f3d6ef9439c.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+      "input_digest": "f07f738f7382c8e5c2b16b555f6c4048544ee993b05b104f2a51d69579b8d1a1",
+      "license_status": "eligible",
+      "location": {
+        "checked": 8,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": {
+        "location_checks": 13,
+        "location_problems": 0,
+        "parser_version": "1.75",
+        "provenance_verified": true,
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "source_digest_same": true,
+        "status_change": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_partial",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "partial"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "stopped": null,
+        "symbols_added": 5,
+        "symbols_removed": 0,
+        "workspace": ".ai/learning/external_code/reanalysis/parser_1.75"
+      },
+      "provenance_status": "complete",
+      "reanalysis_candidate": false,
+      "repository": "lampe-games/godot-open-rts",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "a628ad3bb6a9",
+      "source_analysis_status": "partial",
+      "source_digest": "cc6b52103cccd74235624dea1edb0904c4d6ae36366f7be2630c9e257434b3eb",
+      "source_path": "source/match/units/traits/HealthBar.gd",
+      "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/traits/HealthBar.gd",
+      "symbol_count": 8,
+      "symbol_counts": {
+        "constants": 1,
+        "exports": 0,
+        "functions": 7,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-bfe9b7e6dbebbfae",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-bfe9b7e6dbebbfae__attack_emitter.json",
+        "ext-bfe9b7e6dbebbfae__blackboard.json",
+        "ext-bfe9b7e6dbebbfae__health.json",
+        "ext-bfe9b7e6dbebbfae__health_bar.json",
+        "ext-bfe9b7e6dbebbfae__openable_door.json"
+      ],
+      "file": "ext-bfe9b7e6dbebbfae.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2",
+      "input_digest": "6e15f9a7619a37737b44bed3b1d375a7c8837ef526b30a1cd28d4fccabd1fdce",
+      "license_status": "eligible",
+      "location": {
+        "checked": 5,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "partial",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "blackears/cyclopsLevelBuilder",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "ea41feaab5dd",
+      "source_analysis_status": "partial",
+      "source_digest": "2a323c4f422ddccc78fe53768ce62c3fbf1f2fb39147e5c0c5e47a8b5ac2bcd0",
+      "source_path": "godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+      "source_url": "https://github.com/blackears/cyclopsLevelBuilder/blob/ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2/godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+      "symbol_count": 5,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 1,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-c341755c352c7563",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-c341755c352c7563__attack_emitter.json",
+        "ext-c341755c352c7563__blackboard.json",
+        "ext-c341755c352c7563__health.json",
+        "ext-c341755c352c7563__health_bar.json",
+        "ext-c341755c352c7563__openable_door.json"
+      ],
+      "file": "ext-c341755c352c7563.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+      "input_digest": "453267a4980e4a05aefeb0cc7e03bb3b0531f324a5cafa0e59d30c52b4790709",
+      "license_status": "eligible",
+      "location": {
+        "checked": 10,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "lampe-games/godot-open-rts",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "a628ad3bb6a9",
+      "source_analysis_status": "partial",
+      "source_digest": "d4e37f8883d91cd03b8c6f30b9dc43a8162508088baf5d77962967e1d966efac",
+      "source_path": "source/match/units/actions/AutoAttacking.gd",
+      "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/actions/AutoAttacking.gd",
+      "symbol_count": 10,
+      "symbol_counts": {
+        "constants": 2,
+        "exports": 0,
+        "functions": 8,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-c7b0d12daf86d973",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-c7b0d12daf86d973__attack_emitter.json",
+        "ext-c7b0d12daf86d973__blackboard.json",
+        "ext-c7b0d12daf86d973__health.json",
+        "ext-c7b0d12daf86d973__health_bar.json",
+        "ext-c7b0d12daf86d973__openable_door.json"
+      ],
+      "file": "ext-c7b0d12daf86d973.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "2bfcc87f852db74a06eb13ffe10a6fcc9f22ad4fd9e4210c43dfb64e439ac567",
+      "license_status": "eligible",
+      "location": {
+        "checked": 2,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "7290681309ff",
+      "source_analysis_status": "partial",
+      "source_digest": "4e63701d87ab89c6b66655d542565f3148ade135fbb7c8897a15ef957cadaff8",
+      "source_path": "actors/DamageSource.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/DamageSource.gd",
+      "symbol_count": 2,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 1,
+        "properties": 0,
+        "signals": 0,
+        "variables": 1
+      }
+    },
+    {
+      "analysis_id": "ext-d5f7ac2db3a8c4e4",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-d5f7ac2db3a8c4e4__attack_emitter.json",
+        "ext-d5f7ac2db3a8c4e4__blackboard.json",
+        "ext-d5f7ac2db3a8c4e4__health.json",
+        "ext-d5f7ac2db3a8c4e4__health_bar.json",
+        "ext-d5f7ac2db3a8c4e4__openable_door.json"
+      ],
+      "file": "ext-d5f7ac2db3a8c4e4.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "5f6fd9d245ddbddadbdc377c35e0ee72098b7f0f12a1c01582f7ae992f0e2af6",
+      "license_status": "eligible",
+      "location": {
+        "checked": 1,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-open-rpg",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d59f2f71bc04",
+      "source_analysis_status": "complete",
+      "source_digest": "754107d5816d19184cce8aeebcc07d0cb89a4fd445726836a6249e4eb9237d86",
+      "source_path": "src/combat/actions/battler_action_attack.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/combat/actions/battler_action_attack.gd",
+      "symbol_count": 1,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 1,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-d82bd2e536c75c4a",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-d82bd2e536c75c4a__attack_emitter.json",
+        "ext-d82bd2e536c75c4a__blackboard.json",
+        "ext-d82bd2e536c75c4a__health.json",
+        "ext-d82bd2e536c75c4a__health_bar.json",
+        "ext-d82bd2e536c75c4a__openable_door.json"
+      ],
+      "file": "ext-d82bd2e536c75c4a.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "26a69b102c0c4db8824d7b77b93ca364559857e95763b4d6494955ef85530cd6",
+      "license_status": "eligible",
+      "location": {
+        "checked": 12,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "nezvers/Godot-GameTemplate",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "d5d8d1588742",
+      "source_analysis_status": "complete",
+      "source_digest": "e04c3a2983c9f1de11d42cb9c7dce85919f860f44c4bbb819f0cc8e744ab78da",
+      "source_path": "addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+      "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+      "symbol_count": 12,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 3,
+        "functions": 5,
+        "properties": 0,
+        "signals": 0,
+        "variables": 4
+      }
+    },
+    {
+      "analysis_id": "ext-d9764c3981017194",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-d9764c3981017194__attack_emitter.json",
+        "ext-d9764c3981017194__blackboard.json",
+        "ext-d9764c3981017194__health.json",
+        "ext-d9764c3981017194__health_bar.json",
+        "ext-d9764c3981017194__openable_door.json"
+      ],
+      "file": "ext-d9764c3981017194.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "8736f3f9904f0ee71ed6b3b8eca8399055895f5819aef46ababb0694923e77d3",
+      "license_status": "eligible",
+      "location": {
+        "checked": 7,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "7290681309ff",
+      "source_analysis_status": "partial",
+      "source_digest": "40c1a1b6c64fe7277cc42d2594460ed4f21207eacf30808ceebfaa9ad1ab0175",
+      "source_path": "actors/health/Status.gd",
+      "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Status.gd",
+      "symbol_count": 7,
+      "symbol_counts": {
+        "constants": 2,
+        "exports": 0,
+        "functions": 3,
+        "properties": 0,
+        "signals": 2,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-ec789727924bfa6c",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-ec789727924bfa6c__attack_emitter.json",
+        "ext-ec789727924bfa6c__blackboard.json",
+        "ext-ec789727924bfa6c__health.json",
+        "ext-ec789727924bfa6c__health_bar.json",
+        "ext-ec789727924bfa6c__openable_door.json"
+      ],
+      "file": "ext-ec789727924bfa6c.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+      "input_digest": "edb5c58d70eacfb1816f508815dedf086d80e40ecd63f4d3ffad3aa3ef3a7d56",
+      "license_status": "eligible",
+      "location": {
+        "checked": 2,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "foxssake/netfox",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "cf5189d18e98",
+      "source_analysis_status": "complete",
+      "source_digest": "0aa48f82404b3cd508ab10e7138dc734c8b53f6895632c4362ffa973eded98a8",
+      "source_path": "examples/forest-brawl/scripts/play-random-3d.gd",
+      "source_url": "https://github.com/foxssake/netfox/blob/cf5189d18e98766022c8c1c5e637a6a30c4c3703/examples/forest-brawl/scripts/play-random-3d.gd",
+      "symbol_count": 2,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-f80d07f302bacc20",
+      "analysis_status": "analysis_complete",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-f80d07f302bacc20__attack_emitter.json",
+        "ext-f80d07f302bacc20__blackboard.json",
+        "ext-f80d07f302bacc20__health.json",
+        "ext-f80d07f302bacc20__health_bar.json",
+        "ext-f80d07f302bacc20__openable_door.json"
+      ],
+      "file": "ext-f80d07f302bacc20.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "673dc09d9132588da04f3ede2a194f1be40fafd0",
+      "input_digest": "d1029a1134d2781db24b98487fd18b6b0cef169985c3937691ce71e6f502cece",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "cis-ash/TEXTREME",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "673dc09d9132",
+      "source_analysis_status": "complete",
+      "source_digest": "a34a997d42f27cbd4ffc32dcf4c200da8546668f4f6548c81947f8ae304a5ca3",
+      "source_path": "Scenes/EffectParameterSelector/EffectParameterSelector.gd",
+      "source_url": "https://github.com/cis-ash/TEXTREME/blob/673dc09d9132588da04f3ede2a194f1be40fafd0/Scenes/EffectParameterSelector/EffectParameterSelector.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-fb806b579659b155",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-fb806b579659b155__attack_emitter.json",
+        "ext-fb806b579659b155__blackboard.json",
+        "ext-fb806b579659b155__health.json",
+        "ext-fb806b579659b155__health_bar.json",
+        "ext-fb806b579659b155__openable_door.json"
+      ],
+      "file": "ext-fb806b579659b155.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+      "input_digest": "890b98d28c6fa383572ebceeeb79ffb9f06eaa9db890eba83929479945b3bebf",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "foxssake/netfox",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "cf5189d18e98",
+      "source_analysis_status": "partial",
+      "source_digest": "be4e79427622281997462f20bdf3bf42e91210dad39f59b8364d6d58e46fb3c4",
+      "source_path": "examples/multiplayer-state-machine/scripts/character-states/Idle.gd",
+      "source_url": "https://github.com/foxssake/netfox/blob/cf5189d18e98766022c8c1c5e637a6a30c4c3703/examples/multiplayer-state-machine/scripts/character-states/Idle.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 2,
+        "functions": 2,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    },
+    {
+      "analysis_id": "ext-fe3acf782b88edda",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-fe3acf782b88edda__attack_emitter.json",
+        "ext-fe3acf782b88edda__blackboard.json",
+        "ext-fe3acf782b88edda__health.json",
+        "ext-fe3acf782b88edda__health_bar.json",
+        "ext-fe3acf782b88edda__openable_door.json"
+      ],
+      "file": "ext-fe3acf782b88edda.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "input_digest": "eade55ea9ba7aef74662c26019ba95187665ec3b927a4d77f29a1bab2452b1f8",
+      "license_status": "eligible",
+      "location": {
+        "checked": 2,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "Ark2000/PankuConsole",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "863324dfb752",
+      "source_analysis_status": "partial",
+      "source_digest": "94dc2c7c50c406cb712f59d1d8f8dcc9e1f2db4540cbb0e5d3a08cf07abfc107",
+      "source_path": "addons/panku_console/modules/history_manager/env.gd",
+      "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/modules/history_manager/env.gd",
+      "symbol_count": 2,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 1,
+        "properties": 0,
+        "signals": 0,
+        "variables": 1
+      }
+    },
+    {
+      "analysis_id": "ext-fffa637657ffede1",
+      "analysis_status": "analysis_partial",
+      "checks": {
+        "commit_full_present": true,
+        "provenance_complete": true,
+        "reference_digest_match": true,
+        "reference_exists": true,
+        "source_digest_match": true,
+        "source_exists": true
+      },
+      "copy_allowed": true,
+      "coverage": {
+        "analysis_completeness": "NOT_RECORDED",
+        "parse_execution_status": "NOT_RECORDED",
+        "syntax_coverage_status": "NOT_RECORDED",
+        "unrecognized_declarations": "NOT_RECORDED",
+        "unsupported_constructs": "NOT_RECORDED"
+      },
+      "disposition": "REQUIRES_REANALYSIS",
+      "existing_linkage_count": 5,
+      "existing_linkage_files": [
+        "ext-fffa637657ffede1__attack_emitter.json",
+        "ext-fffa637657ffede1__blackboard.json",
+        "ext-fffa637657ffede1__health.json",
+        "ext-fffa637657ffede1__health_bar.json",
+        "ext-fffa637657ffede1__openable_door.json"
+      ],
+      "file": "ext-fffa637657ffede1.json",
+      "file_type": "gdscript",
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "55202aabbd7d74528f8df27a0c6f5a969a9367ea530b6c8bf61667d7e5dd18e8",
+      "license_status": "eligible",
+      "location": {
+        "checked": 4,
+        "integrity": "COMPLETE",
+        "problems": []
+      },
+      "parse_status": "parsed",
+      "parser_name": "gd_parse",
+      "parser_version": "1.71",
+      "phase_1_75": null,
+      "provenance_status": "complete",
+      "reanalysis_candidate": true,
+      "repository": "alfredbaudisch/Godello",
+      "schema": "external_code_analysis",
+      "schema_version": 1,
+      "short_commit_sha": "4458a143644f",
+      "source_analysis_status": "partial",
+      "source_digest": "9d67c3fefd55a2143051c30077ea145143f52aaf7205ba75539592c2ebbaf3fa",
+      "source_path": "scripts/board_card.gd",
+      "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/board_card.gd",
+      "symbol_count": 4,
+      "symbol_counts": {
+        "constants": 0,
+        "exports": 0,
+        "functions": 4,
+        "properties": 0,
+        "signals": 0,
+        "variables": 0
+      }
+    }
+  ],
+  "schema": "external_analysis_corpus_audit",
+  "schema_version": 1,
+  "summary": {
+    "ambiguous_identities": {},
+    "dispositions": {
+      "NOT_APPLICABLE": 1,
+      "REANALYZED_VALID": 4,
+      "REQUIRES_REANALYSIS": 29
+    },
+    "duplicates": {},
+    "file_types": {
+      "gdscript": 33,
+      "gdshader": 1
+    },
+    "linkage_total": 150,
+    "location_incomplete": [],
+    "missing_coverage_metadata": [
+      "ext-1d204b35464cf388",
+      "ext-23949c1378c49203",
+      "ext-27ddd863881677d7",
+      "ext-2a4f612899a6b6a5",
+      "ext-409141da889d20af",
+      "ext-40ab1c0330e01d7f",
+      "ext-43748f09c01294f9",
+      "ext-4b7782ce66be92a7",
+      "ext-51d46c1b4943a254",
+      "ext-51fbb1e2b03c3f67",
+      "ext-55aef2d453370c1b",
+      "ext-56ca48126ec8514d",
+      "ext-5a8d53c7f530e4af",
+      "ext-5adc6644d3347390",
+      "ext-6f85edf0730ee075",
+      "ext-73c80a3db6d71e48",
+      "ext-7973e94ee75e2819",
+      "ext-7d7933a2343f52d0",
+      "ext-80c1104f5262a6ee",
+      "ext-9e62ed2e3dec8164",
+      "ext-9f0aad5e01dd71f7",
+      "ext-aa0204cc227b0480",
+      "ext-ab693f3d6ef9439c",
+      "ext-bfe9b7e6dbebbfae",
+      "ext-c341755c352c7563",
+      "ext-c7b0d12daf86d973",
+      "ext-d5f7ac2db3a8c4e4",
+      "ext-d82bd2e536c75c4a",
+      "ext-d9764c3981017194",
+      "ext-ec789727924bfa6c",
+      "ext-f80d07f302bacc20",
+      "ext-fb806b579659b155",
+      "ext-fe3acf782b88edda",
+      "ext-fffa637657ffede1"
+    ],
+    "missing_input_digest": [],
+    "missing_parser_version": [],
+    "missing_provenance": [],
+    "missing_source_digest": [],
+    "parser_versions_recorded": [
+      "1.71"
+    ],
+    "records": 34,
+    "schema_versions_recorded": [
+      "1"
+    ],
+    "symbol_total": 173,
+    "unique_commits": 12,
+    "unique_identity_tuples": 34,
+    "unique_repositories": 12,
+    "unique_source_paths": 34
+  }
+}

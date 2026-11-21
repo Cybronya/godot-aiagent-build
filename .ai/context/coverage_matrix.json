@@ -1,0 +1,3467 @@
+{
+  "schema": "phase_1_63_coverage_matrix",
+  "schema_version": 1,
+  "summary": {
+    "supported_features": 23,
+    "supported_behaviors": 60,
+    "matrix_rows": 60,
+    "support_source": "Features/*/template.yaml#behavior",
+    "denominator_note": "all ratios use the dynamic supported set as denominator",
+    "contract_coverage": 60,
+    "binding_coverage": 60,
+    "approved_binding_coverage": 60,
+    "evidence_verified": 8,
+    "signature_verified": 8,
+    "attestation_verified": 8,
+    "evaluation_verified": 5,
+    "holdout_available": 1,
+    "mutation_killed": 9,
+    "mutation_invalid": 0,
+    "fully_covered": 0,
+    "behaviors_with_gaps": 60
+  },
+  "rows": [
+    {
+      "feature_id": "attack_emitter",
+      "behavior_id": "raycast_hit_deals_damage",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "2a1db50e5291",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-ATTACK_EMI-RAYCAST_HIT_DEALS_",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "attack_emitter",
+      "behavior_id": "repeated_attack_can_kill",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "71820d16eaa9",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-ATTACK_EMI-REPEATED_ATTACK_CA",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "chase_movement",
+      "behavior_id": "approach_target",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "c306bbed97da",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CHASE_MOVE-APPROACH_TARGET",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "chase_movement",
+      "behavior_id": "hold_without_target",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "ed8038ab54d0",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CHASE_MOVE-HOLD_WITHOUT_TARGE",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "collect_pickup",
+      "behavior_id": "collect_on_contact",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "723f2167e74c",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-001",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-7554abff-bundle.json",
+        "bundle_digest": "fd9366c9f66919c55115c8ab04cee25b8ebc5f08938f40bf32287b0d68c005dc",
+        "run_id": "6520-9e5bf6f3-collect_on_contact",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-7554abff-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "1530b9c4-7f70-4519-b743-3d5f4b27c5a1",
+        "attestation_digest": "b025c05539acf11262ed35fce708109267f2f8b9ede8359a858a0ce440e53eef",
+        "reason": "execution attestation verifies for run 1530b9c4-7f70-4519-b743-3d5f4b27c5a1"
+      },
+      "evaluation": {
+        "status": "VERIFIED_PASS",
+        "report": ".ai/tmp/eval/9656-c51df853/evidence_report.json",
+        "task_id": "E1-P163",
+        "reason": "verified"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M03-collect-pickup-not-freed",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": "6520-9e5bf6f3-collect_on_contact",
+      "latest_evidence_digest": "fd9366c9f66919c55115c8ab04cee25b8ebc5f08938f40bf32287b0d68c005dc",
+      "latest_attestation_digest": "b025c05539acf11262ed35fce708109267f2f8b9ede8359a858a0ce440e53eef",
+      "missing_requirements": [
+        "holdout"
+      ],
+      "next_recommended_action": "collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "condition_gate",
+      "behavior_id": "partial_conditions_block_output",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "86e3dcb65ce7",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CONDITION_-PARTIAL_CONDITIONS",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "condition_gate",
+      "behavior_id": "all_conditions_fulfill",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "80bf50aa7dbf",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CONDITION_-ALL_CONDITIONS_FUL",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "condition_gate",
+      "behavior_id": "condition_fallback_withdraws_output",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "0de0e3512917",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CONDITION_-CONDITION_FALLBACK",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "contact_damage",
+      "behavior_id": "damage_on_contact",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "1732981f92b4",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CONTACT_DA-DAMAGE_ON_CONTACT",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M10-contact-damage-application-omitted",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "contact_damage",
+      "behavior_id": "no_damage_without_contact",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "37b1c673b0be",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CONTACT_DA-NO_DAMAGE_WITHOUT_",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "contact_damage",
+      "behavior_id": "damage_amount_is_respected",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "129430fff4c2",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-CONTACT_DA-DAMAGE_AMOUNT_IS_R",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "cooldown",
+      "behavior_id": "cooldown_blocks_during_window",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "306d90c22da0",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-COOLDOWN-COOLDOWN_BLOCKS_DU",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "cooldown",
+      "behavior_id": "cooldown_expires_and_notifies",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "4633b8df6a20",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-COOLDOWN-COOLDOWN_EXPIRES_A",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "cooldown",
+      "behavior_id": "restart_resets_remaining_window",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "e78d86d00406",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-COOLDOWN-RESTART_RESETS_REM",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "heal_pickup",
+      "behavior_id": "heal_damaged_target",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "9f158fcdec46",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEAL_PICKU-HEAL_DAMAGED_TARGE",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "health",
+      "behavior_id": "damage",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "562bbb4f6bd7",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-002",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json",
+        "bundle_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+        "run_id": "6520-c90f5d20-damage",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "4e57cc10-0f48-41b5-824b-22de06144ec5",
+        "attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+        "reason": "execution attestation verifies for run 4e57cc10-0f48-41b5-824b-22de06144ec5"
+      },
+      "evaluation": {
+        "status": "VERIFIED_PASS",
+        "report": ".ai/tmp/eval/9656-c51df853/evidence_report.json",
+        "task_id": "E2-P163",
+        "reason": "verified"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M01-health-damage-state-update-omitted",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": "6520-c90f5d20-damage",
+      "latest_evidence_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+      "latest_attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+      "missing_requirements": [
+        "holdout"
+      ],
+      "next_recommended_action": "collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "health",
+      "behavior_id": "heal_clamped",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "2ab713269f9e",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH-HEAL_CLAMPED",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json",
+        "bundle_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+        "run_id": "6520-530715a9-heal_clamped",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "4e57cc10-0f48-41b5-824b-22de06144ec5",
+        "attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+        "reason": "execution attestation verifies for run 4e57cc10-0f48-41b5-824b-22de06144ec5"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": "6520-530715a9-heal_clamped",
+      "latest_evidence_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+      "latest_attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+      "missing_requirements": [
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "run evidence_eval.py for this behavior; collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "health",
+      "behavior_id": "death",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "a1e1536e3044",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH-DEATH",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json",
+        "bundle_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+        "run_id": "6520-cdf015c3-death",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "4e57cc10-0f48-41b5-824b-22de06144ec5",
+        "attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+        "reason": "execution attestation verifies for run 4e57cc10-0f48-41b5-824b-22de06144ec5"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": "6520-cdf015c3-death",
+      "latest_evidence_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+      "latest_attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+      "missing_requirements": [
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "run evidence_eval.py for this behavior; collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "health",
+      "behavior_id": "overkill_clamps_at_zero",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "ca77ec16cbe8",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH-OVERKILL_CLAMPS_AT",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json",
+        "bundle_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+        "run_id": "6520-536eeb7e-overkill_clamps_at_zero",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "4e57cc10-0f48-41b5-824b-22de06144ec5",
+        "attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+        "reason": "execution attestation verifies for run 4e57cc10-0f48-41b5-824b-22de06144ec5"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": "6520-536eeb7e-overkill_clamps_at_zero",
+      "latest_evidence_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+      "latest_attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+      "missing_requirements": [
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "run evidence_eval.py for this behavior; collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "health",
+      "behavior_id": "post_death_guard",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "4d36279f1e6b",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH-POST_DEATH_GUARD",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json",
+        "bundle_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+        "run_id": "6520-1856e5d0-post_death_guard",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-6065aa38-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "4e57cc10-0f48-41b5-824b-22de06144ec5",
+        "attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+        "reason": "execution attestation verifies for run 4e57cc10-0f48-41b5-824b-22de06144ec5"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M02-health-post-death-guard-dropped",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": "6520-1856e5d0-post_death_guard",
+      "latest_evidence_digest": "f42379205e960e2fa0abe10d727eb88924710933b6ebe49a36254c62e1954246",
+      "latest_attestation_digest": "a2f3947a0217640e1162788d7925ca440711837777c38f70c62eae8f444a23f2",
+      "missing_requirements": [
+        "evaluation",
+        "holdout"
+      ],
+      "next_recommended_action": "run evidence_eval.py for this behavior; collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "health_bar",
+      "behavior_id": "initial_health_bar_ratio",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "4c502f0046fd",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH_BAR-INITIAL_HEALTH_BAR",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "health_bar",
+      "behavior_id": "damage_updates_health_bar",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "bf6cdfd528d2",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH_BAR-DAMAGE_UPDATES_HEA",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "health_bar",
+      "behavior_id": "healing_updates_health_bar",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "b7471818c956",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH_BAR-HEALING_UPDATES_HE",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "health_bar",
+      "behavior_id": "death_empties_health_bar",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "f38b1e0d750d",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH_BAR-DEATH_EMPTIES_HEAL",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "health_bar",
+      "behavior_id": "unbound_bar_reports_no_fill",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "eef10bb2d84f",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HEALTH_BAR-UNBOUND_BAR_REPORT",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "hit_flash",
+      "behavior_id": "hit_flashes_host",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "76110ae92fa6",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HIT_FLASH-HIT_FLASHES_HOST",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "hit_flash",
+      "behavior_id": "flash_ends_after_duration",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "db797af8fc1c",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HIT_FLASH-FLASH_ENDS_AFTER_D",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "hit_flash",
+      "behavior_id": "heal_does_not_flash",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "6ff9500f36d7",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-HIT_FLASH-HEAL_DOES_NOT_FLAS",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "i_frames",
+      "behavior_id": "iframes_block_damage_within_window",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "08baa1368c21",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-I_FRAMES-IFRAMES_BLOCK_DAMA",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M09-i-frames-invulnerable-gate-dropped",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "i_frames",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "d1cee84ef2fc",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-I_FRAMES-IFRAMES_EXPIRE_AND",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "i_frames",
+      "behavior_id": "killing_blow_still_dies",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "09fff396a69c",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-I_FRAMES-KILLING_BLOW_STILL",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "knockback",
+      "behavior_id": "knockback_applies_and_signals",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "72cb4664f5ce",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-KNOCKBACK-KNOCKBACK_APPLIES_",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "knockback",
+      "behavior_id": "knockback_decays_to_rest",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "76615084520d",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-KNOCKBACK-KNOCKBACK_DECAYS_T",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "knockback",
+      "behavior_id": "knockback_rejects_invalid",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "d1decff5fd97",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-KNOCKBACK-KNOCKBACK_REJECTS_",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "moving_platform",
+      "behavior_id": "travel",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "170f8c4753f4",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-MOVING_PLA-TRAVEL",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "moving_platform",
+      "behavior_id": "round_trip",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "a406f3dd7f66",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-MOVING_PLA-ROUND_TRIP",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "openable_door",
+      "behavior_id": "open",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "0550357495e5",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-006",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "HOLDOUT_AVAILABLE",
+        "dataset_id": "P163-HOLDOUT",
+        "dataset_version": "2",
+        "reason": "sealed holdout dataset is available"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M05-openable-door-state-signal-dropped",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "patrol_movement",
+      "behavior_id": "loop_patrol_cycles_waypoints",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "cc67a2aaadda",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PATROL_MOV-LOOP_PATROL_CYCLES",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "patrol_movement",
+      "behavior_id": "outbound_leg_moves_at_constant_speed",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "9bfddb7b9b60",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PATROL_MOV-OUTBOUND_LEG_MOVES",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "patrol_movement",
+      "behavior_id": "ping_pong_reverses_at_path_end",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "968ebf2a461f",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PATROL_MOV-PING_PONG_REVERSES",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "player_movement",
+      "behavior_id": "move_right",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "1a4271434268",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PLAYER_MOV-MOVE_RIGHT",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "player_movement",
+      "behavior_id": "stop_on_release",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "14d118c11f49",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PLAYER_MOV-STOP_ON_RELEASE",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "projectile",
+      "behavior_id": "in_flight_moves_until_lifetime",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "a82830416842",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PROJECTILE-IN_FLIGHT_MOVES_UN",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "projectile",
+      "behavior_id": "lifetime_expiry_frees_projectile",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "0fc6da21a3c1",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PROJECTILE-LIFETIME_EXPIRY_FR",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "projectile",
+      "behavior_id": "hit_deals_damage_and_expires",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "da2dbbda7bbb",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-PROJECTILE-HIT_DEALS_DAMAGE_A",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "save_game",
+      "behavior_id": "save_slot_persists_world_state",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "d85d91c73250",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-003",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-a6476ac3-bundle.json",
+        "bundle_digest": "abb2b248b34464d2e25e9da97a173cb312459154a9da4484a781f3611ec60012",
+        "run_id": "6520-f4430a07-save_slot_persists_world_state",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-a6476ac3-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "8b3cd43b-8fac-4a83-a299-7115e90febdb",
+        "attestation_digest": "9eaaac7445350760a39f8372eeeb59e626d7f449b3e60fa25a49419d004523f3",
+        "reason": "execution attestation verifies for run 8b3cd43b-8fac-4a83-a299-7115e90febdb"
+      },
+      "evaluation": {
+        "status": "VERIFIED_PASS",
+        "report": ".ai/tmp/eval/9656-c51df853/evidence_report.json",
+        "task_id": "E3-P163",
+        "reason": "verified"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M06-save-game-last-slot-not-recorded",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": "6520-f4430a07-save_slot_persists_world_state",
+      "latest_evidence_digest": "abb2b248b34464d2e25e9da97a173cb312459154a9da4484a781f3611ec60012",
+      "latest_attestation_digest": "9eaaac7445350760a39f8372eeeb59e626d7f449b3e60fa25a49419d004523f3",
+      "missing_requirements": [
+        "holdout"
+      ],
+      "next_recommended_action": "collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "save_game",
+      "behavior_id": "load_slot_restores_world_state",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "5658548584a0",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-004",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "EVIDENCE_VERIFIED",
+        "bundle": ".ai/tmp/p163_e2e/evidence/6520-a6476ac3-bundle.json",
+        "bundle_digest": "abb2b248b34464d2e25e9da97a173cb312459154a9da4484a781f3611ec60012",
+        "run_id": "6520-3b947572-load_slot_restores_world_state",
+        "reason": "latest bundle records validator PASS for this behavior"
+      },
+      "signature": {
+        "status": "SIGNATURE_VERIFIED",
+        "sidecar": ".ai/tmp/p163_e2e/evidence/6520-a6476ac3-bundle.json.sig.json",
+        "reason": "sidecar signature verifies against the independent trust root"
+      },
+      "attestation": {
+        "status": "ATTESTATION_VERIFIED",
+        "run_id": "8b3cd43b-8fac-4a83-a299-7115e90febdb",
+        "attestation_digest": "9eaaac7445350760a39f8372eeeb59e626d7f449b3e60fa25a49419d004523f3",
+        "reason": "execution attestation verifies for run 8b3cd43b-8fac-4a83-a299-7115e90febdb"
+      },
+      "evaluation": {
+        "status": "VERIFIED_PASS",
+        "report": ".ai/tmp/eval/8584-cb20d81b/evidence_report.json",
+        "task_id": "E3",
+        "reason": "verified"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M07-save-game-player-data-not-restored",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": "6520-3b947572-load_slot_restores_world_state",
+      "latest_evidence_digest": "abb2b248b34464d2e25e9da97a173cb312459154a9da4484a781f3611ec60012",
+      "latest_attestation_digest": "9eaaac7445350760a39f8372eeeb59e626d7f449b3e60fa25a49419d004523f3",
+      "missing_requirements": [
+        "holdout"
+      ],
+      "next_recommended_action": "collect an independent batch and seal a fresh holdout dataset"
+    },
+    {
+      "feature_id": "screen_shake",
+      "behavior_id": "trauma_starts_shake",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "53ce3b1aafb6",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-SCREEN_SHA-TRAUMA_STARTS_SHAK",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "screen_shake",
+      "behavior_id": "shake_stops_after_decay",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "d9a0606dc3fa",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-SCREEN_SHA-SHAKE_STOPS_AFTER_",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "sfx_pool",
+      "behavior_id": "sfx_play_emits_and_occupies",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "34711e3584b0",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-SFX_POOL-SFX_PLAY_EMITS_AND",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "sfx_pool",
+      "behavior_id": "sfx_pool_steals_oldest_when_full",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "1ac9403474e5",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-SFX_POOL-SFX_POOL_STEALS_OL",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "state_machine",
+      "behavior_id": "transition_to_named_state",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "453c6c2c15b0",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STATE_MACH-TRANSITION_TO_NAME",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "state_machine",
+      "behavior_id": "previous_backtracks_via_history",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "5b0f41e7e5a9",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STATE_MACH-PREVIOUS_BACKTRACK",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "stun",
+      "behavior_id": "hit_stuns_and_freezes_host",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "7ac692898a40",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STUN-HIT_STUNS_AND_FREE",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "stun",
+      "behavior_id": "stun_expires_and_host_resumes",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "431c6ffb8c3e",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STUN-STUN_EXPIRES_AND_H",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "stun",
+      "behavior_id": "heal_does_not_stun",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "4eeaccd4e3f5",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STUN-HEAL_DOES_NOT_STUN",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "stun",
+      "behavior_id": "death_guard_rejects_stun",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "2034d77bf015",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STUN-DEATH_GUARD_REJECT",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "stun",
+      "behavior_id": "reentry_extends_without_rebroadcast",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "ea087c332249",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-STUN-REENTRY_EXTENDS_WI",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "trigger_switch",
+      "behavior_id": "latch_once",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "4076f02be9eb",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-TRIGGER_SW-LATCH_ONCE",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "VERIFIED_PASS",
+        "report": ".ai/tmp/eval/10856-84242ddd/evidence_report.json",
+        "task_id": "E4",
+        "reason": "verified"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "MUTATION_KILLED",
+        "mutation_id": "M08-trigger-switch-state-written-wrong",
+        "reason": "mutant evaluation is INVALID_EVIDENCE (validator_rejected_evidence)"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "holdout"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    },
+    {
+      "feature_id": "trigger_switch",
+      "behavior_id": "toggle_on_second_contact",
+      "contract_status": "CONTRACT_PRESENT",
+      "contract_version": "2c50fe1dc1a3",
+      "binding": {
+        "status": "APPROVED",
+        "binding_id": "BND-TRIGGER_SW-TOGGLE_ON_SECOND_C",
+        "reason": "approved official binding"
+      },
+      "evidence": {
+        "status": "NO_EVIDENCE",
+        "bundle": null,
+        "bundle_digest": null,
+        "run_id": null,
+        "reason": "no evidence bundle contains this behavior"
+      },
+      "signature": {
+        "status": "NO_SIGNATURE",
+        "sidecar": null,
+        "reason": "no evidence to sign"
+      },
+      "attestation": {
+        "status": "NO_ATTESTATION",
+        "run_id": null,
+        "attestation_digest": null,
+        "reason": "no run binding for this behavior's evidence"
+      },
+      "evaluation": {
+        "status": "NOT_EVALUATED",
+        "report": null,
+        "task_id": null,
+        "reason": "no evaluation report covers this behavior"
+      },
+      "holdout": {
+        "status": "NO_HOLDOUT",
+        "dataset_id": null,
+        "dataset_version": null,
+        "reason": "no holdout dataset covers this behavior"
+      },
+      "mutation": {
+        "status": "NOT_TESTED",
+        "mutation_id": null,
+        "reason": "no mutation targets this behavior"
+      },
+      "latest_run_id": null,
+      "latest_evidence_digest": null,
+      "latest_attestation_digest": null,
+      "missing_requirements": [
+        "verified_evidence",
+        "verified_signature",
+        "verified_attestation",
+        "evaluation",
+        "holdout",
+        "l5_mutation"
+      ],
+      "next_recommended_action": "collect real evidence (feature_behavior_evidence.py --feature); sign the evidence bundle with the trust-root key (provenance_cli.py sign-evidence)"
+    }
+  ],
+  "generated_at": "2026-11-04T03:22:49Z"
+}

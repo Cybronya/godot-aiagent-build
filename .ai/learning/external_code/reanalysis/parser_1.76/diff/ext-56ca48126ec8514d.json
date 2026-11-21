@@ -1,0 +1,131 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-56ca48126ec8514d",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-31b51d9bc05a4a1e",
+  "source_identity": {
+    "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "input_digest": "69135bb1987b2e4081043178e106a029eedf0566d974e9cf0289dc2ee3a46fde",
+    "repository": "alfredbaudisch/Godello",
+    "source_digest": "819b9f1e9dd37a0f019d26656ddb48d34bcd139789ba33daa9e816cc0c214aff",
+    "source_path": "scripts/events.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 0,
+      "properties": 0,
+      "signals": 8,
+      "variables": 0
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 0,
+      "properties": 0,
+      "signals": 8,
+      "variables": 0
+    }
+  },
+  "symbols_added": [],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:add_card_clicked"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:card_clicked"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:card_dragged"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:card_dropped"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:list_dragged"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:list_dropped"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:user_logged_in"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:user_logged_out"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

@@ -1,0 +1,131 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-51d46c1b4943a254",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-7407cd21bd34cb80",
+  "source_identity": {
+    "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "input_digest": "dba0a65d69ff4c98915c7a6614ceb31a37f81803b09392223f6231983af3f982",
+    "repository": "gdquest-demos/godot-open-rpg",
+    "source_digest": "f4df1c3da5f5216716cc6d46105bd9f85ed5b9b3523a8cea99b8d4ae3f92c478",
+    "source_path": "src/field/cutscenes/templates/doors/door.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 4,
+      "properties": 1,
+      "signals": 0,
+      "variables": 3
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 4,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "constants",
+      "kind": "CONSTANT",
+      "line": 8,
+      "name": "GP_SCENE",
+      "type": ""
+    },
+    {
+      "group": "properties",
+      "kind": "PROPERTY",
+      "line": 10,
+      "name": "is_locked",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 34,
+      "name": "_anim",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 35,
+      "name": "_closed_door",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 32,
+      "name": "_dummy_gp",
+      "type": "Gamepiece"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_area_entered"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_blackout"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:open"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

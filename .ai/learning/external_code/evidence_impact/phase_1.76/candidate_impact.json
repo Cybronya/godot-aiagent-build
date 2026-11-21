@@ -1,0 +1,138 @@
+{
+ "candidates": [
+  {
+   "candidate_id": "cand-08fdc0b10a112ecf",
+   "candidate_status": "NEEDS_REVIEW",
+   "context_refs": [
+    {
+     "classification": "INDIRECT_EVIDENCE",
+     "context_kind": "GRAPH_DERIVED_RELATION",
+     "counts_as_implementation_evidence": false,
+     "counts_as_seed": false,
+     "derivation_type": "FEATURE_GRAPH_NEIGHBOUR",
+     "feature_id": "attack_emitter",
+     "linkage_id": "lnk-a099657ab3c9930c"
+    }
+   ],
+   "feature_id": "health",
+   "notes": "Every seed points at a Phase 1.75-reused analysis whose formal record and linkage are byte-identical to what the candidate references. Batch B produced no new reanalysis for these files, so candidate eligibility is untouched; only a human consumption decision on the reused 1.75 additions could change evidence strength later.",
+   "over_conservative": false,
+   "over_optimistic": false,
+   "policy_version": "phase-1.74-c/1",
+   "qualification_changed_by_batch_b": false,
+   "seeds": [
+    {
+     "analysis_id": "ext-73c80a3db6d71e48",
+     "analysis_record_digest_matches": true,
+     "batch_b_processing_status": "REUSED_PHASE_1_75",
+     "batch_b_reanalysis_id": "ext-8759bb47cb020625",
+     "classification": "DIRECT_EVIDENCE",
+     "commit_matches": true,
+     "feature_id": "health",
+     "independence": "INDEPENDENT",
+     "linkage_digest_matches": true,
+     "linkage_id": "lnk-6fff3ce176bd5813",
+     "parser_identity_of_seed": "gd_parse@1.71",
+     "seed_eligibility": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+     "seed_symbols": [
+      "is_dead"
+     ],
+     "source_digest_matches": true,
+     "symbols_touched_by_batch_b": [
+      "max_hp"
+     ]
+    },
+    {
+     "analysis_id": "ext-1d204b35464cf388",
+     "analysis_record_digest_matches": true,
+     "batch_b_processing_status": "REUSED_PHASE_1_75",
+     "batch_b_reanalysis_id": "ext-0ee947aef4c9aeca",
+     "classification": "DIRECT_EVIDENCE",
+     "commit_matches": true,
+     "feature_id": "health",
+     "independence": "INDEPENDENT",
+     "linkage_digest_matches": true,
+     "linkage_id": "lnk-d2d95d8162be1592",
+     "parser_identity_of_seed": "gd_parse@1.71",
+     "seed_eligibility": "QUALIFIED_DIRECT",
+     "seed_symbols": [
+      "take_damage",
+      "heal",
+      "health_changed"
+     ],
+     "source_digest_matches": true,
+     "symbols_touched_by_batch_b": [
+      "health"
+     ]
+    }
+   ]
+  },
+  {
+   "candidate_id": "cand-7f52cb8f583124db",
+   "candidate_status": "NEEDS_REVIEW",
+   "context_refs": [],
+   "feature_id": "blackboard",
+   "notes": "Every seed points at a Phase 1.75-reused analysis whose formal record and linkage are byte-identical to what the candidate references. Batch B produced no new reanalysis for these files, so candidate eligibility is untouched; only a human consumption decision on the reused 1.75 additions could change evidence strength later.",
+   "over_conservative": false,
+   "over_optimistic": false,
+   "policy_version": "phase-1.74-c/1",
+   "qualification_changed_by_batch_b": false,
+   "seeds": [
+    {
+     "analysis_id": "ext-23949c1378c49203",
+     "analysis_record_digest_matches": true,
+     "batch_b_processing_status": "REUSED_PHASE_1_75",
+     "batch_b_reanalysis_id": "ext-d0a93201b6f352df",
+     "classification": "DIRECT_EVIDENCE",
+     "commit_matches": true,
+     "feature_id": "blackboard",
+     "independence": "NOT_INDEPENDENT",
+     "linkage_digest_matches": true,
+     "linkage_id": "lnk-7084dc8999c2182b",
+     "parser_identity_of_seed": "gd_parse@1.71",
+     "seed_eligibility": "QUALIFIED_DIRECT",
+     "seed_symbols": [
+      "Blackboard",
+      "keys",
+      "set_value",
+      "has_value",
+      "erase_value"
+     ],
+     "source_digest_matches": true,
+     "symbols_touched_by_batch_b": [
+      "get_value"
+     ]
+    }
+   ]
+  }
+ ],
+ "phase": "1.76-C",
+ "seed_policy_review": {
+  "context_features": [
+   "attack_emitter"
+  ],
+  "coverage_evidence": "The policy JSON has no coverage/parser_version field; the only coverage statement is free text inside one seed's limitations ('parser captured 1 of 5 @export vars').",
+  "distinguishes_complete_vs_partial_coverage": false,
+  "feature_scope": [
+   "health",
+   "blackboard"
+  ],
+  "gaps": [
+   "No explicit rule that only formal (non-workspace) analysis may seed a candidate.",
+   "No machine-readable coverage-status gate (COMPLETE vs PARTIAL)."
+  ],
+  "graph_mechanism": "context_relations enumerates the graph-derived relation and candidate context_refs carry counts_as_seed=false / counts_as_implementation_evidence=false.",
+  "policy_path": ".ai/tools/feature_registry/candidate_seed_policy.json",
+  "policy_version": "phase-1.74-c/1",
+  "prevents_graph_derived_seed": true,
+  "requires_formal_analysis_update": "IMPLICIT_ONLY",
+  "seed_count": 3,
+  "seed_ids": [
+   "lnk-d2d95d8162be1592",
+   "lnk-6fff3ce176bd5813",
+   "lnk-7084dc8999c2182b"
+  ],
+  "workspace_admissibility_basis": "No explicit parser-version rule exists, but every seed is keyed by linkage_id plus the linkage/analysis digests, and linkage records embed the formal analysis digest. An unreviewed workspace reanalysis cannot satisfy those references, so admission is prevented implicitly rather than by an explicit rule.",
+  "workspace_results_admissible": false
+ }
+}

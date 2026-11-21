@@ -1,0 +1,116 @@
+{
+  "analysis_id": "ext-ec789727924bfa6c",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "cf5189d18e98",
+  "commit_sha_full": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+  "conditions": [
+    {
+      "condition": "if autoplay:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+      "function": "_ready",
+      "line": 12
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "audio",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+      "line": 11,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd:11#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+      "line": 15,
+      "name": "play_random",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd:15#func=play_random",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "edb5c58d70eacfb1816f508815dedf086d80e40ecd63f4d3ffad3aa3ef3a7d56",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "cf5189d18e98",
+    "commit_sha_full": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "foxssake/netfox",
+    "source_path": "examples/forest-brawl/scripts/play-random-3d.gd",
+    "source_url": "https://github.com/foxssake/netfox/blob/cf5189d18e98766022c8c1c5e637a6a30c4c3703/examples/forest-brawl/scripts/play-random-3d.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\audio\\foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+  "repo": "foxssake/netfox",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "0aa48f82404b3cd508ab10e7138dc734c8b53f6895632c4362ffa973eded98a8",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\foxssake__netfox\\gd\\examples\\forest-brawl\\scripts\\play-random-3d.gd",
+  "source_path": "examples/forest-brawl/scripts/play-random-3d.gd",
+  "source_url": "https://github.com/foxssake/netfox/blob/cf5189d18e98766022c8c1c5e637a6a30c4c3703/examples/forest-brawl/scripts/play-random-3d.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "play_random",
+        "line": 16,
+        "method": "pick_random",
+        "receiver": "sounds"
+      }
+    ],
+    "class_name": "PlayRandomStream3D",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "AudioStreamPlayer3D",
+    "functions": [
+      {
+        "end_line": 14,
+        "line": 11,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 17,
+        "line": 15,
+        "name": "play_random",
+        "params": "",
+        "returns": ""
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

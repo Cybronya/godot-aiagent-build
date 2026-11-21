@@ -1,0 +1,102 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-2a4f612899a6b6a5",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-26ad4746ab9aa96e",
+  "source_identity": {
+    "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "input_digest": "1b669a88b4788d23260a1d5e795735bfc6833fb137289e82ab49a6fb048f0c0b",
+    "repository": "gdquest-demos/godot-make-pro-2d-games",
+    "source_digest": "2332e1243f82798e8ad9cf85ec979d8e5a765c50fd589b6214a935bb044b9e1e",
+    "source_path": "actors/hit_box/HitBox.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    },
+    "before": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 6,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        }
+      },
+      "symbol": "constants:DamageSource"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_area_entered"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_active"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

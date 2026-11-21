@@ -1,0 +1,207 @@
+{
+  "analysis_id": "ext-c341755c352c7563",
+  "evidence_items": [
+    {
+      "evidence_id": "lnk-6804d7c13901ed5e:ev:01",
+      "evidence_role": "PAIR_EVALUATION",
+      "evidence_status": "MISSING",
+      "evidence_type": "NONE",
+      "explanation": "compared 2 external symbols (is_applicable) against 9 Feature source symbols and 9 Feature declared symbols; no exact identifier match, no declared external-source relation and no shared significant token were found",
+      "line_reference": null,
+      "matched_value": "",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-c341755c352c7563.json",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "source_side": "BOTH",
+      "symbol_name": ""
+    }
+  ],
+  "evidence_limitations": {
+    "ambiguity_reasons": [],
+    "analysis_status": "analysis_partial",
+    "missing_evidence": [
+      "no exact shared identifier between external symbols and Feature symbols",
+      "no declared external-source relation in Feature metadata",
+      "no shared significant token between the two symbol sets"
+    ],
+    "parser_limitations": [
+      "regex_parser_without_ast_or_type_inference",
+      "unresolved: .ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd 没有 class_name（跨类依赖无法静态归属）"
+    ],
+    "projection_status": "COMPLETE",
+    "provenance_limitations": [
+      "provenance_status=complete",
+      "full commit SHA is recorded"
+    ],
+    "unsupported_content": [],
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "external_analysis": {
+    "analysis_record_digest": "cbcbe73daef0f4ee1d03aa198b9d9903f650aca1b203ac58cd107e10e2b4bcf3",
+    "analysis_record_path": ".ai/learning/external_code/analysis/ext-c341755c352c7563.json",
+    "analysis_status": "analysis_partial",
+    "file_type": "gdscript",
+    "parse_status": "parsed",
+    "provenance_status": "complete",
+    "source_commit": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+    "source_digest": "d4e37f8883d91cd03b8c6f30b9dc43a8162508088baf5d77962967e1d966efac",
+    "source_path": "source/match/units/actions/AutoAttacking.gd",
+    "source_repository": "lampe-games/godot-open-rts",
+    "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/actions/AutoAttacking.gd"
+  },
+  "feature_id": "blackboard",
+  "feature_name": "blackboard",
+  "feature_projection": {
+    "feature_analysis_references": [],
+    "feature_path": "Features/blackboard/feature.yaml",
+    "feature_projection_digest": "f61c08b132256db26eb1e21a2005b1c8a93d7e24cd39609e3608ec3cb14e8b5a",
+    "feature_projection_path": ".ai/learning/feature_evidence/blackboard.json",
+    "feature_source_references": [
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/feature.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\feature.yaml",
+        "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+        "source_path": "Features/blackboard/feature.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_METADATA"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_index.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_path": ".ai/context/feature_index.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_INDEX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_graph.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_path": ".ai/context/feature_graph.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_GRAPH"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/coverage_matrix.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_path": ".ai/context/coverage_matrix.json",
+        "source_status": "FOUND",
+        "source_type": "COVERAGE_MATRIX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/blackboard.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_path": "Features/blackboard/blackboard.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/test_blackboard.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\test_blackboard.gd",
+        "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+        "source_path": "Features/blackboard/test_blackboard.gd",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEST"
+      }
+    ],
+    "projection_status": "COMPLETE",
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "generated_at": "2026-11-15T15:16:41Z",
+  "generator": {
+    "classifier": "deterministic_symbol_and_declaration_matching",
+    "name": "feature_linkage",
+    "version": "phase-1.73-b/1"
+  },
+  "limitations": [
+    "evidence type only; not a similarity, quality, admission or promotion judgement",
+    "analysis_status=analysis_partial",
+    "projection_status=COMPLETE",
+    "external analysis is not complete; its symbols are partial evidence"
+  ],
+  "linkage_classification": "NO_SUPPORTED_LINK",
+  "linkage_id": "lnk-6804d7c13901ed5e",
+  "linkage_outcome": "NOT_LINKED",
+  "pair_evaluation": {
+    "declared_relation": "",
+    "external_symbol_count": 2,
+    "external_symbols": [
+      "is_applicable"
+    ],
+    "feature_declared_symbol_count": 9,
+    "feature_source_symbol_count": 9,
+    "matched_symbols": [],
+    "shared_tokens": []
+  },
+  "schema": "external_analysis_feature_linkage",
+  "schema_version": 1,
+  "snippet_id": "lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+  "source_verification": {
+    "analysis_record": {
+      "digest": "cbcbe73daef0f4ee1d03aa198b9d9903f650aca1b203ac58cd107e10e2b4bcf3",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/external_code/analysis/ext-c341755c352c7563.json"
+    },
+    "external_source_file": {
+      "digest_status": "MATCHED",
+      "path": ".ai/skills/foundation/godot-gdscript/code_library/sources/lampe-games__godot-open-rts/gd/source/match/units/actions/AutoAttacking.gd",
+      "recorded_digest": "d4e37f8883d91cd03b8c6f30b9dc43a8162508088baf5d77962967e1d966efac"
+    },
+    "feature_projection": {
+      "digest": "f61c08b132256db26eb1e21a2005b1c8a93d7e24cd39609e3608ec3cb14e8b5a",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/feature_evidence/blackboard.json"
+    },
+    "feature_sources": [
+      {
+        "path": "Features/blackboard/feature.yaml",
+        "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/blackboard/blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/blackboard/test_blackboard.gd",
+        "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+        "source_status": "FOUND"
+      }
+    ]
+  }
+}

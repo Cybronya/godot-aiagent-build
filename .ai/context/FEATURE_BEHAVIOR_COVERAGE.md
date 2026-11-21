@@ -1,5 +1,23 @@
 # Feature 行为证据覆盖矩阵（Phase 1.49 建立；1.50 / 1.51 更新）
 
+> Phase 1.63 补记（2026-11-04，HEAD `dd3a0e4`）：逐行为绑定已覆盖**整个动态支持集**
+> （23 Feature / 60 Behavior，全部经显式审批 + Ed25519 签名登记；BND-005 因 M04
+> 契约修复被 SUPERSEDED，由 BND-TRIGGER_SW-LATCH_ONCE 顶替）。八维覆盖快照
+> （Evidence / Signature / Attestation 8/60，Evaluation 5/60，Holdout 1/60，
+> L5 Mutation Killed 9/60，Fully Covered 0/60）以
+> `.ai/context/coverage_matrix.md` 为准，由 `evaluation/coverage_matrix.py`
+> 动态生成——本文件不再手抄逐 Behavior 状态。
+
+> Phase 1.60 补记（2026-11-03，HEAD `dd3a0e4`）：在 L4 证据之上新增**逐行为绑定层**。
+> 正式支持集动态读取（`template.yaml#behavior`，60 行为）；其中 **6 个行为**已有
+> 契约级逐行为绑定（`validator/bindings/behavior_bindings.json`，BND-001…006：
+> collect_pickup/collect_on_contact、health/damage、save_game×2、
+> trigger_switch/latch_once、openable_door/open），expected 逐项来自正式契约且
+> 不宽于契约（漂移由契约内容摘要检测）；**其余 54 个行为如实未绑定**。
+> 4 条编排场景 Golden Trace（waves/holdout/boss×2）保持 `SCENARIO_ONLY`，
+> 不作为逐行为 Golden Trace 依据（`evidence_eval.py` 报告的
+> `binding_reconciliation` 块为动态对账事实源）。
+
 > 口径说明：本文件只记录**当前仓库里能跑出什么证据**，不记录「计划要做什么」。
 > 每一行都可以用列出的命令重新生成结论；矩阵中的任何 `PASS` 都必须能对应到
 > 具体的契约文件、测试文件和退出码，不接受「有个测试文件存在」作为依据。
@@ -28,6 +46,11 @@
   `INSUFFICIENT/replay_inconsistent`，不会降级成 PASS。
 - 观察不到时状态是 `INSUFFICIENT`（`check_unavailable` / `action_unavailable` /
   `precondition_unmet` / `evidence_unavailable`），**不是** PASS。
+- Phase 1.57 起，L4 的「真实执行」不再只靠采集侧自报：Validator 会打开每条 behavior 每次
+  重放的 `result.json`（`evidence_paths`），独立重算执行标识、重放条数与序号、动作是否真的
+  执行、观测是否等于证据 `actual[]`、重放一致性，并校对产物 sha256（`artifact_digests`）。
+  本表里的 L4 结论以 `validator/check_behavior_evidence.py` 的交叉验证通过为前提；矩阵中
+  任何 L4 行都可用 `--behavior-evidence` 复核（见 `PHASE_1_57_COMPLETION_REPORT.md`）。
 
 ---
 
@@ -345,3 +368,130 @@ python .ai/tools/scene_composer/tests/test_health_behavior.py
 - 观测：`sfx_pool.active_count`（自管簿记是 headless 下唯一确定的占用读法）
 - 信号登记：`knockback.changed`、`sfx.played`（无载荷——协议 args 只允许 bool/int/string，含对象载荷的组件信号不改协议语义）
 - 组合探针（composite_behavior_probe.gd）补齐 1.53 全部 5 动作/2 观测 + 1.54 全部 2 动作/1 观测（两端能力一致性）
+
+## 附：Phase 1.56 增量（L4 证据接入 Validator，2026-11-01）
+
+**本阶段没有新增任何 Feature、行为契约或证据层级。** 变化的只是 L4 证据的**去向**：
+此前 `feature_behavior_evidence.py` 的结论只打印在终端（`PASS`/`MISMATCH`/...），
+Validator 与 Evaluation 都读不到；现在 L4 证据可以落盘为带完整性摘要的证据包，并由
+Validator 的独立阶段重新判定。
+
+| 事项 | 事实 |
+| --- | --- |
+| 采集侧 | `scene_composer/feature_behavior_evidence.py --evidence-out DIR` → `feature_behavior_evidence_bundle`（schema_version 1），`evidence_level: L4`，含每条 check 的 `expected` / `observed` / `observed_args` / 重放次数与一致性 / 证据路径 |
+| 复核侧 | `validator/check_behavior_evidence.py`（`validate.py --behavior-evidence`，默认不执行）；用 `template.yaml#behavior` 重算，不采信证据自报 `status` |
+| 真实实测（2026-11-01，HEAD `dd3a0e4`） | 采集：23 Feature / **60 条行为** `pass=60 mismatch=0 insufficient=0 invalid=0`；复核：`Behavior evidence (L4): PASS (bundles=1, features=23, pass=60, fail=0, incomplete=0)`，`validate.py` 退出码 0 |
+| 完整性 | 证据包 `integrity.payload_sha256`（规范化 JSON，排除 `integrity` 自身）；篡改一条真实观测 → `FAIL integrity mismatch`（实测）；删除一条行为记录并重签 → `INCOMPLETE behavior_uncovered`（实测） |
+| 等级纪律 | 只复核 L4。证据包声明 L2/L5 → `FAIL`（实测）；本阶段**不为任何 Feature 声明 L5** |
+
+各 Feature 的 L2/L3/L4/L5/L6 状态与本文件 §3 一致，**未因本阶段变化**：
+L5（缺陷注入）仍只有 `health` 等已列出的 Feature 具备；`PARTIAL` 仍是 `PARTIAL`。
+`PASS (L4)` 只表示「契约声明的行为在真实运行时符合」，不等于 `VERIFIED`。
+
+未解决的信任边界：哈希能发现生成后的改动，**不能**证明来源可信（同一权限下改实现再重签
+即可绕过）。该边界在 `PHASE_1_56_COMPLETION_REPORT.md` §7 显式记录，未声称已解决。
+
+```bash
+# 采集 + 复核（Phase 1.56 全链路）
+python .ai/tools/scene_composer/feature_behavior_evidence.py --all --evidence-out .ai/tmp/behavior_bundles
+python .ai/tools/validator/validate.py --behavior-evidence --evidence-dir .ai/tmp/behavior_bundles
+```
+
+---
+
+## Phase 1.58：证据 → 评估 的对账（2026-11-03，真实运行）
+
+证据「存在且有效」不等于「被评估过」。这一节只记录**本轮真实跑出来的**集合关系，
+数字都可用下面命令复现（`.ai/tmp/p158/bundles` 为 2026-11-03 真实采集，8 条行为全 PASS）：
+
+```bash
+python .ai/tools/scene_composer/feature_behavior_evidence.py \
+  --feature collect_pickup --feature health --feature save_game \
+  --evidence-out .ai/tmp/p158/bundles --bundle-id p158-real
+python .ai/tools/evaluation/evidence_eval.py --evidence-dir .ai/tmp/p158/bundles
+```
+
+| 集合 | 数量 | 口径 |
+| --- | --- | --- |
+| 支持集（契约声明） | 60 | `declared_features()` = 23 Feature，`build_contracts()` = 60 Behavior，动态读取 |
+| 证据集（本轮采集） | 8 | collect_pickup 1 + health 5 + save_game 2 |
+| 评估集（任务覆盖） | 5 | E1 `collect_on_contact`、E2 `damage`、E3 两条 save 行为、E4 `latch_once` |
+| Golden Trace 集 | 0 | 4 个已批准基线只有场景级绑定，无 Feature/Behavior 对应 → `NOT_APPLICABLE` |
+| Holdout 集 | 0 | E5 未提供独立批次 → `NOT_EVALUATED(holdout_unavailable)`，不计为通过 |
+
+有证据但**没有**对应评估任务（如实登记，未补任务凑数）：`health/death`、
+`health/heal_clamped`、`health/overkill_clamps_at_zero`、`health/post_death_guard`。
+
+本轮真实结论：`VERIFIED_PASS=4`（E1–E4），Mode B 的 E4 由本次采集产生证据后同样经
+Validator 复核；`VETO` 路径实测可用——同一批真实证据 + 更严期望 → `VERIFIED_FAIL`；
+证据包篡改 → `INVALID_EVIDENCE`。报告：`.ai/tmp/eval/10856-84242ddd/evidence_report.json`。
+
+**注意**：此处 `VERIFIED_PASS` 只覆盖 5/60 条行为，不代表整体行为质量已验收；
+其余 55 条行为既未评估、也未在本轮采集，状态是 `NOT_EVALUATED`，不是 PASS。
+
+---
+
+## Phase 1.59：L5 缺陷注入扩展（2026-11-03，真实 Godot 运行）
+
+上文 §3 的 L5 列来自 Phase 1.51（只覆盖 `health` 的 9 类注入，注入方式为一次性脚本）。
+本阶段把它做成**可重复、可审计的 mutation harness**：`evaluation/mutation/` 在 `Features/` 的
+隔离副本里按 catalog 注入一处真实缺陷 → 真实采集 → 现有 Validator + Evaluation 判定 →
+逐字节恢复 → 再跑一次。仓库 `Features/**` 全程只读（每次 run 比对哈希）。
+
+**判定纪律**：`INVALID_MUTANT`（注入没造成预期行为变化）**不计入** killed/survived 分母，
+也不为本 Feature 增加 L5 覆盖；`NOT_RUN`（哈希过期/未声明）不等于通过。
+
+| # | Feature / Behavior | 缺陷类型 | 关键观测（control → mutant） | 判定 |
+| --- | --- | --- | --- | --- |
+| M01 | `health` / `damage` | 状态更新遗漏（不扣血只发信号） | `health.current` 1 → 5 | `MUTANT_KILLED` |
+| M02 | `health` / `post_death_guard` | 生命周期守卫缺失 | `health.health_changed` count 1 → 2 | `MUTANT_KILLED` |
+| M03 | `collect_pickup` / `collect_on_contact` | 资源释放遗漏 | `node.freed` true → false | `MUTANT_KILLED` |
+| M04 | `trigger_switch` / `latch_once` | 状态锁存守卫移除 | `trigger.activated` 1 → 1（无差异） | `INVALID_MUTANT` |
+| M05 | `openable_door` / `open` | 事件广播遗漏 | `door.state_changed` 1 → 0 | `MUTANT_KILLED` |
+| M06 | `save_game` / `save_slot_persists_world_state` | 持久化记录遗漏 | `savegame.last_slot` 相同（`user://` 残留） | `INVALID_MUTANT` |
+| M07 | `save_game` / `load_slot_restores_world_state` | 持久化读取遗漏 | `World/Player/Health.current` 3 → 1 | `MUTANT_KILLED` |
+| M08 | `trigger_switch` / `latch_once` | 状态转移写错值 | `trigger.is_triggered` true → false | `MUTANT_KILLED` |
+
+**本轮真实结论**：8 条注入 / 6 条 `MUTANT_KILLED`（5 Feature、6 Behavior）/ 2 条 `INVALID_MUTANT` /
+0 `SURVIVED` / 0 `HARNESS_ERROR` / 0 `TIMEOUT` / 0 `NOT_RUN`。每条 KILLED 都伴随
+control `VERIFIED_PASS` 与 recovery `VERIFIED_PASS`（逐字节恢复后再跑一次仍 PASS）。
+
+因此 L5 的**新增可信覆盖**是 5 个 Feature / 6 条 Behavior：`health/damage`、
+`health/post_death_guard`、`collect_pickup/collect_on_contact`、`openable_door/open`、
+`save_game/load_slot_restores_world_state`、`trigger_switch/latch_once`。其余 18 个 Feature
+（53 条 Behavior）**本阶段未做 L5**，状态仍是 `NOT_EVALUATED`，不是 PASS。
+
+**两条 INVALID_MUTANT 暴露的是探针/契约的分辨力缺口（不是「没检出」）**：
+
+- M04：删掉 Latching 分支的 `if _triggered: return` 后，契约里第二次 `physics.overlap`
+  不再产生第二次 `body_entered`，那行守卫在真实执行里根本没被走到 → 观测完全相同。
+- M06：`user://saved_games/_last.txt` 跨 run 残留（control 那次写下的记录），mutant「忘记记录」
+  时回读到的仍是上次的值 → 该契约对「忘记记录」没有分辨力。
+
+两条都如实记为 `INVALID_MUTANT` 并保留在 catalog 里作为**待补探针**的凭据，未通过改期望、
+改证据或改实现来「凑成」KILLED。
+
+---
+
+## Phase 1.64：系统性扩大覆盖（Batch 1，2026-11-04，真实 Godot）
+
+Phase 1.63 建立了八维对账，但 60 条 Behavior 里只有 8 条有证据。本阶段做的是**扩大真实覆盖**，
+不是改口径：新增 4 条 Evidence/Signature/Attestation/Evaluation，新增 1 个 Fully Covered。
+
+| Feature / Behavior | 类型 | Evidence | Signature | Attestation | Evaluation | Mutation |
+| --- | --- | --- | --- | --- | --- | --- |
+| `save_game/save_slot_persists_world_state` | C | ✅（重跑复核） | ✅ | ✅ | ✅ | KILLED（M06） |
+| `save_game/load_slot_restores_world_state` | C | ✅（重跑复核） | ✅ | ✅ | ✅ | KILLED（M07） |
+| `i_frames/iframes_block_damage_within_window` | F | ✅ **新增** | ✅ | ✅ | ✅ | KILLED（M09） |
+| `i_frames/iframes_expire_and_damage_resumes` | A | ✅ **新增** | ✅ | ✅ | ✅ | KILLED（**M11 新增**） |
+| `i_frames/killing_blow_still_dies` | F | ✅ **新增** | ✅ | ✅ | ✅ | 无（待补） |
+| `openable_door/open` | A+B | ✅ **新增** | ✅ | ✅ | ✅ | KILLED（M05/M12） |
+
+- 全库口径（分母 60）：Evidence/Signature/Attestation/Evaluation **12/60（20%）**、
+  L5 Mutation Killed（Behavior 数）**10/60（17%）**、Holdout 1/60、
+  **Fully Covered 1/60（1.7%，`openable_door/open`）**。
+- 其余 **48 条无证据、50 条无 mutation、59 条无 Holdout**：状态仍是 `NOT_EVALUATED` / `NOT_TESTED`，
+  **不是 PASS**。
+- 两条新 mutation 的意义：M11 是 M09（开窗没关门）的互补面（到期没归还门）；
+  M12 是「语法完全合法、只在行为上错」的守卫反转——两者都只有真实执行才能发现。
+- 本阶段未改 `Features/**`、未改契约、未改绑定；`openable_door` 的 Holdout 来自 1.63，未重封。

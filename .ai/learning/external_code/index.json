@@ -1,0 +1,3784 @@
+{
+  "analyses": [
+    {
+      "analysis_id": "ext-1d204b35464cf388",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "7290681309ff",
+      "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "line": 17,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:17#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "line": 20,
+          "name": "set_max_health",
+          "params": "value",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:20#func=set_max_health",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "line": 23,
+          "name": "take_damage",
+          "params": "amount",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:23#func=take_damage",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "line": 31,
+          "name": "heal",
+          "params": "amount",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:31#func=heal",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "line": 36,
+          "name": "add_modifier",
+          "params": "id, modifier",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:36#func=add_modifier",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "line": 39,
+          "name": "remove_modifier",
+          "params": "id",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:39#func=remove_modifier",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "repo": "gdquest-demos/godot-make-pro-2d-games",
+      "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "source_path": "actors/health/Stats.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "remove_modifier",
+            "line": 40,
+            "method": "erase",
+            "receiver": "modifiers"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Node",
+        "functions": [
+          {
+            "end_line": 19,
+            "line": 17,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 22,
+            "line": 20,
+            "name": "set_max_health",
+            "params": "value",
+            "returns": ""
+          },
+          {
+            "end_line": 30,
+            "line": 23,
+            "name": "take_damage",
+            "params": "amount",
+            "returns": ""
+          },
+          {
+            "end_line": 35,
+            "line": 31,
+            "name": "heal",
+            "params": "amount",
+            "returns": ""
+          },
+          {
+            "end_line": 38,
+            "line": 36,
+            "name": "add_modifier",
+            "params": "id, modifier",
+            "returns": ""
+          },
+          {
+            "end_line": 40,
+            "line": 39,
+            "name": "remove_modifier",
+            "params": "id",
+            "returns": ""
+          }
+        ],
+        "signals": [
+          {
+            "line": 6,
+            "name": "health_changed",
+            "params": "new_health"
+          },
+          {
+            "line": 7,
+            "name": "damage_taken",
+            "params": "new_health"
+          },
+          {
+            "line": 8,
+            "name": "health_depleted",
+            "params": ""
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-23949c1378c49203",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "fe589153fa78",
+      "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+          "line": 19,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:19#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+          "line": 24,
+          "name": "keys",
+          "params": "",
+          "returns": "Array[String]",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:24#func=keys",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+          "line": 30,
+          "name": "set_value",
+          "params": "key: Variant, value: Variant, blackboard_name: String = DEFAULT",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:30#func=set_value",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+          "line": 45,
+          "name": "has_value",
+          "params": "key: Variant, blackboard_name: String = DEFAULT",
+          "returns": "bool",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:45#func=has_value",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+          "line": 53,
+          "name": "erase_value",
+          "params": "key: Variant, blackboard_name: String = DEFAULT",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:53#func=erase_value",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+          "line": 57,
+          "name": "get_debug_data",
+          "params": "",
+          "returns": "Dictionary",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:57#func=get_debug_data",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "license_text_missing",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ai\\bitbrain__beehave__addons__beehave__blackboard.gd",
+      "repo": "bitbrain/beehave",
+      "snippet_id": "bitbrain__beehave__addons__beehave__blackboard.gd",
+      "source_path": "addons/beehave/blackboard.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_ready",
+            "line": 20,
+            "method": "duplicate",
+            "receiver": "blackboard"
+          },
+          {
+            "function": "keys",
+            "line": 26,
+            "method": "assign",
+            "receiver": "keys"
+          },
+          {
+            "function": "keys",
+            "line": 26,
+            "method": "keys",
+            "receiver": "_data"
+          },
+          {
+            "function": "set_value",
+            "line": 31,
+            "method": "has",
+            "receiver": "_data"
+          },
+          {
+            "function": "has_value",
+            "line": 47,
+            "method": "has",
+            "receiver": "_data"
+          },
+          {
+            "function": "erase_value",
+            "line": 54,
+            "method": "has",
+            "receiver": "_data"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 76,
+            "method": "keys",
+            "receiver": "value"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 85,
+            "method": "append",
+            "receiver": "arr"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 94,
+            "method": "get_tree",
+            "receiver": "value"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 95,
+            "method": "get_path",
+            "receiver": "value"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 97,
+            "method": "get_class",
+            "receiver": "value"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 100,
+            "method": "get_instance_id",
+            "receiver": "value"
+          },
+          {
+            "function": "_sanitize_for_debug",
+            "line": 105,
+            "method": "get_class",
+            "receiver": "value"
+          }
+        ],
+        "class_name": "Blackboard",
+        "connections": [],
+        "constants": [
+          {
+            "line": 7,
+            "name": "DEFAULT",
+            "value": "\"default\""
+          }
+        ],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 23,
+            "line": 19,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 29,
+            "line": 24,
+            "name": "keys",
+            "params": "",
+            "returns": "Array[String]"
+          },
+          {
+            "end_line": 36,
+            "line": 30,
+            "name": "set_value",
+            "params": "key: Variant, value: Variant, blackboard_name: String = DEFAULT",
+            "returns": "void"
+          },
+          {
+            "end_line": 52,
+            "line": 45,
+            "name": "has_value",
+            "params": "key: Variant, blackboard_name: String = DEFAULT",
+            "returns": "bool"
+          },
+          {
+            "end_line": 56,
+            "line": 53,
+            "name": "erase_value",
+            "params": "key: Variant, blackboard_name: String = DEFAULT",
+            "returns": "void"
+          },
+          {
+            "end_line": 63,
+            "line": 57,
+            "name": "get_debug_data",
+            "params": "",
+            "returns": "Dictionary"
+          },
+          {
+            "end_line": 113,
+            "line": 64,
+            "name": "_sanitize_for_debug",
+            "params": "value: Variant, depth: int = 0",
+            "returns": "Variant"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-27ddd863881677d7",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "fe589153fa78",
+      "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+          "line": 18,
+          "name": "tick",
+          "params": "actor: Node, blackboard: Blackboard",
+          "returns": "int",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd:18#func=tick",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "license_text_missing",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "repo": "bitbrain/beehave",
+      "snippet_id": "bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "source_path": "addons/beehave/nodes/leaves/blackboard_set.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "tick",
+            "line": 19,
+            "method": "execute",
+            "receiver": "_key_expression"
+          },
+          {
+            "function": "tick",
+            "line": 21,
+            "method": "has_execute_failed",
+            "receiver": "_key_expression"
+          },
+          {
+            "function": "tick",
+            "line": 24,
+            "method": "execute",
+            "receiver": "_value_expression"
+          },
+          {
+            "function": "tick",
+            "line": 26,
+            "method": "has_execute_failed",
+            "receiver": "_value_expression"
+          },
+          {
+            "function": "tick",
+            "line": 29,
+            "method": "set_value",
+            "receiver": "blackboard"
+          }
+        ],
+        "class_name": "BlackboardSetAction",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 33,
+            "line": 18,
+            "name": "tick",
+            "params": "actor: Node, blackboard: Blackboard",
+            "returns": "int"
+          },
+          {
+            "end_line": 35,
+            "line": 34,
+            "name": "_get_expression_sources",
+            "params": "",
+            "returns": "Array[String]"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-2a4f612899a6b6a5",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "7290681309ff",
+      "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd",
+          "line": 13,
+          "name": "set_active",
+          "params": "value",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd:13#func=set_active",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd",
+      "repo": "gdquest-demos/godot-make-pro-2d-games",
+      "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd",
+      "source_path": "actors/hit_box/HitBox.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_on_area_entered",
+            "line": 11,
+            "method": "take_damage_from",
+            "receiver": "owner"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [
+          {
+            "line": 6,
+            "name": "DamageSource",
+            "value": "preload(\"res://actors/DamageSource.gd\")"
+          }
+        ],
+        "exports": [],
+        "extends": "Area2D",
+        "functions": [
+          {
+            "end_line": 12,
+            "line": 8,
+            "name": "_on_area_entered",
+            "params": "area",
+            "returns": ""
+          },
+          {
+            "end_line": 14,
+            "line": 13,
+            "name": "set_active",
+            "params": "value",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-409141da889d20af",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "d5d8d1588742",
+      "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+          "line": 17,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd:17#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "repo": "nezvers/Godot-GameTemplate",
+      "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "source_path": "addons/top_down/scripts/damage/ActorDamage.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_ready",
+            "line": 18,
+            "method": "get_resource",
+            "receiver": "resource_node"
+          },
+          {
+            "function": "_ready",
+            "line": 27,
+            "method": "play",
+            "receiver": "flash_animation_player"
+          },
+          {
+            "function": "_ready",
+            "line": 28,
+            "method": "bind",
+            "receiver": "_remove_connections"
+          },
+          {
+            "function": "_remove_connections",
+            "line": 31,
+            "method": "disconnect",
+            "receiver": "damaged"
+          },
+          {
+            "function": "_remove_connections",
+            "line": 33,
+            "method": "disconnect",
+            "receiver": "dead"
+          },
+          {
+            "function": "_play_damaged",
+            "line": 36,
+            "method": "stop",
+            "receiver": "flash_animation_player"
+          },
+          {
+            "function": "_play_damaged",
+            "line": 37,
+            "method": "play",
+            "receiver": "flash_animation_player"
+          },
+          {
+            "function": "_play_damaged",
+            "line": 38,
+            "method": "play_managed",
+            "receiver": "sound_resource_damage"
+          },
+          {
+            "function": "_play_dead",
+            "line": 41,
+            "method": "play_managed",
+            "receiver": "sound_resource_dead"
+          }
+        ],
+        "class_name": "ActorDamage",
+        "connections": [
+          {
+            "emitter": "_health_resource",
+            "function": "_ready",
+            "handler": "_play_damaged",
+            "line": 20,
+            "signal": "damaged"
+          },
+          {
+            "emitter": "_health_resource",
+            "function": "_ready",
+            "handler": "_play_dead",
+            "line": 23,
+            "signal": "dead"
+          },
+          {
+            "emitter": "self",
+            "function": "_ready",
+            "handler": "_remove_connections",
+            "line": 28,
+            "signal": "tree_exiting"
+          }
+        ],
+        "constants": [],
+        "exports": [
+          {
+            "line": 9,
+            "name": "resource_node",
+            "type": "ResourceNode",
+            "value": ""
+          },
+          {
+            "line": 10,
+            "name": "sprite_flip",
+            "type": "SpriteFlip",
+            "value": ""
+          },
+          {
+            "line": 11,
+            "name": "flash_animation_player",
+            "type": "AnimationPlayer",
+            "value": ""
+          },
+          {
+            "line": 12,
+            "name": "flash_animation",
+            "type": "StringName",
+            "value": ""
+          },
+          {
+            "line": 13,
+            "name": "sound_resource_damage",
+            "type": "SoundResource",
+            "value": ""
+          },
+          {
+            "line": 14,
+            "name": "sound_resource_dead",
+            "type": "SoundResource",
+            "value": ""
+          },
+          {
+            "line": 15,
+            "name": "dead_vfx_instance_resource",
+            "type": "InstanceResource",
+            "value": ""
+          }
+        ],
+        "extends": "Node",
+        "functions": [
+          {
+            "end_line": 29,
+            "line": 17,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 34,
+            "line": 30,
+            "name": "_remove_connections",
+            "params": "health_resource:HealthResource",
+            "returns": "void"
+          },
+          {
+            "end_line": 39,
+            "line": 35,
+            "name": "_play_damaged",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 48,
+            "line": 40,
+            "name": "_play_dead",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [
+          {
+            "line": 7,
+            "name": "actor_died",
+            "params": ""
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-40ab1c0330e01d7f",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "4458a143644f",
+      "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+          "line": 7,
+          "name": "get_drag_data",
+          "params": "_node, _model",
+          "returns": "Dictionary",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd:7#func=get_drag_data",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+          "line": 14,
+          "name": "find_closest_horizontal_child",
+          "params": "mouse_pos, compare_to, container, container_scroll, ignore_child = null",
+          "returns": "Array",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd:14#func=find_closest_horizontal_child",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+          "line": 40,
+          "name": "find_closest_vertical_child",
+          "params": "mouse_pos, compare_to, container, container_scroll",
+          "returns": "Array",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd:40#func=find_closest_vertical_child",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "repo": "alfredbaudisch/Godello",
+      "snippet_id": "alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "source_path": "scripts/drag_utils.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "find_closest_horizontal_child",
+            "line": 19,
+            "method": "get_h_scroll",
+            "receiver": "container_scroll"
+          },
+          {
+            "function": "find_closest_horizontal_child",
+            "line": 21,
+            "method": "get_children",
+            "receiver": "container"
+          },
+          {
+            "function": "find_closest_horizontal_child",
+            "line": 22,
+            "method": "get_name",
+            "receiver": "child"
+          },
+          {
+            "function": "find_closest_horizontal_child",
+            "line": 25,
+            "method": "get_position",
+            "receiver": "child"
+          },
+          {
+            "function": "find_closest_horizontal_child",
+            "line": 32,
+            "method": "get_position",
+            "receiver": "closest_child"
+          },
+          {
+            "function": "find_closest_horizontal_child",
+            "line": 33,
+            "method": "get_size",
+            "receiver": "closest_child"
+          },
+          {
+            "function": "find_closest_vertical_child",
+            "line": 45,
+            "method": "get_v_scroll",
+            "receiver": "container_scroll"
+          },
+          {
+            "function": "find_closest_vertical_child",
+            "line": 47,
+            "method": "get_children",
+            "receiver": "container"
+          },
+          {
+            "function": "find_closest_vertical_child",
+            "line": 48,
+            "method": "get_position",
+            "receiver": "child"
+          },
+          {
+            "function": "find_closest_vertical_child",
+            "line": 55,
+            "method": "get_position",
+            "receiver": "closest_child"
+          },
+          {
+            "function": "find_closest_vertical_child",
+            "line": 56,
+            "method": "get_size",
+            "receiver": "closest_child"
+          }
+        ],
+        "class_name": "DragUtils",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 13,
+            "line": 7,
+            "name": "get_drag_data",
+            "params": "_node, _model",
+            "returns": "Dictionary"
+          },
+          {
+            "end_line": 39,
+            "line": 14,
+            "name": "find_closest_horizontal_child",
+            "params": "mouse_pos, compare_to, container, container_scroll, ignore_child = null",
+            "returns": "Array"
+          },
+          {
+            "end_line": 60,
+            "line": 40,
+            "name": "find_closest_vertical_child",
+            "params": "mouse_pos, compare_to, container, container_scroll",
+            "returns": "Array"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-43748f09c01294f9",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "d59f2f71bc04",
+      "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/animation/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door_trigger.gd",
+          "line": 9,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/animation/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door_trigger.gd:9#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\animation\\gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door_trigger.gd",
+      "repo": "gdquest-demos/godot-open-rpg",
+      "snippet_id": "gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door_trigger.gd",
+      "source_path": "src/field/cutscenes/templates/doors/door_trigger.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_ready",
+            "line": 10,
+            "method": "_ready",
+            "receiver": "super"
+          },
+          {
+            "function": "_on_area_entered",
+            "line": 15,
+            "method": "_on_area_entered",
+            "receiver": "super"
+          },
+          {
+            "function": "_on_area_entered",
+            "line": 16,
+            "method": "play",
+            "receiver": "_anim"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [
+          {
+            "line": 6,
+            "name": "_anim",
+            "type": "AnimationPlayer",
+            "value": ""
+          }
+        ],
+        "extends": "Trigger",
+        "functions": [
+          {
+            "end_line": 13,
+            "line": 9,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 16,
+            "line": 14,
+            "name": "_on_area_entered",
+            "params": "area: Area2D",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/animation/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door_trigger.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-4b7782ce66be92a7",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "4458a143644f",
+      "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+          "line": 6,
+          "name": "getRandomInt",
+          "params": "max_value",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:6#func=getRandomInt",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+          "line": 11,
+          "name": "randomBytes",
+          "params": "n",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:11#func=randomBytes",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+          "line": 19,
+          "name": "uuidbin",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:19#func=uuidbin",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+          "line": 26,
+          "name": "v4",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:26#func=v4",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "repo": "alfredbaudisch/Godello",
+      "snippet_id": "alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "source_path": "addons/uuid/uuid.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "randomBytes",
+            "line": 15,
+            "method": "append",
+            "receiver": "r"
+          }
+        ],
+        "class_name": "UUID",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 10,
+            "line": 6,
+            "name": "getRandomInt",
+            "params": "max_value",
+            "returns": ""
+          },
+          {
+            "end_line": 18,
+            "line": 11,
+            "name": "randomBytes",
+            "params": "n",
+            "returns": ""
+          },
+          {
+            "end_line": 25,
+            "line": 19,
+            "name": "uuidbin",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 35,
+            "line": 26,
+            "name": "v4",
+            "params": "",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-51d46c1b4943a254",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "d59f2f71bc04",
+      "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+          "line": 38,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd:38#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+          "line": 42,
+          "name": "open",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd:42#func=open",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "repo": "gdquest-demos/godot-open-rpg",
+      "snippet_id": "gdquest-demos__godot-open-rpg__src__field__cutscenes__templates__doors__door.gd",
+      "source_path": "src/field/cutscenes/templates/doors/door.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_ready",
+            "line": 39,
+            "method": "_ready",
+            "receiver": "super"
+          },
+          {
+            "function": "open",
+            "line": 48,
+            "method": "play",
+            "receiver": "_anim"
+          },
+          {
+            "function": "open",
+            "line": 51,
+            "method": "play",
+            "receiver": "_anim"
+          },
+          {
+            "function": "_on_area_entered",
+            "line": 58,
+            "method": "play",
+            "receiver": "_anim"
+          },
+          {
+            "function": "_on_area_entered",
+            "line": 60,
+            "method": "_on_area_entered",
+            "receiver": "super"
+          },
+          {
+            "function": "_on_blackout",
+            "line": 64,
+            "method": "_on_blackout",
+            "receiver": "super"
+          },
+          {
+            "function": "_on_blackout",
+            "line": 67,
+            "method": "play",
+            "receiver": "_anim"
+          }
+        ],
+        "class_name": "Door",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 41,
+            "line": 38,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 54,
+            "line": 42,
+            "name": "open",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 62,
+            "line": 55,
+            "name": "_on_area_entered",
+            "params": "area: Area2D",
+            "returns": "void"
+          },
+          {
+            "end_line": 67,
+            "line": 63,
+            "name": "_on_blackout",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-51fbb1e2b03c3f67",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "f4a454ebd4d5",
+      "commit_sha_full": "f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+          "line": 25,
+          "name": "advance",
+          "params": "target: Node, delta: float",
+          "returns": "bool",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd:25#func=advance",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+          "line": 40,
+          "name": "restore_initial",
+          "params": "target: Node",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd:40#func=restore_initial",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+          "line": 49,
+          "name": "force_complete",
+          "params": "target: Node",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd:49#func=force_complete",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\input\\ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "repo": "ceceppa/anima",
+      "snippet_id": "ceceppa__anima__addons__anima__motion__runtime__anima_race_instance.gd",
+      "source_path": "addons/anima/motion/runtime/anima_race_instance.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_init",
+            "line": 13,
+            "method": "_init",
+            "receiver": "super"
+          },
+          {
+            "function": "_init",
+            "line": 19,
+            "method": "append",
+            "receiver": "_child_instances"
+          },
+          {
+            "function": "_init",
+            "line": 19,
+            "method": "create_runtime",
+            "receiver": "child"
+          },
+          {
+            "function": "_init",
+            "line": 20,
+            "method": "append",
+            "receiver": "_child_finished"
+          },
+          {
+            "function": "advance",
+            "line": 26,
+            "method": "is_empty",
+            "receiver": "_child_instances"
+          },
+          {
+            "function": "advance",
+            "line": 29,
+            "method": "size",
+            "receiver": "_child_instances"
+          },
+          {
+            "function": "restore_initial",
+            "line": 42,
+            "method": "restore_initial",
+            "receiver": "child_instance"
+          },
+          {
+            "function": "force_complete",
+            "line": 50,
+            "method": "is_empty",
+            "receiver": "_child_instances"
+          }
+        ],
+        "class_name": "AnimaRaceInstance",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "AnimaMotionInstance",
+        "functions": [
+          {
+            "end_line": 24,
+            "line": 12,
+            "name": "_init",
+            "params": "p_motion: AnimaMotion, p_value_context: AnimaValueContext = null",
+            "returns": "void"
+          },
+          {
+            "end_line": 39,
+            "line": 25,
+            "name": "advance",
+            "params": "target: Node, delta: float",
+            "returns": "bool"
+          },
+          {
+            "end_line": 48,
+            "line": 40,
+            "name": "restore_initial",
+            "params": "target: Node",
+            "returns": "void"
+          },
+          {
+            "end_line": 53,
+            "line": 49,
+            "name": "force_complete",
+            "params": "target: Node",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-55aef2d453370c1b",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "fe589153fa78",
+      "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+          "line": 36,
+          "name": "tick",
+          "params": "actor: Node, blackboard: Blackboard",
+          "returns": "int",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd:36#func=tick",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "license_text_missing",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "repo": "bitbrain/beehave",
+      "snippet_id": "bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_compare.gd",
+      "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "tick",
+            "line": 37,
+            "method": "execute",
+            "receiver": "_left_expression"
+          },
+          {
+            "function": "tick",
+            "line": 39,
+            "method": "has_execute_failed",
+            "receiver": "_left_expression"
+          },
+          {
+            "function": "tick",
+            "line": 42,
+            "method": "execute",
+            "receiver": "_right_expression"
+          },
+          {
+            "function": "tick",
+            "line": 44,
+            "method": "has_execute_failed",
+            "receiver": "_right_expression"
+          }
+        ],
+        "class_name": "BlackboardCompareCondition",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 65,
+            "line": 36,
+            "name": "tick",
+            "params": "actor: Node, blackboard: Blackboard",
+            "returns": "int"
+          },
+          {
+            "end_line": 67,
+            "line": 66,
+            "name": "_get_expression_sources",
+            "params": "",
+            "returns": "Array[String]"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-56ca48126ec8514d",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "4458a143644f",
+      "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "entry_points": [],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\alfredbaudisch__Godello__scripts__events.gd",
+      "repo": "alfredbaudisch/Godello",
+      "snippet_id": "alfredbaudisch__Godello__scripts__events.gd",
+      "source_path": "scripts/events.gd",
+      "symbols": {
+        "calls": [],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Node",
+        "functions": [],
+        "signals": [
+          {
+            "line": 8,
+            "name": "user_logged_in",
+            "params": "user"
+          },
+          {
+            "line": 9,
+            "name": "user_logged_out",
+            "params": "user"
+          },
+          {
+            "line": 11,
+            "name": "card_clicked",
+            "params": "model"
+          },
+          {
+            "line": 12,
+            "name": "card_dragged",
+            "params": "node, model"
+          },
+          {
+            "line": 13,
+            "name": "card_dropped",
+            "params": "drop_data, into_list"
+          },
+          {
+            "line": 15,
+            "name": "list_dragged",
+            "params": "node, model"
+          },
+          {
+            "line": 16,
+            "name": "list_dropped",
+            "params": "drop_data"
+          },
+          {
+            "line": 17,
+            "name": "add_card_clicked",
+            "params": "list"
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": [
+        "no functions found by the regex parser"
+      ]
+    },
+    {
+      "analysis_id": "ext-5a8d53c7f530e4af",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "d59f2f71bc04",
+      "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+          "line": 11,
+          "name": "_execute",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd:11#func=_execute",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "repo": "gdquest-demos/godot-open-rpg",
+      "snippet_id": "gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "source_path": "overworld/maps/town/door_unlock_interaction.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_execute",
+            "line": 13,
+            "method": "restore",
+            "receiver": "Inventory"
+          },
+          {
+            "function": "_execute",
+            "line": 14,
+            "method": "get_item_count",
+            "receiver": "inventory"
+          },
+          {
+            "function": "_execute",
+            "line": 15,
+            "method": "remove",
+            "receiver": "inventory"
+          },
+          {
+            "function": "_execute",
+            "line": 20,
+            "method": "open",
+            "receiver": "door"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Interaction",
+        "functions": [
+          {
+            "end_line": 20,
+            "line": 11,
+            "name": "_execute",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-5adc6644d3347390",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "863324dfb752",
+      "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+          "line": 11,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd:11#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\input\\Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "repo": "Ark2000/PankuConsole",
+      "snippet_id": "Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "source_path": "addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+      "symbols": {
+        "calls": [],
+        "class_name": "",
+        "connections": [
+          {
+            "emitter": "repl",
+            "function": "_ready",
+            "handler": "console",
+            "line": 12,
+            "signal": "output_result"
+          },
+          {
+            "emitter": "repl",
+            "function": "_ready",
+            "handler": "console",
+            "line": 13,
+            "signal": "output_error"
+          }
+        ],
+        "constants": [],
+        "exports": [
+          {
+            "line": 8,
+            "name": "input_area",
+            "type": "Node",
+            "value": ""
+          },
+          {
+            "line": 9,
+            "name": "repl",
+            "type": "Node",
+            "value": ""
+          }
+        ],
+        "extends": "VBoxContainer",
+        "functions": [
+          {
+            "end_line": 16,
+            "line": 11,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 6,
+            "name": "console",
+            "type": "PankuConsole",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-6f85edf0730ee075",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "7290681309ff",
+      "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+          "line": 13,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd:13#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+          "line": 22,
+          "name": "set_active",
+          "params": "value",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd:22#func=set_active",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+      "repo": "gdquest-demos/godot-make-pro-2d-games",
+      "snippet_id": "gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd",
+      "source_path": "core/world/Door.gd",
+      "symbols": {
+        "calls": [],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Area2D",
+        "functions": [
+          {
+            "end_line": 16,
+            "line": 13,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 21,
+            "line": 17,
+            "name": "_on_body_entered",
+            "params": "body",
+            "returns": ""
+          },
+          {
+            "end_line": 24,
+            "line": 22,
+            "name": "set_active",
+            "params": "value",
+            "returns": ""
+          }
+        ],
+        "signals": [
+          {
+            "line": 6,
+            "name": "player_entered",
+            "params": "map_path"
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-make-pro-2d-games__core__world__Door.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-73c80a3db6d71e48",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "d5d8d1588742",
+      "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "line": 21,
+          "name": "set_max_hp",
+          "params": "value:float",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:21#func=set_max_hp",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "line": 25,
+          "name": "reset_resource",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:25#func=reset_resource",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "line": 32,
+          "name": "prepare_load",
+          "params": "data:Resource",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:32#func=prepare_load",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "line": 38,
+          "name": "is_full",
+          "params": "",
+          "returns": "bool",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:38#func=is_full",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "line": 41,
+          "name": "add_hp",
+          "params": "value:float",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:41#func=add_hp",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "line": 54,
+          "name": "insta_kill",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:54#func=insta_kill",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "repo": "nezvers/Godot-GameTemplate",
+      "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+      "symbols": {
+        "calls": [],
+        "class_name": "HealthResource",
+        "connections": [],
+        "constants": [],
+        "exports": [
+          {
+            "line": 19,
+            "name": "is_dead",
+            "type": "bool",
+            "value": ""
+          }
+        ],
+        "extends": "SaveableResource",
+        "functions": [
+          {
+            "end_line": 24,
+            "line": 21,
+            "name": "set_max_hp",
+            "params": "value:float",
+            "returns": "void"
+          },
+          {
+            "end_line": 31,
+            "line": 25,
+            "name": "reset_resource",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 37,
+            "line": 32,
+            "name": "prepare_load",
+            "params": "data:Resource",
+            "returns": "void"
+          },
+          {
+            "end_line": 40,
+            "line": 38,
+            "name": "is_full",
+            "params": "",
+            "returns": "bool"
+          },
+          {
+            "end_line": 53,
+            "line": 41,
+            "name": "add_hp",
+            "params": "value:float",
+            "returns": "void"
+          },
+          {
+            "end_line": 55,
+            "line": 54,
+            "name": "insta_kill",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [
+          {
+            "line": 7,
+            "name": "damaged",
+            "params": ""
+          },
+          {
+            "line": 8,
+            "name": "dead",
+            "params": ""
+          },
+          {
+            "line": 9,
+            "name": "hp_changed",
+            "params": ""
+          },
+          {
+            "line": 10,
+            "name": "max_hp_changed",
+            "params": ""
+          },
+          {
+            "line": 11,
+            "name": "full",
+            "params": ""
+          },
+          {
+            "line": 12,
+            "name": "reset_update",
+            "params": ""
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-7973e94ee75e2819",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "d5d8d1588742",
+      "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "line": 14,
+          "name": "_enter_tree",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd:14#func=_enter_tree",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "line": 21,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd:21#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "line": 24,
+          "name": "set_enabled",
+          "params": "value:bool",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd:24#func=set_enabled",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "repo": "nezvers/Godot-GameTemplate",
+      "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "source_path": "addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_enter_tree",
+            "line": 17,
+            "method": "kill",
+            "receiver": "tween_timer"
+          },
+          {
+            "function": "_enter_tree",
+            "line": 19,
+            "method": "tween_callback",
+            "receiver": "tween_timer"
+          },
+          {
+            "function": "_enter_tree",
+            "line": 19,
+            "method": "bind",
+            "receiver": "set_enabled"
+          },
+          {
+            "function": "_on_target_update",
+            "line": 32,
+            "method": "set_action",
+            "receiver": "input_resource"
+          },
+          {
+            "function": "_on_target_update",
+            "line": 35,
+            "method": "set_action",
+            "receiver": "input_resource"
+          }
+        ],
+        "class_name": "ProximityAttack",
+        "connections": [
+          {
+            "emitter": "target_finder",
+            "function": "_ready",
+            "handler": "_on_target_update",
+            "line": 22,
+            "signal": "target_update"
+          }
+        ],
+        "constants": [],
+        "exports": [
+          {
+            "line": 7,
+            "name": "target_finder",
+            "type": "TargetFinder",
+            "value": ""
+          },
+          {
+            "line": 8,
+            "name": "bot_input",
+            "type": "BotInput",
+            "value": ""
+          }
+        ],
+        "extends": "Node",
+        "functions": [
+          {
+            "end_line": 20,
+            "line": 14,
+            "name": "_enter_tree",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 23,
+            "line": 21,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 26,
+            "line": 24,
+            "name": "set_enabled",
+            "params": "value:bool",
+            "returns": "void"
+          },
+          {
+            "end_line": 35,
+            "line": 27,
+            "name": "_on_target_update",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 10,
+            "name": "enabled",
+            "type": "bool",
+            "value": ""
+          },
+          {
+            "line": 12,
+            "name": "tween_timer",
+            "type": "Tween",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-7d7933a2343f52d0",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "d59f2f71bc04",
+      "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+          "line": 54,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd:54#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+          "line": 61,
+          "name": "setup",
+          "params": "battler_name: String, max_hp: int, start_hp: int",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd:61#func=setup",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+      "repo": "gdquest-demos/godot-open-rpg",
+      "snippet_id": "gdquest-demos__godot-open-rpg__src__combat__ui__battler_entry__ui_life_bar.gd",
+      "source_path": "src/combat/ui/battler_entry/ui_life_bar.gd",
+      "symbols": {
+        "calls": [],
+        "class_name": "UIBattlerLifeBar",
+        "connections": [],
+        "constants": [],
+        "exports": [
+          {
+            "line": 12,
+            "name": "fill_rate",
+            "type": "",
+            "value": "0.5"
+          }
+        ],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 60,
+            "line": 54,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 65,
+            "line": 61,
+            "name": "setup",
+            "params": "battler_name: String, max_hp: int, start_hp: int",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 18,
+            "name": "target_value",
+            "type": "",
+            "value": "0.0:"
+          }
+        ]
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-80c1104f5262a6ee",
+      "analysis_status": "unsupported_shader",
+      "commit_sha": "863324dfb752",
+      "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "entry_points": [],
+      "file_type": "gdshader",
+      "license_status": "eligible",
+      "parse_status": "unsupported_shader",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\Ark2000__PankuConsole__addons__panku_console__res__shader__simple_fast_blur.gdshader",
+      "repo": "Ark2000/PankuConsole",
+      "snippet_id": "Ark2000__PankuConsole__addons__panku_console__res__shader__simple_fast_blur.gdshader",
+      "source_path": "addons/panku_console/res/shader/simple_fast_blur.gdshader",
+      "symbols": {},
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-9e62ed2e3dec8164",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "4458a143644f",
+      "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "line": 14,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd:14#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "line": 18,
+          "name": "set_model",
+          "params": "_model : UserModel",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd:18#func=set_model",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "line": 28,
+          "name": "set_board",
+          "params": "_board : BoardModel",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd:28#func=set_board",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "repo": "alfredbaudisch/Godello",
+      "snippet_id": "alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "source_path": "scripts/board_member_button.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "set_model",
+            "line": 21,
+            "method": "get_first_character",
+            "receiver": "Utils"
+          },
+          {
+            "function": "set_model",
+            "line": 25,
+            "method": "get_full_name",
+            "receiver": "model"
+          },
+          {
+            "function": "_on_BoardOwnerButton_gui_input",
+            "line": 35,
+            "method": "start",
+            "receiver": "Timer"
+          },
+          {
+            "function": "_on_Timer_timeout",
+            "line": 39,
+            "method": "is_mouse_inside_control",
+            "receiver": "Utils"
+          },
+          {
+            "function": "_on_Timer_timeout",
+            "line": 41,
+            "method": "stop",
+            "receiver": "Timer"
+          },
+          {
+            "function": "_on_BoardMemberButton_pressed",
+            "line": 46,
+            "method": "create_delete_confirm_popup",
+            "receiver": "SceneUtils"
+          },
+          {
+            "function": "_on_delete_confirmed",
+            "line": 50,
+            "method": "remove_member",
+            "receiver": "board"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Button",
+        "functions": [
+          {
+            "end_line": 17,
+            "line": 14,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 27,
+            "line": 18,
+            "name": "set_model",
+            "params": "_model : UserModel",
+            "returns": ""
+          },
+          {
+            "end_line": 31,
+            "line": 28,
+            "name": "set_board",
+            "params": "_board : BoardModel",
+            "returns": ""
+          },
+          {
+            "end_line": 37,
+            "line": 32,
+            "name": "_on_BoardOwnerButton_gui_input",
+            "params": "event",
+            "returns": ""
+          },
+          {
+            "end_line": 43,
+            "line": 38,
+            "name": "_on_Timer_timeout",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 48,
+            "line": 44,
+            "name": "_on_BoardMemberButton_pressed",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 50,
+            "line": 49,
+            "name": "_on_delete_confirmed",
+            "params": "",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 11,
+            "name": "normal_text",
+            "type": "",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-9f0aad5e01dd71f7",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "7290681309ff",
+      "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+          "line": 11,
+          "name": "initialize",
+          "params": "health_node",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd:11#func=initialize",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+          "line": 22,
+          "name": "animate_bar",
+          "params": "target_health",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd:22#func=animate_bar",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+      "repo": "gdquest-demos/godot-make-pro-2d-games",
+      "snippet_id": "gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+      "source_path": "interface/gui/player/life_bar/Lifebar.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "animate_bar",
+            "line": 23,
+            "method": "animate_value",
+            "receiver": "TextureProgress"
+          },
+          {
+            "function": "animate_bar",
+            "line": 24,
+            "method": "update_color",
+            "receiver": "TextureProgress"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Control",
+        "functions": [
+          {
+            "end_line": 17,
+            "line": 11,
+            "name": "initialize",
+            "params": "health_node",
+            "returns": ""
+          },
+          {
+            "end_line": 21,
+            "line": 18,
+            "name": "_on_Player_Health_health_changed",
+            "params": "new_health",
+            "returns": ""
+          },
+          {
+            "end_line": 24,
+            "line": 22,
+            "name": "animate_bar",
+            "params": "target_health",
+            "returns": ""
+          }
+        ],
+        "signals": [
+          {
+            "line": 6,
+            "name": "maximum_changed",
+            "params": "maximum"
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-aa0204cc227b0480",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "76d226a3efac",
+      "commit_sha_full": "76d226a3efac66a72aea825382b320c94808f409",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+          "line": 24,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd:24#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "license_text_missing",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\state_machine\\derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "repo": "derkork/godot-statecharts",
+      "snippet_id": "derkork__godot-statecharts__addons__godot_state_charts__animation_tree_state.gd",
+      "source_path": "addons/godot_state_charts/animation_tree_state.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_ready",
+            "line": 25,
+            "method": "is_editor_hint",
+            "receiver": "Engine"
+          },
+          {
+            "function": "_ready",
+            "line": 28,
+            "method": "_ready",
+            "receiver": "super"
+          },
+          {
+            "function": "_ready",
+            "line": 34,
+            "method": "get",
+            "receiver": "the_tree"
+          },
+          {
+            "function": "_state_enter",
+            "line": 44,
+            "method": "_state_enter",
+            "receiver": "super"
+          },
+          {
+            "function": "_state_enter",
+            "line": 54,
+            "method": "travel",
+            "receiver": "_animation_tree_state_machine"
+          },
+          {
+            "function": "_get_configuration_warnings",
+            "line": 58,
+            "method": "_get_configuration_warnings",
+            "receiver": "super"
+          },
+          {
+            "function": "_get_configuration_warnings",
+            "line": 59,
+            "method": "append",
+            "receiver": "warnings"
+          },
+          {
+            "function": "_get_configuration_warnings",
+            "line": 61,
+            "method": "is_empty",
+            "receiver": "animation_tree"
+          },
+          {
+            "function": "_get_configuration_warnings",
+            "line": 62,
+            "method": "append",
+            "receiver": "warnings"
+          },
+          {
+            "function": "_get_configuration_warnings",
+            "line": 64,
+            "method": "append",
+            "receiver": "warnings"
+          }
+        ],
+        "class_name": "AnimationTreeState",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "AtomicState",
+        "functions": [
+          {
+            "end_line": 42,
+            "line": 24,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 56,
+            "line": 43,
+            "name": "_state_enter",
+            "params": "transition_target:StateChartState",
+            "returns": "void"
+          },
+          {
+            "end_line": 66,
+            "line": 57,
+            "name": "_get_configuration_warnings",
+            "params": "",
+            "returns": "PackedStringArray"
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 22,
+            "name": "_animation_tree_state_machine",
+            "type": "AnimationNodeStateMachinePlayback",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-ab693f3d6ef9439c",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "a628ad3bb6a9",
+      "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+          "line": 22,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd:22#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "repo": "lampe-games/godot-open-rts",
+      "snippet_id": "lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "source_path": "source/match/units/traits/HealthBar.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_ready",
+            "line": 23,
+            "method": "is_editor_hint",
+            "receiver": "Engine"
+          },
+          {
+            "function": "_recalulate_bar_value",
+            "line": 36,
+            "method": "get_offset",
+            "receiver": "gradient"
+          },
+          {
+            "function": "_recalulate_bar_value",
+            "line": 39,
+            "method": "set_offset",
+            "receiver": "gradient"
+          },
+          {
+            "function": "_show_for_a_while",
+            "line": 49,
+            "method": "start",
+            "receiver": "_visibility_timer"
+          },
+          {
+            "function": "_on_unit_selected",
+            "line": 53,
+            "method": "stop",
+            "receiver": "_visibility_timer"
+          }
+        ],
+        "class_name": "",
+        "connections": [
+          {
+            "emitter": "_unit",
+            "function": "_ready",
+            "handler": "_on_unit_selected",
+            "line": 27,
+            "signal": "selected"
+          },
+          {
+            "emitter": "_unit",
+            "function": "_ready",
+            "handler": "_on_unit_deselected",
+            "line": 28,
+            "signal": "deselected"
+          },
+          {
+            "emitter": "_unit",
+            "function": "_ready",
+            "handler": "_on_hp_changed",
+            "line": 29,
+            "signal": "hp_changed"
+          },
+          {
+            "emitter": "_visibility_timer",
+            "function": "_ready",
+            "handler": "_on_visibility_timer_timeout",
+            "line": 30,
+            "signal": "timeout"
+          }
+        ],
+        "constants": [
+          {
+            "line": 7,
+            "name": "BAR_AUTO_VISIBILITY_DURATION",
+            "value": "2.0"
+          }
+        ],
+        "exports": [],
+        "extends": "Node3D",
+        "functions": [
+          {
+            "end_line": 32,
+            "line": 22,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 44,
+            "line": 33,
+            "name": "_recalulate_bar_value",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 51,
+            "line": 45,
+            "name": "_show_for_a_while",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 56,
+            "line": 52,
+            "name": "_on_unit_selected",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 60,
+            "line": 57,
+            "name": "_on_unit_deselected",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 64,
+            "line": 61,
+            "name": "_on_hp_changed",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 66,
+            "line": 65,
+            "name": "_on_visibility_timer_timeout",
+            "params": "",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-bfe9b7e6dbebbfae",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "ea41feaab5dd",
+      "commit_sha_full": "ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+          "line": 38,
+          "name": "invoke",
+          "params": "context:CyclopsOperatorContext, event:InputEvent",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd:38#func=invoke",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+          "line": 46,
+          "name": "calc_pivot_of_blocks",
+          "params": "blocks:Array[CyclopsBlock], plugin:CyclopsLevelBuilder",
+          "returns": "Vector3",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd:46#func=calc_pivot_of_blocks",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "partial",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+      "repo": "blackears/cyclopsLevelBuilder",
+      "snippet_id": "blackears__cyclopsLevelBuilder__godot__addons__cyclops_level_builder__actions__cyclops_action.gd",
+      "source_path": "godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "calc_pivot_of_blocks",
+            "line": 47,
+            "method": "calc_snap_to_grid_util",
+            "receiver": "plugin"
+          },
+          {
+            "function": "calc_pivot_of_blocks",
+            "line": 50,
+            "method": "size",
+            "receiver": "blocks"
+          },
+          {
+            "function": "calc_pivot_of_blocks",
+            "line": 52,
+            "method": "merge",
+            "receiver": "bounds"
+          },
+          {
+            "function": "calc_pivot_of_blocks",
+            "line": 54,
+            "method": "get_center",
+            "receiver": "bounds"
+          },
+          {
+            "function": "calc_pivot_of_blocks",
+            "line": 55,
+            "method": "snap_point",
+            "receiver": "snap_to_grid_util"
+          }
+        ],
+        "class_name": "CyclopsAction",
+        "connections": [],
+        "constants": [],
+        "exports": [
+          {
+            "line": 32,
+            "name": "hotkey",
+            "type": "ActionKeypress",
+            "value": ""
+          }
+        ],
+        "extends": "Node",
+        "functions": [
+          {
+            "end_line": 37,
+            "line": 35,
+            "name": "_get_action_id",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 41,
+            "line": 38,
+            "name": "invoke",
+            "params": "context:CyclopsOperatorContext, event:InputEvent",
+            "returns": ""
+          },
+          {
+            "end_line": 45,
+            "line": 42,
+            "name": "_execute",
+            "params": "event:CyclopsActionEvent",
+            "returns": ""
+          },
+          {
+            "end_line": 58,
+            "line": 46,
+            "name": "calc_pivot_of_blocks",
+            "params": "blocks:Array[CyclopsBlock], plugin:CyclopsLevelBuilder",
+            "returns": "Vector3"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-c341755c352c7563",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "a628ad3bb6a9",
+      "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+          "line": 16,
+          "name": "is_applicable",
+          "params": "source_unit, target_unit",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd:16#func=is_applicable",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+          "line": 29,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd:29#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "repo": "lampe-games/godot-open-rts",
+      "snippet_id": "lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "source_path": "source/match/units/actions/AutoAttacking.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_target_in_range",
+            "line": 40,
+            "method": "distance_to",
+            "receiver": "global_position_yless"
+          },
+          {
+            "function": "_on_sub_action_finished",
+            "line": 63,
+            "method": "is_inside_tree",
+            "receiver": "_target_unit"
+          }
+        ],
+        "class_name": "",
+        "connections": [
+          {
+            "emitter": "_target_unit",
+            "function": "_ready",
+            "handler": "_on_target_unit_removed",
+            "line": 30,
+            "signal": "tree_exited"
+          },
+          {
+            "emitter": "_sub_action",
+            "function": "_attack_or_move_closer",
+            "handler": "_on_sub_action_finished",
+            "line": 51,
+            "signal": "tree_exited"
+          }
+        ],
+        "constants": [
+          {
+            "line": 6,
+            "name": "AttackingWhileInRange",
+            "value": "preload(\"res://source/match/units/actions/AttackingWhileInRange.gd\")"
+          },
+          {
+            "line": 7,
+            "name": "FollowingToReachDistance",
+            "value": "preload("
+          }
+        ],
+        "exports": [],
+        "extends": "\"res",
+        "functions": [
+          {
+            "end_line": 24,
+            "line": 16,
+            "name": "is_applicable",
+            "params": "source_unit, target_unit",
+            "returns": ""
+          },
+          {
+            "end_line": 28,
+            "line": 25,
+            "name": "_init",
+            "params": "target_unit",
+            "returns": ""
+          },
+          {
+            "end_line": 33,
+            "line": 29,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 37,
+            "line": 34,
+            "name": "_to_string",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 44,
+            "line": 38,
+            "name": "_target_in_range",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 55,
+            "line": 45,
+            "name": "_attack_or_move_closer",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 59,
+            "line": 56,
+            "name": "_on_target_unit_removed",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 65,
+            "line": 60,
+            "name": "_on_sub_action_finished",
+            "params": "",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-c7b0d12daf86d973",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "7290681309ff",
+      "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__DamageSource.gd",
+          "line": 9,
+          "name": "set_active",
+          "params": "value",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__DamageSource.gd:9#func=set_active",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__DamageSource.gd",
+      "repo": "gdquest-demos/godot-make-pro-2d-games",
+      "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__DamageSource.gd",
+      "source_path": "actors/DamageSource.gd",
+      "symbols": {
+        "calls": [],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Area2D",
+        "functions": [
+          {
+            "end_line": 10,
+            "line": 9,
+            "name": "set_active",
+            "params": "value",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 7,
+            "name": "effect",
+            "type": "",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__DamageSource.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-d5f7ac2db3a8c4e4",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "d59f2f71bc04",
+      "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd",
+          "line": 15,
+          "name": "execute",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd:15#func=execute",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd",
+      "repo": "gdquest-demos/godot-open-rpg",
+      "snippet_id": "gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd",
+      "source_path": "src/combat/actions/battler_action_attack.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "execute",
+            "line": 16,
+            "method": "is_empty",
+            "receiver": "cached_targets"
+          },
+          {
+            "function": "execute",
+            "line": 19,
+            "method": "get_tree",
+            "receiver": "source"
+          },
+          {
+            "function": "execute",
+            "line": 27,
+            "method": "create_tween",
+            "receiver": "source"
+          },
+          {
+            "function": "execute",
+            "line": 28,
+            "method": "tween_property",
+            "receiver": "tween"
+          },
+          {
+            "function": "execute",
+            "line": 33,
+            "method": "get_tree",
+            "receiver": "source"
+          },
+          {
+            "function": "execute",
+            "line": 46,
+            "method": "take_hit",
+            "receiver": "target"
+          },
+          {
+            "function": "execute",
+            "line": 47,
+            "method": "get_tree",
+            "receiver": "source"
+          },
+          {
+            "function": "execute",
+            "line": 49,
+            "method": "get_tree",
+            "receiver": "source"
+          },
+          {
+            "function": "execute",
+            "line": 52,
+            "method": "create_tween",
+            "receiver": "source"
+          },
+          {
+            "function": "execute",
+            "line": 53,
+            "method": "tween_property",
+            "receiver": "tween"
+          },
+          {
+            "function": "execute",
+            "line": 56,
+            "method": "get_tree",
+            "receiver": "source"
+          }
+        ],
+        "class_name": "AttackBattlerAction",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 56,
+            "line": 15,
+            "name": "execute",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-d82bd2e536c75c4a",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "d5d8d1588742",
+      "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "line": 21,
+          "name": "_ready",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd:21#func=_ready",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "repo": "nezvers/Godot-GameTemplate",
+      "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "source_path": "addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "_on_reset",
+            "line": 30,
+            "method": "kill",
+            "receiver": "tween_front"
+          },
+          {
+            "function": "_on_reset",
+            "line": 32,
+            "method": "kill",
+            "receiver": "tween_midle"
+          },
+          {
+            "function": "_on_reset",
+            "line": 35,
+            "method": "set_shader_parameter",
+            "receiver": "progress_shader"
+          },
+          {
+            "function": "_on_reset",
+            "line": 36,
+            "method": "set_shader_parameter",
+            "receiver": "progress_shader"
+          },
+          {
+            "function": "_update",
+            "line": 41,
+            "method": "kill",
+            "receiver": "tween_front"
+          },
+          {
+            "function": "_update",
+            "line": 43,
+            "method": "kill",
+            "receiver": "tween_midle"
+          },
+          {
+            "function": "_update",
+            "line": 48,
+            "method": "tween_method",
+            "receiver": "tween_front"
+          },
+          {
+            "function": "_update",
+            "line": 49,
+            "method": "tween_method",
+            "receiver": "tween_midle"
+          },
+          {
+            "function": "_tween_front",
+            "line": 53,
+            "method": "set_shader_parameter",
+            "receiver": "progress_shader"
+          },
+          {
+            "function": "_tween_middle",
+            "line": 57,
+            "method": "set_shader_parameter",
+            "receiver": "progress_shader"
+          }
+        ],
+        "class_name": "HealthPanel",
+        "connections": [
+          {
+            "emitter": "health_resource",
+            "function": "_ready",
+            "handler": "_on_reset",
+            "line": 22,
+            "signal": "reset_update"
+          },
+          {
+            "emitter": "health_resource",
+            "function": "_ready",
+            "handler": "_on_reset",
+            "line": 23,
+            "signal": "max_hp_changed"
+          },
+          {
+            "emitter": "health_resource",
+            "function": "_ready",
+            "handler": "_update",
+            "line": 24,
+            "signal": "hp_changed"
+          }
+        ],
+        "constants": [],
+        "exports": [
+          {
+            "line": 7,
+            "name": "health_resource",
+            "type": "HealthResource",
+            "value": ""
+          },
+          {
+            "line": 9,
+            "name": "label",
+            "type": "Label",
+            "value": ""
+          },
+          {
+            "line": 11,
+            "name": "progress_shader",
+            "type": "ShaderMaterial",
+            "value": ""
+          }
+        ],
+        "extends": "Node",
+        "functions": [
+          {
+            "end_line": 26,
+            "line": 21,
+            "name": "_ready",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 37,
+            "line": 27,
+            "name": "_on_reset",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 50,
+            "line": 38,
+            "name": "_update",
+            "params": "",
+            "returns": "void"
+          },
+          {
+            "end_line": 54,
+            "line": 51,
+            "name": "_tween_front",
+            "params": "value:float",
+            "returns": "void"
+          },
+          {
+            "end_line": 57,
+            "line": 55,
+            "name": "_tween_middle",
+            "params": "value:float",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 15,
+            "name": "tween_front",
+            "type": "Tween",
+            "value": ""
+          },
+          {
+            "line": 16,
+            "name": "tween_midle",
+            "type": "Tween",
+            "value": ""
+          },
+          {
+            "line": 18,
+            "name": "value_front",
+            "type": "float",
+            "value": ""
+          },
+          {
+            "line": 19,
+            "name": "value_middle",
+            "type": "float",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-d9764c3981017194",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "7290681309ff",
+      "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+          "line": 34,
+          "name": "add",
+          "params": "id, status",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd:34#func=add",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+          "line": 37,
+          "name": "remove",
+          "params": "id",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd:37#func=remove",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+          "line": 40,
+          "name": "as_string",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd:40#func=as_string",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "repo": "gdquest-demos/godot-make-pro-2d-games",
+      "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd",
+      "source_path": "actors/health/Status.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "remove",
+            "line": 38,
+            "method": "erase",
+            "receiver": "statuses_active"
+          },
+          {
+            "function": "as_string",
+            "line": 42,
+            "method": "values",
+            "receiver": "statuses_active"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [
+          {
+            "line": 12,
+            "name": "POISON",
+            "value": "{"
+          },
+          {
+            "line": 22,
+            "name": "INVINCIBLE",
+            "value": "{"
+          }
+        ],
+        "exports": [],
+        "extends": "Node",
+        "functions": [
+          {
+            "end_line": 36,
+            "line": 34,
+            "name": "add",
+            "params": "id, status",
+            "returns": ""
+          },
+          {
+            "end_line": 39,
+            "line": 37,
+            "name": "remove",
+            "params": "id",
+            "returns": ""
+          },
+          {
+            "end_line": 44,
+            "line": 40,
+            "name": "as_string",
+            "params": "",
+            "returns": ""
+          }
+        ],
+        "signals": [
+          {
+            "line": 6,
+            "name": "added",
+            "params": "status"
+          },
+          {
+            "line": 7,
+            "name": "removed",
+            "params": "status"
+          }
+        ],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Status.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-ec789727924bfa6c",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "cf5189d18e98",
+      "commit_sha_full": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+          "line": 11,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd:11#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+          "line": 15,
+          "name": "play_random",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd:15#func=play_random",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\audio\\foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+      "repo": "foxssake/netfox",
+      "snippet_id": "foxssake__netfox__examples__forest-brawl__scripts__play-random-3d.gd",
+      "source_path": "examples/forest-brawl/scripts/play-random-3d.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "play_random",
+            "line": 16,
+            "method": "pick_random",
+            "receiver": "sounds"
+          }
+        ],
+        "class_name": "PlayRandomStream3D",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "AudioStreamPlayer3D",
+        "functions": [
+          {
+            "end_line": 14,
+            "line": 11,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 17,
+            "line": 15,
+            "name": "play_random",
+            "params": "",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-f80d07f302bacc20",
+      "analysis_status": "analysis_complete",
+      "commit_sha": "673dc09d9132",
+      "commit_sha_full": "673dc09d9132588da04f3ede2a194f1be40fafd0",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+          "line": 31,
+          "name": "get_random_vector",
+          "params": "",
+          "returns": "Vector2",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd:31#func=get_random_vector",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+          "line": 50,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd:50#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+          "line": 58,
+          "name": "_notification",
+          "params": "what : int",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd:58#func=_notification",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+          "line": 63,
+          "name": "_process",
+          "params": "delta : float",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/audio/cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd:63#func=_process",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\audio\\cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+      "repo": "cis-ash/TEXTREME",
+      "snippet_id": "cis-ash__TEXTREME__Scenes__EffectParameterSelector__EffectParameterSelector.gd",
+      "source_path": "Scenes/EffectParameterSelector/EffectParameterSelector.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "get_random_vector",
+            "line": 36,
+            "method": "dot",
+            "receiver": "start_vector"
+          },
+          {
+            "function": "get_random_vector",
+            "line": 42,
+            "method": "cross",
+            "receiver": "start_vector"
+          },
+          {
+            "function": "_process",
+            "line": 66,
+            "method": "angle",
+            "receiver": "position"
+          },
+          {
+            "function": "_process",
+            "line": 67,
+            "method": "angle",
+            "receiver": "position"
+          },
+          {
+            "function": "_process",
+            "line": 70,
+            "method": "set_shader_param",
+            "receiver": "material"
+          },
+          {
+            "function": "_process",
+            "line": 71,
+            "method": "set_shader_param",
+            "receiver": "material"
+          }
+        ],
+        "class_name": "EffectParameters",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Polygon2D",
+        "functions": [
+          {
+            "end_line": 49,
+            "line": 31,
+            "name": "get_random_vector",
+            "params": "",
+            "returns": "Vector2"
+          },
+          {
+            "end_line": 57,
+            "line": 50,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 62,
+            "line": 58,
+            "name": "_notification",
+            "params": "what : int",
+            "returns": ""
+          },
+          {
+            "end_line": 72,
+            "line": 63,
+            "name": "_process",
+            "params": "delta : float",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": []
+    },
+    {
+      "analysis_id": "ext-fb806b579659b155",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "cf5189d18e98",
+      "commit_sha_full": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd",
+          "line": 9,
+          "name": "display_enter",
+          "params": "_previous, _t",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd:9#func=display_enter",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd",
+          "line": 12,
+          "name": "tick",
+          "params": "delta, tick, is_fresh",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd:12#func=tick",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\state_machine\\foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd",
+      "repo": "foxssake/netfox",
+      "snippet_id": "foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd",
+      "source_path": "examples/multiplayer-state-machine/scripts/character-states/Idle.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "tick",
+            "line": 14,
+            "method": "move_and_slide",
+            "receiver": "character"
+          },
+          {
+            "function": "tick",
+            "line": 18,
+            "method": "transition",
+            "receiver": "state_machine"
+          },
+          {
+            "function": "tick",
+            "line": 20,
+            "method": "transition",
+            "receiver": "state_machine"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [
+          {
+            "line": 6,
+            "name": "character",
+            "type": "CharacterBody3D",
+            "value": ""
+          },
+          {
+            "line": 7,
+            "name": "input",
+            "type": "PlayerInputStateMachine",
+            "value": ""
+          }
+        ],
+        "extends": "RewindableState",
+        "functions": [
+          {
+            "end_line": 11,
+            "line": 9,
+            "name": "display_enter",
+            "params": "_previous, _t",
+            "returns": ""
+          },
+          {
+            "end_line": 20,
+            "line": 12,
+            "name": "tick",
+            "params": "delta, tick, is_fresh",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/state_machine/foxssake__netfox__examples__multiplayer-state-machine__scripts__character-states__Idle.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-fe3acf782b88edda",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "863324dfb752",
+      "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+          "line": 6,
+          "name": "open",
+          "params": "",
+          "returns": "void",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd:6#func=open",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+      "repo": "Ark2000/PankuConsole",
+      "snippet_id": "Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+      "source_path": "addons/panku_console/modules/history_manager/env.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "open",
+            "line": 7,
+            "method": "open_window",
+            "receiver": "_module"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "",
+        "functions": [
+          {
+            "end_line": 7,
+            "line": 6,
+            "name": "open",
+            "params": "",
+            "returns": "void"
+          }
+        ],
+        "signals": [],
+        "variables": [
+          {
+            "line": 4,
+            "name": "_module",
+            "type": "PankuModule",
+            "value": ""
+          }
+        ]
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    },
+    {
+      "analysis_id": "ext-fffa637657ffede1",
+      "analysis_status": "analysis_partial",
+      "commit_sha": "4458a143644f",
+      "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "entry_points": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+          "line": 12,
+          "name": "_ready",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd:12#func=_ready",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+          "line": 17,
+          "name": "set_model",
+          "params": "_model : BoardModel",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd:17#func=set_model",
+          "trigger": "external_entry"
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+          "line": 22,
+          "name": "get_model",
+          "params": "",
+          "returns": "",
+          "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd:22#func=get_model",
+          "trigger": "external_entry"
+        }
+      ],
+      "file_type": "gdscript",
+      "license_status": "eligible",
+      "parse_status": "parsed",
+      "provenance_status": "complete",
+      "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\alfredbaudisch__Godello__scripts__board_card.gd",
+      "repo": "alfredbaudisch/Godello",
+      "snippet_id": "alfredbaudisch__Godello__scripts__board_card.gd",
+      "source_path": "scripts/board_card.gd",
+      "symbols": {
+        "calls": [
+          {
+            "function": "set_model",
+            "line": 19,
+            "method": "set_text",
+            "receiver": "title_label"
+          }
+        ],
+        "class_name": "",
+        "connections": [],
+        "constants": [],
+        "exports": [],
+        "extends": "Button",
+        "functions": [
+          {
+            "end_line": 16,
+            "line": 12,
+            "name": "_ready",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 21,
+            "line": 17,
+            "name": "set_model",
+            "params": "_model : BoardModel",
+            "returns": ""
+          },
+          {
+            "end_line": 25,
+            "line": 22,
+            "name": "get_model",
+            "params": "",
+            "returns": ""
+          },
+          {
+            "end_line": 29,
+            "line": 26,
+            "name": "_on_board_deleted",
+            "params": "board",
+            "returns": ""
+          }
+        ],
+        "signals": [],
+        "variables": []
+      },
+      "unresolved_questions": [
+        ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd 没有 class_name（跨类依赖无法静态归属）"
+      ]
+    }
+  ],
+  "generated_at": "2026-11-15T15:16:43Z",
+  "schema": "external_code_analysis_index",
+  "schema_version": 1
+}

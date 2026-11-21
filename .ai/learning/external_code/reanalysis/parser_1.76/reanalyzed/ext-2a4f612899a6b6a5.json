@@ -1,0 +1,167 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-26ad4746ab9aa96e",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "7290681309ff",
+  "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:35Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd",
+      "line": 13,
+      "name": "set_active",
+      "params": "value",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd:13#func=set_active",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "1b669a88b4788d23260a1d5e795735bfc6833fb137289e82ab49a6fb048f0c0b",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "7290681309ff",
+    "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-make-pro-2d-games",
+    "source_path": "actors/hit_box/HitBox.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/hit_box/HitBox.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd",
+  "repo": "gdquest-demos/godot-make-pro-2d-games",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "2332e1243f82798e8ad9cf85ec979d8e5a765c50fd589b6214a935bb044b9e1e",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-make-pro-2d-games\\gd\\actors\\hit_box\\HitBox.gd",
+  "source_path": "actors/hit_box/HitBox.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/hit_box/HitBox.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_on_area_entered",
+        "line": 11,
+        "method": "take_damage_from",
+        "receiver": "owner"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [
+      {
+        "annotations": [],
+        "declaration_kind": "CONSTANT",
+        "end_line": 6,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "line": 6,
+        "name": "DamageSource",
+        "type": "",
+        "value": "preload(\"res://actors/DamageSource.gd\")"
+      }
+    ],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 3,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [],
+        "declaration_kind": "CONSTANT",
+        "end_line": 6,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "line": 6,
+        "name": "DamageSource",
+        "type": "",
+        "value": "preload(\"res://actors/DamageSource.gd\")"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 8,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 8,
+        "name": "_on_area_entered",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 13,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 13,
+        "name": "set_active",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [],
+    "extends": "Area2D",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 12,
+        "line": 8,
+        "name": "_on_area_entered",
+        "params": "area",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 14,
+        "line": 13,
+        "name": "set_active",
+        "params": "value",
+        "returns": ""
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": []
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__hit_box__HitBox.gd 没有 class_name（跨类依赖无法静态归属）"
+  ],
+  "unsupported_constructs": []
+}

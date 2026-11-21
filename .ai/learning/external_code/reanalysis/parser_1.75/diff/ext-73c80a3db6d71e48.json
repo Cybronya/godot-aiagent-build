@@ -1,0 +1,281 @@
+{
+  "analysis_id": "ext-73c80a3db6d71e48",
+  "counts": {
+    "after": {
+      "constants": 0,
+      "exports": 5,
+      "functions": 6,
+      "properties": 0,
+      "signals": 6,
+      "variables": 0
+    },
+    "before": {
+      "constants": 0,
+      "exports": 1,
+      "functions": 6,
+      "properties": 0,
+      "signals": 6,
+      "variables": 0
+    }
+  },
+  "dropped_limitations": [],
+  "label": "HealthResource.gd",
+  "new_limitations": [],
+  "reanalysis_id": "ext-8759bb47cb020625",
+  "status": {
+    "analysis_completeness": {
+      "new": "FULL",
+      "old": "(absent: pre-1.75 record)"
+    },
+    "analysis_status": {
+      "new": "analysis_complete",
+      "old": "analysis_complete"
+    },
+    "parse_status": {
+      "new": "parsed",
+      "old": "parsed"
+    },
+    "syntax_coverage_status": {
+      "new": "COMPLETE",
+      "old": "(absent: pre-1.75 record)"
+    }
+  },
+  "symbols_added": [
+    {
+      "_group": "exports",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "export"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 14,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": true,
+      "is_onready": false,
+      "is_static": false,
+      "line": 14,
+      "name": "hp",
+      "type": "float",
+      "value": "5"
+    },
+    {
+      "_group": "exports",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "export"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 15,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": true,
+      "is_onready": false,
+      "is_static": false,
+      "line": 15,
+      "name": "max_hp",
+      "type": "float",
+      "value": "5"
+    },
+    {
+      "_group": "exports",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "export"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 17,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": true,
+      "is_onready": false,
+      "is_static": false,
+      "line": 17,
+      "name": "reset_hp",
+      "type": "float",
+      "value": "5"
+    },
+    {
+      "_group": "exports",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "export"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 18,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": true,
+      "is_onready": false,
+      "is_static": false,
+      "line": 18,
+      "name": "reset_max_hp",
+      "type": "float",
+      "value": "5"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "annotations": {
+          "new": [
+            "export"
+          ],
+          "old": []
+        },
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 19,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": true,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "exports:is_dead"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:add_hp"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:insta_kill"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:is_full"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:prepare_load"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:reset_resource"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_max_hp"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:damaged"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:dead"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:full"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:hp_changed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:max_hp_changed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:reset_update"
+    }
+  ],
+  "symbols_removed": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": []
+}

@@ -1,0 +1,32 @@
+{
+ "analyses_with_linkage": 30,
+ "analyses_without_any_linkage": [
+  {
+   "analysis_id": "ext-43748f09c01294f9",
+   "file_type": "gdscript",
+   "repository": "gdquest-demos/godot-open-rpg",
+   "source_path": "src/field/cutscenes/templates/doors/door_trigger.gd"
+  },
+  {
+   "analysis_id": "ext-5a8d53c7f530e4af",
+   "file_type": "gdscript",
+   "repository": "gdquest-demos/godot-open-rpg",
+   "source_path": "overworld/maps/town/door_unlock_interaction.gd"
+  },
+  {
+   "analysis_id": "ext-80c1104f5262a6ee",
+   "file_type": "gdshader",
+   "repository": "Ark2000/PankuConsole",
+   "source_path": "addons/panku_console/res/shader/simple_fast_blur.gdshader"
+  },
+  {
+   "analysis_id": "ext-ab693f3d6ef9439c",
+   "file_type": "gdscript",
+   "repository": "lampe-games/godot-open-rts",
+   "source_path": "source/match/units/traits/HealthBar.gd"
+  }
+ ],
+ "formal_analyses": 34,
+ "linkage_records": 150,
+ "note": "Each linked analysis has exactly 5 feature linkages (one per audited feature)."
+}

@@ -1,0 +1,108 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "PARTIAL"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-fffa637657ffede1",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-e6b4694755f0d549",
+  "source_identity": {
+    "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "input_digest": "55202aabbd7d74528f8df27a0c6f5a969a9367ea530b6c8bf61667d7e5dd18e8",
+    "repository": "alfredbaudisch/Godello",
+    "source_digest": "9d67c3fefd55a2143051c30077ea145143f52aaf7205ba75539592c2ebbaf3fa",
+    "source_path": "scripts/board_card.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 4,
+      "properties": 0,
+      "signals": 0,
+      "variables": 1
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 4,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 7,
+      "name": "model",
+      "type": "BoardModel setget set_model, get_model"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_board_deleted"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:get_model"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_model"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 7
+    }
+  ],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

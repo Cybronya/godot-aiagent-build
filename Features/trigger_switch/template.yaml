@@ -44,6 +44,11 @@ behavior:
       - {type: physics.overlap, target: ".", params: {group: players}}
       - {type: simulation.advance_frames, params: {frames: 6}}
       - {type: physics.overlap, target: ".", params: {group: players}}
+      # Phase 1.63（M04 根因修复）：第二次 overlap 生成的新实体需要至少一个物理帧
+      # 才会被 Area2D 处理为 body_entered 边沿；且探针「检查全部满足即停止等待」，
+      # expected count=1 会在第一次发射后提前满足。这里强制推进物理帧，保证第二次
+      # 进入事件真实发生并被观测（守卫缺失时 activated 会发第二次 → 被判 MISMATCH）。
+      - {type: simulation.advance_frames, params: {frames: 6}}
     preconditions:
       - {check: trigger.is_triggered, target: ".", equals: false}
       - {check: signal, entry: trigger.activated, target: ".", count: 0}

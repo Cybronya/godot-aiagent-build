@@ -1,0 +1,31 @@
+{
+  "analysis_id": "ext-fffa637657ffede1",
+  "checks": {
+    "deterministic": true,
+    "license": true,
+    "locations": true,
+    "no_unexplained_removals": true,
+    "not_parser_defect": true,
+    "provenance": true
+  },
+  "determinism": {
+    "differing_fields": [],
+    "identical": true,
+    "run1_digest": "f05d0962da6a1d8b503dfe0efeccb2c6c82b5ac0ff4c8b583c98d9e5ce796277",
+    "run2_digest": "f05d0962da6a1d8b503dfe0efeccb2c6c82b5ac0ff4c8b583c98d9e5ce796277"
+  },
+  "location_problems": [],
+  "offset": 3,
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-e6b4694755f0d549",
+  "status": "REANALYZED_AND_VALIDATED",
+  "stopped": null,
+  "symbols_checked": 5,
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 7
+    }
+  ]
+}

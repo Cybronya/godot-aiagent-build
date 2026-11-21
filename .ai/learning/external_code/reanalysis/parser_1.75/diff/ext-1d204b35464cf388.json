@@ -1,0 +1,166 @@
+{
+  "analysis_id": "ext-1d204b35464cf388",
+  "counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 6,
+      "properties": 0,
+      "signals": 3,
+      "variables": 2
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 6,
+      "properties": 0,
+      "signals": 3,
+      "variables": 0
+    }
+  },
+  "dropped_limitations": [],
+  "label": "Stats.gd",
+  "new_limitations": [],
+  "reanalysis_id": "ext-0ee947aef4c9aeca",
+  "status": {
+    "analysis_completeness": {
+      "new": "FULL",
+      "old": "(absent: pre-1.75 record)"
+    },
+    "analysis_status": {
+      "new": "analysis_partial",
+      "old": "analysis_partial"
+    },
+    "parse_status": {
+      "new": "partial",
+      "old": "parsed"
+    },
+    "syntax_coverage_status": {
+      "new": "PARTIAL",
+      "old": "(absent: pre-1.75 record)"
+    }
+  },
+  "symbols_added": [
+    {
+      "_group": "variables",
+      "annotations": [],
+      "declaration_kind": "VARIABLE",
+      "end_line": 12,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": false,
+      "is_static": false,
+      "line": 12,
+      "name": "health",
+      "type": "",
+      "value": "0"
+    },
+    {
+      "_group": "variables",
+      "annotations": [],
+      "declaration_kind": "VARIABLE",
+      "end_line": 10,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": false,
+      "is_static": false,
+      "line": 10,
+      "name": "modifiers",
+      "type": "",
+      "value": "{}"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:add_modifier"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:heal"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:remove_modifier"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_max_health"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:take_damage"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:damage_taken"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:health_changed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:health_depleted"
+    }
+  ],
+  "symbols_removed": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 13
+    }
+  ]
+}

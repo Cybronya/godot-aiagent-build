@@ -1,0 +1,30 @@
+{
+  "analyzed_at": "2026-11-07T18:51:42Z",
+  "behavior": "collect_pickup/collect_on_contact",
+  "classification": "SOURCE_CONFIRMED",
+  "evidence": {
+    "bundle": ".ai/tmp/p166/evidence/9336-fa48bac4-bundle.json",
+    "bundle_digest": "53418f6199a3cdf9ef5a53b3516346632cffff3393b9df8b962ef7005948f105",
+    "manifest_digest": "e135e8978566d55b50231e7a85bebcc68e4cabeccb0e97f07c95aa5e1a4c02e1"
+  },
+  "knowledge_refs": [
+    "k-875dbe2de3b9fca9"
+  ],
+  "label": "P4",
+  "reasons": [
+    "evidence=EVIDENCE_VERIFIED attestation=ATTESTED_VERIFIED scenario_validator=PASS evaluation=VERIFIED_PASS",
+    "real observation satisfies GUARD_MEMBERSHIP scenario expectation"
+  ],
+  "rule_id": "foreign_group_ignored",
+  "run_id": "4c3a27a1-69d4-4024-b654-ebd23cb01062",
+  "scenario_id": "s-eef9972034da734b",
+  "scenario_type": "GUARD_MEMBERSHIP",
+  "statuses": {
+    "attestation_status": "ATTESTED_VERIFIED",
+    "evaluation_status": "VERIFIED_PASS",
+    "evidence_status": "EVIDENCE_VERIFIED",
+    "execution_status": "PASSED",
+    "official_contract_status": "FAIL",
+    "scenario_evidence_status": "PASS"
+  }
+}

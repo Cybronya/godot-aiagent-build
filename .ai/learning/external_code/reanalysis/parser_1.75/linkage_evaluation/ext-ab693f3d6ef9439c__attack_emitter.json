@@ -1,0 +1,19 @@
+{
+  "analysis_id": "ext-ab693f3d6ef9439c",
+  "changed": false,
+  "feature_id": "attack_emitter",
+  "label": "HealthBar.gd (godot-open-rts)",
+  "old_to_new": {
+    "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+    "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+    "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+    "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+  },
+  "original_classification": "NO_RECORD",
+  "original_linkage_id": null,
+  "original_symbols": [],
+  "reanalysis_id": "ext-322df918a5ebee02",
+  "reevaluated_classification": "NOT_EVALUABLE",
+  "reevaluated_symbols": [],
+  "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+}

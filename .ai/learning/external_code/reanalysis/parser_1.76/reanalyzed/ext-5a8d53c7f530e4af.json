@@ -1,0 +1,278 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-12cb74d06f659a38",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "d59f2f71bc04",
+  "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+  "conditions": [
+    {
+      "condition": "if door.is_locked:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "function": "_execute",
+      "line": 12
+    },
+    {
+      "condition": "if inventory.get_item_count(Inventory.ItemTypes.KEY):",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "function": "_execute",
+      "line": 14
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "ui",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "line": 11,
+      "name": "_execute",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd:11#func=_execute",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "c45e9de2e9f4bcc6b3ee1223209f2dbedc39c6f25188a16dc78d7307f3d73d4f",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "d59f2f71bc04",
+    "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-open-rpg",
+    "source_path": "overworld/maps/town/door_unlock_interaction.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/overworld/maps/town/door_unlock_interaction.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+  "repo": "gdquest-demos/godot-open-rpg",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "8573670e7381df7c2f9cb36a6fc06307bccc753bc865664a23fb49595e22dade",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-open-rpg\\gd\\overworld\\maps\\town\\door_unlock_interaction.gd",
+  "source_path": "overworld/maps/town/door_unlock_interaction.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/overworld/maps/town/door_unlock_interaction.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "initial": "$InteractionPopup as InteractionPopup",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+          "function": "_execute",
+          "line": 18
+        }
+      ],
+      "variable": "_popup",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+      "initial": "get_parent() as Door",
+      "read_count": 3,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+          "function": "_execute",
+          "line": 12
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+          "function": "_execute",
+          "line": 16
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd",
+          "function": "_execute",
+          "line": 20
+        }
+      ],
+      "variable": "door",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_execute",
+        "line": 13,
+        "method": "restore",
+        "receiver": "Inventory"
+      },
+      {
+        "function": "_execute",
+        "line": 14,
+        "method": "get_item_count",
+        "receiver": "inventory"
+      },
+      {
+        "function": "_execute",
+        "line": 15,
+        "method": "remove",
+        "receiver": "inventory"
+      },
+      {
+        "function": "_execute",
+        "line": 20,
+        "method": "open",
+        "receiver": "door"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 3,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 7,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 7,
+        "name": "door",
+        "type": "",
+        "value": "get_parent() as Door"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 8,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 8,
+        "name": "_popup",
+        "type": "",
+        "value": "$InteractionPopup as InteractionPopup"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 11,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 11,
+        "name": "_execute",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [],
+    "extends": "Interaction",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 20,
+        "line": 11,
+        "name": "_execute",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 7,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 7,
+        "name": "door",
+        "type": "",
+        "value": "get_parent() as Door"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 8,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 8,
+        "name": "_popup",
+        "type": "",
+        "value": "$InteractionPopup as InteractionPopup"
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/ui/gdquest-demos__godot-open-rpg__overworld__maps__town__door_unlock_interaction.gd 没有 class_name（跨类依赖无法静态归属）"
+  ],
+  "unsupported_constructs": []
+}

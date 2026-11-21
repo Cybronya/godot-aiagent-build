@@ -1,0 +1,15 @@
+{
+  "analysis_id": "ext-409141da889d20af",
+  "differing_fields": [],
+  "identical": true,
+  "run1_digest": "2cd9d82f58699ee57511aa6b2549b5bf98c96091e46079f16a369175b15ddd7b",
+  "run2_digest": "2cd9d82f58699ee57511aa6b2549b5bf98c96091e46079f16a369175b15ddd7b",
+  "volatile_fields_ignored": [
+    "created_at",
+    "reanalysis_timestamp",
+    "generated_at",
+    "reanalysis_run",
+    "executed_at",
+    "duration_ms"
+  ]
+}

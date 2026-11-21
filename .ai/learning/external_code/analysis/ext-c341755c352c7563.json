@@ -1,0 +1,230 @@
+{
+  "analysis_id": "ext-c341755c352c7563",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "a628ad3bb6a9",
+  "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+  "conditions": [
+    {
+      "condition": "return (",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "function": "is_applicable",
+      "line": 17
+    },
+    {
+      "condition": "if _target_in_range()",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "function": "_attack_or_move_closer",
+      "line": 48
+    },
+    {
+      "condition": "return (",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "function": "_target_in_range",
+      "line": 39
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:51Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "line": 16,
+      "name": "is_applicable",
+      "params": "source_unit, target_unit",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd:16#func=is_applicable",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "line": 29,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd:29#func=_ready",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 4,
+  "input_digest": "453267a4980e4a05aefeb0cc7e03bb3b0531f324a5cafa0e59d30c52b4790709",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "a628ad3bb6a9",
+    "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "lampe-games/godot-open-rts",
+    "source_path": "source/match/units/actions/AutoAttacking.gd",
+    "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/actions/AutoAttacking.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+  "repo": "lampe-games/godot-open-rts",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "emitter": "_target_unit",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "function": "_ready",
+      "handler": "_on_target_unit_removed",
+      "kind": "connect",
+      "line": 30,
+      "signal": "tree_exited"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "function": "_attack_or_move_closer",
+      "kind": "emit",
+      "line": 53,
+      "signal": "action_updated"
+    },
+    {
+      "emitter": "_sub_action",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+      "function": "_attack_or_move_closer",
+      "handler": "_on_sub_action_finished",
+      "kind": "connect",
+      "line": 51,
+      "signal": "tree_exited"
+    }
+  ],
+  "snippet_id": "lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "d4e37f8883d91cd03b8c6f30b9dc43a8162508088baf5d77962967e1d966efac",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\lampe-games__godot-open-rts\\gd\\source\\match\\units\\actions\\AutoAttacking.gd",
+  "source_path": "source/match/units/actions/AutoAttacking.gd",
+  "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/actions/AutoAttacking.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_target_in_range",
+        "line": 40,
+        "method": "distance_to",
+        "receiver": "global_position_yless"
+      },
+      {
+        "function": "_on_sub_action_finished",
+        "line": 63,
+        "method": "is_inside_tree",
+        "receiver": "_target_unit"
+      }
+    ],
+    "class_name": "",
+    "connections": [
+      {
+        "emitter": "_target_unit",
+        "function": "_ready",
+        "handler": "_on_target_unit_removed",
+        "line": 30,
+        "signal": "tree_exited"
+      },
+      {
+        "emitter": "_sub_action",
+        "function": "_attack_or_move_closer",
+        "handler": "_on_sub_action_finished",
+        "line": 51,
+        "signal": "tree_exited"
+      }
+    ],
+    "constants": [
+      {
+        "line": 6,
+        "name": "AttackingWhileInRange",
+        "value": "preload(\"res://source/match/units/actions/AttackingWhileInRange.gd\")"
+      },
+      {
+        "line": 7,
+        "name": "FollowingToReachDistance",
+        "value": "preload("
+      }
+    ],
+    "exports": [],
+    "extends": "\"res",
+    "functions": [
+      {
+        "end_line": 24,
+        "line": 16,
+        "name": "is_applicable",
+        "params": "source_unit, target_unit",
+        "returns": ""
+      },
+      {
+        "end_line": 28,
+        "line": 25,
+        "name": "_init",
+        "params": "target_unit",
+        "returns": ""
+      },
+      {
+        "end_line": 33,
+        "line": 29,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 37,
+        "line": 34,
+        "name": "_to_string",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 44,
+        "line": 38,
+        "name": "_target_in_range",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 55,
+        "line": 45,
+        "name": "_attack_or_move_closer",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 59,
+        "line": 56,
+        "name": "_on_target_unit_removed",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 65,
+        "line": 60,
+        "name": "_on_sub_action_finished",
+        "params": "",
+        "returns": ""
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/movement/lampe-games__godot-open-rts__source__match__units__actions__AutoAttacking.gd 没有 class_name（跨类依赖无法静态归属）"
+  ]
+}

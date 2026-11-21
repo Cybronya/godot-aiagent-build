@@ -1,0 +1,2380 @@
+{
+  "baseline_snapshot": {
+    "file_count": 188,
+    "files": {
+      ".ai/learning/candidate_workspace/WORKSPACE.json": "04d0d4ae9a26fa84f878cf2e2650802358c49d27bfa2292359daf67e207ae137",
+      ".ai/learning/candidate_workspace/candidates/cand-08fdc0b10a112ecf.json": "1bb3a77868ade105efb2737d6e466a8874341c1e09259897861c69ceadb2db5c",
+      ".ai/learning/candidate_workspace/candidates/cand-7f52cb8f583124db.json": "c621fee0413e61e0cd22a9e3b59bbfe2e789d55d540009edf5f10e0614999196",
+      ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json": "3b941cf01e5c8cf34661520a2223a7adba3443b1df3733b85097cec268eb0e17",
+      ".ai/learning/external_code/analysis/ext-23949c1378c49203.json": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+      ".ai/learning/external_code/analysis/ext-27ddd863881677d7.json": "f6677a0bac4ec2d06d0227a01cc16d273d0e5fb19f985bce82a21b6553adb6c4",
+      ".ai/learning/external_code/analysis/ext-2a4f612899a6b6a5.json": "d0058768b800118eee47953a46b262dab3d5676b3486bb264e8864938f861cc3",
+      ".ai/learning/external_code/analysis/ext-409141da889d20af.json": "39ba6a2eb9765224fc54c276edc12156b4cc90d15b55253c4030a3f6a14abe17",
+      ".ai/learning/external_code/analysis/ext-40ab1c0330e01d7f.json": "5c88f0a6ea50d52f3d1e9211d6fbaa880c29b80e7caf035af183ad5b782873cd",
+      ".ai/learning/external_code/analysis/ext-43748f09c01294f9.json": "8e9bab5feece470fb54e87a7e3c556f967cd1c5d1f395727f893dc6c29f9a644",
+      ".ai/learning/external_code/analysis/ext-4b7782ce66be92a7.json": "26294f061bd1568510289cf351499528cdb23efb90737b7fe8d8fda3df075974",
+      ".ai/learning/external_code/analysis/ext-51d46c1b4943a254.json": "e7227d7a0708e46b80bf93858468c9036c6f7c4ec2dbb36bbef4762aa928405b",
+      ".ai/learning/external_code/analysis/ext-51fbb1e2b03c3f67.json": "26e43d36cdde54fb6c7381c752e8275739f68ed3700b3d4b83bd53e49ceeff0e",
+      ".ai/learning/external_code/analysis/ext-55aef2d453370c1b.json": "ea790de1f6031dc0618dd8dd4b26ef87e37c5d327c9ab32620fb1a1e4ee6cc13",
+      ".ai/learning/external_code/analysis/ext-56ca48126ec8514d.json": "742ac23c36861109ba0baa539c2893b4e3975a8156e7356ef6254973c96bc48e",
+      ".ai/learning/external_code/analysis/ext-5a8d53c7f530e4af.json": "b7767d28b3661d4b3c17ff34d5cae6128b85d5f02574a5b2391c1cf8ba63066e",
+      ".ai/learning/external_code/analysis/ext-5adc6644d3347390.json": "404265feff1a2a2e0b247437e49193ec80067b25aca81046db539bb1ba77198c",
+      ".ai/learning/external_code/analysis/ext-6f85edf0730ee075.json": "ac6c6b54fca7448d158f0d50f067abc979cf2a69e9858e36536e1051692c40d2",
+      ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+      ".ai/learning/external_code/analysis/ext-7973e94ee75e2819.json": "5f026ef3bf716659593dd190f86db6b994c05dcbec353f5b271a9a1a10d47bf6",
+      ".ai/learning/external_code/analysis/ext-7d7933a2343f52d0.json": "5259b9e1ee499dde3ba28807d535b8d009d1c98a0bbee716b168ef0e9516339b",
+      ".ai/learning/external_code/analysis/ext-80c1104f5262a6ee.json": "bbdafd9e8930287db668a04f3f33acb7c0a7179deb9e64937448630dbe28111d",
+      ".ai/learning/external_code/analysis/ext-9e62ed2e3dec8164.json": "a0df6ebc8f84c0018e2f648ca463cca726edb1ca99d60a567631eb6af857556e",
+      ".ai/learning/external_code/analysis/ext-9f0aad5e01dd71f7.json": "573cb6e24e242725e441e0e32c0c3336fc82c680e98d3cee1c3f6ff32916a8be",
+      ".ai/learning/external_code/analysis/ext-aa0204cc227b0480.json": "e48374ae54951947f4d68061a11aeeecdd6133d60ed8e9a17518b061e8ec6152",
+      ".ai/learning/external_code/analysis/ext-ab693f3d6ef9439c.json": "4221439430452acb6260b788dcf3ac22164b07b0973d3e2209e268ad1ddf9c24",
+      ".ai/learning/external_code/analysis/ext-bfe9b7e6dbebbfae.json": "72e132deab185288eda8aee2657c2d42428d02e33e8c7e4effae41c5c78e373d",
+      ".ai/learning/external_code/analysis/ext-c341755c352c7563.json": "cbcbe73daef0f4ee1d03aa198b9d9903f650aca1b203ac58cd107e10e2b4bcf3",
+      ".ai/learning/external_code/analysis/ext-c7b0d12daf86d973.json": "c5e4c0f73cbbed424d76e1c905043a9a0b2585a982a00a50a80f3459b6021fd5",
+      ".ai/learning/external_code/analysis/ext-d5f7ac2db3a8c4e4.json": "76d6488d4bcdb5a3f4575faf6c25a84aa356693ba3c1392f569056cc9f949e9f",
+      ".ai/learning/external_code/analysis/ext-d82bd2e536c75c4a.json": "1c8902b4c60c70ce4d614a4f2010ba691c4ef95b7f970ac3b03d04259b63956f",
+      ".ai/learning/external_code/analysis/ext-d9764c3981017194.json": "a2a4ad967ea1feb45da079759ffb3a3ee1f9d06aa190a3f202c4715895d683f1",
+      ".ai/learning/external_code/analysis/ext-ec789727924bfa6c.json": "5dcadb646ae9f0266bb12d53b159e28e8d3525b513dcb19ad176c4a3588a2b10",
+      ".ai/learning/external_code/analysis/ext-f80d07f302bacc20.json": "498fc59ecc8d06b44d4731819f2630f6a73bab72ab3f0eed27a2a410b722b80e",
+      ".ai/learning/external_code/analysis/ext-fb806b579659b155.json": "68c059980b4ff8987e913c69121dd8e0ec5f1fd80d530c131a7365c62d38279c",
+      ".ai/learning/external_code/analysis/ext-fe3acf782b88edda.json": "390c05d4a8ebeff51f9626daf2b569c6c47be8ea98ec7a0fdfbc0269c3eeb4ac",
+      ".ai/learning/external_code/analysis/ext-fffa637657ffede1.json": "ff82e587f128a7a7d8dc7050173006cf612074c477a172cdf2fd82452c91697d",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__attack_emitter.json": "3871d104a929a876fef9957c3191d014844a57a922f369726c98a519a736d259",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__blackboard.json": "08bf1c6f1aa2c4279dfcee9bee3b3826d13ae0cc79f786217eca49388ceb0173",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__health.json": "1c3a713d417fe2aa0b31ffd7ff5ca994c5fd0e4b93e00e96a87db472a92f1c98",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__health_bar.json": "83839ef73b59fe9fae12560cd35cad1560c93bf38c89a533d07a2a7318965f4a",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__openable_door.json": "9b443affdf036ecbe11e5accfdc56524ae9b5cb521df2f525d4ac07bd0fd7da8",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__attack_emitter.json": "11398fc885c9e8f5ec890bf45e6af12cb37170ff9c0fadc042f8db2d9eef9f11",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__blackboard.json": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__health.json": "70fabb73c748d477d241bea94a34b8b40bfd14ef07497f7a8cf33102cec41e87",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__health_bar.json": "7212b9eb70456aae71d14793c53c17996b0f9992b8bc56a74e3482e990b93b32",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__openable_door.json": "e03df2ffce500d7115a5c29ebcec57270544aaef1269af1320d1bbd7991dd31d",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__attack_emitter.json": "4eb97e8b21dd6a543682466c2185f7c24408048e44ad8392c851ff09543f792f",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__blackboard.json": "c5d554df944098d59a372c3788559bc6be57341b7f5cb316005f0c919eb8e01f",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__health.json": "c2ff89e0892fb9e7d4055a123f61130a26b6240aa204c2e36efb5a92d5ca853b",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__health_bar.json": "82e98fbee2c9c10e4d32c09c3fbfecf80fe67d0f66a613dbe0cc2db843e4f2af",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__openable_door.json": "3c4f41419bd59dffc164bb51a1402d3f57f644e83cd8ca4c8705602332e92d9e",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__attack_emitter.json": "ec1d15c375f45a60e7f60d1329db1cee379157a56e3f882c5b154283e1c3010b",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__blackboard.json": "524c7bf5d1f22f6211ec76c7d68aa2c8ce824d8520df5927ba17c22a1f0a5447",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__health.json": "e82d7cff0455859b2854b444770ac42465ed32b1c5c4875957f56ae706001f5d",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__health_bar.json": "2988fe57c366cf851c1639f7938a5c51fd40ffb5dfe66732118b87bd2f72f783",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__openable_door.json": "abde67a7248b56811ec1bd66157ad2b4e8e9d51cc5af1c31c1a35718bb9ff582",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__attack_emitter.json": "99a5bed6e59a8cc845b7b8cd9c29384a8ecf3da992b63344fc6214c1a6f113d2",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__blackboard.json": "07ae0cb5c7cefd8f37bde910b7e292ca3847ea4861f1d362a62f0247a146b874",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__health.json": "d7af291766e0d58a5e885268a1aa8efb8f28e104a1896434c2a7bffbb8eb9603",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__health_bar.json": "36df84065f1efd16552eeea2fe93ba9d677dcb72599f115b69695043a7aa1e7c",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__openable_door.json": "c5aa0ca6ceb3663a0008f182a7c029a10dc16962e561d15735a639466503f75d",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__attack_emitter.json": "a7ec4e1930f2c18d6daee58c79a4d16cdc876ab0b35ae8e4e6a08f932722f269",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__blackboard.json": "6dbc7641eae463ab80b5fa5a714f54bcad34363d7d45505e28ca488ceffdc068",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__health.json": "a954d2402a16485a30eae3d14774addbfd98781ccf0147854deb9944fa6c164f",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__health_bar.json": "cd65ddbbd84de480272dc0e4667a8269ab59ddb9f4d4b8442354646e263a34a8",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__openable_door.json": "4f50d879311f6da7ef4b2da17ec4c9b5b9e7ee99dd31ecf19f2751cd37d80d80",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__attack_emitter.json": "308fb2f1c521c408173b482b5ebd65b14cb1dac3b989d0e937404810f12888bc",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__blackboard.json": "a5a5265725314b5b7292d70ea7cb9e3d7f26cc6088bfca2b0cf8cf75b3709dae",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__health.json": "39a0b670a71bdd68aedc2d25ce3e6334e0e6981dc7e4f9b0716127abf65606bd",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__health_bar.json": "a1d574d1f6e21c0f43ff8902b6812583124f8ab8c1d0c1eca37072f528476fc9",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__openable_door.json": "74eb875eca321f55b4350d0e88646a82266db022b316b6b57e2c655f4e703d52",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__attack_emitter.json": "688520f46e14eb2dadace0b3953eca035ed0d0697433b0d0ebfb5360cf63624d",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__blackboard.json": "666f0c4e2e5cf69a4e46a0a8a6560886c33f5d499a28c2aaa01a6ba359b98a90",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__health.json": "2b5bb9ab15405252e1667881785403320bd4c165e1a4e99e07813e221fc65ef1",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__health_bar.json": "11aedf6425f8e6b4007d39ee0350fedea21a7886f61404f4a87c81b9fb9a9282",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__openable_door.json": "cdc01bf4c02a7ba265d68b678145072bbcacf95656ecc2be9145ec914cfe046d",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__attack_emitter.json": "33a59c900e3a83a9128c99a297a6991cc05b9f209cc231d847ec1a92ec2a1f2e",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__blackboard.json": "89d76177b05bac80d22f84f048c5f2db1159d1319fb67338a4b16ee86d4813fd",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__health.json": "97927e7cde4af2f869797931b690232b81c4b4d87f4a6507df89292915310a8f",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__health_bar.json": "828706695cfa155d028bdd9cf1df645fff41320e21bbdb36bfaa54664e9c3bad",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__openable_door.json": "0b9bb3435bacd7531001403810b242ef719656f6ce952dc8e141d24d7d4c6772",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__attack_emitter.json": "015822e3ef4a6e548ec1e91437b1a44095d1c8a9a15a66c47c6a9b5c9432decd",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__blackboard.json": "671f6cbdc305174513bc8956835323e88d6556f5f751341a7c9991e0707aa35c",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__health.json": "2169dec06cdc63efcf1090a60dfa4c67cda535fd254f10e4a50f299ed13f789d",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__health_bar.json": "4048f59b52898a29c4e03dd351d1ce4e24971bd1c48802088a9c6310a2557ced",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__openable_door.json": "93d9891bad55dada13f3ac48758074cd69c89a55ce38f56d8f6fa0a8d0e07f40",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__attack_emitter.json": "744f6a4f5a2a99c9edab0d7791a3c9643d9db4325f8c92a46d3179af4b4bb0ef",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__blackboard.json": "2da72fe1e7032ebdb5eb853318995e3bc478fd98fe7ccfab7a8e4d26d1a00005",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__health.json": "62c3e8ca8968a5260f35d3611b5ddd5d5b6b6007e3a2146345e4e7603c77a2c5",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__health_bar.json": "0e34d892b99aad4680ae094319266768fa6b6ce182be37e4ffc48ea704418d4a",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__openable_door.json": "4b19d2808df049600b9560ca81bf0e7d260a394456571026c5dc1c70a62fad0c",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__attack_emitter.json": "7f28b6c40005a717ea4966ec1dd5cf8108cde388ba1c8dba298fbf4bf01b878a",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__blackboard.json": "544ebb3db3d271f9c96027894587cf40b6561dc4f5f8aadc3c1a6da1bbb6eaa9",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__health.json": "3555a2190a15e366dcd6d4eb94d39f91f7dbee98d83018b6b58cd40e1f9792f8",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__health_bar.json": "4e4e9257f6c38a0b42522ae0b91ee49e9fa7788a85850deb1aad69bde1db2c54",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__openable_door.json": "4f730ee215c62b383806aa8424a6232db38140a60456a96cf756dbd932274d05",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__attack_emitter.json": "eaffb0d93de3334e7701193ec43e79cf5c1a0358424c32f63b16b3d78517c3bb",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__blackboard.json": "aa2968f2802cc4ead0dd34aa8acdd7f01b7b6146b9c3d8af1fd35a90583b9193",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__health.json": "a98cb6c4143181dadc2319fbf65aa03a8b8b532e5c4557865c8b578943259f9b",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__health_bar.json": "3e2872c98743b2c8b8f22343d0b67b7fce97cd58dc60a4080e2c129546b27802",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__openable_door.json": "910088eb79778d3a6f31100ed88d0941fbea8e2feffa69953396f1c81780f52b",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__attack_emitter.json": "f97d4d278d0112d31f21a29749be344b9ac5226786946ede6511a85fb740ba06",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__blackboard.json": "fce16fa0803b1a23ac2d01a78a23061ce40c08c179c88564031a8f348b3a94d9",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__health.json": "c444f8eb939ab46c68d9e8612605950153ec2e5a4bf68089dd668176f8800f22",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__health_bar.json": "1a234439a2ec234d6e8139199e8a0ffca3f49eccb314305fa3d45499ee5cf27f",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__openable_door.json": "c7f6df3b4e5f609a6f7ed2307d117a73b90ec1b968f6a7c447967479343bfba2",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__attack_emitter.json": "6b5a25b355caceb1bfe227cfa79cd9f3e9c5f4ebbc4223c8322cd3417be2a6e6",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__blackboard.json": "2b0e25d309be04da4a3391ab42bd082bfc191edf00b33432190cc8edeb9cb252",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__health.json": "094c828e15f6d0a8cc03ca7abf2664226d38646bcceab84f448e6341e99ce8f0",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__health_bar.json": "0249d345a3cfce407ba0db39bbd445b12ac784f530e9a27cbff4705d392ab010",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__openable_door.json": "c92c91d8b289af4bdb4bdbbd8518d9d59f5df5e26b2300297054d81909cbf163",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__attack_emitter.json": "cdce56b2643d2e57e53d3548753493f5969da090fbf27301cb1e93c1959c2c77",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__blackboard.json": "1212505ccaf2a1afeb8e577d1ceef65e7f9591000a9c343f81eca33f8199a841",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__health.json": "a4f71e76aa716d912d92e448618d6106c524113ec2219a4b763c82756ba4cd22",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__health_bar.json": "2c2ee5985e35b9103601b657f0ac48716a7c88174eb00fb4071f996b3d4f4a60",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__openable_door.json": "24a2337788301aa75a4d995abc9557e2428719d610c0cf5d0c94a329514f1f64",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__attack_emitter.json": "52e76c1d53733d078b34b39d81b7141f30dc090334c513e3eeef287274453e65",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__blackboard.json": "c5cb713b3c70c9b2e97687036baa49ac54f060d05e21b141df97f4b76d2c6b73",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__health.json": "2f82a81694642ddf8517caa112532142c804f48fc70a0a42ef0231827632d1f7",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__health_bar.json": "593700a52f23b0ed3c21b322d5903bff30241e269d82128ff323f8fb8010e5f6",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__openable_door.json": "d1a6c049a8f3a9469ecd075f131d253327f7258e29a40e2cb7a5818755cc86c0",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__attack_emitter.json": "fa490d8341b81d6a346a23f048136becfe086b3c934cb342cb86af647baf810f",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__blackboard.json": "2dbf1e5d720f35a82b52d6c10e3b37dfafce0bce3d744384c993eb34694b8292",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__health.json": "4f48a36fdf8f54eb46f798747328bea5dbb58b9a8ee385a625e48284e85f6008",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__health_bar.json": "705fd57113b7572a2b23b81ad9e314b6e9f81a87e1b4b3ed1dbc7e163637848f",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__openable_door.json": "ce6f5cb13d197ed3dd78ced2a71b3828e3cfb2215d87c395fedac6e32eb4dcc0",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__attack_emitter.json": "716a683060b7de109de7e930141c461d88cf475c7df31db8f96722f30b38cad0",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__blackboard.json": "4a4d71f7696b9793378f4d37f04f85ae11a2eb641b4b9dca4678bb1f7f0902d7",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__health.json": "08b3f85d30f13ee9a31d07b599b747f0788b3379eaad25ca084d04dbb72e3341",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__health_bar.json": "3d1f9ae8149bbb242ef004433b8e44e76d299df91ec989ccedabd9536a483a6f",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__openable_door.json": "7898d63ee06989339d74a2a1da10488d7d60d641372b9af841b645de1bd9867a",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__attack_emitter.json": "bc4b66e36a904306304eb55e35eaafddcb19bd93dfbabac19b1ed1216b061047",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__blackboard.json": "58c4a156bcc2c18682586a0fea9f1c778aa6c342c239d1cac3e02f986741fe1e",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__health.json": "32c0d3ac57dbc26882d8bae32aec102cc8e646dd8e39460c46be78909d7cf743",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__health_bar.json": "cd0a8358473fddd611ceae89c2127ebea88c220625364418d1b1ed87d9d8658b",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__openable_door.json": "28d08032a44a3f6e9fa96fa7856f392cc23bc0bf0080121d87036158eaebd20b",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__attack_emitter.json": "800547cf079fdb5bb2f60a1e259135f38f374607f0f13804ec2d434fac00c0b2",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__blackboard.json": "0f43fedfd885028cc030f2eb2b4b150de6724d9e218e7dd0253dd48a7ae044fb",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__health.json": "727024df42c1766ab7207b3976aca4a0e8b47b1a91607b11c2df693038d1d1f8",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__health_bar.json": "bbee51930aefe6b5d15fa01ece049109d7330d0d55a6a7499c8107d174a037cc",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__openable_door.json": "a64fd4491683545095d5c6677c9bab8e7d12e00eda159f775cba0baa4a0cae0a",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__attack_emitter.json": "63075da06b47c15a3f67edc61aa365a7e51221ea0b07507bb04e38a99833b0a4",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__blackboard.json": "3012dfc5ab7138dccc10146e2051aee28d78fd4b4fe391fdb438d51b7c7d730c",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__health.json": "4e92ddcb8c6efbfd4d86f39656768c0e224e2df3c093781bf4985eafd739c8c5",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__health_bar.json": "119c225491c7d75f89660e4b3aad31cf2065a114e407bebb45ed3e217fae7724",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__openable_door.json": "0ba8c37ef4fdc611a95d972433bf35cc926b50dfc8ca52a698644ef3d90156dd",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__attack_emitter.json": "e2a91b906ec198f15b6b1e1ac52604f083aef653622bb4c9e9b45bf16db1e947",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__blackboard.json": "f089430fe4c17e6e48d0117936f07edee4de6f1505a9a747aec4e65b0a07e8a4",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__health.json": "48fbba69a51c05416b5269222abafa5b80928079e829c132a006bfa273196355",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__health_bar.json": "add946ab7f7910addce5fe9a0351cd2e555483daf91d97e289154d08d8b8e070",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__openable_door.json": "9a20ee42793b20ff0e4d1dd2c66b81e47d5d4e00a2a596cdac1d7754ea42acd6",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__attack_emitter.json": "588fce3bde99ebc0e8badaa950c17b42191d85181228153408691c995b280df1",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__blackboard.json": "8704898a960a3cecf5f41dad4e1175e814c1905579c31d9ff3f78f1f76c85469",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__health.json": "d6da3a3890df0a65ad423ab4a8999d6fbec36c122c57c6ba28f191a43e8516a7",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__health_bar.json": "48c3896f69ad186498ac22873b660d714b876797c5270c2959b3ce5f9b110ef4",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__openable_door.json": "0b8e1dd669c26a4fa89be73edbff5afe5aa788a0137efae57560243b880e85e7",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__attack_emitter.json": "bde11332ee3c87c384f122aec87beec40856b163c0f8e1f33b565cf8644053c8",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__blackboard.json": "0174e88044e75c08ddac1e518a2855d8d4d118e6333670d5080871d0b49b9828",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__health.json": "7eadd2eabca50524a92c93c04545d8f5af8ed5011118f65e23aee1cc3142b4ff",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__health_bar.json": "86e2c1ea7b87d11523906d3cc6d40c2b6cd1c0630d028ec01aebdbe6bac1df01",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__openable_door.json": "3f33d1a1892004f788a0fd90c4557e8eb38506ac89577b872ec91312d121f3d8",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__attack_emitter.json": "ec9126d6d33ee8b5f921c4568f9120a7f80bbf9f6598ffaaff5479fd2531a135",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__blackboard.json": "e81db8d7fdd217b9807d1bb0556730e3b972517fce0f0e13ebaedb9bedbe3865",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__health.json": "7da2fdb747048ca236f5faa8d9b987fde7c653243209b2ed5c043bc3259d99a2",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__health_bar.json": "a3d006e04cf6c93d7aa4b4106094ac18806da13fa705687e1e5c8f04ee791716",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__openable_door.json": "20fff85d5cd093f87f097c720028ca47a4097bb4ba831e51f1c59f07eddd5bed",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__attack_emitter.json": "4789132c6341a513272bc322732c45d86f7beb0c5a5c74be1561b6e9cba2980d",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__blackboard.json": "fe7b87c32bc8e41a2e767a5f0f037c5e202df9a574f6aa2bb268ec888e3556fd",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__health.json": "eff95ead891f3c49d8d3976e3f07f8eac2143eafa532c6655e499b7efef18a0a",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__health_bar.json": "6f0555a572f3cd47f8c19d87d2c6c14318165ce17d9b30c8a9b47b99337256c5",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__openable_door.json": "7ceb02aea4f0048282e4f46a63c9c0466970eb6cc25fb67354cfbd9f66db5955",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__attack_emitter.json": "8b1de7b19701e9e80a8426e6219e6f5333f04eabc656bf0c78c531891224e66f",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__blackboard.json": "47bcd241695b264b4cd1565247799383c01b8c9798909dde93a34ddb6714969d",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__health.json": "dae8287f70aae51c55ec068a57072e635d199fe41ecfb7b7658df3278becc550",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__health_bar.json": "15bb602ed5c57dcdd58079231af2ab1f83f3fcf2022b72b9ab16770aa6f53ece",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__openable_door.json": "8b687e9fc89c730d59392dcde8e565553b831ebac5458b52751c7a05c74ff049",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__attack_emitter.json": "3f775eaabf3de3dc9d83612290e79492b1541115995ad89bf3b6f6870b39c2b1",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__blackboard.json": "63f76fe06d3370b472ad52441427e055d09a27a6e2e435fdbab79713fd10c582",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__health.json": "7ca07baa3b2d21b9d73c64ca38b5a625537d8510c3dcdea951a01ff8afa30660",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__health_bar.json": "c2bb08a2c7578759429ef8123a20e1d9647b93d471b33917be173b6eeea0881b",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__openable_door.json": "581163a76510d0c5f3e488387ea3cd2e167a076a9d4e7e56ecd617515eba645c",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__attack_emitter.json": "5c2379a1cafd5d6e6a35239ef4fe5063411d0d2fbf973c6f2fecf105461f80fe",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__blackboard.json": "2824a51ddedbaf23026ab5d7b44dfe12e0355877f613b2203c836a873daffc99",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__health.json": "0926bde3acf25dbca5fc531498f58d1458becd2e3d89eb81875c42196251f1b8",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__health_bar.json": "d641692688b04f6282cf32db1d18ea4c5eab6660035631488fd72539ca8aa321",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__openable_door.json": "5bb5168e3fa1601ac6bb97b35b096febf904e25dc8689efd405f523be116a59a",
+      ".ai/learning/external_code/index.json": "f813f2fe118717e86e33a4465af7cda371a416414373b28dcda546caa717fc07"
+    }
+  },
+  "candidate_impact": {
+    "candidate_count": 2,
+    "candidates": [
+      {
+        "candidate_id": "cand-08fdc0b10a112ecf",
+        "candidate_mutated": false,
+        "candidate_status": "NEEDS_REVIEW",
+        "content_digest": "da765709fd687426c94f28c63c953870118a6b00f6dc5e1bfe5b1e839990b666",
+        "evidence_refs": [
+          {
+            "analysis_id": "ext-73c80a3db6d71e48",
+            "analysis_record_digest": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+            "analysis_record_path": ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json",
+            "architecture": "Resource + exported state: a saveable Resource with @export hp/max_hp/is_dead, clamped add_hp and dead/full signals",
+            "classification": "DIRECT_EVIDENCE",
+            "derivation_type": null,
+            "evidence_item_refs": [
+              {
+                "commit_line": 16,
+                "evidence_id": "lnk-6fff3ce176bd5813:ev:01",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:func:is_dead:57",
+                "feature_source_line": 57,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "is_dead",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json#is_dead",
+                "record_line": 19,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "is_dead"
+              }
+            ],
+            "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+            "evidence_location": {
+              "commit_line": 16,
+              "location_basis": "references copy = commit copy plus 3 prepended line(s); verified by comparing both files line-for-line; commit_line = record_line - 3; symbol 'is_dead' checked against the commit copy",
+              "location_integrity": "COMPLETE",
+              "offset_applied": 3,
+              "offset_verified": true,
+              "record_line": 19,
+              "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+              "source_lookup_allowed": true,
+              "source_path": "addons/top_down/scripts/damage/HealthResource.gd"
+            },
+            "evidence_role": "LINKAGE_EVIDENCE",
+            "feature_id": "health",
+            "immutable_source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd",
+            "independence": "INDEPENDENT",
+            "independence_reason": "",
+            "limitations": [
+              "property-vs-function symbol kind mismatch for is_dead",
+              "single matched identifier out of 20 external symbols",
+              "parser captured 1 of 5 @export vars, so hp/max_hp/reset_hp/reset_max_hp are absent from the analysis despite analysis_complete",
+              "claim limited to: a death flag derived from clamped HP; must not be used for health display or attack claims",
+              "line_reference indexes the references copy (commit copy + 3 header lines)"
+            ],
+            "linkage_id": "lnk-6fff3ce176bd5813",
+            "linkage_record_digest": "c444f8eb939ab46c68d9e8612605950153ec2e5a4bf68089dd668176f8800f22",
+            "linkage_record_path": ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__health.json",
+            "qualification_reason": "Stage B.2 B.3: is_dead is real health state (set when hp==0) but is an exported property matching an internal function; narrow claim only",
+            "seed_eligibility": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+            "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+            "source_consistent": true,
+            "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+            "source_repository": "nezvers/Godot-GameTemplate",
+            "symbol_notes": [
+              "external is_dead is @export var is_dead: bool (property, commit line 16); internal is func is_dead() -> bool (line 57) - same identifier, different symbol kind, not the same Symbol"
+            ],
+            "verification_status": {
+              "behavior_verification_status": "NOT_VERIFIED",
+              "eligibility_status": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+              "feature_verification_status": "NOT_VERIFIED",
+              "runtime_verification_status": "NOT_VERIFIED",
+              "test_execution_status": "NOT_RUN"
+            }
+          },
+          {
+            "analysis_id": "ext-1d204b35464cf388",
+            "analysis_record_digest": "3b941cf01e5c8cf34661520a2223a7adba3443b1df3733b85097cec268eb0e17",
+            "analysis_record_path": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json",
+            "architecture": "Node + signals: a Node holding current health, damage/heal mutators that clamp and emit health_changed/health_depleted",
+            "classification": "DIRECT_EVIDENCE",
+            "derivation_type": null,
+            "evidence_item_refs": [
+              {
+                "commit_line": 20,
+                "evidence_id": "lnk-d2d95d8162be1592:ev:01",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:func:take_damage:28",
+                "feature_source_line": 28,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "take_damage",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json#take_damage",
+                "record_line": 23,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "take_damage"
+              },
+              {
+                "commit_line": 28,
+                "evidence_id": "lnk-d2d95d8162be1592:ev:02",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:func:heal:38",
+                "feature_source_line": 38,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "heal",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json#heal",
+                "record_line": 31,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "heal"
+              },
+              {
+                "commit_line": 3,
+                "evidence_id": "lnk-d2d95d8162be1592:ev:03",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:signal:health_changed:14",
+                "feature_source_line": 14,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "health_changed",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json#health_changed",
+                "record_line": 6,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "health_changed"
+              }
+            ],
+            "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+            "evidence_location": {
+              "commit_line": 20,
+              "location_basis": "references copy = commit copy plus 3 prepended line(s); verified by comparing both files line-for-line; commit_line = record_line - 3; symbol 'take_damage' checked against the commit copy",
+              "location_integrity": "COMPLETE",
+              "offset_applied": 3,
+              "offset_verified": true,
+              "record_line": 23,
+              "source_commit": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+              "source_lookup_allowed": true,
+              "source_path": "actors/health/Stats.gd"
+            },
+            "evidence_role": "LINKAGE_EVIDENCE",
+            "feature_id": "health",
+            "immutable_source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Stats.gd",
+            "independence": "INDEPENDENT",
+            "independence_reason": "",
+            "limitations": [
+              "external heal clamps with max(health, max_health) (effectively a full heal) while the Feature uses min(...)+max_health",
+              "external death is signalled by health_depleted, not by the Feature's died signal",
+              "health_changed arity differs: (new_health) external vs (current, amount) internal",
+              "analysis_status=analysis_partial (no class_name); feature projection_status=PARTIAL",
+              "line_reference indexes the references copy (commit copy + 3 header lines)"
+            ],
+            "linkage_id": "lnk-d2d95d8162be1592",
+            "linkage_record_digest": "1c3a713d417fe2aa0b31ffd7ff5ca994c5fd0e4b93e00e96a87db472a92f1c98",
+            "linkage_record_path": ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__health.json",
+            "qualification_reason": "Stage B.2 B.1: three exact identifiers (take_damage, heal, health_changed) with real in-file data flow, commit-pinned digest verified",
+            "seed_eligibility": "QUALIFIED_DIRECT",
+            "source_commit": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+            "source_consistent": true,
+            "source_digest": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+            "source_repository": "gdquest-demos/godot-make-pro-2d-games",
+            "symbol_notes": [],
+            "verification_status": {
+              "behavior_verification_status": "NOT_VERIFIED",
+              "eligibility_status": "QUALIFIED_DIRECT",
+              "feature_verification_status": "NOT_VERIFIED",
+              "runtime_verification_status": "NOT_VERIFIED",
+              "test_execution_status": "NOT_RUN"
+            }
+          }
+        ],
+        "feature_id": "health",
+        "new_symbols_in_referenced_sources": {
+          "ext-1d204b35464cf388": [
+            "health",
+            "modifiers"
+          ],
+          "ext-73c80a3db6d71e48": [
+            "hp",
+            "max_hp",
+            "reset_hp",
+            "reset_max_hp"
+          ]
+        },
+        "policy_version": "phase-1.74-c/1",
+        "reevaluated_pairs": [
+          {
+            "analysis_id": "ext-1d204b35464cf388",
+            "changed": false,
+            "feature_id": "health",
+            "original_classification": "DIRECT_EVIDENCE",
+            "reevaluated_classification": "DIRECT_EVIDENCE"
+          },
+          {
+            "analysis_id": "ext-23949c1378c49203",
+            "changed": false,
+            "feature_id": "health",
+            "original_classification": "NO_SUPPORTED_LINK",
+            "reevaluated_classification": "NO_SUPPORTED_LINK"
+          },
+          {
+            "analysis_id": "ext-73c80a3db6d71e48",
+            "changed": false,
+            "feature_id": "health",
+            "original_classification": "DIRECT_EVIDENCE",
+            "reevaluated_classification": "DIRECT_EVIDENCE"
+          },
+          {
+            "analysis_id": "ext-ab693f3d6ef9439c",
+            "changed": false,
+            "feature_id": "health",
+            "original_classification": "NO_RECORD",
+            "reevaluated_classification": "NOT_EVALUABLE"
+          }
+        ],
+        "refs_touched_by_reanalysis": [
+          {
+            "analysis_id": "ext-73c80a3db6d71e48",
+            "analysis_record_digest": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+            "analysis_record_path": ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json",
+            "architecture": "Resource + exported state: a saveable Resource with @export hp/max_hp/is_dead, clamped add_hp and dead/full signals",
+            "classification": "DIRECT_EVIDENCE",
+            "derivation_type": null,
+            "evidence_item_refs": [
+              {
+                "commit_line": 16,
+                "evidence_id": "lnk-6fff3ce176bd5813:ev:01",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:func:is_dead:57",
+                "feature_source_line": 57,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "is_dead",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json#is_dead",
+                "record_line": 19,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "is_dead"
+              }
+            ],
+            "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+            "evidence_location": {
+              "commit_line": 16,
+              "location_basis": "references copy = commit copy plus 3 prepended line(s); verified by comparing both files line-for-line; commit_line = record_line - 3; symbol 'is_dead' checked against the commit copy",
+              "location_integrity": "COMPLETE",
+              "offset_applied": 3,
+              "offset_verified": true,
+              "record_line": 19,
+              "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+              "source_lookup_allowed": true,
+              "source_path": "addons/top_down/scripts/damage/HealthResource.gd"
+            },
+            "evidence_role": "LINKAGE_EVIDENCE",
+            "feature_id": "health",
+            "immutable_source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd",
+            "independence": "INDEPENDENT",
+            "independence_reason": "",
+            "limitations": [
+              "property-vs-function symbol kind mismatch for is_dead",
+              "single matched identifier out of 20 external symbols",
+              "parser captured 1 of 5 @export vars, so hp/max_hp/reset_hp/reset_max_hp are absent from the analysis despite analysis_complete",
+              "claim limited to: a death flag derived from clamped HP; must not be used for health display or attack claims",
+              "line_reference indexes the references copy (commit copy + 3 header lines)"
+            ],
+            "linkage_id": "lnk-6fff3ce176bd5813",
+            "linkage_record_digest": "c444f8eb939ab46c68d9e8612605950153ec2e5a4bf68089dd668176f8800f22",
+            "linkage_record_path": ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__health.json",
+            "qualification_reason": "Stage B.2 B.3: is_dead is real health state (set when hp==0) but is an exported property matching an internal function; narrow claim only",
+            "seed_eligibility": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+            "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+            "source_consistent": true,
+            "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+            "source_repository": "nezvers/Godot-GameTemplate",
+            "symbol_notes": [
+              "external is_dead is @export var is_dead: bool (property, commit line 16); internal is func is_dead() -> bool (line 57) - same identifier, different symbol kind, not the same Symbol"
+            ],
+            "verification_status": {
+              "behavior_verification_status": "NOT_VERIFIED",
+              "eligibility_status": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+              "feature_verification_status": "NOT_VERIFIED",
+              "runtime_verification_status": "NOT_VERIFIED",
+              "test_execution_status": "NOT_RUN"
+            }
+          },
+          {
+            "analysis_id": "ext-1d204b35464cf388",
+            "analysis_record_digest": "3b941cf01e5c8cf34661520a2223a7adba3443b1df3733b85097cec268eb0e17",
+            "analysis_record_path": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json",
+            "architecture": "Node + signals: a Node holding current health, damage/heal mutators that clamp and emit health_changed/health_depleted",
+            "classification": "DIRECT_EVIDENCE",
+            "derivation_type": null,
+            "evidence_item_refs": [
+              {
+                "commit_line": 20,
+                "evidence_id": "lnk-d2d95d8162be1592:ev:01",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:func:take_damage:28",
+                "feature_source_line": 28,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "take_damage",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json#take_damage",
+                "record_line": 23,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "take_damage"
+              },
+              {
+                "commit_line": 28,
+                "evidence_id": "lnk-d2d95d8162be1592:ev:02",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:func:heal:38",
+                "feature_source_line": 38,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "heal",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json#heal",
+                "record_line": 31,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "heal"
+              },
+              {
+                "commit_line": 3,
+                "evidence_id": "lnk-d2d95d8162be1592:ev:03",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:health:Features/health/health.gd:signal:health_changed:14",
+                "feature_source_line": 14,
+                "feature_source_path": "Features/health/health.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "health_changed",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json#health_changed",
+                "record_line": 6,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "health_changed"
+              }
+            ],
+            "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+            "evidence_location": {
+              "commit_line": 20,
+              "location_basis": "references copy = commit copy plus 3 prepended line(s); verified by comparing both files line-for-line; commit_line = record_line - 3; symbol 'take_damage' checked against the commit copy",
+              "location_integrity": "COMPLETE",
+              "offset_applied": 3,
+              "offset_verified": true,
+              "record_line": 23,
+              "source_commit": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+              "source_lookup_allowed": true,
+              "source_path": "actors/health/Stats.gd"
+            },
+            "evidence_role": "LINKAGE_EVIDENCE",
+            "feature_id": "health",
+            "immutable_source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Stats.gd",
+            "independence": "INDEPENDENT",
+            "independence_reason": "",
+            "limitations": [
+              "external heal clamps with max(health, max_health) (effectively a full heal) while the Feature uses min(...)+max_health",
+              "external death is signalled by health_depleted, not by the Feature's died signal",
+              "health_changed arity differs: (new_health) external vs (current, amount) internal",
+              "analysis_status=analysis_partial (no class_name); feature projection_status=PARTIAL",
+              "line_reference indexes the references copy (commit copy + 3 header lines)"
+            ],
+            "linkage_id": "lnk-d2d95d8162be1592",
+            "linkage_record_digest": "1c3a713d417fe2aa0b31ffd7ff5ca994c5fd0e4b93e00e96a87db472a92f1c98",
+            "linkage_record_path": ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__health.json",
+            "qualification_reason": "Stage B.2 B.1: three exact identifiers (take_damage, heal, health_changed) with real in-file data flow, commit-pinned digest verified",
+            "seed_eligibility": "QUALIFIED_DIRECT",
+            "source_commit": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+            "source_consistent": true,
+            "source_digest": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+            "source_repository": "gdquest-demos/godot-make-pro-2d-games",
+            "symbol_notes": [],
+            "verification_status": {
+              "behavior_verification_status": "NOT_VERIFIED",
+              "eligibility_status": "QUALIFIED_DIRECT",
+              "feature_verification_status": "NOT_VERIFIED",
+              "runtime_verification_status": "NOT_VERIFIED",
+              "test_execution_status": "NOT_RUN"
+            }
+          }
+        ],
+        "review_required": true
+      },
+      {
+        "candidate_id": "cand-7f52cb8f583124db",
+        "candidate_mutated": false,
+        "candidate_status": "NEEDS_REVIEW",
+        "content_digest": "5ed73359a39023cdaf31d3bca3991178940b012a3f798b541fc6ef6cae51c39b",
+        "evidence_refs": [
+          {
+            "analysis_id": "ext-23949c1378c49203",
+            "analysis_record_digest": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+            "analysis_record_path": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json",
+            "architecture": "Node storing named Dictionary boards with set/get/has/erase and a default board",
+            "classification": "DIRECT_EVIDENCE",
+            "derivation_type": null,
+            "evidence_item_refs": [
+              {
+                "commit_line": null,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:01",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:class",
+                "feature_source_line": null,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "INCOMPLETE",
+                "matched_value": "Blackboard",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#Blackboard",
+                "record_line": null,
+                "symbol_at_commit_line": "UNKNOWN",
+                "symbol_name": "Blackboard"
+              },
+              {
+                "commit_line": 21,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:02",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:keys:26",
+                "feature_source_line": 26,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "keys",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#keys",
+                "record_line": 24,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "keys"
+              },
+              {
+                "commit_line": 27,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:03",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:set_value:30",
+                "feature_source_line": 30,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "set_value",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#set_value",
+                "record_line": 30,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "set_value"
+              },
+              {
+                "commit_line": 42,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:04",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:has_value:42",
+                "feature_source_line": 42,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "has_value",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#has_value",
+                "record_line": 45,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "has_value"
+              },
+              {
+                "commit_line": 50,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:05",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:erase_value:50",
+                "feature_source_line": 50,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "erase_value",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#erase_value",
+                "record_line": 53,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "erase_value"
+              }
+            ],
+            "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+            "evidence_location": {
+              "commit_line": 21,
+              "location_basis": "record carries no line for this item; no commit line can be derived without guessing",
+              "location_integrity": "INCOMPLETE",
+              "offset_applied": 3,
+              "offset_verified": true,
+              "record_line": 24,
+              "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+              "source_lookup_allowed": false,
+              "source_path": "addons/beehave/blackboard.gd"
+            },
+            "evidence_role": "LINKAGE_EVIDENCE",
+            "feature_id": "blackboard",
+            "immutable_source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd",
+            "independence": "NOT_INDEPENDENT",
+            "independence_reason": "Features/blackboard/blackboard.gd states it was abstracted from bitbrain/beehave (MIT); the external source and the internal Feature are not independent implementations",
+            "limitations": [
+              "NOT_INDEPENDENT: derived-from relationship with the internal Feature, so this is corroboration, not independent external cross-validation",
+              "feature uses duplicate(true) (deep) where the external setter uses duplicate() (shallow)",
+              "analysis_status=analysis_partial (@icon annotation not interpreted)",
+              "the class_name evidence item has no match line, so its source location is single-coordinate"
+            ],
+            "linkage_id": "lnk-7084dc8999c2182b",
+            "linkage_record_digest": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+            "linkage_record_path": ".ai/learning/external_code/feature_links/ext-23949c1378c49203__blackboard.json",
+            "qualification_reason": "Stage B.2 B.2: five exact identifiers with real multi-board read/write logic; acknowledged upstream of the internal Feature",
+            "seed_eligibility": "QUALIFIED_DIRECT",
+            "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+            "source_consistent": true,
+            "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+            "source_repository": "bitbrain/beehave",
+            "symbol_notes": [],
+            "verification_status": {
+              "behavior_verification_status": "NOT_VERIFIED",
+              "eligibility_status": "QUALIFIED_DIRECT",
+              "feature_verification_status": "NOT_VERIFIED",
+              "runtime_verification_status": "NOT_VERIFIED",
+              "test_execution_status": "NOT_RUN"
+            }
+          }
+        ],
+        "feature_id": "blackboard",
+        "new_symbols_in_referenced_sources": {
+          "ext-23949c1378c49203": [
+            "get_value",
+            "blackboard",
+            "_data"
+          ]
+        },
+        "policy_version": "phase-1.74-c/1",
+        "reevaluated_pairs": [
+          {
+            "analysis_id": "ext-1d204b35464cf388",
+            "changed": false,
+            "feature_id": "blackboard",
+            "original_classification": "NO_SUPPORTED_LINK",
+            "reevaluated_classification": "NO_SUPPORTED_LINK"
+          },
+          {
+            "analysis_id": "ext-23949c1378c49203",
+            "changed": false,
+            "feature_id": "blackboard",
+            "original_classification": "DIRECT_EVIDENCE",
+            "reevaluated_classification": "DIRECT_EVIDENCE"
+          },
+          {
+            "analysis_id": "ext-73c80a3db6d71e48",
+            "changed": false,
+            "feature_id": "blackboard",
+            "original_classification": "NO_SUPPORTED_LINK",
+            "reevaluated_classification": "NO_SUPPORTED_LINK"
+          },
+          {
+            "analysis_id": "ext-ab693f3d6ef9439c",
+            "changed": false,
+            "feature_id": "blackboard",
+            "original_classification": "NO_RECORD",
+            "reevaluated_classification": "NOT_EVALUABLE"
+          }
+        ],
+        "refs_touched_by_reanalysis": [
+          {
+            "analysis_id": "ext-23949c1378c49203",
+            "analysis_record_digest": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+            "analysis_record_path": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json",
+            "architecture": "Node storing named Dictionary boards with set/get/has/erase and a default board",
+            "classification": "DIRECT_EVIDENCE",
+            "derivation_type": null,
+            "evidence_item_refs": [
+              {
+                "commit_line": null,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:01",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:class",
+                "feature_source_line": null,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "INCOMPLETE",
+                "matched_value": "Blackboard",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#Blackboard",
+                "record_line": null,
+                "symbol_at_commit_line": "UNKNOWN",
+                "symbol_name": "Blackboard"
+              },
+              {
+                "commit_line": 21,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:02",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:keys:26",
+                "feature_source_line": 26,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "keys",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#keys",
+                "record_line": 24,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "keys"
+              },
+              {
+                "commit_line": 27,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:03",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:set_value:30",
+                "feature_source_line": 30,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "set_value",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#set_value",
+                "record_line": 30,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "set_value"
+              },
+              {
+                "commit_line": 42,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:04",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:has_value:42",
+                "feature_source_line": 42,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "has_value",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#has_value",
+                "record_line": 45,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "has_value"
+              },
+              {
+                "commit_line": 50,
+                "evidence_id": "lnk-7084dc8999c2182b:ev:05",
+                "evidence_role": "LINKAGE_EVIDENCE",
+                "evidence_status": "EXTRACTED",
+                "evidence_type": "SYMBOL_EXACT_MATCH",
+                "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:erase_value:50",
+                "feature_source_line": 50,
+                "feature_source_path": "Features/blackboard/blackboard.gd",
+                "location_integrity": "COMPLETE",
+                "matched_value": "erase_value",
+                "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#erase_value",
+                "record_line": 53,
+                "symbol_at_commit_line": "VERIFIED",
+                "symbol_name": "erase_value"
+              }
+            ],
+            "evidence_kind": "EXTERNAL_DIRECT_IMPLEMENTATION",
+            "evidence_location": {
+              "commit_line": 21,
+              "location_basis": "record carries no line for this item; no commit line can be derived without guessing",
+              "location_integrity": "INCOMPLETE",
+              "offset_applied": 3,
+              "offset_verified": true,
+              "record_line": 24,
+              "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+              "source_lookup_allowed": false,
+              "source_path": "addons/beehave/blackboard.gd"
+            },
+            "evidence_role": "LINKAGE_EVIDENCE",
+            "feature_id": "blackboard",
+            "immutable_source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd",
+            "independence": "NOT_INDEPENDENT",
+            "independence_reason": "Features/blackboard/blackboard.gd states it was abstracted from bitbrain/beehave (MIT); the external source and the internal Feature are not independent implementations",
+            "limitations": [
+              "NOT_INDEPENDENT: derived-from relationship with the internal Feature, so this is corroboration, not independent external cross-validation",
+              "feature uses duplicate(true) (deep) where the external setter uses duplicate() (shallow)",
+              "analysis_status=analysis_partial (@icon annotation not interpreted)",
+              "the class_name evidence item has no match line, so its source location is single-coordinate"
+            ],
+            "linkage_id": "lnk-7084dc8999c2182b",
+            "linkage_record_digest": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+            "linkage_record_path": ".ai/learning/external_code/feature_links/ext-23949c1378c49203__blackboard.json",
+            "qualification_reason": "Stage B.2 B.2: five exact identifiers with real multi-board read/write logic; acknowledged upstream of the internal Feature",
+            "seed_eligibility": "QUALIFIED_DIRECT",
+            "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+            "source_consistent": true,
+            "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+            "source_repository": "bitbrain/beehave",
+            "symbol_notes": [],
+            "verification_status": {
+              "behavior_verification_status": "NOT_VERIFIED",
+              "eligibility_status": "QUALIFIED_DIRECT",
+              "feature_verification_status": "NOT_VERIFIED",
+              "runtime_verification_status": "NOT_VERIFIED",
+              "test_execution_status": "NOT_RUN"
+            }
+          }
+        ],
+        "review_required": true
+      }
+    ]
+  },
+  "candidate_mutated": false,
+  "generated_with_parser": "1.75",
+  "linkage_review": {
+    "built": 15,
+    "evaluated": 4,
+    "pairs": [
+      {
+        "analysis_id": "ext-1d204b35464cf388",
+        "changed": false,
+        "feature_id": "health",
+        "label": "Stats.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "DIRECT_EVIDENCE",
+        "original_linkage_id": "lnk-d2d95d8162be1592",
+        "original_symbols": [
+          "take_damage",
+          "heal",
+          "health_changed"
+        ],
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "reevaluated_classification": "DIRECT_EVIDENCE",
+        "reevaluated_symbols": [
+          "take_damage",
+          "heal",
+          "health_changed"
+        ],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-1d204b35464cf388",
+        "changed": false,
+        "feature_id": "health_bar",
+        "label": "Stats.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "POTENTIAL_RELEVANCE",
+        "original_linkage_id": "lnk-a19e1ebb4629a1c4",
+        "original_symbols": [],
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "reevaluated_classification": "POTENTIAL_RELEVANCE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-1d204b35464cf388",
+        "changed": false,
+        "feature_id": "openable_door",
+        "label": "Stats.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-b57aa51c2578208b",
+        "original_symbols": [],
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-1d204b35464cf388",
+        "changed": false,
+        "feature_id": "attack_emitter",
+        "label": "Stats.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "POTENTIAL_RELEVANCE",
+        "original_linkage_id": "lnk-1fb3088628cb9761",
+        "original_symbols": [],
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "reevaluated_classification": "POTENTIAL_RELEVANCE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-1d204b35464cf388",
+        "changed": false,
+        "feature_id": "blackboard",
+        "label": "Stats.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-4968ea51d0b22fcb",
+        "original_symbols": [],
+        "reanalysis_id": "ext-0ee947aef4c9aeca",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-23949c1378c49203",
+        "changed": false,
+        "feature_id": "health",
+        "label": "blackboard.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-998fc6489d795347",
+        "original_symbols": [],
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-23949c1378c49203",
+        "changed": false,
+        "feature_id": "health_bar",
+        "label": "blackboard.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-e05adad292dcfc44",
+        "original_symbols": [],
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-23949c1378c49203",
+        "changed": false,
+        "feature_id": "openable_door",
+        "label": "blackboard.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-cfecaaa6df7ef918",
+        "original_symbols": [],
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-23949c1378c49203",
+        "changed": false,
+        "feature_id": "attack_emitter",
+        "label": "blackboard.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-2e077a5ce5d54135",
+        "original_symbols": [],
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-23949c1378c49203",
+        "changed": false,
+        "feature_id": "blackboard",
+        "label": "blackboard.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "DIRECT_EVIDENCE",
+        "original_linkage_id": "lnk-7084dc8999c2182b",
+        "original_symbols": [
+          "Blackboard",
+          "keys",
+          "set_value",
+          "has_value",
+          "erase_value"
+        ],
+        "reanalysis_id": "ext-d0a93201b6f352df",
+        "reevaluated_classification": "DIRECT_EVIDENCE",
+        "reevaluated_symbols": [
+          "Blackboard",
+          "keys",
+          "set_value",
+          "get_value",
+          "has_value",
+          "erase_value"
+        ],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-73c80a3db6d71e48",
+        "changed": false,
+        "feature_id": "health",
+        "label": "HealthResource.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "DIRECT_EVIDENCE",
+        "original_linkage_id": "lnk-6fff3ce176bd5813",
+        "original_symbols": [
+          "is_dead"
+        ],
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "reevaluated_classification": "DIRECT_EVIDENCE",
+        "reevaluated_symbols": [
+          "is_dead"
+        ],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-73c80a3db6d71e48",
+        "changed": false,
+        "feature_id": "health_bar",
+        "label": "HealthResource.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "POTENTIAL_RELEVANCE",
+        "original_linkage_id": "lnk-9017826af9f06cfe",
+        "original_symbols": [],
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "reevaluated_classification": "POTENTIAL_RELEVANCE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-73c80a3db6d71e48",
+        "changed": false,
+        "feature_id": "openable_door",
+        "label": "HealthResource.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-e36d2a3720d24c48",
+        "original_symbols": [],
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-73c80a3db6d71e48",
+        "changed": false,
+        "feature_id": "attack_emitter",
+        "label": "HealthResource.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "INDIRECT_EVIDENCE",
+        "original_linkage_id": "lnk-a099657ab3c9930c",
+        "original_symbols": [],
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "reevaluated_classification": "INDIRECT_EVIDENCE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-73c80a3db6d71e48",
+        "changed": false,
+        "feature_id": "blackboard",
+        "label": "HealthResource.gd",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_SUPPORTED_LINK",
+        "original_linkage_id": "lnk-f85c8942db1a7664",
+        "original_symbols": [],
+        "reanalysis_id": "ext-8759bb47cb020625",
+        "reevaluated_classification": "NO_SUPPORTED_LINK",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-ab693f3d6ef9439c",
+        "changed": false,
+        "feature_id": "health",
+        "label": "HealthBar.gd (godot-open-rts)",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_RECORD",
+        "original_linkage_id": null,
+        "original_symbols": [],
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "reevaluated_classification": "NOT_EVALUABLE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-ab693f3d6ef9439c",
+        "changed": false,
+        "feature_id": "health_bar",
+        "label": "HealthBar.gd (godot-open-rts)",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_RECORD",
+        "original_linkage_id": null,
+        "original_symbols": [],
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "reevaluated_classification": "NOT_EVALUABLE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-ab693f3d6ef9439c",
+        "changed": false,
+        "feature_id": "openable_door",
+        "label": "HealthBar.gd (godot-open-rts)",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_RECORD",
+        "original_linkage_id": null,
+        "original_symbols": [],
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "reevaluated_classification": "NOT_EVALUABLE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-ab693f3d6ef9439c",
+        "changed": false,
+        "feature_id": "attack_emitter",
+        "label": "HealthBar.gd (godot-open-rts)",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_RECORD",
+        "original_linkage_id": null,
+        "original_symbols": [],
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "reevaluated_classification": "NOT_EVALUABLE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      },
+      {
+        "analysis_id": "ext-ab693f3d6ef9439c",
+        "changed": false,
+        "feature_id": "blackboard",
+        "label": "HealthBar.gd (godot-open-rts)",
+        "old_to_new": {
+          "ext-1d204b35464cf388": "ext-0ee947aef4c9aeca",
+          "ext-23949c1378c49203": "ext-d0a93201b6f352df",
+          "ext-73c80a3db6d71e48": "ext-8759bb47cb020625",
+          "ext-ab693f3d6ef9439c": "ext-322df918a5ebee02"
+        },
+        "original_classification": "NO_RECORD",
+        "original_linkage_id": null,
+        "original_symbols": [],
+        "reanalysis_id": "ext-322df918a5ebee02",
+        "reevaluated_classification": "NOT_EVALUABLE",
+        "reevaluated_symbols": [],
+        "review_status": "REVIEW_ONLY_NOT_WRITTEN"
+      }
+    ],
+    "scratch": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\phase175-linkage-62cr9jrl",
+    "unevaluable": [
+      {
+        "analysis_id": "ext-322df918a5ebee02",
+        "feature_id": "health",
+        "reason": "no distinctive parseable symbols (analysis_status=analysis_partial, parse_status=parsed, file_type=gdscript)"
+      },
+      {
+        "analysis_id": "ext-322df918a5ebee02",
+        "feature_id": "health_bar",
+        "reason": "no distinctive parseable symbols (analysis_status=analysis_partial, parse_status=parsed, file_type=gdscript)"
+      },
+      {
+        "analysis_id": "ext-322df918a5ebee02",
+        "feature_id": "openable_door",
+        "reason": "no distinctive parseable symbols (analysis_status=analysis_partial, parse_status=parsed, file_type=gdscript)"
+      },
+      {
+        "analysis_id": "ext-322df918a5ebee02",
+        "feature_id": "attack_emitter",
+        "reason": "no distinctive parseable symbols (analysis_status=analysis_partial, parse_status=parsed, file_type=gdscript)"
+      },
+      {
+        "analysis_id": "ext-322df918a5ebee02",
+        "feature_id": "blackboard",
+        "reason": "no distinctive parseable symbols (analysis_status=analysis_partial, parse_status=parsed, file_type=gdscript)"
+      }
+    ]
+  },
+  "official_analysis_overwritten": false,
+  "official_linkage_overwritten": false,
+  "phase": "1.75-C",
+  "reanalysis": [
+    {
+      "analysis_id": "ext-1d204b35464cf388",
+      "analysis_status": {
+        "new": "analysis_partial",
+        "old": "analysis_partial"
+      },
+      "coverage": {
+        "analysis_completeness": "FULL",
+        "declaration_count": 11,
+        "parse_execution_status": "PARSED",
+        "source_coordinates": "ANALYZED_FILE",
+        "syntax_coverage_status": "PARTIAL",
+        "unrecognized_declarations": [],
+        "unsupported_constructs": [
+          {
+            "code": "LEGACY_SETGET_NOT_INTERPRETED",
+            "line": 13
+          }
+        ]
+      },
+      "diff": {
+        "counts": {
+          "after": {
+            "constants": 0,
+            "exports": 0,
+            "functions": 6,
+            "properties": 0,
+            "signals": 3,
+            "variables": 2
+          },
+          "before": {
+            "constants": 0,
+            "exports": 0,
+            "functions": 6,
+            "properties": 0,
+            "signals": 3,
+            "variables": 0
+          }
+        },
+        "dropped_limitations": [],
+        "new_limitations": [],
+        "status": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_partial",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "partial",
+            "old": "parsed"
+          },
+          "syntax_coverage_status": {
+            "new": "PARTIAL",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "symbols_added": [
+          {
+            "_group": "variables",
+            "annotations": [],
+            "declaration_kind": "VARIABLE",
+            "end_line": 12,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": false,
+            "is_static": false,
+            "line": 12,
+            "name": "health",
+            "type": "",
+            "value": "0"
+          },
+          {
+            "_group": "variables",
+            "annotations": [],
+            "declaration_kind": "VARIABLE",
+            "end_line": 10,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": false,
+            "is_static": false,
+            "line": 10,
+            "name": "modifiers",
+            "type": "",
+            "value": "{}"
+          }
+        ],
+        "symbols_changed": [
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_ready"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:add_modifier"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:heal"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:remove_modifier"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:set_max_health"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:take_damage"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:damage_taken"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:health_changed"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:health_depleted"
+          }
+        ],
+        "symbols_removed": [],
+        "unrecognized_declarations": [],
+        "unsupported_constructs": [
+          {
+            "code": "LEGACY_SETGET_NOT_INTERPRETED",
+            "line": 13
+          }
+        ]
+      },
+      "label": "Stats.gd",
+      "location_checks": 11,
+      "location_problems": [],
+      "original_analysis_status": "analysis_partial",
+      "parser_version": {
+        "new": "1.75",
+        "old": "1.71"
+      },
+      "provenance_verified": true,
+      "reanalysis_id": "ext-0ee947aef4c9aeca",
+      "source_digest": {
+        "new": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+        "old": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+        "same": true
+      },
+      "source_path": "actors/health/Stats.gd"
+    },
+    {
+      "analysis_id": "ext-23949c1378c49203",
+      "analysis_status": {
+        "new": "analysis_complete",
+        "old": "analysis_partial"
+      },
+      "coverage": {
+        "analysis_completeness": "FULL",
+        "declaration_count": 11,
+        "parse_execution_status": "PARSED",
+        "source_coordinates": "ANALYZED_FILE",
+        "syntax_coverage_status": "COMPLETE",
+        "unrecognized_declarations": [],
+        "unsupported_constructs": []
+      },
+      "diff": {
+        "counts": {
+          "after": {
+            "constants": 1,
+            "exports": 0,
+            "functions": 8,
+            "properties": 1,
+            "signals": 0,
+            "variables": 1
+          },
+          "before": {
+            "constants": 1,
+            "exports": 0,
+            "functions": 7,
+            "properties": 0,
+            "signals": 0,
+            "variables": 0
+          }
+        },
+        "dropped_limitations": [
+          "annotation_not_fully_interpreted:line=4"
+        ],
+        "new_limitations": [],
+        "status": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_complete",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "partial"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "symbols_added": [
+          {
+            "_group": "functions",
+            "declaration_kind": "FUNCTION",
+            "end_line": 44,
+            "line": 37,
+            "name": "get_value",
+            "params": "key: Variant, default_value: Variant = null, blackboard_name: String = DEFAULT",
+            "returns": "Variant"
+          },
+          {
+            "_group": "properties",
+            "accessors": [
+              {
+                "end_line": 15,
+                "kind": "set",
+                "line": 12,
+                "param": "b"
+              }
+            ],
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "export"
+              }
+            ],
+            "declaration_kind": "PROPERTY",
+            "end_line": 11,
+            "has_getter": false,
+            "has_initializer": true,
+            "has_setter": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": true,
+            "is_onready": false,
+            "is_static": false,
+            "line": 11,
+            "name": "blackboard",
+            "type": "Dictionary",
+            "value": "{}"
+          },
+          {
+            "_group": "variables",
+            "annotations": [],
+            "declaration_kind": "VARIABLE",
+            "end_line": 16,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": false,
+            "is_static": false,
+            "line": 16,
+            "name": "_data",
+            "type": "Dictionary",
+            "value": "{}"
+          }
+        ],
+        "symbols_changed": [
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "CONSTANT",
+                "old": null
+              },
+              "end_line": {
+                "new": 7,
+                "old": null
+              },
+              "has_initializer": {
+                "new": true,
+                "old": null
+              },
+              "initializer_kind": {
+                "new": "EXPLICIT",
+                "old": null
+              },
+              "type": {
+                "new": "",
+                "old": null
+              }
+            },
+            "symbol": "constants:DEFAULT"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_ready"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_sanitize_for_debug"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:erase_value"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:get_debug_data"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:has_value"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:keys"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:set_value"
+          }
+        ],
+        "symbols_removed": [],
+        "unrecognized_declarations": [],
+        "unsupported_constructs": []
+      },
+      "label": "blackboard.gd",
+      "location_checks": 11,
+      "location_problems": [],
+      "original_analysis_status": "analysis_partial",
+      "parser_version": {
+        "new": "1.75",
+        "old": "1.71"
+      },
+      "provenance_verified": true,
+      "reanalysis_id": "ext-d0a93201b6f352df",
+      "source_digest": {
+        "new": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+        "old": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+        "same": true
+      },
+      "source_path": "addons/beehave/blackboard.gd"
+    },
+    {
+      "analysis_id": "ext-73c80a3db6d71e48",
+      "analysis_status": {
+        "new": "analysis_complete",
+        "old": "analysis_complete"
+      },
+      "coverage": {
+        "analysis_completeness": "FULL",
+        "declaration_count": 17,
+        "parse_execution_status": "PARSED",
+        "source_coordinates": "ANALYZED_FILE",
+        "syntax_coverage_status": "COMPLETE",
+        "unrecognized_declarations": [],
+        "unsupported_constructs": []
+      },
+      "diff": {
+        "counts": {
+          "after": {
+            "constants": 0,
+            "exports": 5,
+            "functions": 6,
+            "properties": 0,
+            "signals": 6,
+            "variables": 0
+          },
+          "before": {
+            "constants": 0,
+            "exports": 1,
+            "functions": 6,
+            "properties": 0,
+            "signals": 6,
+            "variables": 0
+          }
+        },
+        "dropped_limitations": [],
+        "new_limitations": [],
+        "status": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_complete",
+            "old": "analysis_complete"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "parsed"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "symbols_added": [
+          {
+            "_group": "exports",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "export"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 14,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": true,
+            "is_onready": false,
+            "is_static": false,
+            "line": 14,
+            "name": "hp",
+            "type": "float",
+            "value": "5"
+          },
+          {
+            "_group": "exports",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "export"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 15,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": true,
+            "is_onready": false,
+            "is_static": false,
+            "line": 15,
+            "name": "max_hp",
+            "type": "float",
+            "value": "5"
+          },
+          {
+            "_group": "exports",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "export"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 17,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": true,
+            "is_onready": false,
+            "is_static": false,
+            "line": 17,
+            "name": "reset_hp",
+            "type": "float",
+            "value": "5"
+          },
+          {
+            "_group": "exports",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "export"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 18,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": true,
+            "is_onready": false,
+            "is_static": false,
+            "line": 18,
+            "name": "reset_max_hp",
+            "type": "float",
+            "value": "5"
+          }
+        ],
+        "symbols_changed": [
+          {
+            "fields": {
+              "annotations": {
+                "new": [
+                  "export"
+                ],
+                "old": []
+              },
+              "declaration_kind": {
+                "new": "VARIABLE",
+                "old": null
+              },
+              "end_line": {
+                "new": 19,
+                "old": null
+              },
+              "has_initializer": {
+                "new": false,
+                "old": null
+              },
+              "initializer_kind": {
+                "new": "NONE",
+                "old": null
+              },
+              "is_exported": {
+                "new": true,
+                "old": null
+              },
+              "is_onready": {
+                "new": false,
+                "old": null
+              },
+              "is_static": {
+                "new": false,
+                "old": null
+              }
+            },
+            "symbol": "exports:is_dead"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:add_hp"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:insta_kill"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:is_full"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:prepare_load"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:reset_resource"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:set_max_hp"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:damaged"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:dead"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:full"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:hp_changed"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:max_hp_changed"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "SIGNAL",
+                "old": null
+              }
+            },
+            "symbol": "signals:reset_update"
+          }
+        ],
+        "symbols_removed": [],
+        "unrecognized_declarations": [],
+        "unsupported_constructs": []
+      },
+      "label": "HealthResource.gd",
+      "location_checks": 17,
+      "location_problems": [],
+      "original_analysis_status": "analysis_complete",
+      "parser_version": {
+        "new": "1.75",
+        "old": "1.71"
+      },
+      "provenance_verified": true,
+      "reanalysis_id": "ext-8759bb47cb020625",
+      "source_digest": {
+        "new": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+        "old": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+        "same": true
+      },
+      "source_path": "addons/top_down/scripts/damage/HealthResource.gd"
+    },
+    {
+      "analysis_id": "ext-ab693f3d6ef9439c",
+      "analysis_status": {
+        "new": "analysis_partial",
+        "old": "analysis_partial"
+      },
+      "coverage": {
+        "analysis_completeness": "FULL",
+        "declaration_count": 13,
+        "parse_execution_status": "PARSED",
+        "source_coordinates": "ANALYZED_FILE",
+        "syntax_coverage_status": "COMPLETE",
+        "unrecognized_declarations": [],
+        "unsupported_constructs": []
+      },
+      "diff": {
+        "counts": {
+          "after": {
+            "constants": 1,
+            "exports": 0,
+            "functions": 7,
+            "properties": 1,
+            "signals": 0,
+            "variables": 4
+          },
+          "before": {
+            "constants": 1,
+            "exports": 0,
+            "functions": 7,
+            "properties": 0,
+            "signals": 0,
+            "variables": 0
+          }
+        },
+        "dropped_limitations": [
+          "annotation_not_fully_interpreted:line=4"
+        ],
+        "new_limitations": [],
+        "status": {
+          "analysis_completeness": {
+            "new": "FULL",
+            "old": "(absent: pre-1.75 record)"
+          },
+          "analysis_status": {
+            "new": "analysis_partial",
+            "old": "analysis_partial"
+          },
+          "parse_status": {
+            "new": "parsed",
+            "old": "partial"
+          },
+          "syntax_coverage_status": {
+            "new": "COMPLETE",
+            "old": "(absent: pre-1.75 record)"
+          }
+        },
+        "symbols_added": [
+          {
+            "_group": "properties",
+            "accessors": [
+              {
+                "end_line": 14,
+                "kind": "set",
+                "line": 10,
+                "param": "value"
+              }
+            ],
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "export"
+              }
+            ],
+            "declaration_kind": "PROPERTY",
+            "end_line": 9,
+            "has_getter": false,
+            "has_initializer": true,
+            "has_setter": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": true,
+            "is_onready": false,
+            "is_static": false,
+            "line": 9,
+            "name": "size",
+            "type": "",
+            "value": "Vector2(200, 20)"
+          },
+          {
+            "_group": "variables",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "onready"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 18,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": true,
+            "is_static": false,
+            "line": 18,
+            "name": "_actual_bar",
+            "type": "",
+            "value": "find_child(\"ActualBar\")"
+          },
+          {
+            "_group": "variables",
+            "annotations": [],
+            "declaration_kind": "VARIABLE",
+            "end_line": 15,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": false,
+            "is_static": false,
+            "line": 15,
+            "name": "_bar_value_initialized",
+            "type": "",
+            "value": "false"
+          },
+          {
+            "_group": "variables",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "onready"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 17,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": true,
+            "is_static": false,
+            "line": 17,
+            "name": "_unit",
+            "type": "",
+            "value": "get_parent()"
+          },
+          {
+            "_group": "variables",
+            "annotations": [
+              {
+                "args": "",
+                "interpreted": true,
+                "name": "onready"
+              }
+            ],
+            "declaration_kind": "VARIABLE",
+            "end_line": 19,
+            "has_initializer": true,
+            "initializer_kind": "EXPLICIT",
+            "is_exported": false,
+            "is_onready": true,
+            "is_static": false,
+            "line": 19,
+            "name": "_visibility_timer",
+            "type": "",
+            "value": "find_child(\"Timer\")"
+          }
+        ],
+        "symbols_changed": [
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "CONSTANT",
+                "old": null
+              },
+              "end_line": {
+                "new": 7,
+                "old": null
+              },
+              "has_initializer": {
+                "new": true,
+                "old": null
+              },
+              "initializer_kind": {
+                "new": "EXPLICIT",
+                "old": null
+              },
+              "type": {
+                "new": "",
+                "old": null
+              }
+            },
+            "symbol": "constants:BAR_AUTO_VISIBILITY_DURATION"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_on_hp_changed"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_on_unit_deselected"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_on_unit_selected"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_on_visibility_timer_timeout"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_ready"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_recalulate_bar_value"
+          },
+          {
+            "fields": {
+              "declaration_kind": {
+                "new": "FUNCTION",
+                "old": null
+              }
+            },
+            "symbol": "functions:_show_for_a_while"
+          }
+        ],
+        "symbols_removed": [],
+        "unrecognized_declarations": [],
+        "unsupported_constructs": []
+      },
+      "label": "HealthBar.gd (godot-open-rts)",
+      "location_checks": 13,
+      "location_problems": [],
+      "original_analysis_status": "analysis_partial",
+      "parser_version": {
+        "new": "1.75",
+        "old": "1.71"
+      },
+      "provenance_verified": true,
+      "reanalysis_id": "ext-322df918a5ebee02",
+      "source_digest": {
+        "new": "cc6b52103cccd74235624dea1edb0904c4d6ae36366f7be2630c9e257434b3eb",
+        "old": "cc6b52103cccd74235624dea1edb0904c4d6ae36366f7be2630c9e257434b3eb",
+        "same": true
+      },
+      "source_path": "source/match/units/traits/HealthBar.gd"
+    }
+  ],
+  "review_only": true,
+  "schema": "external_code_reanalysis_workspace",
+  "schema_version": 1,
+  "targets": {
+    "ext-1d204b35464cf388": {
+      "label": "Stats.gd",
+      "stopped": null
+    },
+    "ext-23949c1378c49203": {
+      "label": "blackboard.gd",
+      "stopped": null
+    },
+    "ext-73c80a3db6d71e48": {
+      "label": "HealthResource.gd",
+      "stopped": null
+    },
+    "ext-ab693f3d6ef9439c": {
+      "label": "HealthBar.gd (godot-open-rts)",
+      "stopped": null
+    }
+  }
+}

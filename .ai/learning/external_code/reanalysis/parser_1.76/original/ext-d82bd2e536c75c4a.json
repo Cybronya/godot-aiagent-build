@@ -1,0 +1,455 @@
+{
+  "analysis_id": "ext-d82bd2e536c75c4a",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "d5d8d1588742",
+  "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+  "conditions": [
+    {
+      "condition": "if tween_front != null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_on_reset",
+      "line": 29
+    },
+    {
+      "condition": "if tween_midle != null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_on_reset",
+      "line": 31
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:50Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "line": 21,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd:21#func=_ready",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if tween_front != null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_on_reset",
+      "kind": "null_guard",
+      "line": 29
+    },
+    {
+      "condition": "if tween_midle != null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_on_reset",
+      "kind": "null_guard",
+      "line": 31
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "26a69b102c0c4db8824d7b77b93ca364559857e95763b4d6494955ef85530cd6",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "d5d8d1588742",
+    "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "nezvers/Godot-GameTemplate",
+    "source_path": "addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+    "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/ui/game_screen/HealthPanel.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+  "repo": "nezvers/Godot-GameTemplate",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "emitter": "health_resource",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_ready",
+      "handler": "_on_reset",
+      "kind": "connect",
+      "line": 22,
+      "signal": "reset_update"
+    },
+    {
+      "emitter": "health_resource",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_ready",
+      "handler": "_on_reset",
+      "kind": "connect",
+      "line": 23,
+      "signal": "max_hp_changed"
+    },
+    {
+      "emitter": "health_resource",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "function": "_ready",
+      "handler": "_update",
+      "kind": "connect",
+      "line": 24,
+      "signal": "hp_changed"
+    }
+  ],
+  "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "e04c3a2983c9f1de11d42cb9c7dce85919f860f44c4bbb819f0cc8e744ab78da",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\nezvers__Godot-GameTemplate\\gd\\addons\\top_down\\scripts\\ui\\game_screen\\HealthPanel.gd",
+  "source_path": "addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+  "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 5,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_ready",
+          "line": 22
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_ready",
+          "line": 23
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_ready",
+          "line": 24
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 28
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 33
+        }
+      ],
+      "variable": "health_resource",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 28
+        }
+      ],
+      "variable": "label",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 35
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 36
+        }
+      ],
+      "variable": "progress_shader",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 29
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 30
+        }
+      ],
+      "variable": "tween_front",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 31
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 32
+        }
+      ],
+      "variable": "tween_midle",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 34
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 35
+        }
+      ],
+      "variable": "value_front",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 36
+        }
+      ],
+      "variable": "value_middle",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__ui__game_screen__HealthPanel.gd",
+          "function": "_on_reset",
+          "line": 34
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_on_reset",
+        "line": 30,
+        "method": "kill",
+        "receiver": "tween_front"
+      },
+      {
+        "function": "_on_reset",
+        "line": 32,
+        "method": "kill",
+        "receiver": "tween_midle"
+      },
+      {
+        "function": "_on_reset",
+        "line": 35,
+        "method": "set_shader_parameter",
+        "receiver": "progress_shader"
+      },
+      {
+        "function": "_on_reset",
+        "line": 36,
+        "method": "set_shader_parameter",
+        "receiver": "progress_shader"
+      },
+      {
+        "function": "_update",
+        "line": 41,
+        "method": "kill",
+        "receiver": "tween_front"
+      },
+      {
+        "function": "_update",
+        "line": 43,
+        "method": "kill",
+        "receiver": "tween_midle"
+      },
+      {
+        "function": "_update",
+        "line": 48,
+        "method": "tween_method",
+        "receiver": "tween_front"
+      },
+      {
+        "function": "_update",
+        "line": 49,
+        "method": "tween_method",
+        "receiver": "tween_midle"
+      },
+      {
+        "function": "_tween_front",
+        "line": 53,
+        "method": "set_shader_parameter",
+        "receiver": "progress_shader"
+      },
+      {
+        "function": "_tween_middle",
+        "line": 57,
+        "method": "set_shader_parameter",
+        "receiver": "progress_shader"
+      }
+    ],
+    "class_name": "HealthPanel",
+    "connections": [
+      {
+        "emitter": "health_resource",
+        "function": "_ready",
+        "handler": "_on_reset",
+        "line": 22,
+        "signal": "reset_update"
+      },
+      {
+        "emitter": "health_resource",
+        "function": "_ready",
+        "handler": "_on_reset",
+        "line": 23,
+        "signal": "max_hp_changed"
+      },
+      {
+        "emitter": "health_resource",
+        "function": "_ready",
+        "handler": "_update",
+        "line": 24,
+        "signal": "hp_changed"
+      }
+    ],
+    "constants": [],
+    "exports": [
+      {
+        "line": 7,
+        "name": "health_resource",
+        "type": "HealthResource",
+        "value": ""
+      },
+      {
+        "line": 9,
+        "name": "label",
+        "type": "Label",
+        "value": ""
+      },
+      {
+        "line": 11,
+        "name": "progress_shader",
+        "type": "ShaderMaterial",
+        "value": ""
+      }
+    ],
+    "extends": "Node",
+    "functions": [
+      {
+        "end_line": 26,
+        "line": 21,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 37,
+        "line": 27,
+        "name": "_on_reset",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 50,
+        "line": 38,
+        "name": "_update",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 54,
+        "line": 51,
+        "name": "_tween_front",
+        "params": "value:float",
+        "returns": "void"
+      },
+      {
+        "end_line": 57,
+        "line": 55,
+        "name": "_tween_middle",
+        "params": "value:float",
+        "returns": "void"
+      }
+    ],
+    "signals": [],
+    "variables": [
+      {
+        "line": 15,
+        "name": "tween_front",
+        "type": "Tween",
+        "value": ""
+      },
+      {
+        "line": 16,
+        "name": "tween_midle",
+        "type": "Tween",
+        "value": ""
+      },
+      {
+        "line": 18,
+        "name": "value_front",
+        "type": "float",
+        "value": ""
+      },
+      {
+        "line": 19,
+        "name": "value_middle",
+        "type": "float",
+        "value": ""
+      }
+    ]
+  },
+  "unresolved_questions": []
+}

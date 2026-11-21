@@ -1,0 +1,49 @@
+{
+ "artefacts": [
+  "analysis_mapping.json",
+  "symbol_impact.json",
+  "partial_coverage_impact.json",
+  "target_value_reclassification.json",
+  "candidate_impact.json",
+  "linkage_coverage.json",
+  "audit_validation.json"
+ ],
+ "batch_a_inventory_digest": "245cef0c403fe613e82a97aa00f04560866cd0bcf490fbb3939be87da14a889f",
+ "batch_b_manifest_digest": "5406d626bbd3e2ba6ba391f7dc44aac7f9108f80bffc09f43db972ac0275d873",
+ "counts": {
+  "batch_d_executed": false,
+  "candidates_reviewed": 2,
+  "candidates_total": 2,
+  "formal_data_mutation": "PASS",
+  "formal_linkage_audited": 150,
+  "formal_linkage_mutated": 0,
+  "mapping_exact_identity": 34,
+  "mapping_records_complete": 34,
+  "mapping_records_total": 34,
+  "partial_records_reviewed": 3,
+  "review_queue_created": false,
+  "seed_policy_reviewed": true,
+  "symbols_inventoried": 59,
+  "symbols_with_potential_impact": 13,
+  "target_value_existing_linkage_references": 1,
+  "target_value_reviewed": true
+ },
+ "inputs": {
+  "batch_b_workspace": "F:/Godot_v4.7-stable/game/.ai/learning/external_code/reanalysis/parser_1.76",
+  "candidates": "F:/Godot_v4.7-stable/game/.ai/learning/candidate_workspace",
+  "feature_projections": [
+   ".ai/learning/feature_evidence/health.json",
+   ".ai/learning/feature_evidence/health_bar.json",
+   ".ai/learning/feature_evidence/openable_door.json",
+   ".ai/learning/feature_evidence/blackboard.json",
+   ".ai/learning/feature_evidence/attack_emitter.json"
+  ],
+  "formal_analysis": "F:/Godot_v4.7-stable/game/.ai/learning/external_code/analysis",
+  "formal_linkage": "F:/Godot_v4.7-stable/game/.ai/learning/external_code/feature_links",
+  "seed_policy": ".ai/tools/feature_registry/candidate_seed_policy.json"
+ },
+ "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+ "phase": "1.76-C",
+ "read_only": true,
+ "task": "evidence impact review"
+}

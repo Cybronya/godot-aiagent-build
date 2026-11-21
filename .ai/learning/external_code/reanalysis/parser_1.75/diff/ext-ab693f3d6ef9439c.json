@@ -1,0 +1,249 @@
+{
+  "analysis_id": "ext-ab693f3d6ef9439c",
+  "counts": {
+    "after": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 7,
+      "properties": 1,
+      "signals": 0,
+      "variables": 4
+    },
+    "before": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 7,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "dropped_limitations": [
+    "annotation_not_fully_interpreted:line=4"
+  ],
+  "label": "HealthBar.gd (godot-open-rts)",
+  "new_limitations": [],
+  "reanalysis_id": "ext-322df918a5ebee02",
+  "status": {
+    "analysis_completeness": {
+      "new": "FULL",
+      "old": "(absent: pre-1.75 record)"
+    },
+    "analysis_status": {
+      "new": "analysis_partial",
+      "old": "analysis_partial"
+    },
+    "parse_status": {
+      "new": "parsed",
+      "old": "partial"
+    },
+    "syntax_coverage_status": {
+      "new": "COMPLETE",
+      "old": "(absent: pre-1.75 record)"
+    }
+  },
+  "symbols_added": [
+    {
+      "_group": "properties",
+      "accessors": [
+        {
+          "end_line": 14,
+          "kind": "set",
+          "line": 10,
+          "param": "value"
+        }
+      ],
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "export"
+        }
+      ],
+      "declaration_kind": "PROPERTY",
+      "end_line": 9,
+      "has_getter": false,
+      "has_initializer": true,
+      "has_setter": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": true,
+      "is_onready": false,
+      "is_static": false,
+      "line": 9,
+      "name": "size",
+      "type": "",
+      "value": "Vector2(200, 20)"
+    },
+    {
+      "_group": "variables",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "onready"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 18,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": true,
+      "is_static": false,
+      "line": 18,
+      "name": "_actual_bar",
+      "type": "",
+      "value": "find_child(\"ActualBar\")"
+    },
+    {
+      "_group": "variables",
+      "annotations": [],
+      "declaration_kind": "VARIABLE",
+      "end_line": 15,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": false,
+      "is_static": false,
+      "line": 15,
+      "name": "_bar_value_initialized",
+      "type": "",
+      "value": "false"
+    },
+    {
+      "_group": "variables",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "onready"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 17,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": true,
+      "is_static": false,
+      "line": 17,
+      "name": "_unit",
+      "type": "",
+      "value": "get_parent()"
+    },
+    {
+      "_group": "variables",
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "onready"
+        }
+      ],
+      "declaration_kind": "VARIABLE",
+      "end_line": 19,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": true,
+      "is_static": false,
+      "line": 19,
+      "name": "_visibility_timer",
+      "type": "",
+      "value": "find_child(\"Timer\")"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 7,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        }
+      },
+      "symbol": "constants:BAR_AUTO_VISIBILITY_DURATION"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_hp_changed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_unit_deselected"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_unit_selected"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_visibility_timer_timeout"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_recalulate_bar_value"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_show_for_a_while"
+    }
+  ],
+  "symbols_removed": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": []
+}

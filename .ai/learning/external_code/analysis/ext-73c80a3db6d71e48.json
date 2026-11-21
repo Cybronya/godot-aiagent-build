@@ -1,0 +1,327 @@
+{
+  "analysis_id": "ext-73c80a3db6d71e48",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "d5d8d1588742",
+  "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+  "conditions": [
+    {
+      "condition": "return hp == max_hp",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "is_full",
+      "line": 39
+    },
+    {
+      "condition": "if value < 0.0:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "line": 44
+    },
+    {
+      "condition": "if hp == 0.0:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "line": 46
+    },
+    {
+      "condition": "if hp == max_hp:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "line": 50
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:49Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "line": 21,
+      "name": "set_max_hp",
+      "params": "value:float",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:21#func=set_max_hp",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "line": 25,
+      "name": "reset_resource",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:25#func=reset_resource",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "line": 32,
+      "name": "prepare_load",
+      "params": "data:Resource",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:32#func=prepare_load",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "line": 38,
+      "name": "is_full",
+      "params": "",
+      "returns": "bool",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:38#func=is_full",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "line": 41,
+      "name": "add_hp",
+      "params": "value:float",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:41#func=add_hp",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "line": 54,
+      "name": "insta_kill",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd:54#func=insta_kill",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "kind": "guard_return",
+      "line": 49,
+      "value": ""
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "kind": "guard_return",
+      "line": 52,
+      "value": ""
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 6,
+  "input_digest": "f2750ac9f19a44df0ef7c1e55642f7895cebfd85912911048d9283a34af464d5",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "d5d8d1588742",
+    "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "nezvers/Godot-GameTemplate",
+    "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+    "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+  "repo": "nezvers/Godot-GameTemplate",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "set_max_hp",
+      "kind": "emit",
+      "line": 23,
+      "signal": "max_hp_changed"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "reset_resource",
+      "kind": "emit",
+      "line": 29,
+      "signal": "hp_changed"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "reset_resource",
+      "kind": "emit",
+      "line": 30,
+      "signal": "reset_update"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "prepare_load",
+      "kind": "emit",
+      "line": 36,
+      "signal": "hp_changed"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "kind": "emit",
+      "line": 43,
+      "signal": "hp_changed"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "kind": "emit",
+      "line": 45,
+      "signal": "damaged"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "kind": "emit",
+      "line": 48,
+      "signal": "dead"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "function": "add_hp",
+      "kind": "emit",
+      "line": 51,
+      "signal": "full"
+    }
+  ],
+  "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\nezvers__Godot-GameTemplate\\gd\\addons\\top_down\\scripts\\damage\\HealthResource.gd",
+  "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+  "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+      "initial": "",
+      "read_count": 0,
+      "reads": [],
+      "variable": "is_dead",
+      "write_count": 3,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "function": "reset_resource",
+          "line": 26
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "function": "prepare_load",
+          "line": 33
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+          "function": "add_hp",
+          "line": 47
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "calls": [],
+    "class_name": "HealthResource",
+    "connections": [],
+    "constants": [],
+    "exports": [
+      {
+        "line": 19,
+        "name": "is_dead",
+        "type": "bool",
+        "value": ""
+      }
+    ],
+    "extends": "SaveableResource",
+    "functions": [
+      {
+        "end_line": 24,
+        "line": 21,
+        "name": "set_max_hp",
+        "params": "value:float",
+        "returns": "void"
+      },
+      {
+        "end_line": 31,
+        "line": 25,
+        "name": "reset_resource",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 37,
+        "line": 32,
+        "name": "prepare_load",
+        "params": "data:Resource",
+        "returns": "void"
+      },
+      {
+        "end_line": 40,
+        "line": 38,
+        "name": "is_full",
+        "params": "",
+        "returns": "bool"
+      },
+      {
+        "end_line": 53,
+        "line": 41,
+        "name": "add_hp",
+        "params": "value:float",
+        "returns": "void"
+      },
+      {
+        "end_line": 55,
+        "line": 54,
+        "name": "insta_kill",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "signals": [
+      {
+        "line": 7,
+        "name": "damaged",
+        "params": ""
+      },
+      {
+        "line": 8,
+        "name": "dead",
+        "params": ""
+      },
+      {
+        "line": 9,
+        "name": "hp_changed",
+        "params": ""
+      },
+      {
+        "line": 10,
+        "name": "max_hp_changed",
+        "params": ""
+      },
+      {
+        "line": 11,
+        "name": "full",
+        "params": ""
+      },
+      {
+        "line": 12,
+        "name": "reset_update",
+        "params": ""
+      }
+    ],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

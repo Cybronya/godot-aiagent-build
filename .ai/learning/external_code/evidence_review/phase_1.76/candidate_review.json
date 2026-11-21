@@ -1,0 +1,171 @@
+{
+ "candidates": [
+  {
+   "candidate_id": "cand-08fdc0b10a112ecf",
+   "candidate_status": "NEEDS_REVIEW",
+   "content_digest": "da765709fd687426c94f28c63c953870118a6b00f6dc5e1bfe5b1e839990b666",
+   "context_refs": [
+    {
+     "analysis_id": "ext-73c80a3db6d71e48",
+     "attached_to_feature": "health",
+     "classification": "INDIRECT_EVIDENCE",
+     "context_kind": "GRAPH_DERIVED_RELATION",
+     "counts_as_implementation_evidence": false,
+     "counts_as_seed": false,
+     "derivation_path": [
+      "attack_emitter",
+      "works_with",
+      "health"
+     ],
+     "derivation_type": "FEATURE_GRAPH_NEIGHBOUR",
+     "evidence_kind": "GRAPH_DERIVED_RELATION",
+     "evidence_role": "LINKAGE_EVIDENCE",
+     "feature_id": "attack_emitter",
+     "graph_declaration_origin": "Features/attack_emitter/feature.yaml:68",
+     "graph_edge_reference": "feature_graph.json#attack_emitter-works_with-health",
+     "immutable_source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd",
+     "intermediate_feature_ids": [
+      "health"
+     ],
+     "limitations": [
+      "graph-derived relation: derived from the internal Feature graph, not from external attack-emission code",
+      "must never be counted as a direct seed, a DIRECT classification, or a QUALIFIED_DIRECT qualification",
+      "the graph edge itself is a human-declared metadata relation without a recorded rationale"
+     ],
+     "linkage_id": "lnk-a099657ab3c9930c",
+     "linkage_record_digest": "f97d4d278d0112d31f21a29749be344b9ac5226786946ede6511a85fb740ba06",
+     "linkage_record_path": ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__attack_emitter.json",
+     "reason": "Stage B.2 Stage C: the external file implements health only; attack_emitter comes from the internal graph relation and is context, never an implementation seed",
+     "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+     "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+     "source_repository": "nezvers/Godot-GameTemplate"
+    }
+   ],
+   "feature_id": "health",
+   "graph_derived_context_counts_as_seed": false,
+   "new_independent_seed_from_batch_d": 0,
+   "policy_version": "phase-1.74-c/1",
+   "qualification_change_recommended": false,
+   "review_verdict": "RETAIN_AS_IS — qualification, independence and status stand; Batch D adds supporting detail inside already-used sources, not new seeds",
+   "seed_count": 2,
+   "seeds": [
+    {
+     "analysis_digest_status": "MATCH",
+     "analysis_id": "ext-73c80a3db6d71e48",
+     "analysis_record_digest_recomputed": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+     "analysis_record_digest_recorded": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+     "batch_b_processing_status": "REUSED_PHASE_1_75",
+     "classification": "DIRECT_EVIDENCE",
+     "feature_id": "health",
+     "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+     "independence": "INDEPENDENT",
+     "independence_verdict": "UNCHANGED — reviewed symbols are in the same file, commit and digest as this seed, so they cannot constitute a second independent source",
+     "linkage_digest_status": "MATCH",
+     "linkage_id": "lnk-6fff3ce176bd5813",
+     "linkage_record_digest_recomputed": "c444f8eb939ab46c68d9e8612605950153ec2e5a4bf68089dd668176f8800f22",
+     "linkage_record_digest_recorded": "c444f8eb939ab46c68d9e8612605950153ec2e5a4bf68089dd668176f8800f22",
+     "policy_eligibility": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+     "policy_independence": "INDEPENDENT",
+     "policy_present": true,
+     "review_items_touching_seed": [
+      "RV-176D-07"
+     ],
+     "seed_eligibility": "QUALIFIED_DIRECT_WITH_LIMITATIONS",
+     "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+     "source_digest_status": "MATCH",
+     "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+     "source_repository": "nezvers/Godot-GameTemplate"
+    },
+    {
+     "analysis_digest_status": "MATCH",
+     "analysis_id": "ext-1d204b35464cf388",
+     "analysis_record_digest_recomputed": "3b941cf01e5c8cf34661520a2223a7adba3443b1df3733b85097cec268eb0e17",
+     "analysis_record_digest_recorded": "3b941cf01e5c8cf34661520a2223a7adba3443b1df3733b85097cec268eb0e17",
+     "batch_b_processing_status": "REUSED_PHASE_1_75",
+     "classification": "DIRECT_EVIDENCE",
+     "feature_id": "health",
+     "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+     "independence": "INDEPENDENT",
+     "independence_verdict": "UNCHANGED — reviewed symbols are in the same file, commit and digest as this seed, so they cannot constitute a second independent source",
+     "linkage_digest_status": "MATCH",
+     "linkage_id": "lnk-d2d95d8162be1592",
+     "linkage_record_digest_recomputed": "1c3a713d417fe2aa0b31ffd7ff5ca994c5fd0e4b93e00e96a87db472a92f1c98",
+     "linkage_record_digest_recorded": "1c3a713d417fe2aa0b31ffd7ff5ca994c5fd0e4b93e00e96a87db472a92f1c98",
+     "policy_eligibility": "QUALIFIED_DIRECT",
+     "policy_independence": "INDEPENDENT",
+     "policy_present": true,
+     "review_items_touching_seed": [
+      "RV-176D-01"
+     ],
+     "seed_eligibility": "QUALIFIED_DIRECT",
+     "source_digest": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+     "source_digest_status": "MATCH",
+     "source_path": "actors/health/Stats.gd",
+     "source_repository": "gdquest-demos/godot-make-pro-2d-games"
+    }
+   ],
+   "status_change_recommended": false
+  },
+  {
+   "candidate_id": "cand-7f52cb8f583124db",
+   "candidate_status": "NEEDS_REVIEW",
+   "content_digest": "5ed73359a39023cdaf31d3bca3991178940b012a3f798b541fc6ef6cae51c39b",
+   "context_refs": [],
+   "feature_id": "blackboard",
+   "graph_derived_context_counts_as_seed": false,
+   "new_independent_seed_from_batch_d": 0,
+   "policy_version": "phase-1.74-c/1",
+   "qualification_change_recommended": false,
+   "review_verdict": "RETAIN_AS_IS — qualification, independence and status stand; Batch D adds supporting detail inside already-used sources, not new seeds",
+   "seed_count": 1,
+   "seeds": [
+    {
+     "analysis_digest_status": "MATCH",
+     "analysis_id": "ext-23949c1378c49203",
+     "analysis_record_digest_recomputed": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+     "analysis_record_digest_recorded": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+     "batch_b_processing_status": "REUSED_PHASE_1_75",
+     "classification": "DIRECT_EVIDENCE",
+     "feature_id": "blackboard",
+     "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+     "independence": "NOT_INDEPENDENT",
+     "independence_verdict": "UNCHANGED — reviewed symbols are in the same file, commit and digest as this seed, so they cannot constitute a second independent source",
+     "linkage_digest_status": "MATCH",
+     "linkage_id": "lnk-7084dc8999c2182b",
+     "linkage_record_digest_recomputed": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+     "linkage_record_digest_recorded": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+     "policy_eligibility": "QUALIFIED_DIRECT",
+     "policy_independence": "NOT_INDEPENDENT",
+     "policy_present": true,
+     "review_items_touching_seed": [
+      "RV-176D-02"
+     ],
+     "seed_eligibility": "QUALIFIED_DIRECT",
+     "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+     "source_digest_status": "MATCH",
+     "source_path": "addons/beehave/blackboard.gd",
+     "source_repository": "bitbrain/beehave"
+    }
+   ],
+   "status_change_recommended": false
+  }
+ ],
+ "checks": {
+  "candidates_reviewed": 2,
+  "digest_mismatches": [],
+  "new_seeds": 0,
+  "seeds_reviewed": 3,
+  "status_changes": 0
+ },
+ "phase": "1.76-D",
+ "seed_policy": {
+  "context_relations": 1,
+  "coverage_gate_present": false,
+  "graph_derived_seed_prevented": true,
+  "graph_rule_present": true,
+  "policy_path": ".ai/tools/feature_registry/candidate_seed_policy.json",
+  "policy_seeds": 3,
+  "policy_version": "phase-1.74-c/1",
+  "workspace_results_admissible": false
+ }
+}

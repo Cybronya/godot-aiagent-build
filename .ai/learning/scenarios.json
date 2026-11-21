@@ -26,12 +26,8 @@
       "skipped": ""
     }
   ],
-  "generated_at": "2026-11-06T10:37:22Z",
+  "generated_at": "2026-11-07T18:48:42Z",
   "note": "候选场景；execution_status=NOT_EXECUTED 表示尚未真实执行",
-  "pruned": [
-    ".ai/learning/scenarios/s-3737d607b30b55c5.json",
-    ".ai/learning/scenarios/s-c627ff4db0e02100.json"
-  ],
   "rules": [
     "idempotent_repeat",
     "foreign_group_ignored",
@@ -123,202 +119,6 @@
       "title": "重复同一动作不应产生第二次效果（守卫：if _is_open == value:）",
       "validation_status": "PENDING",
       "window_frames": 12
-    },
-    {
-      "actions": [
-        {
-          "params": {
-            "amount": 10
-          },
-          "target": "Host/Health",
-          "type": "health.take_damage"
-        },
-        {
-          "params": {
-            "frames": 1
-          },
-          "type": "simulation.advance_frames"
-        },
-        {
-          "params": {
-            "amount": 1
-          },
-          "target": "Host/Health",
-          "type": "health.take_damage"
-        },
-        {
-          "params": {
-            "frames": 1
-          },
-          "type": "simulation.advance_frames"
-        }
-      ],
-      "behavior": "i_frames/iframes_expire_and_damage_resumes",
-      "behavior_id": "iframes_expire_and_damage_resumes",
-      "cleanup": [
-        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
-      ],
-      "contract_version": "d1cee84ef2fc",
-      "created_at": "2026-11-06T10:37:21Z",
-      "dependency_refs": [
-        "dep-0057"
-      ],
-      "derivation": "依赖边 dep-0057（REQUIRES_PRECONDITION）声明该 Behavior 依赖 health 的死亡后置条件；在真实夹具上杀死宿主后继续输入，依赖方不得复活或二次结算",
-      "environment_requirements": [
-        "Godot 4.7 headless",
-        "behavior_protocol v2",
-        "scene: res://Features/i_frames/IFramesFixture.tscn"
-      ],
-      "execution_status": "NOT_EXECUTED",
-      "expected_observations": [
-        {
-          "check": "health.current",
-          "equals": 0,
-          "target": "Host/Health"
-        },
-        {
-          "check": "health.is_dead",
-          "equals": true,
-          "target": "Host/Health"
-        },
-        {
-          "check": "signal",
-          "count": 1,
-          "entry": "health.health_changed",
-          "target": "Host/Health"
-        },
-        {
-          "check": "signal",
-          "count": 1,
-          "entry": "health.died",
-          "target": "Host/Health"
-        }
-      ],
-      "failure_classification_policy": {
-        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
-        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
-        "RESOURCE_FAILURE": "场景/夹具缺失",
-        "RUNNER_FAILURE": "探针或判定器故障",
-        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
-        "UNKNOWN_FAILURE": "证据不足以归类"
-      },
-      "feature_id": "i_frames",
-      "knowledge_refs": [
-        "k-12ca60365bb2e0b6"
-      ],
-      "preconditions": [
-        {
-          "check": "health.current",
-          "equals": 10,
-          "target": "Host/Health"
-        }
-      ],
-      "rule_id": "dependency_postcondition_after_death",
-      "scenario_id": "s-e6eb3fc5c8e82e32",
-      "scenario_type": "DEPENDENCY_PRECONDITION",
-      "scene": "res://Features/i_frames/IFramesFixture.tscn",
-      "schema": "behavior_test_scenario",
-      "schema_version": 1,
-      "source_refs": [
-        {
-          "edge": "dep-0057",
-          "reference": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes.preconditions[health.current]"
-        }
-      ],
-      "title": "依赖 Behavior 的死亡后置条件不得被破坏",
-      "validation_status": "PENDING",
-      "window_frames": 5
-    },
-    {
-      "actions": [
-        {
-          "params": {
-            "amount": 2
-          },
-          "target": "World/Player/Health",
-          "type": "health.take_damage"
-        },
-        {
-          "params": {
-            "slot": "p166/invalid:slot"
-          },
-          "target": "Saver",
-          "type": "savegame.save_slot"
-        }
-      ],
-      "behavior": "save_game/save_slot_persists_world_state",
-      "behavior_id": "save_slot_persists_world_state",
-      "cleanup": [
-        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
-      ],
-      "contract_version": "d85d91c73250",
-      "created_at": "2026-11-06T10:37:21Z",
-      "dependency_refs": [],
-      "derivation": "守卫 if not _is_valid_slot_name(slot_name):（Features/save_game/save_game.gd:43）在写入前拒绝非法槽名；用非法槽名替换契约动作后，存档信号必须为 0 次且 last_slot 保持空",
-      "environment_requirements": [
-        "Godot 4.7 headless",
-        "behavior_protocol v2",
-        "scene: res://Features/save_game/SaveGameBehaviorFixture.tscn"
-      ],
-      "execution_status": "NOT_EXECUTED",
-      "expected_observations": [
-        {
-          "check": "health.current",
-          "equals": 3,
-          "target": "World/Player/Health"
-        },
-        {
-          "check": "signal",
-          "count": 0,
-          "entry": "savegame.game_saved",
-          "target": "Saver"
-        },
-        {
-          "check": "savegame.last_slot",
-          "equals": "",
-          "target": "Saver"
-        }
-      ],
-      "failure_classification_policy": {
-        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
-        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
-        "RESOURCE_FAILURE": "场景/夹具缺失",
-        "RUNNER_FAILURE": "探针或判定器故障",
-        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
-        "UNKNOWN_FAILURE": "证据不足以归类"
-      },
-      "feature_id": "save_game",
-      "knowledge_refs": [
-        "k-d617871a3a485ce5"
-      ],
-      "preconditions": [
-        {
-          "check": "health.current",
-          "equals": 5,
-          "target": "World/Player/Health"
-        },
-        {
-          "check": "savegame.last_slot",
-          "equals": "",
-          "target": "Saver"
-        }
-      ],
-      "rule_id": "invalid_slot_rejected",
-      "scenario_id": "s-8b9f108ecb56beb2",
-      "scenario_type": "GUARD_INPUT_VALIDATION",
-      "scene": "res://Features/save_game/SaveGameBehaviorFixture.tscn",
-      "schema": "behavior_test_scenario",
-      "schema_version": 1,
-      "source_refs": [
-        {
-          "file": "Features/save_game/save_game.gd",
-          "function": "save_to_slot",
-          "line": 43
-        }
-      ],
-      "title": "非法槽位名不得写入存档（守卫：if not _is_valid_slot_name(slot_name):）",
-      "validation_status": "PENDING",
-      "window_frames": 10
     },
     {
       "actions": [
@@ -526,13 +326,503 @@
       "title": "死亡后的伤害与治疗不得改变状态（守卫：if _is_dead or _invulnerable or amount <= 0:）",
       "validation_status": "PENDING",
       "window_frames": 10
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "amount": 2
+          },
+          "target": "World/Player/Health",
+          "type": "health.take_damage"
+        },
+        {
+          "params": {
+            "slot": "p166/invalid:slot"
+          },
+          "target": "Saver",
+          "type": "savegame.save_slot"
+        }
+      ],
+      "behavior": "save_game/save_slot_persists_world_state",
+      "behavior_id": "save_slot_persists_world_state",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "d85d91c73250",
+      "created_at": "2026-11-06T10:37:21Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not _is_valid_slot_name(slot_name):（Features/save_game/save_game.gd:43）在写入前拒绝非法槽名；用非法槽名替换契约动作后，存档信号必须为 0 次且 last_slot 保持空",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/save_game/SaveGameBehaviorFixture.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "health.current",
+          "equals": 3,
+          "target": "World/Player/Health"
+        },
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "savegame.game_saved",
+          "target": "Saver"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "",
+          "target": "Saver"
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "save_game",
+      "knowledge_refs": [
+        "k-d617871a3a485ce5"
+      ],
+      "preconditions": [
+        {
+          "check": "health.current",
+          "equals": 5,
+          "target": "World/Player/Health"
+        },
+        {
+          "check": "savegame.last_slot",
+          "equals": "",
+          "target": "Saver"
+        }
+      ],
+      "rule_id": "invalid_slot_rejected",
+      "scenario_id": "s-8b9f108ecb56beb2",
+      "scenario_type": "GUARD_INPUT_VALIDATION",
+      "scene": "res://Features/save_game/SaveGameBehaviorFixture.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/save_game/save_game.gd",
+          "function": "save_to_slot",
+          "line": 43
+        }
+      ],
+      "title": "非法槽位名不得写入存档（守卫：if not _is_valid_slot_name(slot_name):）",
+      "validation_status": "PENDING",
+      "window_frames": 10
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "damage": 3,
+            "group": "p166_foreign",
+            "health_max": 5
+          },
+          "target": ".",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "heal_pickup/heal_damaged_target",
+      "behavior_id": "heal_damaged_target",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "9f158fcdec46",
+      "created_at": "2026-11-07T18:48:42Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not body.is_in_group(target_group):（Features/heal_pickup/heal_pickup.gd:18）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/heal_pickup/HealPickup.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "node.freed",
+          "equals": false,
+          "target": "."
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "heal_pickup",
+      "knowledge_refs": [
+        "k-e219d71a96f8bd0d"
+      ],
+      "preconditions": [],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-9efdc90351f7112e",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/heal_pickup/HealPickup.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/heal_pickup/heal_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 18
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if not body.is_in_group(target_group):）",
+      "validated_at": "",
+      "validation_status": "VALID",
+      "window_frames": 30
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "group": "p166_foreign",
+            "health_max": 5
+          },
+          "target": "ContactDamage",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "contact_damage/damage_on_contact",
+      "behavior_id": "damage_on_contact",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "1732981f92b4",
+      "created_at": "2026-11-07T18:48:42Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not node.is_in_group(target_group):（Features/contact_damage/contact_damage.gd:28）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/contact_damage/ContactDamageFixture.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "health.health_changed",
+          "target": "@actor/Health"
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "contact_damage",
+      "knowledge_refs": [
+        "k-af3decf8ebc135bd"
+      ],
+      "preconditions": [],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-d2fe30d380537d07",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/contact_damage/ContactDamageFixture.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_deal_damage_to",
+          "line": 28
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if not node.is_in_group(target_group):）",
+      "validated_at": "",
+      "validation_status": "VALID",
+      "window_frames": 45
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "group": "p166_foreign",
+            "health_max": 5
+          },
+          "target": "Heavy",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "contact_damage/damage_amount_is_respected",
+      "behavior_id": "damage_amount_is_respected",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "129430fff4c2",
+      "created_at": "2026-11-07T18:48:42Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not node.is_in_group(target_group):（Features/contact_damage/contact_damage.gd:28）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/contact_damage/ContactDamageFixture.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "health.health_changed",
+          "target": "@actor/Health"
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "contact_damage",
+      "knowledge_refs": [
+        "k-8423097baa8ec620"
+      ],
+      "preconditions": [],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-d503c62564c391ef",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/contact_damage/ContactDamageFixture.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_deal_damage_to",
+          "line": 28
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if not node.is_in_group(target_group):）",
+      "validated_at": "",
+      "validation_status": "VALID",
+      "window_frames": 45
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "amount": 10
+          },
+          "target": "Host/Health",
+          "type": "health.take_damage"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        },
+        {
+          "params": {
+            "amount": 1
+          },
+          "target": "Host/Health",
+          "type": "health.take_damage"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "i_frames/iframes_expire_and_damage_resumes",
+      "behavior_id": "iframes_expire_and_damage_resumes",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "d1cee84ef2fc",
+      "created_at": "2026-11-06T10:37:21Z",
+      "dependency_refs": [
+        "dep-0057"
+      ],
+      "derivation": "依赖边 dep-0057（REQUIRES_PRECONDITION）声明该 Behavior 依赖 health 的死亡后置条件；在真实夹具上杀死宿主后继续输入，依赖方不得复活或二次结算",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/i_frames/IFramesFixture.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "health.current",
+          "equals": 0,
+          "target": "Host/Health"
+        },
+        {
+          "check": "health.is_dead",
+          "equals": true,
+          "target": "Host/Health"
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "health.health_changed",
+          "target": "Host/Health"
+        },
+        {
+          "check": "signal",
+          "count": 1,
+          "entry": "health.died",
+          "target": "Host/Health"
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "i_frames",
+      "knowledge_refs": [
+        "k-12ca60365bb2e0b6"
+      ],
+      "preconditions": [
+        {
+          "check": "health.current",
+          "equals": 10,
+          "target": "Host/Health"
+        }
+      ],
+      "rule_id": "dependency_postcondition_after_death",
+      "scenario_id": "s-e6eb3fc5c8e82e32",
+      "scenario_type": "DEPENDENCY_PRECONDITION",
+      "scene": "res://Features/i_frames/IFramesFixture.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "edge": "dep-0057",
+          "reference": "Features/i_frames/template.yaml#behavior=iframes_expire_and_damage_resumes.preconditions[health.current]"
+        }
+      ],
+      "title": "依赖 Behavior 的死亡后置条件不得被破坏",
+      "validation_status": "PENDING",
+      "window_frames": 5
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "group": "p166_foreign"
+          },
+          "target": ".",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "collect_pickup/collect_on_contact",
+      "behavior_id": "collect_on_contact",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "723f2167e74c",
+      "created_at": "2026-11-07T18:48:41Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if _collected or not body.is_in_group(target_group):（Features/collect_pickup/collect_pickup.gd:29）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/collect_pickup/CollectPickup.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "node.freed",
+          "equals": false,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "pickup.collected",
+          "target": "."
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "collect_pickup",
+      "knowledge_refs": [
+        "k-875dbe2de3b9fca9"
+      ],
+      "preconditions": [
+        {
+          "check": "pickup.is_collected",
+          "equals": false,
+          "target": "."
+        }
+      ],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-eef9972034da734b",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/collect_pickup/CollectPickup.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/collect_pickup/collect_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 29
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if _collected or not body.is_in_group(target_group):）",
+      "validated_at": "",
+      "validation_status": "VALID",
+      "window_frames": 30
     }
   ],
   "schema": "behavior_scenario_index",
   "schema_version": 1,
   "summary": {
-    "behaviors": 5,
-    "scenarios": 5,
-    "with_scenarios": 5
+    "behaviors": 9,
+    "scenarios": 9,
+    "with_scenarios": 9
   }
 }

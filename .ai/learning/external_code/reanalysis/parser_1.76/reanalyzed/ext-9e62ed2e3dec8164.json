@@ -1,0 +1,469 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-c83a08c68cbe31fc",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "4458a143644f",
+  "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "ui",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "line": 14,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd:14#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "line": 18,
+      "name": "set_model",
+      "params": "_model : UserModel",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd:18#func=set_model",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "line": 28,
+      "name": "set_board",
+      "params": "_board : BoardModel",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd:28#func=set_board",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "9f7a6900086343ee90b623466264dc420175ba0b4e33b1db6b49dc57d4e5f561",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "4458a143644f",
+    "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "alfredbaudisch/Godello",
+    "source_path": "scripts/board_member_button.gd",
+    "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/board_member_button.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\alfredbaudisch__Godello__scripts__board_member_button.gd",
+  "repo": "alfredbaudisch/Godello",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "alfredbaudisch__Godello__scripts__board_member_button.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "540fdf1f898b8909b51cf68fe501aa370bba25b069653ab2135556b34038bc75",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\alfredbaudisch__Godello\\gd\\scripts\\board_member_button.gd",
+  "source_path": "scripts/board_member_button.gd",
+  "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/board_member_button.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "initial": "",
+      "read_count": 0,
+      "reads": [],
+      "variable": "board",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_board",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "initial": "",
+      "read_count": 3,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_model",
+          "line": 21
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_model",
+          "line": 24
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_model",
+          "line": 25
+        }
+      ],
+      "variable": "model",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_model",
+          "line": 19
+        }
+      ]
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_model",
+          "line": 22
+        }
+      ],
+      "variable": "normal_text",
+      "write_count": 2,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "_ready",
+          "line": 15
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd",
+          "function": "set_model",
+          "line": 21
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "set_model",
+        "line": 21,
+        "method": "get_first_character",
+        "receiver": "Utils"
+      },
+      {
+        "function": "set_model",
+        "line": 25,
+        "method": "get_full_name",
+        "receiver": "model"
+      },
+      {
+        "function": "_on_BoardOwnerButton_gui_input",
+        "line": 35,
+        "method": "start",
+        "receiver": "Timer"
+      },
+      {
+        "function": "_on_Timer_timeout",
+        "line": 39,
+        "method": "is_mouse_inside_control",
+        "receiver": "Utils"
+      },
+      {
+        "function": "_on_Timer_timeout",
+        "line": 41,
+        "method": "stop",
+        "receiver": "Timer"
+      },
+      {
+        "function": "_on_BoardMemberButton_pressed",
+        "line": 46,
+        "method": "create_delete_confirm_popup",
+        "receiver": "SceneUtils"
+      },
+      {
+        "function": "_on_delete_confirmed",
+        "line": 50,
+        "method": "remove_member",
+        "receiver": "board"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 10,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "PARTIAL",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [
+        {
+          "code": "LEGACY_SETGET_NOT_INTERPRETED",
+          "line": 9
+        },
+        {
+          "code": "LEGACY_SETGET_NOT_INTERPRETED",
+          "line": 10
+        }
+      ]
+    },
+    "declarations": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 9,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 9,
+        "name": "model",
+        "type": "UserModel setget set_model",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "board",
+        "type": "BoardModel setget set_board",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 11,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 11,
+        "name": "normal_text",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 14,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 14,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 18,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 18,
+        "name": "set_model",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 28,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 28,
+        "name": "set_board",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 32,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 32,
+        "name": "_on_BoardOwnerButton_gui_input",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 38,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 38,
+        "name": "_on_Timer_timeout",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 44,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 44,
+        "name": "_on_BoardMemberButton_pressed",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 49,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 49,
+        "name": "_on_delete_confirmed",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [],
+    "extends": "Button",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 17,
+        "line": 14,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 27,
+        "line": 18,
+        "name": "set_model",
+        "params": "_model : UserModel",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 31,
+        "line": 28,
+        "name": "set_board",
+        "params": "_board : BoardModel",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 37,
+        "line": 32,
+        "name": "_on_BoardOwnerButton_gui_input",
+        "params": "event",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 43,
+        "line": 38,
+        "name": "_on_Timer_timeout",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 48,
+        "line": 44,
+        "name": "_on_BoardMemberButton_pressed",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 50,
+        "line": 49,
+        "name": "_on_delete_confirmed",
+        "params": "",
+        "returns": ""
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 9,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 9,
+        "name": "model",
+        "type": "UserModel setget set_model",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "board",
+        "type": "BoardModel setget set_board",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 11,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 11,
+        "name": "normal_text",
+        "type": "",
+        "value": ""
+      }
+    ]
+  },
+  "syntax_coverage_status": "PARTIAL",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_member_button.gd 没有 class_name（跨类依赖无法静态归属）"
+  ],
+  "unsupported_constructs": [
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 9
+    },
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 10
+    }
+  ]
+}

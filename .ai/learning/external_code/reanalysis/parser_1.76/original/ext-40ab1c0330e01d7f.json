@@ -1,0 +1,246 @@
+{
+  "analysis_id": "ext-40ab1c0330e01d7f",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "4458a143644f",
+  "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+  "conditions": [
+    {
+      "condition": "return {",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "get_drag_data",
+      "line": 8
+    },
+    {
+      "condition": "if ignore_child and child.get_name() == ignore_child:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_horizontal_child",
+      "line": 22
+    },
+    {
+      "condition": "if last_distance == -1 or (distance < last_distance):",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_horizontal_child",
+      "line": 27
+    },
+    {
+      "condition": "if closest_child and closest_child != compare_to:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_horizontal_child",
+      "line": 31
+    },
+    {
+      "condition": "return [closest_child, is_before]",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_horizontal_child",
+      "line": 35
+    },
+    {
+      "condition": "return [false]",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_horizontal_child",
+      "line": 37
+    },
+    {
+      "condition": "if last_distance == -1 or (distance < last_distance):",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_vertical_child",
+      "line": 50
+    },
+    {
+      "condition": "if closest_child and closest_child != compare_to:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_vertical_child",
+      "line": 54
+    },
+    {
+      "condition": "return [closest_child, is_before]",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_vertical_child",
+      "line": 58
+    },
+    {
+      "condition": "return [false]",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "function": "find_closest_vertical_child",
+      "line": 60
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "general",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "line": 7,
+      "name": "get_drag_data",
+      "params": "_node, _model",
+      "returns": "Dictionary",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd:7#func=get_drag_data",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "line": 14,
+      "name": "find_closest_horizontal_child",
+      "params": "mouse_pos, compare_to, container, container_scroll, ignore_child = null",
+      "returns": "Array",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd:14#func=find_closest_horizontal_child",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd",
+      "line": 40,
+      "name": "find_closest_vertical_child",
+      "params": "mouse_pos, compare_to, container, container_scroll",
+      "returns": "Array",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/alfredbaudisch__Godello__scripts__drag_utils.gd:40#func=find_closest_vertical_child",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "e30074803675a0fef98cd1e86eba29429bd2964ff4b2c04db2ed6c3acc432322",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "4458a143644f",
+    "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "alfredbaudisch/Godello",
+    "source_path": "scripts/drag_utils.gd",
+    "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/drag_utils.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\alfredbaudisch__Godello__scripts__drag_utils.gd",
+  "repo": "alfredbaudisch/Godello",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "alfredbaudisch__Godello__scripts__drag_utils.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "abd80468ed0754bdfa6d4ce14b02c2237910bf055fbe93e3b806d86d354ccdd1",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\alfredbaudisch__Godello\\gd\\scripts\\drag_utils.gd",
+  "source_path": "scripts/drag_utils.gd",
+  "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/drag_utils.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "find_closest_horizontal_child",
+        "line": 19,
+        "method": "get_h_scroll",
+        "receiver": "container_scroll"
+      },
+      {
+        "function": "find_closest_horizontal_child",
+        "line": 21,
+        "method": "get_children",
+        "receiver": "container"
+      },
+      {
+        "function": "find_closest_horizontal_child",
+        "line": 22,
+        "method": "get_name",
+        "receiver": "child"
+      },
+      {
+        "function": "find_closest_horizontal_child",
+        "line": 25,
+        "method": "get_position",
+        "receiver": "child"
+      },
+      {
+        "function": "find_closest_horizontal_child",
+        "line": 32,
+        "method": "get_position",
+        "receiver": "closest_child"
+      },
+      {
+        "function": "find_closest_horizontal_child",
+        "line": 33,
+        "method": "get_size",
+        "receiver": "closest_child"
+      },
+      {
+        "function": "find_closest_vertical_child",
+        "line": 45,
+        "method": "get_v_scroll",
+        "receiver": "container_scroll"
+      },
+      {
+        "function": "find_closest_vertical_child",
+        "line": 47,
+        "method": "get_children",
+        "receiver": "container"
+      },
+      {
+        "function": "find_closest_vertical_child",
+        "line": 48,
+        "method": "get_position",
+        "receiver": "child"
+      },
+      {
+        "function": "find_closest_vertical_child",
+        "line": 55,
+        "method": "get_position",
+        "receiver": "closest_child"
+      },
+      {
+        "function": "find_closest_vertical_child",
+        "line": 56,
+        "method": "get_size",
+        "receiver": "closest_child"
+      }
+    ],
+    "class_name": "DragUtils",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "end_line": 13,
+        "line": 7,
+        "name": "get_drag_data",
+        "params": "_node, _model",
+        "returns": "Dictionary"
+      },
+      {
+        "end_line": 39,
+        "line": 14,
+        "name": "find_closest_horizontal_child",
+        "params": "mouse_pos, compare_to, container, container_scroll, ignore_child = null",
+        "returns": "Array"
+      },
+      {
+        "end_line": 60,
+        "line": 40,
+        "name": "find_closest_vertical_child",
+        "params": "mouse_pos, compare_to, container, container_scroll",
+        "returns": "Array"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

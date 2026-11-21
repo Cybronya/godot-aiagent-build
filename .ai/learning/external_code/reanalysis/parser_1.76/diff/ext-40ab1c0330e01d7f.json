@@ -1,0 +1,86 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_complete"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-40ab1c0330e01d7f",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-466ac2cfebbcf2d2",
+  "source_identity": {
+    "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "input_digest": "e30074803675a0fef98cd1e86eba29429bd2964ff4b2c04db2ed6c3acc432322",
+    "repository": "alfredbaudisch/Godello",
+    "source_digest": "abd80468ed0754bdfa6d4ce14b02c2237910bf055fbe93e3b806d86d354ccdd1",
+    "source_path": "scripts/drag_utils.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:find_closest_horizontal_child"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:find_closest_vertical_child"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:get_drag_data"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

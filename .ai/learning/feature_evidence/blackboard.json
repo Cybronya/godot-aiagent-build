@@ -1,0 +1,1612 @@
+{
+  "analysis_references": [],
+  "behavior_evidence": [
+    {
+      "applicability": "NO_BEHAVIOR_CONTRACT",
+      "evidence_id": "behavior:blackboard:no_contract",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "NOT_APPLICABLE",
+      "limitations": [
+        "Feature has no template.yaml#behavior contract"
+      ],
+      "provenance": {},
+      "reliability": "NONE",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_TEMPLATE",
+      "value": {
+        "behavior_contract": null
+      }
+    }
+  ],
+  "capability_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:blackboard:provides:0:behavior_tree_blackboard",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "behavior_tree_blackboard",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:blackboard:provides:1:shared_data_store",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "shared_data_store",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "NO_SCENE_CAPABILITY_DECLARED",
+      "evidence_id": "capability:blackboard:scene:none",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "NOT_APPLICABLE",
+      "limitations": [
+        "no Scene capability requirement is declared"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "NONE",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": null,
+        "scope": "SCENE_REQUIREMENT"
+      }
+    }
+  ],
+  "content_digest": "f72a9c4d4d29c5106acf1e74af39d8da1e46b2b2d8a5dc37a593ac925ad69777",
+  "declared_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:blackboard:name",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "name": "blackboard"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:blackboard:summary",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "summary": "行为树黑板——存储多个命名数据表，行为树节点间共享数据，支持 set/get/has/erase。"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:blackboard:category",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "category": "ai"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:blackboard:provides:0:behavior_tree_blackboard",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "behavior_tree_blackboard",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:blackboard:provides:1:shared_data_store",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "shared_data_store",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:0:set_value(key: Variant, value: Variant, blackboard_name: String = \"default\") -> void",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "set_value(key: Variant, value: Variant, blackboard_name: String = \"default\") -> void",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:1:get_value(key: Variant, default_value: Variant = null, blackboard_name: String = \"default\") -> Variant",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "get_value(key: Variant, default_value: Variant = null, blackboard_name: String = \"default\") -> Variant",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:2:has_value(key: Variant, blackboard_name: String = \"default\") -> bool",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "has_value(key: Variant, blackboard_name: String = \"default\") -> bool",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:3:erase_value(key: Variant, blackboard_name: String = \"default\") -> void",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "erase_value(key: Variant, blackboard_name: String = \"default\") -> void",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:4:keys() -> Array[String]",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "keys() -> Array[String]",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:5:get_blackboard_names() -> Array[String]",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "get_blackboard_names() -> Array[String]",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:6:get_blackboard(name: String = \"default\") -> Dictionary",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "get_blackboard(name: String = \"default\") -> Dictionary",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "test:blackboard:file",
+      "evidence_type": "TEST",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "test file existence is not test execution; test status is NOT_RUN"
+      ],
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/blackboard/test_blackboard.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\test_blackboard.gd",
+      "provenance": {
+        "test_sha256": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/test_blackboard.gd",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "execution_status": "NOT_RUN",
+        "file_exists": true,
+        "path_form": "CONVERTED",
+        "test_path": "Features/blackboard/test_blackboard.gd"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "validation:blackboard:test_command",
+      "evidence_type": "VALIDATION",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "validation command was not executed in Batch A"
+      ],
+      "provenance": {},
+      "reliability": "LOW",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "command": "godot --headless --path . -s res://Features/blackboard/test_blackboard.gd",
+        "execution_status": "NOT_RUN",
+        "validation_type": "TEST_CONTRACT"
+      }
+    }
+  ],
+  "dependency_evidence": [
+    {
+      "applicability": "NO_DEPENDENCY_DECLARED",
+      "evidence_id": "dependency:blackboard:none",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "NOT_APPLICABLE",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "NONE",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "relationship": null,
+        "target": null
+      }
+    }
+  ],
+  "descriptive_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:blackboard:name",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "name": "blackboard"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:blackboard:summary",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "summary": "行为树黑板——存储多个命名数据表，行为树节点间共享数据，支持 set/get/has/erase。"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:blackboard:category",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "category": "ai"
+      }
+    }
+  ],
+  "evidence_counts": {
+    "CONFLICTED": 0,
+    "DECLARED": 14,
+    "EXTRACTED": 12,
+    "MISSING": 0,
+    "NOT_APPLICABLE": 3,
+    "PARTIAL": 0,
+    "UNSUPPORTED": 0
+  },
+  "extracted_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:class",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "Blackboard",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "class_name",
+        "name": "Blackboard"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:extends",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "Node",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "extends",
+        "name": "Node"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:_ready:21",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 25,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 21
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 21,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "_ready",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_ready",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:keys:26",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 29,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 26
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 26,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "keys",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "keys",
+        "params": "",
+        "public": true,
+        "returns": "Array[String]"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:set_value:30",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 35,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 30
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 30,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "set_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "set_value",
+        "params": "key: Variant, value: Variant, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:get_value:36",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 41,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 36
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 36,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "get_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_value",
+        "params": "key: Variant, default_value: Variant = null, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "Variant"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:has_value:42",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 49,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 42
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 42,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "has_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "has_value",
+        "params": "key: Variant, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:erase_value:50",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 54,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 50
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 50,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "erase_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "erase_value",
+        "params": "key: Variant, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:get_blackboard_names:55",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 58,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 55
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 55,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "get_blackboard_names",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_blackboard_names",
+        "params": "",
+        "public": true,
+        "returns": "Array[String]"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:get_blackboard:59",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 60,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 59
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 59,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "get_blackboard",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_blackboard",
+        "params": "name: String = DEFAULT",
+        "public": true,
+        "returns": "Dictionary"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "provenance:blackboard:metadata_digest",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "sha256",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "Feature metadata does not define structured upstream provenance"
+      ],
+      "provenance": {
+        "metadata_sha256": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "metadata_path": "Features/blackboard/feature.yaml",
+        "metadata_sha256": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "index:blackboard:consistency",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "build_feature_index projection comparison",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {},
+      "reliability": "HIGH",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_INDEX",
+      "value": {
+        "consistent": true,
+        "path_form": "SAME"
+      }
+    }
+  ],
+  "extractor_version": "phase-1.73-a1/1",
+  "feature_id": "blackboard",
+  "feature_name": "blackboard",
+  "feature_path": "Features/blackboard/feature.yaml",
+  "generated_at": "2026-11-15T11:52:31Z",
+  "interface_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:0:set_value(key: Variant, value: Variant, blackboard_name: String = \"default\") -> void",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "set_value(key: Variant, value: Variant, blackboard_name: String = \"default\") -> void",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:1:get_value(key: Variant, default_value: Variant = null, blackboard_name: String = \"default\") -> Variant",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "get_value(key: Variant, default_value: Variant = null, blackboard_name: String = \"default\") -> Variant",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:2:has_value(key: Variant, blackboard_name: String = \"default\") -> bool",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "has_value(key: Variant, blackboard_name: String = \"default\") -> bool",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:3:erase_value(key: Variant, blackboard_name: String = \"default\") -> void",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "erase_value(key: Variant, blackboard_name: String = \"default\") -> void",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:4:keys() -> Array[String]",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "keys() -> Array[String]",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:5:get_blackboard_names() -> Array[String]",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "get_blackboard_names() -> Array[String]",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:blackboard:method:6:get_blackboard(name: String = \"default\") -> Dictionary",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "declared interface was not confirmed by a parsed source symbol"
+      ],
+      "provenance": {
+        "metadata_sha256": "e47e67245ec312ed2b53dd1ac8235db160e91f2efaf74f79807e2c9925f3881d",
+        "source_check": "NOT_FOUND"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "",
+        "kind": "method",
+        "name": "get_blackboard(name: String = \"default\") -> Dictionary",
+        "signature": "",
+        "source_check": "NOT_FOUND",
+        "type": ""
+      }
+    }
+  ],
+  "limitations": [
+    "Feature has no template.yaml#behavior contract",
+    "Feature metadata does not define structured upstream provenance",
+    "declared interface was not confirmed by a parsed source symbol",
+    "no Scene capability requirement is declared",
+    "provides is a human declaration, not source-verified capability",
+    "regex_parser_without_ast_or_type_inference",
+    "test file existence is not test execution; test status is NOT_RUN",
+    "validation command was not executed in Batch A"
+  ],
+  "path_normalization": {
+    "CONVERTED": 6,
+    "MISSING": 0,
+    "OUTSIDE_PROJECT": 0,
+    "RELATIVE": 0,
+    "RELATIVE_NORMALIZED": 0,
+    "UNRESOLVED": 0
+  },
+  "projection_id": "fep-f72a9c4d4d29c510",
+  "projection_status": "COMPLETE",
+  "provenance_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "provenance:blackboard:metadata_digest",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "sha256",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "Feature metadata does not define structured upstream provenance"
+      ],
+      "provenance": {
+        "metadata_sha256": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "metadata_path": "Features/blackboard/feature.yaml",
+        "metadata_sha256": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "index:blackboard:consistency",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "build_feature_index projection comparison",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {},
+      "reliability": "HIGH",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_INDEX",
+      "value": {
+        "consistent": true,
+        "path_form": "SAME"
+      }
+    }
+  ],
+  "schema": "feature_evidence_projection",
+  "schema_version": 1,
+  "source_identity": {
+    "graph_path": ".ai/context/feature_graph.json",
+    "graph_sha256": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+    "index_path": ".ai/context/feature_index.json",
+    "index_sha256": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+    "metadata_path": "Features/blackboard/feature.yaml",
+    "metadata_sha256": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+    "source_analysis_records": [],
+    "source_files": [
+      {
+        "path": "Features/blackboard/blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_status": "FOUND"
+      }
+    ],
+    "source_reference_count": 6
+  },
+  "source_references": [
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/blackboard/feature.yaml",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\feature.yaml",
+      "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+      "source_path": "Features/blackboard/feature.yaml",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_METADATA"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/feature_index.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+      "source_path": ".ai/context/feature_index.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_INDEX"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/feature_graph.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+      "source_path": ".ai/context/feature_graph.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_GRAPH"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/coverage_matrix.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+      "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+      "source_path": ".ai/context/coverage_matrix.json",
+      "source_status": "FOUND",
+      "source_type": "COVERAGE_MATRIX"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/blackboard/blackboard.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\blackboard.gd",
+      "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+      "source_path": "Features/blackboard/blackboard.gd",
+      "source_status": "FOUND",
+      "source_type": "GDSCRIPT_SOURCE"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/blackboard/test_blackboard.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\test_blackboard.gd",
+      "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+      "source_path": "Features/blackboard/test_blackboard.gd",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_TEST"
+    }
+  ],
+  "symbol_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:class",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "Blackboard",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "class_name",
+        "name": "Blackboard"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:extends",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "Node",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "extends",
+        "name": "Node"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:_ready:21",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 25,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 21
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 21,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "_ready",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_ready",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:keys:26",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 29,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 26
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 26,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "keys",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "keys",
+        "params": "",
+        "public": true,
+        "returns": "Array[String]"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:set_value:30",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 35,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 30
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 30,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "set_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "set_value",
+        "params": "key: Variant, value: Variant, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:get_value:36",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 41,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 36
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 36,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "get_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_value",
+        "params": "key: Variant, default_value: Variant = null, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "Variant"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:has_value:42",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 49,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 42
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 42,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "has_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "has_value",
+        "params": "key: Variant, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:erase_value:50",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 54,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 50
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 50,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "erase_value",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "erase_value",
+        "params": "key: Variant, blackboard_name: String = DEFAULT",
+        "public": true,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:get_blackboard_names:55",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 58,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 55
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 55,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "get_blackboard_names",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_blackboard_names",
+        "params": "",
+        "public": true,
+        "returns": "Array[String]"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:get_blackboard:59",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 60,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_line": 59
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/blackboard.gd",
+      "source_line": 59,
+      "source_record_id": "Features/blackboard/blackboard.gd",
+      "source_symbol": "get_blackboard",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "get_blackboard",
+        "params": "name: String = DEFAULT",
+        "public": true,
+        "returns": "Dictionary"
+      }
+    }
+  ],
+  "test_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "test:blackboard:file",
+      "evidence_type": "TEST",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "test file existence is not test execution; test status is NOT_RUN"
+      ],
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/blackboard/test_blackboard.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\test_blackboard.gd",
+      "provenance": {
+        "test_sha256": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/blackboard/test_blackboard.gd",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "execution_status": "NOT_RUN",
+        "file_exists": true,
+        "path_form": "CONVERTED",
+        "test_path": "Features/blackboard/test_blackboard.gd"
+      }
+    }
+  ],
+  "validation_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "validation:blackboard:test_command",
+      "evidence_type": "VALIDATION",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "validation command was not executed in Batch A"
+      ],
+      "provenance": {},
+      "reliability": "LOW",
+      "source_file": "Features/blackboard/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/blackboard/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "command": "godot --headless --path . -s res://Features/blackboard/test_blackboard.gd",
+        "execution_status": "NOT_RUN",
+        "validation_type": "TEST_CONTRACT"
+      }
+    }
+  ],
+  "verification_status": {
+    "basis": "NO_EXECUTION_EVIDENCE",
+    "behavior_verification_status": "NOT_VERIFIED",
+    "feature_verification_status": "NOT_VERIFIED",
+    "runtime_verification_status": "NOT_VERIFIED",
+    "test_execution_status": "NOT_RUN"
+  }
+}

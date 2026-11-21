@@ -1,0 +1,141 @@
+{
+  "analysis_id": "ext-fffa637657ffede1",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "4458a143644f",
+  "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+  "conditions": [
+    {
+      "condition": "return model",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+      "function": "get_model",
+      "line": 23
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "ui",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+      "line": 12,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd:12#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+      "line": 17,
+      "name": "set_model",
+      "params": "_model : BoardModel",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd:17#func=set_model",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd",
+      "line": 22,
+      "name": "get_model",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd:22#func=get_model",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "55202aabbd7d74528f8df27a0c6f5a969a9367ea530b6c8bf61667d7e5dd18e8",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "4458a143644f",
+    "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "alfredbaudisch/Godello",
+    "source_path": "scripts/board_card.gd",
+    "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/board_card.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\alfredbaudisch__Godello__scripts__board_card.gd",
+  "repo": "alfredbaudisch/Godello",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "alfredbaudisch__Godello__scripts__board_card.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "9d67c3fefd55a2143051c30077ea145143f52aaf7205ba75539592c2ebbaf3fa",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\alfredbaudisch__Godello\\gd\\scripts\\board_card.gd",
+  "source_path": "scripts/board_card.gd",
+  "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/scripts/board_card.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "set_model",
+        "line": 19,
+        "method": "set_text",
+        "receiver": "title_label"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "Button",
+    "functions": [
+      {
+        "end_line": 16,
+        "line": 12,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 21,
+        "line": 17,
+        "name": "set_model",
+        "params": "_model : BoardModel",
+        "returns": ""
+      },
+      {
+        "end_line": 25,
+        "line": 22,
+        "name": "get_model",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 29,
+        "line": 26,
+        "name": "_on_board_deleted",
+        "params": "board",
+        "returns": ""
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__scripts__board_card.gd 没有 class_name（跨类依赖无法静态归属）"
+  ]
+}

@@ -67,7 +67,7 @@
     }
   ],
   "feature_id": "contact_damage",
-  "generated_at": "2026-11-06T09:31:27Z",
+  "generated_at": "2026-11-07T15:33:48Z",
   "implementation_references": [
     "Features/contact_damage/contact_damage.gd"
   ],

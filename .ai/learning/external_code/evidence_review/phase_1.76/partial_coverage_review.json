@@ -1,0 +1,430 @@
+{
+ "phase": "1.76-D",
+ "records": [
+  {
+   "affected_linkages": [
+    "lnk-11312ae57ab83d80",
+    "lnk-6a49ac99c8be4f01",
+    "lnk-7cb0a508d67afc9b",
+    "lnk-3b209915c9afd75b",
+    "lnk-db6b29ab574e8dd4"
+   ],
+   "batch_b_analysis_completeness": "FULL",
+   "batch_b_coverage_status": "PARTIAL",
+   "batch_b_parse_status": "parsed",
+   "batch_b_parser_version": "1.75",
+   "batch_b_syntax_coverage_status": "PARTIAL",
+   "batch_b_unsupported_constructs": [
+    {
+     "code": "ENUM_NOT_INTERPRETED",
+     "line": 10,
+     "name": "Operators"
+    }
+   ],
+   "commit_copy_verified": true,
+   "declaration_table": [
+    {
+     "commit_line": 5,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "BlackboardCompareCondition",
+     "declaration_kind": "class_name",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:5",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 7,
+     "coverage_finding": "UNSUPPORTED_CONSTRUCT_REPORTED",
+     "declaration": "Operators",
+     "declaration_kind": "enum",
+     "parser_1_76_result": "NOT_CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:7",
+     "unsupported_codes": [
+      "ENUM_NOT_INTERPRETED"
+     ],
+     "unsupported_reported": true
+    },
+    {
+     "commit_line": 20,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "left_operand",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:20",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 22,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "operator",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:22",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 27,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "right_operand",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:27",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 29,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_left_expression",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:29",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 30,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_right_expression",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:30",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 33,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "tick",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:33",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 63,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_get_expression_sources",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "addons/beehave/nodes/leaves/blackboard_compare.gd:63",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    }
+   ],
+   "declarations_captured": 8,
+   "declarations_missing": [
+    "Operators"
+   ],
+   "declarations_missing_unflagged": [],
+   "declarations_total": 9,
+   "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+   "impact_on_features": "No feature-level impact can be asserted: the missing declarations are a comparison enum, a text-expansion string and a label reference. None carries blackboard/health/health_bar/door/attack semantics, and absence of a parsed symbol is not evidence of absence.",
+   "line_basis": "commit_copy_line",
+   "repository": "bitbrain/beehave",
+   "review_item_id": "PARTIAL-ext-55aef2d453370c1b",
+   "source_analysis_id": "ext-55aef2d453370c1b",
+   "source_digest": "cd7008ea7deb939071a57b1765803a1614be43cc1ef5aa112cff2f160523df75",
+   "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+   "unsupported_reporting_completeness": "COMPLETE"
+  },
+  {
+   "affected_linkages": [
+    "lnk-8c3e3dbd3f4a3a19",
+    "lnk-042638ff10ae0b0e",
+    "lnk-5e2135004d4aaf81",
+    "lnk-8f0dbc66a37eaba6",
+    "lnk-279a9ab6f1ca35ab"
+   ],
+   "batch_b_analysis_completeness": "FULL",
+   "batch_b_coverage_status": "PARTIAL",
+   "batch_b_parse_status": "partial",
+   "batch_b_parser_version": "1.75",
+   "batch_b_syntax_coverage_status": "PARTIAL",
+   "batch_b_unsupported_constructs": [
+    {
+     "code": "LEGACY_SETGET_NOT_INTERPRETED",
+     "line": 9
+    },
+    {
+     "code": "LEGACY_SETGET_NOT_INTERPRETED",
+     "line": 10
+    }
+   ],
+   "commit_copy_verified": true,
+   "declaration_table": [
+    {
+     "commit_line": 4,
+     "coverage_finding": "UNSUPPORTED_CONSTRUCT_NOT_REPORTED",
+     "declaration": "expand_to",
+     "declaration_kind": "export",
+     "parser_1_76_result": "NOT_CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:4",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 6,
+     "coverage_finding": "UNSUPPORTED_CONSTRUCT_REPORTED",
+     "declaration": "model",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:6",
+     "unsupported_codes": [
+      "LEGACY_SETGET_NOT_INTERPRETED"
+     ],
+     "unsupported_reported": true
+    },
+    {
+     "commit_line": 7,
+     "coverage_finding": "UNSUPPORTED_CONSTRUCT_REPORTED",
+     "declaration": "board",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:7",
+     "unsupported_codes": [
+      "LEGACY_SETGET_NOT_INTERPRETED"
+     ],
+     "unsupported_reported": true
+    },
+    {
+     "commit_line": 8,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "normal_text",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:8",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 11,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_ready",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:11",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 15,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "set_model",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:15",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 25,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "set_board",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:25",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 29,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_on_BoardOwnerButton_gui_input",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:29",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 35,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_on_Timer_timeout",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:35",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 41,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_on_BoardMemberButton_pressed",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:41",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 46,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_on_delete_confirmed",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_member_button.gd:46",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    }
+   ],
+   "declarations_captured": 10,
+   "declarations_missing": [
+    "expand_to"
+   ],
+   "declarations_missing_unflagged": [
+    "expand_to"
+   ],
+   "declarations_total": 11,
+   "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+   "impact_on_features": "No feature-level impact can be asserted: the missing declarations are a comparison enum, a text-expansion string and a label reference. None carries blackboard/health/health_bar/door/attack semantics, and absence of a parsed symbol is not evidence of absence.",
+   "line_basis": "commit_copy_line",
+   "repository": "alfredbaudisch/Godello",
+   "review_item_id": "PARTIAL-ext-9e62ed2e3dec8164",
+   "source_analysis_id": "ext-9e62ed2e3dec8164",
+   "source_digest": "540fdf1f898b8909b51cf68fe501aa370bba25b069653ab2135556b34038bc75",
+   "source_path": "scripts/board_member_button.gd",
+   "unsupported_reporting_completeness": "INCOMPLETE"
+  },
+  {
+   "affected_linkages": [
+    "lnk-e267bd0ca2d394bc",
+    "lnk-5b9d6ba1c10e1857",
+    "lnk-4366500cb01008a8",
+    "lnk-17017551e97c8759",
+    "lnk-9364f45ffec7d769"
+   ],
+   "batch_b_analysis_completeness": "FULL",
+   "batch_b_coverage_status": "PARTIAL",
+   "batch_b_parse_status": "partial",
+   "batch_b_parser_version": "1.75",
+   "batch_b_syntax_coverage_status": "PARTIAL",
+   "batch_b_unsupported_constructs": [
+    {
+     "code": "LEGACY_SETGET_NOT_INTERPRETED",
+     "line": 7
+    }
+   ],
+   "commit_copy_verified": true,
+   "declaration_table": [
+    {
+     "commit_line": 4,
+     "coverage_finding": "UNSUPPORTED_CONSTRUCT_REPORTED",
+     "declaration": "model",
+     "declaration_kind": "var",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_card.gd:4",
+     "unsupported_codes": [
+      "LEGACY_SETGET_NOT_INTERPRETED"
+     ],
+     "unsupported_reported": true
+    },
+    {
+     "commit_line": 6,
+     "coverage_finding": "UNSUPPORTED_CONSTRUCT_NOT_REPORTED",
+     "declaration": "title_label",
+     "declaration_kind": "onready",
+     "parser_1_76_result": "NOT_CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_card.gd:6",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 9,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_ready",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_card.gd:9",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 14,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "set_model",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_card.gd:14",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 19,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "get_model",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_card.gd:19",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    },
+    {
+     "commit_line": 23,
+     "coverage_finding": "SOURCE_CONFIRMED",
+     "declaration": "_on_board_deleted",
+     "declaration_kind": "func",
+     "parser_1_76_result": "CAPTURED",
+     "source_confirmed": true,
+     "source_location": "scripts/board_card.gd:23",
+     "unsupported_codes": [],
+     "unsupported_reported": false
+    }
+   ],
+   "declarations_captured": 5,
+   "declarations_missing": [
+    "title_label"
+   ],
+   "declarations_missing_unflagged": [
+    "title_label"
+   ],
+   "declarations_total": 6,
+   "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+   "impact_on_features": "No feature-level impact can be asserted: the missing declarations are a comparison enum, a text-expansion string and a label reference. None carries blackboard/health/health_bar/door/attack semantics, and absence of a parsed symbol is not evidence of absence.",
+   "line_basis": "commit_copy_line",
+   "repository": "alfredbaudisch/Godello",
+   "review_item_id": "PARTIAL-ext-fffa637657ffede1",
+   "source_analysis_id": "ext-fffa637657ffede1",
+   "source_digest": "9d67c3fefd55a2143051c30077ea145143f52aaf7205ba75539592c2ebbaf3fa",
+   "source_path": "scripts/board_card.gd",
+   "unsupported_reporting_completeness": "INCOMPLETE"
+  }
+ ],
+ "summary": {
+  "declarations_missing": 3,
+  "declarations_total": 26,
+  "defect": "UNSUPPORTED_CONSTRUCT_REPORTING_INCOMPLETE",
+  "missing_unflagged": 2,
+  "records": 3,
+  "unsupported_constructs_reported": 4
+ }
+}

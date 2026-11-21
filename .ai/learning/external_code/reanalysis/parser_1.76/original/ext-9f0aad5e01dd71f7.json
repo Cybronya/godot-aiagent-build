@@ -1,0 +1,138 @@
+{
+  "analysis_id": "ext-9f0aad5e01dd71f7",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "7290681309ff",
+  "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:45Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+      "line": 11,
+      "name": "initialize",
+      "params": "health_node",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd:11#func=initialize",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+      "line": 22,
+      "name": "animate_bar",
+      "params": "target_health",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd:22#func=animate_bar",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 2,
+  "input_digest": "feef8be286ae91dac5ef17e1f5ad3ae3e6ddb7d9e4bd69288bbf9a41ba87f35b",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "7290681309ff",
+    "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-make-pro-2d-games",
+    "source_path": "interface/gui/player/life_bar/Lifebar.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/interface/gui/player/life_bar/Lifebar.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+  "repo": "gdquest-demos/godot-make-pro-2d-games",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+      "function": "initialize",
+      "kind": "emit",
+      "line": 15,
+      "signal": "maximum_changed"
+    }
+  ],
+  "snippet_id": "gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "e032da8e7dfa0f97d2892441329da8fc966febc9d3b388e498df441981e56e5a",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-make-pro-2d-games\\gd\\interface\\gui\\player\\life_bar\\Lifebar.gd",
+  "source_path": "interface/gui/player/life_bar/Lifebar.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/interface/gui/player/life_bar/Lifebar.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "animate_bar",
+        "line": 23,
+        "method": "animate_value",
+        "receiver": "TextureProgress"
+      },
+      {
+        "function": "animate_bar",
+        "line": 24,
+        "method": "update_color",
+        "receiver": "TextureProgress"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "Control",
+    "functions": [
+      {
+        "end_line": 17,
+        "line": 11,
+        "name": "initialize",
+        "params": "health_node",
+        "returns": ""
+      },
+      {
+        "end_line": 21,
+        "line": 18,
+        "name": "_on_Player_Health_health_changed",
+        "params": "new_health",
+        "returns": ""
+      },
+      {
+        "end_line": 24,
+        "line": 22,
+        "name": "animate_bar",
+        "params": "target_health",
+        "returns": ""
+      }
+    ],
+    "signals": [
+      {
+        "line": 6,
+        "name": "maximum_changed",
+        "params": "maximum"
+      }
+    ],
+    "variables": []
+  },
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__interface__gui__player__life_bar__Lifebar.gd 没有 class_name（跨类依赖无法静态归属）"
+  ]
+}

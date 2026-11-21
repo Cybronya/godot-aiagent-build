@@ -1,0 +1,94 @@
+[
+  {
+    "analysis_id": "ext-1d204b35464cf388",
+    "checks": {
+      "coverage_present": true,
+      "diff_present": true,
+      "input_digest": true,
+      "locations": true,
+      "no_removals": true,
+      "parser_version_matches_build": true,
+      "provenance": true,
+      "source_digest": true
+    },
+    "location_problems": [],
+    "offset": 3,
+    "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+    "reanalysis_id": "ext-0ee947aef4c9aeca",
+    "reuse_source": ".ai/learning/external_code/reanalysis/parser_1.75",
+    "status": "REUSED_PHASE_1_75",
+    "symbol_count": 11,
+    "symbols_added": 2,
+    "symbols_checked": 11,
+    "valid": true
+  },
+  {
+    "analysis_id": "ext-23949c1378c49203",
+    "checks": {
+      "coverage_present": true,
+      "diff_present": true,
+      "input_digest": true,
+      "locations": true,
+      "no_removals": true,
+      "parser_version_matches_build": true,
+      "provenance": true,
+      "source_digest": true
+    },
+    "location_problems": [],
+    "offset": 3,
+    "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+    "reanalysis_id": "ext-d0a93201b6f352df",
+    "reuse_source": ".ai/learning/external_code/reanalysis/parser_1.75",
+    "status": "REUSED_PHASE_1_75",
+    "symbol_count": 11,
+    "symbols_added": 3,
+    "symbols_checked": 11,
+    "valid": true
+  },
+  {
+    "analysis_id": "ext-73c80a3db6d71e48",
+    "checks": {
+      "coverage_present": true,
+      "diff_present": true,
+      "input_digest": true,
+      "locations": true,
+      "no_removals": true,
+      "parser_version_matches_build": true,
+      "provenance": true,
+      "source_digest": true
+    },
+    "location_problems": [],
+    "offset": 3,
+    "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+    "reanalysis_id": "ext-8759bb47cb020625",
+    "reuse_source": ".ai/learning/external_code/reanalysis/parser_1.75",
+    "status": "REUSED_PHASE_1_75",
+    "symbol_count": 17,
+    "symbols_added": 4,
+    "symbols_checked": 17,
+    "valid": true
+  },
+  {
+    "analysis_id": "ext-ab693f3d6ef9439c",
+    "checks": {
+      "coverage_present": true,
+      "diff_present": true,
+      "input_digest": true,
+      "locations": true,
+      "no_removals": true,
+      "parser_version_matches_build": true,
+      "provenance": true,
+      "source_digest": true
+    },
+    "location_problems": [],
+    "offset": 3,
+    "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+    "reanalysis_id": "ext-322df918a5ebee02",
+    "reuse_source": ".ai/learning/external_code/reanalysis/parser_1.75",
+    "status": "REUSED_PHASE_1_75",
+    "symbol_count": 13,
+    "symbols_added": 5,
+    "symbols_checked": 13,
+    "valid": true
+  }
+]

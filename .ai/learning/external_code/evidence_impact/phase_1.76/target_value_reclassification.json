@@ -1,0 +1,72 @@
+{
+ "analysis_id": "ext-7d7933a2343f52d0",
+ "batch_b_state": {
+  "declaration_kind": "PROPERTY",
+  "group": "properties",
+  "has_getter": false,
+  "has_setter": true,
+  "property_end_line": 18,
+  "reclassification_explained": true,
+  "record_line": 18,
+  "setter_commit_line": 16,
+  "setter_record_line": 19,
+  "value": "0.0"
+ },
+ "commit": "d59f2f71bc046ac53239a4e590861269e7100a36",
+ "existing_linkage_references": [
+  {
+   "classification": "AMBIGUOUS",
+   "evidence_id": "lnk-23addea8960377c4:ev:01",
+   "evidence_type": "SYMBOL_TOKEN_OVERLAP",
+   "feature_id": "openable_door",
+   "linkage_id": "lnk-23addea8960377c4",
+   "matched_feature_symbol": "boolean_target",
+   "matched_value": "target"
+  }
+ ],
+ "explanation_only_mentions": [
+  {
+   "classification": "NO_SUPPORTED_LINK",
+   "context": "appears only in the pair-evaluation explanation text",
+   "feature_id": "attack_emitter",
+   "linkage_id": "lnk-846fd6e561381256"
+  },
+  {
+   "classification": "NO_SUPPORTED_LINK",
+   "context": "appears only in the pair-evaluation explanation text",
+   "feature_id": "blackboard",
+   "linkage_id": "lnk-5d2a6f17bfd68786"
+  },
+  {
+   "classification": "NO_SUPPORTED_LINK",
+   "context": "appears only in the pair-evaluation explanation text",
+   "feature_id": "health",
+   "linkage_id": "lnk-98d27dacdb3b3a90"
+  }
+ ],
+ "formal_parser_identity": "gd_parse@1.71",
+ "formal_stored_state": {
+  "declaration_kind": "VARIABLE (implied by group)",
+  "group": "variables",
+  "record_line": 18,
+  "representation_error": "old regex swallowed the property colon into the value",
+  "value": "0.0:"
+ },
+ "graph_note": "feature_graph edges are feature-level only; no symbol-level dependency exists",
+ "graph_symbol_dependency": false,
+ "is_removal": false,
+ "is_two_symbols": false,
+ "no_existing_linkage_reference": false,
+ "reasoning": "The stored evidence item is a token overlap ('target' vs boolean_target) classified AMBIGUOUS. The 1.76 property view shows a tweened life-bar value with a setter, which further weakens the door association, but a reviewer must decide whether to re-word or re-evaluate that single item. Nothing is deleted, nothing is created, and the formal linkage must not be edited by this batch.",
+ "reclassification_impact": "EVIDENCE_INTERPRETATION_CORRECTED_NO_CLASSIFICATION_CHANGE",
+ "repository": "godot-open-rpg",
+ "required_human_review": "YES",
+ "severity": "MEDIUM",
+ "source_confirmed": {
+  "commit_line_property": 15,
+  "commit_line_setter": 16,
+  "commit_line_setter_end": 34,
+  "read_from": "code_library/sources/gdquest-demos__godot-open-rpg/gd/src/combat/ui/battler_entry/ui_life_bar.gd"
+ },
+ "source_path": "src/combat/ui/battler_entry/ui_life_bar.gd"
+}

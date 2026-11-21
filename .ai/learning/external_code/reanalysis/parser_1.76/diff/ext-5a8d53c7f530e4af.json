@@ -1,0 +1,83 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-5a8d53c7f530e4af",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-12cb74d06f659a38",
+  "source_identity": {
+    "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "input_digest": "c45e9de2e9f4bcc6b3ee1223209f2dbedc39c6f25188a16dc78d7307f3d73d4f",
+    "repository": "gdquest-demos/godot-open-rpg",
+    "source_digest": "8573670e7381df7c2f9cb36a6fc06307bccc753bc865664a23fb49595e22dade",
+    "source_path": "overworld/maps/town/door_unlock_interaction.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 1,
+      "properties": 0,
+      "signals": 0,
+      "variables": 2
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 1,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 8,
+      "name": "_popup",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 7,
+      "name": "door",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_execute"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

@@ -1,0 +1,42 @@
+{
+ "checks": {
+  "batch_c_potential_impacts": 13,
+  "batch_c_readiness": "READY_FOR_BATCH_D_WITH_RESTRICTIONS",
+  "batch_c_verdict": "PASS_WITH_LIMITATIONS",
+  "candidates": 2,
+  "digest_mismatches": [],
+  "formal_data_mutation": "PASS",
+  "p0_items": 6,
+  "p1_items": 7,
+  "partial_records": 3,
+  "review_items": 13,
+  "review_queue_created": false,
+  "seeds": 3,
+  "source_verified": 13
+ },
+ "integrity": {
+  "added": [],
+  "changed": [],
+  "counts": {
+   "batch_a_inventory": 1,
+   "batch_b_workspace": 162,
+   "batch_c_workspace": 8,
+   "candidates": 3,
+   "feature_layer": 34,
+   "formal_analysis": 34,
+   "formal_linkage": 150,
+   "p175_workspace": 29,
+   "parser_adapter": 2
+  },
+  "files_compared": 423,
+  "missing": [],
+  "status": "PASS"
+ },
+ "phase": "1.76-D",
+ "problems": [],
+ "result": "PASS",
+ "review_queue": {
+  "created": false,
+  "review_queue_files": []
+ }
+}

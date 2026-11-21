@@ -1,0 +1,170 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-d9764c3981017194",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-bec29a042c1fc8d1",
+  "source_identity": {
+    "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "input_digest": "8736f3f9904f0ee71ed6b3b8eca8399055895f5819aef46ababb0694923e77d3",
+    "repository": "gdquest-demos/godot-make-pro-2d-games",
+    "source_digest": "40c1a1b6c64fe7277cc42d2594460ed4f21207eacf30808ceebfaa9ad1ab0175",
+    "source_path": "actors/health/Status.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 2,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 2,
+      "variables": 1
+    },
+    "before": {
+      "constants": 2,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 2,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 9,
+      "name": "statuses_active",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 32,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        },
+        "value": {
+          "new": "{ 'name': \"Invincible\", 'effect': { 'stat_modifier': { 'add': { 'defense': 1000, 'magic_defense': 1000 } } } }",
+          "old": "{"
+        }
+      },
+      "symbol": "constants:INVINCIBLE"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 21,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        },
+        "value": {
+          "new": "{ 'name': \"Poison\", 'effect': { 'periodic_damage': { 'cycles': 5, 'stat': 'health', 'damage': 1, } } }",
+          "old": "{"
+        }
+      },
+      "symbol": "constants:POISON"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:add"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:as_string"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:remove"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:added"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:removed"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

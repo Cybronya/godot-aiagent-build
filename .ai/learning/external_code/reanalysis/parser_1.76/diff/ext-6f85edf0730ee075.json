@@ -1,0 +1,103 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-6f85edf0730ee075",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-1c7f8f02566c941d",
+  "source_identity": {
+    "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "input_digest": "5fc9adb95e73ed580186580e76ae4b2ca88126daacf0eccda820aa1b4479863b",
+    "repository": "gdquest-demos/godot-make-pro-2d-games",
+    "source_digest": "5d1f00befa4ead8c8321a710dfe8832bb1f66ac064ec0710a990d30da5920a0c",
+    "source_path": "core/world/Door.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 1,
+      "variables": 1
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 1,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 9,
+      "name": "PlayerController",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_body_entered"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_active"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "SIGNAL",
+          "old": null
+        }
+      },
+      "symbol": "signals:player_entered"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

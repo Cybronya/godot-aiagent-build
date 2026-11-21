@@ -1,0 +1,2035 @@
+{
+  "candidate_mutated": false,
+  "dispatch": {
+    "NOT_APPLICABLE": 1,
+    "REANALYZED_VALID": 4,
+    "REQUIRES_REANALYSIS": 29
+  },
+  "excluded": [
+    {
+      "analysis_id": "ext-80c1104f5262a6ee",
+      "reason": "file_type=gdshader is outside the GDScript parser scope"
+    }
+  ],
+  "formal_artefact_snapshot": {
+    "file_count": 225,
+    "files": {
+      ".ai/context/feature_graph.json": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+      ".ai/context/feature_index.json": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+      ".ai/learning/candidate_workspace/WORKSPACE.json": "04d0d4ae9a26fa84f878cf2e2650802358c49d27bfa2292359daf67e207ae137",
+      ".ai/learning/candidate_workspace/candidates/cand-08fdc0b10a112ecf.json": "1bb3a77868ade105efb2737d6e466a8874341c1e09259897861c69ceadb2db5c",
+      ".ai/learning/candidate_workspace/candidates/cand-7f52cb8f583124db.json": "c621fee0413e61e0cd22a9e3b59bbfe2e789d55d540009edf5f10e0614999196",
+      ".ai/learning/external_code/analysis/ext-1d204b35464cf388.json": "3b941cf01e5c8cf34661520a2223a7adba3443b1df3733b85097cec268eb0e17",
+      ".ai/learning/external_code/analysis/ext-23949c1378c49203.json": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+      ".ai/learning/external_code/analysis/ext-27ddd863881677d7.json": "f6677a0bac4ec2d06d0227a01cc16d273d0e5fb19f985bce82a21b6553adb6c4",
+      ".ai/learning/external_code/analysis/ext-2a4f612899a6b6a5.json": "d0058768b800118eee47953a46b262dab3d5676b3486bb264e8864938f861cc3",
+      ".ai/learning/external_code/analysis/ext-409141da889d20af.json": "39ba6a2eb9765224fc54c276edc12156b4cc90d15b55253c4030a3f6a14abe17",
+      ".ai/learning/external_code/analysis/ext-40ab1c0330e01d7f.json": "5c88f0a6ea50d52f3d1e9211d6fbaa880c29b80e7caf035af183ad5b782873cd",
+      ".ai/learning/external_code/analysis/ext-43748f09c01294f9.json": "8e9bab5feece470fb54e87a7e3c556f967cd1c5d1f395727f893dc6c29f9a644",
+      ".ai/learning/external_code/analysis/ext-4b7782ce66be92a7.json": "26294f061bd1568510289cf351499528cdb23efb90737b7fe8d8fda3df075974",
+      ".ai/learning/external_code/analysis/ext-51d46c1b4943a254.json": "e7227d7a0708e46b80bf93858468c9036c6f7c4ec2dbb36bbef4762aa928405b",
+      ".ai/learning/external_code/analysis/ext-51fbb1e2b03c3f67.json": "26e43d36cdde54fb6c7381c752e8275739f68ed3700b3d4b83bd53e49ceeff0e",
+      ".ai/learning/external_code/analysis/ext-55aef2d453370c1b.json": "ea790de1f6031dc0618dd8dd4b26ef87e37c5d327c9ab32620fb1a1e4ee6cc13",
+      ".ai/learning/external_code/analysis/ext-56ca48126ec8514d.json": "742ac23c36861109ba0baa539c2893b4e3975a8156e7356ef6254973c96bc48e",
+      ".ai/learning/external_code/analysis/ext-5a8d53c7f530e4af.json": "b7767d28b3661d4b3c17ff34d5cae6128b85d5f02574a5b2391c1cf8ba63066e",
+      ".ai/learning/external_code/analysis/ext-5adc6644d3347390.json": "404265feff1a2a2e0b247437e49193ec80067b25aca81046db539bb1ba77198c",
+      ".ai/learning/external_code/analysis/ext-6f85edf0730ee075.json": "ac6c6b54fca7448d158f0d50f067abc979cf2a69e9858e36536e1051692c40d2",
+      ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+      ".ai/learning/external_code/analysis/ext-7973e94ee75e2819.json": "5f026ef3bf716659593dd190f86db6b994c05dcbec353f5b271a9a1a10d47bf6",
+      ".ai/learning/external_code/analysis/ext-7d7933a2343f52d0.json": "5259b9e1ee499dde3ba28807d535b8d009d1c98a0bbee716b168ef0e9516339b",
+      ".ai/learning/external_code/analysis/ext-80c1104f5262a6ee.json": "bbdafd9e8930287db668a04f3f33acb7c0a7179deb9e64937448630dbe28111d",
+      ".ai/learning/external_code/analysis/ext-9e62ed2e3dec8164.json": "a0df6ebc8f84c0018e2f648ca463cca726edb1ca99d60a567631eb6af857556e",
+      ".ai/learning/external_code/analysis/ext-9f0aad5e01dd71f7.json": "573cb6e24e242725e441e0e32c0c3336fc82c680e98d3cee1c3f6ff32916a8be",
+      ".ai/learning/external_code/analysis/ext-aa0204cc227b0480.json": "e48374ae54951947f4d68061a11aeeecdd6133d60ed8e9a17518b061e8ec6152",
+      ".ai/learning/external_code/analysis/ext-ab693f3d6ef9439c.json": "4221439430452acb6260b788dcf3ac22164b07b0973d3e2209e268ad1ddf9c24",
+      ".ai/learning/external_code/analysis/ext-bfe9b7e6dbebbfae.json": "72e132deab185288eda8aee2657c2d42428d02e33e8c7e4effae41c5c78e373d",
+      ".ai/learning/external_code/analysis/ext-c341755c352c7563.json": "cbcbe73daef0f4ee1d03aa198b9d9903f650aca1b203ac58cd107e10e2b4bcf3",
+      ".ai/learning/external_code/analysis/ext-c7b0d12daf86d973.json": "c5e4c0f73cbbed424d76e1c905043a9a0b2585a982a00a50a80f3459b6021fd5",
+      ".ai/learning/external_code/analysis/ext-d5f7ac2db3a8c4e4.json": "76d6488d4bcdb5a3f4575faf6c25a84aa356693ba3c1392f569056cc9f949e9f",
+      ".ai/learning/external_code/analysis/ext-d82bd2e536c75c4a.json": "1c8902b4c60c70ce4d614a4f2010ba691c4ef95b7f970ac3b03d04259b63956f",
+      ".ai/learning/external_code/analysis/ext-d9764c3981017194.json": "a2a4ad967ea1feb45da079759ffb3a3ee1f9d06aa190a3f202c4715895d683f1",
+      ".ai/learning/external_code/analysis/ext-ec789727924bfa6c.json": "5dcadb646ae9f0266bb12d53b159e28e8d3525b513dcb19ad176c4a3588a2b10",
+      ".ai/learning/external_code/analysis/ext-f80d07f302bacc20.json": "498fc59ecc8d06b44d4731819f2630f6a73bab72ab3f0eed27a2a410b722b80e",
+      ".ai/learning/external_code/analysis/ext-fb806b579659b155.json": "68c059980b4ff8987e913c69121dd8e0ec5f1fd80d530c131a7365c62d38279c",
+      ".ai/learning/external_code/analysis/ext-fe3acf782b88edda.json": "390c05d4a8ebeff51f9626daf2b569c6c47be8ea98ec7a0fdfbc0269c3eeb4ac",
+      ".ai/learning/external_code/analysis/ext-fffa637657ffede1.json": "ff82e587f128a7a7d8dc7050173006cf612074c477a172cdf2fd82452c91697d",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__attack_emitter.json": "3871d104a929a876fef9957c3191d014844a57a922f369726c98a519a736d259",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__blackboard.json": "08bf1c6f1aa2c4279dfcee9bee3b3826d13ae0cc79f786217eca49388ceb0173",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__health.json": "1c3a713d417fe2aa0b31ffd7ff5ca994c5fd0e4b93e00e96a87db472a92f1c98",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__health_bar.json": "83839ef73b59fe9fae12560cd35cad1560c93bf38c89a533d07a2a7318965f4a",
+      ".ai/learning/external_code/feature_links/ext-1d204b35464cf388__openable_door.json": "9b443affdf036ecbe11e5accfdc56524ae9b5cb521df2f525d4ac07bd0fd7da8",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__attack_emitter.json": "11398fc885c9e8f5ec890bf45e6af12cb37170ff9c0fadc042f8db2d9eef9f11",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__blackboard.json": "3928cc47e78b3d200dabe15e2a8cf6ce3145195c259d1c5cdf1a2b0542bac861",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__health.json": "70fabb73c748d477d241bea94a34b8b40bfd14ef07497f7a8cf33102cec41e87",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__health_bar.json": "7212b9eb70456aae71d14793c53c17996b0f9992b8bc56a74e3482e990b93b32",
+      ".ai/learning/external_code/feature_links/ext-23949c1378c49203__openable_door.json": "e03df2ffce500d7115a5c29ebcec57270544aaef1269af1320d1bbd7991dd31d",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__attack_emitter.json": "4eb97e8b21dd6a543682466c2185f7c24408048e44ad8392c851ff09543f792f",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__blackboard.json": "c5d554df944098d59a372c3788559bc6be57341b7f5cb316005f0c919eb8e01f",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__health.json": "c2ff89e0892fb9e7d4055a123f61130a26b6240aa204c2e36efb5a92d5ca853b",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__health_bar.json": "82e98fbee2c9c10e4d32c09c3fbfecf80fe67d0f66a613dbe0cc2db843e4f2af",
+      ".ai/learning/external_code/feature_links/ext-27ddd863881677d7__openable_door.json": "3c4f41419bd59dffc164bb51a1402d3f57f644e83cd8ca4c8705602332e92d9e",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__attack_emitter.json": "ec1d15c375f45a60e7f60d1329db1cee379157a56e3f882c5b154283e1c3010b",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__blackboard.json": "524c7bf5d1f22f6211ec76c7d68aa2c8ce824d8520df5927ba17c22a1f0a5447",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__health.json": "e82d7cff0455859b2854b444770ac42465ed32b1c5c4875957f56ae706001f5d",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__health_bar.json": "2988fe57c366cf851c1639f7938a5c51fd40ffb5dfe66732118b87bd2f72f783",
+      ".ai/learning/external_code/feature_links/ext-2a4f612899a6b6a5__openable_door.json": "abde67a7248b56811ec1bd66157ad2b4e8e9d51cc5af1c31c1a35718bb9ff582",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__attack_emitter.json": "99a5bed6e59a8cc845b7b8cd9c29384a8ecf3da992b63344fc6214c1a6f113d2",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__blackboard.json": "07ae0cb5c7cefd8f37bde910b7e292ca3847ea4861f1d362a62f0247a146b874",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__health.json": "d7af291766e0d58a5e885268a1aa8efb8f28e104a1896434c2a7bffbb8eb9603",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__health_bar.json": "36df84065f1efd16552eeea2fe93ba9d677dcb72599f115b69695043a7aa1e7c",
+      ".ai/learning/external_code/feature_links/ext-409141da889d20af__openable_door.json": "c5aa0ca6ceb3663a0008f182a7c029a10dc16962e561d15735a639466503f75d",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__attack_emitter.json": "a7ec4e1930f2c18d6daee58c79a4d16cdc876ab0b35ae8e4e6a08f932722f269",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__blackboard.json": "6dbc7641eae463ab80b5fa5a714f54bcad34363d7d45505e28ca488ceffdc068",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__health.json": "a954d2402a16485a30eae3d14774addbfd98781ccf0147854deb9944fa6c164f",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__health_bar.json": "cd65ddbbd84de480272dc0e4667a8269ab59ddb9f4d4b8442354646e263a34a8",
+      ".ai/learning/external_code/feature_links/ext-40ab1c0330e01d7f__openable_door.json": "4f50d879311f6da7ef4b2da17ec4c9b5b9e7ee99dd31ecf19f2751cd37d80d80",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__attack_emitter.json": "308fb2f1c521c408173b482b5ebd65b14cb1dac3b989d0e937404810f12888bc",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__blackboard.json": "a5a5265725314b5b7292d70ea7cb9e3d7f26cc6088bfca2b0cf8cf75b3709dae",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__health.json": "39a0b670a71bdd68aedc2d25ce3e6334e0e6981dc7e4f9b0716127abf65606bd",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__health_bar.json": "a1d574d1f6e21c0f43ff8902b6812583124f8ab8c1d0c1eca37072f528476fc9",
+      ".ai/learning/external_code/feature_links/ext-4b7782ce66be92a7__openable_door.json": "74eb875eca321f55b4350d0e88646a82266db022b316b6b57e2c655f4e703d52",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__attack_emitter.json": "688520f46e14eb2dadace0b3953eca035ed0d0697433b0d0ebfb5360cf63624d",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__blackboard.json": "666f0c4e2e5cf69a4e46a0a8a6560886c33f5d499a28c2aaa01a6ba359b98a90",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__health.json": "2b5bb9ab15405252e1667881785403320bd4c165e1a4e99e07813e221fc65ef1",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__health_bar.json": "11aedf6425f8e6b4007d39ee0350fedea21a7886f61404f4a87c81b9fb9a9282",
+      ".ai/learning/external_code/feature_links/ext-51d46c1b4943a254__openable_door.json": "cdc01bf4c02a7ba265d68b678145072bbcacf95656ecc2be9145ec914cfe046d",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__attack_emitter.json": "33a59c900e3a83a9128c99a297a6991cc05b9f209cc231d847ec1a92ec2a1f2e",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__blackboard.json": "89d76177b05bac80d22f84f048c5f2db1159d1319fb67338a4b16ee86d4813fd",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__health.json": "97927e7cde4af2f869797931b690232b81c4b4d87f4a6507df89292915310a8f",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__health_bar.json": "828706695cfa155d028bdd9cf1df645fff41320e21bbdb36bfaa54664e9c3bad",
+      ".ai/learning/external_code/feature_links/ext-51fbb1e2b03c3f67__openable_door.json": "0b9bb3435bacd7531001403810b242ef719656f6ce952dc8e141d24d7d4c6772",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__attack_emitter.json": "015822e3ef4a6e548ec1e91437b1a44095d1c8a9a15a66c47c6a9b5c9432decd",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__blackboard.json": "671f6cbdc305174513bc8956835323e88d6556f5f751341a7c9991e0707aa35c",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__health.json": "2169dec06cdc63efcf1090a60dfa4c67cda535fd254f10e4a50f299ed13f789d",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__health_bar.json": "4048f59b52898a29c4e03dd351d1ce4e24971bd1c48802088a9c6310a2557ced",
+      ".ai/learning/external_code/feature_links/ext-55aef2d453370c1b__openable_door.json": "93d9891bad55dada13f3ac48758074cd69c89a55ce38f56d8f6fa0a8d0e07f40",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__attack_emitter.json": "744f6a4f5a2a99c9edab0d7791a3c9643d9db4325f8c92a46d3179af4b4bb0ef",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__blackboard.json": "2da72fe1e7032ebdb5eb853318995e3bc478fd98fe7ccfab7a8e4d26d1a00005",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__health.json": "62c3e8ca8968a5260f35d3611b5ddd5d5b6b6007e3a2146345e4e7603c77a2c5",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__health_bar.json": "0e34d892b99aad4680ae094319266768fa6b6ce182be37e4ffc48ea704418d4a",
+      ".ai/learning/external_code/feature_links/ext-56ca48126ec8514d__openable_door.json": "4b19d2808df049600b9560ca81bf0e7d260a394456571026c5dc1c70a62fad0c",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__attack_emitter.json": "7f28b6c40005a717ea4966ec1dd5cf8108cde388ba1c8dba298fbf4bf01b878a",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__blackboard.json": "544ebb3db3d271f9c96027894587cf40b6561dc4f5f8aadc3c1a6da1bbb6eaa9",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__health.json": "3555a2190a15e366dcd6d4eb94d39f91f7dbee98d83018b6b58cd40e1f9792f8",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__health_bar.json": "4e4e9257f6c38a0b42522ae0b91ee49e9fa7788a85850deb1aad69bde1db2c54",
+      ".ai/learning/external_code/feature_links/ext-5adc6644d3347390__openable_door.json": "4f730ee215c62b383806aa8424a6232db38140a60456a96cf756dbd932274d05",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__attack_emitter.json": "eaffb0d93de3334e7701193ec43e79cf5c1a0358424c32f63b16b3d78517c3bb",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__blackboard.json": "aa2968f2802cc4ead0dd34aa8acdd7f01b7b6146b9c3d8af1fd35a90583b9193",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__health.json": "a98cb6c4143181dadc2319fbf65aa03a8b8b532e5c4557865c8b578943259f9b",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__health_bar.json": "3e2872c98743b2c8b8f22343d0b67b7fce97cd58dc60a4080e2c129546b27802",
+      ".ai/learning/external_code/feature_links/ext-6f85edf0730ee075__openable_door.json": "910088eb79778d3a6f31100ed88d0941fbea8e2feffa69953396f1c81780f52b",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__attack_emitter.json": "f97d4d278d0112d31f21a29749be344b9ac5226786946ede6511a85fb740ba06",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__blackboard.json": "fce16fa0803b1a23ac2d01a78a23061ce40c08c179c88564031a8f348b3a94d9",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__health.json": "c444f8eb939ab46c68d9e8612605950153ec2e5a4bf68089dd668176f8800f22",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__health_bar.json": "1a234439a2ec234d6e8139199e8a0ffca3f49eccb314305fa3d45499ee5cf27f",
+      ".ai/learning/external_code/feature_links/ext-73c80a3db6d71e48__openable_door.json": "c7f6df3b4e5f609a6f7ed2307d117a73b90ec1b968f6a7c447967479343bfba2",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__attack_emitter.json": "6b5a25b355caceb1bfe227cfa79cd9f3e9c5f4ebbc4223c8322cd3417be2a6e6",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__blackboard.json": "2b0e25d309be04da4a3391ab42bd082bfc191edf00b33432190cc8edeb9cb252",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__health.json": "094c828e15f6d0a8cc03ca7abf2664226d38646bcceab84f448e6341e99ce8f0",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__health_bar.json": "0249d345a3cfce407ba0db39bbd445b12ac784f530e9a27cbff4705d392ab010",
+      ".ai/learning/external_code/feature_links/ext-7973e94ee75e2819__openable_door.json": "c92c91d8b289af4bdb4bdbbd8518d9d59f5df5e26b2300297054d81909cbf163",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__attack_emitter.json": "cdce56b2643d2e57e53d3548753493f5969da090fbf27301cb1e93c1959c2c77",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__blackboard.json": "1212505ccaf2a1afeb8e577d1ceef65e7f9591000a9c343f81eca33f8199a841",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__health.json": "a4f71e76aa716d912d92e448618d6106c524113ec2219a4b763c82756ba4cd22",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__health_bar.json": "2c2ee5985e35b9103601b657f0ac48716a7c88174eb00fb4071f996b3d4f4a60",
+      ".ai/learning/external_code/feature_links/ext-7d7933a2343f52d0__openable_door.json": "24a2337788301aa75a4d995abc9557e2428719d610c0cf5d0c94a329514f1f64",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__attack_emitter.json": "52e76c1d53733d078b34b39d81b7141f30dc090334c513e3eeef287274453e65",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__blackboard.json": "c5cb713b3c70c9b2e97687036baa49ac54f060d05e21b141df97f4b76d2c6b73",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__health.json": "2f82a81694642ddf8517caa112532142c804f48fc70a0a42ef0231827632d1f7",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__health_bar.json": "593700a52f23b0ed3c21b322d5903bff30241e269d82128ff323f8fb8010e5f6",
+      ".ai/learning/external_code/feature_links/ext-9e62ed2e3dec8164__openable_door.json": "d1a6c049a8f3a9469ecd075f131d253327f7258e29a40e2cb7a5818755cc86c0",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__attack_emitter.json": "fa490d8341b81d6a346a23f048136becfe086b3c934cb342cb86af647baf810f",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__blackboard.json": "2dbf1e5d720f35a82b52d6c10e3b37dfafce0bce3d744384c993eb34694b8292",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__health.json": "4f48a36fdf8f54eb46f798747328bea5dbb58b9a8ee385a625e48284e85f6008",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__health_bar.json": "705fd57113b7572a2b23b81ad9e314b6e9f81a87e1b4b3ed1dbc7e163637848f",
+      ".ai/learning/external_code/feature_links/ext-9f0aad5e01dd71f7__openable_door.json": "ce6f5cb13d197ed3dd78ced2a71b3828e3cfb2215d87c395fedac6e32eb4dcc0",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__attack_emitter.json": "716a683060b7de109de7e930141c461d88cf475c7df31db8f96722f30b38cad0",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__blackboard.json": "4a4d71f7696b9793378f4d37f04f85ae11a2eb641b4b9dca4678bb1f7f0902d7",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__health.json": "08b3f85d30f13ee9a31d07b599b747f0788b3379eaad25ca084d04dbb72e3341",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__health_bar.json": "3d1f9ae8149bbb242ef004433b8e44e76d299df91ec989ccedabd9536a483a6f",
+      ".ai/learning/external_code/feature_links/ext-aa0204cc227b0480__openable_door.json": "7898d63ee06989339d74a2a1da10488d7d60d641372b9af841b645de1bd9867a",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__attack_emitter.json": "bc4b66e36a904306304eb55e35eaafddcb19bd93dfbabac19b1ed1216b061047",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__blackboard.json": "58c4a156bcc2c18682586a0fea9f1c778aa6c342c239d1cac3e02f986741fe1e",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__health.json": "32c0d3ac57dbc26882d8bae32aec102cc8e646dd8e39460c46be78909d7cf743",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__health_bar.json": "cd0a8358473fddd611ceae89c2127ebea88c220625364418d1b1ed87d9d8658b",
+      ".ai/learning/external_code/feature_links/ext-bfe9b7e6dbebbfae__openable_door.json": "28d08032a44a3f6e9fa96fa7856f392cc23bc0bf0080121d87036158eaebd20b",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__attack_emitter.json": "800547cf079fdb5bb2f60a1e259135f38f374607f0f13804ec2d434fac00c0b2",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__blackboard.json": "0f43fedfd885028cc030f2eb2b4b150de6724d9e218e7dd0253dd48a7ae044fb",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__health.json": "727024df42c1766ab7207b3976aca4a0e8b47b1a91607b11c2df693038d1d1f8",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__health_bar.json": "bbee51930aefe6b5d15fa01ece049109d7330d0d55a6a7499c8107d174a037cc",
+      ".ai/learning/external_code/feature_links/ext-c341755c352c7563__openable_door.json": "a64fd4491683545095d5c6677c9bab8e7d12e00eda159f775cba0baa4a0cae0a",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__attack_emitter.json": "63075da06b47c15a3f67edc61aa365a7e51221ea0b07507bb04e38a99833b0a4",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__blackboard.json": "3012dfc5ab7138dccc10146e2051aee28d78fd4b4fe391fdb438d51b7c7d730c",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__health.json": "4e92ddcb8c6efbfd4d86f39656768c0e224e2df3c093781bf4985eafd739c8c5",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__health_bar.json": "119c225491c7d75f89660e4b3aad31cf2065a114e407bebb45ed3e217fae7724",
+      ".ai/learning/external_code/feature_links/ext-c7b0d12daf86d973__openable_door.json": "0ba8c37ef4fdc611a95d972433bf35cc926b50dfc8ca52a698644ef3d90156dd",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__attack_emitter.json": "e2a91b906ec198f15b6b1e1ac52604f083aef653622bb4c9e9b45bf16db1e947",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__blackboard.json": "f089430fe4c17e6e48d0117936f07edee4de6f1505a9a747aec4e65b0a07e8a4",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__health.json": "48fbba69a51c05416b5269222abafa5b80928079e829c132a006bfa273196355",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__health_bar.json": "add946ab7f7910addce5fe9a0351cd2e555483daf91d97e289154d08d8b8e070",
+      ".ai/learning/external_code/feature_links/ext-d5f7ac2db3a8c4e4__openable_door.json": "9a20ee42793b20ff0e4d1dd2c66b81e47d5d4e00a2a596cdac1d7754ea42acd6",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__attack_emitter.json": "588fce3bde99ebc0e8badaa950c17b42191d85181228153408691c995b280df1",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__blackboard.json": "8704898a960a3cecf5f41dad4e1175e814c1905579c31d9ff3f78f1f76c85469",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__health.json": "d6da3a3890df0a65ad423ab4a8999d6fbec36c122c57c6ba28f191a43e8516a7",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__health_bar.json": "48c3896f69ad186498ac22873b660d714b876797c5270c2959b3ce5f9b110ef4",
+      ".ai/learning/external_code/feature_links/ext-d82bd2e536c75c4a__openable_door.json": "0b8e1dd669c26a4fa89be73edbff5afe5aa788a0137efae57560243b880e85e7",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__attack_emitter.json": "bde11332ee3c87c384f122aec87beec40856b163c0f8e1f33b565cf8644053c8",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__blackboard.json": "0174e88044e75c08ddac1e518a2855d8d4d118e6333670d5080871d0b49b9828",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__health.json": "7eadd2eabca50524a92c93c04545d8f5af8ed5011118f65e23aee1cc3142b4ff",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__health_bar.json": "86e2c1ea7b87d11523906d3cc6d40c2b6cd1c0630d028ec01aebdbe6bac1df01",
+      ".ai/learning/external_code/feature_links/ext-d9764c3981017194__openable_door.json": "3f33d1a1892004f788a0fd90c4557e8eb38506ac89577b872ec91312d121f3d8",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__attack_emitter.json": "ec9126d6d33ee8b5f921c4568f9120a7f80bbf9f6598ffaaff5479fd2531a135",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__blackboard.json": "e81db8d7fdd217b9807d1bb0556730e3b972517fce0f0e13ebaedb9bedbe3865",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__health.json": "7da2fdb747048ca236f5faa8d9b987fde7c653243209b2ed5c043bc3259d99a2",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__health_bar.json": "a3d006e04cf6c93d7aa4b4106094ac18806da13fa705687e1e5c8f04ee791716",
+      ".ai/learning/external_code/feature_links/ext-ec789727924bfa6c__openable_door.json": "20fff85d5cd093f87f097c720028ca47a4097bb4ba831e51f1c59f07eddd5bed",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__attack_emitter.json": "4789132c6341a513272bc322732c45d86f7beb0c5a5c74be1561b6e9cba2980d",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__blackboard.json": "fe7b87c32bc8e41a2e767a5f0f037c5e202df9a574f6aa2bb268ec888e3556fd",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__health.json": "eff95ead891f3c49d8d3976e3f07f8eac2143eafa532c6655e499b7efef18a0a",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__health_bar.json": "6f0555a572f3cd47f8c19d87d2c6c14318165ce17d9b30c8a9b47b99337256c5",
+      ".ai/learning/external_code/feature_links/ext-f80d07f302bacc20__openable_door.json": "7ceb02aea4f0048282e4f46a63c9c0466970eb6cc25fb67354cfbd9f66db5955",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__attack_emitter.json": "8b1de7b19701e9e80a8426e6219e6f5333f04eabc656bf0c78c531891224e66f",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__blackboard.json": "47bcd241695b264b4cd1565247799383c01b8c9798909dde93a34ddb6714969d",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__health.json": "dae8287f70aae51c55ec068a57072e635d199fe41ecfb7b7658df3278becc550",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__health_bar.json": "15bb602ed5c57dcdd58079231af2ab1f83f3fcf2022b72b9ab16770aa6f53ece",
+      ".ai/learning/external_code/feature_links/ext-fb806b579659b155__openable_door.json": "8b687e9fc89c730d59392dcde8e565553b831ebac5458b52751c7a05c74ff049",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__attack_emitter.json": "3f775eaabf3de3dc9d83612290e79492b1541115995ad89bf3b6f6870b39c2b1",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__blackboard.json": "63f76fe06d3370b472ad52441427e055d09a27a6e2e435fdbab79713fd10c582",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__health.json": "7ca07baa3b2d21b9d73c64ca38b5a625537d8510c3dcdea951a01ff8afa30660",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__health_bar.json": "c2bb08a2c7578759429ef8123a20e1d9647b93d471b33917be173b6eeea0881b",
+      ".ai/learning/external_code/feature_links/ext-fe3acf782b88edda__openable_door.json": "581163a76510d0c5f3e488387ea3cd2e167a076a9d4e7e56ecd617515eba645c",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__attack_emitter.json": "5c2379a1cafd5d6e6a35239ef4fe5063411d0d2fbf973c6f2fecf105461f80fe",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__blackboard.json": "2824a51ddedbaf23026ab5d7b44dfe12e0355877f613b2203c836a873daffc99",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__health.json": "0926bde3acf25dbca5fc531498f58d1458becd2e3d89eb81875c42196251f1b8",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__health_bar.json": "d641692688b04f6282cf32db1d18ea4c5eab6660035631488fd72539ca8aa321",
+      ".ai/learning/external_code/feature_links/ext-fffa637657ffede1__openable_door.json": "5bb5168e3fa1601ac6bb97b35b096febf904e25dc8689efd405f523be116a59a",
+      ".ai/learning/external_code/index.json": "f813f2fe118717e86e33a4465af7cda371a416414373b28dcda546caa717fc07",
+      ".ai/learning/external_code/reanalysis/parser_1.75/WORKSPACE.json": "9c029dc6fa6e9badc4a2e7afbc44ded433f8820dc5230fbb231318067c7ebb56",
+      ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-0ee947aef4c9aeca.json": "fb607abd7caf5a02796e8643dbe242a8fcf5c44f58f68dbfe904248c5e3e87e6",
+      ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-322df918a5ebee02.json": "0c2e86a8643bfd12c7e1b1f665becab81336251ef7e382dc885cb155f7b65656",
+      ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-8759bb47cb020625.json": "ddd1a67bc5a8d439d06ab1d45321bf464d669c5ed1f08ef9256bcca0d91da532",
+      ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-d0a93201b6f352df.json": "2ed9fa3df6a62c11decf25f9ff490857fc5231985ea5790ca728be6d7872a78c",
+      ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-1d204b35464cf388.json": "8cde62c6714f9e4d7ab3fc86c5a382b02d96c37027b2b8b9bf5a6c208c5a65c0",
+      ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-23949c1378c49203.json": "995f77d640f2a19d5994b6d75a8e96324d801229cd773ed909cd8e57c6fc7989",
+      ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-73c80a3db6d71e48.json": "f68a0735e0de6515659878b05d63ccb30f35550a955dc042bb3d1b0043959096",
+      ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-ab693f3d6ef9439c.json": "896dd28cc9c89a5e04d657311a194deb8a5596a60ab0ee6dd264adbc4e348849",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-1d204b35464cf388__attack_emitter.json": "c04e294fde598d7d949ca67f9d1212b4c15cb15c4f38b6673d8a1b1fbd9fff30",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-1d204b35464cf388__blackboard.json": "c06ee56adc09aa449a0bf308b3c6e2524a8679736d574cedd82082224f7625e1",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-1d204b35464cf388__health.json": "80cb8110ca95fd0fa79fecccb28b2a11d55f8ccd872947bd4ea4950220471b83",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-1d204b35464cf388__health_bar.json": "b1ab42b31bb7cccd7228e47d77fcd1914e8016a3076e673f74006dc605067360",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-1d204b35464cf388__openable_door.json": "dc779b12cee8a126f2d224039e5c09b94298b83211d4181cba65a52769905ff3",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-23949c1378c49203__attack_emitter.json": "a77a5aec7e442d5474cd7689630561ede510696ab69c376564b9c26ef794a76b",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-23949c1378c49203__blackboard.json": "2b0bc7d0009f4947b6e33f6b4c93735eb3763970787d890d4990cee756001db5",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-23949c1378c49203__health.json": "32b303e353f8c0c2d6f2c894e8a690850568d4856d2691a0785249a98a0a2981",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-23949c1378c49203__health_bar.json": "30d3725b9d869cd2afbebd94dc3245293ee9e610b44b1696102497ec58caad15",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-23949c1378c49203__openable_door.json": "a08d0911ffa1c288f9fc904207ba22efb4cd0ec58d365926d2fdaffe2dc6829a",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-73c80a3db6d71e48__attack_emitter.json": "162b6194650790ac04ac9227f920c22a28b2022dd567b87dddb68b4072e703e6",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-73c80a3db6d71e48__blackboard.json": "4d52fed9a1143efac6955fc073423be761a2f125f69681d020acdfa8d1b70f70",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-73c80a3db6d71e48__health.json": "004f156a0177411188a234dacd7911079dedd8c6545562893a0202fb531989fa",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-73c80a3db6d71e48__health_bar.json": "30afa0093267fdf4c46bdd2f508076a4c93975995c08335c0ca34a3ba28fb33d",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-73c80a3db6d71e48__openable_door.json": "831d8911b79b87b6d43437f771969cabb169942e40ed1476f4d17762d130aadf",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-ab693f3d6ef9439c__attack_emitter.json": "59c3ef7e656f7d4a732e59b969baf8215774d5d8d63a84aa89713a9c3c43840c",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-ab693f3d6ef9439c__blackboard.json": "4be26a0e3feb741b4fa67ff05c69c70da094fa8b3995697736c4ef343f2c81e7",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-ab693f3d6ef9439c__health.json": "20017fe619184f563372dd4626ee51247afe05f9cb355633a3441bf86df309d0",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-ab693f3d6ef9439c__health_bar.json": "151daf03137d63c839b1b4d553f4d7c85f1046568c05ca9adb36b10aab25a4df",
+      ".ai/learning/external_code/reanalysis/parser_1.75/linkage_evaluation/ext-ab693f3d6ef9439c__openable_door.json": "b04b3d862a8d9be1870fcb33a377b5ce577d8a36a05f1ca937d6f0a250d2a618",
+      ".ai/learning/external_code/reconciliation/phase_1.76/inventory.json": "245cef0c403fe613e82a97aa00f04560866cd0bcf490fbb3939be87da14a889f",
+      ".ai/tools/external_code/corpus_audit_176.py": "24db195fa5bf15e95ef1e59b222cad4266168357a9cf7e3242df5fb6f4ad84b3",
+      ".ai/tools/external_code/external_code_understanding.py": "30b9efcc55e17b0e90d3c6c31e92f42060628b7956f48dcf49ef428c564adfbe",
+      ".ai/tools/external_code/reanalysis_175.py": "409e2adfc95e6bd1b13f63a0bc7f97699e4bfef62b3a22030c4806c63917074b",
+      ".ai/tools/feature_registry/candidate_seed_policy.json": "d7bc584de4654decf9ec3262add0e407139008af0d78b1ca7554294ac72303c8",
+      ".ai/tools/learning/gd_parse.py": "d7593797923f2302ba01909da8d1a9e55e4aae3c3aa32dfbd2a99937a0a01485"
+    }
+  },
+  "generated_at": "2026-11-16T18:01:37Z",
+  "inventory": {
+    "digest": "245cef0c403fe613e82a97aa00f04560866cd0bcf490fbb3939be87da14a889f",
+    "path": ".ai/learning/external_code/reconciliation/phase_1.76/inventory.json"
+  },
+  "official_analysis_overwritten": false,
+  "official_linkage_overwritten": false,
+  "parser_build_identity": {
+    "adapter_sha256": "30b9efcc55e17b0e90d3c6c31e92f42060628b7956f48dcf49ef428c564adfbe",
+    "coverage_fields": [
+      "parse_execution_status",
+      "syntax_coverage_status",
+      "analysis_completeness",
+      "unsupported_constructs",
+      "unrecognized_declarations",
+      "source_coordinates"
+    ],
+    "declaration_kinds": [
+      "VARIABLE",
+      "PROPERTY",
+      "FUNCTION",
+      "CONSTANT",
+      "SIGNAL"
+    ],
+    "declared_parser_version": "1.75",
+    "gd_parse_sha256": "d7593797923f2302ba01909da8d1a9e55e4aae3c3aa32dfbd2a99937a0a01485",
+    "identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+    "identity_sha256": "6b74a6cd20a06033e1227d8cec5145202e234b51744ced740727ffc12d451221",
+    "identity_source": "sha256(gd_parse.py bytes || 0x00 || external_code_understanding.py bytes)",
+    "kind": "content-digest",
+    "known_annotations": 24,
+    "parser_name": "gd_parse",
+    "schema_version": 1
+  },
+  "phase": "1.76-B",
+  "records": [
+    {
+      "analysis_id": "ext-1d204b35464cf388",
+      "diff_ref": ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-1d204b35464cf388.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "b917b0bd4f2e87affdafae538e1bf2005549c632bcbff58a9718c270f7c891c1",
+      "original_analysis_ref": "original/ext-1d204b35464cf388.json",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REUSED_PHASE_1_75",
+      "reanalysis_id": "ext-0ee947aef4c9aeca",
+      "reanalysis_ref": ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-0ee947aef4c9aeca.json",
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "reused_from": "phase_1.75",
+      "source_digest": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+      "source_path": "actors/health/Stats.gd",
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_id": "ext-23949c1378c49203",
+      "diff_ref": ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-23949c1378c49203.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "input_digest": "60283e7619837fecc55a4cbef252f870993700611fa579264bf86adae07694f5",
+      "original_analysis_ref": "original/ext-23949c1378c49203.json",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REUSED_PHASE_1_75",
+      "reanalysis_id": "ext-d0a93201b6f352df",
+      "reanalysis_ref": ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-d0a93201b6f352df.json",
+      "repository": "bitbrain/beehave",
+      "reused_from": "phase_1.75",
+      "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+      "source_path": "addons/beehave/blackboard.gd",
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-27ddd863881677d7",
+      "deterministic": true,
+      "diff_ref": "diff/ext-27ddd863881677d7.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "input_digest": "11705eb50ed87f018e3a2371e137e5cd6eb25186fd8b574c43d2bd7914e146e7",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-27ddd863881677d7.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-eb1bb39009fc085d",
+      "reanalysis_ref": "reanalyzed/ext-27ddd863881677d7.json",
+      "repository": "bitbrain/beehave",
+      "source_digest": "fb4fc4dde707ecf1d20998cb6d6da6d9568b73af060ecfa7e1aeb337453410e0",
+      "source_path": "addons/beehave/nodes/leaves/blackboard_set.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 2
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 10,
+          "name": "key",
+          "type": "String"
+        },
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 12,
+          "name": "value",
+          "type": "String"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 14,
+          "name": "_key_expression",
+          "type": "Expression"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 15,
+          "name": "_value_expression",
+          "type": "Expression"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-2a4f612899a6b6a5",
+      "deterministic": true,
+      "diff_ref": "diff/ext-2a4f612899a6b6a5.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "1b669a88b4788d23260a1d5e795735bfc6833fb137289e82ab49a6fb048f0c0b",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-2a4f612899a6b6a5.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-26ad4746ab9aa96e",
+      "reanalysis_ref": "reanalyzed/ext-2a4f612899a6b6a5.json",
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "source_digest": "2332e1243f82798e8ad9cf85ec979d8e5a765c50fd589b6214a935bb044b9e1e",
+      "source_path": "actors/hit_box/HitBox.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 1,
+          "exports": 0,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 1,
+          "exports": 0,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-409141da889d20af",
+      "deterministic": true,
+      "diff_ref": "diff/ext-409141da889d20af.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "1a418ef366dce22010fb9e33be38e8c70e652c0eb3faee2898f55109ecfca296",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-409141da889d20af.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-1972a2b439dbbba7",
+      "reanalysis_ref": "reanalyzed/ext-409141da889d20af.json",
+      "repository": "nezvers/Godot-GameTemplate",
+      "source_digest": "dc8a87b32fd12e4b17413ec199cc8821cfe95fdc55d02e337e29769469386e06",
+      "source_path": "addons/top_down/scripts/damage/ActorDamage.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 7,
+          "functions": 4,
+          "properties": 0,
+          "signals": 1,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 7,
+          "functions": 4,
+          "properties": 0,
+          "signals": 1,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-40ab1c0330e01d7f",
+      "deterministic": true,
+      "diff_ref": "diff/ext-40ab1c0330e01d7f.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "e30074803675a0fef98cd1e86eba29429bd2964ff4b2c04db2ed6c3acc432322",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-40ab1c0330e01d7f.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-466ac2cfebbcf2d2",
+      "reanalysis_ref": "reanalyzed/ext-40ab1c0330e01d7f.json",
+      "repository": "alfredbaudisch/Godello",
+      "source_digest": "abd80468ed0754bdfa6d4ce14b02c2237910bf055fbe93e3b806d86d354ccdd1",
+      "source_path": "scripts/drag_utils.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-43748f09c01294f9",
+      "deterministic": true,
+      "diff_ref": "diff/ext-43748f09c01294f9.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "f88a3fc4a22908a86e3ee8131814c23387bcfe598ffa3fe6b53f309208772c77",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-43748f09c01294f9.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-e977aa95ef04a60a",
+      "reanalysis_ref": "reanalyzed/ext-43748f09c01294f9.json",
+      "repository": "gdquest-demos/godot-open-rpg",
+      "source_digest": "4c68056c9c1c3d7cd713ef237b7e5792c81226fa5cde50774df5138fd9427c32",
+      "source_path": "src/field/cutscenes/templates/doors/door_trigger.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 1,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 1,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-4b7782ce66be92a7",
+      "deterministic": true,
+      "diff_ref": "diff/ext-4b7782ce66be92a7.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "20989e9ea6e2c0a8b9d8c2c8a467c3bd0efa86cb0121cdd5cf31abf5ea1e8c8b",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-4b7782ce66be92a7.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-5276fea3a7bb9d36",
+      "reanalysis_ref": "reanalyzed/ext-4b7782ce66be92a7.json",
+      "repository": "alfredbaudisch/Godello",
+      "source_digest": "87db22e8a2ace83ec97108cab65d4c348c13f85600082d578cd4adfcdfdbb96c",
+      "source_path": "addons/uuid/uuid.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-51d46c1b4943a254",
+      "deterministic": true,
+      "diff_ref": "diff/ext-51d46c1b4943a254.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "dba0a65d69ff4c98915c7a6614ceb31a37f81803b09392223f6231983af3f982",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-51d46c1b4943a254.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-7407cd21bd34cb80",
+      "reanalysis_ref": "reanalyzed/ext-51d46c1b4943a254.json",
+      "repository": "gdquest-demos/godot-open-rpg",
+      "source_digest": "f4df1c3da5f5216716cc6d46105bd9f85ed5b9b3523a8cea99b8d4ae3f92c478",
+      "source_path": "src/field/cutscenes/templates/doors/door.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 1,
+          "exports": 0,
+          "functions": 4,
+          "properties": 1,
+          "signals": 0,
+          "variables": 3
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "constants",
+          "kind": "CONSTANT",
+          "line": 8,
+          "name": "GP_SCENE",
+          "type": ""
+        },
+        {
+          "group": "properties",
+          "kind": "PROPERTY",
+          "line": 10,
+          "name": "is_locked",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 34,
+          "name": "_anim",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 35,
+          "name": "_closed_door",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 32,
+          "name": "_dummy_gp",
+          "type": "Gamepiece"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-51fbb1e2b03c3f67",
+      "deterministic": true,
+      "diff_ref": "diff/ext-51fbb1e2b03c3f67.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80",
+      "input_digest": "36564ac3ecc4914f01150c8ec949047d79bf82ee44e204f2035d533b5aa32bdd",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-51fbb1e2b03c3f67.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-08e135c67d6c5034",
+      "reanalysis_ref": "reanalyzed/ext-51fbb1e2b03c3f67.json",
+      "repository": "ceceppa/anima",
+      "source_digest": "050613ecec7f0c63bad675a2137c76958d74a4d2e9bd3882985f80fe51d7923f",
+      "source_path": "addons/anima/motion/runtime/anima_race_instance.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 2
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 10,
+          "name": "_child_finished",
+          "type": "Array[bool]"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 9,
+          "name": "_child_instances",
+          "type": "Array"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-55aef2d453370c1b",
+      "deterministic": true,
+      "diff_ref": "diff/ext-55aef2d453370c1b.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+      "input_digest": "c7fd6b8709fcec9a33cc336b9f6b33c21703415924081bd33cc4c950d6a9c078",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-55aef2d453370c1b.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-b3a3bfd8d4a7e1e2",
+      "reanalysis_ref": "reanalyzed/ext-55aef2d453370c1b.json",
+      "repository": "bitbrain/beehave",
+      "source_digest": "cd7008ea7deb939071a57b1765803a1614be43cc1ef5aa112cff2f160523df75",
+      "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 3,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 2
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 23,
+          "name": "left_operand",
+          "type": "String"
+        },
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 25,
+          "name": "operator",
+          "type": "int"
+        },
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 30,
+          "name": "right_operand",
+          "type": "String"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 32,
+          "name": "_left_expression",
+          "type": "Expression"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 33,
+          "name": "_right_expression",
+          "type": "Expression"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "PARTIAL",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [
+        {
+          "code": "ENUM_NOT_INTERPRETED",
+          "line": 10,
+          "name": "Operators"
+        }
+      ],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-56ca48126ec8514d",
+      "deterministic": true,
+      "diff_ref": "diff/ext-56ca48126ec8514d.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "69135bb1987b2e4081043178e106a029eedf0566d974e9cf0289dc2ee3a46fde",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-56ca48126ec8514d.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-31b51d9bc05a4a1e",
+      "reanalysis_ref": "reanalyzed/ext-56ca48126ec8514d.json",
+      "repository": "alfredbaudisch/Godello",
+      "source_digest": "819b9f1e9dd37a0f019d26656ddb48d34bcd139789ba33daa9e816cc0c214aff",
+      "source_path": "scripts/events.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 0,
+          "properties": 0,
+          "signals": 8,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 0,
+          "properties": 0,
+          "signals": 8,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-5a8d53c7f530e4af",
+      "deterministic": true,
+      "diff_ref": "diff/ext-5a8d53c7f530e4af.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "c45e9de2e9f4bcc6b3ee1223209f2dbedc39c6f25188a16dc78d7307f3d73d4f",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-5a8d53c7f530e4af.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-12cb74d06f659a38",
+      "reanalysis_ref": "reanalyzed/ext-5a8d53c7f530e4af.json",
+      "repository": "gdquest-demos/godot-open-rpg",
+      "source_digest": "8573670e7381df7c2f9cb36a6fc06307bccc753bc865664a23fb49595e22dade",
+      "source_path": "overworld/maps/town/door_unlock_interaction.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 2
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 8,
+          "name": "_popup",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 7,
+          "name": "door",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-5adc6644d3347390",
+      "deterministic": true,
+      "diff_ref": "diff/ext-5adc6644d3347390.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "input_digest": "371602dcdb00cbc5d9a2636c94ad63e64b707cbbc5fdafa2582191d8b4412a15",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-5adc6644d3347390.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-290fc9bec06533fb",
+      "reanalysis_ref": "reanalyzed/ext-5adc6644d3347390.json",
+      "repository": "Ark2000/PankuConsole",
+      "source_digest": "ad826b6ca230d9ca13e3968ce03da2d6a5bf3c05ebed271b909b7ad7f52539ac",
+      "source_path": "addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-6f85edf0730ee075",
+      "deterministic": true,
+      "diff_ref": "diff/ext-6f85edf0730ee075.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "5fc9adb95e73ed580186580e76ae4b2ca88126daacf0eccda820aa1b4479863b",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-6f85edf0730ee075.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-1c7f8f02566c941d",
+      "reanalysis_ref": "reanalyzed/ext-6f85edf0730ee075.json",
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "source_digest": "5d1f00befa4ead8c8321a710dfe8832bb1f66ac064ec0710a990d30da5920a0c",
+      "source_path": "core/world/Door.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 1,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 1,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 9,
+          "name": "PlayerController",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_id": "ext-73c80a3db6d71e48",
+      "diff_ref": ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-73c80a3db6d71e48.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "f2750ac9f19a44df0ef7c1e55642f7895cebfd85912911048d9283a34af464d5",
+      "original_analysis_ref": "original/ext-73c80a3db6d71e48.json",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REUSED_PHASE_1_75",
+      "reanalysis_id": "ext-8759bb47cb020625",
+      "reanalysis_ref": ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-8759bb47cb020625.json",
+      "repository": "nezvers/Godot-GameTemplate",
+      "reused_from": "phase_1.75",
+      "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+      "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-7973e94ee75e2819",
+      "deterministic": true,
+      "diff_ref": "diff/ext-7973e94ee75e2819.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "6e87f2fe51369d50a798be9742489f1b781023d7fb9787c4b54abd7f95c867f4",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-7973e94ee75e2819.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-2d5a2f75d32abf94",
+      "reanalysis_ref": "reanalyzed/ext-7973e94ee75e2819.json",
+      "repository": "nezvers/Godot-GameTemplate",
+      "source_digest": "a649943fbcd40d6e92aa6a2e3f610ad46b7811c709b75c1ef1f05ce1ce96e20b",
+      "source_path": "addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 2
+        },
+        "before": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 2
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-7d7933a2343f52d0",
+      "deterministic": true,
+      "diff_ref": "diff/ext-7d7933a2343f52d0.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "cb17e182476f3beb377a1e060382bcd8550726697480919a8184b1981784f5b1",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-7d7933a2343f52d0.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-af11ad04d85c2897",
+      "reanalysis_ref": "reanalyzed/ext-7d7933a2343f52d0.json",
+      "repository": "gdquest-demos/godot-open-rpg",
+      "source_digest": "38a36c53f2429cad49e447d9a3a4222df1547d6d749b48237c7f1c06f0e57e19",
+      "source_path": "src/combat/ui/battler_entry/ui_life_bar.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 2,
+          "properties": 2,
+          "signals": 0,
+          "variables": 5
+        },
+        "before": {
+          "constants": 0,
+          "exports": 1,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 14,
+          "name": "danger_cutoff",
+          "type": ""
+        },
+        {
+          "group": "properties",
+          "kind": "PROPERTY",
+          "line": 38,
+          "name": "is_highlighted",
+          "type": ""
+        },
+        {
+          "group": "properties",
+          "kind": "PROPERTY",
+          "line": 18,
+          "name": "target_value",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 48,
+          "name": "_bar_anim",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 49,
+          "name": "_name_label",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 50,
+          "name": "_text_anim",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 46,
+          "name": "_tween",
+          "type": "Tween"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 51,
+          "name": "_value_label",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [
+        {
+          "explained": true,
+          "explanation": "same name and line, different declaration kind (reclassified, not lost)",
+          "from_group": "variables",
+          "from_kind": "variables",
+          "line": 18,
+          "new_setter": true,
+          "new_value": "0.0",
+          "old_value": "0.0:",
+          "symbol": "target_value",
+          "to_group": "properties",
+          "to_kind": "PROPERTY"
+        }
+      ],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_id": "ext-80c1104f5262a6ee",
+      "diff_ref": null,
+      "exclusion_reason": "file_type=gdshader is outside the GDScript parser scope",
+      "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "input_digest": "13ec5fe16a8f2a8f860317cde3c24a640d2b4ba2d9f093d064a9065c44e10977",
+      "original_analysis_ref": "original/ext-80c1104f5262a6ee.json",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "NOT_APPLICABLE",
+      "reanalysis_ref": null,
+      "repository": "Ark2000/PankuConsole",
+      "source_digest": "769a725132834903502f5cff79731256e9ef8c654ae2efbca68bfacc995c3e60",
+      "source_path": "addons/panku_console/res/shader/simple_fast_blur.gdshader",
+      "validation_status": "NOT_APPLICABLE"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-9e62ed2e3dec8164",
+      "deterministic": true,
+      "diff_ref": "diff/ext-9e62ed2e3dec8164.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "9f7a6900086343ee90b623466264dc420175ba0b4e33b1db6b49dc57d4e5f561",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-9e62ed2e3dec8164.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-c83a08c68cbe31fc",
+      "reanalysis_ref": "reanalyzed/ext-9e62ed2e3dec8164.json",
+      "repository": "alfredbaudisch/Godello",
+      "source_digest": "540fdf1f898b8909b51cf68fe501aa370bba25b069653ab2135556b34038bc75",
+      "source_path": "scripts/board_member_button.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 7,
+          "properties": 0,
+          "signals": 0,
+          "variables": 3
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 7,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 10,
+          "name": "board",
+          "type": "BoardModel setget set_board"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 9,
+          "name": "model",
+          "type": "UserModel setget set_model"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "PARTIAL",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [
+        {
+          "code": "LEGACY_SETGET_NOT_INTERPRETED",
+          "line": 9
+        },
+        {
+          "code": "LEGACY_SETGET_NOT_INTERPRETED",
+          "line": 10
+        }
+      ],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-9f0aad5e01dd71f7",
+      "deterministic": true,
+      "diff_ref": "diff/ext-9f0aad5e01dd71f7.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "feef8be286ae91dac5ef17e1f5ad3ae3e6ddb7d9e4bd69288bbf9a41ba87f35b",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-9f0aad5e01dd71f7.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-169c71896a3f1829",
+      "reanalysis_ref": "reanalyzed/ext-9f0aad5e01dd71f7.json",
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "source_digest": "e032da8e7dfa0f97d2892441329da8fc966febc9d3b388e498df441981e56e5a",
+      "source_path": "interface/gui/player/life_bar/Lifebar.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 1,
+          "variables": 2
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 1,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 9,
+          "name": "current_health",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 8,
+          "name": "maximum",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-aa0204cc227b0480",
+      "deterministic": true,
+      "diff_ref": "diff/ext-aa0204cc227b0480.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "76d226a3efac66a72aea825382b320c94808f409",
+      "input_digest": "44407e83b0bc9ba19bc7aabfd4d5858850d479240730b2968c588c9eae6bcdbd",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-aa0204cc227b0480.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-146da1f90d166f0f",
+      "reanalysis_ref": "reanalyzed/ext-aa0204cc227b0480.json",
+      "repository": "derkork/godot-statecharts",
+      "source_digest": "4cc0d9a64c00a7848379836bfafc04b5aea07730c598259fb1282a19fe37acc4",
+      "source_path": "addons/godot_state_charts/animation_tree_state.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 1,
+          "functions": 3,
+          "properties": 1,
+          "signals": 0,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 19,
+          "name": "state_name",
+          "type": "StringName"
+        },
+        {
+          "group": "properties",
+          "kind": "PROPERTY",
+          "line": 11,
+          "name": "animation_tree",
+          "type": "NodePath"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_id": "ext-ab693f3d6ef9439c",
+      "diff_ref": ".ai/learning/external_code/reanalysis/parser_1.75/diff/ext-ab693f3d6ef9439c.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+      "input_digest": "f07f738f7382c8e5c2b16b555f6c4048544ee993b05b104f2a51d69579b8d1a1",
+      "original_analysis_ref": "original/ext-ab693f3d6ef9439c.json",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REUSED_PHASE_1_75",
+      "reanalysis_id": "ext-322df918a5ebee02",
+      "reanalysis_ref": ".ai/learning/external_code/reanalysis/parser_1.75/analysis/ext-322df918a5ebee02.json",
+      "repository": "lampe-games/godot-open-rts",
+      "reused_from": "phase_1.75",
+      "source_digest": "cc6b52103cccd74235624dea1edb0904c4d6ae36366f7be2630c9e257434b3eb",
+      "source_path": "source/match/units/traits/HealthBar.gd",
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-bfe9b7e6dbebbfae",
+      "deterministic": true,
+      "diff_ref": "diff/ext-bfe9b7e6dbebbfae.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "ea41feaab5ddf38cfbd9e1e27e0cc22d10bad0f2",
+      "input_digest": "6e15f9a7619a37737b44bed3b1d375a7c8837ef526b30a1cd28d4fccabd1fdce",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-bfe9b7e6dbebbfae.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-daaba81f6b2e80bd",
+      "reanalysis_ref": "reanalyzed/ext-bfe9b7e6dbebbfae.json",
+      "repository": "blackears/cyclopsLevelBuilder",
+      "source_digest": "2a323c4f422ddccc78fe53768ce62c3fbf1f2fb39147e5c0c5e47a8b5ac2bcd0",
+      "source_path": "godot/addons/cyclops_level_builder/actions/cyclops_action.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 1,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 33,
+          "name": "tooltip",
+          "type": "String"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-c341755c352c7563",
+      "deterministic": true,
+      "diff_ref": "diff/ext-c341755c352c7563.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+      "input_digest": "453267a4980e4a05aefeb0cc7e03bb3b0531f324a5cafa0e59d30c52b4790709",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-c341755c352c7563.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-5c29a277994a8db3",
+      "reanalysis_ref": "reanalyzed/ext-c341755c352c7563.json",
+      "repository": "lampe-games/godot-open-rts",
+      "source_digest": "d4e37f8883d91cd03b8c6f30b9dc43a8162508088baf5d77962967e1d966efac",
+      "source_path": "source/match/units/actions/AutoAttacking.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 2,
+          "exports": 0,
+          "functions": 8,
+          "properties": 0,
+          "signals": 0,
+          "variables": 3
+        },
+        "before": {
+          "constants": 2,
+          "exports": 0,
+          "functions": 8,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 12,
+          "name": "_sub_action",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 11,
+          "name": "_target_unit",
+          "type": ""
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 13,
+          "name": "_unit",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-c7b0d12daf86d973",
+      "deterministic": true,
+      "diff_ref": "diff/ext-c7b0d12daf86d973.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "2bfcc87f852db74a06eb13ffe10a6fcc9f22ad4fd9e4210c43dfb64e439ac567",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-c7b0d12daf86d973.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-4b3e1e62fb6225f6",
+      "reanalysis_ref": "reanalyzed/ext-c7b0d12daf86d973.json",
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "source_digest": "4e63701d87ab89c6b66655d542565f3148ade135fbb7c8897a15ef957cadaff8",
+      "source_path": "actors/DamageSource.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-d5f7ac2db3a8c4e4",
+      "deterministic": true,
+      "diff_ref": "diff/ext-d5f7ac2db3a8c4e4.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+      "input_digest": "5f6fd9d245ddbddadbdc377c35e0ee72098b7f0f12a1c01582f7ae992f0e2af6",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-d5f7ac2db3a8c4e4.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-25907592e74f638c",
+      "reanalysis_ref": "reanalyzed/ext-d5f7ac2db3a8c4e4.json",
+      "repository": "gdquest-demos/godot-open-rpg",
+      "source_digest": "754107d5816d19184cce8aeebcc07d0cb89a4fd445726836a6249e4eb9237d86",
+      "source_path": "src/combat/actions/battler_action_attack.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 1,
+          "exports": 2,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "constants",
+          "kind": "CONSTANT",
+          "line": 7,
+          "name": "ATTACK_DISTANCE",
+          "type": ""
+        },
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 12,
+          "name": "base_damage",
+          "type": ""
+        },
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 11,
+          "name": "hit_chance",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-d82bd2e536c75c4a",
+      "deterministic": true,
+      "diff_ref": "diff/ext-d82bd2e536c75c4a.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+      "input_digest": "26a69b102c0c4db8824d7b77b93ca364559857e95763b4d6494955ef85530cd6",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-d82bd2e536c75c4a.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-46cb57ca712ba19b",
+      "reanalysis_ref": "reanalyzed/ext-d82bd2e536c75c4a.json",
+      "repository": "nezvers/Godot-GameTemplate",
+      "source_digest": "e04c3a2983c9f1de11d42cb9c7dce85919f860f44c4bbb819f0cc8e744ab78da",
+      "source_path": "addons/top_down/scripts/ui/game_screen/HealthPanel.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 4,
+          "functions": 5,
+          "properties": 0,
+          "signals": 0,
+          "variables": 4
+        },
+        "before": {
+          "constants": 0,
+          "exports": 3,
+          "functions": 5,
+          "properties": 0,
+          "signals": 0,
+          "variables": 4
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 13,
+          "name": "tween_time",
+          "type": "float"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-d9764c3981017194",
+      "deterministic": true,
+      "diff_ref": "diff/ext-d9764c3981017194.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+      "input_digest": "8736f3f9904f0ee71ed6b3b8eca8399055895f5819aef46ababb0694923e77d3",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-d9764c3981017194.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-bec29a042c1fc8d1",
+      "reanalysis_ref": "reanalyzed/ext-d9764c3981017194.json",
+      "repository": "gdquest-demos/godot-make-pro-2d-games",
+      "source_digest": "40c1a1b6c64fe7277cc42d2594460ed4f21207eacf30808ceebfaa9ad1ab0175",
+      "source_path": "actors/health/Status.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 2,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 2,
+          "variables": 1
+        },
+        "before": {
+          "constants": 2,
+          "exports": 0,
+          "functions": 3,
+          "properties": 0,
+          "signals": 2,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 9,
+          "name": "statuses_active",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-ec789727924bfa6c",
+      "deterministic": true,
+      "diff_ref": "diff/ext-ec789727924bfa6c.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+      "input_digest": "edb5c58d70eacfb1816f508815dedf086d80e40ecd63f4d3ffad3aa3ef3a7d56",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-ec789727924bfa6c.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-00f92d43e766b0ec",
+      "reanalysis_ref": "reanalyzed/ext-ec789727924bfa6c.json",
+      "repository": "foxssake/netfox",
+      "source_digest": "0aa48f82404b3cd508ab10e7138dc734c8b53f6895632c4362ffa973eded98a8",
+      "source_path": "examples/forest-brawl/scripts/play-random-3d.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 1,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "exports",
+          "kind": "VARIABLE",
+          "line": 7,
+          "name": "sounds",
+          "type": "Array[AudioStream]"
+        },
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 9,
+          "name": "idx",
+          "type": ""
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-f80d07f302bacc20",
+      "deterministic": true,
+      "diff_ref": "diff/ext-f80d07f302bacc20.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "673dc09d9132588da04f3ede2a194f1be40fafd0",
+      "input_digest": "d1029a1134d2781db24b98487fd18b6b0cef169985c3937691ce71e6f502cece",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-f80d07f302bacc20.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-656ef7d6fb64cfd2",
+      "reanalysis_ref": "reanalyzed/ext-f80d07f302bacc20.json",
+      "repository": "cis-ash/TEXTREME",
+      "source_digest": "a34a997d42f27cbd4ffc32dcf4c200da8546668f4f6548c81947f8ae304a5ca3",
+      "source_path": "Scenes/EffectParameterSelector/EffectParameterSelector.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-fb806b579659b155",
+      "deterministic": true,
+      "diff_ref": "diff/ext-fb806b579659b155.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "cf5189d18e98766022c8c1c5e637a6a30c4c3703",
+      "input_digest": "890b98d28c6fa383572ebceeeb79ffb9f06eaa9db890eba83929479945b3bebf",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-fb806b579659b155.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-cbf8fc1db865a201",
+      "reanalysis_ref": "reanalyzed/ext-fb806b579659b155.json",
+      "repository": "foxssake/netfox",
+      "source_digest": "be4e79427622281997462f20bdf3bf42e91210dad39f59b8364d6d58e46fb3c4",
+      "source_path": "examples/multiplayer-state-machine/scripts/character-states/Idle.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        },
+        "before": {
+          "constants": 0,
+          "exports": 2,
+          "functions": 2,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-fe3acf782b88edda",
+      "deterministic": true,
+      "diff_ref": "diff/ext-fe3acf782b88edda.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "863324dfb752cc19a0520d759ee2007259b8417f",
+      "input_digest": "eade55ea9ba7aef74662c26019ba95187665ec3b927a4d77f29a1bab2452b1f8",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-fe3acf782b88edda.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-69cf571d4afa98ce",
+      "reanalysis_ref": "reanalyzed/ext-fe3acf782b88edda.json",
+      "repository": "Ark2000/PankuConsole",
+      "source_digest": "94dc2c7c50c406cb712f59d1d8f8dcc9e1f2db4540cbb0e5d3a08cf07abfc107",
+      "source_path": "addons/panku_console/modules/history_manager/env.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 1,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        }
+      },
+      "symbols_added": [],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [],
+      "validation_status": "VALID"
+    },
+    {
+      "analysis_completeness": "FULL",
+      "analysis_id": "ext-fffa637657ffede1",
+      "deterministic": true,
+      "diff_ref": "diff/ext-fffa637657ffede1.json",
+      "exclusion_reason": null,
+      "full_commit_sha": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+      "input_digest": "55202aabbd7d74528f8df27a0c6f5a969a9367ea530b6c8bf61667d7e5dd18e8",
+      "location_integrity": "COMPLETE",
+      "original_analysis_ref": "original/ext-fffa637657ffede1.json",
+      "parse_execution_status": "PARSED",
+      "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+      "processing_status": "REANALYZED_AND_VALIDATED",
+      "reanalysis_id": "ext-e6b4694755f0d549",
+      "reanalysis_ref": "reanalyzed/ext-fffa637657ffede1.json",
+      "repository": "alfredbaudisch/Godello",
+      "source_digest": "9d67c3fefd55a2143051c30077ea145143f52aaf7205ba75539592c2ebbaf3fa",
+      "source_path": "scripts/board_card.gd",
+      "symbol_counts": {
+        "after": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 1
+        },
+        "before": {
+          "constants": 0,
+          "exports": 0,
+          "functions": 4,
+          "properties": 0,
+          "signals": 0,
+          "variables": 0
+        }
+      },
+      "symbols_added": [
+        {
+          "group": "variables",
+          "kind": "VARIABLE",
+          "line": 7,
+          "name": "model",
+          "type": "BoardModel setget set_model, get_model"
+        }
+      ],
+      "symbols_reclassified": [],
+      "symbols_removed": [],
+      "syntax_coverage_status": "PARTIAL",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [
+        {
+          "code": "LEGACY_SETGET_NOT_INTERPRETED",
+          "line": 7
+        }
+      ],
+      "validation_status": "VALID"
+    }
+  ],
+  "review_only": true,
+  "schema": "external_code_reanalysis_manifest",
+  "schema_version": 1,
+  "summary": {
+    "deleted_files": 0,
+    "failed": 0,
+    "non_deterministic": 0,
+    "not_applicable": 1,
+    "official_files_added": [],
+    "official_files_changed": [],
+    "official_files_checked": 225,
+    "parser_defect_found": 0,
+    "reanalyzed": 29,
+    "reanalyzed_and_validated": 29,
+    "records_with_coverage_partial": 3,
+    "records_with_reclassifications": 1,
+    "records_with_removals": 0,
+    "records_with_status_change": 5,
+    "records_with_unrecognized_declarations": 0,
+    "records_with_unsupported_constructs": 3,
+    "requires_manual_validation": 0,
+    "reused": 4,
+    "symbol_total_new": 179,
+    "symbols_added": 45,
+    "symbols_reclassified": 1,
+    "symbols_removed": 0,
+    "total_records": 34
+  },
+  "workspace": "reanalysis/parser_1.76"
+}

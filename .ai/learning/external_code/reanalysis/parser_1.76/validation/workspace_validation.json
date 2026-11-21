@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-11-16T18:03:52Z",
+  "phase": "1.76-B",
+  "problems": [],
+  "records": 34,
+  "result": "PASS",
+  "schema": "external_code_reanalysis_workspace_validation",
+  "schema_version": 1,
+  "statuses": {
+    "NOT_APPLICABLE": 1,
+    "PARSER_DEFECT_FOUND": 0,
+    "REANALYSIS_FAILED": 0,
+    "REANALYZED": 0,
+    "REANALYZED_AND_VALIDATED": 29,
+    "REQUIRES_MANUAL_ANALYSIS_VALIDATION": 0,
+    "REUSED_PHASE_1_75": 4,
+    "SOURCE_INTEGRITY_FAILED": 0
+  }
+}

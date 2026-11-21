@@ -1,0 +1,232 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-5276fea3a7bb9d36",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "4458a143644f",
+  "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+  "conditions": [
+    {
+      "condition": "return randi() % max_value",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "function": "getRandomInt",
+      "line": 9
+    },
+    {
+      "condition": "return r",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "function": "randomBytes",
+      "line": 17
+    },
+    {
+      "condition": "return b",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "function": "uuidbin",
+      "line": 24
+    },
+    {
+      "condition": "return '%s-%s-%s-%s-%s' % [low, mid, hi, clock, node]",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "function": "v4",
+      "line": 35
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:35Z",
+  "domain": "ui",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "line": 6,
+      "name": "getRandomInt",
+      "params": "max_value",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:6#func=getRandomInt",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "line": 11,
+      "name": "randomBytes",
+      "params": "n",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:11#func=randomBytes",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "line": 19,
+      "name": "uuidbin",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:19#func=uuidbin",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd",
+      "line": 26,
+      "name": "v4",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ui/alfredbaudisch__Godello__addons__uuid__uuid.gd:26#func=v4",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 4,
+  "input_digest": "20989e9ea6e2c0a8b9d8c2c8a467c3bd0efa86cb0121cdd5cf31abf5ea1e8c8b",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "4458a143644f",
+    "commit_sha_full": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "alfredbaudisch/Godello",
+    "source_path": "addons/uuid/uuid.gd",
+    "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/addons/uuid/uuid.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ui\\alfredbaudisch__Godello__addons__uuid__uuid.gd",
+  "repo": "alfredbaudisch/Godello",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "alfredbaudisch__Godello__addons__uuid__uuid.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "87db22e8a2ace83ec97108cab65d4c348c13f85600082d578cd4adfcdfdbb96c",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\alfredbaudisch__Godello\\gd\\addons\\uuid\\uuid.gd",
+  "source_path": "addons/uuid/uuid.gd",
+  "source_url": "https://github.com/alfredbaudisch/Godello/blob/4458a143644fbadec23ae0cee99578ad3b811eb8/addons/uuid/uuid.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "randomBytes",
+        "line": 15,
+        "method": "append",
+        "receiver": "r"
+      }
+    ],
+    "class_name": "UUID",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 4,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 6,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 6,
+        "name": "getRandomInt",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 11,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 11,
+        "name": "randomBytes",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 19,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 19,
+        "name": "uuidbin",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 26,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 26,
+        "name": "v4",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 10,
+        "line": 6,
+        "name": "getRandomInt",
+        "params": "max_value",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 18,
+        "line": 11,
+        "name": "randomBytes",
+        "params": "n",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 25,
+        "line": 19,
+        "name": "uuidbin",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 35,
+        "line": 26,
+        "name": "v4",
+        "params": "",
+        "returns": ""
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": []
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [],
+  "unsupported_constructs": []
+}

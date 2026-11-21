@@ -1,0 +1,207 @@
+{
+  "analysis_status": {
+    "new": "analysis_partial",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-c341755c352c7563",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-5c29a277994a8db3",
+  "source_identity": {
+    "full_commit_sha": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+    "input_digest": "453267a4980e4a05aefeb0cc7e03bb3b0531f324a5cafa0e59d30c52b4790709",
+    "repository": "lampe-games/godot-open-rts",
+    "source_digest": "d4e37f8883d91cd03b8c6f30b9dc43a8162508088baf5d77962967e1d966efac",
+    "source_path": "source/match/units/actions/AutoAttacking.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 2,
+      "exports": 0,
+      "functions": 8,
+      "properties": 0,
+      "signals": 0,
+      "variables": 3
+    },
+    "before": {
+      "constants": 2,
+      "exports": 0,
+      "functions": 8,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 12,
+      "name": "_sub_action",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 11,
+      "name": "_target_unit",
+      "type": ""
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 13,
+      "name": "_unit",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 6,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        }
+      },
+      "symbol": "constants:AttackingWhileInRange"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 9,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        },
+        "value": {
+          "new": "preload( \"res://source/match/units/actions/FollowingToReachDistance.gd\" )",
+          "old": "preload("
+        }
+      },
+      "symbol": "constants:FollowingToReachDistance"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_attack_or_move_closer"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_init"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_sub_action_finished"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_on_target_unit_removed"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_target_in_range"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_to_string"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:is_applicable"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

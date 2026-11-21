@@ -1,0 +1,372 @@
+{
+ "phase": "1.76-C",
+ "records": [
+  {
+   "absence_is_not_evidence_of_absence": true,
+   "affected_linkage_ids": [
+    "lnk-11312ae57ab83d80",
+    "lnk-6a49ac99c8be4f01",
+    "lnk-7cb0a508d67afc9b",
+    "lnk-3b209915c9afd75b",
+    "lnk-db6b29ab574e8dd4"
+   ],
+   "analysis_completeness": "FULL",
+   "analysis_id": "ext-55aef2d453370c1b",
+   "commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+   "coverage_status": "PARTIAL",
+   "existing_linkages": [
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "attack_emitter",
+     "linkage_id": "lnk-11312ae57ab83d80"
+    },
+    {
+     "classification": "POTENTIAL_RELEVANCE",
+     "feature_id": "blackboard",
+     "linkage_id": "lnk-6a49ac99c8be4f01"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "health",
+     "linkage_id": "lnk-7cb0a508d67afc9b"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "health_bar",
+     "linkage_id": "lnk-3b209915c9afd75b"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "openable_door",
+     "linkage_id": "lnk-db6b29ab574e8dd4"
+    }
+   ],
+   "impact": "INSUFFICIENT_COVERAGE",
+   "missing_declarations": [
+    {
+     "commit_line": 7,
+     "declaration_kind": "enum",
+     "flagged_by_parser": true,
+     "in_formal_1_71": false,
+     "name": "Operators",
+     "record_line": 10
+    }
+   ],
+   "notes": "PARTIAL coverage: absence of a parsed symbol is not evidence of source-level absence. Declarations listed in missing_declarations were confirmed by direct read of the commit copy; that read explains impact and does not claim parser support.",
+   "parse_execution_status": "PARSED",
+   "parsed_symbol_names": [
+    "BlackboardCompareCondition",
+    "_get_expression_sources",
+    "_left_expression",
+    "_right_expression",
+    "left_operand",
+    "operator",
+    "right_operand",
+    "tick"
+   ],
+   "repository": "bitbrain/beehave",
+   "source_file_verified": "F:/Godot_v4.7-stable/game/.ai/skills/foundation/godot-gdscript/code_library/sources/bitbrain__beehave/gd/addons/beehave/nodes/leaves/blackboard_compare.gd",
+   "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd",
+   "source_read_method": "local commit copy under code_library/sources, read-only",
+   "top_level_declarations": [
+    {
+     "kind": "class_name",
+     "name": "BlackboardCompareCondition",
+     "record_line": 8
+    },
+    {
+     "kind": "enum",
+     "name": "Operators",
+     "record_line": 10
+    },
+    {
+     "kind": "var",
+     "name": "left_operand",
+     "record_line": 23
+    },
+    {
+     "kind": "var",
+     "name": "operator",
+     "record_line": 25
+    },
+    {
+     "kind": "var",
+     "name": "right_operand",
+     "record_line": 30
+    },
+    {
+     "kind": "var",
+     "name": "_left_expression",
+     "record_line": 32
+    },
+    {
+     "kind": "var",
+     "name": "_right_expression",
+     "record_line": 33
+    },
+    {
+     "kind": "func",
+     "name": "tick",
+     "record_line": 36
+    },
+    {
+     "kind": "func",
+     "name": "_get_expression_sources",
+     "record_line": 66
+    }
+   ],
+   "unrecognized_declarations": [],
+   "unsupported_constructs": [
+    {
+     "code": "ENUM_NOT_INTERPRETED",
+     "line": 10,
+     "name": "Operators"
+    }
+   ]
+  },
+  {
+   "absence_is_not_evidence_of_absence": true,
+   "affected_linkage_ids": [
+    "lnk-8c3e3dbd3f4a3a19",
+    "lnk-042638ff10ae0b0e",
+    "lnk-5e2135004d4aaf81",
+    "lnk-8f0dbc66a37eaba6",
+    "lnk-279a9ab6f1ca35ab"
+   ],
+   "analysis_completeness": "FULL",
+   "analysis_id": "ext-9e62ed2e3dec8164",
+   "commit": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+   "coverage_status": "PARTIAL",
+   "existing_linkages": [
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "attack_emitter",
+     "linkage_id": "lnk-8c3e3dbd3f4a3a19"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "blackboard",
+     "linkage_id": "lnk-042638ff10ae0b0e"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "health",
+     "linkage_id": "lnk-5e2135004d4aaf81"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "health_bar",
+     "linkage_id": "lnk-8f0dbc66a37eaba6"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "openable_door",
+     "linkage_id": "lnk-279a9ab6f1ca35ab"
+    }
+   ],
+   "impact": "INSUFFICIENT_COVERAGE",
+   "missing_declarations": [
+    {
+     "commit_line": 4,
+     "declaration_kind": "var",
+     "flagged_by_parser": false,
+     "in_formal_1_71": false,
+     "name": "expand_to",
+     "record_line": 7
+    }
+   ],
+   "notes": "PARTIAL coverage: absence of a parsed symbol is not evidence of source-level absence. Declarations listed in missing_declarations were confirmed by direct read of the commit copy; that read explains impact and does not claim parser support.",
+   "parse_execution_status": "PARSED",
+   "parsed_symbol_names": [
+    "Button",
+    "_on_BoardMemberButton_pressed",
+    "_on_BoardOwnerButton_gui_input",
+    "_on_Timer_timeout",
+    "_on_delete_confirmed",
+    "_ready",
+    "board",
+    "model",
+    "normal_text",
+    "set_board",
+    "set_model"
+   ],
+   "repository": "alfredbaudisch/Godello",
+   "source_file_verified": "F:/Godot_v4.7-stable/game/.ai/skills/foundation/godot-gdscript/code_library/sources/alfredbaudisch__Godello/gd/scripts/board_member_button.gd",
+   "source_path": "scripts/board_member_button.gd",
+   "source_read_method": "local commit copy under code_library/sources, read-only",
+   "top_level_declarations": [
+    {
+     "kind": "export",
+     "name": "expand_to",
+     "record_line": 7
+    },
+    {
+     "kind": "var",
+     "name": "model",
+     "record_line": 9
+    },
+    {
+     "kind": "var",
+     "name": "board",
+     "record_line": 10
+    },
+    {
+     "kind": "var",
+     "name": "normal_text",
+     "record_line": 11
+    },
+    {
+     "kind": "func",
+     "name": "_ready",
+     "record_line": 14
+    },
+    {
+     "kind": "func",
+     "name": "set_model",
+     "record_line": 18
+    },
+    {
+     "kind": "func",
+     "name": "set_board",
+     "record_line": 28
+    },
+    {
+     "kind": "func",
+     "name": "_on_BoardOwnerButton_gui_input",
+     "record_line": 32
+    },
+    {
+     "kind": "func",
+     "name": "_on_Timer_timeout",
+     "record_line": 38
+    },
+    {
+     "kind": "func",
+     "name": "_on_BoardMemberButton_pressed",
+     "record_line": 44
+    },
+    {
+     "kind": "func",
+     "name": "_on_delete_confirmed",
+     "record_line": 49
+    }
+   ],
+   "unrecognized_declarations": [],
+   "unsupported_constructs": [
+    {
+     "code": "LEGACY_SETGET_NOT_INTERPRETED",
+     "line": 9
+    },
+    {
+     "code": "LEGACY_SETGET_NOT_INTERPRETED",
+     "line": 10
+    }
+   ]
+  },
+  {
+   "absence_is_not_evidence_of_absence": true,
+   "affected_linkage_ids": [
+    "lnk-e267bd0ca2d394bc",
+    "lnk-5b9d6ba1c10e1857",
+    "lnk-4366500cb01008a8",
+    "lnk-17017551e97c8759",
+    "lnk-9364f45ffec7d769"
+   ],
+   "analysis_completeness": "FULL",
+   "analysis_id": "ext-fffa637657ffede1",
+   "commit": "4458a143644fbadec23ae0cee99578ad3b811eb8",
+   "coverage_status": "PARTIAL",
+   "existing_linkages": [
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "attack_emitter",
+     "linkage_id": "lnk-e267bd0ca2d394bc"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "blackboard",
+     "linkage_id": "lnk-5b9d6ba1c10e1857"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "health",
+     "linkage_id": "lnk-4366500cb01008a8"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "health_bar",
+     "linkage_id": "lnk-17017551e97c8759"
+    },
+    {
+     "classification": "NO_SUPPORTED_LINK",
+     "feature_id": "openable_door",
+     "linkage_id": "lnk-9364f45ffec7d769"
+    }
+   ],
+   "impact": "INSUFFICIENT_COVERAGE",
+   "missing_declarations": [
+    {
+     "commit_line": 6,
+     "declaration_kind": "onready",
+     "flagged_by_parser": false,
+     "in_formal_1_71": false,
+     "name": "title_label",
+     "record_line": 9
+    }
+   ],
+   "notes": "PARTIAL coverage: absence of a parsed symbol is not evidence of source-level absence. Declarations listed in missing_declarations were confirmed by direct read of the commit copy; that read explains impact and does not claim parser support.",
+   "parse_execution_status": "PARSED",
+   "parsed_symbol_names": [
+    "Button",
+    "_on_board_deleted",
+    "_ready",
+    "get_model",
+    "model",
+    "set_model"
+   ],
+   "repository": "alfredbaudisch/Godello",
+   "source_file_verified": "F:/Godot_v4.7-stable/game/.ai/skills/foundation/godot-gdscript/code_library/sources/alfredbaudisch__Godello/gd/scripts/board_card.gd",
+   "source_path": "scripts/board_card.gd",
+   "source_read_method": "local commit copy under code_library/sources, read-only",
+   "top_level_declarations": [
+    {
+     "kind": "var",
+     "name": "model",
+     "record_line": 7
+    },
+    {
+     "kind": "onready",
+     "name": "title_label",
+     "record_line": 9
+    },
+    {
+     "kind": "func",
+     "name": "_ready",
+     "record_line": 12
+    },
+    {
+     "kind": "func",
+     "name": "set_model",
+     "record_line": 17
+    },
+    {
+     "kind": "func",
+     "name": "get_model",
+     "record_line": 22
+    },
+    {
+     "kind": "func",
+     "name": "_on_board_deleted",
+     "record_line": 26
+    }
+   ],
+   "unrecognized_declarations": [],
+   "unsupported_constructs": [
+    {
+     "code": "LEGACY_SETGET_NOT_INTERPRETED",
+     "line": 7
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,195 @@
+{
+  "analysis_id": "ext-23949c1378c49203",
+  "counts": {
+    "after": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 8,
+      "properties": 1,
+      "signals": 0,
+      "variables": 1
+    },
+    "before": {
+      "constants": 1,
+      "exports": 0,
+      "functions": 7,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "dropped_limitations": [
+    "annotation_not_fully_interpreted:line=4"
+  ],
+  "label": "blackboard.gd",
+  "new_limitations": [],
+  "reanalysis_id": "ext-d0a93201b6f352df",
+  "status": {
+    "analysis_completeness": {
+      "new": "FULL",
+      "old": "(absent: pre-1.75 record)"
+    },
+    "analysis_status": {
+      "new": "analysis_complete",
+      "old": "analysis_partial"
+    },
+    "parse_status": {
+      "new": "parsed",
+      "old": "partial"
+    },
+    "syntax_coverage_status": {
+      "new": "COMPLETE",
+      "old": "(absent: pre-1.75 record)"
+    }
+  },
+  "symbols_added": [
+    {
+      "_group": "functions",
+      "declaration_kind": "FUNCTION",
+      "end_line": 44,
+      "line": 37,
+      "name": "get_value",
+      "params": "key: Variant, default_value: Variant = null, blackboard_name: String = DEFAULT",
+      "returns": "Variant"
+    },
+    {
+      "_group": "properties",
+      "accessors": [
+        {
+          "end_line": 15,
+          "kind": "set",
+          "line": 12,
+          "param": "b"
+        }
+      ],
+      "annotations": [
+        {
+          "args": "",
+          "interpreted": true,
+          "name": "export"
+        }
+      ],
+      "declaration_kind": "PROPERTY",
+      "end_line": 11,
+      "has_getter": false,
+      "has_initializer": true,
+      "has_setter": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": true,
+      "is_onready": false,
+      "is_static": false,
+      "line": 11,
+      "name": "blackboard",
+      "type": "Dictionary",
+      "value": "{}"
+    },
+    {
+      "_group": "variables",
+      "annotations": [],
+      "declaration_kind": "VARIABLE",
+      "end_line": 16,
+      "has_initializer": true,
+      "initializer_kind": "EXPLICIT",
+      "is_exported": false,
+      "is_onready": false,
+      "is_static": false,
+      "line": 16,
+      "name": "_data",
+      "type": "Dictionary",
+      "value": "{}"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "CONSTANT",
+          "old": null
+        },
+        "end_line": {
+          "new": 7,
+          "old": null
+        },
+        "has_initializer": {
+          "new": true,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "EXPLICIT",
+          "old": null
+        },
+        "type": {
+          "new": "",
+          "old": null
+        }
+      },
+      "symbol": "constants:DEFAULT"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_sanitize_for_debug"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:erase_value"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:get_debug_data"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:has_value"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:keys"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:set_value"
+    }
+  ],
+  "symbols_removed": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": []
+}

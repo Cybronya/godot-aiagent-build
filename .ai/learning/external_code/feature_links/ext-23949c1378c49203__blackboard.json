@@ -1,0 +1,283 @@
+{
+  "analysis_id": "ext-23949c1378c49203",
+  "evidence_items": [
+    {
+      "evidence_id": "lnk-7084dc8999c2182b:ev:01",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "EXTRACTED",
+      "evidence_type": "SYMBOL_EXACT_MATCH",
+      "explanation": "external class_name 'Blackboard' at .ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd is the same identifier as the Feature source-extracted symbol in Features/blackboard/blackboard.gd",
+      "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:class",
+      "feature_source_line": null,
+      "feature_source_path": "Features/blackboard/blackboard.gd",
+      "line_reference": null,
+      "matched_value": "Blackboard",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#Blackboard",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "source_side": "BOTH",
+      "symbol_name": "Blackboard"
+    },
+    {
+      "evidence_id": "lnk-7084dc8999c2182b:ev:02",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "EXTRACTED",
+      "evidence_type": "SYMBOL_EXACT_MATCH",
+      "explanation": "external function 'keys' at .ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:24 is the same identifier as the Feature source-extracted symbol in Features/blackboard/blackboard.gd",
+      "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:keys:26",
+      "feature_source_line": 26,
+      "feature_source_path": "Features/blackboard/blackboard.gd",
+      "line_reference": 24,
+      "matched_value": "keys",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#keys",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "source_side": "BOTH",
+      "symbol_name": "keys"
+    },
+    {
+      "evidence_id": "lnk-7084dc8999c2182b:ev:03",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "EXTRACTED",
+      "evidence_type": "SYMBOL_EXACT_MATCH",
+      "explanation": "external function 'set_value' at .ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:30 is the same identifier as the Feature source-extracted symbol in Features/blackboard/blackboard.gd",
+      "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:set_value:30",
+      "feature_source_line": 30,
+      "feature_source_path": "Features/blackboard/blackboard.gd",
+      "line_reference": 30,
+      "matched_value": "set_value",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#set_value",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "source_side": "BOTH",
+      "symbol_name": "set_value"
+    },
+    {
+      "evidence_id": "lnk-7084dc8999c2182b:ev:04",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "EXTRACTED",
+      "evidence_type": "SYMBOL_EXACT_MATCH",
+      "explanation": "external function 'has_value' at .ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:45 is the same identifier as the Feature source-extracted symbol in Features/blackboard/blackboard.gd",
+      "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:has_value:42",
+      "feature_source_line": 42,
+      "feature_source_path": "Features/blackboard/blackboard.gd",
+      "line_reference": 45,
+      "matched_value": "has_value",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#has_value",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "source_side": "BOTH",
+      "symbol_name": "has_value"
+    },
+    {
+      "evidence_id": "lnk-7084dc8999c2182b:ev:05",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "EXTRACTED",
+      "evidence_type": "SYMBOL_EXACT_MATCH",
+      "explanation": "external function 'erase_value' at .ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:53 is the same identifier as the Feature source-extracted symbol in Features/blackboard/blackboard.gd",
+      "feature_evidence_id": "symbol:blackboard:Features/blackboard/blackboard.gd:func:erase_value:50",
+      "feature_source_line": 50,
+      "feature_source_path": "Features/blackboard/blackboard.gd",
+      "line_reference": 53,
+      "matched_value": "erase_value",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json#erase_value",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "source_side": "BOTH",
+      "symbol_name": "erase_value"
+    }
+  ],
+  "evidence_limitations": {
+    "ambiguity_reasons": [],
+    "analysis_status": "analysis_partial",
+    "missing_evidence": [],
+    "parser_limitations": [
+      "regex_parser_without_ast_or_type_inference",
+      "annotation_not_fully_interpreted:line=4"
+    ],
+    "projection_status": "COMPLETE",
+    "provenance_limitations": [
+      "provenance_status=complete",
+      "full commit SHA is recorded"
+    ],
+    "unsupported_content": [
+      "parse_status=partial: the source was not fully parsed"
+    ],
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "external_analysis": {
+    "analysis_record_digest": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+    "analysis_record_path": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json",
+    "analysis_status": "analysis_partial",
+    "file_type": "gdscript",
+    "parse_status": "partial",
+    "provenance_status": "complete",
+    "source_commit": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+    "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+    "source_path": "addons/beehave/blackboard.gd",
+    "source_repository": "bitbrain/beehave",
+    "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd"
+  },
+  "feature_id": "blackboard",
+  "feature_name": "blackboard",
+  "feature_projection": {
+    "feature_analysis_references": [],
+    "feature_path": "Features/blackboard/feature.yaml",
+    "feature_projection_digest": "f61c08b132256db26eb1e21a2005b1c8a93d7e24cd39609e3608ec3cb14e8b5a",
+    "feature_projection_path": ".ai/learning/feature_evidence/blackboard.json",
+    "feature_source_references": [
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/feature.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\feature.yaml",
+        "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+        "source_path": "Features/blackboard/feature.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_METADATA"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_index.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_path": ".ai/context/feature_index.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_INDEX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_graph.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_path": ".ai/context/feature_graph.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_GRAPH"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/coverage_matrix.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_path": ".ai/context/coverage_matrix.json",
+        "source_status": "FOUND",
+        "source_type": "COVERAGE_MATRIX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/blackboard.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_path": "Features/blackboard/blackboard.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/blackboard/test_blackboard.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\blackboard\\test_blackboard.gd",
+        "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+        "source_path": "Features/blackboard/test_blackboard.gd",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEST"
+      }
+    ],
+    "projection_status": "COMPLETE",
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "generated_at": "2026-11-15T15:16:39Z",
+  "generator": {
+    "classifier": "deterministic_symbol_and_declaration_matching",
+    "name": "feature_linkage",
+    "version": "phase-1.73-b/1"
+  },
+  "limitations": [
+    "evidence type only; not a similarity, quality, admission or promotion judgement",
+    "analysis_status=analysis_partial",
+    "projection_status=COMPLETE",
+    "external analysis is not complete; its symbols are partial evidence"
+  ],
+  "linkage_classification": "DIRECT_EVIDENCE",
+  "linkage_id": "lnk-7084dc8999c2182b",
+  "linkage_outcome": "LINKED",
+  "pair_evaluation": {
+    "declared_relation": "",
+    "external_symbol_count": 11,
+    "external_symbols": [
+      "Blackboard",
+      "erase_value",
+      "get_debug_data",
+      "has_value",
+      "keys",
+      "set_value"
+    ],
+    "feature_declared_symbol_count": 9,
+    "feature_source_symbol_count": 9,
+    "matched_symbols": [
+      "Blackboard",
+      "keys",
+      "set_value",
+      "has_value",
+      "erase_value"
+    ],
+    "shared_tokens": []
+  },
+  "schema": "external_analysis_feature_linkage",
+  "schema_version": 1,
+  "snippet_id": "bitbrain__beehave__addons__beehave__blackboard.gd",
+  "source_verification": {
+    "analysis_record": {
+      "digest": "9b2f909a1b37a77587219edf71ed0cb4946d8a1755d855e3aa39763447208063",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/external_code/analysis/ext-23949c1378c49203.json"
+    },
+    "external_source_file": {
+      "digest_status": "MATCHED",
+      "path": ".ai/skills/foundation/godot-gdscript/code_library/sources/bitbrain__beehave/gd/addons/beehave/blackboard.gd",
+      "recorded_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6"
+    },
+    "feature_projection": {
+      "digest": "f61c08b132256db26eb1e21a2005b1c8a93d7e24cd39609e3608ec3cb14e8b5a",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/feature_evidence/blackboard.json"
+    },
+    "feature_sources": [
+      {
+        "path": "Features/blackboard/feature.yaml",
+        "source_digest": "bf51e91395afff5116df0da65adc0f7f8a99d479800d693e60dfe203326b3a56",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/blackboard/blackboard.gd",
+        "source_digest": "77b5ff5badd0fe5948b7389d0007f95d5cf8a95df45e163a959142d0bd9837f0",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/blackboard/test_blackboard.gd",
+        "source_digest": "73c39dfabc34da4280125cd3ff13fa35fc2185b64388c95d7803fd4242c29a4e",
+        "source_status": "FOUND"
+      }
+    ]
+  }
+}

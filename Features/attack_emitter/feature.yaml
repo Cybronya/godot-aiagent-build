@@ -50,7 +50,7 @@ ownership:
   state:
     - damage / source_of_attack / 排除列表（发射器链共享的攻击参数）
   rules:
-    - 命中协议：目标实现 take_damage(amount: int) 即结算（对接 health Feature 公开接口），无附加伤害数据类
+    - '命中协议：目标实现 take_damage(amount: int) 即结算（对接 health Feature 公开接口），无附加伤害数据类'
     - 视觉反馈（弹道、命中特效、音效）不属于本组件，由组合层订阅信号实现
     - 射线实现需要 RayCast2D 子节点（target_position 定方向与射程，通常 (射程, 0)）
 

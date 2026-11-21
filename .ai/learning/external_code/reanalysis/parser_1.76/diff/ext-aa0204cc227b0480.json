@@ -1,0 +1,134 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-aa0204cc227b0480",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-146da1f90d166f0f",
+  "source_identity": {
+    "full_commit_sha": "76d226a3efac66a72aea825382b320c94808f409",
+    "input_digest": "44407e83b0bc9ba19bc7aabfd4d5858850d479240730b2968c588c9eae6bcdbd",
+    "repository": "derkork/godot-statecharts",
+    "source_digest": "4cc0d9a64c00a7848379836bfafc04b5aea07730c598259fb1282a19fe37acc4",
+    "source_path": "addons/godot_state_charts/animation_tree_state.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 1,
+      "functions": 3,
+      "properties": 1,
+      "signals": 0,
+      "variables": 1
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 3,
+      "properties": 0,
+      "signals": 0,
+      "variables": 1
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 19,
+      "name": "state_name",
+      "type": "StringName"
+    },
+    {
+      "group": "properties",
+      "kind": "PROPERTY",
+      "line": 11,
+      "name": "animation_tree",
+      "type": "NodePath"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_get_configuration_warnings"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_ready"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_state_enter"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "VARIABLE",
+          "old": null
+        },
+        "end_line": {
+          "new": 22,
+          "old": null
+        },
+        "has_initializer": {
+          "new": false,
+          "old": null
+        },
+        "initializer_kind": {
+          "new": "NONE",
+          "old": null
+        },
+        "is_exported": {
+          "new": false,
+          "old": null
+        },
+        "is_onready": {
+          "new": false,
+          "old": null
+        },
+        "is_static": {
+          "new": false,
+          "old": null
+        }
+      },
+      "symbol": "variables:_animation_tree_state_machine"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

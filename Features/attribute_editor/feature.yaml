@@ -1,0 +1,63 @@
+# Feature Metadata: attribute_editor
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: attribute_editor
+version: 1
+category: combat
+
+summary: 属性表——管理一组游戏属性（如生命值、体力），支持定义、查询、更新、范围验证。
+
+provides:
+  - gameplay_attributes
+  - stat_management
+  - attribute_validation
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - 'add_attribute(name: String, value: Variant = 0, min_value: float = 0.0, max_value: float = 100.0, attr_type: String = "int") -> void'
+    - 'get_attribute(name: String) -> Variant'
+    - 'remove_attribute(name: String) -> void'
+    - 'update_attribute(name: String, value: Variant) -> bool'
+    - 'get_attribute_value(name: String) -> Variant'
+    - 'is_value_valid(name: String) -> bool'
+    - get_attribute_names() -> Array[String]
+  signals: []
+  exports:
+    - attributes: Array[Dictionary]
+
+ownership:
+  state:
+    - attributes: Array[Dictionary]
+  rules:
+    - 去掉编辑器 UI 依赖，改为纯数据模型
+    - 保留核心：属性定义（名称/值/范围/类型）+ 增删改查
+    - 'attr_type: "int" / "float" / "bool" / "string"'
+    - bool/string 类型恒为有效，int/float 验证 min/max 范围
+    - 可序列化，方便存档/配置
+
+composition:
+  entry_scene: ""    # 作为 Resource 使用
+  usage: "var table = AttributeTable.new(); table.add_attribute(\"health\", 100, 0, 200, \"int\"); table.update_attribute(\"health\", 50)"
+  related_features: []
+
+validation:
+  self_test: test_attribute_editor.gd
+  command: godot --headless --path . -s res://Features/attribute_editor/test_attribute_editor.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: OctoD__godot-gameplay-systems__addons__godot_gameplay_systems__attributes_and_abilities__inspector__attribute_editor.gd
+#   source_url: https://github.com/OctoD/godot-gameplay-systems/blob/main/addons/godot_gameplay_systems/attributes_and_abilities/inspector/attribute_editor.gd
+#   repo: OctoD/godot-gameplay-systems (star 746) | License: MIT

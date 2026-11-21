@@ -1,0 +1,110 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_complete"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-51fbb1e2b03c3f67",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-08e135c67d6c5034",
+  "source_identity": {
+    "full_commit_sha": "f4a454ebd4d58f8d7b38fa580c603a0bfa2aac80",
+    "input_digest": "36564ac3ecc4914f01150c8ec949047d79bf82ee44e204f2035d533b5aa32bdd",
+    "repository": "ceceppa/anima",
+    "source_digest": "050613ecec7f0c63bad675a2137c76958d74a4d2e9bd3882985f80fe51d7923f",
+    "source_path": "addons/anima/motion/runtime/anima_race_instance.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 4,
+      "properties": 0,
+      "signals": 0,
+      "variables": 2
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 4,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 10,
+      "name": "_child_finished",
+      "type": "Array[bool]"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 9,
+      "name": "_child_instances",
+      "type": "Array"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_init"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:advance"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:force_complete"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:restore_initial"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

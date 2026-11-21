@@ -1,0 +1,90 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_complete"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-d5f7ac2db3a8c4e4",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-25907592e74f638c",
+  "source_identity": {
+    "full_commit_sha": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "input_digest": "5f6fd9d245ddbddadbdc377c35e0ee72098b7f0f12a1c01582f7ae992f0e2af6",
+    "repository": "gdquest-demos/godot-open-rpg",
+    "source_digest": "754107d5816d19184cce8aeebcc07d0cb89a4fd445726836a6249e4eb9237d86",
+    "source_path": "src/combat/actions/battler_action_attack.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 1,
+      "exports": 2,
+      "functions": 1,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 1,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "constants",
+      "kind": "CONSTANT",
+      "line": 7,
+      "name": "ATTACK_DISTANCE",
+      "type": ""
+    },
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 12,
+      "name": "base_damage",
+      "type": ""
+    },
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 11,
+      "name": "hit_chance",
+      "type": ""
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:execute"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

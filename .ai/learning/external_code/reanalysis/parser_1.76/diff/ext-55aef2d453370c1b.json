@@ -1,0 +1,119 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "PARTIAL"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-55aef2d453370c1b",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-b3a3bfd8d4a7e1e2",
+  "source_identity": {
+    "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+    "input_digest": "c7fd6b8709fcec9a33cc336b9f6b33c21703415924081bd33cc4c950d6a9c078",
+    "repository": "bitbrain/beehave",
+    "source_digest": "cd7008ea7deb939071a57b1765803a1614be43cc1ef5aa112cff2f160523df75",
+    "source_path": "addons/beehave/nodes/leaves/blackboard_compare.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 3,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 2
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 23,
+      "name": "left_operand",
+      "type": "String"
+    },
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 25,
+      "name": "operator",
+      "type": "int"
+    },
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 30,
+      "name": "right_operand",
+      "type": "String"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 32,
+      "name": "_left_expression",
+      "type": "Expression"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 33,
+      "name": "_right_expression",
+      "type": "Expression"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_get_expression_sources"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:tick"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [
+    {
+      "code": "ENUM_NOT_INTERPRETED",
+      "line": 10,
+      "name": "Operators"
+    }
+  ],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

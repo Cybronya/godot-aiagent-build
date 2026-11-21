@@ -1,0 +1,23 @@
+{
+  "analysis_id": "ext-73c80a3db6d71e48",
+  "checks": {
+    "coverage_present": true,
+    "diff_present": true,
+    "input_digest": true,
+    "locations": true,
+    "no_removals": true,
+    "parser_version_matches_build": true,
+    "provenance": true,
+    "source_digest": true
+  },
+  "location_problems": [],
+  "offset": 3,
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-8759bb47cb020625",
+  "reuse_source": ".ai/learning/external_code/reanalysis/parser_1.75",
+  "status": "REUSED_PHASE_1_75",
+  "symbol_count": 17,
+  "symbols_added": 4,
+  "symbols_checked": 17,
+  "valid": true
+}

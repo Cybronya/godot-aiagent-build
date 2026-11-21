@@ -1,0 +1,492 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-0ee947aef4c9aeca",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "7290681309ff",
+  "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+  "conditions": [
+    {
+      "condition": "if health == 0:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "function": "take_damage",
+      "line": 28
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T15:17:47Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "line": 17,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:17#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "line": 20,
+      "name": "set_max_health",
+      "params": "value",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:20#func=set_max_health",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "line": 23,
+      "name": "take_damage",
+      "params": "amount",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:23#func=take_damage",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "line": 31,
+      "name": "heal",
+      "params": "amount",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:31#func=heal",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "line": 36,
+      "name": "add_modifier",
+      "params": "id, modifier",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:36#func=add_modifier",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "line": 39,
+      "name": "remove_modifier",
+      "params": "id",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd:39#func=remove_modifier",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 6,
+  "input_digest": "b917b0bd4f2e87affdafae538e1bf2005549c632bcbff58a9718c270f7c891c1",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "7290681309ff",
+    "commit_sha_full": "7290681309ffcd700c2c08a8e59a57bfbec14d5e",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-make-pro-2d-games",
+    "source_path": "actors/health/Stats.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Stats.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+  "repo": "gdquest-demos/godot-make-pro-2d-games",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "function": "take_damage",
+      "kind": "emit",
+      "line": 26,
+      "signal": "health_changed"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "function": "take_damage",
+      "kind": "emit",
+      "line": 27,
+      "signal": "damage_taken"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "function": "take_damage",
+      "kind": "emit",
+      "line": 29,
+      "signal": "health_depleted"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "function": "heal",
+      "kind": "emit",
+      "line": 34,
+      "signal": "health_changed"
+    }
+  ],
+  "snippet_id": "gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "ef9f678100f419defea9868954ec434e168d0e03135683a66ad0b66f4ed1a20b",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-make-pro-2d-games\\gd\\actors\\health\\Stats.gd",
+  "source_path": "actors/health/Stats.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-make-pro-2d-games/blob/7290681309ffcd700c2c08a8e59a57bfbec14d5e/actors/health/Stats.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "initial": "0",
+      "read_count": 6,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "take_damage",
+          "line": 24
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "take_damage",
+          "line": 26
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "take_damage",
+          "line": 27
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "take_damage",
+          "line": 28
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "heal",
+          "line": 32
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "heal",
+          "line": 34
+        }
+      ],
+      "variable": "health",
+      "write_count": 5,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "_ready",
+          "line": 18
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "take_damage",
+          "line": 24
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "take_damage",
+          "line": 25
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "heal",
+          "line": 32
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "heal",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+      "initial": "{}",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "add_modifier",
+          "line": 37
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd",
+          "function": "remove_modifier",
+          "line": 40
+        }
+      ],
+      "variable": "modifiers",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "remove_modifier",
+        "line": 40,
+        "method": "erase",
+        "receiver": "modifiers"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 11,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "PARTIAL",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": [
+        {
+          "code": "LEGACY_SETGET_NOT_INTERPRETED",
+          "line": 13
+        }
+      ]
+    },
+    "declarations": [
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 6,
+        "name": "health_changed",
+        "params": "new_health"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 7,
+        "name": "damage_taken",
+        "params": "new_health"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 8,
+        "name": "health_depleted",
+        "params": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "modifiers",
+        "type": "",
+        "value": "{}"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "health",
+        "type": "",
+        "value": "0"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 17,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 17,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 20,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 20,
+        "name": "set_max_health",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 23,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 23,
+        "name": "take_damage",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 31,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 31,
+        "name": "heal",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 36,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 36,
+        "name": "add_modifier",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 39,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 39,
+        "name": "remove_modifier",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [],
+    "extends": "Node",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 19,
+        "line": 17,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 22,
+        "line": 20,
+        "name": "set_max_health",
+        "params": "value",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 30,
+        "line": 23,
+        "name": "take_damage",
+        "params": "amount",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 35,
+        "line": 31,
+        "name": "heal",
+        "params": "amount",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 38,
+        "line": 36,
+        "name": "add_modifier",
+        "params": "id, modifier",
+        "returns": ""
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 40,
+        "line": 39,
+        "name": "remove_modifier",
+        "params": "id",
+        "returns": ""
+      }
+    ],
+    "properties": [],
+    "signals": [
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 6,
+        "name": "health_changed",
+        "params": "new_health"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 7,
+        "name": "damage_taken",
+        "params": "new_health"
+      },
+      {
+        "declaration_kind": "SIGNAL",
+        "line": 8,
+        "name": "health_depleted",
+        "params": ""
+      }
+    ],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "modifiers",
+        "type": "",
+        "value": "{}"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "health",
+        "type": "",
+        "value": "0"
+      }
+    ]
+  },
+  "syntax_coverage_status": "PARTIAL",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/combat/gdquest-demos__godot-make-pro-2d-games__actors__health__Stats.gd 没有 class_name（跨类依赖无法静态归属）"
+  ],
+  "unsupported_constructs": [
+    {
+      "code": "LEGACY_SETGET_NOT_INTERPRETED",
+      "line": 13
+    }
+  ]
+}

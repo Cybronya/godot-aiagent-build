@@ -1,0 +1,118 @@
+{
+  "analysis_id": "ext-fe3acf782b88edda",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "863324dfb752",
+  "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-14T13:57:06Z",
+  "domain": "general",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+      "line": 6,
+      "name": "open",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd:6#func=open",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "eade55ea9ba7aef74662c26019ba95187665ec3b927a4d77f29a1bab2452b1f8",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "863324dfb752",
+    "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "Ark2000/PankuConsole",
+    "source_path": "addons/panku_console/modules/history_manager/env.gd",
+    "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/modules/history_manager/env.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+  "repo": "Ark2000/PankuConsole",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "94dc2c7c50c406cb712f59d1d8f8dcc9e1f2db4540cbb0e5d3a08cf07abfc107",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\Ark2000__PankuConsole\\gd\\addons\\panku_console\\modules\\history_manager\\env.gd",
+  "source_path": "addons/panku_console/modules/history_manager/env.gd",
+  "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/modules/history_manager/env.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd",
+          "function": "open",
+          "line": 7
+        }
+      ],
+      "variable": "_module",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "open",
+        "line": 7,
+        "method": "open_window",
+        "receiver": "_module"
+      }
+    ],
+    "class_name": "",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "end_line": 7,
+        "line": 6,
+        "name": "open",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "signals": [],
+    "variables": [
+      {
+        "line": 4,
+        "name": "_module",
+        "type": "PankuModule",
+        "value": ""
+      }
+    ]
+  },
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/general/Ark2000__PankuConsole__addons__panku_console__modules__history_manager__env.gd 没有 class_name（跨类依赖无法静态归属）"
+  ]
+}

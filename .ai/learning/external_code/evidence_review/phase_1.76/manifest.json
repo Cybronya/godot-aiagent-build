@@ -1,0 +1,92 @@
+{
+ "artefacts": [
+  "review_items.json",
+  "source_verification.json",
+  "partial_coverage_review.json",
+  "candidate_review.json",
+  "review_validation.json"
+ ],
+ "classification_vocabulary": {
+  "coverage": [
+   "UNSUPPORTED_CONSTRUCT_REPORTED",
+   "UNSUPPORTED_CONSTRUCT_NOT_REPORTED",
+   "DECLARATION_NOT_CAPTURED",
+   "PARSER_COVERAGE_UNKNOWN",
+   "SOURCE_CONFIRMED"
+  ],
+  "evidence_integrity": [
+   "SOURCE_VERIFIED",
+   "SOURCE_PARTIALLY_VERIFIED",
+   "SOURCE_NOT_VERIFIED",
+   "PROVENANCE_MISMATCH"
+  ],
+  "follow_up": [
+   "ELIGIBLE_FOR_FUTURE_FORMAL_REVIEW",
+   "REQUIRES_PARSER_HARDENING",
+   "REQUIRES_ADDITIONAL_SOURCE_REVIEW",
+   "NO_FURTHER_ACTION",
+   "DO_NOT_PROMOTE"
+  ],
+  "semantic": [
+   "CONFIRMED_DIRECT_EVIDENCE",
+   "CONFIRMED_SUPPORTING_EVIDENCE",
+   "GENERIC_API_ONLY",
+   "STATE_DECLARATION_ONLY",
+   "CONTEXT_ONLY",
+   "DUPLICATE_EVIDENCE",
+   "NOT_RELEVANT",
+   "INSUFFICIENT_SOURCE_EVIDENCE",
+   "COVERAGE_BLOCKED"
+  ]
+ },
+ "counts": {
+  "batch_c_potential_impacts": 13,
+  "batch_c_readiness": "READY_FOR_BATCH_D_WITH_RESTRICTIONS",
+  "batch_c_verdict": "PASS_WITH_LIMITATIONS",
+  "candidates": 2,
+  "digest_mismatches": [],
+  "formal_data_mutation": "PASS",
+  "p0_items": 6,
+  "p1_items": 7,
+  "partial_records": 3,
+  "review_items": 13,
+  "review_queue_created": false,
+  "seeds": 3,
+  "source_verified": 13
+ },
+ "inputs": {
+  "batch_b_workspace": ".ai/learning/external_code/reanalysis/parser_1.76",
+  "batch_c_report": ".ai/context/PHASE_1_76_C_EVIDENCE_IMPACT_REVIEW.md",
+  "batch_c_workspace": ".ai/learning/external_code/evidence_impact/phase_1.76",
+  "candidates": ".ai/learning/candidate_workspace",
+  "features": [
+   "Features/health/feature.yaml",
+   "Features/health_bar/feature.yaml",
+   "Features/openable_door/feature.yaml",
+   "Features/blackboard/feature.yaml",
+   "Features/attack_emitter/feature.yaml"
+  ],
+  "formal_analysis": ".ai/learning/external_code/analysis",
+  "formal_linkage": ".ai/learning/external_code/feature_links",
+  "seed_policy": ".ai/tools/feature_registry/candidate_seed_policy.json",
+  "source_copies": ".ai/skills/foundation/godot-gdscript/code_library/sources"
+ },
+ "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+ "phase": "1.76-D",
+ "prerequisites": {
+  "batch_c_readiness": "READY_FOR_BATCH_D_WITH_RESTRICTIONS",
+  "batch_c_verdict": "PASS_WITH_LIMITATIONS"
+ },
+ "prohibited_actions": {
+  "batch_e_executed": false,
+  "candidate_promotion": false,
+  "formal_data_mutation": 0,
+  "git_write": false,
+  "linkage_rebuild": false,
+  "parser_rerun": false,
+  "review_queue_created": false
+ },
+ "read_only": true,
+ "target_value_conclusion": "EVIDENCE_INTERPRETATION_CORRECTED_NO_CLASSIFICATION_CHANGE",
+ "task": "CONTROLLED MANUAL EVIDENCE REVIEW"
+}

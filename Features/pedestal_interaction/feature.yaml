@@ -1,0 +1,66 @@
+# Feature Metadata: pedestal_interaction
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: pedestal_interaction
+version: 1
+category: ui
+
+summary: 交互底座——管理物品放置/移除，追踪正确性，支持多底座谜题组全对触发。
+
+provides:
+  - puzzle_interaction
+  - item_placement
+  - puzzle_group_coordinator
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - 'place_item(item_id: int) -> void'
+    - remove_item() -> void
+    - is_correct() -> bool
+    - 'join_puzzle_group(group_name: String) -> void'
+    - 'leave_puzzle_group(group_name: String) -> void'
+  signals:
+    - 'item_placed(item_id: int)'
+    - item_removed()
+    - 'state_changed(is_correct: bool)'
+    - puzzle_solved()
+  exports:
+    - expected_item_id: int
+    - current_item_id: int
+    - is_active: bool
+
+ownership:
+  state:
+    - _is_correct: bool
+    - _groups: Dictionary (static)
+  rules:
+    - 去掉 Dialogic/Inventory 依赖，用通用 item_id 接口
+    - 谜题组全对时自动禁用所有成员并发射 puzzle_solved
+    - join_puzzle_group 不立即检查——只在 place_item 变正确时触发
+
+composition:
+  entry_scene: ""    # 作为 Node 挂载到交互区域
+  usage: "var p = PedestalInteraction.new(); p.expected_item_id = 1; p.join_puzzle_group(\"puzzle1\"); p.place_item(1)"
+  related_features: []
+
+validation:
+  self_test: test_pedestal_interaction.gd
+  command: godot --headless --path . -s res://Features/pedestal_interaction/test_pedestal_interaction.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: gdquest-demos__godot-open-rpg__overworld__maps__house__wand_pedestal_interaction.gd
+#   source_url: https://github.com/gdquest-demos/godot-open-rpg/blob/main/overworld/maps/house/wand_pedestal_interaction.gd
+#   repo: gdquest-demos/godot-open-rpg (star 3028) | License: MIT

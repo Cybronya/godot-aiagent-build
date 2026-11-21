@@ -1,0 +1,288 @@
+{
+  "analysis_id": "ext-ab693f3d6ef9439c",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "a628ad3bb6a9",
+  "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+  "conditions": [
+    {
+      "condition": "if Engine.is_editor_hint():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_ready",
+      "line": 23
+    },
+    {
+      "condition": "if _unit.hp == null or _unit.hp_max == null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_recalulate_bar_value",
+      "line": 34
+    },
+    {
+      "condition": "if _bar_value_initialized and old_value != new_value:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_recalulate_bar_value",
+      "line": 40
+    },
+    {
+      "condition": "if visible:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_show_for_a_while",
+      "line": 46
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:50Z",
+  "domain": "combat",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "line": 22,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd:22#func=_ready",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_ready",
+      "kind": "guard_return",
+      "line": 24,
+      "value": ""
+    },
+    {
+      "condition": "if _unit.hp == null or _unit.hp_max == null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_recalulate_bar_value",
+      "kind": "null_guard",
+      "line": 34
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_recalulate_bar_value",
+      "kind": "guard_return",
+      "line": 35,
+      "value": ""
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_show_for_a_while",
+      "kind": "guard_return",
+      "line": 47,
+      "value": ""
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "f07f738f7382c8e5c2b16b555f6c4048544ee993b05b104f2a51d69579b8d1a1",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference",
+    "annotation_not_fully_interpreted:line=4"
+  ],
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "a628ad3bb6a9",
+    "commit_sha_full": "a628ad3bb6a9a903587a181a7ee3300dbf735e81",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "lampe-games/godot-open-rts",
+    "source_path": "source/match/units/traits/HealthBar.gd",
+    "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/traits/HealthBar.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\combat\\lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+  "repo": "lampe-games/godot-open-rts",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "emitter": "_unit",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_ready",
+      "handler": "_on_unit_selected",
+      "kind": "connect",
+      "line": 27,
+      "signal": "selected"
+    },
+    {
+      "emitter": "_unit",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_ready",
+      "handler": "_on_unit_deselected",
+      "kind": "connect",
+      "line": 28,
+      "signal": "deselected"
+    },
+    {
+      "emitter": "_unit",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_ready",
+      "handler": "_on_hp_changed",
+      "kind": "connect",
+      "line": 29,
+      "signal": "hp_changed"
+    },
+    {
+      "emitter": "_visibility_timer",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+      "function": "_ready",
+      "handler": "_on_visibility_timer_timeout",
+      "kind": "connect",
+      "line": 30,
+      "signal": "timeout"
+    }
+  ],
+  "snippet_id": "lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "cc6b52103cccd74235624dea1edb0904c4d6ae36366f7be2630c9e257434b3eb",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\lampe-games__godot-open-rts\\gd\\source\\match\\units\\traits\\HealthBar.gd",
+  "source_path": "source/match/units/traits/HealthBar.gd",
+  "source_url": "https://github.com/lampe-games/godot-open-rts/blob/a628ad3bb6a9a903587a181a7ee3300dbf735e81/source/match/units/traits/HealthBar.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_ready",
+        "line": 23,
+        "method": "is_editor_hint",
+        "receiver": "Engine"
+      },
+      {
+        "function": "_recalulate_bar_value",
+        "line": 36,
+        "method": "get_offset",
+        "receiver": "gradient"
+      },
+      {
+        "function": "_recalulate_bar_value",
+        "line": 39,
+        "method": "set_offset",
+        "receiver": "gradient"
+      },
+      {
+        "function": "_show_for_a_while",
+        "line": 49,
+        "method": "start",
+        "receiver": "_visibility_timer"
+      },
+      {
+        "function": "_on_unit_selected",
+        "line": 53,
+        "method": "stop",
+        "receiver": "_visibility_timer"
+      }
+    ],
+    "class_name": "",
+    "connections": [
+      {
+        "emitter": "_unit",
+        "function": "_ready",
+        "handler": "_on_unit_selected",
+        "line": 27,
+        "signal": "selected"
+      },
+      {
+        "emitter": "_unit",
+        "function": "_ready",
+        "handler": "_on_unit_deselected",
+        "line": 28,
+        "signal": "deselected"
+      },
+      {
+        "emitter": "_unit",
+        "function": "_ready",
+        "handler": "_on_hp_changed",
+        "line": 29,
+        "signal": "hp_changed"
+      },
+      {
+        "emitter": "_visibility_timer",
+        "function": "_ready",
+        "handler": "_on_visibility_timer_timeout",
+        "line": 30,
+        "signal": "timeout"
+      }
+    ],
+    "constants": [
+      {
+        "line": 7,
+        "name": "BAR_AUTO_VISIBILITY_DURATION",
+        "value": "2.0"
+      }
+    ],
+    "exports": [],
+    "extends": "Node3D",
+    "functions": [
+      {
+        "end_line": 32,
+        "line": 22,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 44,
+        "line": 33,
+        "name": "_recalulate_bar_value",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 51,
+        "line": 45,
+        "name": "_show_for_a_while",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 56,
+        "line": 52,
+        "name": "_on_unit_selected",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 60,
+        "line": 57,
+        "name": "_on_unit_deselected",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 64,
+        "line": 61,
+        "name": "_on_hp_changed",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 66,
+        "line": 65,
+        "name": "_on_visibility_timer_timeout",
+        "params": "",
+        "returns": ""
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/combat/lampe-games__godot-open-rts__source__match__units__traits__HealthBar.gd 没有 class_name（跨类依赖无法静态归属）"
+  ]
+}

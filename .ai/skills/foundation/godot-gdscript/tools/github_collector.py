@@ -52,10 +52,15 @@ GODOT_BIN = os.environ.get(
     "GODOT_BIN", "F:/Godot_v4.7-stable/Godot_v4.7-stable_win64_console.exe"
 )
 
-ALLOWED_LICENSES = {
-    "MIT", "CC0-1.0", "BSD-2-Clause", "BSD-3-Clause", "Apache-2.0",
-    "Unlicense", "ISC", "Zlib", "MPL-2.0",
-}
+_EXTERNAL_CODE_DIR = SKILL_DIR.parents[2] / "tools" / "external_code"
+if str(_EXTERNAL_CODE_DIR) not in sys.path:
+    sys.path.insert(0, str(_EXTERNAL_CODE_DIR))
+from provenance import (  # noqa: E402
+    LICENSE_ALLOWLIST, assess_license, assess_provenance, has_license_text,
+    metadata_for_source, source_file_url,
+)
+
+ALLOWED_LICENSES = set(LICENSE_ALLOWLIST)
 GD_SUFFIXES = {".gd", ".gdshader"}
 MAX_FILE_BYTES = 200_000  # 单文件超过 200KB 视为异常，跳过
 
@@ -163,14 +168,45 @@ def cmd_search(args: argparse.Namespace) -> None:
 # ───────────────────────────── fetch ──────────────────────────────
 
 
+def _resolve_full_commit(full: str, branch: str, token: str | None = None) -> str:
+    """Resolve the branch head to a full SHA before any source is installed."""
+    data = _http_get_json(
+        f"https://api.github.com/repos/{full}/commits/{branch}", token)
+    sha = str(data.get("sha") or "").strip().lower()
+    if not re.fullmatch(r"[0-9a-f]{40}", sha):
+        raise RuntimeError("GitHub did not return a full 40-character commit SHA")
+    return sha
+
+
+def _install_staged_source(stage: Path, dest: Path) -> None:
+    """Install a complete staging tree; never expose a half-written source."""
+    backup: Path | None = None
+    if dest.exists():
+        backup = dest.with_name(dest.name + ".backup-p171")
+        if backup.exists():
+            shutil.rmtree(backup)
+        os.replace(dest, backup)
+    try:
+        os.replace(stage, dest)
+    except Exception:
+        if backup is not None and backup.exists() and not dest.exists():
+            os.replace(backup, dest)
+        raise
+    if backup is not None:
+        shutil.rmtree(backup, ignore_errors=True)
+
+
 def cmd_fetch(args: argparse.Namespace) -> None:
+    token = getattr(args, "token", None) or os.environ.get("GITHUB_TOKEN")
+    blocked: list[str] = []
     targets: list[dict] = []
     if args.repo:
-        info = _http_get_json(f"https://api.github.com/repos/{args.repo}", None)
+        info = _http_get_json(f"https://api.github.com/repos/{args.repo}", token)
         targets.append({
             "full_name": info["full_name"],
             "default_branch": info["default_branch"],
             "license": (info.get("license") or {}).get("spdx_id") or "unknown",
+            "license_source": "github_api_spdx",
             "stars": info.get("stargazers_count", 0),
         })
     else:
@@ -186,83 +222,108 @@ def cmd_fetch(args: argparse.Namespace) -> None:
         if dest.exists() and not args.force:
             print(f"[fetch] 已存在，跳过: {t['full_name']}")
             continue
+        # Discovery may inspect any repo, but copying source is gated here.
+        gate = assess_license(
+            t.get("license"), license_text_present=None,
+            license_source=t.get("license_source") or "github_api_spdx",
+            allow_missing_text=True,
+        )
+        if not gate["copy_allowed"]:
+            blocked.append(t["full_name"])
+            print(f"[fetch] BLOCKED {t['full_name']}: {gate['reason']}")
+            continue
         try:
-            _fetch_one(t, dest)
+            _fetch_one(t, dest, token=token)
         except Exception as exc:  # noqa: BLE001
             import traceback
             print(f"[fetch] 失败: {t['full_name']}: {exc}")
             traceback.print_exc()
+            blocked.append(t["full_name"])
+    if blocked:
+        raise SystemExit(
+            "[fetch] blocked/failed %d repository(ies); no partial source was installed: %s"
+            % (len(blocked), ", ".join(blocked)))
 
 
-def _fetch_one(meta: dict, dest: Path) -> None:
+def _fetch_one(meta: dict, dest: Path, token: str | None = None) -> None:
     full = meta["full_name"]
     slug = _slug(full)
-    branch = meta.get("default_branch", "main")
-    gd_dir = dest / "gd"
+    branch = meta.get("default_branch") or meta.get("branch") or "main"
+    gate = assess_license(
+        meta.get("license"), license_text_present=None,
+        license_source=meta.get("license_source") or "github_api_spdx",
+        allow_missing_text=True,
+    )
+    if not gate["copy_allowed"]:
+        raise PermissionError(gate["reason"])
+    # Full SHA is required for new data; do not fall back to a branch.
+    commit_full = _resolve_full_commit(full, branch, token)
+    commit_short = commit_full[:12]
     url = (f"https://codeload.github.com/{full}/tar.gz/refs/heads/"
            f"{urllib.parse.quote(branch)}")
-    print(f"[fetch] {full} ({branch}) ...")
-    with tempfile.TemporaryDirectory() as td:
-        tgz = Path(td) / "repo.tar.gz"
-        req = urllib.request.Request(url, headers={"User-Agent": "godot-code-collector/1.0"})
-        with urllib.request.urlopen(req, timeout=120) as resp, open(tgz, "wb") as fh:
-            shutil.copyfileobj(resp, fh)
-        extract_root = Path(td) / "x"
-        extract_root.mkdir()
-        dest.mkdir(parents=True, exist_ok=True)
-        gd_dir.mkdir(parents=True, exist_ok=True)
-        with tarfile.open(tgz, "r:gz") as tf:
-            members = tf.getmembers()
-            root_name = members[0].name.split("/")[0] if members else ""
-            # 短 sha 可从根目录名解析 (repo-<sha>)
-            sha = root_name[len(full.rsplit('/', 1)[-1]) + 1:] if root_name else ""
-            safe = [m for m in members
-                    if not m.name.startswith("/") and ".." not in Path(m.name).parts]
-            # 逐成员提取：个别仓库存在「同名既是目录又是文件」等怪结构，
-            # 单成员失败只警告跳过，不废掉整个仓库的下载。
-            for m in safe:
-                try:
-                    tf.extract(m, extract_root, filter="data")
-                except Exception as exc:  # noqa: BLE001
-                    print(f"[fetch] WARN 跳过异常成员 {m.name}: {exc}")
-        src_root = extract_root / root_name
-        count = 0
-        for f in sorted(src_root.rglob("*")):
-            if not f.is_file():
-                # 个别仓库存在以 .gd 结尾的目录（如 netfox 的 addons/nohub.gd/），
-                # 不能当作脚本文件复制
-                continue
-            rel = f.relative_to(src_root)
-            if f.suffix.lower() in GD_SUFFIXES and f.stat().st_size <= MAX_FILE_BYTES:
-                out = gd_dir / _sanitize_rel(rel)
-                out.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(f, out)
-                count += 1
-                if count >= 800:
-                    print(f"[fetch] 达到单仓库上限 800 文件，截断: {full}")
-                    break
-            if len(rel.parts) == 1 and f.is_file() and (
-                f.name.upper().startswith("LICENSE") or f.name.upper().startswith("README")
-            ):
-                shutil.copy2(f, dest / f.name)
-    info = dict(meta)
-    # codeload tarball 根名是 <repo>-<branch>，不含 commit sha——
-    # 必须查 API 拿分支头真实 sha（失败回退分支名，backfill-meta 可再兜底）。
-    if not _sha_looks_valid(sha, branch):
-        try:
-            info_json = _http_get_json(
-                f"https://api.github.com/repos/{full}/commits/{branch}", None)
-            sha = info_json["sha"][:12]
-        except Exception as exc:  # noqa: BLE001
-            print(f"[fetch] WARN commit sha 回退为分支名 {branch}: {exc}")
-    info.update({
-        "branch": branch, "commit_sha": sha, "fetched_at": _now(),
-        "gd_file_count": count, "slug": slug,
-    })
-    dest.mkdir(parents=True, exist_ok=True)
-    (dest / "_meta.json").write_text(
-        json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    print(f"[fetch] {full} ({branch}@{commit_short}) ...")
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=".fetch-stage-", dir=str(dest.parent)))
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            tgz = Path(td) / "repo.tar.gz"
+            req = urllib.request.Request(url, headers={"User-Agent": "godot-code-collector/1.0"})
+            with urllib.request.urlopen(req, timeout=120) as resp, open(tgz, "wb") as fh:
+                shutil.copyfileobj(resp, fh)
+            extract_root = Path(td) / "x"
+            extract_root.mkdir()
+            with tarfile.open(tgz, "r:gz") as tf:
+                members = tf.getmembers()
+                root_name = members[0].name.split("/")[0] if members else ""
+                safe = [m for m in members
+                        if not m.name.startswith("/") and ".." not in Path(m.name).parts]
+                # 逐成员提取：单个怪成员失败不废掉整个仓库。
+                for m in safe:
+                    try:
+                        tf.extract(m, extract_root, filter="data")
+                    except Exception as exc:  # noqa: BLE001
+                        print(f"[fetch] WARN 跳过异常成员 {m.name}: {exc}")
+            src_root = extract_root / root_name
+            if not src_root.is_dir():
+                raise RuntimeError("downloaded archive root is missing")
+            gd_dir = stage / "gd"
+            gd_dir.mkdir(parents=True, exist_ok=True)
+            count = 0
+            for f in sorted(src_root.rglob("*")):
+                if not f.is_file():
+                    continue
+                rel = f.relative_to(src_root)
+                if f.suffix.lower() in GD_SUFFIXES and f.stat().st_size <= MAX_FILE_BYTES:
+                    out = gd_dir / _sanitize_rel(rel)
+                    out.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(f, out)
+                    count += 1
+                    if count >= 800:
+                        print(f"[fetch] 达到单仓库上限 800 文件，截断: {full}")
+                        break
+                if len(rel.parts) == 1 and f.is_file() and (
+                    f.name.upper().startswith("LICENSE")
+                    or f.name.upper().startswith("COPYING")
+                    or f.name.upper().startswith("README")
+                ):
+                    shutil.copy2(f, stage / f.name)
+        info = dict(meta)
+        info.update({
+            "branch": branch, "commit_sha": commit_short,
+            "commit_sha_full": commit_full, "fetched_at": _now(),
+            "gd_file_count": count, "slug": slug,
+            "license_source": meta.get("license_source") or "github_api_spdx",
+        })
+        info.update(metadata_for_source(info, stage))
+        # metadata_for_source has no file path; provenance is complete because
+        # the full SHA was resolved before download.
+        info["provenance_status"] = "complete"
+        (stage / "_meta.json").write_text(
+            json.dumps(info, ensure_ascii=False, indent=2), encoding="utf-8")
+        _install_staged_source(stage, dest)
+    finally:
+        if stage.exists():
+            shutil.rmtree(stage, ignore_errors=True)
     print(f"[fetch] {full}: {count} 个 gd 文件 -> sources/{slug}")
 
 
@@ -343,6 +404,22 @@ def _preflight_sources(sources_dir: Path) -> list[tuple[Path, dict, list[Path]]]
     candidate_count = 0
     for repo_dir in repos:
         meta = _load_repo_meta(repo_dir)
+        gate = assess_license(
+            meta.get("license"), license_text_present=has_license_text(repo_dir),
+            license_source=meta.get("license_source") or "github_api_spdx",
+            allow_missing_text=True,
+        )
+        if not gate["copy_allowed"]:
+            _catalog_fail("许可证门禁阻止 %s: %s" % (meta.get("full_name"), gate["reason"]))
+        provenance = assess_provenance(
+            full_name=meta.get("full_name"), commit_sha=meta.get("commit_sha"),
+            commit_sha_full=meta.get("commit_sha_full") or "",
+        )
+        if provenance["provenance_status"] == "unknown":
+            _catalog_fail("来源不完整阻止 %s: %s"
+                          % (meta.get("full_name"), provenance["reason"]))
+        meta["_license_gate"] = gate
+        meta["_provenance"] = provenance
         files = _candidate_files(repo_dir)
         candidate_count += len(files)
         prepared.append((repo_dir, meta, files))
@@ -500,6 +577,21 @@ def cmd_catalog(args: argparse.Namespace, *, sources_dir: Path | None = None,
                 name_owner = seen_names.get(flat)
                 if name_owner and not dup_of:
                     dup_of = name_owner  # 扁平化同名冲突视为重复
+                commit_short = str(meta["commit_sha"])
+                commit_full = str(meta.get("commit_sha_full") or "")
+                url_sha = commit_full or commit_short
+                source_url = source_file_url(meta["full_name"], url_sha,
+                                             rel.as_posix())
+                provenance = assess_provenance(
+                    full_name=meta["full_name"], commit_sha=commit_short,
+                    commit_sha_full=commit_full, source_path=rel.as_posix(),
+                    source_url=source_url,
+                )
+                license_gate = meta.get("_license_gate") or assess_license(
+                    meta.get("license"), license_text_present=has_license_text(repo_dir),
+                    license_source=meta.get("license_source") or "github_api_spdx",
+                    allow_missing_text=True,
+                )
                 entry = {
                     "id": flat,
                     "repo": meta["full_name"],
@@ -511,9 +603,14 @@ def cmd_catalog(args: argparse.Namespace, *, sources_dir: Path | None = None,
                     "lines": lines,
                     "sha256": content_hash[:12],
                     "duplicate_of": dup_of,
-                    "commit_sha": meta["commit_sha"],
-                    "source_url": f"https://github.com/{meta['full_name']}/blob/"
-                                  f"{meta.get('branch', 'main')}/{rel.as_posix()}",
+                    "commit_sha": commit_short,
+                    "commit_sha_full": commit_full,
+                    "source_url": source_url,
+                    "provenance_status": provenance["provenance_status"],
+                    "license_text_present": license_gate["license_text_present"],
+                    "license_status": license_gate["license_status"],
+                    "license_source": license_gate["license_source"],
+                    "license_basis": license_gate["license_basis"],
                     "collected_at": meta.get("fetched_at", _now()),
                     "parse_status": ("duplicate" if dup_of else
                                      "skipped_shader" if f.suffix.lower() == ".gdshader"
@@ -568,8 +665,11 @@ def _write_catalog_yaml(entries: list[dict], path: Path | None = None) -> None:
         out.append(f"  - id: {_yaml_str(e['id'])}")
         for k in ("repo", "repo_slug", "repo_path", "domain", "license",
                   "stars", "lines", "sha256", "duplicate_of", "commit_sha",
-                  "source_url", "collected_at", "parse_status"):
-            out.append(f"    {k}: {_yaml_str(str(e[k]))}")
+                  "commit_sha_full", "source_url", "provenance_status",
+                  "license_text_present", "license_status", "license_source",
+                  "license_basis", "collected_at", "parse_status"):
+            if k in e:
+                out.append(f"    {k}: {_yaml_str(str(e[k]))}")
     target.write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
@@ -808,6 +908,10 @@ def cmd_backfill_meta(args: argparse.Namespace) -> None:
                              encoding="utf-8")
         for e in by_slug.get(meta["slug"], []):
             e["commit_sha"] = meta["commit_sha"]
+            e["commit_sha_full"] = sha_full
+            e["provenance_status"] = "complete"
+            e["source_url"] = source_file_url(
+                e.get("repo"), sha_full, e.get("repo_path"))
         sha_updated += 1
         print(f"[backfill] sha {meta['full_name']}: {branch} -> {sha_full[:12]}")
 
@@ -830,12 +934,20 @@ def cmd_backfill_meta(args: argparse.Namespace) -> None:
         if not ref.is_file():
             continue
         lines = ref.read_text(encoding="utf-8").splitlines(keepends=True)
+        changed = False
         if len(lines) >= 3 and lines[2].startswith("# Commit:  "):
             want = f"# Commit:  {e['commit_sha']}\n"
             if lines[2] != want:
                 lines[2] = want
-                ref.write_text("".join(lines), encoding="utf-8")
-                headers_updated += 1
+                changed = True
+        e["provenance_status"] = assess_provenance(
+            full_name=e.get("repo"), commit_sha=e.get("commit_sha"),
+            commit_sha_full=e.get("commit_sha_full") or "",
+            source_path=e.get("repo_path"), source_url=e.get("source_url"),
+        )["provenance_status"]
+        if changed:
+            ref.write_text("".join(lines), encoding="utf-8")
+            headers_updated += 1
 
     _write_catalog_yaml(entries)
     _write_index_md(entries)
@@ -950,9 +1062,31 @@ def cmd_promote(args: argparse.Namespace) -> None:
     snippet_file = (REFERENCES_DIR / entry["domain"] / entry["id"])
     if not snippet_file.exists():
         sys.exit(f"[promote] 片段文件缺失: {snippet_file}")
-    if entry.get("license") not in ALLOWED_LICENSES:
-        print(f"[promote] 警告: 片段许可证 {entry.get('license')} 不在白名单，"
-              f"只可参考思路，不可拷贝代码")
+    source_dir = SOURCES_DIR / str(entry.get("repo_slug") or "")
+    license_gate = assess_license(
+        entry.get("license"), license_text_present=has_license_text(source_dir),
+        license_source=entry.get("license_source") or "github_api_spdx",
+        declared_status=(entry.get("license_status")
+                         if entry.get("license_status") in ("blocked", "pending_review")
+                         else None),
+        allow_missing_text=True,
+    )
+    if not license_gate["copy_allowed"]:
+        sys.exit("[promote] BLOCKED by license gate: %s (%s)"
+                 % (entry.get("license"), license_gate["reason"]))
+    provenance = assess_provenance(
+        full_name=entry.get("repo"), commit_sha=entry.get("commit_sha"),
+        commit_sha_full=entry.get("commit_sha_full") or "",
+        source_path=entry.get("repo_path"), source_url=entry.get("source_url"),
+    )
+    if provenance["provenance_status"] == "unknown":
+        sys.exit("[promote] BLOCKED by provenance validator: %s"
+                 % provenance["reason"])
+    if provenance["provenance_status"] == "incomplete":
+        print("[promote] WARN provenance incomplete: %s" % provenance["reason"])
+    if license_gate["license_status"] == "license_text_missing":
+        print("[promote] WARN license text missing; basis=%s risk=%s"
+              % (license_gate["license_basis"], license_gate["license_risk"]))
 
     dest.mkdir(parents=True)
     (dest / f"{name}.gd").write_text(
@@ -1002,8 +1136,9 @@ def main() -> None:
     f.add_argument("--repo", default=None)
     f.add_argument("--branch", default="main")
     f.add_argument("--top", type=int, default=10)
-    f.add_argument("--all", action="store_true", help="不按许可证过滤")
+    f.add_argument("--all", action="store_true", help="发现全部候选；许可证门禁仍会阻止复制")
     f.add_argument("--force", action="store_true")
+    f.add_argument("--token", default=None)
     f.set_defaults(fn=cmd_fetch)
 
     c = sub.add_parser("catalog")

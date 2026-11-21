@@ -1,0 +1,400 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-eb1bb39009fc085d",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "fe589153fa78",
+  "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+  "conditions": [
+    {
+      "condition": "if _key_expression.has_execute_failed():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "function": "tick",
+      "line": 21
+    },
+    {
+      "condition": "return FAILURE",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "function": "tick",
+      "line": 22
+    },
+    {
+      "condition": "if _value_expression.has_execute_failed():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "function": "tick",
+      "line": 26
+    },
+    {
+      "condition": "return FAILURE",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "function": "tick",
+      "line": 27
+    },
+    {
+      "condition": "return SUCCESS",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "function": "tick",
+      "line": 31
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:35Z",
+  "domain": "general",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "line": 18,
+      "name": "tick",
+      "params": "actor: Node, blackboard: Blackboard",
+      "returns": "int",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd:18#func=tick",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "11705eb50ed87f018e3a2371e137e5cd6eb25186fd8b574c43d2bd7914e146e7",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_existing_policy",
+  "license_risk": "local_license_text_missing",
+  "license_source": "github_api_spdx",
+  "license_status": "license_text_missing",
+  "license_text_present": false,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "fe589153fa78",
+    "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "bitbrain/beehave",
+    "source_path": "addons/beehave/nodes/leaves/blackboard_set.gd",
+    "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/nodes/leaves/blackboard_set.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\general\\bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+  "repo": "bitbrain/beehave",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "fb4fc4dde707ecf1d20998cb6d6da6d9568b73af060ecfa7e1aeb337453410e0",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\bitbrain__beehave\\gd\\addons\\beehave\\nodes\\leaves\\blackboard_set.gd",
+  "source_path": "addons/beehave/nodes/leaves/blackboard_set.gd",
+  "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/nodes/leaves/blackboard_set.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "initial": "_parse_expression(key)",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+          "function": "tick",
+          "line": 19
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+          "function": "tick",
+          "line": 21
+        }
+      ],
+      "variable": "_key_expression",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+      "initial": "_parse_expression(value)",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+          "function": "tick",
+          "line": 24
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/general/bitbrain__beehave__addons__beehave__nodes__leaves__blackboard_set.gd",
+          "function": "tick",
+          "line": 26
+        }
+      ],
+      "variable": "_value_expression",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "tick",
+        "line": 19,
+        "method": "execute",
+        "receiver": "_key_expression"
+      },
+      {
+        "function": "tick",
+        "line": 21,
+        "method": "has_execute_failed",
+        "receiver": "_key_expression"
+      },
+      {
+        "function": "tick",
+        "line": 24,
+        "method": "execute",
+        "receiver": "_value_expression"
+      },
+      {
+        "function": "tick",
+        "line": 26,
+        "method": "has_execute_failed",
+        "receiver": "_value_expression"
+      },
+      {
+        "function": "tick",
+        "line": 29,
+        "method": "set_value",
+        "receiver": "blackboard"
+      }
+    ],
+    "class_name": "BlackboardSetAction",
+    "connections": [],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 6,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [
+          {
+            "args": "EXPRESSION_PLACEHOLDER",
+            "interpreted": true,
+            "name": "export_placeholder"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "key",
+        "type": "String",
+        "value": "\"\""
+      },
+      {
+        "annotations": [
+          {
+            "args": "EXPRESSION_PLACEHOLDER",
+            "interpreted": true,
+            "name": "export_placeholder"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "value",
+        "type": "String",
+        "value": "\"\""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 14,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 14,
+        "name": "_key_expression",
+        "type": "Expression",
+        "value": "_parse_expression(key)"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 15,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 15,
+        "name": "_value_expression",
+        "type": "Expression",
+        "value": "_parse_expression(value)"
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 18,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 18,
+        "name": "tick",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 34,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 34,
+        "name": "_get_expression_sources",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [
+      {
+        "annotations": [
+          {
+            "args": "EXPRESSION_PLACEHOLDER",
+            "interpreted": true,
+            "name": "export_placeholder"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "key",
+        "type": "String",
+        "value": "\"\""
+      },
+      {
+        "annotations": [
+          {
+            "args": "EXPRESSION_PLACEHOLDER",
+            "interpreted": true,
+            "name": "export_placeholder"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "value",
+        "type": "String",
+        "value": "\"\""
+      }
+    ],
+    "extends": "",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 33,
+        "line": 18,
+        "name": "tick",
+        "params": "actor: Node, blackboard: Blackboard",
+        "returns": "int"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 35,
+        "line": 34,
+        "name": "_get_expression_sources",
+        "params": "",
+        "returns": "Array[String]"
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 14,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 14,
+        "name": "_key_expression",
+        "type": "Expression",
+        "value": "_parse_expression(key)"
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "onready"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 15,
+        "has_initializer": true,
+        "initializer_kind": "EXPLICIT",
+        "is_exported": false,
+        "is_onready": true,
+        "is_static": false,
+        "line": 15,
+        "name": "_value_expression",
+        "type": "Expression",
+        "value": "_parse_expression(value)"
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [],
+  "unsupported_constructs": []
+}

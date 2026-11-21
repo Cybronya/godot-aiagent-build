@@ -1,0 +1,50 @@
+{
+ "audit": {
+  "batch_d_readiness": "READY_FOR_BATCH_D_WITH_RESTRICTIONS",
+  "checks": {
+   "batch_d_executed": false,
+   "candidates_reviewed": 2,
+   "candidates_total": 2,
+   "formal_data_mutation": "PASS",
+   "formal_linkage_audited": 150,
+   "formal_linkage_mutated": 0,
+   "mapping_exact_identity": 34,
+   "mapping_records_complete": 34,
+   "mapping_records_total": 34,
+   "partial_records_reviewed": 3,
+   "review_queue_created": false,
+   "seed_policy_reviewed": true,
+   "symbols_inventoried": 59,
+   "symbols_with_potential_impact": 13,
+   "target_value_existing_linkage_references": 1,
+   "target_value_reviewed": true
+  },
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "phase": "1.76-C",
+  "read_only": true,
+  "verdict": "PASS_WITH_LIMITATIONS",
+  "verdict_reasons": [
+   "3/34 records have PARTIAL syntax coverage; absence of parsed symbols is not absence of declarations.",
+   "Formal Analysis/Linkage/Candidates remain on parser 1.71 and were not consumed by this review.",
+   "Two source declarations in PARTIAL files are missing from the symbol table without being flagged.",
+   "Seed policy has no explicit coverage-status or formal-analysis-only rule."
+  ]
+ },
+ "integrity": {
+  "added": [],
+  "changed": [],
+  "counts": {
+   "batch_a_inventory": 1,
+   "batch_b_workspace": 162,
+   "candidates": 3,
+   "feature_layer": 3,
+   "formal_analysis": 34,
+   "formal_linkage": 150,
+   "p175_workspace": 29,
+   "parser_adapter": 2
+  },
+  "missing": [],
+  "status": "PASS"
+ },
+ "phase": "1.76-C"
+}

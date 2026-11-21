@@ -1,0 +1,307 @@
+{
+  "analysis_id": "ext-73c80a3db6d71e48",
+  "evidence_items": [
+    {
+      "evidence_id": "lnk-a099657ab3c9930c:ev:01",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "DECLARED",
+      "evidence_type": "GRAPH_RELATION",
+      "explanation": "Feature 'attack_emitter' is connected to 'health' by the declared 'works_with' relation, and this analysis has a direct link to 'health'; the relation to 'attack_emitter' is indirect and has no direct identifier match",
+      "intermediate_path": [
+        "attack_emitter",
+        "works_with",
+        "health"
+      ],
+      "line_reference": null,
+      "matched_value": "works_with",
+      "provenance_reference": "feature_graph.json#attack_emitter-works_with-health",
+      "source_path": ".ai/context/feature_graph.json",
+      "source_side": "FEATURE_GRAPH",
+      "symbol_name": "health"
+    }
+  ],
+  "evidence_limitations": {
+    "ambiguity_reasons": [],
+    "analysis_status": "analysis_complete",
+    "missing_evidence": [
+      "evidence is indirect: no direct identifier match between this analysis and this Feature"
+    ],
+    "parser_limitations": [
+      "regex_parser_without_ast_or_type_inference"
+    ],
+    "projection_status": "PARTIAL",
+    "provenance_limitations": [
+      "provenance_status=complete",
+      "full commit SHA is recorded"
+    ],
+    "unsupported_content": [],
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "external_analysis": {
+    "analysis_record_digest": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+    "analysis_record_path": ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json",
+    "analysis_status": "analysis_complete",
+    "file_type": "gdscript",
+    "parse_status": "parsed",
+    "provenance_status": "complete",
+    "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "source_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94",
+    "source_path": "addons/top_down/scripts/damage/HealthResource.gd",
+    "source_repository": "nezvers/Godot-GameTemplate",
+    "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/HealthResource.gd"
+  },
+  "feature_id": "attack_emitter",
+  "feature_name": "attack_emitter",
+  "feature_projection": {
+    "feature_analysis_references": [
+      {
+        "analysis_digest": "14e94adf5241030493b6f86f36a6e927d0d9b432b54711befa2e3b06463a4882",
+        "analysis_record_path": ".ai/learning/source_analysis/attack_emitter/raycast_hit_deals_damage.json",
+        "analysis_status": "SOURCE_ENTRY_AMBIGUOUS",
+        "analyzed_source_files": [
+          "Features/attack_emitter/attack_emitter.gd",
+          "Features/attack_emitter/raycast_attack_emitter.gd"
+        ],
+        "limitations": [
+          "方法 do_attack 在多个位置定义：Features/attack_emitter/attack_emitter.gd:39, Features/attack_emitter/raycast_attack_emitter.gd:24",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      },
+      {
+        "analysis_digest": "9f5db1fab2c7d39dffd6470594e4caf7e705289b6afdc9325ba5e61552aa9a0c",
+        "analysis_record_path": ".ai/learning/source_analysis/attack_emitter/repeated_attack_can_kill.json",
+        "analysis_status": "SOURCE_ENTRY_AMBIGUOUS",
+        "analyzed_source_files": [
+          "Features/attack_emitter/attack_emitter.gd",
+          "Features/attack_emitter/raycast_attack_emitter.gd"
+        ],
+        "limitations": [
+          "方法 do_attack 在多个位置定义：Features/attack_emitter/attack_emitter.gd:39, Features/attack_emitter/raycast_attack_emitter.gd:24",
+          "契约引用的符号 current 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 is_dead 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）",
+          "契约引用的符号 died 在实现文件的函数/变量声明中未直接出现（可能是引擎内建或实例属性）"
+        ]
+      }
+    ],
+    "feature_path": "Features/attack_emitter/feature.yaml",
+    "feature_projection_digest": "084e591cfeeb47efe5085dde9a694d99483cb9322dbc77387b2f03080bd2319e",
+    "feature_projection_path": ".ai/learning/feature_evidence/attack_emitter.json",
+    "feature_source_references": [
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/attack_emitter/feature.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\attack_emitter\\feature.yaml",
+        "source_digest": "0de5e071fdc765ca0c25dd07f081ce1c48569c601e7da38392416a10e4bef1d2",
+        "source_path": "Features/attack_emitter/feature.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_METADATA"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_index.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_path": ".ai/context/feature_index.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_INDEX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_graph.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_path": ".ai/context/feature_graph.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_GRAPH"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/coverage_matrix.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_path": ".ai/context/coverage_matrix.json",
+        "source_status": "FOUND",
+        "source_type": "COVERAGE_MATRIX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/attack_emitter/template.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\attack_emitter\\template.yaml",
+        "source_digest": "f56fabb4c2051932f256f13cde3a77fb212b74e708eddf3a39d5238c7aed5dbe",
+        "source_path": "Features/attack_emitter/template.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEMPLATE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/attack_emitter/raycast_hit_deals_damage.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\attack_emitter\\raycast_hit_deals_damage.json",
+        "source_digest": "14e94adf5241030493b6f86f36a6e927d0d9b432b54711befa2e3b06463a4882",
+        "source_path": ".ai/learning/source_analysis/attack_emitter/raycast_hit_deals_damage.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/attack_emitter/repeated_attack_can_kill.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\attack_emitter\\repeated_attack_can_kill.json",
+        "source_digest": "9f5db1fab2c7d39dffd6470594e4caf7e705289b6afdc9325ba5e61552aa9a0c",
+        "source_path": ".ai/learning/source_analysis/attack_emitter/repeated_attack_can_kill.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "RELATIVE",
+        "normalized_path": "Features/attack_emitter/attack_emitter.gd",
+        "original_path": "Features/attack_emitter/attack_emitter.gd",
+        "source_digest": "1ac9da495bcfa3bf7b6de05685c064fba9c7d7e342d0da97927f6733d2ff96ff",
+        "source_path": "Features/attack_emitter/attack_emitter.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "RELATIVE",
+        "normalized_path": "Features/attack_emitter/raycast_attack_emitter.gd",
+        "original_path": "Features/attack_emitter/raycast_attack_emitter.gd",
+        "source_digest": "74a308826ec9131df7f5911d9f7bf34ffccadc6f5318f3732cf2d41f6101c199",
+        "source_path": "Features/attack_emitter/raycast_attack_emitter.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/attack_emitter/test_attack_emitter.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\attack_emitter\\test_attack_emitter.gd",
+        "source_digest": "bdb97eb44b58347e495165113cce25ea239d5b8d58537f620280f5cabb12b103",
+        "source_path": "Features/attack_emitter/test_attack_emitter.gd",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEST"
+      }
+    ],
+    "projection_status": "PARTIAL",
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "generated_at": "2026-11-15T15:16:40Z",
+  "generator": {
+    "classifier": "deterministic_symbol_and_declaration_matching",
+    "name": "feature_linkage",
+    "version": "phase-1.73-b/1"
+  },
+  "limitations": [
+    "evidence type only; not a similarity, quality, admission or promotion judgement",
+    "analysis_status=analysis_complete",
+    "projection_status=PARTIAL",
+    "feature projection is not complete; coverage of Feature evidence is partial"
+  ],
+  "linkage_classification": "INDIRECT_EVIDENCE",
+  "linkage_id": "lnk-a099657ab3c9930c",
+  "linkage_outcome": "LINKED",
+  "pair_evaluation": {
+    "declared_relation": "graph:works_with",
+    "external_symbol_count": 20,
+    "external_symbols": [
+      "HealthResource",
+      "add_hp",
+      "damaged",
+      "dead",
+      "full",
+      "hp_changed",
+      "insta_kill",
+      "is_dead",
+      "is_full",
+      "max_hp_changed",
+      "prepare_load",
+      "reset_resource",
+      "reset_update",
+      "set_max_hp"
+    ],
+    "feature_declared_symbol_count": 11,
+    "feature_source_symbol_count": 9,
+    "matched_symbols": [],
+    "shared_tokens": []
+  },
+  "schema": "external_analysis_feature_linkage",
+  "schema_version": 1,
+  "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__HealthResource.gd",
+  "source_verification": {
+    "analysis_record": {
+      "digest": "89d2d0d78225106f7e0a1d082c8c429587f2471b42473ce6fcbeddc220df9453",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/external_code/analysis/ext-73c80a3db6d71e48.json"
+    },
+    "external_source_file": {
+      "digest_status": "MATCHED",
+      "path": ".ai/skills/foundation/godot-gdscript/code_library/sources/nezvers__Godot-GameTemplate/gd/addons/top_down/scripts/damage/HealthResource.gd",
+      "recorded_digest": "fed9dc57052f1f9ed40702116d1237ab3775618d336e6e6850d928ab7614bd94"
+    },
+    "feature_projection": {
+      "digest": "084e591cfeeb47efe5085dde9a694d99483cb9322dbc77387b2f03080bd2319e",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/feature_evidence/attack_emitter.json"
+    },
+    "feature_sources": [
+      {
+        "path": "Features/attack_emitter/feature.yaml",
+        "source_digest": "0de5e071fdc765ca0c25dd07f081ce1c48569c601e7da38392416a10e4bef1d2",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/attack_emitter/template.yaml",
+        "source_digest": "f56fabb4c2051932f256f13cde3a77fb212b74e708eddf3a39d5238c7aed5dbe",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/attack_emitter/raycast_hit_deals_damage.json",
+        "source_digest": "14e94adf5241030493b6f86f36a6e927d0d9b432b54711befa2e3b06463a4882",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/attack_emitter/repeated_attack_can_kill.json",
+        "source_digest": "9f5db1fab2c7d39dffd6470594e4caf7e705289b6afdc9325ba5e61552aa9a0c",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/attack_emitter/attack_emitter.gd",
+        "source_digest": "1ac9da495bcfa3bf7b6de05685c064fba9c7d7e342d0da97927f6733d2ff96ff",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/attack_emitter/raycast_attack_emitter.gd",
+        "source_digest": "74a308826ec9131df7f5911d9f7bf34ffccadc6f5318f3732cf2d41f6101c199",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/attack_emitter/test_attack_emitter.gd",
+        "source_digest": "bdb97eb44b58347e495165113cce25ea239d5b8d58537f620280f5cabb12b103",
+        "source_status": "FOUND"
+      }
+    ]
+  }
+}

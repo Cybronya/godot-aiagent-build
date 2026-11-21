@@ -47,6 +47,32 @@ import check_scene_composition
 FEATURES_DIR = template_loader.FEATURES_DIR
 INDEX_PATH = template_loader.INDEX_PATH
 
+
+def scene_composer_eligible_ids(features_dir: str = FEATURES_DIR) -> list:
+    """Scene Composer 的正式候选集合（从数据派生，不维护排除名单）。
+
+    Registry Membership 不等于 Scene Composer Eligibility：
+    - 必须有 feature.yaml（Registry Member）；
+    - 必须有 template.yaml（FEATURE_SCHEMA §7：无模板视为未接入）；
+    - template.scene.source 必须指向真实存在的入口场景。
+    """
+    eligible = []
+    for fid in sorted(os.listdir(features_dir)):
+        feature_dir = os.path.join(features_dir, fid)
+        if not os.path.isdir(feature_dir):
+            continue
+        if not os.path.isfile(os.path.join(feature_dir, "feature.yaml")):
+            continue
+        template = template_loader.load_template(fid, features_dir)
+        if not template:
+            continue
+        scene_rel = ((template.get("scene") or {}).get("source") or "").replace("\\", "/").strip()
+        if not scene_rel or not os.path.isfile(os.path.join(feature_dir, scene_rel)):
+            continue
+        eligible.append(fid)
+    return eligible
+
+
 _failures = []
 
 
@@ -170,9 +196,10 @@ def run() -> int:
         shutil.rmtree(out3, ignore_errors=True)
 
     print("=== Extras: templates / resolver / builder units ===")
-    # 12 个 Feature 均有 template.yaml 且 source 存在
-    feature_ids = sorted(d for d in os.listdir(FEATURES_DIR)
-                         if os.path.isdir(os.path.join(FEATURES_DIR, d)))
+    # Phase 4：只对 Scene Composer Eligible（有模板且入口场景存在）的 Feature 断言；
+    # Registry 中无模板的 INCOMPLETE 脚手架不进入正式 Scene Composer 支持集。
+    feature_ids = scene_composer_eligible_ids(FEATURES_DIR)
+    ok("eligibility: at least one Scene Composer eligible Feature", bool(feature_ids))
     for fid in feature_ids:
         template = template_loader.load_template(fid)
         ok("template: %s exists" % fid, bool(template))

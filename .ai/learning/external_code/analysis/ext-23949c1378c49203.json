@@ -1,0 +1,389 @@
+{
+  "analysis_id": "ext-23949c1378c49203",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "fe589153fa78",
+  "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+  "conditions": [
+    {
+      "condition": "return keys",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "keys",
+      "line": 27
+    },
+    {
+      "condition": "if not _data.has(blackboard_name):",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "set_value",
+      "line": 31
+    },
+    {
+      "condition": "return (",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "has_value",
+      "line": 46
+    },
+    {
+      "condition": "if _data.has(blackboard_name):",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "erase_value",
+      "line": 54
+    },
+    {
+      "condition": "return _sanitize_for_debug(_data)",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "get_debug_data",
+      "line": 61
+    },
+    {
+      "condition": "if depth > 4:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 68
+    },
+    {
+      "condition": "return str(value)",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 69
+    },
+    {
+      "condition": "match t:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 73
+    },
+    {
+      "condition": "return result",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 80
+    },
+    {
+      "condition": "return arr",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 86
+    },
+    {
+      "condition": "if value == null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 89
+    },
+    {
+      "condition": "return null",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 90
+    },
+    {
+      "condition": "if value is Node:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 92
+    },
+    {
+      "condition": "if value.get_tree():",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 94
+    },
+    {
+      "condition": "return {",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 96
+    },
+    {
+      "condition": "if value is Resource:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 103
+    },
+    {
+      "condition": "return {",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 104
+    },
+    {
+      "condition": "return str(value)",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 110
+    },
+    {
+      "condition": "return value",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "line": 113
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:46Z",
+  "domain": "ai",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "line": 19,
+      "name": "_ready",
+      "params": "",
+      "returns": "",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:19#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "line": 24,
+      "name": "keys",
+      "params": "",
+      "returns": "Array[String]",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:24#func=keys",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "line": 30,
+      "name": "set_value",
+      "params": "key: Variant, value: Variant, blackboard_name: String = DEFAULT",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:30#func=set_value",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "line": 45,
+      "name": "has_value",
+      "params": "key: Variant, blackboard_name: String = DEFAULT",
+      "returns": "bool",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:45#func=has_value",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "line": 53,
+      "name": "erase_value",
+      "params": "key: Variant, blackboard_name: String = DEFAULT",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:53#func=erase_value",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "line": 57,
+      "name": "get_debug_data",
+      "params": "",
+      "returns": "Dictionary",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd:57#func=get_debug_data",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if value == null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "kind": "null_guard",
+      "line": 89
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/ai/bitbrain__beehave__addons__beehave__blackboard.gd",
+      "function": "_sanitize_for_debug",
+      "kind": "guard_return",
+      "line": 90,
+      "value": ""
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 7,
+  "input_digest": "60283e7619837fecc55a4cbef252f870993700611fa579264bf86adae07694f5",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_existing_policy",
+  "license_risk": "local_license_text_missing",
+  "license_source": "github_api_spdx",
+  "license_status": "license_text_missing",
+  "license_text_present": false,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference",
+    "annotation_not_fully_interpreted:line=4"
+  ],
+  "parse_status": "partial",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "fe589153fa78",
+    "commit_sha_full": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "bitbrain/beehave",
+    "source_path": "addons/beehave/blackboard.gd",
+    "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\ai\\bitbrain__beehave__addons__beehave__blackboard.gd",
+  "repo": "bitbrain/beehave",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "bitbrain__beehave__addons__beehave__blackboard.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_digest": "e1b980ce875b611f5881d158c4cce4d61b92ce8f27e09101304e8014706c10b6",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\bitbrain__beehave\\gd\\addons\\beehave\\blackboard.gd",
+  "source_path": "addons/beehave/blackboard.gd",
+  "source_url": "https://github.com/bitbrain/beehave/blob/fe589153fa780a3f88989578ceb5f539afffb7c2/addons/beehave/blackboard.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_ready",
+        "line": 20,
+        "method": "duplicate",
+        "receiver": "blackboard"
+      },
+      {
+        "function": "keys",
+        "line": 26,
+        "method": "assign",
+        "receiver": "keys"
+      },
+      {
+        "function": "keys",
+        "line": 26,
+        "method": "keys",
+        "receiver": "_data"
+      },
+      {
+        "function": "set_value",
+        "line": 31,
+        "method": "has",
+        "receiver": "_data"
+      },
+      {
+        "function": "has_value",
+        "line": 47,
+        "method": "has",
+        "receiver": "_data"
+      },
+      {
+        "function": "erase_value",
+        "line": 54,
+        "method": "has",
+        "receiver": "_data"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 76,
+        "method": "keys",
+        "receiver": "value"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 85,
+        "method": "append",
+        "receiver": "arr"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 94,
+        "method": "get_tree",
+        "receiver": "value"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 95,
+        "method": "get_path",
+        "receiver": "value"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 97,
+        "method": "get_class",
+        "receiver": "value"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 100,
+        "method": "get_instance_id",
+        "receiver": "value"
+      },
+      {
+        "function": "_sanitize_for_debug",
+        "line": 105,
+        "method": "get_class",
+        "receiver": "value"
+      }
+    ],
+    "class_name": "Blackboard",
+    "connections": [],
+    "constants": [
+      {
+        "line": 7,
+        "name": "DEFAULT",
+        "value": "\"default\""
+      }
+    ],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "end_line": 23,
+        "line": 19,
+        "name": "_ready",
+        "params": "",
+        "returns": ""
+      },
+      {
+        "end_line": 29,
+        "line": 24,
+        "name": "keys",
+        "params": "",
+        "returns": "Array[String]"
+      },
+      {
+        "end_line": 36,
+        "line": 30,
+        "name": "set_value",
+        "params": "key: Variant, value: Variant, blackboard_name: String = DEFAULT",
+        "returns": "void"
+      },
+      {
+        "end_line": 52,
+        "line": 45,
+        "name": "has_value",
+        "params": "key: Variant, blackboard_name: String = DEFAULT",
+        "returns": "bool"
+      },
+      {
+        "end_line": 56,
+        "line": 53,
+        "name": "erase_value",
+        "params": "key: Variant, blackboard_name: String = DEFAULT",
+        "returns": "void"
+      },
+      {
+        "end_line": 63,
+        "line": 57,
+        "name": "get_debug_data",
+        "params": "",
+        "returns": "Dictionary"
+      },
+      {
+        "end_line": 113,
+        "line": 64,
+        "name": "_sanitize_for_debug",
+        "params": "value: Variant, depth: int = 0",
+        "returns": "Variant"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

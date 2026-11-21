@@ -1,0 +1,460 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-2d5a2f75d32abf94",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "d5d8d1588742",
+  "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+  "conditions": [
+    {
+      "condition": "if tween_timer != null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "function": "_enter_tree",
+      "line": 16
+    }
+  ],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "line": 14,
+      "name": "_enter_tree",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd:14#func=_enter_tree",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "line": 21,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd:21#func=_ready",
+      "trigger": "external_entry"
+    },
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "line": 24,
+      "name": "set_enabled",
+      "params": "value:bool",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd:24#func=set_enabled",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [
+    {
+      "condition": "if tween_timer != null:",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "function": "_enter_tree",
+      "kind": "null_guard",
+      "line": 16
+    }
+  ],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 3,
+  "input_digest": "6e87f2fe51369d50a798be9742489f1b781023d7fb9787c4b54abd7f95c867f4",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "d5d8d1588742",
+    "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "nezvers/Godot-GameTemplate",
+    "source_path": "addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+    "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/actor/bots/ProximityAttack.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+  "repo": "nezvers/Godot-GameTemplate",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "emitter": "target_finder",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "function": "_ready",
+      "handler": "_on_target_update",
+      "kind": "connect",
+      "line": 22,
+      "signal": "target_update"
+    }
+  ],
+  "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "a649943fbcd40d6e92aa6a2e3f610ad46b7811c709b75c1ef1f05ce1ce96e20b",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\nezvers__Godot-GameTemplate\\gd\\addons\\top_down\\scripts\\actor\\bots\\ProximityAttack.gd",
+  "source_path": "addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+  "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "initial": "",
+      "read_count": 0,
+      "reads": [],
+      "variable": "enabled",
+      "write_count": 2,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "_enter_tree",
+          "line": 15
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "set_enabled",
+          "line": 25
+        }
+      ]
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "_ready",
+          "line": 22
+        }
+      ],
+      "variable": "target_finder",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "initial": "",
+      "read_count": 3,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "_enter_tree",
+          "line": 16
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "_enter_tree",
+          "line": 17
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "_enter_tree",
+          "line": 19
+        }
+      ],
+      "variable": "tween_timer",
+      "write_count": 1,
+      "writes": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+          "function": "_enter_tree",
+          "line": 18
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_enter_tree",
+        "line": 17,
+        "method": "kill",
+        "receiver": "tween_timer"
+      },
+      {
+        "function": "_enter_tree",
+        "line": 19,
+        "method": "tween_callback",
+        "receiver": "tween_timer"
+      },
+      {
+        "function": "_enter_tree",
+        "line": 19,
+        "method": "bind",
+        "receiver": "set_enabled"
+      },
+      {
+        "function": "_on_target_update",
+        "line": 32,
+        "method": "set_action",
+        "receiver": "input_resource"
+      },
+      {
+        "function": "_on_target_update",
+        "line": 35,
+        "method": "set_action",
+        "receiver": "input_resource"
+      }
+    ],
+    "class_name": "ProximityAttack",
+    "connections": [
+      {
+        "emitter": "target_finder",
+        "function": "_ready",
+        "handler": "_on_target_update",
+        "line": 22,
+        "signal": "target_update"
+      }
+    ],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 8,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 7,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 7,
+        "name": "target_finder",
+        "type": "TargetFinder",
+        "value": ""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 8,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 8,
+        "name": "bot_input",
+        "type": "BotInput",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "enabled",
+        "type": "bool",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "tween_timer",
+        "type": "Tween",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 14,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 14,
+        "name": "_enter_tree",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 21,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 21,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 24,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 24,
+        "name": "set_enabled",
+        "type": "",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 27,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 27,
+        "name": "_on_target_update",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 7,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 7,
+        "name": "target_finder",
+        "type": "TargetFinder",
+        "value": ""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 8,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 8,
+        "name": "bot_input",
+        "type": "BotInput",
+        "value": ""
+      }
+    ],
+    "extends": "Node",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 20,
+        "line": 14,
+        "name": "_enter_tree",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 23,
+        "line": 21,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 26,
+        "line": 24,
+        "name": "set_enabled",
+        "params": "value:bool",
+        "returns": "void"
+      },
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 35,
+        "line": 27,
+        "name": "_on_target_update",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 10,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 10,
+        "name": "enabled",
+        "type": "bool",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 12,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 12,
+        "name": "tween_timer",
+        "type": "Tween",
+        "value": ""
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [],
+  "unsupported_constructs": []
+}

@@ -1,0 +1,318 @@
+{
+  "analysis_completeness": "FULL",
+  "analysis_id": "ext-290fc9bec06533fb",
+  "analysis_status": "analysis_partial",
+  "approved_knowledge": false,
+  "commit_sha": "863324dfb752",
+  "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-16T18:01:36Z",
+  "domain": "input",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "line": 11,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd:11#func=_ready",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "371602dcdb00cbc5d9a2636c94ad63e64b707cbbc5fdafa2582191d8b4412a15",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_execution_status": "PARSED",
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.75",
+  "provenance": {
+    "commit_sha": "863324dfb752",
+    "commit_sha_full": "863324dfb752cc19a0520d759ee2007259b8417f",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "Ark2000/PankuConsole",
+    "source_path": "addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+    "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/modules/interactive_shell/mini_repl_2.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\input\\Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+  "repo": "Ark2000/PankuConsole",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "emitter": "repl",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "function": "_ready",
+      "handler": "console",
+      "kind": "connect",
+      "line": 12,
+      "signal": "output_result"
+    },
+    {
+      "emitter": "repl",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "function": "_ready",
+      "handler": "console",
+      "kind": "connect",
+      "line": 13,
+      "signal": "output_error"
+    }
+  ],
+  "snippet_id": "Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+  "source_analysis_status": "partial",
+  "source_consistent": true,
+  "source_coordinates": "ANALYZED_FILE",
+  "source_digest": "ad826b6ca230d9ca13e3968ce03da2d6a5bf3c05ebed271b909b7ad7f52539ac",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\Ark2000__PankuConsole\\gd\\addons\\panku_console\\modules\\interactive_shell\\mini_repl_2.gd",
+  "source_path": "addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+  "source_url": "https://github.com/Ark2000/PankuConsole/blob/863324dfb752cc19a0520d759ee2007259b8417f/addons/panku_console/modules/interactive_shell/mini_repl_2.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+          "function": "_ready",
+          "line": 12
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+          "function": "_ready",
+          "line": 13
+        }
+      ],
+      "variable": "console",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+          "function": "_ready",
+          "line": 14
+        }
+      ],
+      "variable": "input_area",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+      "initial": "",
+      "read_count": 2,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+          "function": "_ready",
+          "line": 12
+        },
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd",
+          "function": "_ready",
+          "line": 13
+        }
+      ],
+      "variable": "repl",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [],
+    "class_name": "",
+    "connections": [
+      {
+        "emitter": "repl",
+        "function": "_ready",
+        "handler": "console",
+        "line": 12,
+        "signal": "output_result"
+      },
+      {
+        "emitter": "repl",
+        "function": "_ready",
+        "handler": "console",
+        "line": 13,
+        "signal": "output_error"
+      }
+    ],
+    "constants": [],
+    "coverage": {
+      "analysis_completeness": "FULL",
+      "declaration_count": 4,
+      "parse_execution_status": "PARSED",
+      "source_coordinates": "ANALYZED_FILE",
+      "syntax_coverage_status": "COMPLETE",
+      "unrecognized_declarations": [],
+      "unsupported_constructs": []
+    },
+    "declarations": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 6,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 6,
+        "name": "console",
+        "type": "PankuConsole",
+        "value": ""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 8,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 8,
+        "name": "input_area",
+        "type": "Node",
+        "value": ""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 9,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 9,
+        "name": "repl",
+        "type": "Node",
+        "value": ""
+      },
+      {
+        "annotations": [],
+        "declaration_kind": "FUNCTION",
+        "end_line": 11,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "line": 11,
+        "name": "_ready",
+        "type": "",
+        "value": ""
+      }
+    ],
+    "exports": [
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 8,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 8,
+        "name": "input_area",
+        "type": "Node",
+        "value": ""
+      },
+      {
+        "annotations": [
+          {
+            "args": "",
+            "interpreted": true,
+            "name": "export"
+          }
+        ],
+        "declaration_kind": "VARIABLE",
+        "end_line": 9,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": true,
+        "is_onready": false,
+        "is_static": false,
+        "line": 9,
+        "name": "repl",
+        "type": "Node",
+        "value": ""
+      }
+    ],
+    "extends": "VBoxContainer",
+    "functions": [
+      {
+        "declaration_kind": "FUNCTION",
+        "end_line": 16,
+        "line": 11,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "properties": [],
+    "signals": [],
+    "variables": [
+      {
+        "annotations": [],
+        "declaration_kind": "VARIABLE",
+        "end_line": 6,
+        "has_initializer": false,
+        "initializer_kind": "NONE",
+        "is_exported": false,
+        "is_onready": false,
+        "is_static": false,
+        "line": 6,
+        "name": "console",
+        "type": "PankuConsole",
+        "value": ""
+      }
+    ]
+  },
+  "syntax_coverage_status": "COMPLETE",
+  "unrecognized_declarations": [],
+  "unresolved_questions": [
+    ".ai/skills/foundation/godot-gdscript/code_library/references/input/Ark2000__PankuConsole__addons__panku_console__modules__interactive_shell__mini_repl_2.gd 没有 class_name（跨类依赖无法静态归属）"
+  ],
+  "unsupported_constructs": []
+}

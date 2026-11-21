@@ -1,0 +1,292 @@
+{
+  "analysis_id": "ext-409141da889d20af",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "d5d8d1588742",
+  "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:49Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "line": 17,
+      "name": "_ready",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd:17#func=_ready",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "1a418ef366dce22010fb9e33be38e8c70e652c0eb3faee2898f55109ecfca296",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "d5d8d1588742",
+    "commit_sha_full": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "nezvers/Godot-GameTemplate",
+    "source_path": "addons/top_down/scripts/damage/ActorDamage.gd",
+    "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/ActorDamage.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+  "repo": "nezvers/Godot-GameTemplate",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [
+    {
+      "emitter": "_health_resource",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "function": "_ready",
+      "handler": "_play_damaged",
+      "kind": "connect",
+      "line": 20,
+      "signal": "damaged"
+    },
+    {
+      "emitter": "_health_resource",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "function": "_ready",
+      "handler": "_play_dead",
+      "kind": "connect",
+      "line": 23,
+      "signal": "dead"
+    },
+    {
+      "emitter": "self",
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "function": "_ready",
+      "handler": "_remove_connections",
+      "kind": "connect",
+      "line": 28,
+      "signal": "tree_exiting"
+    }
+  ],
+  "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "dc8a87b32fd12e4b17413ec199cc8821cfe95fdc55d02e337e29769469386e06",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\nezvers__Godot-GameTemplate\\gd\\addons\\top_down\\scripts\\damage\\ActorDamage.gd",
+  "source_path": "addons/top_down/scripts/damage/ActorDamage.gd",
+  "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/damage/ActorDamage.gd",
+  "state_changes": [
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+          "function": "_ready",
+          "line": 27
+        }
+      ],
+      "variable": "flash_animation_player",
+      "write_count": 0,
+      "writes": []
+    },
+    {
+      "declared_in": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+      "initial": "",
+      "read_count": 1,
+      "reads": [
+        {
+          "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__damage__ActorDamage.gd",
+          "function": "_ready",
+          "line": 18
+        }
+      ],
+      "variable": "resource_node",
+      "write_count": 0,
+      "writes": []
+    }
+  ],
+  "symbols": {
+    "calls": [
+      {
+        "function": "_ready",
+        "line": 18,
+        "method": "get_resource",
+        "receiver": "resource_node"
+      },
+      {
+        "function": "_ready",
+        "line": 27,
+        "method": "play",
+        "receiver": "flash_animation_player"
+      },
+      {
+        "function": "_ready",
+        "line": 28,
+        "method": "bind",
+        "receiver": "_remove_connections"
+      },
+      {
+        "function": "_remove_connections",
+        "line": 31,
+        "method": "disconnect",
+        "receiver": "damaged"
+      },
+      {
+        "function": "_remove_connections",
+        "line": 33,
+        "method": "disconnect",
+        "receiver": "dead"
+      },
+      {
+        "function": "_play_damaged",
+        "line": 36,
+        "method": "stop",
+        "receiver": "flash_animation_player"
+      },
+      {
+        "function": "_play_damaged",
+        "line": 37,
+        "method": "play",
+        "receiver": "flash_animation_player"
+      },
+      {
+        "function": "_play_damaged",
+        "line": 38,
+        "method": "play_managed",
+        "receiver": "sound_resource_damage"
+      },
+      {
+        "function": "_play_dead",
+        "line": 41,
+        "method": "play_managed",
+        "receiver": "sound_resource_dead"
+      }
+    ],
+    "class_name": "ActorDamage",
+    "connections": [
+      {
+        "emitter": "_health_resource",
+        "function": "_ready",
+        "handler": "_play_damaged",
+        "line": 20,
+        "signal": "damaged"
+      },
+      {
+        "emitter": "_health_resource",
+        "function": "_ready",
+        "handler": "_play_dead",
+        "line": 23,
+        "signal": "dead"
+      },
+      {
+        "emitter": "self",
+        "function": "_ready",
+        "handler": "_remove_connections",
+        "line": 28,
+        "signal": "tree_exiting"
+      }
+    ],
+    "constants": [],
+    "exports": [
+      {
+        "line": 9,
+        "name": "resource_node",
+        "type": "ResourceNode",
+        "value": ""
+      },
+      {
+        "line": 10,
+        "name": "sprite_flip",
+        "type": "SpriteFlip",
+        "value": ""
+      },
+      {
+        "line": 11,
+        "name": "flash_animation_player",
+        "type": "AnimationPlayer",
+        "value": ""
+      },
+      {
+        "line": 12,
+        "name": "flash_animation",
+        "type": "StringName",
+        "value": ""
+      },
+      {
+        "line": 13,
+        "name": "sound_resource_damage",
+        "type": "SoundResource",
+        "value": ""
+      },
+      {
+        "line": 14,
+        "name": "sound_resource_dead",
+        "type": "SoundResource",
+        "value": ""
+      },
+      {
+        "line": 15,
+        "name": "dead_vfx_instance_resource",
+        "type": "InstanceResource",
+        "value": ""
+      }
+    ],
+    "extends": "Node",
+    "functions": [
+      {
+        "end_line": 29,
+        "line": 17,
+        "name": "_ready",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 34,
+        "line": 30,
+        "name": "_remove_connections",
+        "params": "health_resource:HealthResource",
+        "returns": "void"
+      },
+      {
+        "end_line": 39,
+        "line": 35,
+        "name": "_play_damaged",
+        "params": "",
+        "returns": "void"
+      },
+      {
+        "end_line": 48,
+        "line": 40,
+        "name": "_play_dead",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "signals": [
+      {
+        "line": 7,
+        "name": "actor_died",
+        "params": ""
+      }
+    ],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

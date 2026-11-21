@@ -1,0 +1,153 @@
+{
+  "analysis_id": "ext-d5f7ac2db3a8c4e4",
+  "analysis_status": "analysis_complete",
+  "approved_knowledge": false,
+  "commit_sha": "d59f2f71bc04",
+  "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+  "conditions": [],
+  "copy_allowed": true,
+  "created_at": "2026-11-15T14:51:48Z",
+  "domain": "movement",
+  "entry_points": [
+    {
+      "file": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd",
+      "line": 15,
+      "name": "execute",
+      "params": "",
+      "returns": "void",
+      "source_reference": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd:15#func=execute",
+      "trigger": "external_entry"
+    }
+  ],
+  "failure_paths": [],
+  "feature_created": false,
+  "file_type": "gdscript",
+  "functions_analyzed": 1,
+  "input_digest": "5f6fd9d245ddbddadbdc377c35e0ee72098b7f0f12a1c01582f7ae992f0e2af6",
+  "knowledge_status": "NOT_KNOWLEDGE",
+  "license": "MIT",
+  "license_basis": "spdx_allowlist_and_local_text",
+  "license_risk": "none_known",
+  "license_source": "github_api_spdx",
+  "license_status": "eligible",
+  "license_text_present": true,
+  "limitations": [
+    "regex_parser_without_ast_or_type_inference"
+  ],
+  "parse_status": "parsed",
+  "parser_name": "gd_parse",
+  "parser_version": "1.71",
+  "provenance": {
+    "commit_sha": "d59f2f71bc04",
+    "commit_sha_full": "d59f2f71bc046ac53239a4e590861269e7100a36",
+    "immutable_source_url": true,
+    "provenance_status": "complete",
+    "reason": "full commit SHA is recorded",
+    "repo": "gdquest-demos/godot-open-rpg",
+    "source_path": "src/combat/actions/battler_action_attack.gd",
+    "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/combat/actions/battler_action_attack.gd"
+  },
+  "provenance_status": "complete",
+  "reference_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\references\\movement\\gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd",
+  "repo": "gdquest-demos/godot-open-rpg",
+  "schema": "external_code_analysis",
+  "schema_version": 1,
+  "side_effects": [],
+  "signals_events": [],
+  "snippet_id": "gdquest-demos__godot-open-rpg__src__combat__actions__battler_action_attack.gd",
+  "source_analysis_status": "complete",
+  "source_consistent": true,
+  "source_digest": "754107d5816d19184cce8aeebcc07d0cb89a4fd445726836a6249e4eb9237d86",
+  "source_exists": true,
+  "source_file_path": "F:\\Godot_v4.7-stable\\game\\.ai\\skills\\foundation\\godot-gdscript\\code_library\\sources\\gdquest-demos__godot-open-rpg\\gd\\src\\combat\\actions\\battler_action_attack.gd",
+  "source_path": "src/combat/actions/battler_action_attack.gd",
+  "source_url": "https://github.com/gdquest-demos/godot-open-rpg/blob/d59f2f71bc046ac53239a4e590861269e7100a36/src/combat/actions/battler_action_attack.gd",
+  "state_changes": [],
+  "symbols": {
+    "calls": [
+      {
+        "function": "execute",
+        "line": 16,
+        "method": "is_empty",
+        "receiver": "cached_targets"
+      },
+      {
+        "function": "execute",
+        "line": 19,
+        "method": "get_tree",
+        "receiver": "source"
+      },
+      {
+        "function": "execute",
+        "line": 27,
+        "method": "create_tween",
+        "receiver": "source"
+      },
+      {
+        "function": "execute",
+        "line": 28,
+        "method": "tween_property",
+        "receiver": "tween"
+      },
+      {
+        "function": "execute",
+        "line": 33,
+        "method": "get_tree",
+        "receiver": "source"
+      },
+      {
+        "function": "execute",
+        "line": 46,
+        "method": "take_hit",
+        "receiver": "target"
+      },
+      {
+        "function": "execute",
+        "line": 47,
+        "method": "get_tree",
+        "receiver": "source"
+      },
+      {
+        "function": "execute",
+        "line": 49,
+        "method": "get_tree",
+        "receiver": "source"
+      },
+      {
+        "function": "execute",
+        "line": 52,
+        "method": "create_tween",
+        "receiver": "source"
+      },
+      {
+        "function": "execute",
+        "line": 53,
+        "method": "tween_property",
+        "receiver": "tween"
+      },
+      {
+        "function": "execute",
+        "line": 56,
+        "method": "get_tree",
+        "receiver": "source"
+      }
+    ],
+    "class_name": "AttackBattlerAction",
+    "connections": [],
+    "constants": [],
+    "exports": [],
+    "extends": "",
+    "functions": [
+      {
+        "end_line": 56,
+        "line": 15,
+        "name": "execute",
+        "params": "",
+        "returns": "void"
+      }
+    ],
+    "signals": [],
+    "variables": []
+  },
+  "unresolved_questions": []
+}

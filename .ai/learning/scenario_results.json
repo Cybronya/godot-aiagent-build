@@ -1280,6 +1280,629 @@
     },
     {
       "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "heal_pickup/heal_damaged_target",
+      "behavior_id": "heal_damaged_target",
+      "bundle_path": ".ai/tmp/p166/evidence/9336-ed2e2a4e-bundle.json",
+      "detail": "",
+      "duration_s": 11.19,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "29253a0cdd94fbc2aa649cbe55b05f509abb7b4874e73483f0d9df52f7bf39dd",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "node.freed",
+            "entry": "",
+            "expected": {
+              "equals": false
+            },
+            "observed": false,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "heal_pickup",
+      "finished_at": "2026-11-07T18:50:02Z",
+      "knowledge_refs": [
+        "k-e219d71a96f8bd0d"
+      ],
+      "label": "P5",
+      "manifest_digest": "e0223e9a8096db23fcf4159ac65b64f6a72cb0dfccbc9163533a7c8465a29088",
+      "manifest_valid": true,
+      "official_contract_detail": "observed 1 check(s), contract declares 2",
+      "official_contract_status": "INCOMPLETE",
+      "plan": {
+        "behavior_id": "heal_damaged_target",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-07T18:49:50Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "b0fd6d72ddc7588d000c0d35ff50f421bcc19cf48586a41de27442f912ab88e3",
+        "execution_id": "b78b9a5e-8805-462c-9c97-189748e1c5cd",
+        "execution_plan_id": "p-b78b9a5e-8805-46",
+        "feature_id": "heal_pickup",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/e82eba45-8a14-4a67-87df-04a6abcd6ce5",
+          "user_dir_tag": "p166-s-9efdc90351f7112e",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P5",
+        "output_root": ".ai/tmp/p166/runs/e82eba45-8a14-4a67-87df-04a6abcd6ce5",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/heal_pickup/HealPickup.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "e82eba45-8a14-4a67-87df-04a6abcd6ce5",
+        "scenario_id": "s-9efdc90351f7112e",
+        "source_fingerprint": "355f4cec5968d3822b84e46bf576eecee5abd42b6a8df3f0cee459ac0dec797b",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "damage": 3.0,
+                  "group": "p166_foreign",
+                  "health_max": 5.0
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 8,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "node.freed",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [],
+            "reason": "ok",
+            "run_id": "e82eba45-8a14-4a67-87df-04a6abcd6ce5-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "damage": 3.0,
+                  "group": "p166_foreign",
+                  "health_max": 5.0
+                },
+                "started_frame": 9,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "node.freed",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [],
+            "reason": "ok",
+            "run_id": "e82eba45-8a14-4a67-87df-04a6abcd6ce5-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "e82eba45-8a14-4a67-87df-04a6abcd6ce5",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-9efdc90351f7112e",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "started_at": "2026-11-07T18:49:50Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "contact_damage/damage_on_contact",
+      "behavior_id": "damage_on_contact",
+      "bundle_path": ".ai/tmp/p166/evidence/9336-23fb711b-bundle.json",
+      "detail": "",
+      "duration_s": 11.21,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "5e50bc1a8a6f6ca7b4ac8a98340e6284b557833adcf5549c7028be093bfc331b",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "signal",
+            "entry": "health.health_changed",
+            "expected": {
+              "count": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "@actor/Health"
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "contact_damage",
+      "finished_at": "2026-11-07T18:49:36Z",
+      "knowledge_refs": [
+        "k-af3decf8ebc135bd"
+      ],
+      "label": "P5",
+      "manifest_digest": "da176054609ce688f24c9865bbb3d2942dd9a0dacfeac75992d010b1ce31f694",
+      "manifest_valid": true,
+      "official_contract_detail": "observed 1 check(s), contract declares 2",
+      "official_contract_status": "INCOMPLETE",
+      "plan": {
+        "behavior_id": "damage_on_contact",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-07T18:49:25Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "f5844f91d43cdd05b567978069b98b2687fbc2ebcbbd1f199e7c053904f71543",
+        "execution_id": "06ebd9d0-9731-46c5-89a4-cfffaa6d6976",
+        "execution_plan_id": "p-06ebd9d0-9731-46",
+        "feature_id": "contact_damage",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/ee2f2efa-906c-4b36-971f-217ed05ae0fc",
+          "user_dir_tag": "p166-s-d2fe30d380537d07",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P5",
+        "output_root": ".ai/tmp/p166/runs/ee2f2efa-906c-4b36-971f-217ed05ae0fc",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/contact_damage/ContactDamageFixture.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "ee2f2efa-906c-4b36-971f-217ed05ae0fc",
+        "scenario_id": "s-d2fe30d380537d07",
+        "source_fingerprint": "355f4cec5968d3822b84e46bf576eecee5abd42b6a8df3f0cee459ac0dec797b",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign",
+                  "health_max": 5.0
+                },
+                "started_frame": 9,
+                "target": "ContactDamage",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "@actor/Health"
+              }
+            ],
+            "detail": "",
+            "preconditions": [],
+            "reason": "ok",
+            "run_id": "ee2f2efa-906c-4b36-971f-217ed05ae0fc-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign",
+                  "health_max": 5.0
+                },
+                "started_frame": 9,
+                "target": "ContactDamage",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "@actor/Health"
+              }
+            ],
+            "detail": "",
+            "preconditions": [],
+            "reason": "ok",
+            "run_id": "ee2f2efa-906c-4b36-971f-217ed05ae0fc-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "ee2f2efa-906c-4b36-971f-217ed05ae0fc",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-d2fe30d380537d07",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "started_at": "2026-11-07T18:49:25Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "contact_damage/damage_amount_is_respected",
+      "behavior_id": "damage_amount_is_respected",
+      "bundle_path": ".ai/tmp/p166/evidence/9336-6b06b553-bundle.json",
+      "detail": "",
+      "duration_s": 11.64,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "d50414072be116999a1a55a0e5de21357b8626d69e7761daa5d3b14801fb7ffc",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "signal",
+            "entry": "health.health_changed",
+            "expected": {
+              "count": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "@actor/Health"
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "contact_damage",
+      "finished_at": "2026-11-07T18:49:50Z",
+      "knowledge_refs": [
+        "k-8423097baa8ec620"
+      ],
+      "label": "P5",
+      "manifest_digest": "904b0763cc09b6bf73490980433f5ab9de1682f5c39481169a3b776745e23c61",
+      "manifest_valid": true,
+      "official_contract_detail": "observed 1 check(s), contract declares 2",
+      "official_contract_status": "INCOMPLETE",
+      "plan": {
+        "behavior_id": "damage_amount_is_respected",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-07T18:49:37Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "f5844f91d43cdd05b567978069b98b2687fbc2ebcbbd1f199e7c053904f71543",
+        "execution_id": "c07b12d8-eadb-4a0b-b9be-40d1916fe5e1",
+        "execution_plan_id": "p-c07b12d8-eadb-4a",
+        "feature_id": "contact_damage",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/35fb7c6c-7cf3-417d-98dd-05a88cc28667",
+          "user_dir_tag": "p166-s-d503c62564c391ef",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P5",
+        "output_root": ".ai/tmp/p166/runs/35fb7c6c-7cf3-417d-98dd-05a88cc28667",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/contact_damage/ContactDamageFixture.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "35fb7c6c-7cf3-417d-98dd-05a88cc28667",
+        "scenario_id": "s-d503c62564c391ef",
+        "source_fingerprint": "355f4cec5968d3822b84e46bf576eecee5abd42b6a8df3f0cee459ac0dec797b",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign",
+                  "health_max": 5.0
+                },
+                "started_frame": 9,
+                "target": "Heavy",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "@actor/Health"
+              }
+            ],
+            "detail": "",
+            "preconditions": [],
+            "reason": "ok",
+            "run_id": "35fb7c6c-7cf3-417d-98dd-05a88cc28667-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign",
+                  "health_max": 5.0
+                },
+                "started_frame": 9,
+                "target": "Heavy",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "signal",
+                "entry": "health.health_changed",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "@actor/Health"
+              }
+            ],
+            "detail": "",
+            "preconditions": [],
+            "reason": "ok",
+            "run_id": "35fb7c6c-7cf3-417d-98dd-05a88cc28667-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "35fb7c6c-7cf3-417d-98dd-05a88cc28667",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-d503c62564c391ef",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "started_at": "2026-11-07T18:49:37Z",
+      "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
       "behavior": "i_frames/iframes_expire_and_damage_resumes",
       "behavior_id": "iframes_expire_and_damage_resumes",
       "bundle_path": ".ai/tmp/p166/evidence/5428-cc9e82ad-bundle.json",
@@ -1662,18 +2285,276 @@
       "scenario_type": "DEPENDENCY_PRECONDITION",
       "started_at": "2026-11-06T11:21:02Z",
       "validator_status": "VALID"
+    },
+    {
+      "attestation_status": "ATTESTED_VERIFIED",
+      "behavior": "collect_pickup/collect_on_contact",
+      "behavior_id": "collect_on_contact",
+      "bundle_path": ".ai/tmp/p166/evidence/9336-fa48bac4-bundle.json",
+      "detail": "",
+      "duration_s": 12.74,
+      "evaluation_detail": "",
+      "evaluation_reason": "verified",
+      "evaluation_status": "VERIFIED_PASS",
+      "evidence_digest": "53418f6199a3cdf9ef5a53b3516346632cffff3393b9df8b962ef7005948f105",
+      "evidence_status": "EVIDENCE_VERIFIED",
+      "execution_status": "PASSED",
+      "expectation": {
+        "checks": [
+          {
+            "check": "node.freed",
+            "entry": "",
+            "expected": {
+              "equals": false
+            },
+            "observed": false,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          },
+          {
+            "check": "signal",
+            "entry": "pickup.collected",
+            "expected": {
+              "count": 0
+            },
+            "observed": 0,
+            "observed_args": [],
+            "state": "MET",
+            "target": "."
+          }
+        ],
+        "detail": "",
+        "state": "MET"
+      },
+      "feature_id": "collect_pickup",
+      "finished_at": "2026-11-07T18:49:24Z",
+      "knowledge_refs": [
+        "k-875dbe2de3b9fca9"
+      ],
+      "label": "P5",
+      "manifest_digest": "e135e8978566d55b50231e7a85bebcc68e4cabeccb0e97f07c95aa5e1a4c02e1",
+      "manifest_valid": true,
+      "official_contract_detail": "check[0] node.freed@. expected True observed False",
+      "official_contract_status": "FAIL",
+      "plan": {
+        "behavior_id": "collect_on_contact",
+        "blocked_reasons": [],
+        "cleanup_policy": {
+          "destroy_workspace": true,
+          "keep_artifacts": true,
+          "never_delete_history": true
+        },
+        "collector_fingerprint": "0cd90266f849ec9e147b1678f569837205f51b918e88aebe696f259753f9a1f6",
+        "created_at": "2026-11-07T18:49:10Z",
+        "environment_fingerprint": "bc841b1af8917b69a62a0ee52150989c6421637ca3e304a6bc833884c47edb3d",
+        "evidence_root": ".ai/tmp/p166/evidence",
+        "execution_config_fingerprint": "2a990a6f32d143336a370a8731c6a44b7662f0a57be101a86dd9684ccdb9b873",
+        "execution_id": "840a13c4-a441-44fa-95a8-1fb0c750e73c",
+        "execution_plan_id": "p-840a13c4-a441-44",
+        "feature_id": "collect_pickup",
+        "isolation": {
+          "evidence_dir": ".ai/tmp/p166/evidence",
+          "run_dir": ".ai/tmp/p166/runs/4c3a27a1-69d4-4024-b654-ebd23cb01062",
+          "user_dir_tag": "p166-s-eef9972034da734b",
+          "workspace": "fresh copy per scenario"
+        },
+        "label": "P5",
+        "output_root": ".ai/tmp/p166/runs/4c3a27a1-69d4-4024-b654-ebd23cb01062",
+        "prerequisites": [
+          {
+            "detail": "VALID",
+            "name": "validator",
+            "ok": true
+          },
+          {
+            "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+            "name": "godot",
+            "ok": true
+          },
+          {
+            "detail": "res://Features/collect_pickup/CollectPickup.tscn",
+            "name": "scene",
+            "ok": true
+          }
+        ],
+        "run_id": "4c3a27a1-69d4-4024-b654-ebd23cb01062",
+        "scenario_id": "s-eef9972034da734b",
+        "source_fingerprint": "355f4cec5968d3822b84e46bf576eecee5abd42b6a8df3f0cee459ac0dec797b",
+        "status": "READY",
+        "timeout_policy": {
+          "per_probe_s": 180,
+          "replay": 2
+        }
+      },
+      "report": {
+        "detail": "",
+        "reason": "ok",
+        "replay_count": 2,
+        "runs": [
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign"
+                },
+                "started_frame": 9,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 10,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 9,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "node.freed",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "pickup.collected",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "pickup.is_collected",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "4c3a27a1-69d4-4024-b654-ebd23cb01062-r1",
+            "status": "PASS"
+          },
+          {
+            "action_executed": true,
+            "actions": [
+              {
+                "advanced_frames": 0,
+                "ended_frame": 8,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "group": "p166_foreign"
+                },
+                "started_frame": 8,
+                "target": ".",
+                "type": "physics.overlap"
+              },
+              {
+                "advanced_frames": 1,
+                "ended_frame": 9,
+                "error": "",
+                "executed": true,
+                "fixture": false,
+                "params": {
+                  "frames": 1.0,
+                  "phase": "physics"
+                },
+                "phase": "physics",
+                "started_frame": 8,
+                "target": ".",
+                "type": "simulation.advance_frames"
+              }
+            ],
+            "checks": [
+              {
+                "check": "node.freed",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              },
+              {
+                "check": "signal",
+                "entry": "pickup.collected",
+                "expected": 0,
+                "first_observed_frame": 0,
+                "observed": 0,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "detail": "",
+            "preconditions": [
+              {
+                "check": "pickup.is_collected",
+                "entry": "",
+                "expected": false,
+                "first_observed_frame": 0,
+                "observed": false,
+                "observed_args": [],
+                "status": "PASS",
+                "target": "."
+              }
+            ],
+            "reason": "ok",
+            "run_id": "4c3a27a1-69d4-4024-b654-ebd23cb01062-r2",
+            "status": "PASS"
+          }
+        ],
+        "status": "PASS"
+      },
+      "run_id": "4c3a27a1-69d4-4024-b654-ebd23cb01062",
+      "scenario_evidence_status": "PASS",
+      "scenario_id": "s-eef9972034da734b",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "started_at": "2026-11-07T18:49:10Z",
+      "validator_status": "VALID"
     }
   ],
   "schema": "scenario_execution_index",
   "schema_version": 1,
   "summary": {
-    "attested": 5,
+    "attested": 9,
     "blocked": 0,
-    "evaluated_pass": 5,
-    "executed": 5,
+    "evaluated_pass": 9,
+    "executed": 9,
     "failed": 0,
-    "passed": 5,
-    "scenarios": 5
+    "passed": 9,
+    "scenarios": 9
   },
   "trust_level": "LOCAL_ISOLATED"
 }

@@ -1,0 +1,106 @@
+{
+  "analysis_status": {
+    "new": "analysis_complete",
+    "old": "analysis_partial"
+  },
+  "coverage": {
+    "new": {
+      "analysis_completeness": "FULL",
+      "parse_execution_status": "PARSED",
+      "syntax_coverage_status": "COMPLETE"
+    },
+    "old": {
+      "analysis_completeness": "NOT_RECORDED",
+      "syntax_coverage_status": "NOT_RECORDED"
+    }
+  },
+  "location": {
+    "offset": 3,
+    "offset_verified": true,
+    "problems": []
+  },
+  "original_analysis_id": "ext-27ddd863881677d7",
+  "parser_build_identity": "gd_parse@1.75+build:6b74a6cd20a06033",
+  "reanalysis_id": "ext-eb1bb39009fc085d",
+  "source_identity": {
+    "full_commit_sha": "fe589153fa780a3f88989578ceb5f539afffb7c2",
+    "input_digest": "11705eb50ed87f018e3a2371e137e5cd6eb25186fd8b574c43d2bd7914e146e7",
+    "repository": "bitbrain/beehave",
+    "source_digest": "fb4fc4dde707ecf1d20998cb6d6da6d9568b73af060ecfa7e1aeb337453410e0",
+    "source_path": "addons/beehave/nodes/leaves/blackboard_set.gd"
+  },
+  "symbol_counts": {
+    "after": {
+      "constants": 0,
+      "exports": 2,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 2
+    },
+    "before": {
+      "constants": 0,
+      "exports": 0,
+      "functions": 2,
+      "properties": 0,
+      "signals": 0,
+      "variables": 0
+    }
+  },
+  "symbols_added": [
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 10,
+      "name": "key",
+      "type": "String"
+    },
+    {
+      "group": "exports",
+      "kind": "VARIABLE",
+      "line": 12,
+      "name": "value",
+      "type": "String"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 14,
+      "name": "_key_expression",
+      "type": "Expression"
+    },
+    {
+      "group": "variables",
+      "kind": "VARIABLE",
+      "line": 15,
+      "name": "_value_expression",
+      "type": "Expression"
+    }
+  ],
+  "symbols_changed": [
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:_get_expression_sources"
+    },
+    {
+      "fields": {
+        "declaration_kind": {
+          "new": "FUNCTION",
+          "old": null
+        }
+      },
+      "symbol": "functions:tick"
+    }
+  ],
+  "symbols_reclassified": [],
+  "symbols_removed": [],
+  "unexplained_differences": [],
+  "unrecognized_declarations": [],
+  "unsupported_constructs": [],
+  "validation_status": "REANALYZED_AND_VALIDATED"
+}

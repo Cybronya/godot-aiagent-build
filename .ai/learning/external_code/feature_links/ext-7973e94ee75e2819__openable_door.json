@@ -1,0 +1,251 @@
+{
+  "analysis_id": "ext-7973e94ee75e2819",
+  "evidence_items": [
+    {
+      "evidence_id": "lnk-43e2e113c305c90b:ev:01",
+      "evidence_role": "LINKAGE_EVIDENCE",
+      "evidence_status": "PARTIAL",
+      "evidence_type": "SYMBOL_TOKEN_OVERLAP",
+      "explanation": "external symbol 'target_finder' shares the significant token 'target' with Feature symbol 'boolean_target'; this is a clue only, not an exact identifier, shared class or declared relation",
+      "feature_symbol": "boolean_target",
+      "line_reference": null,
+      "matched_value": "target",
+      "provenance_reference": ".ai/learning/external_code/analysis/ext-7973e94ee75e2819.json#token:target",
+      "source_path": ".ai/skills/foundation/godot-gdscript/code_library/references/movement/nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+      "source_side": "BOTH",
+      "symbol_name": "target_finder"
+    }
+  ],
+  "evidence_limitations": {
+    "ambiguity_reasons": [
+      "single external analysis matches multiple Features at the same evidence tier (1): attack_emitter, openable_door"
+    ],
+    "analysis_status": "analysis_complete",
+    "missing_evidence": [
+      "the target Feature cannot be determined without disambiguating evidence"
+    ],
+    "parser_limitations": [
+      "regex_parser_without_ast_or_type_inference"
+    ],
+    "projection_status": "COMPLETE",
+    "provenance_limitations": [
+      "provenance_status=complete",
+      "full commit SHA is recorded"
+    ],
+    "unsupported_content": [],
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "external_analysis": {
+    "analysis_record_digest": "5f026ef3bf716659593dd190f86db6b994c05dcbec353f5b271a9a1a10d47bf6",
+    "analysis_record_path": ".ai/learning/external_code/analysis/ext-7973e94ee75e2819.json",
+    "analysis_status": "analysis_complete",
+    "file_type": "gdscript",
+    "parse_status": "parsed",
+    "provenance_status": "complete",
+    "source_commit": "d5d8d15887423b3a8acf0502efb6271c600a80bc",
+    "source_digest": "a649943fbcd40d6e92aa6a2e3f610ad46b7811c709b75c1ef1f05ce1ce96e20b",
+    "source_path": "addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+    "source_repository": "nezvers/Godot-GameTemplate",
+    "source_url": "https://github.com/nezvers/Godot-GameTemplate/blob/d5d8d15887423b3a8acf0502efb6271c600a80bc/addons/top_down/scripts/actor/bots/ProximityAttack.gd"
+  },
+  "feature_id": "openable_door",
+  "feature_name": "openable_door",
+  "feature_projection": {
+    "feature_analysis_references": [
+      {
+        "analysis_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+        "analysis_record_path": ".ai/learning/source_analysis/openable_door/open.json",
+        "analysis_status": "COMPLETE",
+        "analyzed_source_files": [
+          "Features/openable_door/openable_door.gd"
+        ],
+        "limitations": []
+      }
+    ],
+    "feature_path": "Features/openable_door/feature.yaml",
+    "feature_projection_digest": "2b6fde6c17cc80da9638508ae5043ec1f572fe90eafa3e6e4c77c4b31ca86258",
+    "feature_projection_path": ".ai/learning/feature_evidence/openable_door.json",
+    "feature_source_references": [
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/openable_door/feature.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\feature.yaml",
+        "source_digest": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4",
+        "source_path": "Features/openable_door/feature.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_METADATA"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_index.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_path": ".ai/context/feature_index.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_INDEX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/feature_graph.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_path": ".ai/context/feature_graph.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_GRAPH"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/context/coverage_matrix.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_path": ".ai/context/coverage_matrix.json",
+        "source_status": "FOUND",
+        "source_type": "COVERAGE_MATRIX"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/openable_door/template.yaml",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\template.yaml",
+        "source_digest": "a3b1dd5a428d039e8e24062a4eaa5007d005d9659c1a05114386a505446bee39",
+        "source_path": "Features/openable_door/template.yaml",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEMPLATE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": ".ai/learning/source_analysis/openable_door/open.json",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\openable_door\\open.json",
+        "source_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+        "source_path": ".ai/learning/source_analysis/openable_door/open.json",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_SOURCE_ANALYSIS"
+      },
+      {
+        "normalization_status": "RELATIVE",
+        "normalized_path": "Features/openable_door/openable_door.gd",
+        "original_path": "Features/openable_door/openable_door.gd",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_path": "Features/openable_door/openable_door.gd",
+        "source_status": "FOUND",
+        "source_type": "GDSCRIPT_SOURCE"
+      },
+      {
+        "normalization_status": "CONVERTED",
+        "normalized_path": "Features/openable_door/test_openable_door.gd",
+        "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\test_openable_door.gd",
+        "source_digest": "11f6d17c0017e1e8fdd152566b559091a0f8193d15addd247f57346d1444b852",
+        "source_path": "Features/openable_door/test_openable_door.gd",
+        "source_status": "FOUND",
+        "source_type": "FEATURE_TEST"
+      }
+    ],
+    "projection_status": "COMPLETE",
+    "verification_status": {
+      "basis": "NO_EXECUTION_EVIDENCE",
+      "behavior_verification_status": "NOT_VERIFIED",
+      "feature_verification_status": "NOT_VERIFIED",
+      "runtime_verification_status": "NOT_VERIFIED",
+      "test_execution_status": "NOT_RUN"
+    }
+  },
+  "generated_at": "2026-11-15T15:16:40Z",
+  "generator": {
+    "classifier": "deterministic_symbol_and_declaration_matching",
+    "name": "feature_linkage",
+    "version": "phase-1.73-b/1"
+  },
+  "limitations": [
+    "evidence type only; not a similarity, quality, admission or promotion judgement",
+    "analysis_status=analysis_complete",
+    "projection_status=COMPLETE"
+  ],
+  "linkage_classification": "AMBIGUOUS",
+  "linkage_id": "lnk-43e2e113c305c90b",
+  "linkage_outcome": "LINKED",
+  "pair_evaluation": {
+    "declared_relation": "",
+    "external_symbol_count": 7,
+    "external_symbols": [
+      "ProximityAttack",
+      "bot_input",
+      "enabled",
+      "set_enabled",
+      "target_finder",
+      "tween_timer"
+    ],
+    "feature_declared_symbol_count": 11,
+    "feature_source_symbol_count": 8,
+    "matched_symbols": [],
+    "shared_tokens": [
+      "target"
+    ]
+  },
+  "schema": "external_analysis_feature_linkage",
+  "schema_version": 1,
+  "snippet_id": "nezvers__Godot-GameTemplate__addons__top_down__scripts__actor__bots__ProximityAttack.gd",
+  "source_verification": {
+    "analysis_record": {
+      "digest": "5f026ef3bf716659593dd190f86db6b994c05dcbec353f5b271a9a1a10d47bf6",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/external_code/analysis/ext-7973e94ee75e2819.json"
+    },
+    "external_source_file": {
+      "digest_status": "MATCHED",
+      "path": ".ai/skills/foundation/godot-gdscript/code_library/sources/nezvers__Godot-GameTemplate/gd/addons/top_down/scripts/actor/bots/ProximityAttack.gd",
+      "recorded_digest": "a649943fbcd40d6e92aa6a2e3f610ad46b7811c709b75c1ef1f05ce1ce96e20b"
+    },
+    "feature_projection": {
+      "digest": "2b6fde6c17cc80da9638508ae5043ec1f572fe90eafa3e6e4c77c4b31ca86258",
+      "digest_status": "MATCHED",
+      "path": ".ai/learning/feature_evidence/openable_door.json"
+    },
+    "feature_sources": [
+      {
+        "path": "Features/openable_door/feature.yaml",
+        "source_digest": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_index.json",
+        "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/feature_graph.json",
+        "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/context/coverage_matrix.json",
+        "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/openable_door/template.yaml",
+        "source_digest": "a3b1dd5a428d039e8e24062a4eaa5007d005d9659c1a05114386a505446bee39",
+        "source_status": "FOUND"
+      },
+      {
+        "path": ".ai/learning/source_analysis/openable_door/open.json",
+        "source_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/openable_door/openable_door.gd",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_status": "FOUND"
+      },
+      {
+        "path": "Features/openable_door/test_openable_door.gd",
+        "source_digest": "11f6d17c0017e1e8fdd152566b559091a0f8193d15addd247f57346d1444b852",
+        "source_status": "FOUND"
+      }
+    ]
+  }
+}

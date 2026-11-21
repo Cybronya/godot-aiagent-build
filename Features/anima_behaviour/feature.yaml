@@ -1,0 +1,58 @@
+# Feature Metadata: anima_behaviour
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: anima_behaviour
+version: 1
+category: animation
+
+summary: 动画触发器——节点进入/退出场景树时自动播放子 AnimationPlayer 的入场/退场动画。
+
+provides:
+  - animation_trigger
+  - motion_entry_exit
+  - auto_animation_playback
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - play_motion_in() -> void
+    - play_motion_out() -> void
+    - get_players() -> Array[AnimationPlayer]
+  signals: []
+  exports:
+    - play_in_on_ready: bool
+    - hide_after_out: bool
+
+ownership:
+  state:
+    - _players: Array[AnimationPlayer]
+  rules:
+    - 去掉 Anima 运行时依赖，直接驱动子节点的 AnimationPlayer
+    - 自动收集子节点中的 AnimationPlayer
+    - hide_after_out 在 play_motion_out 后设 visible=false
+
+composition:
+  entry_scene: ""    # 作为 Node2D 挂载，子节点含 AnimationPlayer
+  usage: "var mt = MotionTrigger.new(); mt.play_in_on_ready = true; add_child(mt); mt.add_child(AnimationPlayer.new())"
+  related_features: []
+
+validation:
+  self_test: test_anima_behaviour.gd
+  command: godot --headless --path . -s res://Features/anima_behaviour/test_anima_behaviour.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with: []
+  commonly_used_with: []
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: ceceppa__anima__addons__anima__motion__resources__anima_behaviour.gd
+#   source_url: https://github.com/ceceppa/anima/blob/main/addons/anima/motion/resources/anima_behaviour.gd
+#   repo: ceceppa/anima (star 769) | License: MIT

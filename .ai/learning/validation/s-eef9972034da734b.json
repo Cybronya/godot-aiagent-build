@@ -1,0 +1,107 @@
+{
+  "checks": [
+    {
+      "check": "contract.behavior_exists",
+      "detail": "collect_pickup/collect_on_contact",
+      "ok": true
+    },
+    {
+      "check": "contract.version",
+      "detail": "scenario=723f2167e74c current=723f2167e74c",
+      "ok": true
+    },
+    {
+      "check": "contract.scene",
+      "detail": "scenario=res://Features/collect_pickup/CollectPickup.tscn contract=res://Features/collect_pickup/CollectPickup.tscn",
+      "ok": true
+    },
+    {
+      "check": "contract.protocol",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "knowledge.refs_present",
+      "detail": "1 refs",
+      "ok": true
+    },
+    {
+      "check": "knowledge.approved:k-875dbe2de3b9fca9",
+      "detail": "APPROVED",
+      "ok": true
+    },
+    {
+      "check": "knowledge.type:k-875dbe2de3b9fca9",
+      "detail": "SOURCE_OBSERVATION",
+      "ok": true
+    },
+    {
+      "check": "knowledge.fresh:k-875dbe2de3b9fca9",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "source.references_present",
+      "detail": "1 source refs",
+      "ok": true
+    },
+    {
+      "check": "source.exists:k-875dbe2de3b9fca9",
+      "detail": "Features/collect_pickup/collect_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.inside_features:k-875dbe2de3b9fca9",
+      "detail": "Features/collect_pickup/collect_pickup.gd",
+      "ok": true
+    },
+    {
+      "check": "source.digest:k-875dbe2de3b9fca9",
+      "detail": "expected=3c16f890deee",
+      "ok": true
+    },
+    {
+      "check": "source.line:k-875dbe2de3b9fca9",
+      "detail": "Features/collect_pickup/collect_pickup.gd:29 (file 33 lines)",
+      "ok": true
+    },
+    {
+      "check": "feasibility.scene",
+      "detail": "res://Features/collect_pickup/CollectPickup.tscn",
+      "ok": true
+    },
+    {
+      "check": "feasibility.actions",
+      "detail": "2 actions",
+      "ok": true
+    },
+    {
+      "check": "feasibility.expected",
+      "detail": "2 checks",
+      "ok": true
+    },
+    {
+      "check": "feasibility.cleanup",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.godot",
+      "detail": "F:\\Godot_v4.7-stable\\Godot_v4.7-stable_win64_console.exe",
+      "ok": true
+    },
+    {
+      "check": "environment.probe",
+      "detail": "",
+      "ok": true
+    },
+    {
+      "check": "environment.protocol",
+      "detail": "",
+      "ok": true
+    }
+  ],
+  "reasons": [],
+  "scenario_id": "s-eef9972034da734b",
+  "status": "VALID"
+}

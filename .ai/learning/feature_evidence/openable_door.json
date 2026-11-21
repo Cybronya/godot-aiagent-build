@@ -1,0 +1,2160 @@
+{
+  "analysis_references": [
+    {
+      "analysis_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+      "analysis_record_path": ".ai/learning/source_analysis/openable_door/open.json",
+      "analysis_status": "COMPLETE",
+      "analyzed_source_files": [
+        "Features/openable_door/openable_door.gd"
+      ],
+      "limitations": []
+    }
+  ],
+  "behavior_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:openable_door:open",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {
+        "analysis_record_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+        "analyzed_source_files": [
+          "Features/openable_door/openable_door.gd"
+        ]
+      },
+      "reliability": "MEDIUM",
+      "source_file": ".ai/learning/source_analysis/openable_door/open.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/openable_door/open.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "COMPLETE",
+        "behavior_id": "open",
+        "contract_version": "0550357495e5",
+        "coverage_contract_version": "0550357495e5",
+        "static_only": true
+      }
+    }
+  ],
+  "capability_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:provides:0:door_state",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "door_state",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:provides:1:passage_control",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "passage_control",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:provides:2:boolean_target",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "boolean_target",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:scene:0:Node",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "Scene capability requirement; not a semantic capability extraction"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "Node",
+        "scope": "SCENE_REQUIREMENT",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:scene:1:Collision",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "Scene capability requirement; not a semantic capability extraction"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "Collision",
+        "scope": "SCENE_REQUIREMENT",
+        "validation": "HUMAN_DECLARED"
+      }
+    }
+  ],
+  "content_digest": "1db0432c2fac4f46295eaf32a71457b507498c0b886345f345519733da66f462",
+  "declared_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:openable_door:name",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "name": "openable_door"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:openable_door:summary",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "summary": "状态门（StaticBody2D）：接收 set_open(bool) 切换阻挡/通行，视觉同步；纯被动、幂等。"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:openable_door:category",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "category": "logic"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:provides:0:door_state",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "door_state",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:provides:1:passage_control",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "passage_control",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:provides:2:boolean_target",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "provides is a human declaration, not source-verified capability"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "boolean_target",
+        "scope": "FEATURE_TAG",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:scene:0:Node",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "Scene capability requirement; not a semantic capability extraction"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "Node",
+        "scope": "SCENE_REQUIREMENT",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "capability:openable_door:scene:1:Collision",
+      "evidence_type": "CAPABILITY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "Scene capability requirement; not a semantic capability extraction"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "capability": "Collision",
+        "scope": "SCENE_REQUIREMENT",
+        "validation": "HUMAN_DECLARED"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:method:0:set_open",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "设置门状态；重复设置同值无副作用（幂等）",
+        "kind": "method",
+        "name": "set_open",
+        "signature": "set_open(value: bool)",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:method:1:is_open",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "查询当前门状态",
+        "kind": "method",
+        "name": "is_open",
+        "signature": "is_open() -> bool",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:signal:0:state_changed",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "门状态变化时广播",
+        "kind": "signal",
+        "name": "state_changed",
+        "signature": "state_changed(is_open: bool)",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:export:0:start_open",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": false,
+        "description": "初始是否开启",
+        "kind": "export",
+        "name": "start_open",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:export:1:open_visual_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.4, 0.8, 0.5, 0.25)",
+        "description": "开启态视觉颜色",
+        "kind": "export",
+        "name": "open_visual_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:export:2:closed_visual_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.55, 0.4, 0.25, 1.0)",
+        "description": "关闭态视觉颜色",
+        "kind": "export",
+        "name": "closed_visual_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:works_with:condition_gate",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "works_with",
+        "target": "condition_gate"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:works_with:trigger_switch",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "works_with",
+        "target": "trigger_switch"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:commonly_used_with:collect_pickup",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "commonly_used_with",
+        "target": "collect_pickup"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:graph_works_with:condition_gate",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_works_with",
+        "target": "condition_gate"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:graph_works_with:trigger_switch",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_works_with",
+        "target": "trigger_switch"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:graph_commonly_used_with:collect_pickup",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_commonly_used_with",
+        "target": "collect_pickup"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "test:openable_door:file",
+      "evidence_type": "TEST",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "test file existence is not test execution; test status is NOT_RUN"
+      ],
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/openable_door/test_openable_door.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\test_openable_door.gd",
+      "provenance": {
+        "test_sha256": "11f6d17c0017e1e8fdd152566b559091a0f8193d15addd247f57346d1444b852"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/test_openable_door.gd",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "execution_status": "NOT_RUN",
+        "file_exists": true,
+        "path_form": "CONVERTED",
+        "test_path": "Features/openable_door/test_openable_door.gd"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "validation:openable_door:test_command",
+      "evidence_type": "VALIDATION",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "validation command was not executed in Batch A"
+      ],
+      "provenance": {},
+      "reliability": "LOW",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "command": "godot --headless --path . -s res://Features/openable_door/test_openable_door.gd",
+        "execution_status": "NOT_RUN",
+        "validation_type": "TEST_CONTRACT"
+      }
+    }
+  ],
+  "dependency_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:works_with:condition_gate",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "works_with",
+        "target": "condition_gate"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:works_with:trigger_switch",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "works_with",
+        "target": "trigger_switch"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:commonly_used_with:collect_pickup",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_METADATA"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "evidence_scope": "DECLARED_STRUCTURE",
+        "relationship": "commonly_used_with",
+        "target": "collect_pickup"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:graph_works_with:condition_gate",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_works_with",
+        "target": "condition_gate"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:graph_works_with:trigger_switch",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_works_with",
+        "target": "trigger_switch"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "dependency:openable_door:graph_commonly_used_with:collect_pickup",
+      "evidence_type": "DEPENDENCY",
+      "extraction_method": "feature_graph",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "relationship is declared metadata/graph evidence; it is not source-verified"
+      ],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_type": "FEATURE_GRAPH"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_GRAPH",
+      "value": {
+        "evidence_scope": "GRAPH_STRUCTURE",
+        "relationship": "graph_commonly_used_with",
+        "target": "collect_pickup"
+      }
+    }
+  ],
+  "descriptive_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:openable_door:name",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "name": "openable_door"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:openable_door:summary",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "summary": "状态门（StaticBody2D）：接收 set_open(bool) 切换阻挡/通行，视觉同步；纯被动、幂等。"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "desc:openable_door:category",
+      "evidence_type": "DESCRIPTIVE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "category": "logic"
+      }
+    }
+  ],
+  "evidence_counts": {
+    "CONFLICTED": 0,
+    "DECLARED": 22,
+    "EXTRACTED": 16,
+    "MISSING": 0,
+    "NOT_APPLICABLE": 0,
+    "PARTIAL": 0,
+    "UNSUPPORTED": 0
+  },
+  "extracted_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:class",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "OpenableDoor",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "class_name",
+        "name": "OpenableDoor"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:extends",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "StaticBody2D",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "extends",
+        "name": "StaticBody2D"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:_ready:20",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 25,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 20
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 20,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_ready",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_ready",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:is_open:26",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 31,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 26
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 26,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "is_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "is_open",
+        "params": "",
+        "public": true,
+        "returns": "bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:set_open:32",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 37,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 32
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 32,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "set_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "set_open",
+        "params": "value: bool",
+        "public": true,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:_apply:38",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 44,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 38
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 38,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_apply",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_apply",
+        "params": "value: bool",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:signal:state_changed:9",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 9
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 9,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "state_changed",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "signal",
+        "name": "state_changed",
+        "params": "is_open: bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:export:start_open:11",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 11
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 11,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "start_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "start_open",
+        "type": "",
+        "value": "false"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:export:open_visual_color:12",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 12
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 12,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "open_visual_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "open_visual_color",
+        "type": "",
+        "value": "Color(0.4, 0.8, 0.5, 0.25)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:export:closed_visual_color:13",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 13
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 13,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "closed_visual_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "closed_visual_color",
+        "type": "",
+        "value": "Color(0.55, 0.4, 0.25, 1.0)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:var:_visual:15",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 15
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 15,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_visual",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_visual",
+        "type": "Polygon2D",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:var:_collision:16",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 16
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 16,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_collision",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_collision",
+        "type": "CollisionShape2D",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:var:_is_open:17",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 17
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 17,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_is_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_is_open",
+        "type": "",
+        "value": "false"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "behavior:openable_door:open",
+      "evidence_type": "BEHAVIOR",
+      "extraction_method": "existing_source_analysis",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {
+        "analysis_record_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+        "analyzed_source_files": [
+          "Features/openable_door/openable_door.gd"
+        ]
+      },
+      "reliability": "MEDIUM",
+      "source_file": ".ai/learning/source_analysis/openable_door/open.json",
+      "source_line": null,
+      "source_record_id": ".ai/learning/source_analysis/openable_door/open.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_SOURCE_ANALYSIS",
+      "value": {
+        "analysis_status": "COMPLETE",
+        "behavior_id": "open",
+        "contract_version": "0550357495e5",
+        "coverage_contract_version": "0550357495e5",
+        "static_only": true
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "provenance:openable_door:metadata_digest",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "sha256",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "Feature metadata does not define structured upstream provenance"
+      ],
+      "provenance": {
+        "metadata_sha256": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "metadata_path": "Features/openable_door/feature.yaml",
+        "metadata_sha256": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "index:openable_door:consistency",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "build_feature_index projection comparison",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {},
+      "reliability": "HIGH",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_INDEX",
+      "value": {
+        "consistent": true,
+        "path_form": "SAME"
+      }
+    }
+  ],
+  "extractor_version": "phase-1.73-a1/1",
+  "feature_id": "openable_door",
+  "feature_name": "openable_door",
+  "feature_path": "Features/openable_door/feature.yaml",
+  "generated_at": "2026-11-15T11:52:30Z",
+  "interface_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:method:0:set_open",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "设置门状态；重复设置同值无副作用（幂等）",
+        "kind": "method",
+        "name": "set_open",
+        "signature": "set_open(value: bool)",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:method:1:is_open",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "查询当前门状态",
+        "kind": "method",
+        "name": "is_open",
+        "signature": "is_open() -> bool",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:signal:0:state_changed",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "",
+        "description": "门状态变化时广播",
+        "kind": "signal",
+        "name": "state_changed",
+        "signature": "state_changed(is_open: bool)",
+        "source_check": "MATCHED",
+        "type": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:export:0:start_open",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": false,
+        "description": "初始是否开启",
+        "kind": "export",
+        "name": "start_open",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:export:1:open_visual_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.4, 0.8, 0.5, 0.25)",
+        "description": "开启态视觉颜色",
+        "kind": "export",
+        "name": "open_visual_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "interface:openable_door:export:2:closed_visual_color",
+      "evidence_type": "INTERFACE",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [],
+      "provenance": {
+        "metadata_sha256": "112d84165d6589337dfefdbef140aa2a15bcd521514c1f59696ee866f7e1e8ef",
+        "source_check": "MATCHED"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "default": "Color(0.55, 0.4, 0.25, 1.0)",
+        "description": "关闭态视觉颜色",
+        "kind": "export",
+        "name": "closed_visual_color",
+        "signature": "",
+        "source_check": "MATCHED",
+        "type": "Color"
+      }
+    }
+  ],
+  "limitations": [
+    "Feature metadata does not define structured upstream provenance",
+    "Scene capability requirement; not a semantic capability extraction",
+    "provides is a human declaration, not source-verified capability",
+    "regex_parser_without_ast_or_type_inference",
+    "relationship is declared metadata/graph evidence; it is not source-verified",
+    "test file existence is not test execution; test status is NOT_RUN",
+    "validation command was not executed in Batch A"
+  ],
+  "path_normalization": {
+    "CONVERTED": 7,
+    "MISSING": 0,
+    "OUTSIDE_PROJECT": 0,
+    "RELATIVE": 1,
+    "RELATIVE_NORMALIZED": 0,
+    "UNRESOLVED": 0
+  },
+  "projection_id": "fep-1db0432c2fac4f46",
+  "projection_status": "COMPLETE",
+  "provenance_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "provenance:openable_door:metadata_digest",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "sha256",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "Feature metadata does not define structured upstream provenance"
+      ],
+      "provenance": {
+        "metadata_sha256": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4"
+      },
+      "reliability": "HIGH",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "metadata_path": "Features/openable_door/feature.yaml",
+        "metadata_sha256": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "index:openable_door:consistency",
+      "evidence_type": "PROVENANCE",
+      "extraction_method": "build_feature_index projection comparison",
+      "extraction_status": "EXTRACTED",
+      "limitations": [],
+      "provenance": {},
+      "reliability": "HIGH",
+      "source_file": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_line": null,
+      "source_record_id": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_symbol": "",
+      "source_type": "FEATURE_INDEX",
+      "value": {
+        "consistent": true,
+        "path_form": "SAME"
+      }
+    }
+  ],
+  "schema": "feature_evidence_projection",
+  "schema_version": 1,
+  "source_identity": {
+    "graph_path": ".ai/context/feature_graph.json",
+    "graph_sha256": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+    "index_path": ".ai/context/feature_index.json",
+    "index_sha256": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+    "metadata_path": "Features/openable_door/feature.yaml",
+    "metadata_sha256": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4",
+    "source_analysis_records": [
+      {
+        "analysis_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+        "analysis_status": "COMPLETE",
+        "contract_version": "0550357495e5",
+        "path": ".ai/learning/source_analysis/openable_door/open.json",
+        "script_digests": [
+          {
+            "digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+            "path": "Features/openable_door/openable_door.gd"
+          }
+        ]
+      }
+    ],
+    "source_files": [
+      {
+        "path": "Features/openable_door/openable_door.gd",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_status": "FOUND"
+      }
+    ],
+    "source_reference_count": 8
+  },
+  "source_references": [
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/openable_door/feature.yaml",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\feature.yaml",
+      "source_digest": "0c03bad77e6f17bb1d377b918c5bad535174d7106af7cb5ed915e77bee3fa6b4",
+      "source_path": "Features/openable_door/feature.yaml",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_METADATA"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/feature_index.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_index.json",
+      "source_digest": "1fdce0264e29c3dabcece0938da33e740be31f8c4d74b3bbe88527760f3b4fe4",
+      "source_path": ".ai/context/feature_index.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_INDEX"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/feature_graph.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\feature_graph.json",
+      "source_digest": "b4ace8a9b069dfa01a112bc8d4c3af4b7c3f3393ae4642312698799b0de77d47",
+      "source_path": ".ai/context/feature_graph.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_GRAPH"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/context/coverage_matrix.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\context\\coverage_matrix.json",
+      "source_digest": "507f4665f6d283528826d9753aeba9c48b2f2ad0abb595da10792cf1c3d6cce5",
+      "source_path": ".ai/context/coverage_matrix.json",
+      "source_status": "FOUND",
+      "source_type": "COVERAGE_MATRIX"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/openable_door/template.yaml",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\template.yaml",
+      "source_digest": "a3b1dd5a428d039e8e24062a4eaa5007d005d9659c1a05114386a505446bee39",
+      "source_path": "Features/openable_door/template.yaml",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_TEMPLATE"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": ".ai/learning/source_analysis/openable_door/open.json",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\.ai\\learning\\source_analysis\\openable_door\\open.json",
+      "source_digest": "30a231148cd2528118130c2a0afaa38063247de2895a30966641ada48ddfdbb5",
+      "source_path": ".ai/learning/source_analysis/openable_door/open.json",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_SOURCE_ANALYSIS"
+    },
+    {
+      "normalization_status": "RELATIVE",
+      "normalized_path": "Features/openable_door/openable_door.gd",
+      "original_path": "Features/openable_door/openable_door.gd",
+      "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+      "source_path": "Features/openable_door/openable_door.gd",
+      "source_status": "FOUND",
+      "source_type": "GDSCRIPT_SOURCE"
+    },
+    {
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/openable_door/test_openable_door.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\test_openable_door.gd",
+      "source_digest": "11f6d17c0017e1e8fdd152566b559091a0f8193d15addd247f57346d1444b852",
+      "source_path": "Features/openable_door/test_openable_door.gd",
+      "source_status": "FOUND",
+      "source_type": "FEATURE_TEST"
+    }
+  ],
+  "symbol_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:class",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "OpenableDoor",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "class_name",
+        "name": "OpenableDoor"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:extends",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "StaticBody2D",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "extends",
+        "name": "StaticBody2D"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:_ready:20",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 25,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 20
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 20,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_ready",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_ready",
+        "params": "",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:is_open:26",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 31,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 26
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 26,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "is_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "is_open",
+        "params": "",
+        "public": true,
+        "returns": "bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:set_open:32",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 37,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 32
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 32,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "set_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "set_open",
+        "params": "value: bool",
+        "public": true,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:func:_apply:38",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "end_line": 44,
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 38
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 38,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_apply",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "function",
+        "name": "_apply",
+        "params": "value: bool",
+        "public": false,
+        "returns": "void"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:signal:state_changed:9",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 9
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 9,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "state_changed",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "signal",
+        "name": "state_changed",
+        "params": "is_open: bool"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:export:start_open:11",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 11
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 11,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "start_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "start_open",
+        "type": "",
+        "value": "false"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:export:open_visual_color:12",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 12
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 12,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "open_visual_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "open_visual_color",
+        "type": "",
+        "value": "Color(0.4, 0.8, 0.5, 0.25)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:export:closed_visual_color:13",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 13
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 13,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "closed_visual_color",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "export",
+        "name": "closed_visual_color",
+        "type": "",
+        "value": "Color(0.55, 0.4, 0.25, 1.0)"
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:var:_visual:15",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 15
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 15,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_visual",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_visual",
+        "type": "Polygon2D",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:var:_collision:16",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 16
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 16,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_collision",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_collision",
+        "type": "CollisionShape2D",
+        "value": ""
+      }
+    },
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "symbol:openable_door:Features/openable_door/openable_door.gd:var:_is_open:17",
+      "evidence_type": "SYMBOL",
+      "extraction_method": "gd_parse.parse_text",
+      "extraction_status": "EXTRACTED",
+      "limitations": [
+        "regex_parser_without_ast_or_type_inference"
+      ],
+      "provenance": {
+        "parser": "gd_parse",
+        "parser_version": "regex-v1",
+        "recorded_source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_digest": "8df8e057cac6e3f2b188165516b27220ab16fe3574d3d6a9b67c32cdaab06369",
+        "source_line": 17
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/openable_door.gd",
+      "source_line": 17,
+      "source_record_id": "Features/openable_door/openable_door.gd",
+      "source_symbol": "_is_open",
+      "source_type": "GDSCRIPT_SOURCE",
+      "value": {
+        "kind": "variable",
+        "name": "_is_open",
+        "type": "",
+        "value": "false"
+      }
+    }
+  ],
+  "test_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "test:openable_door:file",
+      "evidence_type": "TEST",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "test file existence is not test execution; test status is NOT_RUN"
+      ],
+      "normalization_status": "CONVERTED",
+      "normalized_path": "Features/openable_door/test_openable_door.gd",
+      "original_path": "F:\\Godot_v4.7-stable\\game\\Features\\openable_door\\test_openable_door.gd",
+      "provenance": {
+        "test_sha256": "11f6d17c0017e1e8fdd152566b559091a0f8193d15addd247f57346d1444b852"
+      },
+      "reliability": "MEDIUM",
+      "source_file": "Features/openable_door/test_openable_door.gd",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "execution_status": "NOT_RUN",
+        "file_exists": true,
+        "path_form": "CONVERTED",
+        "test_path": "Features/openable_door/test_openable_door.gd"
+      }
+    }
+  ],
+  "validation_evidence": [
+    {
+      "applicability": "APPLICABLE",
+      "evidence_id": "validation:openable_door:test_command",
+      "evidence_type": "VALIDATION",
+      "extraction_method": "yaml.safe_load",
+      "extraction_status": "DECLARED",
+      "limitations": [
+        "validation command was not executed in Batch A"
+      ],
+      "provenance": {},
+      "reliability": "LOW",
+      "source_file": "Features/openable_door/feature.yaml",
+      "source_line": null,
+      "source_record_id": "Features/openable_door/feature.yaml",
+      "source_symbol": "",
+      "source_type": "FEATURE_METADATA",
+      "value": {
+        "command": "godot --headless --path . -s res://Features/openable_door/test_openable_door.gd",
+        "execution_status": "NOT_RUN",
+        "validation_type": "TEST_CONTRACT"
+      }
+    }
+  ],
+  "verification_status": {
+    "basis": "NO_EXECUTION_EVIDENCE",
+    "behavior_verification_status": "NOT_VERIFIED",
+    "feature_verification_status": "NOT_VERIFIED",
+    "runtime_verification_status": "NOT_VERIFIED",
+    "test_execution_status": "NOT_RUN"
+  }
+}

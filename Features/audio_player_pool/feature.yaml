@@ -1,0 +1,68 @@
+# Feature Metadata: audio_player_pool
+# 格式规范见 Features/FEATURE_SCHEMA.md。
+
+id: audio_player_pool
+version: 1
+category: audio
+
+summary: 音频播放器池——管理 AudioStreamPlayer 轮转，prepare() 获取播放器、play() 快捷播放、fade_volume() 淡入淡出，池满自动扩容。
+
+provides:
+  - audio_pool
+  - sfx_playback
+  - volume_fade
+
+requires: []
+
+capabilities:
+  required: []
+
+interfaces:
+  methods:
+    - 'prepare(resource: AudioStream, override_bus: String = "") -> AudioStreamPlayer'
+    - 'play(resource: AudioStream, override_bus: String = "") -> AudioStreamPlayer'
+    - 'fade_volume(player: AudioStreamPlayer, from_db: float, to_db: float, duration: float) -> void'
+    - get_busy_count() -> int
+    - get_available_count() -> int
+  signals:
+    - 'player_prepared(player: AudioStreamPlayer)'
+  exports:
+    - default_pool_size: int
+    - max_pool_size: int
+    - default_bus: String
+
+ownership:
+  state:
+    - _available: Array[AudioStreamPlayer]
+    - _busy: Array[AudioStreamPlayer]
+    - _tweens: Dictionary[AudioStreamPlayer, Tween]
+  rules:
+    - 独占自己创建的 AudioStreamPlayer 子节点，离开场景时随子树释放
+    - 忙碌簿记自管，不依赖引擎播放状态判断（无头/真实环境行为一致）
+    - 池满自动扩容至 max_pool_size，空闲超额自动回收至 default_pool_size
+    - fade_volume 淡出至 ≤-79dB 时自动停止并归还播放器
+
+composition:
+  entry_scene: ""    # 作为 Node 挂载到场景树任意节点
+  usage: "var pool = $AudioPlayerPool; pool.play(sound) 播放音效，pool.prepare(stream) 获取播放器后手动控制"
+  related_features:
+    - sfx_pool
+
+validation:
+  self_test: test_audio_player_pool.gd
+  command: godot --headless --path . -s res://Features/audio_player_pool/test_audio_player_pool.gd
+  expectations:
+    - 全部通过输出 PASS 并退出 0；任一失败输出 FAIL 并退出 1
+
+relations:
+  works_with:
+    - sfx_pool
+  commonly_used_with:
+    - sfx_pool
+  conflicts: []
+  entity_roles: []
+
+# 来源片段（仅供学习，抽象后此注释可删除）：
+#   snippet_id: nathanhoad__godot_sound_manager__addons__sound_manager__abstract_audio_player_pool.gd
+#   source_url: https://github.com/nathanhoad/godot_sound_manager/blob/main/addons/sound_manager/abstract_audio_player_pool.gd
+#   repo: nathanhoad/godot_sound_manager (star 830) | License: MIT

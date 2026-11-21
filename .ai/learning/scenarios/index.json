@@ -1,0 +1,333 @@
+{
+  "behaviors": [
+    {
+      "behavior": "collect_pickup/collect_on_contact",
+      "generated": 1,
+      "skipped": ""
+    },
+    {
+      "behavior": "contact_damage/damage_on_contact",
+      "generated": 1,
+      "skipped": ""
+    },
+    {
+      "behavior": "contact_damage/damage_amount_is_respected",
+      "generated": 1,
+      "skipped": ""
+    },
+    {
+      "behavior": "heal_pickup/heal_damaged_target",
+      "generated": 1,
+      "skipped": ""
+    }
+  ],
+  "generated_at": "2026-11-07T18:48:42Z",
+  "note": "候选场景；execution_status=NOT_EXECUTED 表示尚未真实执行",
+  "pruned": [],
+  "rules": [
+    "idempotent_repeat",
+    "foreign_group_ignored",
+    "invalid_slot_rejected",
+    "post_terminal_input_ignored",
+    "dependency_postcondition_after_death"
+  ],
+  "scenarios": [
+    {
+      "actions": [
+        {
+          "params": {
+            "group": "p166_foreign"
+          },
+          "target": ".",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "collect_pickup/collect_on_contact",
+      "behavior_id": "collect_on_contact",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "723f2167e74c",
+      "created_at": "2026-11-07T18:48:41Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if _collected or not body.is_in_group(target_group):（Features/collect_pickup/collect_pickup.gd:29）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/collect_pickup/CollectPickup.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "node.freed",
+          "equals": false,
+          "target": "."
+        },
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "pickup.collected",
+          "target": "."
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "collect_pickup",
+      "knowledge_refs": [
+        "k-875dbe2de3b9fca9"
+      ],
+      "preconditions": [
+        {
+          "check": "pickup.is_collected",
+          "equals": false,
+          "target": "."
+        }
+      ],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-eef9972034da734b",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/collect_pickup/CollectPickup.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/collect_pickup/collect_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 29
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if _collected or not body.is_in_group(target_group):）",
+      "validation_status": "PENDING",
+      "window_frames": 30
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "group": "p166_foreign",
+            "health_max": 5
+          },
+          "target": "ContactDamage",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "contact_damage/damage_on_contact",
+      "behavior_id": "damage_on_contact",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "1732981f92b4",
+      "created_at": "2026-11-07T18:48:42Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not node.is_in_group(target_group):（Features/contact_damage/contact_damage.gd:28）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/contact_damage/ContactDamageFixture.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "health.health_changed",
+          "target": "@actor/Health"
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "contact_damage",
+      "knowledge_refs": [
+        "k-af3decf8ebc135bd"
+      ],
+      "preconditions": [],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-d2fe30d380537d07",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/contact_damage/ContactDamageFixture.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_deal_damage_to",
+          "line": 28
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if not node.is_in_group(target_group):）",
+      "validation_status": "PENDING",
+      "window_frames": 45
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "group": "p166_foreign",
+            "health_max": 5
+          },
+          "target": "Heavy",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "contact_damage/damage_amount_is_respected",
+      "behavior_id": "damage_amount_is_respected",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "129430fff4c2",
+      "created_at": "2026-11-07T18:48:42Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not node.is_in_group(target_group):（Features/contact_damage/contact_damage.gd:28）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/contact_damage/ContactDamageFixture.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "signal",
+          "count": 0,
+          "entry": "health.health_changed",
+          "target": "@actor/Health"
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "contact_damage",
+      "knowledge_refs": [
+        "k-8423097baa8ec620"
+      ],
+      "preconditions": [],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-d503c62564c391ef",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/contact_damage/ContactDamageFixture.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/contact_damage/contact_damage.gd",
+          "function": "_deal_damage_to",
+          "line": 28
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if not node.is_in_group(target_group):）",
+      "validation_status": "PENDING",
+      "window_frames": 45
+    },
+    {
+      "actions": [
+        {
+          "params": {
+            "damage": 3,
+            "group": "p166_foreign",
+            "health_max": 5
+          },
+          "target": ".",
+          "type": "physics.overlap"
+        },
+        {
+          "params": {
+            "frames": 1
+          },
+          "type": "simulation.advance_frames"
+        }
+      ],
+      "behavior": "heal_pickup/heal_damaged_target",
+      "behavior_id": "heal_damaged_target",
+      "cleanup": [
+        "workspace 由 runner 逐场景销毁；user:// 使用独立 custom_user_dir"
+      ],
+      "contract_version": "9f158fcdec46",
+      "created_at": "2026-11-07T18:48:42Z",
+      "dependency_refs": [],
+      "derivation": "守卫 if not body.is_in_group(target_group):（Features/heal_pickup/heal_pickup.gd:18）按组成员过滤；把接触体放进 'p166_foreign' 组后，契约期望的信号必须为 0 次、布尔终态必须保持原值",
+      "environment_requirements": [
+        "Godot 4.7 headless",
+        "behavior_protocol v2",
+        "scene: res://Features/heal_pickup/HealPickup.tscn"
+      ],
+      "execution_status": "NOT_EXECUTED",
+      "expected_observations": [
+        {
+          "check": "node.freed",
+          "equals": false,
+          "target": "."
+        }
+      ],
+      "failure_classification_policy": {
+        "BEHAVIOR_FAILURE": "执行观测与契约期望不符，且 Validator/Attestation 均通过",
+        "ENVIRONMENT_FAILURE": "Godot/资源不可用",
+        "RESOURCE_FAILURE": "场景/夹具缺失",
+        "RUNNER_FAILURE": "探针或判定器故障",
+        "TEST_DESIGN_FAILURE": "动作未执行、前置不成立或期望与契约矛盾",
+        "UNKNOWN_FAILURE": "证据不足以归类"
+      },
+      "feature_id": "heal_pickup",
+      "knowledge_refs": [
+        "k-e219d71a96f8bd0d"
+      ],
+      "preconditions": [],
+      "rule_id": "foreign_group_ignored",
+      "scenario_id": "s-9efdc90351f7112e",
+      "scenario_type": "GUARD_MEMBERSHIP",
+      "scene": "res://Features/heal_pickup/HealPickup.tscn",
+      "schema": "behavior_test_scenario",
+      "schema_version": 1,
+      "source_refs": [
+        {
+          "file": "Features/heal_pickup/heal_pickup.gd",
+          "function": "_on_body_entered",
+          "line": 18
+        }
+      ],
+      "title": "非目标组成员不得触发行为（守卫：if not body.is_in_group(target_group):）",
+      "validation_status": "PENDING",
+      "window_frames": 30
+    }
+  ],
+  "schema": "behavior_scenario_index",
+  "schema_version": 1,
+  "summary": {
+    "behaviors": 4,
+    "scenarios": 4,
+    "with_scenarios": 4
+  }
+}
