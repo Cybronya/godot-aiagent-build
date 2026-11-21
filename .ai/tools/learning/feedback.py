@@ -79,14 +79,25 @@ def _scenario(scenario_id: str) -> dict:
     return _load(os.path.join(SCENARIO_DIR, "%s.json" % scenario_id), {})
 
 
+def _attestation_path(result: dict) -> str:
+    """Run 自己记录的隔离目录优先；老记录没有 isolation 时才回退到旧约定路径。"""
+    plan = result.get("plan") if isinstance(result.get("plan"), dict) else {}
+    isolation = plan.get("isolation") if isinstance(plan.get("isolation"), dict) else {}
+    run_dir = str(isolation.get("run_dir") or "").strip()
+    if not run_dir:
+        run_id = str(result.get("run_id") or "").strip()
+        run_dir = ".ai/tmp/p166/runs/%s" % run_id if run_id else ""
+    return os.path.join(run_dir, "attestation.json").replace(os.sep, "/") if run_dir else ""
+
+
 def _refs(result: dict) -> list[dict]:
     references = []
     bundle = str(result.get("bundle_path") or "")
     if bundle and os.path.isfile(os.path.join(paths.ROOT, bundle)):
         references.append({"kind": "EVIDENCE_REFERENCE", "reference": bundle,
                            "digest": _digest_file(os.path.join(paths.ROOT, bundle))})
-    attestation = ".ai/tmp/p166/runs/%s/attestation.json" % result.get("run_id")
-    if os.path.isfile(os.path.join(paths.ROOT, attestation)):
+    attestation = _attestation_path(result)
+    if attestation and os.path.isfile(os.path.join(paths.ROOT, attestation)):
         references.append({"kind": "ATTESTATION_REFERENCE", "reference": attestation,
                            "digest": _digest_file(os.path.join(paths.ROOT, attestation))})
     return [reference for reference in references if reference.get("digest")]

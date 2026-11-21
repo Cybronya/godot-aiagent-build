@@ -47,6 +47,26 @@ for path in (TOOL_DIR, TOOLS_DIR, _HERE):
     if path not in sys.path:
         sys.path.insert(0, path)
 
+class _without_godot_on_path:
+    """上下文：让 PATH 里没有 Godot（case10 要验证「找不到二进制不能 PASS」）。
+
+    find_godot() 的最后一级回退是 PATH，所以在装了 Godot 的 Linux 上必须先隔离 PATH，
+    不然「缺失」这个前提根本不成立。既不改解析规则，也不削弱断言。
+    """
+
+    def __enter__(self) -> None:
+        self.old_path = os.environ.get("PATH")
+        self.empty = tempfile.mkdtemp(prefix="p139_nogodot_path_")
+        os.environ["PATH"] = self.empty
+
+    def __exit__(self, *exc_info) -> None:
+        if self.old_path is None:
+            os.environ.pop("PATH", None)
+        else:
+            os.environ["PATH"] = self.old_path
+        shutil.rmtree(self.empty, ignore_errors=True)
+
+
 import instance_evidence                                      # noqa: E402
 import runtime_instance_evidence as runtime_evidence          # noqa: E402
 
@@ -313,9 +333,10 @@ def run() -> int:
            report.status == runtime_evidence.STATUS_INSUFFICIENT
            and report.reason == "evidence_unavailable", str(report.to_dict()))
         ok("case10: a collector failure is never PASS", report.status != "PASS")
-        missing_godot = runtime_evidence.verify_feature(
-            "rt_collect_fail", os.path.join(project, "Features"), project_root=project,
-            godot="")
+        with _without_godot_on_path():
+            missing_godot = runtime_evidence.verify_feature(
+                "rt_collect_fail", os.path.join(project, "Features"), project_root=project,
+                godot="")
         ok("case10: a missing Godot binary cannot become PASS",
            missing_godot.status == runtime_evidence.STATUS_INSUFFICIENT,
            str(missing_godot.to_dict()))

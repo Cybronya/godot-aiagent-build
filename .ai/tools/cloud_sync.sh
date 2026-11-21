@@ -8,7 +8,7 @@
 # 环境变量:
 #   CODESPACE   Codespace 名（默认 humble-space-tribble-jrr4w9467vg72qjp5）
 #   GH          gh 可执行文件路径（默认 .ai/tools/gh/gh.exe）
-#   PROXY       本地代理（默认 http://127.0.0.1:3067）
+#   PROXY       本地代理（默认空=直连；实测代理在 gh 上常超时）
 #
 # 说明: 已提交的文件由 git 负责，这里只补「git 看不到」的部分。
 #       排除 .git/.godot/.ai/tmp/.ai/tools/gh/__pycache__/run_tests_evidence_*。
@@ -17,13 +17,17 @@ set -euo pipefail
 
 CODESPACE="${CODESPACE:-humble-space-tribble-jrr4w9467vg72qjp5}"
 GH="${GH:-./.ai/tools/gh/gh.exe}"
-PROXY="${PROXY:-http://127.0.0.1:3067}"
+PROXY="${PROXY:-}"
 REMOTE_DIR="${REMOTE_DIR:-/workspaces/godot-aiagent-build}"
 DRY_RUN=0
 [ "${1:-}" = "--dry-run" ] && DRY_RUN=1
 
 export MSYS_NO_PATHCONV=1
-export HTTPS_PROXY="$PROXY" HTTP_PROXY="$PROXY"
+if [ -n "$PROXY" ]; then
+  export HTTPS_PROXY="$PROXY" HTTP_PROXY="$PROXY"
+else
+  unset HTTPS_PROXY HTTP_PROXY
+fi
 
 # 用仓库内临时目录：Windows 的 Python 无法解析 MSYS 的 /tmp 路径
 TMPDIR_SYNC=".ai/tmp/sync-work"

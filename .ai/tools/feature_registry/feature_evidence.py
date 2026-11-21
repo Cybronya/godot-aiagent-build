@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import ntpath
 import os
 import sys
 import tempfile
@@ -151,6 +152,26 @@ def normalize_path(raw: Any, project_root: str | Path = PROJECT_ROOT) -> dict:
             "original_path": "",
             "normalized_path": "",
             "normalization_status": "MISSING",
+        }
+
+    if os.name != "nt" and ntpath.isabs(original):
+        # 记录里可能带 Windows 绝对路径（例如别的机器写下的 F:\...）；
+        # POSIX 上 Path("F:\\...") 会被当成单个文件名的相对路径，必须单独识别。
+        parts = [part for part in original.replace("\\", "/").split("/") if part]
+        # 仓库在另一台机器/云端上的目录层数不同（F:\...\game 对 /workspaces/xxx），
+        # 所以按「在项目里真实存在的最长尾段」定位，而不是比目录名。
+        for index in range(len(parts)):
+            candidate = "/".join(parts[index:])
+            if candidate and os.path.exists(os.path.join(root, candidate)):
+                return {
+                    "original_path": original,
+                    "normalized_path": candidate,
+                    "normalization_status": "CONVERTED",
+                }
+        return {
+            "original_path": original,
+            "normalized_path": "",
+            "normalization_status": "OUTSIDE_PROJECT",
         }
 
     path = Path(original)

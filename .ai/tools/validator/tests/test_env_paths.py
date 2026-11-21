@@ -110,17 +110,30 @@ def main() -> int:
            env_paths.find_godot_binary(root))
 
         # E7 全都没有 → 环境错误（不是断言失败）
+        # 解析规则的最后一级是 PATH，所以「全都没有」必须先把 PATH 清空，
+        # 否则装了 Godot 的机器（Linux 云端）测的就不是「没有」。
         os.remove(sibling)
-        ok("E7: nothing found returns empty",
-           env_paths.find_godot_binary(root) == "")
+        empty_path = tempfile.mkdtemp(prefix="p164_nogodot_path_")
+        TMP_ROOTS.append(empty_path)
+        old_path = os.environ.get("PATH")
+        os.environ["PATH"] = empty_path
         try:
-            env_paths.require_godot(root)
-            ok("E7b: require_godot reports ENVIRONMENT ERROR", False)
-        except SystemExit as exc:
-            message = str(exc)
-            ok("E7b: require_godot reports ENVIRONMENT ERROR",
-               message.startswith("ENVIRONMENT ERROR")
-               and "GODOT_BIN" in message and "runtime_playtest" in message, message)
+            ok("E7: nothing found returns empty",
+               env_paths.find_godot_binary(root) == "",
+               env_paths.find_godot_binary(root))
+            try:
+                env_paths.require_godot(root)
+                ok("E7b: require_godot reports ENVIRONMENT ERROR", False)
+            except SystemExit as exc:
+                message = str(exc)
+                ok("E7b: require_godot reports ENVIRONMENT ERROR",
+                   message.startswith("ENVIRONMENT ERROR")
+                   and "GODOT_BIN" in message and "runtime_playtest" in message, message)
+        finally:
+            if old_path is None:
+                os.environ.pop("PATH", None)
+            else:
+                os.environ["PATH"] = old_path
     finally:
         if old_env is None:
             os.environ.pop("GODOT_BIN", None)

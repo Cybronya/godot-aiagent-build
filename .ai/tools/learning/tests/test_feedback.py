@@ -18,10 +18,15 @@ sys.path[:0] = [LEARNING, os.path.join(os.path.dirname(LEARNING), "scene_compose
 
 import feedback  # noqa: E402
 import knowledge_v2  # noqa: E402
+import paths  # noqa: E402
 
 checks = 0
 failures = 0
 TMP: list[str] = []
+
+# 真实结果引用的是 .ai/tmp 下的临时证据，那些文件会被清理；测试自己造一份等价夹具，
+# 只验证回流门禁，不依赖上一轮运行残留（否则换机器/换云端必挂）。
+FIXTURE_REL = ".ai/tmp/p166_feedback_fixture"
 
 
 def ok(name: str, condition: bool, detail: str = "") -> None:
@@ -54,7 +59,29 @@ def real_result() -> dict:
     return document["results"][0]
 
 
-def write_inputs(result: dict, classification: str = "CONTRACT_CONFIRMED") -> None:
+def write_inputs(result: dict, classification: str = "CONTRACT_CONFIRMED", *,
+                 attestation: bool = True, bundle: str = "") -> None:
+    result = json.loads(json.dumps(result))
+    run_id = str(result.get("run_id") or "")
+    if bundle:
+        result["bundle_path"] = bundle
+    else:
+        bundle_rel = "%s/evidence/bundle.json" % FIXTURE_REL
+        bundle_abs = os.path.join(paths.ROOT, bundle_rel)
+        os.makedirs(os.path.dirname(bundle_abs), exist_ok=True)
+        with open(bundle_abs, "w", encoding="utf-8") as handle:
+            json.dump({"scenario_id": result["scenario_id"], "run_id": run_id,
+                       "fixture": "p166_feedback"}, handle)
+        result["bundle_path"] = bundle_rel
+    plan = result.setdefault("plan", {})
+    plan["isolation"] = dict(plan.get("isolation") or {},
+                             run_dir=("%s/runs/%s" % (FIXTURE_REL, run_id)) if run_id
+                             else FIXTURE_REL)
+    if attestation and run_id:
+        run_dir = os.path.join(paths.ROOT, plan["isolation"]["run_dir"])
+        os.makedirs(run_dir, exist_ok=True)
+        with open(os.path.join(run_dir, "attestation.json"), "w", encoding="utf-8") as handle:
+            json.dump({"run_id": run_id, "fixture": "p166_feedback"}, handle)
     analysis_path = os.path.join(tempfile.mkdtemp(prefix="p166_analysis_"), "analysis.json")
     TMP.append(os.path.dirname(analysis_path))
     with open(analysis_path, "w", encoding="utf-8") as handle:
@@ -100,7 +127,7 @@ def main() -> int:
     # 无 Attestation 文件：EXECUTION_OBSERVATION 必须被拒
     no_attest = dict(result)
     no_attest["run_id"] = "run-without-attestation"
-    write_inputs(no_attest)
+    write_inputs(no_attest, attestation=False)
     partial = feedback.write_candidates(review=False)
     types = {knowledge_v2.get(item)["knowledge_type"] for item in partial["written"]}
     ok("F6: EXECUTION_OBSERVATION requires attestation reference",
@@ -109,8 +136,7 @@ def main() -> int:
 
     # 证据文件不存在：全部拒绝
     missing = dict(result)
-    missing["bundle_path"] = ".ai/tmp/p166/evidence/does-not-exist.json"
-    write_inputs(missing)
+    write_inputs(missing, bundle="%s/evidence/does-not-exist.json" % FIXTURE_REL)
     broken = feedback.write_candidates(review=False)
     ok("F7: missing evidence artifact rejected",
        broken["summary"]["written"] == 0 and broken["rejected"])
