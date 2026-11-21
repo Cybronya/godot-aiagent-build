@@ -280,7 +280,12 @@ def _fetch_one(meta: dict, dest: Path, token: str | None = None) -> None:
                 # 逐成员提取：单个怪成员失败不废掉整个仓库。
                 for m in safe:
                     try:
-                        tf.extract(m, extract_root, filter="data")
+                        try:
+                            tf.extract(m, extract_root, filter="data")
+                        except TypeError:
+                            # Python < 3.12（云端 Debian bookworm 是 3.11）没有 filter 参数；
+                            # 成员已按绝对路径/.. 过滤过，退回无 filter 的提取而不是静默跳过。
+                            tf.extract(m, extract_root)
                     except Exception as exc:  # noqa: BLE001
                         print(f"[fetch] WARN 跳过异常成员 {m.name}: {exc}")
             src_root = extract_root / root_name
